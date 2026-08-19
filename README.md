@@ -63,7 +63,8 @@ transferible el conocimiento y previsible el abastecimiento.
 ## Arquitectura de la solución
 
 Documento completo: [docs/arquitectura.md](docs/arquitectura.md) — 13 diagramas
-y 25 decisiones de arquitectura (ADR) con alternativas descartadas y
+y 24 decisiones de arquitectura vigentes (ADR, numerados hasta el 25 porque la
+numeración no se reutiliza) con alternativas descartadas y
 consecuencias. GitHub lo renderiza con los diagramas incluidos. Existe también
 en [versión navegable](docs/arquitectura.html), con índice lateral, para leer
 fuera de GitHub o imprimir.
@@ -72,10 +73,10 @@ El sistema se diseñó en **tres capas con dependencia estrictamente
 descendente**:
 
 * **Capa 1 · Plan de cuidado — es el producto.** Persona cuidada, círculo
-  familiar, plan, consentimientos, bitácora y acceso de relevo. Es el núcleo del
-  dominio, el activo diferenciador y el único lugar donde vive el dato sensible,
-  cifrado con una clave propia por persona. **Sin esta capa, MATU es un despacho
-  más.**
+  familiar, plan por secciones, consentimientos y acceso de relevo con auditoría
+  y revocación. Es el núcleo del dominio, el activo diferenciador y el único
+  lugar donde vive el dato sensible, cifrado con una clave propia por persona.
+  **Sin esta capa, MATU es un despacho más.**
 * **Capa 2 · Consumo y predicción — es el diferenciador computable.** Del perfil
   de consumo declarado en la capa 1 deriva cuándo se acaba cada insumo y produce
   la lista de reposición. Es un cálculo que un delivery genérico no puede hacer,
@@ -89,10 +90,10 @@ Las dependencias apuntan siempre hacia abajo y nunca hacia arriba: `care_plan`
 no sabe que existe `fulfillment`. Eso es lo que permite construir y demostrar el
 producto sin haber cerrado un solo convenio.
 
-Módulos previstos: `iam`, `care_circle`, `care_plan`, `consumption`, `catalog`
-(capas 1–2) y `replenishment`, `ordering`, `payments`, `fulfillment`,
-`settlement` (capa 3), cada uno con estructura `domain / application /
-infrastructure / api`.
+Módulos previstos: `iam`, `care_circle`, `care_plan` (capa 1); `consumption` y
+`replenishment` (capa 2); `catalog`, `ordering`, `payments`, `fulfillment`,
+`settlement`, `rx`, `notifications` y `backoffice` (capa 3). Cada uno con
+estructura `domain / application / infrastructure / api`.
 
 Definiciones de diseño relevantes:
 
@@ -113,15 +114,17 @@ MATU/
 ├── docs/
 │   ├── arquitectura.md      documento de arquitectura v1.0 · se lee en GitHub
 │   ├── arquitectura.html    la misma versión, navegable y para imprimir
-│   ├── prototipo.html       prototipo navegable · 30 pantallas · 7 flujos
+│   ├── prototipo.html       prototipo navegable · 32 pantallas · 7 recorridos
+│   ├── protocolo-entrevistas.md  guion y criterios de falsación
 │   └── ficha-proyecto.docx  ficha de una página, formato del curso
 ├── Fase 1/                  evidencias del curso
 ├── Fase 2/
 └── Fase 3/
 ```
 
-El código se incorporará en `backend/` y `frontend/` a medida que avancen los
-sprints.
+El código se incorporará en `backend/`, `mobile/`, `web/` e `infra/` a medida
+que avancen los sprints, según la estructura comprometida en el anexo 19.1 del
+documento de arquitectura.
 
 ## Tecnologías previstas
 
@@ -177,7 +180,9 @@ sección correspondiente del documento de arquitectura.
 
 * [Ficha de proyecto](docs/ficha-proyecto.docx) — una página, en el formato que
   entregó el profesor.
-* [Prototipo de interfaz](docs/prototipo.html) — 30 pantallas y 7 flujos.
+* [Prototipo de interfaz](docs/prototipo.html) — 32 pantallas y 7 recorridos.
+* [Protocolo de validación con cuidadores](docs/protocolo-entrevistas.md) —
+  cinco hipótesis con criterios de falsación fijados antes de entrevistar.
 * [Arquitectura en versión navegable](docs/arquitectura.html).
 
 GitHub no renderiza archivos `.html` ni `.docx`: hay que descargarlos y abrirlos.
