@@ -1,4 +1,4 @@
-# MATU · Plataforma de continuidad del cuidado
+# MATU · Sistema de continuidad del cuidado
 
 Proyecto de Capstone · Ingeniería en Informática · DUOC UC · segundo semestre 2026
 
@@ -9,28 +9,56 @@ Proyecto de Capstone · Ingeniería en Informática · DUOC UC · segundo semest
 
 ## Descripción
 
-MATU convierte el plan de cuidado de una persona mayor —con o sin demencia— en
-una **predicción de consumo de insumos**, y cierra el ciclo gestionando la
-reposición antes de que el insumo se acabe. Está pensada para familias que se
-reparten el cuidado: contempla pago dividido entre varios familiares, bitácora
-compartida y control de quién puede ver qué.
+MATU es un **sistema de continuidad del cuidado** para personas mayores con
+demencia y, por extensión, con cualquier grado de dependencia.
 
-**No es una aplicación de delivery.** El despacho es la última capa y está
-diseñada de forma desacoplada: el sistema debe poder funcionar sin ella.
+Su núcleo es el **plan de cuidado**: convierte lo que sabe quien cuida —la
+rutina del día, los horarios, qué hacer cuando la persona se agita a las tres de
+la mañana, qué la calma, qué la altera, qué come— en algo escrito, ordenado y
+**transferible**. Hoy ese conocimiento vive en la cabeza de una sola persona, y
+esa es exactamente la razón por la que esa persona no puede ausentarse:
+explicárselo a un relevo cuesta horas que no tiene. Con el plan, el relevo entra
+por un enlace acotado y con vencimiento, y el cuidador puede salir.
+
+De ese mismo plan se desprende lo segundo: **cuánto se consume de cada insumo**.
+Con dos datos por producto —cuánto se usa al día y cuánto queda— el sistema
+anticipa la fecha en que cada cosa se acaba y arma la lista de reposición antes
+del quiebre. Y sobre esa lista opera, de forma opcional, la compra y el
+despacho, con el gasto repartido entre los familiares que comparten el cuidado.
+
+**El orden importa, y es lo que define al producto.** La predicción de consumo
+existe *porque* existe el plan: nadie que no conozca a la persona cuidada puede
+saber que usa cuatro pañales al día. Por eso el activo del sistema es el plan de
+cuidado, la predicción es lo que lo vuelve accionable, y el despacho es un
+servicio derivado —desacoplado, y reemplazable por "exporta tu lista y compra
+donde quieras".
+
+**MATU no es una aplicación de delivery.** Un delivery genérico puede traer
+pañales; no puede saber cuándo se acaban ni permitirle a un hijo tomar el turno
+del sábado.
 
 ## Problema que resuelve
 
-Quien cuida a una persona mayor dependiente administra un flujo constante de
-insumos —pañales, suplementos, apósitos, artículos de higiene— cuya demanda
-depende del estado de la persona y cambia con el tiempo. Hoy ese cálculo se
-lleva de memoria: se compra cuando alguien nota que se está acabando, y el
-quiebre de stock se resuelve con una salida de urgencia que recae siempre en el
-mismo familiar. A eso se suma que el gasto se reparte de forma informal entre
-hermanos, lo que genera fricción y silencios.
+Quien cuida a una persona mayor dependiente enfrenta dos problemas que parecen
+distintos y no lo son.
 
-MATU busca modelar el consumo a partir del plan de cuidado, anticipar la fecha
-de quiebre de cada insumo, y coordinar la reposición y su pago entre quienes
-comparten el cuidado.
+**El primero es de continuidad.** El conocimiento de cómo se cuida a alguien
+—la rutina, las señales, lo que funciona y lo que no— no está escrito en ninguna
+parte. Vive en una sola cabeza. Traspasarlo a un hermano, a una cuidadora nueva
+o a quien cubra un fin de semana cuesta horas de explicación, así que en la
+práctica no se traspasa, y el cuidador principal queda sin poder ausentarse. Es
+la raíz del agotamiento del cuidador.
+
+**El segundo es de abastecimiento.** Los insumos de cuidado se consumen de forma
+recurrente y su demanda cambia con el estado de la persona. El cálculo se lleva
+de memoria y se compra cuando alguien nota que se está acabando, en artículos
+que no admiten quedarse sin stock. La salida de urgencia recae siempre en el
+mismo familiar, y el gasto se reparte de manera informal entre hermanos, lo que
+genera fricción y silencios.
+
+Son el mismo problema visto dos veces: **el cuidado depende de una sola persona
+que no puede delegar ni ausentarse.** MATU ataca esa dependencia haciendo
+transferible el conocimiento y previsible el abastecimiento.
 
 ## Arquitectura de la solución
 
@@ -43,15 +71,23 @@ fuera de GitHub o imprimir.
 El sistema se diseñó en **tres capas con dependencia estrictamente
 descendente**:
 
-* **Capa 1 · Plan de cuidado.** Persona cuidada, círculo familiar, plan,
-  consentimientos y bitácora. Es el núcleo del dominio y el único lugar donde
-  vive el dato sensible, cifrado con una clave propia por persona.
-* **Capa 2 · Consumo y predicción.** Transforma el plan en un perfil de consumo
-  y proyecta la fecha de quiebre de cada insumo. Produce la lista de reposición.
-  **Es el diferenciador del producto.**
-* **Capa 3 · Despacho.** Catálogo, pedido, pago dividido, reparto y liquidación.
-  Desacoplada por diseño (ADR-002), para que la falta de convenio comercial no
-  bloquee el resto del sistema.
+* **Capa 1 · Plan de cuidado — es el producto.** Persona cuidada, círculo
+  familiar, plan, consentimientos, bitácora y acceso de relevo. Es el núcleo del
+  dominio, el activo diferenciador y el único lugar donde vive el dato sensible,
+  cifrado con una clave propia por persona. **Sin esta capa, MATU es un despacho
+  más.**
+* **Capa 2 · Consumo y predicción — es el diferenciador computable.** Del perfil
+  de consumo declarado en la capa 1 deriva cuándo se acaba cada insumo y produce
+  la lista de reposición. Es un cálculo que un delivery genérico no puede hacer,
+  porque exige conocer a la persona cuidada.
+* **Capa 3 · Despacho — es un servicio, no la razón de existir.** Catálogo,
+  pedido, pago dividido, reparto y liquidación. Desacoplada por diseño
+  (ADR-002): sin convenio comercial, la familia exporta su lista y compra donde
+  quiera, y el sistema sigue entregando su valor central.
+
+Las dependencias apuntan siempre hacia abajo y nunca hacia arriba: `care_plan`
+no sabe que existe `fulfillment`. Eso es lo que permite construir y demostrar el
+producto sin haber cerrado un solo convenio.
 
 Módulos previstos: `iam`, `care_circle`, `care_plan`, `consumption`, `catalog`
 (capas 1–2) y `replenishment`, `ordering`, `payments`, `fulfillment`,
