@@ -1,0 +1,634 @@
+<!DOCTYPE html><html lang="es"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>MATU — Prototipo navegable v1.0</title><style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:#f9f9f7;color:#0b0b0b;font:17px/1.5 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;
+ -webkit-font-smoothing:antialiased;padding:28px 20px 80px}
+.wrap{max-width:1360px;margin:0 auto}
+h1{font-size:30px;letter-spacing:-.03em;margin-bottom:4px}
+.sub{color:#52514e;margin-bottom:6px}
+.meta{color:#52514e;font-size:13px;margin-bottom:22px}
+.legend{background:#fcfcfb;border:1px solid #e1e0d9;border-radius:12px;padding:16px 18px;margin-bottom:26px;font-size:14px;color:#52514e}
+.legend b{color:#0b0b0b}
+.legend ul{margin:8px 0 0 18px}
+h2{font-size:20px;margin:34px 0 14px;padding-top:16px;border-top:1px solid #e1e0d9;letter-spacing:-.02em}
+.grid{display:flex;gap:20px;overflow-x:auto;padding-bottom:10px}
+.unit{flex:0 0 auto;width:280px}
+.phone{width:280px;min-height:520px;background:#fff;border:1px solid #d8d5cd;border-radius:22px;
+ padding:16px 14px 20px;box-shadow:0 1px 3px rgba(0,0,0,.05);display:flex;flex-direction:column;gap:10px}
+.phone.wide{background:#fff}
+.cap{font-size:13px;color:#52514e;margin-top:10px;line-height:1.45}
+.cap b{color:#0b0b0b}
+.scr-t{font-size:12.5px;text-transform:uppercase;letter-spacing:.09em;color:#52514e;margin-bottom:7px}
+/* --- UI dentro del teléfono --- */
+.hdr{display:flex;align-items:center;gap:8px;padding-bottom:6px;border-bottom:1px solid #eeece6}
+.hdr.web{background:#eaf1fd;margin:-16px -14px 0;padding:12px 14px;border-radius:22px 22px 0 0;border:0}
+.hdr.dark{background:#1c1b19;margin:-16px -14px 0;padding:12px 14px;border-radius:22px 22px 0 0;border:0}
+.hdr.dark .hi{color:#fff}
+.hi{font-weight:650;font-size:15px}
+.back{background:none;border:0;font-size:22px;line-height:1;color:#2a78d6;cursor:pointer;padding:0 4px;min-width:48px;min-height:48px}
+.card{background:#fcfcfb;border:1px solid #e6e3dc;border-radius:12px;padding:13px}
+.card.dark{background:#1c1b19;border-color:#333}
+.card.alert{background:#fdf0e9;border-color:#f3c7ad}
+.card.ok{background:#eef8ee;border-color:#c3e3c3;text-align:center}
+.card.lead{display:flex;gap:11px;align-items:center}
+.card.center{text-align:center}
+.avatar{width:44px;height:44px;border-radius:50%;background:#256abf;color:#fff;display:flex;
+ align-items:center;justify-content:center;font-weight:700;font-size:19px;flex:0 0 auto}
+.t1{font-weight:650;font-size:15.5px}
+.t2{color:#52514e;font-size:14.5px}
+.t1w{font-weight:650;font-size:15.5px;color:#fff}
+.t2w{color:#d7d6cd;font-size:14.5px}
+.row{display:flex;justify-content:space-between;align-items:center;gap:8px;margin:5px 0}
+.pill{background:#eaf1fd;color:#1c5cab;font-size:12.5px;font-weight:650;padding:3px 9px;border-radius:20px}
+.bar{height:9px;background:#eeece6;border-radius:6px;overflow:hidden;margin:8px 0}
+.bar.sm{height:6px}
+.bar i{display:block;height:100%;background:#256abf}
+.btn{display:block;width:100%;min-height:48px;background:#256abf;color:#fff;border:0;border-radius:10px;
+ font-size:15px;font-weight:650;margin-top:9px;cursor:pointer;padding:12px}
+.btn2{display:block;width:100%;min-height:48px;background:#fff;color:#1c5cab;border:1.5px solid #2a78d6;
+ border-radius:10px;font-size:15px;font-weight:650;margin-top:9px;cursor:pointer;padding:12px}
+.two{display:flex;gap:8px}
+.two .btn,.two .btn2{margin-top:9px}
+.q{display:block;font-size:14px;font-weight:650;margin:10px 0 6px}
+textarea,input{width:100%;border:1.5px solid #d8d5cd;border-radius:9px;padding:10px;font:inherit;font-size:14px;
+ min-height:48px;background:#fff}
+.big-in{font-size:26px;letter-spacing:.28em;text-align:center;font-weight:700}
+.mic{width:100%;min-height:48px;margin-top:8px;background:#eaf1fd;border:0;border-radius:9px;color:#1c5cab;
+ font-weight:650;font-size:14px;cursor:pointer}
+.step{font-size:13.5px;color:#52514e}
+.list,.card .li{margin-top:0}
+.li{display:flex;justify-content:space-between;align-items:center;gap:8px;padding:12px;background:#fcfcfb;
+ border:1px solid #d8d5cd;border-radius:10px;margin-top:7px;font-size:15px;min-height:48px}
+.li em{font-style:normal;color:#52514e;font-size:13px;flex:0 0 auto}
+.li.done{border-left:3px solid #0ca30c}
+.li.half{border-left:3px solid #fab219}
+.li.urg{border-left:3px solid #d03b3b;background:#fdf1f1}
+.tag{background:#eeece6;color:#52514e;font-size:12.5px;padding:4px 9px;border-radius:20px;font-weight:600}
+.tag.red{background:#fbe3e3;color:#a02b2b}
+.tag.amb{background:#fdf0d9;color:#8a5a00}
+.hint{font-size:13.5px;color:#52514e;margin-top:8px;line-height:1.45}
+.note{background:#eaf1fd;border-radius:9px;padding:11px;margin-top:9px;font-size:14.5px}
+.note b{display:block;margin-bottom:5px}
+.big{font-size:32px;line-height:1.2}
+.code{font-family:ui-monospace,Menlo,monospace;font-size:16px;background:#fff;border:1px dashed #c3c2b7;
+ border-radius:8px;padding:9px;margin:8px 0}
+.codebig{font-size:40px;font-weight:700;letter-spacing:.16em;color:#fff;margin:10px 0}
+.timer{background:#d03b3b;color:#fff;font-weight:700;font-size:13px;padding:4px 11px;border-radius:20px;
+ display:inline-block;margin-bottom:9px}
+.chips{display:flex;gap:6px;flex-wrap:wrap;margin:9px 0}
+.chip{background:#f2f0ea;border:1px solid #c3c2b7;border-radius:20px;padding:7px 12px;font-size:13.5px;
+ font-weight:600;color:#52514e;min-height:48px;display:flex;align-items:center}
+.chip.on{background:#256abf;color:#fff;border-color:#256abf}
+.check{display:flex;gap:9px;align-items:flex-start;font-size:14.5px;margin-top:11px;line-height:1.4;
+ min-height:48px;padding:6px 0}
+.check input{width:22px;height:22px;min-height:22px;flex:0 0 auto;margin-top:1px}
+.stepper{display:flex;align-items:center;gap:12px;margin-top:6px}
+.stepper button{width:48px;height:48px;border-radius:10px;border:1.5px solid #2a78d6;background:#fff;
+ color:#1c5cab;font-size:22px;font-weight:700;cursor:pointer}
+.stepper span{font-size:22px;font-weight:700;min-width:44px;text-align:center}
+@media(max-width:640px){.grid{flex-direction:column;align-items:center}.unit{width:100%;max-width:300px}}
+</style></head><body><div class="wrap">
+<h1>MATU · Prototipo navegable</h1>
+<p class="sub">Versión 1.0 · wireframes de los siete recorridos, entregable del sprint 0.</p>
+<p class="meta">MATU · Arquitectura v1.0 · Jorge Espinoza y Martín Henríquez · agosto 2026</p>
+<div class="legend"><b>Cómo leer esto.</b> Cada tarjeta es una pantalla. Los botones azules navegan
+      de verdad: haz clic y el prototipo avanza al paso siguiente. Bajo cada pantalla está la decisión de diseño
+      que la explica.
+      <ul>
+        <li><b>Criterios aplicados en todas las pantallas:</b> área táctil mínima de 48&nbsp;×&nbsp;48&nbsp;px,
+        texto base de 16&nbsp;px, contraste de 4,5:1 o superior, ningún estado señalado solo por color, y
+        lenguaje llano sin jerga clínica ni técnica.</li>
+        <li><b>Auditoría de contraste ejecutada, en los dos sentidos:</b> tinta principal
+        <code>#0b0b0b</code> 18,7:1 · texto secundario <code>#52514e</code> 7,5:1 ·
+        borde de acción <code>#1c5cab</code> 6,3:1 · rojo de alerta <code>#d03b3b</code> 4,6:1 ·
+        <b>blanco sobre el botón primario <code>#256abf</code> 5,4:1</b>. Todos sobre 4,5:1.
+        <b>Dos versiones anteriores de este prototipo fallaban su propio criterio</b>: primero
+        <code>#898781</code> daba 3,4:1 en texto secundario, y después el botón primario
+        <code>#2a78d6</code> daba 4,4:1 con texto blanco, porque la primera auditoría revisó
+        los colores de tinta y no el caso inverso. Ambos corregidos.</li>
+        <li><b>Lo que este prototipo no es:</b> no es diseño visual final ni define la identidad
+        gráfica, y su navegación es de recorrido, no un sistema con estado. Define estructura,
+        jerarquía, lenguaje y recorridos. Las pruebas de usabilidad con usuarios reales
+        <b>no se han ejecutado</b>.</li>
+      </ul></div>
+<h2>1 · Plan de cuidado</h2><div class="grid">
+<div class="unit" id="f1-1">
+<div class="scr-t">Inicio</div>
+<div class="phone">
+  <div class="hdr"><div class="hi">Hola, Carmen</div></div>
+  <div class="card lead">
+    <div class="avatar">M</div>
+    <div><div class="t1">María, 82 años</div><div class="t2">Apoyo parcial</div></div>
+  </div>
+  <div class="card">
+    <div class="row"><span class="t1">Plan de cuidado</span><span class="pill">40% listo</span></div>
+    <div class="bar"><i style="width:40%"></i></div>
+    <p class="t2">Con lo que ya escribiste, alguien podría reemplazarte por unas horas.</p>
+    <button class="btn" data-go="f1-2">Seguir completando</button>
+    <button class="btn2" data-go="f1-5">Compartir con un relevo</button>
+  </div>
+  <div class="card alert">
+    <div class="row"><span class="t1">⚠ Se acaban los pañales</span></div>
+    <p class="t2">Quedan para <b>6 días</b>. Te avisamos antes para que no te pille.</p>
+    <button class="btn" data-go="f2-3">Ver qué reponer</button>
+  </div>
+  </div>
+<div class="cap">El plan de cuidado es lo primero que ve el usuario, no el catálogo. La barra de completitud celebra el avance en vez de castigar lo que falta (ADR-018).</div>
+</div>
+<div class="unit" id="f1-2">
+<div class="scr-t">Las ocho preguntas</div>
+<div class="phone">
+  <div class="hdr"><button class="back" data-go="f1-1">‹</button><div class="hi">Rutina de María</div></div>
+  <p class="step">Pregunta 3 de 8</p>
+  <div class="bar sm"><i style="width:37%"></i></div>
+  <div class="card">
+    <label class="q">¿Qué la calma cuando se pone inquieta?</label>
+    <textarea rows="4" placeholder="Escribe o toca el micrófono">Bajar las persianas y poner la radio bajito. No hablarle fuerte.</textarea>
+    <button class="mic">🎙 Dictar en vez de escribir</button>
+  </div>
+  <div class="two">
+    <button class="btn2" data-go="f1-3">Saltar por ahora</button>
+    <button class="btn" data-go="f1-3">Siguiente</button>
+  </div>
+  </div>
+<div class="cap">Preguntas concretas y cortas, no un campo abierto que dice «Describa la rutina». Cada una se responde en menos de 30 segundos. Dictado por voz disponible.</div>
+</div>
+<div class="unit" id="f1-3">
+<div class="scr-t">Progreso guardado</div>
+<div class="phone">
+  <div class="hdr"><button class="back" data-go="f1-2">‹</button><div class="hi">Rutina de María</div></div>
+  <div class="card ok">
+    <div class="big">✓</div>
+    <div class="t1">Guardado</div>
+    <p class="t2">Vas en 5 de 8. Puedes seguir cuando quieras, no se pierde nada.</p>
+    <div class="row"><span class="t2">Plan de cuidado</span><span class="pill">62% listo</span></div>
+    <div class="bar"><i style="width:62%"></i></div>
+  </div>
+  <div class="two">
+    <button class="btn2" data-go="f1-1">Volver al inicio</button>
+    <button class="btn" data-go="f1-4">Seguir con la siguiente</button>
+  </div>
+  </div>
+<div class="cap">Nada obligatorio de una sola vez. Salir a mitad de camino no pierde nada y no genera culpa.</div>
+</div>
+<div class="unit" id="f1-4">
+<div class="scr-t">Secciones del plan</div>
+<div class="phone">
+  <div class="hdr"><button class="back" data-go="f1-1">‹</button><div class="hi">Plan de cuidado</div></div>
+  <div class="list">
+    <div class="li done"><span>Rutina y horarios</span><em>Completo</em></div>
+    <div class="li done"><span>Manejo de situaciones difíciles</span><em>Completo</em></div>
+    <div class="li done"><span>Preferencias y actividades</span><em>Completo</em></div>
+    <div class="li half"><span>Alimentación</span><em>A medias</em></div>
+    <div class="li"><span>Movilidad</span><em>Sin empezar</em></div>
+    <div class="li"><span>Red de apoyo</span><em>Sin empezar</em></div>
+  </div>
+  <p class="hint">Cada sección se guarda cifrada por separado. Puedes compartir solo algunas.</p>
+  <button class="btn" data-go="f1-5">Compartir con un relevo</button>
+  </div>
+<div class="cap">Un asunto por pantalla. Las secciones se ordenan por utilidad para un relevo, no por orden alfabético.</div>
+</div>
+<div class="unit" id="f1-5">
+<div class="scr-t">Compartir con un relevo</div>
+<div class="phone">
+  <div class="hdr"><button class="back" data-go="f1-1">‹</button><div class="hi">Compartir el plan</div></div>
+  <div class="card">
+    <p class="t2">Elige qué puede ver</p>
+    <div class="chips">
+      <span class="chip on">Relevo por unas horas</span>
+      <span class="chip">Fin de semana</span>
+      <span class="chip">Personalizar</span>
+    </div>
+    <div class="li done"><span>Rutina y horarios</span><em>✓ incluida</em></div>
+    <div class="li done"><span>Manejo de situaciones</span><em>✓ incluida</em></div>
+    <div class="li"><span>Red de apoyo</span><em>no incluida</em></div>
+    <p class="hint">El enlace vence en <b>8 horas</b> y puedes cortarlo cuando quieras.</p>
+  </div>
+  <button class="btn" data-go="f1-6">Generar enlace</button>
+  </div>
+<div class="cap">El caso urgente se resuelve en dos toques. El preajuste «Relevo por unas horas» trae marcadas las secciones que sirven, y el vencimiento viene puesto.</div>
+</div>
+<div class="unit" id="f1-6">
+<div class="scr-t">Enlace listo</div>
+<div class="phone">
+  <div class="hdr"><button class="back" data-go="f1-5">‹</button><div class="hi">Enlace generado</div></div>
+  <div class="card ok">
+    <div class="big">🔗</div>
+    <div class="t1">Listo para enviar</div>
+    <p class="code">matu.cl/r/8fk2-plq9</p>
+    <p class="t2">Vence hoy a las 22:30. Verás cada vez que lo abran.</p>
+  </div>
+  <div class="two">
+    <button class="btn2" data-go="f1-7">Ver como lo ve el relevo</button>
+    <button class="btn" data-go="f1-1">Enviar por WhatsApp</button>
+  </div>
+  </div>
+<div class="cap">El relevo no crea cuenta ni instala nada. Se le manda un enlace y funciona en un teléfono prestado.</div>
+</div>
+<div class="unit" id="f1-7">
+<div class="scr-t">Vista del relevo</div>
+<div class="phone">
+  <div class="hdr web"><div class="hi">Cuidado de María</div></div>
+  <p class="hint">Compartido por Carmen · disponible hasta las 22:30</p>
+  <div class="card">
+    <div class="t1">Rutina y horarios</div>
+    <p class="t2"><b>08:00</b> Despierta sola. Le gusta que abran la cortina primero.<br>
+    <b>08:30</b> Desayuno. Té con leche tibio, nunca caliente.<br>
+    <b>13:00</b> Almuerzo. Come lento, no apurarla.<br>
+    <b>16:00</b> Siesta corta, máximo una hora.</p>
+  </div>
+  <div class="card">
+    <div class="t1">Si se pone inquieta</div>
+    <p class="t2">Bajar las persianas y poner la radio bajito. No hablarle fuerte. Si pregunta por su marido, no corregirla: decirle que salió y ya vuelve.</p>
+  </div>
+  <p class="hint">No puedes editar este plan. Solo Carmen puede.</p>
+  <button class="btn2" data-go="f1-1">(fin del recorrido)</button>
+  </div>
+<div class="cap">Vista web sin sesión, legible en cualquier teléfono. Solo las secciones habilitadas. Cada apertura queda auditada.</div>
+</div>
+</div>
+<h2>2 · Consumo y reposición</h2><div class="grid">
+<div class="unit" id="f2-1">
+<div class="scr-t">Declarar consumo</div>
+<div class="phone">
+  <div class="hdr"><button class="back" data-go="f1-1">‹</button><div class="hi">¿Qué usa María?</div></div>
+  <div class="card">
+    <div class="t1">Pañal adulto talla M</div>
+    <label class="q">¿Cuántos usa al día?</label>
+    <div class="stepper"><button>−</button><span>4</span><button>+</button></div>
+    <label class="q">¿Cuántos le quedan más o menos?</label>
+    <div class="stepper"><button>−</button><span>24</span><button>+</button></div>
+    <p class="hint">Con eso te avisamos <b>7 días antes</b> de que se acaben. Puedes cambiarlo después.</p>
+  </div>
+  <button class="btn" data-go="f2-2">Guardar</button>
+  </div>
+<div class="cap">Tres campos por producto y nada más. El sistema propone valores por categoría para que el cuidador solo confirme (ADR-003).</div>
+</div>
+<div class="unit" id="f2-2">
+<div class="scr-t">Qué se está acabando</div>
+<div class="phone">
+  <div class="hdr"><button class="back" data-go="f1-1">‹</button><div class="hi">Qué se está acabando</div></div>
+  <div class="li urg"><span><b>Pañal adulto talla M</b><br><em class="t2">Quedan 6 días</em></span><em class="tag red">Pronto</em></div>
+  <div class="li"><span><b>Toallitas húmedas</b><br><em class="t2">Quedan 11 días</em></span><em class="tag amb">Atento</em></div>
+  <div class="li"><span><b>Suplemento vainilla</b><br><em class="t2">Quedan 15 días</em></span><em class="tag">Tranquilo</em></div>
+  <div class="li"><span><b>Crema para escaras</b><br><em class="t2">Quedan 40 días</em></span><em class="tag">Tranquilo</em></div>
+  <div class="two">
+    <button class="btn2" data-go="f2-4">Ya lo compré</button>
+    <button class="btn" data-go="f2-3">Ver lista de reposición</button>
+  </div>
+  </div>
+<div class="cap">La pantalla que responde la pregunta que un cuidador se hace todas las semanas. Ordenada por urgencia, con lenguaje llano: «6 días», no «stock proyectado».</div>
+</div>
+<div class="unit" id="f2-3">
+<div class="scr-t">Lista de reposición</div>
+<div class="phone">
+  <div class="hdr"><button class="back" data-go="f2-2">‹</button><div class="hi">Lista de reposición</div></div>
+  <div class="card">
+    <div class="li done"><span>Pañal adulto talla M x30</span><em>2 paquetes</em></div>
+    <div class="li done"><span>Toallitas húmedas x80</span><em>1 paquete</em></div>
+    <p class="hint">Con esto María queda cubierta unos 15 días.</p>
+  </div>
+  <button class="btn" data-go="f3-1">Pedir a domicilio · $48.990 aprox.</button>
+  <button class="btn2" data-go="f2-5">Descargar la lista</button>
+  <button class="btn2" data-go="f2-5">Enviar la lista por WhatsApp</button>
+  <p class="hint">¿Prefieres comprar tú? Llévate la lista y lista.</p>
+  </div>
+<div class="cap">Aquí vive la decisión 2 de cabecera: las dos acciones de abajo funcionan sin ningún comercio en convenio. El producto sirve aunque MATU no despache.</div>
+</div>
+<div class="unit" id="f2-4">
+<div class="scr-t">Registrar compra propia</div>
+<div class="phone">
+  <div class="hdr"><button class="back" data-go="f2-2">‹</button><div class="hi">Ya lo compré</div></div>
+  <div class="card">
+    <div class="t1">Pañal adulto talla M</div>
+    <label class="q">¿Cuántos paquetes compraste?</label>
+    <div class="stepper"><button>−</button><span>2</span><button>+</button></div>
+    <p class="hint">Ajustamos la cuenta: ahora te alcanzan hasta el <b>5 de octubre</b>.</p>
+  </div>
+  <button class="btn" data-go="f2-2">Guardar</button>
+  </div>
+<div class="cap">Sin esto el cálculo se desalinea y las alertas pierden credibilidad, que es la forma más rápida de que alguien deje de confiar en el producto (RF-13).</div>
+</div>
+<div class="unit" id="f2-5">
+<div class="scr-t">Lista exportada</div>
+<div class="phone">
+  <div class="hdr"><button class="back" data-go="f2-3">‹</button><div class="hi">Lista lista</div></div>
+  <div class="card ok">
+    <div class="big">📄</div>
+    <div class="t1">Lista de María · 14 de septiembre</div>
+    <p class="t2">Pañal adulto talla M x30 — 2 paquetes<br>Toallitas húmedas x80 — 1 paquete</p>
+    <p class="hint">Puedes mandársela a quien vaya al supermercado.</p>
+  </div>
+  <button class="btn2" data-go="f1-1">Volver al inicio</button>
+  </div>
+<div class="cap">Plan B completo del ADR-002 en una pantalla. Si nunca hay convenio, MATU sigue siendo útil todos los meses.</div>
+</div>
+</div>
+<h2>3 · Reparto y pago</h2><div class="grid">
+<div class="unit" id="f3-1">
+<div class="scr-t">Repartir el gasto</div>
+<div class="phone">
+  <div class="hdr"><button class="back" data-go="f2-3">‹</button><div class="hi">¿Quién paga?</div></div>
+  <div class="card">
+    <div class="row"><span class="t1">Total estimado</span><span class="t1">$48.990</span></div>
+    <div class="chips">
+      <span class="chip on">Partes iguales</span>
+      <span class="chip">Pago yo todo</span>
+      <span class="chip">Personalizar</span>
+    </div>
+    <div class="li"><span>Carmen (tú)</span><em>$16.330</em></div>
+    <div class="li"><span>Rodrigo</span><em>$16.330</em></div>
+    <div class="li"><span>Sofía</span><em>$16.330</em></div>
+    <label class="check"><input type="checkbox" checked> Si alguien no paga a tiempo, lo cubro yo</label>
+    <p class="hint">Les avisamos por la app. Tienen 2 horas para pagar su parte.</p>
+  </div>
+  <button class="btn" data-go="f3-2">Confirmar y pagar mi parte</button>
+  </div>
+<div class="cap">Nunca una pantalla en blanco: se parte de partes iguales y se ajusta. El total siempre visible. La casilla del respaldo viene marcada en quien crea el pedido.</div>
+</div>
+<div class="unit" id="f3-2">
+<div class="scr-t">Explicar la retención</div>
+<div class="phone">
+  <div class="hdr"><button class="back" data-go="f3-1">‹</button><div class="hi">Tu parte</div></div>
+  <div class="card">
+    <div class="row"><span class="t1">Tu parte</span><span class="t1">$16.330</span></div>
+    <div class="note">
+      <b>Vamos a reservar $18.780 en tu tarjeta.</b>
+      <p class="t2">Reservamos un poco más por si algún precio cambió en el supermercado. Se te cobrará solo lo que realmente cueste y el resto se libera solo, sin que hagas nada.</p>
+    </div>
+  </div>
+  <button class="btn" data-go="f3-3">Pagar con tarjeta</button>
+  </div>
+<div class="cap">El momento difícil (a) de la sección 10.4. Sin esta explicación, la retención mayor al cobro genera reclamos. La frase está en lenguaje llano, sin la palabra «autorización».</div>
+</div>
+<div class="unit" id="f3-3">
+<div class="scr-t">Esperando a los demás</div>
+<div class="phone">
+  <div class="hdr"><div class="hi">Pedido de María</div></div>
+  <div class="card">
+    <div class="t1">Falta que paguen 1 de 3</div>
+    <div class="li done"><span>Carmen (tú)</span><em>✓ pagado</em></div>
+    <div class="li done"><span>Rodrigo</span><em>✓ pagado</em></div>
+    <div class="li half"><span>Sofía</span><em>esperando</em></div>
+    <p class="hint">Si Sofía no paga antes de las 16:40, <b>lo cubres tú</b> y el pedido sale igual. Nadie se queda sin pañales por esto.</p>
+  </div>
+  <button class="btn2" data-go="f3-4">Ver el pedido</button>
+  </div>
+<div class="cap">El estado de recaudación es visible y honesto. Y el respaldo aparece explicado, para que nadie sienta que el pedido está en riesgo.</div>
+</div>
+<div class="unit" id="f3-4">
+<div class="scr-t">Cierre con el monto real</div>
+<div class="phone">
+  <div class="hdr"><div class="hi">Pedido entregado</div></div>
+  <div class="card ok">
+    <div class="big">✓</div>
+    <div class="t1">Entregado a las 18:42</div>
+    <p class="t2">Recibido por Carmen en el domicilio de María.</p>
+  </div>
+  <div class="card">
+    <div class="row"><span class="t2">Estimado</span><span class="t2">$48.990</span></div>
+    <div class="row"><span class="t2">Reservado</span><span class="t2">$56.340</span></div>
+    <div class="row"><span class="t1">Cobrado de verdad</span><span class="t1">$51.340</span></div>
+    <p class="hint">Los $5.000 que sobraban de la reserva <b>ya se liberaron</b>. Tu parte fue de $17.114.</p>
+    <div class="li"><span>Toallitas x80</span><em class="tag amb">Cambiada por otra marca</em></div>
+  </div>
+  <button class="btn2" data-go="f1-1">Volver al inicio</button>
+  </div>
+<div class="cap">La segunda mitad de la promesa. Esta notificación es la que construye confianza, más que cualquier pantalla del pedido.</div>
+</div>
+</div>
+<h2>4 · Vista de comercio</h2><div class="grid">
+<div class="unit" id="f4-1">
+<div class="scr-t">Pedidos del día</div>
+<div class="phone">
+  <div class="hdr web"><div class="hi">Supermercado Los Aromos · Hoy</div></div>
+  <div class="li urg"><span><b>#4821</b> · 6 productos<br><em class="t2">Retiro entre 17:00 y 18:00</em></span><em class="tag red">Por preparar</em></div>
+  <div class="li"><span><b>#4822</b> · 3 productos<br><em class="t2">Retiro entre 18:00 y 19:00</em></span><em class="tag amb">Preparando</em></div>
+  <div class="li done"><span><b>#4819</b> · 4 productos<br><em class="t2">Retirado 15:20</em></span><em>Listo</em></div>
+  <p class="hint">Tope autorizado por pedido visible al abrirlo. Sobre ese monto, no pasar por caja.</p>
+  <button class="btn" data-go="f4-2">Abrir pedido #4821</button>
+  </div>
+<div class="cap">Una sola pantalla, sin navegación, sin aprendizaje previo. La persona que la usa está apurada y en un computador compartido.</div>
+</div>
+<div class="unit" id="f4-2">
+<div class="scr-t">Preparar el pedido</div>
+<div class="phone">
+  <div class="hdr web"><button class="back" data-go="f4-1">‹</button><div class="hi">Pedido #4821 · para María</div></div>
+  <div class="card">
+    <div class="row"><span class="t2">Tope autorizado</span><span class="t1">$56.340</span></div>
+  </div>
+  <div class="li done"><span>Pañal adulto M x30 · 2 un.</span><em>✓ $27.980</em></div>
+  <div class="li urg"><span><b>Toallitas húmedas x80</b><br><em class="t2">Regla: acepta equivalente hasta +10%</em></span><em class="tag red">Sin stock</em></div>
+  <div class="two">
+    <button class="btn" data-go="f4-3">Poner equivalente</button>
+    <button class="btn2" data-go="f4-3">Marcar como no disponible</button>
+  </div>
+  </div>
+<div class="cap">El comercio resuelve los faltantes contra las reglas que la familia definió. Así la decisión de sustitución no la toma nadie en el pasillo con el reloj corriendo.</div>
+</div>
+<div class="unit" id="f4-3">
+<div class="scr-t">Informar monto real</div>
+<div class="phone">
+  <div class="hdr web"><button class="back" data-go="f4-2">‹</button><div class="hi">Cerrar pedido #4821</div></div>
+  <div class="card">
+    <label class="q">Total de la boleta</label>
+    <input value="$51.340">
+    <label class="q">N° de boleta</label>
+    <input value="0084512">
+    <p class="hint">Dentro del tope autorizado ($56.340). Se carga a la cuenta de MATU.</p>
+  </div>
+  <button class="btn" data-go="f4-4">Marcar como listo para retiro</button>
+  </div>
+<div class="cap">El monto real se conoce antes de que el repartidor salga, que es lo que hace que su tiempo en el local sea de minutos y no de tres cuartos de hora.</div>
+</div>
+<div class="unit" id="f4-4">
+<div class="scr-t">Validar el código</div>
+<div class="phone">
+  <div class="hdr web"><button class="back" data-go="f4-3">‹</button><div class="hi">Entregar #4821</div></div>
+  <div class="card">
+    <label class="q">Código que muestra el repartidor</label>
+    <input class="big-in" value="4 7 2 9">
+  </div>
+  <div class="card ok">
+    <div class="big">✓</div>
+    <div class="t1">Código válido</div>
+    <p class="t2">Repartidor: Luis M. · Entregar pedido #4821</p>
+  </div>
+  <button class="btn2" data-go="f4-1">Volver a los pedidos</button>
+  </div>
+<div class="cap">El código es una credencial de un solo uso, no un número de pedido. Vence en 90 minutos y se invalida al primer uso.</div>
+</div>
+</div>
+<h2>5 · Repartidor</h2><div class="grid">
+<div class="unit" id="f5-1">
+<div class="scr-t">Oferta con plazo</div>
+<div class="phone">
+  <div class="hdr dark"><div class="hi">Nueva oferta</div></div>
+  <div class="card dark">
+    <div class="timer">58s</div>
+    <div class="t1w">Supermercado Los Aromos</div>
+    <p class="t2w">Retirar preparado · 6 productos</p>
+    <div class="row"><span class="t2w">A domicilio en</span><span class="t1w">2,4 km</span></div>
+    <div class="row"><span class="t2w">Pagas</span><span class="t1w">nada</span></div>
+    <div class="row"><span class="t2w">Ganas</span><span class="t1w">$3.200</span></div>
+  </div>
+  <div class="two">
+    <button class="btn2" data-go="f5-1">Rechazar</button>
+    <button class="btn" data-go="f5-2">Aceptar</button>
+  </div>
+  </div>
+<div class="cap">El repartidor corre tres aplicaciones a la vez. La oferta se ofrece con 60 segundos, no se adjudica (ADR-010). Contraste alto y área táctil grande porque se usa en la calle.</div>
+</div>
+<div class="unit" id="f5-2">
+<div class="scr-t">Código de retiro</div>
+<div class="phone">
+  <div class="hdr dark"><div class="hi">Pedido #4821</div></div>
+  <div class="card dark center">
+    <p class="t2w">Muestra este código en caja</p>
+    <div class="codebig">4 7 2 9</div>
+    <p class="t2w">Vence en 74 minutos</p>
+  </div>
+  <div class="card dark">
+    <div class="t1w">Supermercado Los Aromos</div>
+    <p class="t2w">Av. Los Aromos 1450 · caja 3</p>
+  </div>
+  <button class="btn" data-go="f5-3">Ya lo retiré</button>
+  </div>
+<div class="cap">El repartidor no compra ni paga: solo muestra el código. Toda la aplicación cabe en cuatro pantallas, que es lo que permitió el modo preparado (ADR-009).</div>
+</div>
+<div class="unit" id="f5-3">
+<div class="scr-t">Entrega con evidencia</div>
+<div class="phone">
+  <div class="hdr dark"><button class="back" data-go="f5-2">‹</button><div class="hi">Entregar</div></div>
+  <div class="card dark">
+    <div class="t1w">María · Depto 402</div>
+    <p class="t2w">Los Cerezos 233 · timbre 402</p>
+    <p class="t2w">Contacto: +56 9 •••• 4412</p>
+  </div>
+  <div class="two">
+    <button class="btn2">📷 Foto de la boleta</button>
+    <button class="btn2">📷 Foto de la entrega</button>
+  </div>
+  <button class="btn" data-go="f5-1">Confirmar entrega</button>
+  </div>
+<div class="cap">Foto de boleta y de entrega, ambas geolocalizadas y con hash. El repartidor no ve nada del plan de cuidado, y eso se garantiza por arquitectura, no por permiso.</div>
+</div>
+</div>
+<h2>0 · Alta y consentimiento</h2><div class="grid">
+<div class="unit" id="f0-1">
+<div class="scr-t">Registrar a quien cuidas</div>
+<div class="phone">
+  <div class="hdr"><div class="hi">¿A quién cuidas?</div></div>
+  <div class="card">
+    <label class="q">¿Cómo se llama?</label>
+    <input value="María">
+    <label class="q">¿Cuánto apoyo necesita en el día a día?</label>
+    <div class="li"><span>Se maneja sola, con supervisión</span><em>○</em></div>
+    <div class="li done"><span>Necesita apoyo en varias cosas</span><em>●</em></div>
+    <div class="li"><span>Necesita apoyo en todo</span><em>○</em></div>
+    <p class="hint">No te preguntamos el diagnóstico. No lo necesitamos y no lo guardamos.</p>
+  </div>
+  <button class="btn" data-go="f0-2">Continuar</button>
+  </div>
+<div class="cap">Primera pantalla del sistema. Pide lo mínimo: un nombre y el nivel de apoyo. No pregunta diagnóstico, y eso es una decisión de diseño explícita (§11.3).</div>
+</div>
+<div class="unit" id="f0-2">
+<div class="scr-t">Consentimiento</div>
+<div class="phone">
+  <div class="hdr"><button class="back" data-go="f0-1">‹</button><div class="hi">Un permiso necesario</div></div>
+  <div class="card">
+    <p class="t2">La información de cuidado de María es información sensible. Para guardarla necesitamos saber en qué calidad lo autorizas.</p>
+    <div class="li"><span>Soy María y lo autorizo yo</span><em>○</em></div>
+    <div class="li"><span>Soy su representante legal</span><em>○</em></div>
+    <div class="li done"><span>Soy quien la cuida, sin representación legal</span><em>●</em></div>
+    <div class="note">
+      <b>Qué significa lo que elegiste</b>
+      <p class="t2">Guardaremos la información y podrás borrarla cuando quieras. Te lo volveremos a preguntar en un año.</p>
+    </div>
+  </div>
+  <button class="btn" data-go="f1-1">Acepto y continúo</button>
+  </div>
+<div class="cap">La Ley 21.719 exige consentimiento del titular o su representante. Como el titular suele no poder otorgarlo, el sistema registra la calidad de quien lo otorga y no la disimula (§11.5).</div>
+</div>
+</div>
+<h2>6 · Errores y casos borde</h2><div class="grid">
+<div class="unit" id="f6-1">
+<div class="scr-t">Todavía no hay nada</div>
+<div class="phone">
+  <div class="hdr"><div class="hi">Qué se está acabando</div></div>
+  <div class="card ok">
+    <div class="big">📋</div>
+    <div class="t1">Aún no sabemos qué usa María</div>
+    <p class="t2">Cuéntanos de un solo producto, el que más te preocupa. Con eso ya te podemos avisar antes de que se acabe.</p>
+  </div>
+  <button class="btn" data-go="f2-1">Empezar por los pañales</button>
+  <button class="btn2" data-go="f1-1">Después</button>
+  </div>
+<div class="cap">Estado vacío. En vez de una pantalla en blanco, propone la acción más barata y explica qué gana el usuario si la hace.</div>
+</div>
+<div class="unit" id="f6-2">
+<div class="scr-t">Alguien más editó</div>
+<div class="phone">
+  <div class="hdr"><button class="back" data-go="f1-2">‹</button><div class="hi">Dos versiones</div></div>
+  <div class="card alert">
+    <div class="t1">⚠ Rodrigo editó esto mientras escribías</div>
+    <p class="t2">No queremos borrar el trabajo de nadie. Elige cuál dejar.</p>
+  </div>
+  <div class="card">
+    <div class="t1">Lo que escribió Rodrigo · 14:20</div>
+    <p class="t2">Bajar las persianas. Si sigue inquieta, llamar a la nieta.</p>
+    <button class="btn2" data-go="f1-3">Quedarme con esta</button>
+  </div>
+  <div class="card">
+    <div class="t1">Lo tuyo · ahora</div>
+    <p class="t2">Bajar las persianas y poner la radio bajito. No hablarle fuerte.</p>
+    <button class="btn" data-go="f1-3">Quedarme con la mía</button>
+  </div>
+  </div>
+<div class="cap">El 412 del bloqueo optimista, hecho pantalla (RF-04). No se fusiona texto automáticamente: se muestran ambas versiones y decide la persona.</div>
+</div>
+<div class="unit" id="f6-3">
+<div class="scr-t">El pago no pasó</div>
+<div class="phone">
+  <div class="hdr"><button class="back" data-go="f3-2">‹</button><div class="hi">Tu parte</div></div>
+  <div class="card alert">
+    <div class="big">⚠</div>
+    <div class="t1">El banco no aprobó el pago</div>
+    <p class="t2">Puede ser el cupo o un bloqueo del banco. No se te cobró nada.</p>
+  </div>
+  <div class="card">
+    <p class="hint">Si nadie paga antes de las 16:40, el pedido se cancela solo y se libera lo que ya reservamos. Nadie pierde dinero.</p>
+  </div>
+  <button class="btn" data-go="f3-2">Probar con otra tarjeta</button>
+  <button class="btn2" data-go="f3-3">Que lo cubra Rodrigo</button>
+  </div>
+<div class="cap">Error de pago sin culpar al usuario ni usar jerga de pasarela. Y sin dejar el pedido en el aire: se dice qué pasa si nadie resuelve.</div>
+</div>
+<div class="unit" id="f6-4">
+<div class="scr-t">Plan para imprimir</div>
+<div class="phone">
+  <div class="hdr"><button class="back" data-go="f1-6">‹</button><div class="hi">Para imprimir</div></div>
+  <div class="card ok">
+    <div class="big">🖨</div>
+    <div class="t1">Cuidado de María · una hoja</div>
+    <p class="t2">Rutina, horarios y qué hacer si se altera, en una página. Sin conexión, sin aplicación.</p>
+  </div>
+  <p class="hint">Útil para dejarlo pegado en el refrigerador cuando llega alguien nuevo.</p>
+  <button class="btn2" data-go="f1-1">Descargar</button>
+  </div>
+<div class="cap">RF-09. El relevo puede no tener teléfono con datos, o preferir papel. Una hoja pegada en el refrigerador resuelve más de lo que parece.</div>
+</div>
+<div class="unit" id="f6-5">
+<div class="scr-t">Texto al 200%</div>
+<div class="phone">
+  <div class="hdr" style="font-size:200%"><div class="hi" style="font-size:150%">Se acaban</div></div>
+  <div class="card" style="font-size:170%">
+    <div class="t1">Pañales</div>
+    <p class="t2">Quedan 6 días</p>
+    <button class="btn" data-go="f2-3">Ver lista</button>
+  </div>
+  <p class="hint">Los botones siguen siendo tocables y el texto no se recorta.</p>
+  </div>
+<div class="cap">El criterio de §10.3 exige que todo funcione con el texto al doble. Esta pantalla es la misma de arriba con el ajuste al máximo: nada se corta, nada se pierde.</div>
+</div>
+</div>
+</div><script>document.addEventListener("click",function(e){var b=e.target.closest("[data-go]"); if(!b) return;var t=document.getElementById(b.dataset.go);if(t){t.scrollIntoView({behavior:"smooth",block:"center",inline:"center"});t.querySelector(".phone").animate([{boxShadow:"0 0 0 0 rgba(42,120,214,.55)"},{boxShadow:"0 0 0 12px rgba(42,120,214,0)"}],{duration:900});}});</script></body></html>
