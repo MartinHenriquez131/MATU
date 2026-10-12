@@ -161,17 +161,45 @@ Definiciones de diseño relevantes:
 
 ```
 MATU/
+├── backend/
+│   └── db/                        modelo de datos ejecutable · PostgreSQL 16
+│       ├── 00_roles.sql           los cuatro roles de base de datos
+│       ├── 01_esquema.sql         49 tablas, restricciones e índices
+│       ├── 02_rls.sql             94 políticas de aislamiento por fila
+│       ├── 03_permisos.sql        permisos por rol
+│       ├── rebuild.sh             reconstruye la base desde cero
+│       ├── gen_diagramas.py       genera los diagramas desde la base
+│       ├── gen_matriz.py          genera la matriz de acceso
+│       └── tests/
+│           └── test_aislamiento.py   31 pruebas contra PostgreSQL real
 ├── docs/
-│   ├── arquitectura.md      documento de arquitectura · se lee en GitHub
-│   ├── arquitectura.html    la misma versión, navegable y para imprimir
-│   ├── prototipo.html       prototipo navegable · 32 pantallas · 7 recorridos
+│   ├── arquitectura.md            documento de arquitectura · se lee en GitHub
+│   ├── arquitectura.html          la misma versión, navegable y para imprimir
+│   ├── modelo-datos.md            modelo de datos completo, con diagramas
+│   ├── estrategia-pruebas.md      niveles, metas, puertas del pipeline y definición de terminado
+│   ├── backlog-sprints-1-3.md     historias, criterios y estimación del tramo
 │   ├── protocolo-entrevistas.md   guion y criterios de falsación
 │   ├── resultados-entrevistas.md  veredicto por hipótesis y mediciones
+│   ├── ficha-proyecto.docx        ficha de una página, formato del curso
+│   ├── adr/
+│   │   └── ADR-023-cierre.md      se activa el modo ficha de relevo
+│   ├── diagramas/
+│   │   └── modelo-datos/          13 diagramas en .mmd, .svg y .png
 │   ├── entrevistas/               diez fichas anonimizadas
-│   └── ficha-proyecto.docx  ficha de una página, formato del curso
-├── Fase 1/                  evidencias del curso
-├── Fase 2/
-└── Fase 3/
+│   ├── prototipo/
+│   │   ├── prototipo-v1.1.html    36 pantallas · 7 recorridos · documentado
+│   │   ├── prototipo-pruebas.html la misma interfaz, limpia, para pruebas
+│   │   └── gen_prototipo.py       genera las dos versiones
+│   └── sprints/
+│       └── sprint-1-planificacion.md
+├── Fase 1/                        evidencias del curso fase 1
+    ├── evidencias individuales    
+    └── evidencias individuales                        
+├── Fase 2/                        evidencias del curso fase 2
+    ├── evidencias individuales
+    ├── evidencias grupales
+    └── evidencias proyecto
+└── Fase 3/                        evidencias del curso fase final
 ```
 
 El código se incorporará en `backend/`, `mobile/`, `web/` e `infra/` a medida
@@ -239,11 +267,22 @@ El plan de sprints está en la sección 15 del documento de arquitectura.
 
 * [Ficha de proyecto](docs/ficha-proyecto.docx) — una página, en el formato que
   entregó el profesor.
-* [Prototipo de interfaz](docs/prototipo.html) — 32 pantallas y 7 recorridos.
+* [Modelo de datos](docs/modelo-datos.md) — 49 tablas, aislamiento por fila,
+  cifrado del plan de cuidado y 13 diagramas. Probado con 31 pruebas contra
+  PostgreSQL real.
+* [Estrategia de pruebas](docs/estrategia-pruebas.md) — niveles de prueba,
+  metas por capa, puertas del pipeline y definición de terminado.
+* [Backlog de los sprints 1 a 3](docs/backlog-sprints-1-3.md) — historias con
+  criterios de aceptación, estimación y orden de sacrificio.
+* [Prototipo de interfaz](docs/prototipo/prototipo-v1.1.html) — 36 pantallas y
+  7 recorridos, más una [versión limpia](docs/prototipo/prototipo-pruebas.html)
+  para pruebas con usuarios.
 * [Protocolo de validación con cuidadores](docs/protocolo-entrevistas.md) —
   siete hipótesis con criterios de falsación fijados antes de entrevistar.
 * [Resultados de la validación](docs/resultados-entrevistas.md) — veredicto por
   hipótesis, las tres mediciones y el recálculo del punto de equilibrio.
+* [Cierre del ADR-023](docs/adr/ADR-023-cierre.md) — H1 refutada con 3 de 10:
+  la capa 1 pasa a ser una ficha de relevo de tres campos.
 * [Arquitectura en versión navegable](docs/arquitectura.html).
 
 GitHub no renderiza archivos `.html` ni `.docx`: hay que descargarlos y abrirlos.
