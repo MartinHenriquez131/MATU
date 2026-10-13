@@ -1,0 +1,23 @@
+---
+title: MATU · Cómo una petición fija el contexto antes de tocar datos
+---
+sequenceDiagram
+    participant A as App Familia
+    participant API as API MATU
+    participant DB as PostgreSQL (matu_app)
+    A->>API: GET /v1/personas-cuidadas/{id}/plan<br/>Bearer JWT · X-Grupo-Id
+    API->>API: valida JWT (quién es)
+    API->>DB: BEGIN
+    API->>DB: set_config('app.usuario_id', sub, true)
+    API->>DB: set_config('app.grupo_id', X-Grupo-Id, true)
+    API->>DB: SELECT membresía activa del usuario en ese grupo
+    alt no es miembro
+        API-->>A: 404 (no confirma que el grupo exista)
+    else es miembro
+        API->>DB: SELECT plan_seccion ...
+        Note over DB: RLS aplica grupo + rol de membresía<br/>(observador = cero filas)
+        DB-->>API: secciones cifradas
+        API->>DB: INSERT auditoria (plan.leer)
+        API->>DB: COMMIT · el contexto muere con la transacción
+        API-->>A: secciones descifradas + ETag
+    end

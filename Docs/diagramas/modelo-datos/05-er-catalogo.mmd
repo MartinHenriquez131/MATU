@@ -1,0 +1,68 @@
+---
+title: MATU · Capa 3 · Catálogo, comercios y convenios
+---
+erDiagram
+    comercio ||--o{ convenio : "comercio_id"
+    comercio ||--o{ oferta : "comercio_id"
+    producto ||--o{ oferta : "producto_id"
+    categoria_cuidado ||--o{ producto : "categoria_id"
+    comercio ||--o{ usuario_comercio : "comercio_id"
+    usuario ||--o{ usuario_comercio : "usuario_id"
+    categoria_cuidado {
+        uuid id PK
+        text nombre UK
+        smallint orden
+        bool activa
+    }
+    producto {
+        uuid id PK
+        uuid categoria_id FK
+        text nombre
+        text marca "opcional"
+        text presentacion
+        text unidad
+        int unidades_por_envase
+        bool requiere_receta
+        bool activo
+        timestamptz creado_en
+    }
+    comercio {
+        uuid id PK
+        text razon_social
+        text nombre_fantasia
+        text rut UK
+        text direccion
+        text comuna
+        text telefono "opcional"
+        text estado
+        timestamptz creado_en
+    }
+    usuario_comercio {
+        uuid usuario_id FK
+        uuid comercio_id FK
+        text rol
+        bool activo
+    }
+    convenio {
+        uuid id PK
+        uuid comercio_id FK
+        daterange vigencia
+        int comision_bp
+        bigint tarifa_despacho
+        bool prepara_pedidos
+        bool cuenta_corriente
+        text periodo_liquidacion
+        text estado
+        timestamptz creado_en
+    }
+    oferta {
+        uuid id PK
+        uuid producto_id FK
+        uuid comercio_id FK
+        bigint precio_referencia
+        bool disponible
+        timestamptz actualizado_en
+    }
+    usuario {
+        uuid id PK
+    }
