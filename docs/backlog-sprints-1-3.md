@@ -1,8 +1,10 @@
 # MATU — Backlog de producto · sprints 1 a 3
 
-**Versión:** 1.2 · dos rondas de revisión aplicadas
+**Versión:** 1.3 · dos rondas de revisión aplicadas y calendario ajustado
 **Product Owner:** Jorge Espinoza · **Scrum Master:** Martín Henríquez
 **Base:** Arquitectura v1.0 · Modelo de datos v1.0 · Estrategia de pruebas v1.1 · Cierre del ADR-023
+
+> **Calendario v1.3 (13 de octubre).** Los sprints corren de viernes a jueves y el sprint 1 empieza el viernes 16 de octubre. Con desarrollo asistido por IA, **las historias del sprint 3 de este backlog se ejecutan en el sprint 2**, salvo MATU-25 (staging), que pasa al sprint 3. Las estimaciones de este documento no cambian: el factor de vibecoding se aplica al comprometer. Detalle en [sprints/calendario-sprints.md](sprints/calendario-sprints.md).
 
 ---
 
@@ -36,13 +38,13 @@
 
 ## 3. Antes del sprint 1 · lo que el sprint 0 tiene que dejar cerrado
 
-| ID | Tarea | Criterios de cierre | Responsable | Estado al 28-09 |
+| ID | Tarea | Criterios de cierre | Responsable | Estado al 13-10 |
 |---|---|---|---|---|
-| S0-A | Esqueleto de la API | `app/main.py`, configuración, errores RFC 7807 y logs JSON con `request_id` y **sin cuerpos de petición**. Sin esto no se puede probar que la ficha nunca llega a un log | Martín | Por confirmar con Martín |
-| S0-B | Ambiente local | `docker compose up` levanta PostgreSQL 16 con los cuatro roles y **Redis** | Martín | Por confirmar con Martín |
-| S0-C | Migración inicial | `backend/db/*.sql` convertido en la migración 0001 de Alembic, reversible. `btree_gist` la crea el administrador en una migración 0 aparte. La revisa Jorge antes de fusionar | Martín | Esquema listo y probado en SQL. Falta pasarlo a Alembic (~2 h) |
-| S0-D | Pipeline | ruff, mypy, pytest unitarias e integración, detect-secrets, y `upgrade`, `downgrade -1`, `upgrade`. Un PR con un fallo no se fusiona | Martín | Por confirmar con Martín |
-| S0-E | Prueba de concepto de Transbank | Resultado de los cinco casos en `docs/poc-transbank.md`, **incluido el débito** | Los dos | No iniciada |
+| S0-A | Esqueleto de la API | `app/main.py`, configuración, errores RFC 7807 y logs JSON con `request_id` y **sin cuerpos de petición**. Sin esto no se puede probar que la ficha nunca llega a un log | Martín | **Pendiente.** Pasa al sprint 1 como prioridad 0 |
+| S0-B | Ambiente local | `docker compose up` levanta PostgreSQL 16 con los cuatro roles y **Redis** | Martín | **Cerrada.** El script `infra/postgres/init/10_matu.sh` crea los roles, la base y `btree_gist` |
+| S0-C | Migración inicial | `backend/db/*.sql` convertido en la migración 0001 de Alembic, reversible. La revisa Jorge antes de fusionar | Martín | **Cerrada.** `0001_esquema_inicial`, con subida, bajada y subida verificadas. `btree_gist` la crea el script de arranque, no una migración |
+| S0-D | Pipeline | ruff, mypy, pytest unitarias e integración, detect-secrets, y `upgrade`, `downgrade -1`, `upgrade`. Un PR con un fallo no se fusiona | Martín | **Cerrada.** `.github/workflows/ci.yml`. La regla que impide fusionar con el pipeline en rojo se activa cuando el equipo pase a trabajar con pull requests |
+| S0-E | Prueba de concepto de Transbank | Resultado de los cinco casos en `docs/pruebas-concepto/transbank.md`, **incluido el débito** | Los dos | **Parcial.** El débito (caso 4) está respondido: no admite captura diferida. Los casos 1, 2, 3 y 5 pasan al sprint 1 |
 
 **Si alguna queda abierta** pasa a prioridad 0 del sprint 1 y se aplica el orden de sacrificio de la sección 7 desde el punto 1. **S0-E abierta es prioridad 0 para los dos**, porque su resultado puede cambiar el ADR-006 y el ADR-007.
 
@@ -96,7 +98,7 @@ Jorge empieza por MATU-26 y MATU-07 contra una sesión simulada de pruebas mient
 - Si el usuario no es miembro activo del grupo, la API responde **404**, nunca 403
 - El contexto es local a la transacción: dos peticiones seguidas en la misma conexión del pool no comparten contexto
 - El helper acepta `rol = 'sistema'` (worker, desde el sprint 5) y `app.acceso_relevo_id` (relevo, sprint 3)
-- `test_aislamiento.py` se mueve a `backend/tests/` y corre en el pipeline contra la migración de Alembic
+- `test_aislamiento.py` se mueve a `backend/tests/` y corre en el pipeline contra la migración de Alembic. **Cumplido en el sprint 0**
 
 **Pruebas:** `test_contexto_no_se_filtra_entre_peticiones`, `test_no_miembro_recibe_404`, `test_sistema_sin_grupo_cero_filas`, suite `test_aislamiento.py` completa
 
@@ -356,3 +358,4 @@ Si aun así no alcanza, MATU-03 se reduce a `Reloj` y a la prueba de arquitectur
 | 1.0 | Primer borrador: 27 h por sprint, 24 historias |
 | 1.1 | Primera revisión experta (nota 4,5). Capacidad real con reserva, alta de la persona fusionada con el consentimiento, dependencias invertidas corregidas, seguridad del relevo (token en el fragmento, AAD, HMAC), invitaciones y notificaciones fuera del tramo, orden de sacrificio |
 | 1.2 | Segunda revisión experta (nota 5,5). Orden de ejecución dentro de cada sprint, validación del JWT, listado con 404 cruzado para demostrar el aislamiento, estimaciones corregidas (MATU-12, 19 y 25), límite por IP en la API, fábricas y lista de lenguaje, revisión cruzada con horas, orden de sacrificio coherente con la definición de terminado, suspensión declarada de la regla de ejes |
+| 1.3 | Calendario v1.3: sprints de viernes a jueves desde el 16 de octubre, sprint 3 fusionado con el sprint 2 por el desarrollo asistido por IA, MATU-25 al sprint 3, estado del sprint 0 al 13 de octubre |

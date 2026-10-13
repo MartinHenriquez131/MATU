@@ -62,7 +62,7 @@ backend/tests/
 └── test_capa3_desacoplable.py   la app arranca sin la capa 3
 ```
 
-`test_aislamiento.py` **ya existe como prototipo** en `backend/db/tests/`, con 31 pruebas en verde contra PostgreSQL 16. En el sprint 1 se mueve a `backend/tests/` y se conecta a las migraciones de Alembic.
+`test_aislamiento.py` **ya existe** en `backend/tests/` del repositorio de desarrollo (MATU_PROYECTO), con 31 pruebas en verde. Desde el sprint 0 corre en el pipeline contra la base creada por la migración de Alembic.
 
 ---
 
@@ -219,7 +219,7 @@ Es la prueba manual más importante del proyecto: si falla, caen juntos el ADR-0
 | 4 | Autorización diferida con tarjeta de **débito** | Tarjeta de prueba de débito | Registrar qué pasa | Si no admite diferido: rechazar débito en el flujo con reparto y decirlo en la interfaz (sección 17) |
 | 5 | Retorno de pasarela recibido dos veces | Repetir el `commit` con el mismo token | Un solo cobro | Revisar la idempotencia |
 
-**Se registra** cada caso con fecha, monto, código de respuesta y captura de pantalla en `docs/poc-transbank.md`. El resultado real reemplaza a la afirmación del proveedor en la sección 18.1 de la arquitectura.
+**Se registra** cada caso con fecha, monto, código de respuesta y captura de pantalla en `docs/pruebas-concepto/transbank.md`. El resultado real reemplaza a la afirmación del proveedor en la sección 18.1 de la arquitectura.
 
 ---
 
@@ -255,8 +255,8 @@ El punto 6 es nuevo respecto de la arquitectura y formaliza la regla 3 de la sec
 
 | Sprint | Entregable de prueba |
 |---|---|
-| 0 | Esta estrategia · prueba de concepto de Transbank · prototipo de `test_aislamiento.py` en verde |
-| 1 | `test_aislamiento.py` conectado a Alembic · `test_arquitectura.py` que no pasa en vacío · dobles de `Reloj` y `CustodiaClaves` · pruebas de identidad, grupo, persona cuidada y consentimiento |
+| 0 | Esta estrategia · prueba de concepto de Transbank (parcial) · `test_aislamiento.py` conectado a Alembic y en verde en el pipeline |
+| 1 | Casos pendientes de la prueba de Transbank · `test_arquitectura.py` que no pasa en vacío · dobles de `Reloj` y `CustodiaClaves` · pruebas de identidad, grupo, persona cuidada y consentimiento |
 | 2 | Pruebas de cifrado con AAD, ficha, concurrencia optimista (412 y 428) y auditoría · fábricas de datos sintéticos |
 | 3 | Pruebas del relevo completo (410, 423, sesión sin grupo) · e2e `test_recorrido_relevo` en staging |
 | 4 | `test_capa3_desacoplable.py` · pruebas de widget con accesibilidad · prueba en un dispositivo real de gama baja · refresh rotativo |
