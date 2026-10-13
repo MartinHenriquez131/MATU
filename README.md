@@ -2,12 +2,15 @@
 
 Proyecto de Capstone · Ingeniería en Informática · DUOC UC · segundo semestre 2026
 
-> **Estado: anteproyecto validado.** Este repositorio contiene el diseño del
-> sistema —arquitectura v1.1, modelo de datos, decisiones técnicas y prototipo
-> de interfaz—, el protocolo de validación y **sus resultados**: las diez
-> entrevistas con cuidadoras que fijó el protocolo como meta, con veredicto por
-> hipótesis contra criterios escritos antes de entrevistar. **Todavía no hay
-> código.** El desarrollo comienza en el sprint 0, en la semana 7.
+> **Estado: anteproyecto validado, en desarrollo.** Este repositorio reúne las
+> evidencias de cada fase del curso y los documentos que las respaldan: el
+> diseño del sistema —arquitectura v1.1, modelo de datos, decisiones técnicas y
+> prototipo de interfaz—, el protocolo de validación y **sus resultados**: las
+> diez entrevistas con cuidadoras que fijó el protocolo como meta, con veredicto
+> por hipótesis contra criterios escritos antes de entrevistar.
+>
+> **El código vive en un repositorio aparte:
+> [MATU_PROYECTO](https://github.com/MartinHenriquez131/MATU_PROYECTO).**
 
 ## Descripción
 
@@ -161,50 +164,44 @@ Definiciones de diseño relevantes:
 
 ```
 MATU/
-├── backend/
-│   └── db/                        modelo de datos ejecutable · PostgreSQL 16
-│       ├── 00_roles.sql           los cuatro roles de base de datos
-│       ├── 01_esquema.sql         49 tablas, restricciones e índices
-│       ├── 02_rls.sql             94 políticas de aislamiento por fila
-│       ├── 03_permisos.sql        permisos por rol
-│       ├── rebuild.sh             reconstruye la base desde cero
-│       ├── gen_diagramas.py       genera los diagramas desde la base
-│       ├── gen_matriz.py          genera la matriz de acceso
-│       └── tests/
-│           └── test_aislamiento.py   31 pruebas contra PostgreSQL real
-├── docs/
-│   ├── arquitectura.md            documento de arquitectura · se lee en GitHub
-│   ├── arquitectura.html          la misma versión, navegable y para imprimir
-│   ├── modelo-datos.md            modelo de datos completo, con diagramas
-│   ├── estrategia-pruebas.md      niveles, metas, puertas del pipeline y definición de terminado
-│   ├── backlog-sprints-1-3.md     historias, criterios y estimación del tramo
-│   ├── protocolo-entrevistas.md   guion y criterios de falsación
-│   ├── resultados-entrevistas.md  veredicto por hipótesis y mediciones
-│   ├── ficha-proyecto.docx        ficha de una página, formato del curso
-│   ├── adr/
-│   │   └── ADR-023-cierre.md      se activa el modo ficha de relevo
-│   ├── diagramas/
-│   │   └── modelo-datos/          13 diagramas en .mmd, .svg y .png
-│   ├── entrevistas/               diez fichas anonimizadas
-│   ├── prototipo/
-│   │   ├── prototipo-v1.1.html    36 pantallas · 7 recorridos · documentado
-│   │   ├── prototipo-pruebas.html la misma interfaz, limpia, para pruebas
-│   │   └── gen_prototipo.py       genera las dos versiones
-│   └── sprints/
-│       └── sprint-1-planificacion.md
-├── Fase 1/                        evidencias del curso fase 1
-    ├── evidencias individuales    
-    └── evidencias individuales                        
-├── Fase 2/                        evidencias del curso fase 2
-    ├── evidencias individuales
-    ├── evidencias grupales
-    └── evidencias proyecto
-└── Fase 3/                        evidencias del curso fase final
+├── README.md
+├── Fase 1/                        evidencias del curso · fase 1
+│   ├── Evidencias Grupales/
+│   └── Evidencias Individuales/
+├── Fase 2/                        evidencias del curso · fase 2
+│   ├── Evidencias Grupales/
+│   ├── Evidencias Individuales/
+│   └── Evidencias Proyecto/
+├── Fase 3/                        evidencias del curso · fase final
+│   ├── Evidencias Grupales/
+│   └── Evidencias Individuales/
+└── docs/                          documentos que respaldan las evidencias
+    ├── arquitectura.md            documento de arquitectura · se lee en GitHub
+    ├── arquitectura.html          la misma versión, navegable y para imprimir
+    ├── modelo-datos.md            modelo de datos completo, con diagramas
+    ├── estrategia-pruebas.md      niveles, metas, puertas del pipeline y definición de terminado
+    ├── backlog-sprints-1-3.md     historias, criterios y estimación del tramo
+    ├── protocolo-entrevistas.md   guion y criterios de falsación
+    ├── resultados-entrevistas.md  veredicto por hipótesis y mediciones
+    ├── ficha-proyecto.docx        ficha de una página, formato del curso
+    ├── adr/
+    │   └── ADR-023-cierre.md      se activa el modo ficha de relevo
+    ├── diagramas/
+    │   └── modelo-datos/          13 diagramas en .mmd, .svg y .png
+    ├── entrevistas/               diez fichas anonimizadas
+    ├── prototipo/
+    │   ├── prototipo-v1.1.html    36 pantallas · 7 recorridos · documentado
+    │   ├── prototipo-pruebas.html la misma interfaz, limpia, para pruebas
+    │   └── gen_prototipo.py       genera las dos versiones
+    └── sprints/
+        └── sprint-1-planificacion.md
 ```
 
-El código se incorporará en `backend/`, `mobile/`, `web/` e `infra/` a medida
-que avancen los sprints, según la estructura comprometida en el anexo 19.1 del
-documento de arquitectura.
+El código no está en este repositorio. Vive en
+[MATU_PROYECTO](https://github.com/MartinHenriquez131/MATU_PROYECTO), con la estructura
+comprometida en el anexo 19.1 del documento de arquitectura: `backend/`,
+`mobile/`, `web/` e `infra/`. El modelo de datos ejecutable, con sus 31 pruebas
+de aislamiento, está ahí en `backend/db/`.
 
 ## Tecnologías previstas
 
@@ -220,26 +217,19 @@ documento de arquitectura.
 | Infraestructura | Docker, Docker Compose |
 | Integración continua | GitHub Actions |
 | Control de versiones | Git, GitHub |
-| Gestión de tareas | GitHub Projects |
+| Gestión de tareas | Trello |
 
 Las decisiones detrás de cada elección, y las alternativas que se descartaron,
 están en los ADR del documento de arquitectura.
 
 ## Instrucciones para ejecutar
 
-Aún no hay código ejecutable en el repositorio. Esta sección se completará al
-cierre del **sprint 1**, cuando exista la primera rebanada vertical de la capa 1.
+Este repositorio no tiene nada que ejecutar. Los documentos `.md` se leen
+directo en GitHub, y los `.html` y `.docx` se descargan y se abren en el
+computador.
 
-El entorno previsto será:
-
-```
-git clone https://github.com/MartinHenriquez131/MATU.git
-cd MATU/backend
-python -m venv venv && source venv/bin/activate
-pip install -r requirements.txt
-docker compose up -d db
-uvicorn app.main:app --reload --port 8000
-```
+Las instrucciones para levantar el sistema están en el README de
+[MATU_PROYECTO](https://github.com/MartinHenriquez131/MATU_PROYECTO).
 
 ## Integrantes del equipo
 
