@@ -10,9 +10,11 @@
 
 ## 0. Qué es este documento
 
-Es el modelo de datos completo de MATU, listo para convertirse en la primera migración de Alembic en el sprint 1. No es un borrador: el esquema se ejecutó sobre PostgreSQL 16 y una suite de **31 pruebas de aislamiento** pasa en verde contra una base real.
+Es el modelo de datos completo de MATU. Desde el sprint 0 es la migración inicial de Alembic (`0001_esquema_inicial`) del repositorio de desarrollo. No es un borrador: el esquema se ejecutó sobre PostgreSQL 16 y una suite de **31 pruebas de aislamiento** pasa en verde contra una base real.
 
 Desarrolla la sección 7 de la arquitectura y la lleva al nivel de detalle que se puede construir. Donde este documento difiere de la arquitectura, lo dice y explica por qué en la **sección 10**. Esas diferencias salieron de escribir el esquema completo y probarlo, y la arquitectura debe actualizarse con ellas.
+
+El código vive en el repositorio de desarrollo, [MATU_PROYECTO](https://github.com/MartinHenriquez131/MATU_PROYECTO). Los diagramas viven aquí.
 
 | Archivo | Qué contiene |
 |---|---|
@@ -20,10 +22,11 @@ Desarrolla la sección 7 de la arquitectura y la lleva al nivel de detalle que s
 | `backend/db/01_esquema.sql` | 49 tablas, restricciones, índices y triggers |
 | `backend/db/02_rls.sql` | 94 políticas de Row Level Security |
 | `backend/db/03_permisos.sql` | Permisos por rol |
-| `backend/db/tests/test_aislamiento.py` | 31 pruebas contra PostgreSQL real |
-| `backend/db/rebuild.sh` | Reconstruye la base desde cero |
+| `backend/alembic/versions/0001_esquema_inicial.py` | Migración inicial: aplica los tres scripts del esquema, con vuelta atrás |
+| `backend/tests/test_aislamiento.py` | 31 pruebas contra PostgreSQL real |
+| `infra/postgres/init/10_matu.sh` | Crea los roles, la base y `btree_gist` al primer arranque |
 | `backend/db/gen_diagramas.py` | Genera los diagramas entidad-relación desde el catálogo de la base |
-| `docs/diagramas/modelo-datos/` | Los 13 diagramas en `.mmd`, `.svg` y `.png` |
+| `docs/diagramas/modelo-datos/` (en este repositorio) | Los 13 diagramas en `.mmd`, `.svg` y `.png` |
 
 **Los diagramas entidad-relación no están dibujados a mano.** Se generan leyendo el catálogo de PostgreSQL, así que no pueden quedar desalineados del esquema: si cambia una tabla, se vuelve a correr el script.
 
@@ -1220,18 +1223,23 @@ Cuando entre, `receta` será dato de salud: llevará la misma política que el p
 
 ## 13. Cómo se ejecuta
 
+Los pasos completos están en el README de MATU_PROYECTO. En resumen, desde la raíz de ese repositorio:
+
 ```bash
-# 1. Reconstruir la base desde cero (roles, esquema, RLS, permisos)
-cd backend/db && ./rebuild.sh
+# 1. Base con roles, base matu y btree_gist (la primera vez que se crea el volumen)
+docker compose --env-file .env -f infra/docker-compose.yml up -d
 
-# 2. Pruebas de aislamiento
-MATU_TEST_DSN="host=localhost port=5432 user=postgres dbname=matu" pytest -q tests/
+# 2. Esquema, RLS y permisos
+cd backend && alembic upgrade head
 
-# 3. Regenerar los diagramas después de cualquier cambio de esquema
-python gen_diagramas.py && python gen_matriz.py
+# 3. Pruebas de aislamiento
+pytest -q
+
+# 4. Regenerar los diagramas después de cualquier cambio de esquema
+python db/gen_diagramas.py && python db/gen_matriz.py
 ```
 
-**Paso a Alembic en el sprint 1.** `01_esquema.sql`, `02_rls.sql` y `03_permisos.sql` se convierten en la migración inicial (`op.execute` sobre cada archivo), con su `downgrade` correspondiente. `00_roles.sql` no es una migración: lo corre una sola vez el administrador de cada ambiente. `btree_gist` se crea con un usuario administrador en la migración 0, porque en PostgreSQL gestionado es una extensión permitida pero no la puede crear un rol sin privilegios.
+**Paso a Alembic, hecho en el sprint 0.** `01_esquema.sql`, `02_rls.sql` y `03_permisos.sql` forman la migración `0001_esquema_inicial`, con su vuelta atrás. `00_roles.sql` no es una migración: lo corre una sola vez el script de arranque de cada ambiente, junto con `btree_gist`, porque en PostgreSQL gestionado es una extensión permitida pero no la puede crear un rol sin privilegios. La tabla de versiones de Alembic vive en un esquema aparte (`alembic`), porque en `public` el script de RLS la alcanzaría como a cualquier tabla.
 
 ---
 

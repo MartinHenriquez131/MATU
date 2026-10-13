@@ -1,8 +1,8 @@
 # MATU — Planificación del sprint 1
 
-**Sprint:** 1 · semana 9 del ramo · lunes 5 a sábado 10 de octubre de 2026
+**Sprint:** 1 · viernes 16 a jueves 22 de octubre de 2026 · semanas 10 y 11 del ramo
 **Equipo:** Jorge Espinoza (Product Owner) · Martín Henríquez (Scrum Master)
-**Base:** Backlog sprints 1 a 3 v1.2
+**Base:** Backlog sprints 1 a 3 v1.2 · [Calendario de sprints v1.3](calendario-sprints.md)
 
 ---
 
@@ -10,7 +10,7 @@
 
 > **Una familia se registra, crea su grupo y da de alta a la persona cuidada con su consentimiento, y otra familia no puede ver nada de eso.**
 
-Es el primer incremento con código del proyecto. Deja resuelta la identidad y el aislamiento, que son la base de todo lo que viene, y entrega la primera evidencia de desarrollo para el **informe de avance de la semana 10** (20% de la nota semestral).
+Es el primer incremento con código de producto. Deja resueltas la identidad y el aislamiento, que son la base de todo lo que viene. **También mide el factor de vibecoding** del calendario v1.3, que decide si los sprints 2 a 5 se mantienen como están planificados.
 
 ## 2. Capacidad y compromiso
 
@@ -18,28 +18,40 @@ Es el primer incremento con código del proyecto. Deja resuelta la identidad y e
 |---|---|---|---|
 | Capacidad bruta | 15 h | 15 h | 30 h |
 | Ceremonias y refinamiento | 2 h | 2 h | 4 h |
-| Reserva | 2 h | 1 h (usa 1 h declarada) | 3 h |
-| **Comprometido** | **11 h** | **12 h** | **23 h** |
+| Reserva | 2 h | 1 h | 3 h |
+| **Capacidad real** | **11 h** | **12 h** | **23 h** |
+| **Horas estimadas comprometidas** | **12 h** | **14 h** | **26 h** |
 
-**Dos condiciones que hay que confirmar en la planificación, antes de comprometer:**
+Se comprometen 26 h estimadas contra 23 h reales, un factor de 1,13. Es menos de lo que supone el calendario (1,8) **a propósito**: el primer sprint con vibecoding es el que da el dato real, y comprometer de más justo ahí haría que el dato saliera de un sprint atrasado.
 
-1. **Jorge empieza la práctica profesional en MSD el 1 de octubre**, con 540 horas hasta el 30 de diciembre (unas 40 horas semanales). Las 15 horas semanales para el capstone se declararon antes de eso. **Si Jorge tiene menos de 15 h reales, su compromiso baja en la misma cantidad** siguiendo el orden de sacrificio: primero MATU-28 y MATU-27, después MATU-03 reducida a `Reloj`. MATU-26 y MATU-07 no se tocan.
-2. **Las tareas del sprint 0 (S0-A a S0-E) tienen que estar cerradas.** Si alguna quedó abierta, pasa a prioridad 0 y se aplica el mismo orden de sacrificio. La prueba de Transbank (S0-E) es prioridad 0 para los dos si no se hizo.
+**Dos condiciones que se confirman en la planificación del viernes 16, antes de comprometer:**
 
-## 3. Historias comprometidas y sus tareas
+1. **Jorge está en práctica profesional en MSD** desde el 1 de octubre, con unas 40 horas semanales. Si tiene menos de 11 h reales, su compromiso baja en la misma cantidad siguiendo el orden de sacrificio: primero MATU-28 y MATU-27, después MATU-03 reducida a `Reloj`. MATU-26 y MATU-07 no se tocan.
+2. **El factor real se registra al cierre.** Al terminar cada historia se anotan sus horas reales en la tarjeta de Trello.
+
+## 3. Pendientes del sprint 0 · prioridad 0
+
+| Tarea | Responsable | Horas | Criterio de cierre |
+|---|---|---|---|
+| **S0-A · Esqueleto de la API** | Martín | 2 | `app/main.py`, configuración, errores RFC 7807 y logs JSON con `request_id` y sin cuerpos de petición. MATU-04 lo necesita para empezar |
+| **S0-E · Prueba de concepto de Transbank** | Los dos | 1 | Casos 1, 2, 3 y 5 de la estrategia de pruebas (sección 10) con su resultado real en `docs/pruebas-concepto/transbank.md`. El caso 4 (débito) ya está respondido |
+
+## 4. Historias comprometidas y sus tareas
 
 El orden es el orden de ejecución.
 
-### Martín · 12 h
+### Martín · 14 h
 
 | # | Historia | Tareas | Horas |
 |---|---|---|---|
+| 0 | **S0-A** Esqueleto de la API | Ver sección 3 | 2 |
 | 1 | **MATU-04** Crear una cuenta | Esquema Pydantic y `POST /v1/usuarios` (0,5) · servicio con Argon2id y HMAC del email (0,5) · repositorio de `usuario` e `indice_credencial` (0,5) · pruebas (0,5) | 2 |
 | 2 | **MATU-05a** Iniciar sesión y validar el token | `POST /v1/sesiones` (1) · emisión del JWT y configuración de la clave (0,5) · dependencia `usuario_actual` con validación de firma, vencimiento y algoritmo (1) · pruebas con `RelojFijo` (1) | 3,5 |
-| 3 | **MATU-02** Contexto de tenant | Helper `sesion_tenant` (1) · dependencia con `X-Grupo-Id` y 404 (1) · mover `test_aislamiento.py` y conectarlo a Alembic (1) · pruebas de contexto entre peticiones (1) | 4 |
+| 3 | **MATU-02** Contexto de tenant | Helper `sesion_tenant` (1) · dependencia con `X-Grupo-Id` y 404 (1) · pruebas de contexto entre peticiones (1). La suite de aislamiento ya corre en el pipeline contra la migración de Alembic, así que esta tarea se cerró en el sprint 0 | 3 |
 | 4 | **MATU-06** Crear el grupo familiar | `POST` y `GET /v1/grupos` (1) · transacción grupo más admin, con identificador generado en la app (0,5) · pruebas (1) | 2,5 |
+| 5 | **S0-E** Prueba de Transbank, con Jorge | Ver sección 3 | 1 |
 
-### Jorge · 11 h
+### Jorge · 12 h
 
 | # | Historia | Tareas | Horas |
 |---|---|---|---|
@@ -48,23 +60,27 @@ El orden es el orden de ejecución.
 | 3 | **MATU-03** Puertos y prueba de arquitectura | Puertos `Reloj` y `CustodiaClaves` con sus dobles (1) · `test_arquitectura.py` con caso negativo (1) | 2 |
 | 4 | **MATU-27** Figura legal | Revisar opciones y escribir la decisión (1) | 1 |
 | 5 | **MATU-28** Anonimizar A55 | Editar la ficha (0,5) | 0,5 |
+| 6 | **S0-E** Prueba de Transbank, con Martín | Ver sección 3 | 1 |
 
-**Dependencia dentro del sprint.** Jorge construye MATU-07 contra una sesión simulada en las pruebas mientras Martín termina MATU-02. La integración con el contexto real es el último paso de MATU-07, y ocurre cuando MATU-02 está fusionada. Si el jueves MATU-02 no está fusionada, Jorge avisa en Discord y Martín la prioriza sobre MATU-06.
+**Si sobra capacidad**, se adelantan en este orden: **MATU-09** (contrato de API de la ficha y del relevo, Martín) y **MATU-30** (fábricas y lista de lenguaje, Martín). Las dos abren el sprint 2.
 
-## 4. Secuencia sugerida de la semana
+**Dependencia dentro del sprint.** Jorge construye MATU-07 contra una sesión simulada en las pruebas mientras Martín termina MATU-02. La integración con el contexto real es el último paso de MATU-07, y ocurre cuando MATU-02 está en `main`. Si el martes 20 MATU-02 no está lista, Jorge avisa en Discord y Martín la prioriza sobre MATU-06.
+
+## 5. Secuencia sugerida
 
 | Día | Martín | Jorge |
 |---|---|---|
-| Lunes 5 | Planificación (1 h) · MATU-04 | Planificación (1 h) · MATU-26 |
-| Martes 6 | MATU-05a | MATU-07: esquemas y servicio |
-| Miércoles 7 | MATU-05a · inicio MATU-02 | MATU-07: endpoints y reglas |
-| Jueves 8 | MATU-02 fusionada | MATU-07: pruebas · MATU-03 |
-| Viernes 9 | MATU-06 · revisión del PR de MATU-07 | Integración de MATU-07 con MATU-02 · MATU-27 · MATU-28 |
-| Sábado 10 | Revisión y retrospectiva (1 h) | Revisión y retrospectiva (1 h) |
+| Viernes 16 | Planificación (1 h) · S0-A | Planificación (1 h) · MATU-26 |
+| Sábado 17 | MATU-04 · MATU-05a | MATU-07: esquemas y servicio |
+| Domingo 18 | MATU-05a · inicio MATU-02 | MATU-07: endpoints y reglas |
+| Lunes 19 | MATU-02 · S0-E con Jorge | S0-E con Martín · MATU-07: pruebas |
+| Martes 20 | MATU-02 en `main` · MATU-06 | MATU-03 |
+| Miércoles 21 | MATU-06 · revisión del PR de MATU-07 | Integración de MATU-07 con MATU-02 · MATU-27 · MATU-28 |
+| Jueves 22 | Revisión y retrospectiva (1 h) | Revisión y retrospectiva (1 h) |
 
 Jorge revisa los PR de Martín y Martín los de Jorge. **MATU-07 toca datos sensibles: la revisión de Martín es obligatoria** (definición de terminado, punto 5).
 
-## 5. Definición de terminado
+## 6. Definición de terminado
 
 Una historia está terminada cuando, y solo cuando:
 
@@ -75,9 +91,11 @@ Una historia está terminada cuando, y solo cuando:
 5. Si toca dinero o datos sensibles, la revisa la otra persona. Sin excepción
 6. Si corrige un defecto, deja una prueba que falla sin la corrección
 
-## 6. Guion de la revisión del sprint
+**Con vibecoding no hay excepciones:** el código generado por el asistente cumple los mismos seis puntos que el escrito a mano.
 
-La revisión del sábado muestra el objetivo con este guion, en vivo contra el ambiente local:
+## 7. Guion de la revisión del sprint
+
+La revisión del jueves 22 muestra el objetivo con este guion, en vivo contra el ambiente local:
 
 ```bash
 # 1. Dos familias se registran e inician sesión
@@ -103,22 +121,21 @@ http POST :8000/v1/grupos/$G/personas-cuidadas "Authorization:Bearer $ANA" "X-Gr
 
 Y en pantalla, el pipeline en verde con `test_aislamiento.py` y `test_arquitectura.py`.
 
-## 7. Riesgos del sprint
+**Además, en la retrospectiva se calcula el factor de vibecoding** (horas estimadas de lo terminado dividido por horas reales) y se decide con él la planificación del sprint 2, según la sección 2 del calendario.
+
+## 8. Riesgos del sprint
 
 | Riesgo | Probabilidad | Qué se hace |
 |---|---|---|
 | Jorge tiene menos horas por la práctica | **Alta** | Se confirma en la planificación y se ajusta el compromiso antes de empezar, no a mitad de semana |
-| Una tarea del sprint 0 sigue abierta | Media | Prioridad 0 y orden de sacrificio |
+| El código generado pasa las pruebas pero no cumple la arquitectura | Media | `test_arquitectura.py` (MATU-03) y la revisión cruzada lo detectan. Por eso MATU-03 va en este sprint |
+| La prueba de Transbank vuelve a terminar anulada | Media | Se diagnostica con `poc_estado.py`. Si no se resuelve, el débito ya está respondido y los casos 1 a 3 se cierran en el sprint 2, antes de que importen (sprint 4) |
 | El `INSERT … RETURNING` con RLS falla al crear el grupo | Media | Ya está previsto en MATU-06: el identificador se genera en la aplicación |
-| MATU-02 se atrasa y bloquea la integración de MATU-07 | Media | Aviso el jueves y reprioriza sobre MATU-06 |
-| La entrega formativa 2.3 del ramo cae esta misma semana | Alta | No está en las 23 h. Se prepara con la evidencia de este sprint y se estima aparte |
+| MATU-02 se atrasa y bloquea la integración de MATU-07 | Media | Aviso el martes y repriorización sobre MATU-06 |
 
-## 8. Lo que este sprint deja para el informe de avance (semana 10)
+## 9. Qué deja este sprint para la entrega final (semana 15)
 
-- Repositorio con código ejecutable y pipeline en verde
-- Suite de aislamiento con 31 pruebas contra PostgreSQL real
-- Modelo de datos completo, documentado, con 13 diagramas
-- Cierre del ADR-023 con la evidencia de las 10 entrevistas
-- Guion de demostración reproducible
-
-**El sprint 2 cae en la semana 10, la del informe de avance.** Su planificación tiene que descontar las horas de redacción del informe, o el informe se hace fuera de las 15 horas. Conviene decidirlo en la retrospectiva de este sprint.
+- Primeros endpoints de producto con pruebas, en un pipeline que ya corre en verde
+- La suite de aislamiento corriendo contra la API real, no solo contra la base
+- El factor de vibecoding medido, con el que se confirma o se ajusta el calendario
+- La prueba de concepto de Transbank cerrada con sus cinco casos

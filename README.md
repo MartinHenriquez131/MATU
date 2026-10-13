@@ -101,8 +101,7 @@ suscripción, contra 429 para el modelo de solo despacho.
 adicionales que quedan pendientes no vienen de un déficit de muestra: vienen de
 la **regla de zona intermedia** que el propio protocolo fija, según la cual un
 resultado entre el umbral de validación y el de refutación obliga a ampliar la
-muestra antes de decidir, no a interpretarlo a favor. Se realizan en la semana
-9, con reclutamiento solo por canal concentrado.
+muestra antes de decidir, no a interpretarlo a favor. Se realizan antes del sprint 4 (6 de noviembre), con reclutamiento solo por canal concentrado.
 
 **Qué cambió el producto por esta validación.** La versión mínima del plan de
 cuidado pasó de ocho secciones a una ficha de tres campos (ADR-023), se agregó
@@ -169,8 +168,8 @@ MATU/
 │   ├── Evidencias Grupales/
 │   └── Evidencias Individuales/
 ├── Fase 2/                        evidencias del curso · fase 2
-│   ├── Evidencias Grupales/
-│   ├── Evidencias Individuales/
+│   ├── Evidencias Grupales/      informe de avance (2.3), guías 2.4 y 2.6 en español e inglés
+│   ├── Evidencias Individuales/  diarios de reflexión (2.1) y autoevaluaciones (2.2)
 │   └── Evidencias Proyecto/
 ├── Fase 3/                        evidencias del curso · fase final
 │   ├── Evidencias Grupales/
@@ -193,7 +192,10 @@ MATU/
     │   ├── prototipo-v1.1.html    36 pantallas · 7 recorridos · documentado
     │   ├── prototipo-pruebas.html la misma interfaz, limpia, para pruebas
     │   └── gen_prototipo.py       genera las dos versiones
+    ├── pruebas-concepto/
+    │   └── transbank.md           captura diferida · incompleta, se cierra en el sprint 1
     └── sprints/
+        ├── calendario-sprints.md  sprints de viernes a jueves · versión 1.3
         └── sprint-1-planificacion.md
 ```
 
@@ -238,20 +240,30 @@ Las instrucciones para levantar el sistema están en el README de
 
 ## Metodología de trabajo
 
-Scrum adaptado a un equipo de dos personas, con **sprints de una semana**. La
-definición, la arquitectura y la validación ocuparon las seis primeras semanas
-del semestre. La construcción ocupa **nueve semanas**, un sprint 0 de
-preparación en la semana 7 y ocho sprints de una semana entre las semanas 8 y
-15. El sprint N corresponde a la semana N más 7.
+Scrum adaptado a un equipo de dos personas, con **sprints de una semana que
+corren de viernes a jueves**. La definición, la arquitectura y la validación
+ocuparon las seis primeras semanas del semestre. El sprint 0 de preparación se
+extendió de la semana 7 a la 10, mientras se acordaba con el docente el entorno
+de desarrollo. Desde el **viernes 16 de octubre** hay cinco sprints de
+desarrollo hasta el 19 de noviembre, y dos sprints de reserva antes de la
+presentación final.
 
-Capacidad declarada de **15 horas semanales por persona**, es decir **270 horas**
-en la ventana de construcción, contra un alcance comprometido de **213 horas**,
-un 21% de holgura. El alcance se recortó dos veces y siempre antes de construir:
-41 horas al cerrar el diseño y 160 al cerrar la Fase 1. La segunda tanda saca el
-reparto multi-pagador y la reposición programada, y cada línea de ese recorte
-tiene justificación de evidencia además de la de capacidad.
+El desarrollo es **asistido por inteligencia artificial**. Eso permite agrupar
+en cinco sprints el alcance que la arquitectura repartía en ocho, con tres
+controles: la definición de terminado no tiene excepciones para el código
+generado, los casos de prueba de las reglas críticas los decide el equipo, y
+nunca se entregan datos reales ni secretos al asistente. El factor de
+aceleración se mide en el sprint 1 antes de comprometer el resto.
 
-El plan de sprints está en la sección 15 del documento de arquitectura.
+Capacidad declarada de **15 horas semanales por persona**, contra un alcance
+comprometido de **213 horas**. El alcance se recortó dos veces y siempre antes
+de construir: 41 horas al cerrar el diseño y 160 al cerrar la Fase 1. La
+segunda tanda saca el reparto multi-pagador y la reposición programada, y cada
+línea de ese recorte tiene justificación de evidencia además de la de capacidad.
+
+El calendario vigente está en [docs/sprints/calendario-sprints.md](docs/sprints/calendario-sprints.md),
+y reemplaza las fechas de la sección 15.4 del documento de arquitectura. Las
+tareas se gestionan en Trello.
 
 ## Otros documentos
 
@@ -264,6 +276,11 @@ El plan de sprints está en la sección 15 del documento de arquitectura.
   metas por capa, puertas del pipeline y definición de terminado.
 * [Backlog de los sprints 1 a 3](docs/backlog-sprints-1-3.md) — historias con
   criterios de aceptación, estimación y orden de sacrificio.
+* [Calendario de sprints](docs/sprints/calendario-sprints.md) y
+  [planificación del sprint 1](docs/sprints/sprint-1-planificacion.md) — fechas,
+  supuesto de desarrollo asistido por IA y qué entra en cada sprint.
+* [Prueba de concepto de Transbank](docs/pruebas-concepto/transbank.md) — el
+  débito no admite captura diferida. Los demás casos se cierran en el sprint 1.
 * [Prototipo de interfaz](docs/prototipo/prototipo-v1.1.html) — 36 pantallas y
   7 recorridos, más una [versión limpia](docs/prototipo/prototipo-pruebas.html)
   para pruebas con usuarios.
