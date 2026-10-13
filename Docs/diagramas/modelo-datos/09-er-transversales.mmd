@@ -1,0 +1,107 @@
+---
+title: MATU · Transversales · auditoría, outbox, idempotencia, notificaciones e incidencias
+---
+erDiagram
+    usuario ||--o{ grupo_familiar : "creado_por"
+    grupo_familiar ||--o{ idempotencia : "grupo_id"
+    usuario ||--o{ idempotencia : "usuario_id"
+    usuario ||--o{ incidencia : "asignada_a"
+    usuario ||--o{ incidencia : "creada_por"
+    pedido ||--o{ incidencia : "pedido_id"
+    grupo_familiar ||--o{ notificacion : "grupo_id"
+    usuario ||--o{ notificacion : "usuario_id"
+    usuario ||--o{ pedido : "creado_por"
+    grupo_familiar ||--o{ pedido : "grupo_id"
+    usuario ||--o{ preferencia_notificacion : "usuario_id"
+    auditoria {
+        bigint id PK
+        uuid grupo_id "opcional"
+        text actor_tipo
+        uuid actor_ref "opcional"
+        text accion
+        text entidad
+        uuid entidad_id "opcional"
+        text motivo "opcional"
+        inet ip "opcional"
+        text request_id "opcional"
+        timestamptz ocurrido_en
+    }
+    evento_outbox {
+        bigint id PK
+        uuid grupo_id "opcional"
+        text tipo
+        text agregado_tipo
+        uuid agregado_id
+        jsonb payload
+        timestamptz creado_en
+        timestamptz disponible_en
+        smallint intentos
+        timestamptz publicado_en "opcional"
+        timestamptz fallido_en "opcional"
+    }
+    evento_consumido {
+        bigint evento_id
+        text consumidor
+        timestamptz consumido_en
+    }
+    idempotencia {
+        uuid grupo_id FK
+        text endpoint
+        text clave
+        uuid usuario_id FK
+        bytea hash_peticion
+        smallint estado_http "opcional"
+        jsonb respuesta "opcional"
+        timestamptz creada_en
+        timestamptz expira_en
+    }
+    indice_token {
+        bytea token_hash PK
+        text tipo
+        uuid grupo_id "opcional"
+        uuid usuario_id "opcional"
+        uuid referencia_id
+        timestamptz expira_en
+        timestamptz creado_en
+    }
+    notificacion {
+        uuid id PK
+        uuid usuario_id FK
+        uuid grupo_id FK "opcional"
+        bigint evento_id
+        text canal
+        text plantilla
+        text estado
+        timestamptz creada_en
+        timestamptz enviada_en "opcional"
+        text error "opcional"
+    }
+    preferencia_notificacion {
+        uuid usuario_id FK
+        text tipo_evento
+        text canal
+        bool activo
+        time silencio_desde "opcional"
+        time silencio_hasta "opcional"
+    }
+    incidencia {
+        uuid id PK
+        uuid pedido_id FK
+        text tipo
+        text descripcion
+        text estado
+        uuid creada_por FK
+        uuid asignada_a FK "opcional"
+        text resolucion "opcional"
+        timestamptz creada_en
+        timestamptz resuelta_en "opcional"
+    }
+    usuario {
+        uuid id PK
+    }
+    grupo_familiar {
+        uuid id PK
+    }
+    pedido {
+        uuid id PK
+    }

@@ -1,0 +1,76 @@
+---
+title: MATU · Capa 1 · Plan de cuidado, cifrado y relevo
+---
+erDiagram
+    grupo_familiar ||--o{ acceso_relevo : "grupo_id"
+    usuario ||--o{ acceso_relevo : "otorgado_por"
+    plan_cuidado ||--o{ acceso_relevo : "plan_id"
+    grupo_familiar ||--o{ clave_datos : "grupo_id"
+    persona_cuidada ||--o| clave_datos : "persona_cuidada_id"
+    usuario ||--o{ grupo_familiar : "creado_por"
+    grupo_familiar ||--o{ persona_cuidada : "grupo_id"
+    usuario ||--o{ plan_cuidado : "actualizado_por"
+    grupo_familiar ||--o{ plan_cuidado : "grupo_id"
+    persona_cuidada ||--o| plan_cuidado : "persona_cuidada_id"
+    usuario ||--o{ plan_seccion : "actualizado_por"
+    plan_cuidado ||--o{ plan_seccion : "plan_id"
+    clave_datos {
+        uuid id PK
+        uuid grupo_id FK
+        uuid persona_cuidada_id FK, UK
+        bytea dek_cifrada_con_kek "opcional"
+        int kek_version
+        timestamptz creada_en
+        timestamptz rotada_en "opcional"
+        timestamptz destruida_en "opcional"
+    }
+    plan_cuidado {
+        uuid id PK
+        uuid grupo_id FK
+        uuid persona_cuidada_id FK, UK
+        text modo
+        smallint completitud_pct
+        uuid actualizado_por FK "opcional"
+        timestamptz creado_en
+        timestamptz actualizado_en
+    }
+    plan_seccion {
+        uuid id PK
+        uuid plan_id FK
+        text tipo
+        bytea contenido_cifrado
+        bytea nonce
+        bytea tag_auth
+        int kek_version
+        int version
+        uuid actualizado_por FK "opcional"
+        timestamptz actualizado_en
+    }
+    acceso_relevo {
+        uuid id PK
+        uuid grupo_id FK
+        uuid plan_id FK
+        uuid otorgado_por FK
+        text otorgado_a_nombre
+        text otorgado_a_telefono
+        text nombre_pila_persona
+        text_array secciones_permitidas
+        text motivo
+        bytea token_hash UK
+        text pin_hash
+        smallint pin_intentos_fallidos
+        timestamptz creado_en
+        timestamptz expira_en
+        timestamptz revocado_en "opcional"
+        int usos
+        timestamptz ultimo_uso_en "opcional"
+    }
+    persona_cuidada {
+        uuid id PK
+    }
+    grupo_familiar {
+        uuid id PK
+    }
+    usuario {
+        uuid id PK
+    }

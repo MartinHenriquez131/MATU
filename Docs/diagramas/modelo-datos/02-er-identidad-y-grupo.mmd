@@ -1,0 +1,134 @@
+---
+title: MATU · Identidad, grupo familiar y consentimiento
+---
+erDiagram
+    grupo_familiar ||--o{ consentimiento : "grupo_id"
+    persona_cuidada ||--o{ consentimiento : "persona_cuidada_id"
+    usuario ||--o{ consentimiento : "usuario_id"
+    grupo_familiar ||--o{ direccion : "grupo_id"
+    usuario ||--o{ dispositivo : "usuario_id"
+    usuario ||--o{ grupo_familiar : "creado_por"
+    usuario ||--o| indice_credencial : "usuario_id"
+    usuario ||--o{ invitacion : "aceptada_por"
+    grupo_familiar ||--o{ invitacion : "grupo_id"
+    usuario ||--o{ invitacion : "invitado_por"
+    grupo_familiar ||--o{ membresia : "grupo_id"
+    usuario ||--o{ membresia : "invitado_por"
+    usuario ||--o{ membresia : "usuario_id"
+    direccion ||--o{ persona_cuidada : "direccion_entrega_id"
+    grupo_familiar ||--o{ persona_cuidada : "grupo_id"
+    dispositivo ||--o{ sesion_refresh : "dispositivo_id"
+    usuario ||--o{ sesion_refresh : "usuario_id"
+    usuario {
+        uuid id PK
+        text email
+        text telefono "opcional"
+        text nombre
+        text password_hash
+        bytea mfa_secreto_cifrado "opcional"
+        bool es_operacion
+        text estado
+        timestamptz email_verificado_en "opcional"
+        timestamptz creado_en
+        timestamptz actualizado_en
+        timestamptz eliminado_en "opcional"
+    }
+    indice_credencial {
+        bytea email_hash PK
+        uuid usuario_id FK, UK
+    }
+    dispositivo {
+        uuid id PK
+        uuid usuario_id FK
+        text plataforma
+        text nombre "opcional"
+        text push_token "opcional"
+        timestamptz creado_en
+        timestamptz ultimo_uso_en "opcional"
+        timestamptz revocado_en "opcional"
+    }
+    sesion_refresh {
+        uuid id PK
+        uuid usuario_id FK
+        uuid dispositivo_id FK
+        uuid familia_id
+        bytea token_hash UK
+        timestamptz emitido_en
+        timestamptz expira_en
+        timestamptz usado_en "opcional"
+        timestamptz revocado_en "opcional"
+        text motivo_revocacion "opcional"
+    }
+    grupo_familiar {
+        uuid id PK
+        text nombre
+        text estado
+        uuid creado_por FK
+        timestamptz creado_en
+        timestamptz actualizado_en
+    }
+    membresia {
+        uuid id PK
+        uuid grupo_id FK
+        uuid usuario_id FK
+        text rol
+        bool puede_ver_plan
+        text estado
+        uuid invitado_por FK "opcional"
+        timestamptz unido_en
+        timestamptz retirado_en "opcional"
+    }
+    invitacion {
+        uuid id PK
+        uuid grupo_id FK
+        text destino_email "opcional"
+        text destino_telefono "opcional"
+        text rol
+        bytea token_hash UK
+        uuid invitado_por FK
+        timestamptz creada_en
+        timestamptz expira_en
+        timestamptz aceptada_en "opcional"
+        uuid aceptada_por FK "opcional"
+        timestamptz revocada_en "opcional"
+    }
+    direccion {
+        uuid id PK
+        uuid grupo_id FK
+        text etiqueta
+        text calle
+        text numero
+        text depto "opcional"
+        text comuna
+        text region
+        text referencia "opcional"
+        numeric lat "opcional"
+        numeric lng "opcional"
+        timestamptz creado_en
+    }
+    persona_cuidada {
+        uuid id PK
+        uuid grupo_id FK
+        text nombre
+        text nombre_pila
+        text nivel_apoyo
+        uuid direccion_entrega_id FK "opcional"
+        bool activa
+        timestamptz creado_en
+        timestamptz actualizado_en
+        timestamptz eliminado_en "opcional"
+    }
+    consentimiento {
+        uuid id PK
+        uuid grupo_id FK
+        uuid persona_cuidada_id FK
+        uuid usuario_id FK
+        text calidad_otorgante
+        text finalidad
+        text version_politica
+        jsonb evidencia
+        text referencia_documento "opcional"
+        timestamptz otorgado_en
+        timestamptz revision_vence_en "opcional"
+        timestamptz revocado_en "opcional"
+    }

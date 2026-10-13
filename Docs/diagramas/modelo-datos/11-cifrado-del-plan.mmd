@@ -1,0 +1,16 @@
+---
+title: MATU · Cifrado del plan de cuidado en dos niveles (ADR-014 y ADR-016)
+---
+flowchart LR
+    KMS[("<b>Custodia de secretos</b><br/>KEK · clave maestra<br/>nunca sale del servicio")]
+    CD["<b>clave_datos</b><br/>una DEK por persona cuidada<br/>guardada cifrada con la KEK<br/>kek_version"]
+    PS["<b>plan_seccion</b><br/>contenido_cifrado con la DEK<br/>AES-256-GCM<br/>nonce de 12 bytes único · tag de 16"]
+    API["API MATU<br/>descifra en memoria<br/>y nunca registra el texto"]
+    BORRAR["Derecho de supresión<br/>dek = NULL + destruida_en<br/>= borrado criptográfico"]
+    KMS -->|"descifra la DEK"| API
+    CD -->|"DEK cifrada"| API
+    PS -->|"sección cifrada"| API
+    API -->|"texto solo a quien la política permite"| U["Familia o relevo"]
+    CD -.-> BORRAR
+    style KMS fill:#eaf1fd,stroke:#2a78d6,stroke-width:2px
+    style BORRAR fill:#fdecec,stroke:#c0392b

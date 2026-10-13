@@ -1,0 +1,55 @@
+---
+title: MATU · Capa 2 · Perfil de consumo, reposiciones y alertas
+---
+erDiagram
+    perfil_consumo ||--o{ alerta_quiebre : "perfil_id"
+    grupo_familiar ||--o{ perfil_consumo : "grupo_id"
+    persona_cuidada ||--o{ perfil_consumo : "persona_cuidada_id"
+    producto ||--o{ perfil_consumo : "producto_id"
+    grupo_familiar ||--o{ persona_cuidada : "grupo_id"
+    perfil_consumo ||--o{ reposicion : "perfil_id"
+    perfil_consumo {
+        uuid id PK
+        uuid grupo_id FK
+        uuid persona_cuidada_id FK
+        uuid producto_id FK "opcional"
+        text nombre_libre "opcional"
+        text unidad
+        int tasa_unidades
+        int tasa_dias
+        int stock_unidades
+        date stock_medido_en
+        date fecha_quiebre_estimada
+        smallint dias_aviso
+        bool activo
+        timestamptz creado_en
+        timestamptz actualizado_en
+    }
+    reposicion {
+        uuid id PK
+        uuid perfil_id FK
+        int cantidad_unidades
+        text origen
+        uuid pedido_ref "opcional"
+        date ocurrida_en
+        uuid registrada_por FK "opcional"
+        timestamptz registrada_en
+    }
+    alerta_quiebre {
+        uuid id PK
+        uuid perfil_id FK
+        date fecha_prevista
+        text estado
+        timestamptz creada_en
+        timestamptz notificada_en "opcional"
+        timestamptz cerrada_en "opcional"
+    }
+    persona_cuidada {
+        uuid id PK
+    }
+    producto {
+        uuid id PK
+    }
+    grupo_familiar {
+        uuid id PK
+    }

@@ -1,0 +1,130 @@
+---
+title: MATU · Capa 3 · Pedido, sustitución y reposición programada
+---
+erDiagram
+    pedido ||--o{ ocurrencia : "pedido_id"
+    plan_reposicion ||--o{ ocurrencia : "plan_reposicion_id"
+    comercio ||--o{ oferta : "comercio_id"
+    producto ||--o{ oferta : "producto_id"
+    comercio ||--o{ pedido : "comercio_id"
+    persona_cuidada ||--o{ pedido : "persona_cuidada_id"
+    pedido ||--o| pedido_entrega : "pedido_id"
+    oferta ||--o{ pedido_linea : "oferta_id"
+    pedido ||--o{ pedido_linea : "pedido_id"
+    producto ||--o{ pedido_linea : "producto_id"
+    pedido_linea ||--o{ pedido_linea : "sustituto_de_linea_id"
+    pedido ||--o{ pedido_transicion : "pedido_id"
+    persona_cuidada ||--o{ perfil_consumo : "persona_cuidada_id"
+    producto ||--o{ perfil_consumo : "producto_id"
+    comercio ||--o{ plan_reposicion : "comercio_id"
+    persona_cuidada ||--o{ plan_reposicion : "persona_cuidada_id"
+    perfil_consumo ||--o{ plan_reposicion_linea : "perfil_consumo_id"
+    plan_reposicion ||--o{ plan_reposicion_linea : "plan_reposicion_id"
+    producto ||--o{ plan_reposicion_linea : "producto_id"
+    pedido ||--o{ regla_sustitucion : "pedido_id"
+    producto ||--o{ regla_sustitucion : "producto_id"
+    producto ||--o{ regla_sustitucion : "producto_sustituto_id"
+    pedido {
+        uuid id PK
+        uuid grupo_id FK
+        uuid persona_cuidada_id FK
+        uuid comercio_id FK
+        text estado
+        text modo_cumplimiento
+        text origen
+        tstzrange ventana_entrega "opcional"
+        bigint total_estimado
+        bigint total_autorizado "opcional"
+        bigint total_real "opcional"
+        text destinatario_nombre_pila
+        text codigo_retiro_hash "opcional"
+        timestamptz codigo_retiro_expira_en "opcional"
+        timestamptz codigo_retiro_usado_en "opcional"
+        timestamptz editable_hasta "opcional"
+        uuid creado_por FK
+        timestamptz creado_en
+        timestamptz actualizado_en
+        int version
+    }
+    pedido_entrega {
+        uuid pedido_id PK, FK
+        text calle
+        text numero
+        text depto "opcional"
+        text comuna
+        text referencia "opcional"
+        numeric lat "opcional"
+        numeric lng "opcional"
+        text telefono_contacto
+    }
+    pedido_linea {
+        uuid id PK
+        uuid pedido_id FK
+        uuid oferta_id FK
+        uuid producto_id FK
+        int cantidad
+        bigint precio_snapshot
+        bigint precio_real "opcional"
+        text estado_linea
+        uuid sustituto_de_linea_id FK "opcional"
+        timestamptz creado_en
+    }
+    regla_sustitucion {
+        uuid id PK
+        uuid pedido_id FK
+        uuid producto_id FK
+        text accion
+        uuid producto_sustituto_id FK "opcional"
+        bigint precio_maximo "opcional"
+    }
+    pedido_transicion {
+        bigint id PK
+        uuid pedido_id FK
+        text desde "opcional"
+        text hacia
+        text actor_tipo
+        uuid actor_ref "opcional"
+        text motivo "opcional"
+        timestamptz ocurrido_en
+    }
+    plan_reposicion {
+        uuid id PK
+        uuid grupo_id FK
+        uuid persona_cuidada_id FK
+        uuid comercio_id FK
+        smallint frecuencia_dias
+        date proxima_fecha
+        text estado
+        uuid creado_por FK
+        timestamptz creado_en
+    }
+    plan_reposicion_linea {
+        uuid id PK
+        uuid plan_reposicion_id FK
+        uuid producto_id FK
+        uuid perfil_consumo_id FK "opcional"
+        int cantidad_envases
+    }
+    ocurrencia {
+        uuid id PK
+        uuid plan_reposicion_id FK
+        date fecha_programada
+        text estado
+        uuid pedido_id FK "opcional"
+        timestamptz creada_en
+    }
+    oferta {
+        uuid id PK
+    }
+    producto {
+        uuid id PK
+    }
+    comercio {
+        uuid id PK
+    }
+    persona_cuidada {
+        uuid id PK
+    }
+    perfil_consumo {
+        uuid id PK
+    }

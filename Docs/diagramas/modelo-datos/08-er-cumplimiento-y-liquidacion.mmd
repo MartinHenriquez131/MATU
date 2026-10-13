@@ -1,0 +1,93 @@
+---
+title: MATU · Capa 3 · Cumplimiento y liquidación al comercio
+---
+erDiagram
+    pedido ||--o{ asignacion : "pedido_id"
+    repartidor ||--o{ asignacion : "repartidor_id"
+    comercio ||--o{ consumo_comercio : "comercio_id"
+    evidencia ||--o{ consumo_comercio : "evidencia_id"
+    liquidacion ||--o{ consumo_comercio : "liquidacion_id"
+    pedido ||--o| consumo_comercio : "pedido_id"
+    pedido ||--o{ evidencia : "pedido_id"
+    comercio ||--o{ liquidacion : "comercio_id"
+    pedido ||--o{ oferta_asignacion : "pedido_id"
+    repartidor ||--o{ oferta_asignacion : "repartidor_id"
+    comercio ||--o{ pedido : "comercio_id"
+    usuario ||--o{ pedido : "creado_por"
+    usuario ||--o| repartidor : "usuario_id"
+    repartidor {
+        uuid id PK
+        uuid usuario_id FK, UK
+        text vehiculo
+        text comuna_base
+        int tasa_aceptacion_bp
+        text estado
+        timestamptz creado_en
+    }
+    oferta_asignacion {
+        uuid id PK
+        uuid pedido_id FK
+        uuid repartidor_id FK
+        smallint orden_cascada
+        timestamptz ofrecido_en
+        timestamptz expira_en
+        text resultado
+        timestamptz respondido_en "opcional"
+    }
+    asignacion {
+        uuid id PK
+        uuid grupo_id FK
+        uuid pedido_id FK
+        uuid repartidor_id FK
+        text estado
+        timestamptz aceptada_en
+        timestamptz retirado_en "opcional"
+        timestamptz entregado_en "opcional"
+        timestamptz abandonada_en "opcional"
+    }
+    evidencia {
+        uuid id PK
+        uuid pedido_id FK
+        text tipo
+        text objeto_clave
+        bytea sha256
+        numeric lat "opcional"
+        numeric lng "opcional"
+        text registrada_por_tipo
+        uuid registrada_por
+        timestamptz registrada_en
+    }
+    consumo_comercio {
+        uuid id PK
+        uuid comercio_id FK
+        uuid pedido_id FK, UK
+        bigint monto_autorizado
+        bigint monto_boleta
+        text folio_boleta
+        uuid evidencia_id FK "opcional"
+        text estado
+        int desviacion_bp
+        uuid liquidacion_id FK "opcional"
+        timestamptz creado_en
+    }
+    liquidacion {
+        uuid id PK
+        uuid comercio_id FK
+        daterange periodo
+        bigint monto_bruto
+        bigint monto_comision
+        bigint monto_neto
+        text estado
+        text factura_ref "opcional"
+        timestamptz cerrada_en "opcional"
+        timestamptz pagada_en "opcional"
+    }
+    pedido {
+        uuid id PK
+    }
+    comercio {
+        uuid id PK
+    }
+    usuario {
+        uuid id PK
+    }

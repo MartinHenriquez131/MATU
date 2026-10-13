@@ -1,0 +1,44 @@
+---
+title: MATU · Tablas por módulo y capa (dependencias siempre hacia abajo)
+---
+flowchart TB
+    subgraph T["Transversales"]
+        direction LR
+        IAM["<b>iam</b><br/>usuario · dispositivo<br/>sesion_refresh · indice_credencial"]
+        CC["<b>care_circle</b><br/>grupo_familiar · membresia<br/>invitacion · direccion<br/>persona_cuidada · consentimiento"]
+        SH["<b>shared</b><br/>auditoria · evento_outbox<br/>evento_consumido · idempotencia<br/>indice_token"]
+    end
+    subgraph C1["Capa 1 · Plan de cuidado · el producto"]
+        CP["<b>care_plan</b><br/>plan_cuidado · plan_seccion<br/>acceso_relevo · clave_datos"]
+    end
+    subgraph C2["Capa 2 · Consumo · el diferenciador"]
+        CO["<b>consumption</b><br/>perfil_consumo · reposicion<br/>alerta_quiebre"]
+    end
+    subgraph C3["Capa 3 · Despacho · desacoplable"]
+        direction LR
+        CAT["<b>catalog</b><br/>categoria_cuidado · producto<br/>comercio · usuario_comercio<br/>convenio · oferta"]
+        ORD["<b>ordering</b><br/>pedido · pedido_entrega<br/>pedido_linea · regla_sustitucion<br/>pedido_transicion"]
+        REP["<b>replenishment</b><br/>plan_reposicion<br/>plan_reposicion_linea · ocurrencia"]
+        PAY["<b>payments</b><br/>cargo · participacion<br/>transaccion_pasarela<br/>medio_pago_inscrito"]
+        FUL["<b>fulfillment</b><br/>repartidor · oferta_asignacion<br/>asignacion · evidencia"]
+        SET["<b>settlement</b><br/>consumo_comercio · liquidacion"]
+        NOT["<b>notifications</b><br/>preferencia_notificacion<br/>notificacion"]
+        BO["<b>backoffice</b><br/>incidencia"]
+    end
+    CC --> IAM
+    CP --> CC
+    CO --> CP
+    CO --> CAT
+    REP --> CO
+    REP --> ORD
+    ORD --> CAT
+    ORD --> CC
+    PAY --> ORD
+    FUL --> ORD
+    SET --> FUL
+    SET --> CAT
+    BO --> ORD
+    NOT -. eventos .-> SH
+    style C1 fill:#eaf1fd,stroke:#2a78d6,stroke-width:2px
+    style C2 fill:#fdf0e9,stroke:#eb6834,stroke-width:2px
+    style C3 fill:#f5f1ea,stroke:#c3c2b7,stroke-dasharray: 5 5

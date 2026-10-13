@@ -1,0 +1,69 @@
+---
+title: MATU · Capa 3 · Cargo, pago dividido y pasarela
+---
+erDiagram
+    pedido ||--o| cargo : "pedido_id"
+    usuario ||--o{ cargo : "respaldo_usuario_id"
+    usuario ||--o{ medio_pago_inscrito : "usuario_id"
+    cargo ||--o{ participacion : "cargo_id"
+    usuario ||--o{ participacion : "usuario_id"
+    usuario ||--o{ pedido : "creado_por"
+    participacion ||--o{ transaccion_pasarela : "participacion_id"
+    cargo {
+        uuid id PK
+        uuid pedido_id FK, UK
+        bigint monto_objetivo
+        int margen_bp
+        bigint monto_autorizado
+        bigint monto_capturado
+        text estado
+        timestamptz recaudacion_expira_en
+        uuid respaldo_usuario_id FK "opcional"
+        timestamptz creado_en
+        timestamptz actualizado_en
+        int version
+    }
+    participacion {
+        uuid id PK
+        uuid cargo_id FK
+        uuid usuario_id FK
+        int porcentaje_bp
+        bigint monto_comprometido
+        bigint monto_autorizado
+        bigint monto_capturado
+        text estado
+        bool es_respaldo
+    }
+    transaccion_pasarela {
+        uuid id PK
+        uuid participacion_id FK
+        text proveedor
+        text tipo
+        text buy_order UK
+        text token "opcional"
+        bigint monto
+        text estado
+        text codigo_autorizacion "opcional"
+        text tipo_tarjeta "opcional"
+        char ultimos4 "opcional"
+        jsonb payload_respuesta "opcional"
+        text idempotency_key UK
+        timestamptz creado_en
+        timestamptz actualizado_en
+    }
+    medio_pago_inscrito {
+        uuid id PK
+        uuid usuario_id FK
+        text proveedor
+        bytea tbk_user_cifrado
+        text tipo_tarjeta
+        char ultimos4
+        timestamptz inscrito_en
+        timestamptz eliminado_en "opcional"
+    }
+    pedido {
+        uuid id PK
+    }
+    usuario {
+        uuid id PK
+    }
