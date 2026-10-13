@@ -23,10 +23,10 @@ MATU cobra el monto real de un pedido, que puede ser menor al estimado si falta 
 
 | # | Caso | Resultado esperado | Resultado real | Evidencia |
 |---|---|---|---|---|
-| 1 | Autorizar y capturar el mismo monto | Captura aprobada | **Pendiente** | |
+| 1 | Autorizar y capturar el mismo monto | Captura aprobada | **Pendiente.** El 7 de octubre se registró una autorización aprobada con `payment_type_code` VN, pero la salida no quedó guardada y no se capturó | Comentario en Trello del 7 de octubre |
 | 2 | Autorizar $69.000 y capturar $51.340 | Se cobra $51.340 y se libera el resto | **Pendiente.** El flujo llega a la autenticación del banco simulado con el comercio "Webpay Plus Diferida" y el monto de este caso, pero esa ejecución se detuvo por RUT incorrecto | [Captura 1](capturas/01-autenticacion-rut-incorrecto.png) |
 | 3 | Autorizar y revertir sin capturar | Autorización anulada, nada cobrado | **Pendiente** | |
-| 4 | Débito | Registrar qué pasa | **No admite captura diferida.** El formulario del comercio de captura diferida solo ofrece "Tarjetas · Crédito". No hay opción de débito | [Captura 2](capturas/02-formulario-solo-credito.png) |
+| 4 | Débito | Registrar qué pasa | **No admite captura diferida.** El formulario del comercio de captura diferida solo ofrece "Tarjetas · Crédito". No hay opción de débito. La autorización del 7 de octubre lo confirma: VN es "Venta Normal", una venta con crédito. Una venta con débito aparecería como VD | [Captura 2](capturas/02-formulario-solo-credito.png) |
 | 5 | Retorno de la pasarela recibido dos veces | Un solo cobro | **Pendiente** | |
 
 ![Autenticación en el banco simulado](capturas/01-autenticacion-rut-incorrecto.png)
@@ -45,7 +45,7 @@ El plan B ya está escrito en el ADR-006: con débito se cobra el monto estimado
 
 | Fecha | Quién | Qué pasó |
 |---|---|---|
-| 7 de octubre | Martín | Pago de $69.000 detenido en la autenticación del banco simulado por RUT incorrecto (captura 1). La captura 2 responde el caso 4 |
+| 7 de octubre | Martín | Un pago de $69.000 se detuvo en la autenticación del banco simulado por RUT incorrecto (captura 1). Otra ejecución quedó autorizada con `payment_type_code` VN, y se registró en Trello como prueba de que el débito funciona. **Esa lectura no es correcta:** VN corresponde a crédito, así que la prueba confirma la captura diferida con crédito, no con débito. La captura 2 responde el caso 4 |
 | 13 de octubre | Jorge y Martín | Dos pagos nuevos. En los dos, el `commit` respondió `Transaction has an invalid finished state: aborted` (422): Transbank registró el pago como anulado. La causa no se identificó |
 
 **Para el sprint 1:** antes de repetir, consultar el estado de la última transacción con `poc_estado.py TOKEN`, y fijarse en la dirección de retorno. Si dice `TBK_TOKEN` en vez de `token_ws`, el pago se anuló en el navegador. Los pasos de cada caso están en el README del spike.
