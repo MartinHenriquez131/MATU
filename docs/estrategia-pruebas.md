@@ -1,9 +1,9 @@
 # MATU — Estrategia de pruebas
 
-**Versión:** 1.1 · septiembre 2026 · sprint 0 · alineada con el backlog v1.2
+**Versión:** 1.1 · septiembre 2026 · alineada con el backlog v1.3 y el calendario de sprints v1.3
 **Equipo:** Jorge Espinoza · Martín Henríquez
-**Documentos asociados:** Arquitectura v1.0, sección 12 · Modelo de datos v1.0 · Backlog sprints 1 a 3
-**Estado:** propuesta para aprobar entre los dos en el sprint 0.
+**Documentos asociados:** Arquitectura v1.1, sección 12 · Modelo de datos v1.0 · Backlog sprints 1 a 3
+**Estado:** vigente desde el sprint 0. Los sprints se numeran según el [calendario v1.3](sprints/calendario-sprints.md).
 
 ---
 
@@ -32,8 +32,8 @@ Tres reglas gobiernan todo el documento:
 | **Interfaz móvil** | Widgets críticos, semántica y escalado de texto | flutter test | Cada push de `mobile/` | 3 min | Flujos del prototipo |
 | **Manual con Transbank** | Autorizar, capturar por menos, revertir, tipo de tarjeta | Guion escrito, ambiente de integración | Sprint 0 y un sprint por medio | 1 h | Los casos del guion |
 | **Accesibilidad manual** | TalkBack, texto al 200%, contraste en pantalla real | Checklist de la sección 7 | Cada historia con pantalla | 15 min | Checklist completo |
-| **Usabilidad** | Tres personas reales, tres perfiles | Guion de tareas | Antes del sprint 10 | 45 min c/u | 3 sesiones |
-| **Carga básica** | 50 usuarios concurrentes en el flujo de pedido | k6 | Sprint 12 | 15 min | p95 bajo 800 ms |
+| **Usabilidad** | Tres personas reales, tres perfiles | Guion de tareas | Sprints 3 y 4 | 45 min c/u | 3 sesiones por ronda |
+| **Carga básica** | 50 usuarios concurrentes en el flujo de pedido | k6 | Sprint 5 | 15 min | p95 bajo 800 ms |
 
 **Sobre la cobertura.** La meta es por capa y **ninguna en `infrastructure/`**. Una meta global de 70% se cumple probando adaptadores triviales y dejando sin probar el prorrateo. El pipeline mide `domain` y `application` por separado y falla si alguna baja de su umbral.
 
@@ -117,9 +117,9 @@ Las diez de la sección 12.5 de la arquitectura, más las que agregó el modelo 
 | 1 | Usuario del grupo A pide una persona cuidada del grupo B | 404, nunca 403 | Sprint 1 (MATU-07) |
 | 2 | Consulta sin `app.grupo_id` | Cero filas en toda tabla de negocio | **Prototipo en verde** |
 | 3 | Job del worker sin contexto | Cero filas | **Prototipo en verde** |
-| 4 | Repartidor pide el plan de cuidado | 404, el router no está montado | Sprint 10, cuando exista el eje repartidor |
-| 5 | Respuesta al repartidor | Sin campos del plan ni del consumo | Sprint 10 |
-| 6 | Token de relevo vencido | 410 y apertura auditada como intento | Sprint 3 (MATU-19) |
+| 4 | Repartidor pide el plan de cuidado | 404, el router no está montado | Fuera del semestre: la app de repartidor salió en el primer recorte (arquitectura, sección 15.3) |
+| 5 | Respuesta al repartidor | Sin campos del plan ni del consumo | Fuera del semestre, junto con el caso 4 |
+| 6 | Token de relevo vencido | 410 y apertura auditada como intento | Sprint 2 (MATU-19) |
 | 7 | Relevo con dos secciones | Exactamente esas dos | **Prototipo en verde** |
 | 8 | Plan sin consentimiento vigente | 403 con motivo | Sprint 2 (MATU-12) |
 | 9 | `idempotencia` de otro grupo | Cero filas | **Prototipo en verde** |
@@ -132,7 +132,7 @@ Las diez de la sección 12.5 de la arquitectura, más las que agregó el modelo 
 
 ### 6.2 Pagos
 
-Los doce casos de la sección 12.4 de la arquitectura, sin cambios. Casos 1 a 6 y 12 en el sprint 8, casos 7 a 11 en el sprint 9. El caso 11 es una **prueba de propiedad sobre 300 casos generados**: para cualquier total y cualquier reparto, la suma capturada es exacta al peso, nadie captura más de lo autorizado, y la prueba falla si se invierte el criterio del mayor resto.
+Los siete casos de la sección 12.4 de la arquitectura v1.1, en el sprint 4, junto con el pedido y el pago. Los cinco casos de recaudación entre varios pagadores salieron del semestre con el segundo recorte (sección 15.3): quedan escritos y marcados como `skip`. Entre ellos está la **prueba de propiedad sobre 300 casos generados** del prorrateo: para cualquier total y cualquier reparto, la suma capturada es exacta al peso, nadie captura más de lo autorizado, y la prueba falla si se invierte el criterio del mayor resto.
 
 ### 6.3 Máquinas de estado
 
@@ -203,7 +203,7 @@ El pipeline de la sección 12.7 de la arquitectura, con estas puertas. Un pull r
 - **Local y CI:** datos sintéticos generados por las fábricas. Se crean y se revierten en cada prueba.
 - **Staging y demostración:** semilla sintética verosímil, versionada en `infra/semillas/`. Catálogo con los productos que más aparecieron en los quiebres de las entrevistas.
 - **Nunca** se copian datos de producción a otro ambiente, ni anonimizados. El plan de cuidado es dato sensible bajo la Ley 21.719.
-- **Las entrevistas no son datos de prueba.** Sus hallazgos informan el diseño, sus registros no entran al repositorio.
+- **Las entrevistas no son datos de prueba.** Sus hallazgos informan el diseño. Sus fichas, anonimizadas, viven solo en `docs/entrevistas/` de este repositorio y nunca entran al repositorio de código ni a las fábricas.
 
 ---
 
@@ -216,16 +216,20 @@ Es la prueba manual más importante del proyecto: si falla, caen juntos el ADR-0
 | 1 | Autorizar y capturar el mismo monto | Webpay Plus diferido, tarjeta de prueba de crédito | Captura aprobada | Revisar la integración |
 | 2 | Autorizar $69.000 y capturar $51.340 | Captura parcial | Se cobra $51.340 y se libera el resto | **Cae el ADR-006.** Plan B: cobro exacto y reembolso |
 | 3 | Autorizar y revertir sin capturar | Reversa | Autorización anulada, nada cobrado | **Cae el ADR-007** |
-| 4 | Autorización diferida con tarjeta de **débito** | Tarjeta de prueba de débito | Registrar qué pasa | Si no admite diferido: rechazar débito en el flujo con reparto y decirlo en la interfaz (sección 17) |
+| 4 | Autorización diferida con tarjeta de **débito** | Tarjeta de prueba de débito | Registrar qué pasa | Si no admite diferido: plan B del ADR-006 (cobrar el estimado y emitir nota de crédito por la diferencia) o MVP solo con crédito, y decirlo en la interfaz (sección 17) |
 | 5 | Retorno de pasarela recibido dos veces | Repetir el `commit` con el mismo token | Un solo cobro | Revisar la idempotencia |
 
-**Se registra** cada caso con fecha, monto, código de respuesta y captura de pantalla en `docs/pruebas-concepto/transbank.md`. El resultado real reemplaza a la afirmación del proveedor en la sección 18.1 de la arquitectura.
+**Estado al 13 de octubre:** el caso 4 está respondido, el débito no admite captura diferida. La decisión entre las dos salidas y los casos 1, 2, 3 y 5 se cierran en el sprint 1.
+
+**Se registra** cada caso con fecha, monto, código de respuesta y captura de pantalla en [`docs/pruebas-concepto/transbank.md`](pruebas-concepto/transbank.md). El resultado real reemplaza a la afirmación del proveedor en la sección 18.1 de la arquitectura.
 
 ---
 
-## 11. Pruebas de usabilidad · antes del sprint 10
+## 11. Pruebas de usabilidad · sprints 3 y 4
 
-Tres personas reales, de tres perfiles distintos: una cuidadora conviviente, un familiar que aporta y una cuidadora remunerada. Tareas cronometradas:
+Son dos rondas. La primera usa el prototipo de pruebas (`docs/prototipo/prototipo-pruebas.html`) en el sprint 3, antes de construir la app, para corregir el diseño a tiempo. La segunda usa la app en un dispositivo real en el sprint 4.
+
+En cada ronda, tres personas reales, de tres perfiles distintos: una cuidadora conviviente, un familiar que aporta y una cuidadora remunerada. Tareas cronometradas:
 
 1. Completar la ficha de relevo (meta: menos de 3 minutos, ADR-023)
 2. Generar un acceso de relevo y compartirlo (meta: menos de 2 minutos)
@@ -257,14 +261,10 @@ El punto 6 es nuevo respecto de la arquitectura y formaliza la regla 3 de la sec
 |---|---|
 | 0 | Esta estrategia · prueba de concepto de Transbank (parcial) · `test_aislamiento.py` conectado a Alembic y en verde en el pipeline |
 | 1 | Casos pendientes de la prueba de Transbank · `test_arquitectura.py` que no pasa en vacío · dobles de `Reloj` y `CustodiaClaves` · pruebas de identidad, grupo, persona cuidada y consentimiento |
-| 2 | Pruebas de cifrado con AAD, ficha, concurrencia optimista (412 y 428) y auditoría · fábricas de datos sintéticos |
-| 3 | Pruebas del relevo completo (410, 423, sesión sin grupo) · e2e `test_recorrido_relevo` en staging |
-| 4 | `test_capa3_desacoplable.py` · pruebas de widget con accesibilidad · prueba en un dispositivo real de gama baja · refresh rotativo |
-| 5 | Las ocho pruebas del quiebre + propiedad · doble de `Notificador` · consumidor del outbox idempotente |
-| 8 | Casos de pago 1 a 6 y 12 |
-| 9 | Casos de pago 7 a 11 + propiedad del prorrateo |
-| 10 | Usabilidad con tres personas |
-| 12 | Carga con k6 · revisión final de la matriz de trazabilidad |
+| 2 | Pruebas de cifrado con AAD, ficha, concurrencia optimista (412 y 428) y auditoría · fábricas de datos sintéticos · pruebas del relevo completo (410, 423, sesión sin grupo) · e2e `test_recorrido_relevo` en local |
+| 3 | e2e `test_recorrido_relevo` en staging · `test_capa3_desacoplable.py` · pruebas de widget con accesibilidad · prueba en un dispositivo real de gama baja · refresh rotativo · las ocho pruebas del quiebre + propiedad · doble de `Notificador` · consumidor del outbox idempotente · usabilidad, ronda 1 con el prototipo |
+| 4 | Los siete casos de pago de la sección 12.4 · usabilidad, ronda 2 con la app |
+| 5 | Carga con k6 · revisión final de la matriz de trazabilidad |
 
 ---
 
@@ -274,4 +274,4 @@ Cada historia del backlog lista los requisitos (RF) que cubre y cada prueba se e
 
 ---
 
-*Estrategia de pruebas MATU · versión 1.0 · septiembre 2026 · Jorge Espinoza y Martín Henríquez*
+*Estrategia de pruebas MATU · versión 1.1 · septiembre 2026 · Jorge Espinoza y Martín Henríquez*

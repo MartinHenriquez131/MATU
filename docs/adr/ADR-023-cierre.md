@@ -1,6 +1,6 @@
 # ADR-023 · Modo ficha de relevo · CIERRE
 
-**Estado:** Aceptado y activado · borrador para firmar entre los dos
+**Estado:** Aceptado y activado
 **Fecha de decisión:** septiembre 2026, antes del sprint 2 como exige el protocolo
 **Decisores:** Jorge Espinoza (Product Owner) · Martín Henríquez (Scrum Master)
 **Reemplaza:** la condición "se decide antes del sprint 2" del ADR-023 en la arquitectura v1.0
@@ -59,10 +59,11 @@ Los nombres de los campos salen de las palabras que usó la gente en las entrevi
 - El sprint 2 pasa de "plan de cuidado de ocho secciones" a "ficha de relevo de tres campos". Libera horas.
 - **Las horas liberadas van a la capa 2**, como pide el ADR-023: el perfil de consumo sube de prioridad.
 - RF-02 (ocho secciones) baja de *Debe* a *Podría*. RF-03 (versión mínima en 5 minutos) se reescribe: la ficha se completa en menos de 3 minutos.
+- **Numeración final.** La arquitectura v1.1 renumeró los dos requisitos: **RF-02 es ahora la ficha de tres campos** y RF-03 las secciones opcionales. El backlog usa esa numeración.
 
 **En la arquitectura:** actualizar la sección 3.1 (RF-02 y RF-03), la 10.4 c (las ocho preguntas pasan a tres campos), el ADR-018 (completitud progresiva sobre tres campos) y la sección 17 (el riesgo número uno cambia de "no completa el plan" a "no completa ni siquiera la ficha").
 
-**En el producto:** el peso del valor se traslada a la capa 2, lo que coincide con otro hallazgo de las entrevistas. Tres de las siete personas que aceptarían pagar $5.990 lo condicionan a que resuelva los insumos, no el plan.
+**En el producto:** el peso del valor se traslada a la capa 2, lo que coincide con otro hallazgo de las entrevistas. Cuatro de las ocho personas que aceptarían pagar $5.990 lo condicionan a que resuelva los insumos, no el plan.
 
 ## Hallazgos de las entrevistas que entran al diseño de la ficha
 
@@ -76,6 +77,6 @@ Los nombres de los campos salen de las palabras que usó la gente en las entrevi
 
 ## Lo que esta decisión no resuelve
 
-Las hipótesis **H5, H6 y H7 quedaron no concluyentes**. El protocolo exige cuatro entrevistas más antes de decidir sobre ellas. H5 decide si el pago dividido (110 de las 373 horas comprometidas) se mantiene, y afecta a los sprints 8 y 9, no a los sprints 1 a 3. **Hay tiempo para hacer esas cuatro entrevistas antes del sprint 7.**
+Las hipótesis **H5, H6 y H7 quedaron no concluyentes**. El protocolo exige cuatro entrevistas más antes de decidir sobre ellas. H5 decide si el pago dividido (110 de las 373 horas comprometidas) vuelve al alcance. Con el segundo recorte de la arquitectura v1.1 ya salió del semestre, así que no afecta a los sprints 1 a 3. **Las cuatro entrevistas tienen que estar hechas antes del sprint 4 del calendario v1.3, que empieza el 6 de noviembre** y trae el pedido y el pago.
 
-Y un problema de método que hay que corregir antes de entregar el análisis: la ficha de A55 nombra a la entrevistada y a una tercera persona, lo que rompe la anonimización del protocolo.
+Y un problema de método que hay que corregir antes de entregar el análisis: la ficha de A55 nombra a la entrevistada y a una tercera persona, lo que rompe la anonimización del protocolo. **Corregido el 13 de octubre:** se quitaron los nombres de A55, y la mención del integrante del equipo que hizo el contacto también de F52 y J54 (MATU-28).

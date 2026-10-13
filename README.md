@@ -114,8 +114,9 @@ Documento completo: [docs/arquitectura.md](docs/arquitectura.md) — versión 1.
 42 requisitos trazados a módulos, 13 diagramas y 24 decisiones de arquitectura
 vigentes (ADR, numerados hasta el 25 porque la numeración no se reutiliza) con
 alternativas descartadas y consecuencias. GitHub lo renderiza con los diagramas incluidos. Existe también
-en [versión navegable](docs/arquitectura.html), con índice lateral, para leer
-fuera de GitHub o imprimir.
+una [versión navegable](docs/arquitectura.html), con índice lateral, para leer
+fuera de GitHub o imprimir. **Esa versión es la 1.0, anterior a la validación con
+cuidadoras.** La vigente es la del `.md`.
 
 El sistema se diseñó en **tres capas con dependencia estrictamente
 descendente**:
@@ -176,7 +177,7 @@ MATU/
 │   └── Evidencias Individuales/
 └── docs/                          documentos que respaldan las evidencias
     ├── arquitectura.md            documento de arquitectura · se lee en GitHub
-    ├── arquitectura.html          la misma versión, navegable y para imprimir
+    ├── arquitectura.html          versión 1.0, anterior a la validación, navegable y para imprimir
     ├── modelo-datos.md            modelo de datos completo, con diagramas
     ├── estrategia-pruebas.md      niveles, metas, puertas del pipeline y definición de terminado
     ├── backlog-sprints-1-3.md     historias, criterios y estimación del tramo
@@ -186,14 +187,16 @@ MATU/
     ├── adr/
     │   └── ADR-023-cierre.md      se activa el modo ficha de relevo
     ├── diagramas/
-    │   └── modelo-datos/          13 diagramas en .mmd, .svg y .png
+    │   └── modelo-datos/          13 diagramas en .svg y .png, 12 con su fuente .mmd
     ├── entrevistas/               diez fichas anonimizadas
     ├── prototipo/
     │   ├── prototipo-v1.1.html    36 pantallas · 7 recorridos · documentado
     │   ├── prototipo-pruebas.html la misma interfaz, limpia, para pruebas
     │   └── gen_prototipo.py       genera las dos versiones
     ├── pruebas-concepto/
-    │   └── transbank.md           captura diferida · incompleta, se cierra en el sprint 1
+    │   ├── README.md              índice de las pruebas de concepto
+    │   ├── transbank.md           captura diferida · incompleta, se cierra en el sprint 1
+    │   └── capturas/              evidencia de los intentos
     └── sprints/
         ├── calendario-sprints.md  sprints de viernes a jueves · versión 1.3
         └── sprint-1-planificacion.md
@@ -290,7 +293,8 @@ tareas se gestionan en Trello.
   hipótesis, las tres mediciones y el recálculo del punto de equilibrio.
 * [Cierre del ADR-023](docs/adr/ADR-023-cierre.md) — H1 refutada con 3 de 10:
   la capa 1 pasa a ser una ficha de relevo de tres campos.
-* [Arquitectura en versión navegable](docs/arquitectura.html).
+* [Arquitectura en versión navegable](docs/arquitectura.html) — versión 1.0,
+  anterior a la validación.
 
 GitHub no renderiza archivos `.html` ni `.docx`: hay que descargarlos y abrirlos.
 El documento de arquitectura en `.md` sí se lee directo en el navegador, con sus

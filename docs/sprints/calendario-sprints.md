@@ -28,7 +28,7 @@
 
 - **La definición de terminado se aplica completa.** El código generado se revisa como cualquier pull request, y lo que toca datos sensibles, aislamiento o dinero lo revisa siempre la otra persona.
 - **Las pruebas de las reglas críticas las define una persona.** El asistente puede escribirlas, pero el caso que se prueba (RLS, cifrado, captura por monto real) lo decide el equipo y lo contrasta con la estrategia de pruebas.
-- **Nunca se ponen datos reales ni secretos en las instrucciones al asistente.** Solo datos sintéticos, como exige la Ley 21.719 y la sección 9 de la estrategia de pruebas.
+- **Nunca se ponen datos reales ni secretos en las instrucciones al asistente.** Solo datos sintéticos, como exigen la Ley 21.719 y la sección 9 de la estrategia de pruebas.
 
 ## 3. Calendario
 
@@ -51,8 +51,8 @@
 
 | Sprint | Historias | Horas estimadas |
 |---|---|---|
-| 1 | Pendientes del sprint 0 (esqueleto de la API y prueba de Transbank) y las 9 historias del sprint 1 del backlog v1.2 | 26 h comprometidas, más MATU-09 y MATU-30 si sobra capacidad |
-| 2 | Las 7 historias del sprint 2 del backlog v1.2 (ficha) y 4 del sprint 3 (relevo): MATU-18, 19, 20 y 23 | 39,5 h |
+| 1 | Pendientes del sprint 0 (esqueleto de la API y prueba de Transbank) y las 9 historias del sprint 1 del backlog v1.3 | 26 h comprometidas, más MATU-09 y MATU-30 si sobra capacidad |
+| 2 | Las 7 historias del sprint 2 del backlog v1.3 (ficha) y 4 del sprint 3 (relevo): MATU-18, 19, 20 y 23 | 39,5 h |
 | 3 | MATU-25 (staging) y las historias de la app de familia y del perfil de consumo | Se refina en la revisión del sprint 2 |
 | 4 | Catálogo, lista, pedido con un solo pagador y vista de comercio | Se refina en la revisión del sprint 3 |
 | 5 | Cierre de la tabla 15.4 | Se refina en la revisión del sprint 4 |

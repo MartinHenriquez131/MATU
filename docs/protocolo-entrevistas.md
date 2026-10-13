@@ -38,10 +38,10 @@ Este protocolo existe para responder **una pregunta que puede invalidar todo el 
 | **H3** | El quiebre de insumos ocurre de verdad y genera un costo real de tiempo o dinero | La capa 2 pierde urgencia y pasa a ser conveniencia. Baja el valor de la predicción |
 | **H4** | Existe disposición a pagar del orden de $5.990 mensuales por continuidad del cuidado, que es el precio supuesto en la sección 16 de la arquitectura | Hay que revisar el precio de la sección 16 del documento de arquitectura y con él el punto de equilibrio |
 | **H5** | El gasto de cuidado efectivamente se reparte entre varios familiares y ese reparto genera fricción | El reparto de pago baja de prioridad y libera casi dos sprints |
-| **H6** | **Quien pagaría no es necesariamente quien cuida.** El cuidador principal suele ser el que menos ingreso disponible tiene y más carga soporta; el familiar que aporta dinero compensa con plata la ausencia de tiempo | El destinatario comercial es el propio cuidador, y el precio de la sección 16 tiene un techo mucho más bajo que el supuesto |
+| **H6** | **Quien pagaría no es necesariamente quien cuida.** El cuidador principal suele ser el que menos ingreso disponible tiene y más carga soporta, y el familiar que aporta dinero compensa con plata la ausencia de tiempo | El destinatario comercial es el propio cuidador, y el precio de la sección 16 tiene un techo mucho más bajo que el supuesto |
 | **H7** | **Estas familias son alcanzables por un canal concentrado** —agrupación de familiares, consultorio, municipio, fundación— y no una por una | El costo de adquisición se dispara y las 88 familias del punto de equilibrio dejan de ser alcanzables en el horizonte del piloto. Es el hueco que la sección 16.4 declara explícitamente |
 
-**Por qué H6 y H7 no estaban y ahora sí.** Las cinco primeras prueban que el problema existe y que el producto se puede usar. Ninguna prueba que el **negocio** funcione. H6 decide a quién se le vende y por lo tanto qué precio soporta; H7 decide si llegar a 88 familias cuesta un mes o cuesta un presupuesto que el proyecto no tiene. Sin ellas, las entrevistas demuestran deseabilidad y no viabilidad.
+**Por qué H6 y H7 no estaban y ahora sí.** Las cinco primeras prueban que el problema existe y que el producto se puede usar. Ninguna prueba que el **negocio** funcione. H6 decide a quién se le vende y por lo tanto qué precio soporta. H7 decide si llegar a 88 familias cuesta un mes o cuesta un presupuesto que el proyecto no tiene. Sin ellas, las entrevistas demuestran deseabilidad y no viabilidad.
 
 ### 2.1 Las tres mediciones que la sección 16 necesita
 
@@ -208,7 +208,7 @@ Una ficha por entrevista, en una planilla compartida, **completada el mismo día
 | **¿Recibe insumos del CESFAM, municipio o fundación?** | sí / no, y cuáles. Evidencia de H7 |
 | **¿Quién pagaría la suscripción?** | el propio cuidador / otro familiar / nadie. Evidencia de H6, con cita textual |
 | **Cómo se llegó a esta persona** | agrupación / consultorio / municipio / fundación / red personal / referido de otro entrevistado. Evidencia de H7 |
-| Tres citas textuales | las que más digan, en sus palabras. Se anotan **entre comillas solo si se alcanzaron a escribir literales**; si se reconstruyeron de memoria, se marcan como paráfrasis y no se citan como textuales en el informe |
+| Tres citas textuales | las que más digan, en sus palabras. Se anotan **entre comillas solo si se alcanzaron a escribir literales**. Si se reconstruyeron de memoria, se marcan como paráfrasis y no se citan como textuales en el informe |
 
 ---
 
@@ -252,7 +252,7 @@ Esto es lo que impide interpretar los resultados a conveniencia. **Se escribe ah
 Incluso con las siete hipótesis validadas, las entrevistas entregan cuatro insumos que se usan de inmediato:
 
 1. **La sección 16 se reescribe con números medidos.** La tabla 16.1 deja de decir «estimación del equipo» en tres de sus filas y pasa a decir «mediana de diez entrevistas, rango X a Y». El punto de equilibrio se recalcula y se publica el resultado. **Este es el entregable que convierte al proyecto de deseable en viable**, y es lo primero que hay que hacer con los datos.
-2. **Las citas textuales** son el mejor material para la introducción del informe de título y para la defensa. Una frase real de una cuidadora vale más que tres párrafos de estadística. Como no hay grabación, solo se presentan como cita literal las que quedaron escritas palabra por palabra durante la entrevista; el resto se usa como paráfrasis y se declara como tal.
+2. **Las citas textuales** son el mejor material para la introducción del informe de título y para la defensa. Una frase real de una cuidadora vale más que tres párrafos de estadística. Como no hay grabación, solo se presentan como cita literal las que quedaron escritas palabra por palabra durante la entrevista. El resto se usa como paráfrasis y se declara como tal.
 3. **Las ocho preguntas del plan de cuidado se rediseñan** con las palabras que usó la gente, no con las que usó el equipo.
 4. **Los quiebres reportados** entregan la lista real de productos que debe tener el catálogo semilla del sprint 6.
 
