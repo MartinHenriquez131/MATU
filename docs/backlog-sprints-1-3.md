@@ -2,9 +2,11 @@
 
 **Versión:** 1.3 · dos rondas de revisión aplicadas y calendario ajustado
 **Product Owner:** Jorge Espinoza · **Scrum Master:** Martín Henríquez
-**Base:** Arquitectura v1.0 · Modelo de datos v1.0 · Estrategia de pruebas v1.1 · Cierre del ADR-023
+**Base:** Arquitectura v1.1 · Modelo de datos v1.0 · Estrategia de pruebas v1.1 · Cierre del ADR-023
 
 > **Calendario v1.3 (13 de octubre).** Los sprints corren de viernes a jueves y el sprint 1 empieza el viernes 16 de octubre. Con desarrollo asistido por IA, **las historias del sprint 3 de este backlog se ejecutan en el sprint 2**, salvo MATU-25 (staging), que pasa al sprint 3. Las estimaciones de este documento no cambian: el factor de vibecoding se aplica al comprometer. Detalle en [sprints/calendario-sprints.md](sprints/calendario-sprints.md).
+>
+> **Numeración.** Los títulos de las secciones 4 a 6 conservan la agrupación original del backlog. Toda referencia a un sprint posterior al 3 usa la numeración del calendario v1.3: el sprint 3 es la app de familia y el perfil de consumo, el 4 es catálogo, pedido y pago, y el 5 es el cierre.
 
 ---
 
@@ -22,15 +24,15 @@
 | Modo del plan de cuidado | Ficha de relevo de tres campos (ADR-023 activado) |
 | Datos | Los sprints 1 a 3 operan **solo con datos sintéticos** |
 
-**Uso declarado de la reserva.** El tramo compromete 68 h contra 66 comprometibles: usa 2 de las 12 h de reserva (1 h de Martín en el sprint 1 y 1 h de Jorge en el sprint 2). Queda dicho aquí para que no ocurra sin que nadie lo decida. Si un sprint no usa su reserva, se toma la siguiente historia del sprint siguiente.
+**Uso declarado de la reserva.** El tramo compromete 67 h contra 66 comprometibles: usa 1 de las 12 h de reserva (1 h de Jorge en el sprint 2). Queda dicho aquí para que no ocurra sin que nadie lo decida. Si un sprint no usa su reserva, se toma la siguiente historia del sprint siguiente.
 
-**Regla de ejes en este tramo.** En los sprints 1 a 3 la regla "nadie edita módulos del otro eje" (sección 15.5 de la arquitectura) **se suspende para `care_circle`, `care_plan` y `shared`**, porque el tramo concentra el trabajo de la capa 1. El dueño del módulo revisa todo PR que lo toque. Se registra en la arquitectura v1.1.
+**Regla de ejes en este tramo.** En los sprints 1 a 3 la regla "nadie edita módulos del otro eje" (sección 15.5 de la arquitectura) **se suspende para `care_circle`, `care_plan` y `shared`**, porque el tramo concentra el trabajo de la capa 1. El dueño del módulo revisa todo PR que lo toque. Se registra en la arquitectura v1.2.
 
 ## 2. Resumen
 
 | Sprint | Objetivo | Cómo se demuestra en la revisión | Horas |
 |---|---|---|---|
-| 1 | Una familia se registra, crea su grupo y da de alta a la persona cuidada con su consentimiento, y otra familia no puede ver nada de eso | Guion `httpie` de punta a punta con dos familias (la segunda recibe 404) + `test_aislamiento.py` en verde en el pipeline | 23 |
+| 1 | Una familia se registra, crea su grupo y da de alta a la persona cuidada con su consentimiento, y otra familia no puede ver nada de eso | Guion `httpie` de punta a punta con dos familias (la segunda recibe 404) + `test_aislamiento.py` en verde en el pipeline | 22 |
 | 2 | Una cuidadora completa la ficha de relevo, que queda cifrada, auditada y sin posibilidad de pisar lo que escribió otro | Guion `httpie` + consulta directa a la base que muestra solo texto cifrado + demostración del 412 con dos miembros | 23 |
 | 3 | Una cuidadora comparte la ficha con un relevo, que la abre desde un teléfono real con PIN, y la cuidadora la revoca | Demostración en staging con un teléfono real + prueba e2e `test_recorrido_relevo` en verde | 22 |
 
@@ -48,6 +50,8 @@
 
 **Si alguna queda abierta** pasa a prioridad 0 del sprint 1 y se aplica el orden de sacrificio de la sección 7 desde el punto 1. **S0-E abierta es prioridad 0 para los dos**, porque su resultado puede cambiar el ADR-006 y el ADR-007.
 
+Las rutas de código de este documento (`app/`, `backend/`, `infra/`, `web/`, `spikes/`, `tests/`) son del repositorio **MATU_PROYECTO**.
+
 ---
 
 ## 4. Sprint 1 · Identidad, grupo y persona cuidada · compromiso
@@ -58,14 +62,14 @@ El orden de la tabla es el orden de ejecución.
 |---|---|---|---|---|---|---|
 | 1 | MATU-04 | Historia | Crear una cuenta | RF-37 | Martín | 2 |
 | 2 | MATU-05a | Historia | Iniciar sesión y validar el token en cada petición | RF-37 | Martín | 3,5 |
-| 3 | MATU-02 | Técnica | Contexto de tenant en la API | ADR-013 | Martín | 4 |
+| 3 | MATU-02 | Técnica | Contexto de tenant en la API | ADR-013 | Martín | 3 |
 | 4 | MATU-06 | Historia | Crear el grupo familiar | RF-38 | Martín | 2,5 |
 | 5 | MATU-26 | Equipo | Política de privacidad v0.9 | Ley 21.719 | Jorge | 1,5 |
 | 6 | MATU-07 | Historia | Dar de alta a la persona cuidada con su consentimiento | RF-01 · Ley 21.719 | Jorge | 6 |
 | 7 | MATU-03 | Técnica | Puertos y prueba de arquitectura | ADR-021 | Jorge | 2 |
 | 8 | MATU-27 | Equipo | Decidir la figura legal del piloto | Riesgo sección 17 | Jorge | 1 |
 | 9 | MATU-28 | Equipo | Corregir la anonimización de la entrevista A55 | Protocolo, sección 4 | Jorge | 0,5 |
-| | | | | | **Martín 12 · Jorge 11** | **23** |
+| | | | | | **Martín 11 · Jorge 11** | **22** |
 
 Jorge empieza por MATU-26 y MATU-07 contra una sesión simulada de pruebas mientras Martín cierra la autenticación. MATU-07 se integra con el contexto real cuando MATU-02 está fusionada.
 
@@ -75,7 +79,7 @@ Jorge empieza por MATU-26 y MATU-07 contra una sesión simulada de pruebas mient
 
 - Con nombre, email y contraseña de al menos 10 caracteres, se crea la cuenta y responde 201. La contraseña se guarda con Argon2id
 - El email se normaliza a minúsculas y se registra `HMAC-SHA256(pepper, email)` en `indice_credencial`. El pepper viene de la configuración, nunca del repositorio
-- Un email ya registrado responde 409. **Riesgo aceptado:** el registro revela si un email existe. Se mitiga con un límite por IP (MATU-25) y la verificación por correo entra con el adaptador de correo (sprint 5)
+- Un email ya registrado responde 409. **Riesgo aceptado:** el registro revela si un email existe. Se mitiga con un límite por IP (MATU-25) y la verificación por correo entra con el adaptador de correo (sprint 3)
 
 **Pruebas** (`@pytest.mark.rf("RF-37")`): `test_registro_guarda_argon2id`, `test_email_duplicado_409`, `test_indice_credencial_no_guarda_email`
 
@@ -97,8 +101,8 @@ Jorge empieza por MATU-26 y MATU-07 contra una sesión simulada de pruebas mient
 - Toda petición autenticada fija `app.usuario_id` primero y `app.grupo_id` desde `X-Grupo-Id` después
 - Si el usuario no es miembro activo del grupo, la API responde **404**, nunca 403
 - El contexto es local a la transacción: dos peticiones seguidas en la misma conexión del pool no comparten contexto
-- El helper acepta `rol = 'sistema'` (worker, desde el sprint 5) y `app.acceso_relevo_id` (relevo, sprint 3)
-- `test_aislamiento.py` se mueve a `backend/tests/` y corre en el pipeline contra la migración de Alembic. **Cumplido en el sprint 0**
+- El helper acepta `rol = 'sistema'` (worker, desde el sprint 3) y `app.acceso_relevo_id` (relevo, sprint 2)
+- `test_aislamiento.py` se mueve a `backend/tests/` y corre en el pipeline contra la migración de Alembic. **Cumplido en el sprint 0**, por eso la historia baja de 4 a 3 horas
 
 **Pruebas:** `test_contexto_no_se_filtra_entre_peticiones`, `test_no_miembro_recibe_404`, `test_sistema_sin_grupo_cero_filas`, suite `test_aislamiento.py` completa
 
@@ -151,6 +155,9 @@ Jorge empieza por MATU-26 y MATU-07 contra una sesión simulada de pruebas mient
 ### MATU-28 · Corregir la anonimización de A55
 
 - La ficha de A55 no contiene nombres propios. El análisis de las entrevistas no cambia
+- Se decide qué hacer con las versiones anteriores que siguen en el historial público del repositorio
+
+**Estado al 13-10:** los nombres se quitaron de A55, y la mención del integrante del equipo que hizo el contacto se quitó también de F52 y J54. Queda la decisión sobre el historial.
 
 ---
 
@@ -159,7 +166,7 @@ Jorge empieza por MATU-26 y MATU-07 contra una sesión simulada de pruebas mient
 | Prioridad | ID | Tipo | Título | Traza | Responsable | Horas |
 |---|---|---|---|---|---|---|
 | 1 | MATU-09 | Técnica | Contrato de API: primero la ficha, después el relevo | Sección 15.5, regla 1 | Martín | 3 |
-| 2 | MATU-12 | Historia | Completar la ficha de relevo | RF-03 (reescrito) | Jorge | 6 |
+| 2 | MATU-12 | Historia | Completar la ficha de relevo | RF-02 | Jorge | 6 |
 | 3 | MATU-11 | Técnica | Cifrado de secciones con clave por persona | ADR-014, ADR-016 | Jorge | 6 |
 | 4 | MATU-14 | Técnica | Auditoría de lectura y escritura de la ficha | RF-08 | Martín | 1,5 |
 | 5 | MATU-13 | Historia | Editar sin pisar lo que escribió otro | RF-04 | Martín | 3 |
@@ -191,7 +198,7 @@ Jorge empieza por MATU-26 y MATU-07 contra una sesión simulada de pruebas mient
 - Ningún registro de log contiene el texto enviado
 - Se construye contra el puerto `CifradorSecciones` con un doble. La integración con MATU-11 es el último paso
 
-**Pruebas** (`@pytest.mark.rf("RF-03")`): `test_ficha_tres_campos`, `test_observador_404`, `test_pagador_sin_permiso_404`, `test_sin_consentimiento_403`, `test_completitud_por_campo`, `test_log_sin_texto_de_ficha` (con `caplog`)
+**Pruebas** (`@pytest.mark.rf("RF-02")`): `test_ficha_tres_campos`, `test_observador_404`, `test_pagador_sin_permiso_404`, `test_sin_consentimiento_403`, `test_completitud_por_campo`, `test_log_sin_texto_de_ficha` (con `caplog`)
 
 La meta de tiempo ("menos de 3 minutos") no es un criterio de esta historia: se mide en la prueba de usabilidad (estrategia de pruebas, sección 11).
 
@@ -203,7 +210,7 @@ La meta de tiempo ("menos de 3 minutos") no es un criterio de esta historia: se 
 - **El AAD es `plan_id ‖ tipo`:** mover un texto cifrado a otra sección o a otro plan falla al descifrar
 - Un texto cifrado alterado falla al descifrar
 - Con la clave destruida, escribir lanza un error de dominio explícito, nunca genera una clave nueva
-- `kek_version` queda registrada. **La rotación de la KEK se implementa en el sprint 12**
+- `kek_version` queda registrada. **La rotación de la KEK se implementa después del semestre, antes de operar con datos reales**
 
 **Pruebas:** `test_cifrar_descifrar_ida_y_vuelta`, `test_nonces_distintos`, `test_texto_alterado_falla`, `test_mover_cifrado_a_otra_seccion_falla`, `test_escribir_con_clave_destruida_falla`, `test_dek_se_crea_en_primera_escritura`
 
@@ -326,27 +333,29 @@ Si aun así no alcanza, MATU-03 se reduce a `Reloj` y a la prueba de arquitectur
 
 ## 8. Lo que salió de este tramo y a dónde fue
 
+Los destinos usan la numeración del calendario v1.3.
+
 | Historia | Destino | Por qué |
 |---|---|---|
-| Mantener la sesión abierta: refresh rotativo, reutilización y registro de dispositivos (RF-37) | Sprint 4, con la app | Nadie usa el refresh hasta que exista la app. La demora progresiva por email e IP va como ítem aparte |
-| Prueba de capa 3 desacoplable (ADR-002) | Sprint 4 | La arquitectura la pide en el sprint 3. Se mueve un sprint por capacidad, y se registra en la v1.1 |
-| Arquitectura v1.1 | Sprint 4 (4 h) | Solo la sección 7 tiene 16 cambios. El ADR-023 firmado ya documenta la decisión urgente |
-| Ver quién abrió la ficha (RF-08, pantalla) | Sprint 4, con la app | La auditoría se registra desde el sprint 2. Solo falta mostrarla |
-| Exportar la ficha imprimible (RF-09) | Sprint 4, con la app | Es *Debería* y se ve en la app |
-| Contrato de los endpoints de la app familia | Sprint 4, primer día (3 h) | Para que el desarrollo de la app no se bloquee |
-| Invitar a un familiar y gestionar roles (RF-38) | Sprint 5 | No aporta al objetivo de los sprints 1 a 3. La concurrencia se prueba con las fábricas |
-| Publicador del outbox y avisos por push y correo (RF-39) | Sprint 5 | Sin eventos que publicar hasta las alertas de quiebre, y FCM necesita el token que da la app |
-| Revocar el consentimiento y cortar los accesos de relevo vigentes | Sprint 5 | Derecho de la Ley 21.719. Obligatorio antes de operar con datos reales |
+| Mantener la sesión abierta: refresh rotativo, reutilización y registro de dispositivos (RF-37) | Sprint 3, con la app | Nadie usa el refresh hasta que exista la app. La demora progresiva por email e IP va como ítem aparte |
+| Prueba de capa 3 desacoplable (ADR-002) | Sprint 3 | La arquitectura la pide junto con el relevo. Se mueve un sprint por capacidad, y se registra en la v1.2 |
+| Arquitectura v1.2 | Sprint 3 (4 h) | Solo la sección 7 tiene 16 cambios. El cierre del ADR-023 ya documenta la decisión urgente |
+| Ver quién abrió la ficha (RF-08, pantalla) | Sprint 3, con la app | La auditoría se registra desde el sprint 2. Solo falta mostrarla |
+| Exportar la ficha imprimible (RF-09) | Sprint 3, con la app | Es *Debería* y se ve en la app |
+| Contrato de los endpoints de la app familia | Sprint 3, primer día (3 h) | Para que el desarrollo de la app no se bloquee |
+| Invitar a un familiar y gestionar roles (RF-38) | Sprint 3 | No aporta al objetivo de los sprints 1 a 3. La concurrencia se prueba con las fábricas |
+| Publicador del outbox y avisos por push y correo (RF-39) | Sprint 3 | Sin eventos que publicar hasta las alertas de quiebre, y FCM necesita el token que da la app |
+| Revocar el consentimiento y cortar los accesos de relevo vigentes | Sprint 3 | Derecho de la Ley 21.719. Obligatorio antes de operar con datos reales |
 
-**Sobre las horas que libera el ADR-023.** La ficha de tres campos cuesta menos que el plan de ocho secciones. Esas horas no se reasignan a funciones nuevas: **se usan como la reserva de los sprints 1 a 3**, que es donde faltaba. La capa 2 sigue en el sprint 5.
+**Sobre las horas que libera el ADR-023.** La ficha de tres campos cuesta menos que el plan de ocho secciones. Esas horas no se reasignan a funciones nuevas: **se usan como la reserva de los sprints 1 a 3**, que es donde faltaba. La capa 2 sigue en el sprint 3.
 
 ## 9. Tareas del equipo fuera de este tramo
 
 | Tarea | Responsable | Plazo |
 |---|---|---|
 | Alta comercial de Transbank, solo si MATU-27 decide constituir persona jurídica | Martín | Después de MATU-27 |
-| Cuatro entrevistas adicionales para H5, H6 y H7, fuera de la red personal del equipo | Los dos | Antes del sprint 7 |
-| Carta de intención de un comercio | Jorge | Antes del sprint 7 |
+| Cuatro entrevistas adicionales para H5, H6 y H7, fuera de la red personal del equipo | Los dos | Antes del sprint 4 (6 de noviembre) |
+| Carta de intención de un comercio | Jorge | Antes del sprint 4 (6 de noviembre) |
 | Consulta legal sobre el cuidador de hecho | Jorge | Antes de operar con datos reales |
 
 ---
@@ -358,4 +367,4 @@ Si aun así no alcanza, MATU-03 se reduce a `Reloj` y a la prueba de arquitectur
 | 1.0 | Primer borrador: 27 h por sprint, 24 historias |
 | 1.1 | Primera revisión experta (nota 4,5). Capacidad real con reserva, alta de la persona fusionada con el consentimiento, dependencias invertidas corregidas, seguridad del relevo (token en el fragmento, AAD, HMAC), invitaciones y notificaciones fuera del tramo, orden de sacrificio |
 | 1.2 | Segunda revisión experta (nota 5,5). Orden de ejecución dentro de cada sprint, validación del JWT, listado con 404 cruzado para demostrar el aislamiento, estimaciones corregidas (MATU-12, 19 y 25), límite por IP en la API, fábricas y lista de lenguaje, revisión cruzada con horas, orden de sacrificio coherente con la definición de terminado, suspensión declarada de la regla de ejes |
-| 1.3 | Calendario v1.3: sprints de viernes a jueves desde el 16 de octubre, sprint 3 fusionado con el sprint 2 por el desarrollo asistido por IA, MATU-25 al sprint 3, estado del sprint 0 al 13 de octubre |
+| 1.3 | Calendario v1.3: sprints de viernes a jueves desde el 16 de octubre, sprint 3 fusionado con el sprint 2 por el desarrollo asistido por IA, MATU-25 al sprint 3, estado del sprint 0 al 13 de octubre. Segunda revisión: MATU-02 baja a 3 h porque una tarea se cerró en el sprint 0, MATU-12 se traza a RF-02 como en la arquitectura v1.1 y los sprints posteriores al 3 usan la numeración del calendario |

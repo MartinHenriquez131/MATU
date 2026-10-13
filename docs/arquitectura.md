@@ -14,6 +14,15 @@ Esta es la **versión 1.1** del documento de arquitectura de MATU. Incorpora los
 
 **Qué es y qué no es este documento.** Es el diseño que el equipo se compromete a construir, con sus decisiones fundamentadas y sus alternativas descartadas. No reporta avance de desarrollo. Cuando el documento dice que algo "se verifica" o "queda garantizado por una prueba", describe el criterio de aceptación comprometido, no un resultado ya obtenido. La sección 12 detalla cómo y en qué sprint se comprueba cada afirmación.
 
+> **Pendiente para la v1.2.** Desde esta versión el proyecto avanzó, y estos cambios todavía no están incorporados al texto. Se llevan a la v1.2 en el sprint 3, como indica el backlog:
+>
+> - Los 16 cambios de la sección 10 y los hallazgos de la sección 5.4 del [modelo de datos](modelo-datos.md)
+> - El [calendario de sprints v1.3](sprints/calendario-sprints.md), que reemplaza las fechas y la agrupación de la tabla 15.4
+> - La prioridad de RF-03: el cierre del ADR-023 baja las ocho secciones a *Podría*, y la sección 3.1 todavía dice *Debe*
+> - El resultado de la [prueba de concepto de Transbank](pruebas-concepto/transbank.md): el débito no admite captura diferida (secciones 17 y 18.1)
+> - La separación en dos repositorios: la documentación en MATU y el código en MATU_PROYECTO (anexo 19.1)
+> - La suspensión de la regla de ejes en los sprints 1 a 3 y el traslado de la prueba de capa 3 desacoplable, declarados en el backlog
+
 ### Cómo se llegó a esta línea base
 
 El diseño pasó por tres reestructuraciones y tres rondas de revisión crítica antes de estabilizarse, y después por una ronda de evidencia de campo. Vale la pena dejarlo escrito, porque la trazabilidad de por qué algo cambió es lo que permite no repetir el error.
@@ -89,7 +98,7 @@ Las doce decisiones que determinan todo lo demás. Cada una se desarrolla en la 
 | Ya pagan por algún servicio de cuidado | **6 de 10**, cinco de forma recurrente |
 | Llevan un registro propio de insumos o de cuidado | **4 de 10**, una de ellas una hoja de traspaso manuscrita |
 
-El detalle completo, con veredicto por hipótesis, las tres mediciones y las diez fichas anonimizadas, está en `docs/resultados-entrevistas.md`.
+El detalle completo, con veredicto por hipótesis y las tres mediciones, está en `docs/resultados-entrevistas.md`. Las diez fichas anonimizadas están en `docs/entrevistas/`.
 
 Estas cifras establecen que el problema es grande, está mal cubierto y duele en las dos dimensiones que el sistema ataca. **No establecen que MATU sea la única solución**, y una de las siete hipótesis del protocolo quedó refutada, lo que cambió el producto. Ver el ADR-023.
 
@@ -516,7 +525,7 @@ erDiagram
 
 | Entidad | Campos relevantes | Notas de diseño |
 |---|---|---|
-| `plan_cuidado` | id, grupo_id, persona_cuidada_id, completitud_pct, actualizado_por, actualizado_en | `completitud_pct` se calcula sobre las ocho secciones, pero **la interfaz nunca bloquea por completitud**. Ver ADR-018 |
+| `plan_cuidado` | id, grupo_id, persona_cuidada_id, modo, completitud_pct, actualizado_por, actualizado_en | `modo` es `ficha_relevo` mientras rija el ADR-023. `completitud_pct` se calcula sobre los tres campos de la ficha, pero **la interfaz nunca bloquea por completitud**. Ver ADR-018 |
 | `plan_seccion` | id, plan_id, tipo, **contenido_cifrado**, **nonce**, **tag_auth**, **version**, actualizado_por, actualizado_en | Cifrado por sección, no por documento, para compartir una parte sin descifrar el resto. **`nonce` de 96 bits aleatorio por cada escritura, nunca un contador**: repetir un nonce en AES-GCM permite recuperar la clave de autenticación y forjar texto cifrado. `version` implementa bloqueo optimista (RF-04) |
 | `acceso_relevo` | id, plan_id, otorgado_a_nombre, otorgado_a_telefono, secciones_permitidas, token_hash, **pin_hash**, expira_en, revocado_en, motivo, usos | El relevo no crea cuenta. **Token de uso múltiple hasta vencer**, no de un solo uso: el relevo consulta el plan durante todo su turno. `pin_hash` es el segundo factor de cuatro dígitos enviado al teléfono ya registrado, porque un enlace por WhatsApp es una credencial al portador sobre datos de salud |
 | `clave_datos` | id, persona_cuidada_id, dek_cifrada_con_kek, kek_version, creada_en, rotada_en | Sobre-cifrado. Una clave de datos por persona cuidada, cifrada con la clave maestra. Ver ADR-016 |
@@ -847,7 +856,7 @@ Por eso el aviso se materializa como fila antes de enviarse: para que una corrid
 |---|---|
 | **Escritura** | El evento se inserta en `evento_outbox` **dentro de la misma transacción** que cambia el estado. Nunca fuera |
 | **Payload** | Solo identificadores y tipo. **Nunca contenido de negocio ni datos personales**, porque el publicador es transversal a tenants |
-| **Toma** | `SELECT ... FOR UPDATE SKIP LOCKED LIMIT 100 ORDER BY id` |
+| **Toma** | `SELECT ... ORDER BY id LIMIT 100 FOR UPDATE SKIP LOCKED` |
 | **Orden** | **No se garantiza orden.** `SKIP LOCKED` con varios publicadores, y el backoff, rompen el FIFO por construcción. Afirmarlo y no cumplirlo es peor que no ofrecerlo |
 | **Entrega** | **Al menos una vez.** El consumidor está obligado a ser idempotente |
 | **Idempotencia** | Tabla `evento_consumido(evento_id, consumidor)` con clave primaria compuesta |
@@ -1037,9 +1046,9 @@ La clave está en `acciones`. **`exportar_lista` y `compartir_enlace` funcionan 
 
 **b) Llenar el plan de cuidado sin abandonar.** Era el riesgo de producto más grande del diseño y **la validación lo confirmó**: con ocho preguntas, solo tres de diez entrevistadas respondieron tres de ellas en menos de cinco minutos, cuando el criterio fijado exigía siete. Una rechazó responder y una abandonó en la segunda pregunta.
 
-> **Solución, tras el ADR-023:** la versión mínima obligatoria es una ficha de tres campos que se responde en menos de dos minutos. Las ocho secciones quedan como ampliación opcional, con dictado por voz en todos los campos y una barra de completitud que celebra el avance sin castigar lo que falta. El acceso de relevo se genera con la ficha sola. Y se agrega el **llenado asistido** (RF-42), porque la entrevistada que abandonó no lo hizo por falta de disposición sino por el teclado del teléfono, y pidió ella misma que se lo leyeran y alguien escribiera.
+> **Solución, tras el ADR-023:** la versión mínima obligatoria es una ficha de tres campos que se responde en menos de tres minutos. Las ocho secciones quedan como ampliación opcional, con dictado por voz en todos los campos y una barra de completitud que celebra el avance sin castigar lo que falta. El acceso de relevo se genera con la ficha sola. Y se agrega el **llenado asistido** (RF-42), porque la entrevistada que abandonó no lo hizo por falta de disposición sino por el teclado del teléfono, y pidió ella misma que se lo leyeran y alguien escribiera.
 >
-> Dos hallazgos entran directamente a la redacción: el segundo campo se llama **"qué la calma"** y no "manejo de situaciones difíciles", porque es la expresión que usaron tres entrevistadas por su cuenta, y la rutina admite responder por el día bueno o el día malo, porque una entrevistada se trabó exactamente ahí.
+> Dos hallazgos entran directamente a la redacción: el segundo campo se llama **"Si se altera"** y su pregunta guía es **"¿qué la calma?"**, en vez de "manejo de situaciones difíciles", porque es la expresión que usaron tres entrevistadas por su cuenta, y la rutina admite responder por el día bueno o el día malo, porque una entrevistada se trabó exactamente ahí.
 
 **c) Presentar la auditoría de accesos sin que parezca vigilancia.** Cinco de diez entrevistadas declararon que no mirarían nunca la pantalla de "quién ha visto el plan". Dos la valoran, y por razones opuestas: una como termómetro de involucramiento familiar, la cuidadora remunerada como respaldo laboral.
 
@@ -1672,11 +1681,11 @@ Existía en el diseño anterior sobre la publicación exclusiva en Android. Se r
 
 **Decisión.** La versión mínima obligatoria de la capa 1 es una **ficha de relevo de tres campos**: la rutina en una línea, qué hacer si la persona se altera y a quién llamar. Las ocho secciones pasan a ser ampliación opcional y ningún flujo del sistema exige el plan completo. El peso del producto se traslada a la capa 2, que no depende de texto largo porque el perfil de consumo son dos números por producto.
 
-**Qué NO cambia, y por eso el plan B funciona.** El modelo de datos no se toca: la ficha son tres de los ocho tipos de sección que `plan_seccion` ya contempla. El cifrado por sección, el acceso de relevo con token, la auditoría y la exportación operan igual. El ADR-001 y el ADR-002 quedan intactos. **El costo de la activación es menor a un sprint.**
+**Qué NO cambia, y por eso el plan B funciona.** El modelo de datos casi no se toca: la ficha son tres de los ocho tipos de sección que `plan_seccion` ya contempla, y solo se agrega la columna `plan_cuidado.modo`. El cifrado por sección, el acceso de relevo con token, la auditoría y la exportación operan igual. El ADR-001 y el ADR-002 quedan intactos. **El costo de la activación es menor a un sprint.**
 
 **Qué se agrega.** RF-42, llenado asistido por un tercero, porque el único abandono del piloto fue por manejo del teléfono y por no tener la información, no por falta de disposición. La entrevistada lo pidió ella misma: que se lo leyeran y alguien escribiera.
 
-**Qué se renombra.** El segundo campo se llama **"qué la calma"**, que es la expresión que usaron tres entrevistadas por su cuenta, y no "manejo de situaciones difíciles".
+**Qué se renombra.** El segundo campo se llama **"Si se altera"**, con la pregunta guía **"¿qué la calma?"**, que es la expresión que usaron tres entrevistadas por su cuenta, y no "manejo de situaciones difíciles".
 
 **Lo que la evidencia sostiene a favor del producto.** H2 quedó validada con margen: siete de diez tuvieron un relevo en tres meses, nueve dejaron de salir por falta de relevo o por el costo de explicar, y seis de los nueve relevos relatados fallaron por conocimiento que solo tenía la cuidadora. Cuatro entrevistadas ya llevan un registro propio. **La necesidad está probada. Lo que se refutó es el formato, no el problema.**
 
@@ -1853,7 +1862,7 @@ Con 200 familias y **1,0 entregas mensuales** cada una son 200 entregas al mes, 
 
 **Corrección aritmética respecto de la v1.0, y conviene decirla.** La tabla anterior calculaba el ingreso por comisión sobre 300 entregas valoradas cada una en una canasta mensual completa de $60.000, es decir $18.000.000 de volumen, que equivale a $90.000 por familia al mes. Eso contradice el propio supuesto de canasta mensual de $50.000 a $70.000: **si la canasta mensual es $60.000 y hay 1,5 entregas, cada entrega vale $40.000, no $60.000**. Calculado de forma consistente con sus propios supuestos, la v1.0 habría dado $4.760 por familia en el modelo con suscripción y un margen **negativo** de −$1.050 en el de solo despacho.
 
-**Qué sobrevive a la corrección y qué cambia.** La conclusión cualitativa sobrevive intacta y sale reforzada: el despacho por sí solo no sostiene el negocio y la suscripción lo cambia de orden de magnitud. Lo que cambia es que el modelo de solo despacho deja de ser marginalmente positivo por la razón que se creía, y sigue sin resistir una subida del costo de última milla de $3.500 a $4.500, que lo deja en $200 por familia al mes.
+**Qué sobrevive a la corrección y qué cambia.** La conclusión cualitativa sobrevive intacta y sale reforzada: el despacho por sí solo no sostiene el negocio y la suscripción lo cambia de orden de magnitud. Lo que cambia es que el modelo de solo despacho deja de ser marginalmente positivo por la razón que se creía, y sigue sin resistir una subida del costo de última milla de $3.500 a $4.500, que lo deja en $400 por familia al mes.
 
 ### 16.3 Referencia de mercado
 
@@ -1982,7 +1991,7 @@ MATU/
 ├── docs/
 │   ├── arquitectura.md            este documento
 │   ├── adr/                       un archivo por decisión
-│   ├── prototipo.html             32 pantallas, 7 recorridos
+│   ├── prototipo/prototipo-v1.1.html  36 pantallas, 7 recorridos
 │   ├── protocolo-entrevistas.md   guion y criterios de falsación
 │   ├── resultados-entrevistas.md  veredicto por hipótesis y mediciones
 │   ├── entrevistas/               diez fichas anonimizadas
@@ -2007,7 +2016,7 @@ modules/consumption/
 | Término | Significado en MATU |
 |---|---|
 | **Plan de cuidado** | Conjunto cifrado de secciones que describen cómo se cuida a una persona. Núcleo del producto |
-| **Ficha de relevo** | Versión mínima obligatoria del plan: rutina en una línea, qué la calma y a quién llamar. Tres de los ocho tipos de sección |
+| **Ficha de relevo** | Versión mínima obligatoria del plan: su día en una línea, si se altera (qué la calma) y a quién llamar. Tres de los ocho tipos de sección |
 | **Llenado asistido** | Un miembro del círculo familiar completa la ficha en nombre del cuidador principal, con autoría registrada |
 | **Perfil de consumo** | Declaración de a qué ritmo se consume un insumo, base de la predicción de quiebre |
 | **Quiebre** | Momento en que se agota un insumo que no admite agotarse |

@@ -4,7 +4,7 @@
 **Versión:** 1.0 · septiembre 2026 · sprint 0
 **Equipo:** Jorge Espinoza · Martín Henríquez
 **Documentos asociados:** Arquitectura v1.0 (secciones 7, 11 y 12) · ADR-023 (cierre) · Estrategia de pruebas
-**Estado:** diseño completo, ejecutado y probado contra PostgreSQL 16. Pendiente de revisión conjunta antes de migrar.
+**Estado:** diseño completo, ejecutado y probado contra PostgreSQL 16. Es la migración `0001_esquema_inicial` desde el sprint 0. Las decisiones que siguen abiertas están en la sección 14.
 
 ---
 
@@ -26,7 +26,7 @@ El código vive en el repositorio de desarrollo, [MATU_PROYECTO](https://github.
 | `backend/tests/test_aislamiento.py` | 31 pruebas contra PostgreSQL real |
 | `infra/postgres/init/10_matu.sh` | Crea los roles, la base y `btree_gist` al primer arranque |
 | `backend/db/gen_diagramas.py` | Genera los diagramas entidad-relación desde el catálogo de la base |
-| `docs/diagramas/modelo-datos/` (en este repositorio) | Los 13 diagramas en `.mmd`, `.svg` y `.png` |
+| `docs/diagramas/modelo-datos/` (en este repositorio) | Los 13 diagramas en `.svg` y `.png`, 12 de ellos con su fuente `.mmd`. La matriz de acceso (10) se genera con `gen_matriz.py` |
 
 **Los diagramas entidad-relación no están dibujados a mano.** Se generan leyendo el catálogo de PostgreSQL, así que no pueden quedar desalineados del esquema: si cambia una tabla, se vuelve a correr el script.
 
@@ -735,9 +735,9 @@ erDiagram
 | Tabla | Propósito | Reglas que conviene notar |
 |---|---|---|
 | `cargo` | Lo que MATU cobra a la familia por un pedido | Uno por pedido. Lo capturado nunca supera lo autorizado (`CHECK`) |
-| `participacion` | La parte de cada familiar | Un solo respaldo por cargo (índice único parcial). Lo capturado nunca supera lo autorizado |
+| `participacion` | La parte de cada familiar | Un solo respaldo por cargo (índice único parcial). Lo capturado nunca supera lo autorizado. **En el MVP hay una sola participación por cargo:** el pago entre varios familiares salió del semestre con el segundo recorte de la arquitectura v1.1 (sección 15.3), y la tabla se mantiene para cuando vuelva |
 | `transaccion_pasarela` | Cada operación con Transbank: autorización, ampliación, captura o reversa | **Nunca se borra** (permiso y trigger). `buy_order` limitado a 26 caracteres, que es el límite de Transbank. `tipo_tarjeta` registra crédito, débito o prepago, que es justo lo que debe verificar la prueba de concepto |
-| `medio_pago_inscrito` | Tarjeta inscrita con OneClick | Solo la ve su dueño. Entra al MVP por el respaldo del pago dividido (ADR-007) |
+| `medio_pago_inscrito` | Tarjeta inscrita con OneClick | Solo la ve su dueño. Entraba al MVP por el respaldo del pago dividido (ADR-007), que salió del semestre con el segundo recorte. Se mantiene en el esquema para la fase 2 del producto |
 
 ### 4.7 Capa 3 · Cumplimiento y liquidación al comercio
 
@@ -1245,14 +1245,14 @@ python db/gen_diagramas.py && python db/gen_matriz.py
 
 ## 14. Para la revisión conjunta
 
-Decisiones de este documento que conviene confirmar entre los dos antes de migrar:
+El esquema ya está migrado. Estas decisiones siguen abiertas y se confirman entre los dos en la planificación del sprint que las usa:
 
-- [ ] Vigencia máxima del acceso de relevo: **30 días**. ¿Más corta?
-- [ ] Vigencia de la invitación: **7 días**
-- [ ] Frecuencias permitidas de reposición: 7, 14, 21, 28 y 30 días
-- [ ] Período de liquidación por defecto: **quincenal**
-- [ ] Los hallazgos 1 a 5 de la sección 5.4 y los 16 cambios de la sección 10 se llevan a la arquitectura (versión 1.1)
-- [ ] Martín revisa `02_rls.sql` completo: es código que toca datos sensibles, y la sección 12.6 exige revisión de la otra persona
+- Vigencia máxima del acceso de relevo: **30 días**, o más corta (sprint 2)
+- Vigencia de la invitación: **7 días** (sprint 3)
+- Frecuencias permitidas de reposición: 7, 14, 21, 28 y 30 días (fuera del semestre: la reposición programada salió con el segundo recorte)
+- Período de liquidación por defecto: **quincenal** (sprint 4)
+- Los hallazgos 1 a 5 de la sección 5.4 y los 16 cambios de la sección 10 se llevan a la arquitectura v1.2
+- `02_rls.sql` lo revisa completo la otra persona cada vez que cambie, porque toca datos sensibles (sección 12.6 de la arquitectura)
 
 ---
 

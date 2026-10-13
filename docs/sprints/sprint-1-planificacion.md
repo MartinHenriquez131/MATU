@@ -2,7 +2,7 @@
 
 **Sprint:** 1 · viernes 16 a jueves 22 de octubre de 2026 · semanas 10 y 11 del ramo
 **Equipo:** Jorge Espinoza (Product Owner) · Martín Henríquez (Scrum Master)
-**Base:** Backlog sprints 1 a 3 v1.2 · [Calendario de sprints v1.3](calendario-sprints.md)
+**Base:** [Backlog sprints 1 a 3 v1.3](../backlog-sprints-1-3.md) · [Calendario de sprints v1.3](calendario-sprints.md)
 
 ---
 
@@ -34,7 +34,9 @@ Se comprometen 26 h estimadas contra 23 h reales, un factor de 1,13. Es menos de
 | Tarea | Responsable | Horas | Criterio de cierre |
 |---|---|---|---|
 | **S0-A · Esqueleto de la API** | Martín | 2 | `app/main.py`, configuración, errores RFC 7807 y logs JSON con `request_id` y sin cuerpos de petición. MATU-04 lo necesita para empezar |
-| **S0-E · Prueba de concepto de Transbank** | Los dos | 1 | Casos 1, 2, 3 y 5 de la estrategia de pruebas (sección 10) con su resultado real en `docs/pruebas-concepto/transbank.md`. El caso 4 (débito) ya está respondido |
+| **S0-E · Prueba de concepto de Transbank** | Los dos | 1 | Casos 1, 2, 3 y 5 de la estrategia de pruebas (sección 10) con su resultado real en `docs/pruebas-concepto/transbank.md`. El caso 4 (débito) ya está respondido, y queda escrita la decisión que se toma con él: plan B para el débito o MVP solo con crédito |
+
+Las rutas de código de este documento (`app/`, `spikes/`) son del repositorio **MATU_PROYECTO**. `docs/pruebas-concepto/` está en este repositorio.
 
 ## 4. Historias comprometidas y sus tareas
 
@@ -47,7 +49,7 @@ El orden es el orden de ejecución.
 | 0 | **S0-A** Esqueleto de la API | Ver sección 3 | 2 |
 | 1 | **MATU-04** Crear una cuenta | Esquema Pydantic y `POST /v1/usuarios` (0,5) · servicio con Argon2id y HMAC del email (0,5) · repositorio de `usuario` e `indice_credencial` (0,5) · pruebas (0,5) | 2 |
 | 2 | **MATU-05a** Iniciar sesión y validar el token | `POST /v1/sesiones` (1) · emisión del JWT y configuración de la clave (0,5) · dependencia `usuario_actual` con validación de firma, vencimiento y algoritmo (1) · pruebas con `RelojFijo` (1) | 3,5 |
-| 3 | **MATU-02** Contexto de tenant | Helper `sesion_tenant` (1) · dependencia con `X-Grupo-Id` y 404 (1) · pruebas de contexto entre peticiones (1). La suite de aislamiento ya corre en el pipeline contra la migración de Alembic, así que esta tarea se cerró en el sprint 0 | 3 |
+| 3 | **MATU-02** Contexto de tenant | Helper `sesion_tenant` (1) · dependencia con `X-Grupo-Id` y 404 (1) · pruebas de contexto entre peticiones (1). Mover la suite de aislamiento y correrla contra la migración de Alembic se cerró en el sprint 0 | 3 |
 | 4 | **MATU-06** Crear el grupo familiar | `POST` y `GET /v1/grupos` (1) · transacción grupo más admin, con identificador generado en la app (0,5) · pruebas (1) | 2,5 |
 | 5 | **S0-E** Prueba de Transbank, con Jorge | Ver sección 3 | 1 |
 
@@ -59,7 +61,7 @@ El orden es el orden de ejecución.
 | 2 | **MATU-07** Alta de la persona cuidada con consentimiento | Esquemas con rechazo de campos extra (1) · servicio transaccional persona más consentimiento (1,5) · `POST` y `GET /v1/grupos/{id}/personas-cuidadas` (1) · reglas por calidad del otorgante (0,5) · pruebas (2) | 6 |
 | 3 | **MATU-03** Puertos y prueba de arquitectura | Puertos `Reloj` y `CustodiaClaves` con sus dobles (1) · `test_arquitectura.py` con caso negativo (1) | 2 |
 | 4 | **MATU-27** Figura legal | Revisar opciones y escribir la decisión (1) | 1 |
-| 5 | **MATU-28** Anonimizar A55 | Editar la ficha (0,5) | 0,5 |
+| 5 | **MATU-28** Anonimizar A55 | Los nombres ya se quitaron el 13 de octubre. Queda decidir qué hacer con las versiones anteriores en el historial público del repositorio (0,5) | 0,5 |
 | 6 | **S0-E** Prueba de Transbank, con Martín | Ver sección 3 | 1 |
 
 **Si sobra capacidad**, se adelantan en este orden: **MATU-09** (contrato de API de la ficha y del relevo, Martín) y **MATU-30** (fábricas y lista de lenguaje, Martín). Las dos abren el sprint 2.
@@ -129,7 +131,7 @@ Y en pantalla, el pipeline en verde con `test_aislamiento.py` y `test_arquitectu
 |---|---|---|
 | Jorge tiene menos horas por la práctica | **Alta** | Se confirma en la planificación y se ajusta el compromiso antes de empezar, no a mitad de semana |
 | El código generado pasa las pruebas pero no cumple la arquitectura | Media | `test_arquitectura.py` (MATU-03) y la revisión cruzada lo detectan. Por eso MATU-03 va en este sprint |
-| La prueba de Transbank vuelve a terminar anulada | Media | Se diagnostica con `poc_estado.py`. Si no se resuelve, el débito ya está respondido y los casos 1 a 3 se cierran en el sprint 2, antes de que importen (sprint 4) |
+| La prueba de Transbank vuelve a terminar anulada | Media | Se diagnostica con `poc_estado.py`. Si no se resuelve, el débito ya está respondido y los casos 1, 2, 3 y 5 se cierran en el sprint 2, antes de que importen (sprint 4) |
 | El `INSERT … RETURNING` con RLS falla al crear el grupo | Media | Ya está previsto en MATU-06: el identificador se genera en la aplicación |
 | MATU-02 se atrasa y bloquea la integración de MATU-07 | Media | Aviso el martes y repriorización sobre MATU-06 |
 
