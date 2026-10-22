@@ -101,10 +101,10 @@ La revisión del jueves 22 muestra el objetivo con este guion, en vivo contra el
 
 ```bash
 # 1. Dos familias se registran e inician sesión
-http POST :8000/v1/usuarios nombre="Ana" email=ana@demo.cl password=clave-segura-1
-http POST :8000/v1/usuarios nombre="Luis" email=luis@demo.cl password=clave-segura-2
-ANA=$(http POST :8000/v1/sesiones email=ana@demo.cl password=clave-segura-1 | jq -r .access_token)
-LUIS=$(http POST :8000/v1/sesiones email=luis@demo.cl password=clave-segura-2 | jq -r .access_token)
+http POST :8000/v1/usuarios nombre="Ana" email=ana@demo.cl contrasena=clave-segura-1
+http POST :8000/v1/usuarios nombre="Luis" email=luis@demo.cl contrasena=clave-segura-2
+ANA=$(http POST :8000/v1/sesiones email=ana@demo.cl contrasena=clave-segura-1 | jq -r .access_token)
+LUIS=$(http POST :8000/v1/sesiones email=luis@demo.cl contrasena=clave-segura-2 | jq -r .access_token)
 
 # 2. Ana crea su grupo y da de alta a su mamá con consentimiento de cuidadora de hecho
 G=$(http POST :8000/v1/grupos nombre="Familia Soto" "Authorization:Bearer $ANA" | jq -r .id)
