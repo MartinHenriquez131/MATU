@@ -31,9 +31,7 @@
 
 ## 2. Quién es responsable de los datos
 
-- **Responsable:** [PENDIENTE: nombre o razón social. Depende de la decisión sobre la figura legal del piloto, MATU-27]
-- **RUT:** [PENDIENTE]
-- **Domicilio:** [PENDIENTE]
+- **Responsable durante el piloto académico:** el equipo del proyecto, Jorge Espinoza y Martín Henríquez, como personas naturales. MATU todavía no tiene persona jurídica (decisión MATU-27 del 24/10/2026). Eso cambia en la versión 1.0, antes de tratar datos reales.
 - **Contacto para temas de privacidad:** [PENDIENTE: correo de contacto]
 
 ## 3. Para qué usamos los datos
@@ -60,7 +58,7 @@ MATU no usa los datos para publicidad ni los vende. Tampoco toma decisiones auto
 - **Los grupos a los que perteneces** y tu rol en cada uno.
 - **Registros técnicos.** Por cada acción guardamos la fecha y hora, el tipo de acción sin su contenido, si resultó o no, cuánto tardó y un número interno que te identifica a ti y a tu grupo. En esos registros no guardamos tu email, tu contraseña, tus códigos de acceso, el nombre del grupo ni tu dirección IP.
 - **Más adelante,** para frenar los intentos de entrar a la fuerza, usaremos tu dirección IP solo como un contador temporal de intentos por hora. *Todavía no disponible.*
-- **Cuando des una autorización** para la persona que cuidas: la fecha, la hora, la dirección IP, el tipo de navegador, el texto que aceptaste y la versión de esta política. *Todavía no disponible.*
+- **Cuando des una autorización** para la persona que cuidas: la fecha y la hora, en qué calidad la diste, qué declaración y qué aviso viste (su identificador y su versión) y la versión de esta política. No guardamos tu dirección IP ni tu navegador. *Todavía no disponible.*
 
 ### Tu sesión
 
@@ -79,7 +77,7 @@ La persona que cuidas no tiene cuenta en MATU. Sus datos los ingresas tú.
 
 - Su nombre y el nombre con que la llaman.
 - Su nivel de apoyo: autovalente con supervisión, apoyo parcial o apoyo total.
-- Su dirección. [PENDIENTE: decidir si se pide al darla de alta o solo con el primer pedido]
+- Su dirección, solo cuando hagas el primer pedido. Al darla de alta no la pedimos.
 - La autorización: quién la dio, en qué calidad y cuándo, y la referencia al documento si quien autoriza es su representante legal.
 - La ficha de relevo, con sus tres campos: **Su día**, **Si se altera** y **A quién llamar**. También guardamos quién escribió cada campo y cuándo.
 - Más adelante: qué insumos usa, cuánto usa y cuánto queda.
@@ -119,7 +117,7 @@ Para guardar la ficha necesitamos una autorización. Al dar de alta a la persona
 
 ### Aviso para quien cuida sin ser representante legal
 
-Este es el texto exacto que MATU muestra al elegir esta calidad:
+Este es el texto exacto que MATU muestra al elegir esta calidad. Su identificador en el sistema es `aviso_cuidador_de_hecho`, versión 1.0:
 
 > **Aviso: tu autorización tiene un límite**
 >
@@ -152,7 +150,7 @@ Este es el texto exacto que MATU muestra al elegir esta calidad:
 
 **Quien reparte**, si en el futuro hay despacho: ve la dirección de entrega solo mientras lleva el pedido.
 
-**Transbank**, cuando existan los pagos: el pago se hace en su página. MATU no ve el número de tu tarjeta ni su código. Solo guarda el resultado: el monto, el código de autorización, el tipo de tarjeta y sus últimos 4 dígitos.
+**Transbank**, cuando existan los pagos: el pago se hace en su página. MATU no ve el número de tu tarjeta ni su código. Solo guarda el resultado: el monto, el código de autorización, el tipo de tarjeta y sus últimos 4 dígitos. Puedes pagar con crédito o con débito. Con crédito se reserva el monto estimado y se cobra solo el real. Con débito se cobra el estimado y, si el pedido sale por menos, se devuelve la diferencia. Durante el piloto los pagos ocurren solo en el ambiente de prueba de Transbank, sin cobros reales.
 
 **El equipo de MATU:** para dar soporte ve los pedidos y los pagos. Sus herramientas no permiten leer la ficha ni el consumo de insumos.
 
