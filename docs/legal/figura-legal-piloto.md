@@ -2,7 +2,7 @@
 
 **Decisión:** tomada por Jorge Espinoza (Product Owner) el 24/10/2026
 **Redacción:** analista normativo del equipo de agentes, a partir de la arquitectura, el backlog y la prueba de concepto de Transbank. Este documento no es asesoría legal.
-**Aprobación del texto:** [PENDIENTE: Jorge Espinoza, en la revisión del pull request]
+**Aprobación del texto:** aprobado por Jorge Espinoza (Product Owner) el 25/10/2026. La revisión la hizo el orquestador del equipo de agentes, por delegación.
 
 ## 1. Contexto
 

@@ -2,7 +2,7 @@
 
 **Versión 0.9 · 21 de octubre de 2026 (21/10/2026) · revisada el 24/10/2026 con lo que hacen la cuenta, la sesión y el grupo**
 **Estado:** borrador para el piloto académico. Todavía no sirve para tratar datos reales.
-**Aprobación:** [PENDIENTE: aprobación del Product Owner]
+**Aprobación:** aprobada como borrador v0.9 por Jorge Espinoza (Product Owner) el 25/10/2026. La revisión la hizo el orquestador del equipo de agentes, por delegación. Se confirman los tres compromisos del texto: MATU no vende datos, borra de inmediato los datos reales que entren por error, y ejercer los derechos es gratis. Los [PENDIENTE] que quedan (contacto, plazos, proveedores y procedimiento ante filtraciones) se resuelven en la versión 1.0, antes de tratar datos reales.
 **Identificador de versión en el sistema:** `0.9`
 
 ---
