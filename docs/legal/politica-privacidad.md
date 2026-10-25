@@ -58,7 +58,7 @@ MATU no usa los datos para publicidad ni los vende. Tampoco toma decisiones auto
 - **Los grupos a los que perteneces** y tu rol en cada uno.
 - **Registros técnicos.** Por cada acción guardamos la fecha y hora, el tipo de acción sin su contenido, si resultó o no, cuánto tardó y un número interno que te identifica a ti y a tu grupo. En esos registros no guardamos tu email, tu contraseña, tus códigos de acceso, el nombre del grupo ni tu dirección IP.
 - **Más adelante,** para frenar los intentos de entrar a la fuerza, usaremos tu dirección IP solo como un contador temporal de intentos por hora. *Todavía no disponible.*
-- **Cuando des una autorización** para la persona que cuidas: la fecha y la hora, en qué calidad la diste, qué declaración y qué aviso viste (su identificador y su versión) y la versión de esta política. No guardamos tu dirección IP ni tu navegador. *Todavía no disponible.*
+- **Cuando des una autorización** para la persona que cuidas: la fecha y la hora, en qué calidad la diste, qué declaración viste y la versión de esta política. Si eres cuidadora o cuidador de hecho, también qué aviso viste: su identificador, su versión y una huella de su texto. Si registras la decisión de la propia persona, queda anotado que la registraste tú, en su presencia. No guardamos tu dirección IP ni tu navegador.
 
 ### Tu sesión
 
@@ -77,8 +77,9 @@ La persona que cuidas no tiene cuenta en MATU. Sus datos los ingresas tú.
 
 - Su nombre y el nombre con que la llaman.
 - Su nivel de apoyo: autovalente con supervisión, apoyo parcial o apoyo total.
-- Su dirección, solo cuando hagas el primer pedido. Al darla de alta no la pedimos.
+- Su dirección, si quieres darla al registrarla. Es opcional y puedes agregarla más adelante, por ejemplo con el primer pedido. No guardamos su ubicación en el mapa.
 - La autorización: quién la dio, en qué calidad y cuándo, y la referencia al documento si quien autoriza es su representante legal.
+- Si diste la autorización como cuidadora o cuidador de hecho, la fecha en que te pediremos confirmar que sigues a cargo, 12 meses después.
 - La ficha de relevo, con sus tres campos: **Su día**, **Si se altera** y **A quién llamar**. También guardamos quién escribió cada campo y cuándo.
 - Más adelante: qué insumos usa, cuánto usa y cuánto queda.
 
@@ -127,6 +128,10 @@ Este es el texto exacto que MATU muestra al elegir esta calidad. Su identificado
 >
 > En 12 meses te pediremos confirmar que sigues a cargo de su cuidado.
 
+Su huella en el sistema (SHA-256) es `9b33205fd93e18b3eaac569071b794d21071a414ccc0d8bb5b89f9c96af3dfc9`.
+
+Cada declaración también tiene un identificador en el sistema: `declaracion_titular`, `declaracion_representante_legal` y `declaracion_cuidador_de_hecho`. Su versión es la de esta política. Cambiar una sola palabra de una declaración o del aviso es publicar una versión nueva.
+
 [PENDIENTE: qué pasa si no se confirma a los 12 meses. Está en consulta legal]
 
 ## 6. Quién ve los datos
@@ -136,7 +141,7 @@ Este es el texto exacto que MATU muestra al elegir esta calidad. Su identificado
 **El nombre del grupo:** lo ven las personas del grupo y el equipo que opera MATU.
 
 **Tu grupo, según el rol de cada persona:**
-- **Administrador y cuidador:** ven todo y pueden editar y compartir la ficha.
+- **Administrador y cuidador:** ven todo, incluida la calidad en que se dio la autorización, y pueden editar y compartir la ficha. La referencia al documento del representante legal no se muestra en la aplicación: queda guardada solo como respaldo.
 - **Pagador:** ve el nombre y la dirección. Ve la ficha solo si le dan ese permiso.
 - **Observador:** ve el nombre. Nunca ve la ficha.
 
