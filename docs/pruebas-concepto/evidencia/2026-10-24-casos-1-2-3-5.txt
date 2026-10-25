@@ -1,0 +1,42 @@
+Prueba de concepto Transbank · casos 1, 2, 3 y 5 · 24/10/2026 (hora de Chile, ~23:17 a 23:32)
+Ambiente de integración, comercio de captura diferida 597055555540, transbank-sdk 6.1.0
+Tarjeta de prueba VISA crédito terminada en 6623. Banco simulado con el RUT y la clave de prueba del README.
+Salida de consola de los scripts de MATU_PROYECTO/spikes/transbank (sin los tokens).
+
+=== CASO 1 · orden-poc-101 · autorizar y capturar el mismo monto
+--- poc_commit.py
+{'vci': 'TSY', 'amount': 69000, 'status': 'AUTHORIZED', 'buy_order': 'orden-poc-101', 'session_id': 'sesion-poc-matu', 'card_detail': {'card_number': '6623'}, 'accounting_date': '1024', 'transaction_date': '2026-10-25T02:17:53.584Z', 'authorization_code': '1213', 'payment_type_code': 'VN', 'response_code': 0, 'installments_number': 0}
+--- poc_captura.py
+{'authorization_code': '872051', 'authorization_date': '2026-10-25T02:27:33.250Z', 'captured_amount': 69000, 'response_code': 0}
+
+=== CASO 5 · orden-poc-101 · segundo commit con el mismo token, después de capturar
+--- poc_commit.py (segunda vez)
+{'vci': 'TSY', 'amount': 69000, 'status': 'CAPTURED', 'buy_order': 'orden-poc-101', 'session_id': 'sesion-poc-matu', 'card_detail': {'card_number': '6623'}, 'accounting_date': '1024', 'transaction_date': '2026-10-25T02:17:53.584Z', 'authorization_code': '1213', 'payment_type_code': 'VN', 'response_code': 0, 'installments_number': 0}
+--- poc_estado.py
+{'vci': 'TSY', 'amount': 69000, 'status': 'CAPTURED', 'buy_order': 'orden-poc-101', 'session_id': 'sesion-poc-matu', 'card_detail': {'card_number': '6623'}, 'accounting_date': '1024', 'transaction_date': '2026-10-25T02:17:53.584Z', 'authorization_code': '1213', 'payment_type_code': 'VN', 'response_code': 0, 'installments_number': 0}
+
+=== CASO 2 · orden-poc-102 · autorizar 69000 y capturar 51340
+--- poc_commit.py
+{'vci': 'TSY', 'amount': 69000, 'status': 'AUTHORIZED', 'buy_order': 'orden-poc-102', 'session_id': 'sesion-poc-matu', 'card_detail': {'card_number': '6623'}, 'accounting_date': '1024', 'transaction_date': '2026-10-25T02:27:51.538Z', 'authorization_code': '1213', 'payment_type_code': 'VN', 'response_code': 0, 'installments_number': 0}
+--- poc_captura.py
+{'authorization_code': '196611', 'authorization_date': '2026-10-25T02:30:48.048Z', 'captured_amount': 51340, 'response_code': 0}
+--- poc_estado.py
+{'vci': 'TSY', 'amount': 51340, 'status': 'CAPTURED', 'buy_order': 'orden-poc-102', 'session_id': 'sesion-poc-matu', 'card_detail': {'card_number': '6623'}, 'accounting_date': '1024', 'transaction_date': '2026-10-25T02:27:51.538Z', 'authorization_code': '1213', 'payment_type_code': 'VN', 'response_code': 0, 'installments_number': 0}
+
+=== CASO 3 · orden-poc-103 · autorizar y revertir sin capturar
+--- poc_commit.py
+{'vci': 'TSY', 'amount': 69000, 'status': 'AUTHORIZED', 'buy_order': 'orden-poc-103', 'session_id': 'sesion-poc-matu', 'card_detail': {'card_number': '6623'}, 'accounting_date': '1024', 'transaction_date': '2026-10-25T02:31:01.088Z', 'authorization_code': '1213', 'payment_type_code': 'VN', 'response_code': 0, 'installments_number': 0}
+--- poc_reversa.py
+{'type': 'REVERSED'}
+--- poc_estado.py
+{'vci': 'TSY', 'amount': 69000, 'status': 'REVERSED', 'buy_order': 'orden-poc-103', 'session_id': 'sesion-poc-matu', 'card_detail': {'card_number': '6623'}, 'accounting_date': '1024', 'transaction_date': '2026-10-25T02:31:01.088Z', 'authorization_code': '1213', 'payment_type_code': 'VN', 'response_code': 0, 'installments_number': 0}
+
+=== CASO 2, REPETIDO CON CAPTURAS · orden-poc-202 · 25/10/2026, 11:23 a 11:25 (hora de Chile)
+$ python poc_commit.py <token>
+{'vci': 'TSY', 'amount': 69000, 'status': 'AUTHORIZED', 'buy_order': 'orden-poc-202', 'session_id': 'sesion-poc-matu', 'card_detail': {'card_number': '6623'}, 'accounting_date': '1025', 'transaction_date': '2026-10-25T14:23:30.284Z', 'authorization_code': '1213', 'payment_type_code': 'VN', 'response_code': 0, 'installments_number': 0}
+
+$ python poc_captura.py <token> 1213 orden-poc-202 51340
+{'authorization_code': '840446', 'authorization_date': '2026-10-25T14:25:13.364Z', 'captured_amount': 51340, 'response_code': 0}
+
+$ python poc_estado.py <token>
+{'vci': 'TSY', 'amount': 51340, 'status': 'CAPTURED', 'buy_order': 'orden-poc-202', 'session_id': 'sesion-poc-matu', 'card_detail': {'card_number': '6623'}, 'accounting_date': '1025', 'transaction_date': '2026-10-25T14:23:30.284Z', 'authorization_code': '1213', 'payment_type_code': 'VN', 'response_code': 0, 'installments_number': 0}
