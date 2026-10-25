@@ -29,6 +29,20 @@ MATU cobra el monto real de un pedido, que puede ser menor al estimado si falta 
 | 4 | Débito | Registrar qué pasa | **No admite captura diferida.** El formulario del comercio de captura diferida solo ofrece "Tarjetas · Crédito". No hay opción de débito. La autorización del 7 de octubre lo confirma: VN es "Venta Normal", una venta con crédito. Una venta con débito aparecería como VD | [Captura 2](capturas/02-formulario-solo-credito.png) |
 | 5 | Retorno de la pasarela recibido dos veces | Un solo cobro | **Cumple, con un hallazgo.** Hay un solo cobro, pero el segundo commit **no falla**, como esperaba el README del spike. Transbank devuelve la misma transacción, ya en `CAPTURED`, con el mismo código de autorización y el mismo monto. Ver "Hallazgo para el módulo de pagos" | [Evidencia del 24/10](evidencia/2026-10-24-casos-1-2-3-5.txt) |
 
+### Caso 2 repetido con capturas · 25 de octubre de 2026
+
+Para el informe se repitió el caso central, el que prueba que se cobra solo el monto real (`orden-poc-202`, de 11:23 a 11:25, hora de Chile). El resultado fue el mismo del 24: commit `AUTHORIZED` por $69.000, captura de $51.340 (código 840446, respuesta 0) y estado final `CAPTURED` con `amount` 51.340.
+
+| Paso | Captura |
+|---|---|
+| 1 · Webpay del comercio diferido, por $69.000 y **solo con crédito** (caso 4) | [1-webpay-solo-credito-69000.jpg](capturas/caso2-2026-10-25/1-webpay-solo-credito-69000.jpg) |
+| 2 · Tarjeta de crédito de prueba de Transbank | [2-tarjeta-de-prueba-credito.jpg](capturas/caso2-2026-10-25/2-tarjeta-de-prueba-credito.jpg) |
+| 3 · Banco simulado, con el RUT de prueba | [3-banco-simulado-69000.jpg](capturas/caso2-2026-10-25/3-banco-simulado-69000.jpg) |
+| 4 · Retorno con `token_ws`: el pago no se anuló | [4-retorno-con-token-ws.jpg](capturas/caso2-2026-10-25/4-retorno-con-token-ws.jpg) |
+| 5 · Consola: commit por $69.000, captura de $51.340 y estado final | [5-consola-captura-51340.jpg](capturas/caso2-2026-10-25/5-consola-captura-51340.jpg) |
+
+![Consola del caso 2](capturas/caso2-2026-10-25/5-consola-captura-51340.jpg)
+
 **Hallazgo para el módulo de pagos (sprint 4).** El commit repetido es idempotente y no da error. El módulo no puede detectar un retorno duplicado esperando una excepción. Tiene que registrar el token y el estado del cargo en su propia base, y si el token ya está procesado, no confirmar el pedido otra vez ni crear un segundo cargo. Lo cubre el caso de "retorno duplicado" de la estrategia de pruebas, con la `PasarelaFalsa` programada para responder como Transbank.
 
 ![Autenticación en el banco simulado](capturas/01-autenticacion-rut-incorrecto.png)

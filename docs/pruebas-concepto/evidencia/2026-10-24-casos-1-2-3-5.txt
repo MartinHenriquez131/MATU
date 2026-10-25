@@ -30,3 +30,13 @@ Salida de consola de los scripts de MATU_PROYECTO/spikes/transbank (sin los toke
 {'type': 'REVERSED'}
 --- poc_estado.py
 {'vci': 'TSY', 'amount': 69000, 'status': 'REVERSED', 'buy_order': 'orden-poc-103', 'session_id': 'sesion-poc-matu', 'card_detail': {'card_number': '6623'}, 'accounting_date': '1024', 'transaction_date': '2026-10-25T02:31:01.088Z', 'authorization_code': '1213', 'payment_type_code': 'VN', 'response_code': 0, 'installments_number': 0}
+
+=== CASO 2, REPETIDO CON CAPTURAS · orden-poc-202 · 25/10/2026, 11:23 a 11:25 (hora de Chile)
+$ python poc_commit.py <token>
+{'vci': 'TSY', 'amount': 69000, 'status': 'AUTHORIZED', 'buy_order': 'orden-poc-202', 'session_id': 'sesion-poc-matu', 'card_detail': {'card_number': '6623'}, 'accounting_date': '1025', 'transaction_date': '2026-10-25T14:23:30.284Z', 'authorization_code': '1213', 'payment_type_code': 'VN', 'response_code': 0, 'installments_number': 0}
+
+$ python poc_captura.py <token> 1213 orden-poc-202 51340
+{'authorization_code': '840446', 'authorization_date': '2026-10-25T14:25:13.364Z', 'captured_amount': 51340, 'response_code': 0}
+
+$ python poc_estado.py <token>
+{'vci': 'TSY', 'amount': 51340, 'status': 'CAPTURED', 'buy_order': 'orden-poc-202', 'session_id': 'sesion-poc-matu', 'card_detail': {'card_number': '6623'}, 'accounting_date': '1025', 'transaction_date': '2026-10-25T14:23:30.284Z', 'authorization_code': '1213', 'payment_type_code': 'VN', 'response_code': 0, 'installments_number': 0}
