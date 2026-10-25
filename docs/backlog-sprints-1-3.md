@@ -126,14 +126,15 @@ Jorge empieza por MATU-26 y MATU-07 contra una sesión simulada de pruebas mient
 
 **Como** cuidadora, **quiero** registrar a la persona que cuido y declarar en qué calidad autorizo el uso de sus datos, **para** que todo se organice en torno a ella y el tratamiento sea legal.
 
-- Dado un `admin` o `cuidador`, cuando envía nombre, nombre de pila, nivel de apoyo (`autovalente_con_supervision`, `apoyo_parcial` o `apoyo_total`), dirección y calidad del otorgante, entonces la persona y su consentimiento para `plan_cuidado` se crean **en una sola transacción, o no se crea nada**
+- Dado un `admin` o `cuidador`, cuando envía nombre, nombre de pila, nivel de apoyo (`autovalente_con_supervision`, `apoyo_parcial` o `apoyo_total`), dirección **opcional** y calidad del otorgante, entonces la persona y su consentimiento para `plan_cuidado` se crean **en una sola transacción, o no se crea nada**
+- **La dirección es opcional en el alta** (decisión del 24-10, por minimización): la ficha y el relevo no la usan, y se pide con el primer pedido
 - `titular`: la persona cuidada declara en presencia del usuario, y el usuario lo registra
 - `representante_legal` sin referencia al documento responde 422
-- `cuidador_de_hecho` fija la revisión en 12 meses, y la respuesta incluye el texto del aviso de limitación
+- `cuidador_de_hecho` fija la revisión en 12 meses, y la respuesta incluye el texto del aviso de limitación. **La evidencia del consentimiento registra el identificador y la versión del aviso mostrado** (decisión del 24-10)
 - Se guarda la versión de la política vigente. Fuera del ambiente de pruebas, sin `POLITICA_VERSION` configurada la API no arranca. En pruebas se usa la versión de la fábrica
 - **No se pide ni se acepta diagnóstico:** un campo extra en el cuerpo responde 422
 - `pagador` y `observador` reciben 404 al intentar crear
-- `GET /v1/grupos/{id}/personas-cuidadas` lista las personas del grupo. Un usuario de otro grupo recibe 404
+- `GET /v1/grupos/{id}/personas-cuidadas` lista las personas del grupo, con lo que cada rol puede ver (arquitectura 11.2). `admin` y `cuidador` ven además la calidad del consentimiento vigente (11.5). Un usuario de otro grupo recibe 404
 - La clave de datos **no** se crea aquí: se crea en la primera escritura de la ficha (MATU-11)
 
 **Pruebas** (`@pytest.mark.rf("RF-01")`): `test_alta_con_consentimiento_atomica`, `test_representante_sin_documento_422`, `test_cuidador_de_hecho_fija_revision`, `test_campo_diagnostico_422`, `test_observador_no_da_de_alta`, `test_otro_grupo_no_ve_persona_404`
@@ -151,6 +152,8 @@ Jorge empieza por MATU-26 y MATU-07 contra una sesión simulada de pruebas mient
 
 - Decisión escrita: constituir una persona jurídica (plazo y costo), o declarar que el piloto opera en el ambiente de integración de Transbank y lo dice en el informe
 - El trámite de alta comercial de Transbank se inicia **solo si** la decisión es constituir la persona jurídica
+
+**Decisión del 24-10 (Jorge):** durante el semestre el piloto opera solo en el ambiente de integración de Transbank, con datos sintéticos y sin cobros reales, y se declara en el informe. La persona jurídica y el alta comercial quedan para después del semestre. Detalle en `docs/legal/figura-legal-piloto.md`
 
 ### MATU-28 · Corregir la anonimización de A55
 
