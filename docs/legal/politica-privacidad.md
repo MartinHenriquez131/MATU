@@ -1,6 +1,6 @@
 # Política de privacidad de MATU
 
-**Versión 0.9 · 21 de octubre de 2026 (21/10/2026)**
+**Versión 0.9 · 21 de octubre de 2026 (21/10/2026) · revisada el 24/10/2026 con lo que hacen la cuenta, la sesión y el grupo**
 **Estado:** borrador para el piloto académico. Todavía no sirve para tratar datos reales.
 **Aprobación:** [PENDIENTE: aprobación del Product Owner]
 **Identificador de versión en el sistema:** `0.9`
@@ -54,11 +54,24 @@ MATU no usa los datos para publicidad ni los vende. Tampoco toma decisiones auto
 
 ### De ti
 
-- Nombre, email y, si lo das, tu teléfono.
-- Tu contraseña, guardada de una forma que impide leerla. Nadie en MATU puede verla.
-- Los grupos a los que perteneces y tu rol en cada uno.
-- Un registro de seguridad: cuándo entras y qué haces con la ficha, con la fecha, la hora y la dirección IP.
-- Cuando das una autorización: la fecha, la hora, la dirección IP, el tipo de navegador, el texto que aceptaste y la versión de esta política.
+- **Tu nombre y tu email.** Para crear tu cuenta no pedimos nada más.
+- **Tu email se guarda legible**, porque lo necesitamos para que entres y para escribirte. Lo protege la separación entre familias de la base de datos. Para iniciar sesión usamos además una huella del email que no permite recuperarlo.
+- **Tu contraseña**, guardada transformada de una forma que no se puede revertir. Nadie en MATU puede leerla.
+- **Los grupos a los que perteneces** y tu rol en cada uno.
+- **Registros técnicos.** Por cada acción guardamos la fecha y hora, el tipo de acción sin su contenido, si resultó o no, cuánto tardó y un número interno que te identifica a ti y a tu grupo. En esos registros no guardamos tu email, tu contraseña, tus códigos de acceso, el nombre del grupo ni tu dirección IP.
+- **Más adelante,** para frenar los intentos de entrar a la fuerza, usaremos tu dirección IP solo como un contador temporal de intentos por hora. *Todavía no disponible.*
+- **Cuando des una autorización** para la persona que cuidas: la fecha, la hora, la dirección IP, el tipo de navegador, el texto que aceptaste y la versión de esta política. *Todavía no disponible.*
+
+### Tu sesión
+
+- Cuando entras, tu sesión dura 15 minutos.
+- Si se bloquea tu cuenta o cambias tu contraseña, una sesión que ya estaba abierta en otro teléfono puede seguir activa hasta 15 minutos.
+- Si alguien te saca de un grupo, dejas de verlo en ese mismo momento.
+
+### De tu grupo
+
+- El nombre del grupo, que eliges tú. No se cifra.
+- Usa un nombre corto, como «Familia Soto». No incluyas el nombre completo de la persona que cuidas ni datos de salud.
 
 ### De la persona que cuidas
 
@@ -120,6 +133,10 @@ Este es el texto exacto que MATU muestra al elegir esta calidad:
 
 ## 6. Quién ve los datos
 
+**Tu cuenta:** tu email lo ven solo tú y el equipo que opera MATU. Las personas de tus grupos ven tu nombre. [PENDIENTE: si también ven tu email, se define con la lista de miembros del grupo]
+
+**El nombre del grupo:** lo ven las personas del grupo y el equipo que opera MATU.
+
 **Tu grupo, según el rol de cada persona:**
 - **Administrador y cuidador:** ven todo y pueden editar y compartir la ficha.
 - **Pagador:** ve el nombre y la dirección. Ve la ficha solo si le dan ese permiso.
@@ -167,7 +184,7 @@ Este es el texto exacto que MATU muestra al elegir esta calidad:
 - Cada campo de la ficha se cifra con una clave propia de cada persona cuidada. Esa clave está protegida por una clave maestra que se guarda fuera del servidor. [PENDIENTE: confirmar el servicio de custodia de claves]
 - La base de datos separa a cada familia: una familia no puede ver los datos de otra, aunque la aplicación tenga un error.
 - El registro de quién abrió la ficha no se puede modificar ni borrar.
-- Los registros técnicos no guardan el texto de la ficha, ni contraseñas, ni enlaces de relevo, ni PIN.
+- Los registros técnicos no guardan el texto de la ficha, ni tu email, ni contraseñas, ni códigos de acceso, ni enlaces de relevo, ni PIN, ni el nombre del grupo, ni tu dirección IP.
 - El enlace de relevo se bloquea después de 5 PIN incorrectos.
 - La aplicación no guarda la ficha en tu teléfono ni en tu navegador, y no usa analítica ni programas de terceros.
 
@@ -198,6 +215,7 @@ Si hay una filtración que afecte datos personales, avisaremos sin demora a la A
 ## 12. Cambios a esta política
 
 - Cada versión tiene un número. Con cada autorización guardamos el número de la versión que aceptaste.
+- [PENDIENTE: guardar también qué versión aceptaste al crear tu cuenta y cuándo. Historia por decidir para el sprint 2]
 - Si un cambio agrega usos, datos o personas que reciben datos, te pediremos una autorización nueva.
 - La versión 1.0 será la primera revisada por un abogado y la primera que permita usar datos reales.
 
@@ -208,6 +226,8 @@ Si hay una filtración que afecte datos personales, avisaremos sin demora a la A
 - Ver, descargar o borrar los datos desde la aplicación. Mientras tanto, por el correo de la sección 10.
 - El recordatorio de los 12 meses.
 - Cálculo de insumos, avisos, invitaciones, pedidos y pagos.
+- Verificar tu email al crear la cuenta. Mientras no exista, si intentas registrarte con un email que ya tiene cuenta, MATU te lo dirá, y alguien podría registrar un email que no es suyo.
+- Eliminar tu cuenta desde la aplicación. Mientras tanto, pídelo por el correo de la sección 10.
 
 ## 14. Leyes que aplican
 
