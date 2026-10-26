@@ -1487,6 +1487,8 @@ Los dos indicadores en negrita son los que miden si el producto funciona como pr
 
 ### ADR-006 · Autorización con margen y captura por monto real
 
+> **Reemplazado por el ADR-027** (precios exactos y cobro del total confirmado), si se aprueba. Se conserva como registro.
+
 **Contexto.** El precio no se conoce hasta que el comercio prepara. Cobrar el estimado obliga a reembolsar en casi todos los pedidos, y reembolsar es lento, caro y genera desconfianza.
 
 **Decisión.** Webpay Plus en modalidad diferida. Al confirmar se autoriza `total_estimado × 1,15`. Al registrar la entrega se captura el `total_real`. La diferencia se libera automáticamente.
@@ -1552,6 +1554,8 @@ Los dos indicadores en negrita son los que miden si el producto funciona como pr
 ---
 
 ### ADR-011 · El precio de catálogo es referencial
+
+> **Reemplazado por el ADR-027**, si se aprueba: el catálogo muestra precios exactos de comercios en convenio. Se conserva como registro.
 
 **Decisión.** El catálogo muestra `precio_referencia` con fecha de actualización visible. El pedido congela `precio_snapshot`. El comercio informa `precio_real`. La aplicación muestra las tres cifras cuando difieren.
 
@@ -1706,6 +1710,44 @@ Existía en el diseño anterior sobre la publicación exclusiva en Android. Se r
 **Decisión.** Publicar solo en Android durante el piloto. El parque de dispositivos de repartidores en Chile es mayoritariamente Android.
 
 **Estado.** Sin efecto en el semestre, porque la app de repartidor quedó fuera del alcance comprometido. Se conserva como decisión vigente para la fase 2.
+
+---
+
+### ADR-027 · Precios exactos de comercios en convenio, y se cobra el total confirmado
+
+**Estado.** Borrador del 25 de octubre de 2026, por aprobar por Jorge Espinoza (Product Owner). **Reemplaza al ADR-006 y al ADR-011.** El ADR-026 (aplicación web) se registra aparte.
+
+**Contexto.** El ADR-006 resolvía un precio que no se conocía hasta que el comercio preparaba: se autorizaba el estimado con un margen del 15% y se capturaba el monto real. La prueba de concepto (`pruebas-concepto/transbank.md`) mostró el costo de ese diseño. La captura diferida opera solo con crédito, el débito es el medio mayoritario del segmento, y el plan B del débito obligó a cobrar el estimado y devolver diferencias con un medio y un plazo que siguen sin definir. Además, explicar una retención mayor que el pedido (sección 10.4) es difícil para una familia cansada, y lo observó el análisis normativo de la Ley 19.496.
+
+**Decisión.**
+1. **El catálogo muestra precios exactos** de comercios preestablecidos en convenio, con stock. El pedido congela el precio vigente al confirmar.
+2. **La lista de reposición tiene tres salidas:**
+   - exportarla y comprar libremente,
+   - enviarla a otro familiar,
+   - pedir desde MATU al precio exacto más el envío.
+
+   Las dos primeras son gratuitas y no dependen de la capa 3 (ADR-002).
+3. **Antes de cobrar se confirma el stock.** Al pedir, MATU consulta el stock de los comercios en convenio. Si el comercio elegido no tiene un producto, MATU lo busca en otro comercio en convenio. Si ninguno lo tiene, el producto se marca como no disponible y sale del pedido. La familia ve el total final y **recién entonces paga**.
+4. **Se cobra una sola vez el total exacto:** productos más un **envío único por pedido**, aunque el retiro pase por más de un comercio. MATU absorbe la parada extra. Es una venta normal de Webpay Plus, y **crédito y débito funcionan igual**. No hay reserva con margen, ni captura diferida, ni ajuste posterior.
+5. **El comercio que confirma el stock lo aparta.** Si al retirar el producto ya no está, que es el caso excepcional, el retiro se reasigna a otro comercio en convenio y **MATU asume la diferencia de precio**. Si ningún comercio lo tiene, se devuelve el precio de ese producto. Es la única devolución que queda en el sistema.
+6. **Los comercios, los precios y el stock entran por un puerto**, `CatalogoComercio`, en el módulo `catalog` (ADR-021). Hoy no hay convenio con distribuidores, así que el adaptador es simulado, con un catálogo semilla. Cuando exista un convenio, que posiblemente llegue después del semestre, se agrega un adaptador real sin tocar los módulos que lo usan.
+
+**Consecuencias.**
+- **Se simplifica el pago.** Desaparecen la captura diferida, la reserva del 15%, el plan B del débito y su nota de crédito. La familia ve el total con el envío antes de pagar, y es lo mismo que se le cobra.
+- **El cumplimiento ya no informa un monto real** (`precio_real` y el paso "monto real" del comercio desaparecen). El comercio confirma el stock y prepara.
+- **ADR-024 se ajusta.** Un pedido de la familia puede abastecerse en más de un comercio, con un solo cobro y un solo envío. El registro por comercio se mantiene para preparar y liquidar (ADR-008).
+- **Cambia el esquema.** Hay que ajustar `pedido` (`total_estimado` y `total_autorizado`), `cargo` y `participacion` (`monto_autorizado` y `monto_capturado`), y sus estados (`autorizado`, `captura_pendiente`). Va en una migración reversible.
+- **Aparece una espera corta** entre pedir y pagar, mientras se confirma el stock. Con el adaptador simulado es inmediata.
+
+**Alcance en el semestre.** Se construyen el catálogo con precios exactos detrás del puerto con el adaptador simulado, la confirmación de stock entre comercios antes de pagar y el cobro del total exacto. **La reasignación del retiro a otro comercio después de pagar requiere la aplicación de repartidor y la asignación en cascada (ADR-010 y ADR-025), que siguen en la fase 2.** En el semestre se muestra simulada en la demo y queda diseñada aquí.
+
+**Riesgo declarado.**
+- La devolución excepcional del punto 5 usa la anulación de Webpay Plus sobre una venta normal. Hay que verificar en el ambiente de integración que se admita una anulación parcial con crédito y con débito. Es [PENDIENTE] para el sprint 4, y si no se admite, se resuelve manualmente desde el backoffice.
+- Los precios exactos dependen de que el comercio mantenga su catálogo al día. Sin convenio, el piloto usa precios simulados y lo declara en la interfaz.
+
+**Alternativas descartadas.**
+- **Cobrar primero y devolver lo que falte.** Es más rápido para la familia, pero convierte la devolución en una operación rutinaria y vuelve a depender de devoluciones con débito, que no están verificadas.
+- **Mantener el ADR-006 con el plan B del débito.** Funciona, pero deja dos experiencias de pago distintas según la tarjeta y textos con plazos por definir.
 
 ---
 
