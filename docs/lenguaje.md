@@ -30,7 +30,7 @@ Una cuidadora cansada, con poco tiempo y desde un teléfono. Un relevo que abre 
 
 1. **Español de Chile, neutro y en tú.** "Escribe el PIN", no "Escriba" ni "Ingrese". Sin chilenismos que no entienda alguien de otra región.
 2. **Frases cortas.** Una idea por frase. Párrafos de dos o tres frases como máximo.
-3. **Instructivo, no expediente.** La ficha cuenta cómo cuidar a alguien. No describe lo que le pasa a su cuerpo ni lo clasifica. Se pregunta por **apoyos**, no por funciones (arquitectura 10.3, "Lenguaje sobre el cuerpo"). Una entrevistada lo dijo así: es distinto un instructivo que un expediente (Y.40).
+3. **Instructivo, no expediente.** La ficha cuenta cómo cuidar a alguien. No describe lo que le pasa a su cuerpo ni lo clasifica. Se pregunta por **apoyos**, no por funciones (arquitectura 10.3, "Lenguaje sobre el cuerpo"). Una ficha sirve como instrucciones para cuidar, no como un expediente.
 4. **Sin términos clínicos ni jerga técnica.** "Se acaban en 6 días", no "stock proyectado". "Cortar el enlace", no "revocar el acceso". La sección 3 tiene la lista.
 5. **Sin culpar a la persona.** Un error dice qué pasó y cómo seguir. "Ese PIN no es", no "PIN inválido". "Este enlace venció", no "Acceso denegado".
 6. **El mismo verbo en el botón y en su confirmación.** "Cortar el enlace" y "Enlace cortado". "Guardar" y "«Su día» guardado" (demo, `DISENO.md` principio 6).
@@ -52,7 +52,7 @@ Ninguna pantalla, aviso, correo, mensaje de error ni ejemplo usa estos términos
 | conducta | Mira a la persona como un caso que se observa. La ficha la escribe alguien que la quiere | "Cómo está", "si se altera", "lo que le gusta", "lo que la calma" |
 | incidente | Suena a informe de turno y a culpa. El relevo tiene que saber a quién llamar, no llenar un formulario | "Si algo pasa", "lo que pasó" |
 | deterioro | Describe a la persona por lo que perdió. Además es una inferencia de salud | "Cambios", "necesita más apoyo que antes" |
-| incontinencia | Tres de diez entrevistadas pidieron no nombrarla, por dignidad de la persona cuidada (J.54, F.52, C.57, resultados sección 5, y arquitectura 10.3) | Se pregunta por el apoyo: "apoyo para ir al baño", "cambio de pañal". En insumos, el nombre del producto: "pañal adulto", "protectores", "toallitas húmedas" |
+| incontinencia | Nombrarla afecta la dignidad de la persona cuidada (arquitectura 10.3, "Lenguaje sobre el cuerpo") | Se pregunta por el apoyo: "apoyo para ir al baño", "cambio de pañal". En insumos, el nombre del producto: "pañal adulto", "protectores", "toallitas húmedas" |
 
 **Excepción, solo en textos legales.** La política de privacidad dice que MATU **no pide** diagnósticos. Ese uso informa un límite y no invita a escribir el dato, así que se mantiene en los textos legales que apruebe Jorge. Ninguna otra pantalla lo copia.
 
@@ -81,25 +81,25 @@ Salen del análisis de las entrevistas, de la arquitectura y del contrato de MAT
 
 ## 4. Palabras de las familias
 
-Cómo nombraron las cosas las diez entrevistadas, y el término que usa MATU. Solo vocabulario cotidiano. No incluye condiciones de salud ni citas que identifiquen a nadie. Las entrevistas se citan por código.
+Cómo nombraron las cosas las diez entrevistadas, y el término que usa MATU. Solo vocabulario cotidiano. No incluye condiciones de salud, citas textuales ni códigos de entrevista: los códigos que usan los documentos de las entrevistas son inicial y edad, y junto con esos documentos identifican a una persona.
 
 | Lo que dicen las familias | Dónde apareció | Lo que dice MATU |
 |---|---|---|
 | La hoja, el cuaderno, la pizarra, la planilla, la bitácora, las notas en el WhatsApp | Siete de diez tienen algo escrito, en uno de esos formatos (resultados, sección 2) | **Ficha** de relevo. La versión impresa es "la hoja" ("La ficha en una hoja, para pegar en el refrigerador") |
-| La que llegue, la que me reemplaza, quien me cubre | A.38, y el bloque 3 del protocolo | En la app de la familia: "quien te reemplaza". En botones: "relevo" ("Compartir con un relevo"). Al relevo nunca se le dice "relevo": lee "ficha de cuidado" |
-| Entrega de turno | A.38, cuidadora remunerada (arquitectura 10.6) | Ficha de relevo. "Entrega de turno" se entiende, pero viene del vocabulario clínico y no se usa en pantalla |
-| Qué la calma, qué hacer cuando se angustia | Y.40, C.57 y A.38, cada una por su cuenta | Campo **"Si se altera"**, pregunta "¿Qué la calma…?" |
-| Un día bueno, un día malo | C.57 se trabó al contar "un día normal" | La pregunta de **"Su día"** admite contar un día bueno o uno difícil |
+| La que llegue, la que me reemplaza, quien me cubre | Varias entrevistadas, y el bloque 3 del protocolo | En la app de la familia: "quien te reemplaza". En botones: "relevo" ("Compartir con un relevo"). Al relevo nunca se le dice "relevo": lee "ficha de cuidado" |
+| Entrega de turno | La cuidadora remunerada entrevistada (arquitectura 10.6) | Ficha de relevo. "Entrega de turno" se entiende, pero viene del vocabulario clínico y no se usa en pantalla |
+| Qué la calma, qué hacer cuando se angustia | Tres de diez entrevistadas, cada una por su cuenta | Campo **"Si se altera"**, pregunta "¿Qué la calma…?" |
+| Un día bueno, un día malo | Una entrevistada se trabó al contar "un día normal" | La pregunta de **"Su día"** admite contar un día bueno o uno difícil |
 | A quién llamo, la vecina que tiene llave | Bloque 3 del protocolo | Campo **"A quién llamar"** |
 | Salir, no poder salir, salir unas horas | Nueve de diez dejaron de salir por falta de relevo | Motivos del enlace: "Salgo unas horas", "Fin de semana fuera", "Turno de noche" |
-| Quién está mirando, quién se está informando | P.55, I.63, N.71, A.38 y A.55 la valoran | "Quién la vio" (pestaña) y "Últimas aperturas" |
+| Quién está mirando, quién se está informando | Cinco de diez entrevistadas valoran esa pantalla | "Quién la vio" (pestaña) y "Últimas aperturas" |
 | Pañales, toallitas, cremas, protectores, suplemento | Pregunta 24 del protocolo | El nombre del producto tal como se vende: "Pañal adulto M", "Toallitas húmedas" |
-| Que me avise antes, cuántos días quedan | C.57, Y.40 | "Se acaban en 6 días", "Pronto" |
+| Que me avise antes, cuántos días quedan | Varias entrevistadas | "Se acaban en 6 días", "Pronto" |
 | El súper, la farmacia, la app | Resultados, sección 2 | El nombre del comercio. En general, "comercio" solo en textos legales |
-| La boleta | A.38 | "Boleta" |
+| La boleta | Una entrevistada | "Boleta" |
 | Lo del consultorio, el beneficio, lo que entrega el municipio | Pregunta 27, padrón público | "Lo que recibes del consultorio" (capa 2, fuera de este sprint) |
-| Poner la plata, el que aporta | E.64 | "Familiar que aporta" (arquitectura 10.1) |
-| De quién es esto, de la familia o mío | A.38, propiedad del registro | Sin texto todavía: consulta legal abierta (arquitectura 18) |
+| Poner la plata, el que aporta | La familiar aportante entrevistada | "Familiar que aporta" (arquitectura 10.1) |
+| De quién es esto, de la familia o mío | Una entrevistada, sobre la propiedad del registro | Sin texto todavía: consulta legal abierta (arquitectura 18) |
 
 ---
 
@@ -116,11 +116,13 @@ La ficha tiene tres campos. Cada uno acepta **hasta 500 caracteres** y se guarda
 ### 5.1 Su día (`rutina`)
 
 - **Pregunta guía:** ¿Cómo es un día normal para ella? Puedes contar un día bueno o uno difícil.
+- **Versión neutra, si Jorge la elige (sección 10, fila 8):** ¿Cómo es un día normal para `{nombre_pila}`? Puedes contar un día bueno o uno difícil.
 - **Ejemplo:** Por ejemplo: «08:00 Despierta. Le gusta que abran la cortina primero». Si empiezas con la hora, lo mostramos como línea de tiempo.
 
 ### 5.2 Si se altera (`manejo_situaciones`)
 
-- **Pregunta guía:** ¿Qué la calma cuando se angustia o se desorienta?
+- **Pregunta guía:** ¿Qué la calma cuando se angustia?
+- **Versión neutra, si Jorge la elige (sección 10, fila 8):** ¿Qué calma a `{nombre_pila}` cuando se angustia?
 - **Ejemplo:** Por ejemplo: «Le hace bien que le tomen la mano y le hablen de su pueblo».
 
 ### 5.3 A quién llamar (`red_apoyo`)
@@ -135,12 +137,12 @@ Los ejemplos son sintéticos: Carmen cuida a María, Rosa la reemplaza y Rodrigo
 | Dónde | Texto |
 |---|---|
 | Título de la sección | Ficha de relevo |
-| Bajada de la lista de campos | Tres campos cortos para que quien te reemplace sepa qué hacer. Cada campo se guarda protegido y puedes compartir solo algunos. |
+| Bajada de la lista de campos | Tres campos cortos para que quien te reemplace sepa qué hacer. Cada campo se guarda por separado y puedes compartir solo algunos. |
 | Avance | `{n}` de 3 campos listos |
 | Estado de un campo con texto / sin texto | Listo / Falta |
 | Botón de un campo sin texto / con texto | Completar «`{campo}`» / Editar «`{campo}`» |
 | Quién lo escribió | Lo escribió `{autor}`: `{cuándo}` |
-| Nota de seguridad | Cada campo se guarda cifrado, por separado. |
+| Nota de seguridad **[desde MATU-11]** | Cada campo se guarda cifrado, por separado. No se muestra hasta que el cifrado exista (política v0.9, sección 13) |
 | Encabezado del editor | Campo `{n}` de 3 |
 | Contador | `{n}` de 500 caracteres |
 | Botones del editor | Guardar · Dictar en vez de escribir · Seguir después |
@@ -150,7 +152,8 @@ Los ejemplos son sintéticos: Carmen cuida a María, Rosa la reemplaza y Rodrigo
 | **Campo vacío** (en la hoja, para el relevo y en la vista previa) | **Sin completar** |
 | Campo vacío en la hoja impresa | Sin completar. Pregúntale a `{nombre de quien imprime}`. |
 | Pie de la hoja impresa | Para quien la cuide hoy. Gracias por estar. |
-| Bajada de la hoja impresa | La ficha en una hoja, para pegar en el refrigerador. Sirve sin conexión y sin aplicación. |
+| Bajada de la hoja impresa | La ficha en una hoja, para pegar en el refrigerador. Se imprime desde el navegador. MATU no descarga ni guarda un archivo en tu teléfono o computador. |
+| Botón de la hoja impresa | Imprimir |
 
 "Guardar" con un campo vacío que nunca se escribió no hace nada y no muestra mensaje (contrato, decisión 6). Vaciar un campo que ya tenía texto sí se guarda, y el campo vuelve a "Sin completar".
 
@@ -192,7 +195,9 @@ El texto escrito no se borra: la persona lo puede copiar antes de reabrir.
 
 ### 6.4 Sin autorización (403, `sin-consentimiento`)
 
-> **Falta la autorización para usar la ficha de `{nombre_pila}`.** Sin ella no podemos guardar ni mostrar la ficha.
+> **Falta la autorización para usar la ficha de `{nombre_pila}`.** Sin ella no podemos guardar ni mostrar la ficha. La puede registrar quien administra el grupo o quien la cuida en MATU, desde Grupo familiar, en "Permiso para guardar su ficha".
+
+Si quien lo ve tiene otro rol (pagador u observador), el texto termina en: "Pídele a quien administra el grupo que la registre." **[PENDIENTE]** Hoy la autorización se registra en el alta (MATU-07). La pantalla para registrarla después del alta todavía no existe, y Grupo familiar la muestra solo para leer. Hasta que exista, el texto dice "Pídele a quien administra el grupo que la registre" a todos los roles.
 
 Es la única causa de un 403 en la capa 1 (contrato, decisión 4).
 
@@ -251,9 +256,19 @@ El mensaje del PIN se anuncia con `role="alert"` y deja el foco en el campo. Los
 
 ### 7.5 Aviso al relevo · [PENDIENTE DE JORGE]
 
-Propuesta del analista normativo para el relevo como titular de su nombre y su teléfono (contrato MATU-09, "Decisiones de Jorge", punto 5). Va en la pantalla del PIN, bajo el botón, en texto secundario. **No se publica hasta que Jorge lo apruebe.** El plazo de conservación del teléfono sigue pendiente (punto 2 del mismo apartado), por eso el aviso no lo nombra.
+Propuesta del analista normativo para el relevo como titular de su nombre y su teléfono (contrato MATU-09, "Decisiones de Jorge", punto 5). Va en la pantalla del PIN, bajo el botón, en texto secundario, con el enlace a la política. **No se publica hasta que Jorge lo apruebe.** El plazo de conservación del teléfono sigue pendiente (punto 2 del mismo apartado), por eso el aviso no lo nombra.
 
-> **Antes de entrar.** Esta ficha te la compartió una familia para que cuides a una persona mientras la reemplazas. Úsala solo para eso y no la reenvíes. Cada vez que la abres queda registrado, y la familia puede verlo. MATU guarda tu nombre y tu teléfono porque te los pidió quien te compartió la ficha. Responsable de los datos: el equipo del proyecto MATU, durante el piloto académico. [Política de privacidad]
+> **Antes de entrar.** MATU es un piloto académico y usa solo datos de prueba.
+>
+> Esta ficha te la compartió una familia para que cuides a una persona mientras la reemplazas. Úsala solo para eso y no la reenvíes.
+>
+> Cada vez que abres la ficha o escribes mal el PIN queda registrado, y la familia puede verlo.
+>
+> MATU guarda tu nombre y tu teléfono, que te pidió quien te compartió la ficha. [PENDIENTE: para qué se usa el teléfono, decisión de Jorge, contrato MATU-09, "Decisiones de Jorge", punto 1]
+>
+> Responsables de tus datos: Jorge Espinoza y Martín Henríquez, el equipo del proyecto, como personas naturales. Puedes pedir ver, corregir o borrar tus datos escribiendo a [PENDIENTE: correo de contacto]. [Política de privacidad]
+
+Fuentes: política v0.9, secciones 2 y 10, y figura legal del piloto, secciones 4.1 y 4.4.
 
 ---
 
@@ -298,6 +313,8 @@ Textos de la demo, con los cambios que pide el contrato de MATU-09.
 | Bajada de Compartir | Quien te reemplaza recibe un enlace por WhatsApp y el PIN se lo dictas tú. El enlace vence solo y lo puedes cortar antes. |
 | Preguntas del formulario | ¿Quién te va a reemplazar? · Su teléfono · ¿Qué puede ver? · ¿Hasta cuándo? · ¿Cuántos días? (Hasta 30 días.) |
 | Ayuda del teléfono · [PENDIENTE DE JORGE] | Queda anotado junto al enlace. MATU no le envía nada: el enlace se lo mandas tú. |
+| Recordatorio bajo "¿Qué puede ver?" | Comparte solo lo que necesita para cuidarla. Quien recibe el enlace puede anotar o fotografiar lo que lee, y MATU no puede impedirlo. |
+| Recordatorio al crear el enlace | Cuéntale a `{nombre}` que anotaste su nombre y su teléfono en MATU, y que cada vez que abra la ficha queda registrado. |
 | Motivo (obligatorio, uno elegido de partida) | ¿Para qué lo compartes? · Salgo unas horas · Fin de semana fuera · Turno de noche · Otro motivo |
 | PIN recién creado | **Díctaselo a `{nombre}` por teléfono.** No lo mandes junto con el enlace. Solo lo verás ahora. |
 | PIN que ya no se ve | El PIN ya no se puede ver. Por seguridad se muestra una sola vez. Si se perdió, crea un enlace nuevo y corta el anterior. |
@@ -325,12 +342,35 @@ La demo del viernes 30 no se modifica. Al conectarla a la API, o al construir MA
 | 5 | Ayuda del teléfono: "Para enviarle el enlace." | La API no envía nada (contrato, decisión 21). Texto propuesto en la sección 9, pendiente de la finalidad del teléfono | Jorge (contrato, "Decisiones de Jorge", punto 1) |
 | 6 | "Motivo, si quieres", tres chips que se pueden desmarcar | Motivo obligatorio con "Otro motivo" y sin texto libre | Ya resuelto aquí |
 | 7 | Estado "Activo" calculado en el cliente | `estado = vigente` de la API, que se muestra como "Activo" | Ya resuelto aquí |
-| 8 | Las preguntas guía hablan en femenino ("para ella", "qué la calma") | La persona cuidada no tiene género en el modelo. Alternativa neutra: "¿Cómo es un día normal para `{nombre_pila}`?" y "¿Qué le ayuda a calmarse cuando se angustia o se desorienta?" | Jorge, antes de MATU-12 |
+| 8 | Las preguntas guía hablan en femenino ("para ella", "qué la calma") | La persona cuidada no tiene género en el modelo. Alternativa neutra: "¿Cómo es un día normal para `{nombre_pila}`?" y "¿Qué calma a `{nombre_pila}` cuando se angustia?" | Jorge, antes de MATU-12 |
 | 9 | El texto que la demo dicta en "Si se altera" insinúa una condición de salud de María | Los ejemplos de este documento no lo hacen (sección 5). El dictado de la demo no se copia a la app | Jorge, si quiere cambiar el dictado después del viernes |
+| 10 | Los documentos de las entrevistas (`docs/resultados-entrevistas.md` y `docs/protocolo-entrevistas.md`) usan códigos de inicial y edad, y los cruzan con datos de la persona cuidada. El protocolo, sección 6, pide códigos correlativos (una E y un número del 01 al 10) | Este documento no usa códigos de entrevista | Jorge, en su tarjeta sobre resultados de las entrevistas |
+| 11 | Demo: "Cada campo se guarda cifrado" y "se guarda protegido" | No se dice "cifrado" hasta que MATU-11 exista (política v0.9, sección 13). Marcado **[desde MATU-11]** en la sección 5.4 | Ya resuelto aquí |
+| 12 | Demo: "Sirve sin conexión y sin aplicación" en la hoja impresa | La hoja se imprime desde el navegador y no se descarga ni se guarda un archivo (política v0.9, sección 9) | Ya resuelto aquí |
+
+**Para la tarjeta de consulta legal en Trello:**
+
+- **El motivo del enlace es obligatorio** (contrato, decisión 16) y hay que contrastarlo con el principio de minimización: si no hace falta para la finalidad, podría ser opcional.
+- **La política v0.9 no dice que se registran los PIN incorrectos.** La sección 6 informa que queda registrada cada apertura, pero `/plan/aperturas` también registra `pin_incorrecto` y `bloqueo`. El aviso al relevo (7.5) ya lo dice. La política se ajusta en la versión 1.0.
 
 ---
 
-## 11. Cómo se cambia este documento
+## 11. Textos del piloto académico
+
+La figura legal del piloto (sección 4.1) pide un aviso visible en todas las pantallas y toma su texto exacto de aquí. Coinciden con la demo (`DISENO.md` y `Demo/src/`).
+
+| Dónde | Texto | Regla |
+|---|---|---|
+| Distintivo, en todas las pantallas de las tres apps y en la página del relevo | **Piloto académico con datos de prueba** | Visible siempre, también en modo presentación y con texto al 200%. No se abrevia. En pantallas angostas se parte en dos líneas: "Piloto académico / con datos de prueba" |
+| Lista de reposición, pedido y boleta | **Precios de ejemplo.** MATU todavía no tiene convenio con comercios, y en esta demo no se cobra dinero real. | Una vez por pantalla, nunca junto al botón principal |
+| Pasarela de pago simulada | Pasarela de pago simulada · Transbank, ambiente de prueba. **Pago de prueba. No se cobra dinero real.** | En la pasarela, que no usa la marca de MATU |
+| Primera mención de un comercio en una pantalla | `{nombre}` (comercio ficticio) | Por ejemplo, "Farmacia Los Aromos (comercio ficticio)" |
+
+Al pasar a datos reales, con la política 1.0, estos textos se retiran o se cambian, y se actualiza esta sección.
+
+---
+
+## 12. Cómo se cambia este documento
 
 - Un texto nuevo o cambiado entra aquí en el mismo pull request que la pantalla que lo usa.
 - Un término nuevo en la lista prohibida lo propone cualquiera y lo aprueba Jorge.
