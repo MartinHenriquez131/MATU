@@ -1734,7 +1734,7 @@ Existía en el diseño anterior sobre la publicación exclusiva en Android. Se r
    - MATU consulta el stock de los comercios en convenio. Si el comercio elegido no tiene un producto, lo busca en otro comercio en convenio. Si ninguno lo tiene, el producto sale del pedido.
    - **La consulta de stock lleva solo productos y cantidades**, con una referencia opaca para apartar. No lleva datos de la familia, de la persona cuidada ni de la dirección. Una prueba sobre el objeto de la consulta lo verifica.
    - Si un precio o un comercio cambia respecto de lo que la familia vio en la lista, la pantalla lo marca antes de pagar.
-   - El total confirmado vale por [PENDIENTE: N minutos]. Si vence, se vuelve a confirmar. La familia puede no pagar, sin costo.
+   - El total confirmado vale por **15 minutos** (decisión de Jorge, 26 de octubre). Si vence, se vuelve a confirmar. La familia puede no pagar, sin costo.
 4. **Se cobra una sola vez el total exacto.** Son los productos más un **envío único por pedido**, aunque el retiro pase por más de un comercio, y MATU absorbe la parada extra. Es una venta normal de Webpay Plus, y **crédito y débito funcionan igual**. No hay reserva con margen, ni captura diferida, ni ajuste posterior.
 
    **Antes de pagar**, la familia ve:
@@ -1746,6 +1746,13 @@ Existía en el diseño anterior sobre la publicación exclusiva en Android. Se r
    - qué pasa si al retirar falta un producto (punto 5), con el medio y el plazo de la devolución.
 
    Acepta las condiciones del pedido y recibe un comprobante.
+
+   **Decisiones de producto del 26 de octubre** (Jorge, sujetas a validación en la consulta legal):
+   - **Quién vende.** MATU vende y emite **una sola boleta por el total**, con el envío incluido. Los comercios le cobran a MATU por cuenta corriente (ADR-008) y nunca ven a la familia. Para vender de verdad, MATU necesita existir como persona jurídica con inicio de actividades, y eso queda para después del semestre.
+   - **Devolución.** "Si un producto no llega, te devolvemos su precio el mismo día, a la misma tarjeta. Cuándo lo ves en tu cuenta depende de tu banco."
+   - **Cancelación.** Antes de pagar, no pedir no tiene costo. Después de pagar, se cancela sin costo mientras el comercio no empiece a preparar.
+   - **Sin equivalentes de otra marca.** Si falta un producto, se busca el mismo en otro comercio o sale del pedido.
+   - **El comercio no ve ningún nombre**, solo la referencia del pedido y el código de retiro.
 5. **El comercio que confirma el stock lo aparta.** Si al retirar el producto ya no está, que es el caso excepcional:
    - el retiro se reasigna a otro comercio en convenio **con el mismo producto**, y MATU asume la diferencia de precio. La familia paga lo mismo que aceptó, y queda escrito como garantía en las condiciones del pedido;
    - no se reemplaza por otra marca sin que la familia lo haya aceptado antes de pagar;
@@ -1768,11 +1775,9 @@ Existía en el diseño anterior sobre la publicación exclusiva en Android. Se r
 - **Devolución excepcional.** Hay que verificar en el ambiente de integración que se admita la anulación parcial de una venta normal con crédito y con débito, y los plazos máximos de anulación de Transbank. Si no se admite, se define otro medio antes del sprint 4, sin pedir datos bancarios a la familia salvo que se apruebe como tratamiento nuevo en la política de privacidad y en el registro de tratamientos.
 - **La prueba de concepto verificó la captura diferida, no la venta normal.** Faltan los casos de venta normal con crédito y con débito, la anulación parcial con los dos y el retorno duplicado en venta normal.
 - **Precios al día.** Los precios exactos dependen de que el comercio mantenga su catálogo al día, y el convenio debe obligarlo a hacerlo. Sin convenio, el piloto usa precios de ejemplo y lo declara en la interfaz.
-- **Consulta legal antes de cobrar dinero real:**
-  - quién es el proveedor frente a la familia;
-  - quién emite la boleta y a nombre de quién;
+- **Consulta legal antes de cobrar dinero real.** Hay que validar las decisiones de producto del 26 de octubre (MATU como vendedor, devolución y cancelación) y resolver:
   - el retracto;
-  - el plazo de la devolución;
+  - el plazo legal de la devolución, si existe;
   - si los productos del pedido son datos sensibles;
   - si los comercios son encargados o responsables.
 
