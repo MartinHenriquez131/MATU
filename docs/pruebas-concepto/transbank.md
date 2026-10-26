@@ -71,6 +71,14 @@ El plan B ya está escrito en el ADR-006: con débito se cobra el monto estimado
 
 Mientras dure el piloto académico, todo esto ocurre solo en el ambiente de integración, sin cobros reales (MATU-27).
 
+**Actualización del 26 de octubre de 2026 · ADR-027.**
+- La decisión de no limitar las formas de pago se mantiene, y se cumple mejor con una venta normal: MATU muestra precios exactos, confirma el stock y cobra una sola vez el total, con crédito y débito iguales. La captura diferida y el plan B del débito dejan de usarse.
+- Los dos [PENDIENTE] de arriba se reemplazan por casos nuevos, que se prueban en integración antes del sprint 4:
+  - venta normal con crédito;
+  - venta normal con débito;
+  - anulación parcial con los dos, y sus plazos máximos;
+  - retorno duplicado en venta normal.
+
 ## Intentos
 
 | Fecha | Quién | Qué pasó |

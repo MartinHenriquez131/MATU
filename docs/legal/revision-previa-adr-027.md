@@ -1,5 +1,7 @@
 # Revisión previa del ADR-027 · analista normativo
 
+> **Estado al 26 de octubre:** Jorge aprobó el ADR-027 con los cambios de texto propuestos aquí, que ya están en la sección 14 de `arquitectura.md`. Quedan por aprobar los borradores para `docs/legal/` y las preguntas de la consulta legal.
+>
 > **Borrador de trabajo del 25 de octubre de 2026.** Es el informe del analista normativo sobre el borrador del ADR-027 (precios exactos y cobro del total confirmado). **No es asesoría legal** y nada de esto está aprobado: Jorge Espinoza (Product Owner) decide qué entra en el ADR y en `docs/legal/`. Lo que queda en REQUIERE CONSULTA LEGAL va a la tarjeta de consulta legal en Trello.
 
 ## Resumen
