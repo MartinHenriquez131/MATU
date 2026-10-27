@@ -579,7 +579,7 @@ Es aritmética de tercero básico, y esa es exactamente la gracia. **El valor no
 | `consumo_comercio` | id, comercio_id, pedido_id, monto_autorizado, monto_boleta, folio_boleta, evidencia_id, estado, desviacion_pct | Contrapartida de `cargo`: lo que MATU debe al comercio. [PENDIENTE: `monto_autorizado` sigue en el esquema] |
 | `liquidacion` | id, comercio_id, periodo_desde, periodo_hasta, monto_bruto, **monto_comision**, monto_neto, estado, factura_ref, pagada_en | `monto_comision = Σ(consumo.monto_boleta × convenio.comision_pct)` |
 
-**Lo que el comercio ve, en la base.** Las políticas `pedido_comercio_ver` y `pedido_comercio_actualizar` le muestran un pedido solo si es suyo (`pedido.comercio_id`), tiene `pagado_en` y está en `enviado_a_comercio` o después. Las líneas heredan esa visibilidad desde el pedido.
+**Lo que el comercio ve, en la base.** Las políticas `pedido_comercio_ver` y `pedido_comercio_actualizar` le muestran un pedido solo si es suyo (`pedido.comercio_id`), tiene `pagado_en` y está en `enviado_a_comercio` o después. Las líneas heredan esa visibilidad desde el pedido. RLS filtra filas, no columnas. En los pedidos que ve, el comercio alcanza todas las columnas de `pedido`, incluidos identificadores estables de la familia (`grupo_id`, `persona_cuidada_id`, `creado_por`) y, por herencia, las transiciones y las elecciones de RF-21. Que no los vea ni los cambie depende hoy de la proyección de la API (9.5). [PENDIENTE: quitar `destinatario_nombre_pila` con una migración nueva; impedir que el comercio escriba `regla_sustitucion` y `monto_devuelto`; decidir si la proyección del comercio también se limita en la base.]
 
 **Lo que la migración 0002 dejó fuera a propósito.** Ninguno de estos puntos tiene diseño todavía, y no se inventa aquí:
 
@@ -796,7 +796,7 @@ Una prueba parametrizada recorre **todas las combinaciones** de estados y verifi
 
 **El precio queda fijo al pagar el total confirmado**, no al armar la lista. Si un precio o un comercio cambia respecto de lo que la familia vio en la lista, la pantalla lo marca antes de pagar (sección 10.4 a).
 
-**Obligación de interfaz.** Antes de pagar, la familia ve la lista completa del ADR-027, punto 4: productos con cantidad, precio y subtotal, los que salieron, el envío y el total con IVA, quién emite la boleta, la ventana de entrega y qué pasa si falta un producto, con el medio y el plazo de la devolución. Acepta las condiciones del pedido y recibe un comprobante.
+**Obligación de interfaz.** Antes de pagar, la familia ve la lista del ADR-027, punto 4, más lo que agregó la investigación normativa del 27-10: productos con cantidad, precio y subtotal; los que salieron; los que cambiaron de precio o de comercio; qué hace MATU si falta cada producto (RF-21); el envío y el total con IVA; quién vende y emite la boleta, con sus datos de identificación; la ventana de entrega; qué pasa si falta un producto, con el medio y el plazo de la devolución; el aviso de derecho a retracto; un canal de reclamo; y un enlace a las condiciones del pedido. Acepta las condiciones y recibe una confirmación escrita (sección 18.1).
 
 **Quién vende.** MATU vende y emite **una sola boleta por el total**, con el envío incluido. Los comercios le cobran a MATU por cuenta corriente (ADR-008). [PENDIENTE: consulta legal y tributaria sobre MATU como vendedor; requiere persona jurídica con inicio de actividades, después del semestre.]
 
@@ -1118,7 +1118,7 @@ La clave está en `acciones`. **`exportar_lista` y `compartir_enlace` funcionan 
 
 **a) Explicar qué se cobra y qué pasa si falta algo.** *Reescrito con el ADR-027.* Antes el problema era explicar una retención mayor que el pedido ($69.000 retenidos para cobrar $51.340). Con el cobro único del total confirmado esa retención desaparece. Lo difícil ahora es que la familia entienda, antes de pagar, que se cobra una sola vez, qué cambió respecto de su lista y qué pasa si al retirar falta un producto.
 
-> **Solución:** antes de pagar, una pantalla de resumen muestra la lista del ADR-027, punto 4, en este orden: productos con cantidad, precio y subtotal; los que salieron por no disponibles; los que cambiaron de precio o de comercio, marcados con texto y no solo con color; el envío en una línea aparte; el total con IVA; quién emite la boleta; la ventana de entrega; y qué pasa si falta un producto. Un bloque fijo dice *"Se cobra una sola vez este total, con crédito o con débito. No hay reserva ni cobros después."* y otro *"Si un producto no llega, te devolvemos su precio el mismo día, a la misma tarjeta. Cuándo lo ves en tu cuenta depende de tu banco."* El vencimiento se ve como hora: *"Este total vale hasta las 16:45. Si vence, lo volvemos a confirmar."* Hay una salida visible para no pagar, sin costo.
+> **Solución:** antes de pagar, una pantalla de resumen muestra la lista del ADR-027, punto 4, en este orden: productos con cantidad, precio y subtotal; los que salieron por no disponibles; los que cambiaron de precio o de comercio, marcados con texto y no solo con color; el envío en una línea aparte; el total con IVA; quién emite la boleta; la ventana de entrega; qué eligió la familia para cada producto si falta (RF-21); qué pasa si falta un producto; el aviso *"Derecho a retracto: tienes 10 días desde que lo recibes. No aplica si abres el sello del producto"*, con una letra no menor que la del precio; quién vende, con un canal de reclamo; y el enlace a las condiciones del pedido. Un bloque fijo dice *"Se cobra una sola vez este total, con crédito o con débito. No hay reserva ni cobros después."* y otro *"Si un producto no llega, te devolvemos su precio el mismo día, a la misma tarjeta. Cuándo lo ves en tu cuenta depende de tu banco."* El vencimiento se ve como hora: *"Este total vale hasta las 16:45. Si vence, lo volvemos a confirmar."* Hay una salida visible para no pagar, sin costo.
 >
 > Si falta un producto después de pagar, la notificación dice qué faltó y cuánto se devolvió, por ejemplo *"No pudimos conseguir el producto X. Te devolvimos $8.990 a la misma tarjeta."* Si se consiguió en otro comercio, no se cobra nada más y no hace falta avisar de la diferencia.
 >
@@ -1175,7 +1175,7 @@ MATU trata datos que la ley clasifica como sensibles: estado de salud y condici�
 | Medidas proporcionales al riesgo | Sobre-cifrado por sección, MFA para operación, URLs firmadas de vida corta, cifrado de volumen |
 | Notificación de brecha **sin dilación indebida** | La ley chilena exige notificar sin dilación indebida a la Agencia y a los titulares. **El plazo de 72 horas proviene del RGPD europeo**, y se adopta como objetivo interno, no como cifra legal chilena. Requiere **detectar**: registro de acceso a datos sensibles con alerta ante patrones anómalos |
 | Derechos de acceso, rectificación y supresión | Endpoints de exportación y borrado por titular, con borrado lógico que respeta obligaciones contables sobre pagos |
-| Encargados de tratamiento | Comercio y proveedores de infraestructura son encargados. Requieren cláusula contractual y registro |
+| Encargados de tratamiento | Los proveedores de infraestructura y quien despacha son encargados de MATU, con contrato según el art. 15 bis. El comercio en convenio recibe solo productos, cantidades y una referencia aleatoria por pedido; se puede sostener que no trata datos personales, y aun así su convenio lleva las cláusulas del art. 15 bis. [PENDIENTE: consulta legal sobre si la referencia es un dato personal para el comercio.] |
 
 ### 11.2 Modelo de autorización
 
@@ -1854,8 +1854,8 @@ Existía en el diseño anterior sobre la publicación exclusiva en Android. Se r
    - **El comercio no ve ningún nombre**, solo la referencia del pedido y el código de retiro.
 5. **El comercio que confirma el stock lo aparta.** Si al retirar el producto ya no está, que es el caso excepcional:
    - el retiro se reasigna a otro comercio en convenio **con el mismo producto**, y MATU asume la diferencia de precio. La familia paga lo mismo que aceptó, y queda escrito como garantía en las condiciones del pedido;
-   - no se reemplaza por otra marca sin que la familia lo haya aceptado antes de pagar;
-   - si ningún comercio lo tiene, se devuelve el precio de ese producto a la misma tarjeta, por anulación de Webpay Plus, y se avisa a la familia en el momento. Si no se entrega ningún producto, se devuelve también el envío. Es la única devolución que queda en el sistema.
+   - nunca se reemplaza por otra marca ni por otro producto (decisión del 26 de octubre);
+   - si la familia eligió quitarlo (RF-21), o ningún comercio lo tiene, se devuelve el precio de ese producto a la misma tarjeta, por anulación de Webpay Plus, y se avisa a la familia en el momento. Si no se entrega ningún producto, se devuelve también el envío. Es la única devolución por falta de producto; la del retracto se rige por la sección 18.1.
 6. **Los comercios, los precios y el stock entran por un puerto**, `CatalogoComercio`, en el módulo `catalog` (ADR-021). Hoy no hay convenio con distribuidores, así que el adaptador es simulado, con un catálogo semilla, y la interfaz rotula los precios como de ejemplo. Cuando exista un convenio, que posiblemente llegue después del semestre, se agrega un adaptador real sin tocar los módulos que lo usan.
 
 **Consecuencias.**
@@ -2096,7 +2096,7 @@ De los cuatro huecos que la v1.0 declaraba, **uno se cerró y tres siguen abiert
 | **La anulación parcial de una venta normal no se admite con débito**, o sus plazos no calzan con "el mismo día" | Media | Alto | Casos de venta normal y anulación parcial con crédito y con débito en el ambiente de integración, antes del sprint 4. Si no se admite, se define otro medio antes del sprint 4, sin pedir datos bancarios a la familia salvo que se apruebe como tratamiento nuevo. [PENDIENTE: plazos máximos de anulación de Transbank] |
 | **Los precios del comercio no están al día** | Media | Medio | El convenio obliga al comercio a mantener precios y stock. Sin convenio, el piloto usa precios de ejemplo detrás del puerto `CatalogoComercio` y lo declara en la interfaz |
 | **Un producto apartado falta al retirar** | Baja | Medio | El comercio que confirma el stock lo aparta. Si falta, el mismo producto en otro comercio, con la diferencia a cargo de MATU, o devolución de su precio. La reasignación después de pagar es fase 2 y en el semestre se muestra simulada |
-| **La consulta legal del ADR-027 no llega antes de cobrar dinero real** | Media | Alto | En el semestre no se cobra dinero real. Antes de hacerlo se validan MATU como vendedor, la devolución y la cancelación, y se resuelven el retracto, el plazo legal de la devolución, si los productos son datos sensibles y si los comercios son encargados o responsables. Mientras tanto, los productos se tratan como sensibles |
+| **La consulta legal del ADR-027 no llega antes de cobrar dinero real** | Media | Alto | En el semestre no se cobra dinero real. La investigación normativa del 27-10 resolvió con el texto de la ley que el retracto aplica y cómo se informa, y que no hay un plazo legal específico para devolver lo no entregado. Antes de cobrar dinero real se validan MATU como vendedor, la devolución y la cancelación, y se resuelven los puntos de la tarjeta de consulta legal (sección 18.1). Mientras tanto, los productos se tratan como sensibles. |
 | Pérdida de capacidad de una persona | Media | **Crítico en nueve semanas** | 50% de la capacidad. Revisiones cruzadas y estado documentado en el repositorio. Con la ventana acortada, una ausencia de dos semanas ya no es recuperable y obliga a aplicar el orden de sacrificio de inmediato |
 | Curar el catálogo toma más de lo previsto | Media | Bajo | El catálogo semilla son los seis productos que reportaron las entrevistadas, no una lista inventada. Es trabajo humano acotado, en el sprint 6 |
 | Ningún comercio acepta convenio | Media | **Medio**, ya no crítico | El ADR-002 lo degradó. Y la validación entregó un candidato concreto: la farmacia de barrio que ya opera con cuenta corriente para una familia entrevistada |
@@ -2137,11 +2137,21 @@ De los cuatro huecos que la v1.0 declaraba, **uno se cerró y tres siguen abiert
 
 **Requisitos para el sprint 4 que salen de la investigación normativa** (`legal/investigacion-normativa-adr-027.md`). Por aprobar por Jorge, y todavía sin diseño:
 
-- El texto de retracto junto al precio y en el resumen antes de pagar, con una advertencia no menor que el precio (Decreto 52, art. 6).
-- La acción "Arrepentirme de la compra" en el pedido entregado, durante 10 días (Ley 19.496, art. 3 bis).
-- La confirmación escrita al pagar (Ley 19.496, art. 12 A).
-- El consentimiento expreso y separado para los pedidos, con una revocación igual de fácil.
-- La referencia opaca de la consulta de stock, aleatoria por pedido y nunca por familia.
+- R1: resumen antes de pagar completo (8.2), con el vendedor identificado como "piloto académico, sin persona jurídica" durante el piloto.
+- R2: aviso de derecho a retracto junto al precio, con letra no menor.
+- R3: "Arrepentirme de la compra" durante 10 días.
+- R4: confirmación escrita al pagar, comprobante y correo.
+- R5 (esquema): versión y fecha de las condiciones aceptadas.
+- R6: referencia opaca aleatoria por pedido, con prueba sobre el objeto de la consulta.
+- R7 (esquema): quitar `pedido.destinatario_nombre_pila` y excluir de la proyección del comercio `grupo_id`, `persona_cuidada_id`, `creado_por` y las transiciones.
+- R8 (esquema): cada comercio ve solo sus líneas.
+- R9 (esquema): la elección de RF-21 queda fija al pagar, y el comercio no escribe `regla_sustitucion`, `monto_devuelto` ni `estado_linea='devuelta'`.
+- R10: un pago aprobado después del vencimiento se respeta al precio confirmado.
+- R11: casos de integración de Transbank (venta normal con crédito y con débito, anulación parcial, retorno duplicado, plazos de anulación frente a 10 y 90 días, y tiempo entre `create` y el retorno).
+- R12: consentimiento expreso y separado para los pedidos.
+- R13: borrador de `docs/legal/condiciones-pedido.md`.
+- R14: `payload_respuesta` guarda solo monto, código, tipo de tarjeta y últimos 4.
+- R15: cancelar también en `enviado_a_comercio`.
 
 **Estos huecos no se cierran con más documento.** Es la limitación honesta de esta versión, y declararla vale más que disimularla.
 
