@@ -984,38 +984,45 @@ POST   /v1/pedidos/desde-alertas                    → borrador por comercio (A
 
 ### 9.4 Capa 3 · Catálogo, pedidos y pagos
 
+> **Ajustada al ADR-027.** Los precios son exactos, con IVA, y vienen del puerto `CatalogoComercio`. Mientras el adaptador sea simulado, la respuesta marca los precios como de ejemplo y la interfaz lo rotula.
+
 ```
 GET    /v1/catalogo/categorias
 GET    /v1/catalogo/productos?categoria=&q=&cursor=
-GET    /v1/catalogo/productos/{id}/ofertas?comuna=
+GET    /v1/catalogo/productos/{id}/ofertas?comuna=     → precio exacto con IVA y stock
 
 POST   /v1/pedidos                                  → crea borrador
 PUT    /v1/pedidos/{id}/lineas
-POST   /v1/pedidos/{id}/reglas-sustitucion
-POST   /v1/pedidos/{id}/confirmar                   → crea cargo y autoriza con margen
+POST   /v1/pedidos/{id}/confirmar                   → consulta stock, aparta y arma el total confirmado (vale 15 min)
 GET    /v1/pedidos/{id}
-POST   /v1/pedidos/{id}/cancelar
-POST   /v1/pedidos/{id}/decisiones/{lid}
+GET    /v1/pedidos/{id}/comprobante                 → comprobante del pago y condiciones aceptadas
+POST   /v1/pedidos/{id}/cancelar                    → sin costo; si ya se pagó, anulación total mientras no preparen
 
 GET    /v1/cargos/{id}
-POST   /v1/cargos/{id}/pagar                        → autoriza el monto con margen
-POST   /v1/pagos/retorno                            → commit, público con validación de token
+POST   /v1/cargos/{id}/pagar                        → venta normal por el total confirmado; 410 si venció
+POST   /v1/pagos/retorno                            → commit, público con validación de token, idempotente por token
 ```
+
+**Qué devuelve `confirmar`:** las líneas con cantidad, precio y subtotal, el comercio de cada una, las que salieron por no disponibles, las que cambiaron de precio o de comercio respecto de la lista, el envío único, el total con IVA y la hora en que vence.
+
+**Salen del contrato:** `POST /v1/pedidos/{id}/reglas-sustitucion` y `POST /v1/pedidos/{id}/decisiones/{lid}`, porque el ADR-027 descarta los equivalentes de otra marca y el estado `requiere_decision` (sección 8.1). [PENDIENTE: decisión de Jorge sobre RF-21.]
 
 ### 9.5 Comercio y operación
 
 ```
 GET    /v1/comercio/pedidos?fecha=
-GET    /v1/comercio/pedidos/{id}                    → líneas, reglas, tope autorizado
-POST   /v1/comercio/pedidos/{id}/lineas/{lid}/resolver
-POST   /v1/comercio/pedidos/{id}/preparado          → monto real y folio de boleta
+GET    /v1/comercio/pedidos/{id}                    → solo sus líneas, referencia y código de retiro, sin nombres
+POST   /v1/comercio/pedidos/{id}/lineas/{lid}/sin-stock → faltante tardío: reasigna (fase 2) o devuelve su precio
+POST   /v1/comercio/pedidos/{id}/preparado          → documento del comercio a MATU, sin monto real
 POST   /v1/comercio/pedidos/{id}/validar-codigo
-POST   /v1/comercio/pedidos/{id}/entregado          → dispara la captura
+POST   /v1/comercio/pedidos/{id}/entregado          → cierra el pedido; ya no dispara un cobro
 
 GET    /v1/backoffice/comercios/{id}/consumos?estado=&periodo=
 POST   /v1/backoffice/consumos/{id}/conciliar
 GET    /v1/backoffice/indicadores
 ```
+
+**La consulta de stock no es un endpoint público.** Va de MATU al comercio por el puerto `CatalogoComercio`, con solo productos, cantidades y una referencia opaca.
 
 ### 9.6 Ejemplo de respuesta con la capa 2 en acción
 
@@ -1081,9 +1088,13 @@ La clave está en `acciones`. **`exportar_lista` y `compartir_enlace` funcionan 
 
 ### 10.4 Los tres momentos difíciles
 
-**a) Explicar la retención mayor al cobro.** El sistema autoriza $69.000 y captura $51.340. Si no se explica, genera reclamos.
+**a) Explicar qué se cobra y qué pasa si falta algo.** *Reescrito con el ADR-027.* Antes el problema era explicar una retención mayor que el pedido ($69.000 retenidos para cobrar $51.340). Con el cobro único del total confirmado esa retención desaparece. Lo difícil ahora es que la familia entienda, antes de pagar, que se cobra una sola vez, qué cambió respecto de su lista y qué pasa si al retirar falta un producto.
 
-> **Solución:** al confirmar, un bloque fijo dice *"Reservamos $69.000 por si algún precio cambió. Se te cobrará solo lo que realmente cueste, y el resto se libera automáticamente."* Y al cerrar el pedido, una notificación dice *"Se cobraron $51.340. Los $17.660 restantes ya se liberaron."* La segunda frase es la que construye confianza.
+> **Solución:** antes de pagar, una pantalla de resumen muestra la lista del ADR-027, punto 4, en este orden: productos con cantidad, precio y subtotal; los que salieron por no disponibles; los que cambiaron de precio o de comercio, marcados con texto y no solo con color; el envío en una línea aparte; el total con IVA; quién emite la boleta; la ventana de entrega; y qué pasa si falta un producto. Un bloque fijo dice *"Se cobra una sola vez este total, con crédito o con débito. No hay reserva ni cobros después."* y otro *"Si un producto no llega, te devolvemos su precio el mismo día, a la misma tarjeta. Cuándo lo ves en tu cuenta depende de tu banco."* El vencimiento se ve como hora: *"Este total vale hasta las 16:45. Si vence, lo volvemos a confirmar."* Hay una salida visible para no pagar, sin costo.
+>
+> Si falta un producto después de pagar, la notificación dice qué faltó y cuánto se devolvió, por ejemplo *"No pudimos conseguir el producto X. Te devolvimos $8.990 a la misma tarjeta."* Si se consiguió en otro comercio, no se cobra nada más y no hace falta avisar de la diferencia.
+>
+> Mientras el adaptador sea simulado, junto a los precios va el rótulo *"Precios de ejemplo. MATU todavía no tiene convenio con comercios, y en esta demo no se cobra dinero real."*, legible con texto al 200%. [PENDIENTE: los textos definitivos los fijan el diseñador y `lenguaje.md`; el plazo de la devolución depende de la consulta legal.]
 
 **b) Llenar el plan de cuidado sin abandonar.** Era el riesgo de producto más grande del diseño y **la validación lo confirmó**: con ocho preguntas, solo tres de diez entrevistadas respondieron tres de ellas en menos de cinco minutos, cuando el criterio fijado exigía siete. Una rechazó responder y una abandonó en la segunda pregunta.
 
