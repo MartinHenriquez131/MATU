@@ -3,8 +3,11 @@
 **Decisión:** tomada por Jorge Espinoza (Product Owner) el 24/10/2026
 **Redacción:** analista normativo del equipo de agentes, a partir de la arquitectura, el backlog y la prueba de concepto de Transbank. Este documento no es asesoría legal.
 **Aprobación del texto:** aprobado por Jorge Espinoza (Product Owner) el 25/10/2026. La revisión la hizo el orquestador del equipo de agentes, por delegación.
+**Borrador ADR-027:** las secciones que empiezan con esa nota adaptan el texto al ADR-027 (arquitectura, sección 14) y a la revisión previa del analista normativo (`revision-previa-adr-027.md`). No están aprobadas. Hasta que Jorge las apruebe, rige el texto aprobado el 25/10/2026, que está en el historial del repositorio.
 
 ## 1. Contexto
+
+> Borrador ADR-027 (27-10), por aprobar por Jorge.
 
 - MATU es el proyecto de título de dos estudiantes. Hoy no existe una persona jurídica que lo respalde.
 - Para cobrar con Webpay en producción se necesita un comercio dado de alta en Transbank, y el alta exige el RUT del comercio (arquitectura, sección 17).
@@ -12,6 +15,7 @@
 - La política de privacidad v0.9 declara que el piloto no trata datos reales. Las versiones 0.x significan sin datos reales. La 1.0 es la primera revisada por un abogado.
 - La Ley 21.719 entra en vigencia plena el 01/12/2026, antes del cierre del semestre. La consulta legal sobre el cuidador de hecho sigue abierta.
 - La prueba de concepto de Transbank (S0-E) confirmó que la captura diferida cobra el monto real y revierte sin cobrar, y que opera solo con crédito.
+- El ADR-027, aprobado por Jorge el 26/10/2026, reemplazó la captura diferida y el plan B del débito (ADR-006): MATU cobra una sola vez el total confirmado, en venta normal de Webpay Plus, y crédito y débito funcionan igual. La prueba de concepto verificó la captura diferida, no la venta normal.
 
 ## 2. Opciones consideradas
 
@@ -30,7 +34,10 @@ La constitución de una persona jurídica y el alta comercial en Transbank queda
 
 ### 4.1 Lo que se puede hacer
 
-- Demostrar el flujo de pago completo con las credenciales de integración de Transbank y sus tarjetas de prueba.
+> Borrador ADR-027 (27-10), por aprobar por Jorge.
+
+- Demostrar el flujo de pago completo con las credenciales de integración de Transbank y sus tarjetas de prueba, en venta normal de Webpay Plus, con crédito y con débito. [PENDIENTE: verificar que el comercio de integración de venta normal ofrece débito]
+- Mostrar un catálogo con precios de ejemplo, rotulados como tales junto a cada precio. Texto propuesto por el analista normativo: "Precios de ejemplo. MATU todavía no tiene convenio con comercios, y en esta demo no se cobra dinero real." [PENDIENTE: texto definitivo del diseñador y de docs/lenguaje.md]
 - Usar datos sintéticos generados por las fábricas de prueba o escritos por el equipo.
 - Mostrar la aplicación al profesor, a la comisión y a quienes evalúan el proyecto.
 - Desplegar un ambiente de demostración con un aviso visible en todas las pantallas: es un piloto académico y usa solo datos de prueba. Texto exacto: [PENDIENTE, sale de docs/lenguaje.md]
@@ -38,6 +45,9 @@ La constitución de una persona jurídica y el alta comercial en Transbank queda
 
 ### 4.2 Lo que no se hace
 
+> Borrador ADR-027 (27-10), por aprobar por Jorge.
+
+- Presentar precios de ejemplo como si fueran reales, o usar el nombre de un comercio real.
 - Ingresar datos de personas reales: ni de personas cuidadas, ni de familias, ni de cuidadoras, ni de las personas entrevistadas.
 - Cobrar dinero real o usar credenciales de producción de Transbank.
 - Recibir, ver o guardar datos de tarjetas. Webpay captura la tarjeta en su propio formulario, y MATU solo recibe el resultado de la transacción.
@@ -63,37 +73,49 @@ Durante el semestre, el responsable es el equipo del proyecto, Jorge Espinoza y 
 - Rol de la institución: [PENDIENTE, confirmar con el ramo si la institución tiene algún rol respecto de los datos del piloto]
 - Las entrevistas de validación se rigen por su propio protocolo y no por este documento.
 
-## 5. Cómo encaja con el débito (plan B del ADR-006)
+## 5. Cómo se paga (ADR-027)
 
-La aplicación no debe limitar las formas de pago. Por eso se acepta el débito con el plan B del ADR-006 (decisión del 24/10/2026, registrada en `docs/pruebas-concepto/transbank.md`).
+> Borrador ADR-027 (27-10), por aprobar por Jorge.
 
-- **Con crédito:** se autoriza el monto estimado con margen y se captura el monto real.
-- **Con débito:** se cobra el monto estimado, y cuando el pedido sale por menos se devuelve la diferencia y se emite la nota de crédito.
-- La persona elige crédito o débito en MATU antes de ir a Webpay, porque el comercio de captura diferida solo ofrece crédito. [PENDIENTE, el código de comercio para débito se confirma en el diseño del módulo de pagos]
-- Antes de pagar con débito, la pantalla informa el monto que se cobra en ese momento, que la diferencia se devuelve si el pedido sale por menos, y el medio y el plazo de la devolución. [PENDIENTE, medio y plazo]
-- [PENDIENTE, verificar en integración cómo se devuelve la diferencia con débito antes del sprint 4]
-- Ninguna de las dos rutas mueve dinero real durante el semestre. Después del semestre, el alta comercial debe cubrir las dos modalidades.
+La aplicación no debe limitar las formas de pago (decisión del 24/10/2026, registrada en `docs/pruebas-concepto/transbank.md`). El ADR-027 lo cumple con un solo cobro que funciona igual con crédito y con débito, y reemplaza el plan B del ADR-006 que ocupaba esta sección.
+
+- **Un solo cobro del total confirmado.** Productos a precio exacto con IVA más un envío único por pedido, en venta normal de Webpay Plus. No hay reserva con margen, captura diferida ni cobros después.
+- **El total confirmado vale 15 minutos.** Si vence, se vuelve a confirmar y la pantalla lo dice. No pagar no tiene costo.
+- **Antes de pagar, la familia ve:** los productos con cantidad, precio y subtotal; los que salieron por no disponibles; los que cambiaron de precio o de comercio respecto de la lista; el envío y el total con IVA; quién emite la boleta; la ventana de entrega; y qué pasa si falta un producto, con el medio y el plazo de la devolución. Acepta las condiciones del pedido y recibe un comprobante.
+- **Quién vende.** MATU vende y emite una sola boleta por el total, con el envío incluido. Los comercios le cobran a MATU por cuenta corriente y no ven el nombre de nadie, solo la referencia del pedido y el código de retiro. Vender de verdad exige la persona jurídica de la sección 6. [PENDIENTE: consulta legal y tributaria sobre MATU como vendedor y sobre el documento tributario cuando hay devolución]
+- **Cancelación.** Después de pagar, la familia puede cancelar sin costo mientras el comercio no empiece a preparar, y se le devuelve el total.
+- **La única devolución.** Si al retirar falta un producto, se busca el mismo producto en otro comercio en convenio, y MATU asume la diferencia de precio. Nunca se cambia por otra marca. Si ningún comercio lo tiene, se devuelve su precio a la misma tarjeta, por anulación de Webpay Plus, y se avisa a la familia en el momento. Si no se entrega ningún producto, se devuelve también el envío. Texto que ve la familia: "Si un producto no llega, te devolvemos su precio el mismo día, a la misma tarjeta. Cuándo lo ves en tu cuenta depende de tu banco." [PENDIENTE: consulta legal sobre el plazo legal de la devolución, si existe]
+- [PENDIENTE: verificar en integración, antes del sprint 4, que se admite la anulación parcial de una venta normal con crédito y con débito, y los plazos máximos de anulación de Transbank. Si no se admite, se define otro medio sin pedir datos bancarios a la familia, salvo que se apruebe como tratamiento nuevo]
+- [PENDIENTE: consulta legal sobre el retracto en estos pedidos]
+- Nada de esto mueve dinero real durante el semestre. Después del semestre, el alta comercial cubre la venta normal de Webpay Plus.
 
 ## 6. Qué se hace después del semestre
 
+> Borrador ADR-027 (27-10), por aprobar por Jorge.
+
 Antes de tratar datos reales o cobrar dinero real, en este orden:
 
-1. Constituir la persona jurídica. Tipo, plazo y costo: [PENDIENTE]
-2. Alta comercial en Transbank a nombre de la persona jurídica, con las dos modalidades de la sección 5.
-3. Resolver la consulta legal: cuidador de hecho, registro escrito por una cuidadora remunerada y el plan B del débito.
+1. Constituir la persona jurídica, con inicio de actividades, porque MATU vende y emite la boleta (sección 5). Tipo, plazo y costo: [PENDIENTE]
+2. Alta comercial en Transbank a nombre de la persona jurídica, en Webpay Plus venta normal (sección 5).
+3. Resolver la consulta legal: cuidador de hecho, registro escrito por una cuidadora remunerada, y lo que abrió el ADR-027: MATU como vendedor y la boleta, el retracto, el plazo legal de la devolución, si los productos del pedido son datos sensibles y si los comercios en convenio son encargados o responsables. [PENDIENTE: consulta legal]
 4. Política de privacidad 1.0 revisada por un abogado, con la persona jurídica como responsable. `POLITICA_VERSION` pasa a 1.0, y los consentimientos otorgados con versiones 0.x no sirven para datos reales.
-5. Registro de tratamientos y contratos con los encargados de tratamiento: infraestructura y comercios.
+5. Registro de tratamientos y contratos con los encargados de tratamiento: infraestructura y comercios. [PENDIENTE: consulta legal sobre si los comercios son encargados o responsables] Los convenios fijan los precios exactos, el stock y cómo se aparta un producto.
 6. Clave maestra en un servicio de custodia, fuera del servidor de aplicación (arquitectura, sección 11.4 y ADR-016).
 7. El aviso de piloto académico se retira solo cuando los puntos 1 a 6 están cumplidos.
 
 ## 7. Cómo se declara en el informe
 
+> Borrador ADR-027 (27-10), por aprobar por Jorge.
+
 Texto propuesto:
 
-> Durante el semestre, MATU operó como piloto académico. Todos los datos de personas cuidadas, familias y pedidos fueron sintéticos. Los pagos se demostraron en el ambiente de integración de Transbank, con tarjetas de prueba y sin cobros reales. MATU no recibe ni guarda datos de tarjetas. El proyecto no cuenta con persona jurídica, y por eso no inició el alta comercial en Transbank. Operar con familias reales exige constituirla, completar el alta comercial, resolver la consulta legal sobre quién autoriza el tratamiento de los datos de una persona sin capacidad para consentir y publicar una política de privacidad revisada por un abogado.
+> Durante el semestre, MATU operó como piloto académico. Todos los datos de personas cuidadas, familias y pedidos fueron sintéticos, y los precios del catálogo fueron de ejemplo, sin convenio con comercios. Los pagos se demostraron en el ambiente de integración de Transbank, en venta normal, con tarjetas de prueba y sin cobros reales. MATU no recibe ni guarda datos de tarjetas. El proyecto no cuenta con persona jurídica, y por eso no inició el alta comercial en Transbank. Operar con familias reales exige constituirla, completar el alta comercial, resolver la consulta legal sobre quién autoriza el tratamiento de los datos de una persona sin capacidad para consentir y publicar una política de privacidad revisada por un abogado.
 
 ## 8. Cuándo se revisa esta decisión
 
+> Borrador ADR-027 (27-10), por aprobar por Jorge.
+
 - Si aparece la necesidad de operar con una familia real durante el semestre. Esta decisión no lo permite, así que se reabre.
 - Si un comercio acepta un convenio con dinero real.
+- Si un comercio entrega precios reales para el catálogo.
 - Si el ramo exige operación real.
