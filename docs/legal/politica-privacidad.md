@@ -178,8 +178,7 @@ Cada declaración también tiene un identificador en el sistema: `declaracion_ti
 - Para saber si tienen los productos, MATU les pregunta solo por los productos y las cantidades, con una referencia que se crea al azar para cada pedido y no permite saber de quién es. Esa consulta no lleva tus datos, ni los de la persona que cuidas, ni la dirección.
 - El comercio que prepara tu pedido ve solo sus productos, la referencia del pedido y el código de retiro. Si falta un producto y otro comercio lo reemplaza, ese comercio ve lo mismo, solo con lo que le toca preparar.
 - **Ningún comercio ve un nombre**, ni el tuyo ni el de la persona que cuidas. Tampoco ven la ficha. **La dirección nunca llega al comercio.** MATU vende y emite la boleta, así que el comercio no necesita saber quién paga.
-- Aun así, el convenio con cada comercio le exige confidencialidad y seguridad, como a quien trata datos por encargo.
-- [PENDIENTE: consulta legal sobre si la referencia del pedido es un dato personal para el comercio]
+- Aun así, MATU trata a cada comercio como si tratara datos por encargo: su convenio le exige siempre confidencialidad y seguridad.
 
 **Quien reparte**, si en el futuro hay despacho: ve la dirección de entrega y el teléfono de contacto solo mientras lleva el pedido. Lo hace por encargo de MATU y con un contrato que le exige confidencialidad, seguridad y borrar los datos al terminar.
 

@@ -112,3 +112,20 @@ De Sernac solo se vieron fragmentos en un buscador. Son fuente secundaria.
 7. **Si la evaluación de impacto del art. 15 ter es obligatoria,** y desde cuándo.
 
 **Del lado operativo:** Transbank confirma el plazo real de una anulación parcial.
+
+## Decisiones de Jorge (27-10)
+
+Jorge aprobó el 27-10 que las preguntas de la consulta legal se resuelvan por diseño cuando se puede, eligiendo la opción más protectora. Las preguntas se numeran P1 a P8: P1 a P7 son los puntos de la lista anterior (P4 es su punto 5 y P5 su punto 4) y P8 es el documento tributario de la revisión previa.
+
+| # | Pregunta | Punto de la lista | Cómo quedó |
+|---|---|---|---|
+| P1 | Art. 16 bis, inciso 1, y su letra e) | 1 | **Abierta, para un abogado.** No bloquea el semestre |
+| P2 | Si los productos de un pedido son un dato relativo a la salud | 2 | **Abierta, para un abogado.** Mientras tanto, los pedidos y el consumo se tratan como sensibles. No bloquea el semestre |
+| P3 | Quién consiente por la persona mayor dependiente | 3 | **Resuelta por diseño** con MATU-07: calidad del otorgante y revisión a los 12 meses. Lo que quede abierto se une a la consulta del cuidador de hecho |
+| P4 | Si la referencia opaca es un dato personal para el comercio | 5 | **Resuelta por diseño:** no depende de la respuesta. MATU trata al comercio como si fuera encargado, y el convenio lleva siempre las cláusulas del art. 15 bis |
+| P5 | Alcance de la exclusión del retracto (Decreto 52, art. 4 N° 4) y el envío | 4 | **Resuelta por diseño:** aplica a todo producto sellado y se pierde solo si se abre el sello; MATU devuelve también el envío y paga el retiro; no se aplica ninguna exclusión más amplia |
+| P6 | Falta de entrega: indemnización y responsabilidad | 6 | **Resuelta por diseño:** devolución el mismo día; MATU responde ante la familia y después repite contra el comercio según el convenio; los términos no limitan ninguna indemnización que corresponda |
+| P7 | Evaluación de impacto del art. 15 ter | 7 | **Resuelta por diseño:** se hace antes de operar con datos reales, sea obligatoria o no |
+| P8 | Documento tributario cuando hay devolución | (revisión previa) | **Abierta, para un contador.** No bloquea el semestre |
+
+Ninguna de las tres abiertas bloquea el semestre, porque no hay datos ni dinero reales.
