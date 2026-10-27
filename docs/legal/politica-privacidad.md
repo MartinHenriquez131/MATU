@@ -4,6 +4,7 @@
 **Estado:** borrador para el piloto académico. Todavía no sirve para tratar datos reales.
 **Aprobación:** aprobada como borrador v0.9 por Jorge Espinoza (Product Owner) el 25/10/2026. La revisión la hizo el orquestador del equipo de agentes, por delegación. Se confirman los tres compromisos del texto: MATU no vende datos, borra de inmediato los datos reales que entren por error, y ejercer los derechos es gratis. Los [PENDIENTE] que quedan (contacto, plazos, proveedores y procedimiento ante filtraciones) se resuelven en la versión 1.0, antes de tratar datos reales.
 **Identificador de versión en el sistema:** `0.9`
+**Borrador ADR-027 (27-10):** las secciones que empiezan con esa nota adaptan el texto a los pedidos y pagos del ADR-027. No están aprobadas y no cambian la versión: `POLITICA_VERSION` sigue en `0.9` hasta que Jorge decida si se publican como una versión nueva (la revisión previa del analista normativo propone 0.10).
 
 ---
 
@@ -91,6 +92,19 @@ La persona que cuidas no tiene cuenta en MATU. Sus datos los ingresas tú.
 - **"A quién llamar":** los nombres y teléfonos que escribas. Avísales que los anotaste.
 - **Invitaciones a tu grupo:** el email o el teléfono de la persona invitada. *Todavía no disponible.*
 
+### De tus pedidos
+
+> Borrador ADR-027 (27-10), por aprobar por Jorge.
+
+*Todavía no disponible.* Cuando existan los pedidos, guardaremos:
+
+- Los productos que pediste, con su cantidad, su precio, el envío y el total.
+- El comercio que preparó cada producto.
+- La dirección de entrega.
+- El pago: el monto cobrado y, si hubo, la devolución.
+
+**Los productos de un pedido pueden revelar algo de la salud o de la dependencia de la persona que cuidas**. Por eso los protegemos como datos sensibles. [PENDIENTE: consulta legal sobre si son datos sensibles según la ley, y con qué base se tratan]
+
 ### Lo que MATU no pide
 
 - Diagnósticos, nombres de enfermedades, medicamentos, recetas, exámenes ni fichas clínicas.
@@ -136,6 +150,8 @@ Cada declaración también tiene un identificador en el sistema: `declaracion_ti
 
 ## 6. Quién ve los datos
 
+> Borrador ADR-027 (27-10), por aprobar por Jorge. Cambian los párrafos de comercios y de Transbank.
+
 **Tu cuenta:** tu email lo ven solo tú y el equipo que opera MATU. Las personas de tus grupos ven tu nombre. [PENDIENTE: si también ven tu email, se define con la lista de miembros del grupo]
 
 **El nombre del grupo:** lo ven las personas del grupo y el equipo que opera MATU.
@@ -151,11 +167,15 @@ Cada declaración también tiene un identificador en el sistema: `declaracion_ti
 - Cada vez que abre la ficha queda registrado.
 - Lo que el relevo lea puede anotarlo o fotografiarlo, y MATU no puede impedirlo. Comparte solo lo que necesita y por el tiempo justo.
 
-**Comercios**, cuando existan los pedidos: ven el nombre con que llaman a la persona y los productos del pedido. Nunca ven la ficha. Para preparar el pedido no reciben la dirección.
+**Comercios en convenio**, cuando existan los pedidos:
+- Para saber si tienen los productos, MATU les pregunta solo por los productos y las cantidades. Esa consulta no lleva tus datos, ni los de la persona que cuidas, ni la dirección.
+- El comercio que prepara tu pedido ve solo sus productos, la referencia del pedido y el código de retiro. Si falta un producto y otro comercio lo reemplaza, ese comercio ve lo mismo, solo con lo que le toca preparar.
+- **Ningún comercio ve un nombre**, ni el tuyo ni el de la persona que cuidas. Tampoco ven la ficha ni la dirección. MATU vende y emite la boleta, así que el comercio no necesita saber quién paga.
+- [PENDIENTE: consulta legal sobre si los comercios en convenio tratan estos datos por encargo de MATU o como responsables]
 
 **Quien reparte**, si en el futuro hay despacho: ve la dirección de entrega solo mientras lleva el pedido.
 
-**Transbank**, cuando existan los pagos: el pago se hace en su página. MATU no ve el número de tu tarjeta ni su código. Solo guarda el resultado: el monto, el código de autorización, el tipo de tarjeta y sus últimos 4 dígitos. Puedes pagar con crédito o con débito. Con crédito se reserva el monto estimado y se cobra solo el real. Con débito se cobra el estimado y, si el pedido sale por menos, se devuelve la diferencia. Durante el piloto los pagos ocurren solo en el ambiente de prueba de Transbank, sin cobros reales.
+**Transbank**, cuando existan los pagos: el pago se hace en su página. MATU no ve el número de tu tarjeta ni su código. Solo guarda el resultado: el monto, el código de autorización, el tipo de tarjeta y sus últimos 4 dígitos. Puedes pagar con crédito o con débito, y funcionan igual: se cobra una sola vez el total que viste antes de pagar. Si hay una devolución, va a la misma tarjeta, y no te pedimos datos nuevos para hacerla. Durante el piloto los pagos ocurren solo en el ambiente de prueba de Transbank, sin cobros reales.
 
 **El equipo de MATU:** para dar soporte ve los pedidos y los pagos. Sus herramientas no permiten leer la ficha ni el consumo de insumos.
 
