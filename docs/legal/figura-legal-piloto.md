@@ -82,11 +82,25 @@ La aplicación no debe limitar las formas de pago (decisión del 24/10/2026, reg
 - **Un solo cobro del total confirmado.** Productos a precio exacto con IVA más un envío único por pedido, en venta normal de Webpay Plus. No hay reserva con margen, captura diferida ni cobros después.
 - **El total confirmado vale 15 minutos.** Si vence, se vuelve a confirmar y la pantalla lo dice. No pagar no tiene costo.
 - **Antes de pagar, la familia ve:** los productos con cantidad, precio y subtotal; los que salieron por no disponibles; los que cambiaron de precio o de comercio respecto de la lista; el envío y el total con IVA; quién emite la boleta; la ventana de entrega; y qué pasa si falta un producto, con el medio y el plazo de la devolución. Acepta las condiciones del pedido y recibe un comprobante.
-- **Quién vende.** MATU vende y emite una sola boleta por el total, con el envío incluido. Los comercios le cobran a MATU por cuenta corriente y no ven el nombre de nadie, solo la referencia del pedido y el código de retiro. Vender de verdad exige la persona jurídica de la sección 6. [PENDIENTE: consulta legal y tributaria sobre MATU como vendedor y sobre el documento tributario cuando hay devolución]
+- **Quién vende.** MATU vende y emite una sola boleta por el total, con el envío incluido. Los comercios le cobran a MATU por cuenta corriente y no ven el nombre de nadie, solo la referencia del pedido y el código de retiro. Vender de verdad exige la persona jurídica de la sección 6. [PENDIENTE: consulta tributaria sobre el documento tributario cuando hay devolución]
+- **Lo que el Decreto 6 de 2021 (Reglamento de Comercio Electrónico) pide a MATU como vendedor** (`investigacion-normativa-adr-027.md`, sección 1):
+  - identificar al vendedor (art. 7);
+  - mostrar el despacho separado del precio (art. 11);
+  - informar el plazo de entrega y un canal de reclamo (art. 13);
+  - poner un enlace a los términos del pedido (art. 16);
+  - mostrar un resumen antes del pago (art. 18);
+  - y, por la Ley 19.496, art. 12 A, enviar una confirmación escrita al pagar.
 - **Cancelación.** Después de pagar, la familia puede cancelar sin costo mientras el comercio no empiece a preparar, y se le devuelve el total.
-- **La única devolución.** Si al retirar falta un producto, se busca el mismo producto en otro comercio en convenio, y MATU asume la diferencia de precio. Nunca se cambia por otra marca. Si ningún comercio lo tiene, se devuelve su precio a la misma tarjeta, por anulación de Webpay Plus, y se avisa a la familia en el momento. Si no se entrega ningún producto, se devuelve también el envío. Texto que ve la familia: "Si un producto no llega, te devolvemos su precio el mismo día, a la misma tarjeta. Cuándo lo ves en tu cuenta depende de tu banco." [PENDIENTE: consulta legal sobre el plazo legal de la devolución, si existe]
+- **La devolución por falta de un producto.** Antes de pagar, la familia elige por cada producto qué hace MATU si falta (RF-21): buscar el mismo producto en otro comercio en convenio, que es lo que pasa si no elige, o quitarlo y devolver su precio. Si se busca en otro comercio, MATU asume la diferencia de precio. Nunca se cambia por otra marca ni por otro producto. Si la familia eligió quitarlo, o ningún comercio lo tiene, se devuelve su precio a la misma tarjeta, por anulación de Webpay Plus, y se avisa a la familia en el momento. Si no se entrega ningún producto, se devuelve también el envío.
+- **El plazo de esa devolución lo fijan los términos del pedido.** No se encontró un plazo legal específico; la Ley 19.496 (arts. 3 e) y 12) y el Decreto 6 (arts. 12 y 13) piden cumplir lo ofrecido de forma oportuna (`investigacion-normativa-adr-027.md`, sección 2). Texto de los términos: "Si un producto no se puede entregar, anulamos su cobro el mismo día". La pantalla no promete cuándo se ve el dinero: "Cuándo lo ves en tu cuenta depende de tu banco." Si la entrega pasa del plazo informado, se avisa y la familia elige entre esperar o recibir la devolución.
+- [PENDIENTE: consulta legal sobre si, además de devolver, procede una indemnización por la falta de entrega, y cómo se reparte la responsabilidad entre MATU y el comercio]
 - [PENDIENTE: verificar en integración, antes del sprint 4, que se admite la anulación parcial de una venta normal con crédito y con débito, y los plazos máximos de anulación de Transbank. Si no se admite, se define otro medio sin pedir datos bancarios a la familia, salvo que se apruebe como tratamiento nuevo]
-- [PENDIENTE: consulta legal sobre el retracto en estos pedidos]
+- **Derecho a retracto.** Aplica: son compras a distancia, con 10 días desde que se recibe el producto (Ley 19.496, art. 3 bis b). En los productos de uso personal o de higiene sellados, se pierde solo si se abre el sello después de recibirlos (Decreto 52 de 2024, art. 4 N° 4) (`investigacion-normativa-adr-027.md`, sección 1). Cómo se informa:
+  - junto al precio y en el resumen antes de pagar, con una advertencia no menor que el precio y con las palabras "derecho a retracto" (Decreto 52, art. 6): "Derecho a retracto: tienes 10 días desde que lo recibes. No aplica si abres el sello del producto";
+  - en el pedido entregado, la acción "Arrepentirme de la compra" durante 10 días;
+  - la devolución por retracto usa la misma anulación de Webpay Plus, sin retención de gastos y dentro de 45 días (art. 3 bis);
+  - sin la confirmación escrita del art. 12 A, el plazo sube a 90 días.
+- [PENDIENTE: consulta legal sobre el alcance del Decreto 52, art. 4 N° 4, en pañales en paquetes de varias unidades, guantes y apósitos, si en el retracto se devuelve el envío y quién paga el retiro]
 - Nada de esto mueve dinero real durante el semestre. Después del semestre, el alta comercial cubre la venta normal de Webpay Plus.
 
 ## 6. Qué se hace después del semestre
@@ -97,9 +111,16 @@ Antes de tratar datos reales o cobrar dinero real, en este orden:
 
 1. Constituir la persona jurídica, con inicio de actividades, porque MATU vende y emite la boleta (sección 5). Tipo, plazo y costo: [PENDIENTE]
 2. Alta comercial en Transbank a nombre de la persona jurídica, en Webpay Plus venta normal (sección 5).
-3. Resolver la consulta legal: cuidador de hecho, registro escrito por una cuidadora remunerada, y lo que abrió el ADR-027: MATU como vendedor y la boleta, el retracto, el plazo legal de la devolución, si los productos del pedido son datos sensibles y si los comercios en convenio son encargados o responsables. [PENDIENTE: consulta legal]
+3. Resolver la consulta legal: cuidador de hecho, registro escrito por una cuidadora remunerada, el documento tributario cuando hay devolución, y los siete puntos que la investigación normativa del ADR-027 deja para un abogado (`investigacion-normativa-adr-027.md`). El retracto y el plazo de la devolución ya los resuelve el texto (sección 5).
+   - [PENDIENTE: consulta legal sobre si el art. 16 bis, inciso 1, de la Ley 19.628 según la Ley 21.719 limita a MATU aunque tenga consentimiento, y si sirve como base su letra e), sobre la asistencia social. Es el riesgo más alto]
+   - [PENDIENTE: consulta legal sobre si los productos de un pedido son un dato relativo a la salud]
+   - [PENDIENTE: consulta legal sobre quién consiente por la persona mayor dependiente: el mandato con facultad expresa y el caso de quien está impedido (arts. 12, 16 c y 16 bis a)]
+   - [PENDIENTE: consulta legal sobre el alcance del Decreto 52, art. 4 N° 4, en pañales, guantes y apósitos, y si en el retracto se devuelve el envío]
+   - [PENDIENTE: consulta legal sobre si la referencia opaca es un dato personal para el comercio]
+   - [PENDIENTE: consulta legal sobre si procede una indemnización por falta de entrega y cómo se reparte la responsabilidad entre MATU y el comercio]
+   - [PENDIENTE: consulta legal sobre si la evaluación de impacto del art. 15 ter es obligatoria, y desde cuándo]
 4. Política de privacidad 1.0 revisada por un abogado, con la persona jurídica como responsable. `POLITICA_VERSION` pasa a 1.0, y los consentimientos otorgados con versiones 0.x no sirven para datos reales.
-5. Registro de tratamientos y contratos con los encargados de tratamiento: infraestructura y comercios. [PENDIENTE: consulta legal sobre si los comercios son encargados o responsables] Los convenios fijan los precios exactos, el stock y cómo se aparta un producto.
+5. Registro de tratamientos y contratos con los encargados de tratamiento: infraestructura y quien despacha, que ve la dirección y el paquete y es encargado de MATU. Se puede sostener que el comercio no trata datos personales, porque recibe solo productos, cantidades y una referencia aleatoria por pedido, y nunca la dirección; aun así, el convenio incluye las cláusulas del art. 15 bis (`investigacion-normativa-adr-027.md`, sección 4). Los convenios fijan además los precios exactos, el stock y cómo se aparta un producto.
 6. Clave maestra en un servicio de custodia, fuera del servidor de aplicación (arquitectura, sección 11.4 y ADR-016).
 7. El aviso de piloto académico se retira solo cuando los puntos 1 a 6 están cumplidos.
 

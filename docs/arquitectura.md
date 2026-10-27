@@ -2133,7 +2133,15 @@ De los cuatro huecos que la v1.0 declaraba, **uno se cerró y tres siguen abiert
 | **Quién paga y por qué canal se llega** | Abierto | Las cuatro entrevistas de ampliación, semana 9 |
 | **Consulta legal sobre representación** | Abierto, y con una pregunta nueva | Además de la zona gris del `cuidador_de_hecho`, la cuidadora remunerada planteó de quién es el registro cuando lo escribe una trabajadora. **No hay respuesta en la arquitectura** |
 | **Persona jurídica** | Abierto, ya no bloqueante | Sin RUT no hay Webpay en producción. El entregable del semestre se formuló como entorno de demostración. Con el ADR-027 MATU vende y emite la boleta, y para eso necesita inicio de actividades, después del semestre |
-| **Consulta legal del ADR-027** | Abierto | La tarjeta de consulta legal en Trello, antes de cobrar dinero real: MATU como vendedor y quién emite la boleta, el retracto, el plazo legal de la devolución, si los productos del pedido son datos sensibles y si los comercios son encargados o responsables. Ver `legal/revision-previa-adr-027.md` |
+| **Consulta legal del ADR-027** | Abierto, más acotado | La investigación normativa del 27-10 (`legal/investigacion-normativa-adr-027.md`) resolvió con el texto de la ley que el retracto aplica y cómo se informa, y que el plazo de la devolución lo fijan los términos del pedido. Quedan para la tarjeta de consulta legal en Trello, antes de cobrar dinero real, sus siete puntos para un abogado (el art. 16 bis, si los productos son un dato de salud, quién consiente por la persona dependiente, el alcance del Decreto 52 en pañales, guantes y apósitos, si la referencia opaca es un dato personal, la indemnización por falta de entrega y la evaluación de impacto) y el documento tributario cuando hay devolución. Ver también `legal/revision-previa-adr-027.md` |
+
+**Requisitos para el sprint 4 que salen de la investigación normativa** (`legal/investigacion-normativa-adr-027.md`). Por aprobar por Jorge, y todavía sin diseño:
+
+- El texto de retracto junto al precio y en el resumen antes de pagar, con una advertencia no menor que el precio (Decreto 52, art. 6).
+- La acción "Arrepentirme de la compra" en el pedido entregado, durante 10 días (Ley 19.496, art. 3 bis).
+- La confirmación escrita al pagar (Ley 19.496, art. 12 A).
+- El consentimiento expreso y separado para los pedidos, con una revocación igual de fácil.
+- La referencia opaca de la consulta de stock, aleatoria por pedido y nunca por familia.
 
 **Estos huecos no se cierran con más documento.** Es la limitación honesta de esta versión, y declararla vale más que disimularla.
 

@@ -103,7 +103,11 @@ La persona que cuidas no tiene cuenta en MATU. Sus datos los ingresas tú.
 - La dirección de entrega.
 - El pago: el monto cobrado y, si hubo, la devolución.
 
-**Los productos de un pedido pueden revelar algo de la salud o de la dependencia de la persona que cuidas**. Por eso los protegemos como datos sensibles. [PENDIENTE: consulta legal sobre si son datos sensibles según la ley, y con qué base se tratan]
+**Tus pedidos y el consumo de insumos de la persona que cuidas se tratan como datos sensibles**, con la misma protección que la ficha, porque pueden revelar algo de su salud o de su dependencia.
+
+**Para los pedidos te pediremos una autorización expresa y aparte**, distinta de la de la ficha. Puedes retirarla igual de fácil que la diste.
+
+[PENDIENTE: consulta legal sobre si los productos de un pedido son un dato relativo a la salud, y si el art. 16 bis, inciso 1, de la ley limita su tratamiento aunque haya autorización]
 
 ### Lo que MATU no pide
 
@@ -150,7 +154,7 @@ Cada declaración también tiene un identificador en el sistema: `declaracion_ti
 
 ## 6. Quién ve los datos
 
-> Borrador ADR-027 (27-10), por aprobar por Jorge. Cambian los párrafos de comercios y de Transbank.
+> Borrador ADR-027 (27-10), por aprobar por Jorge. Cambian los párrafos de comercios, de quien reparte y de Transbank.
 
 **Tu cuenta:** tu email lo ven solo tú y el equipo que opera MATU. Las personas de tus grupos ven tu nombre. [PENDIENTE: si también ven tu email, se define con la lista de miembros del grupo]
 
@@ -168,12 +172,13 @@ Cada declaración también tiene un identificador en el sistema: `declaracion_ti
 - Lo que el relevo lea puede anotarlo o fotografiarlo, y MATU no puede impedirlo. Comparte solo lo que necesita y por el tiempo justo.
 
 **Comercios en convenio**, cuando existan los pedidos:
-- Para saber si tienen los productos, MATU les pregunta solo por los productos y las cantidades. Esa consulta no lleva tus datos, ni los de la persona que cuidas, ni la dirección.
+- Para saber si tienen los productos, MATU les pregunta solo por los productos y las cantidades, con una referencia que se crea al azar para cada pedido y no permite saber de quién es. Esa consulta no lleva tus datos, ni los de la persona que cuidas, ni la dirección.
 - El comercio que prepara tu pedido ve solo sus productos, la referencia del pedido y el código de retiro. Si falta un producto y otro comercio lo reemplaza, ese comercio ve lo mismo, solo con lo que le toca preparar.
-- **Ningún comercio ve un nombre**, ni el tuyo ni el de la persona que cuidas. Tampoco ven la ficha ni la dirección. MATU vende y emite la boleta, así que el comercio no necesita saber quién paga.
-- [PENDIENTE: consulta legal sobre si los comercios en convenio tratan estos datos por encargo de MATU o como responsables]
+- **Ningún comercio ve un nombre**, ni el tuyo ni el de la persona que cuidas. Tampoco ven la ficha. **La dirección nunca llega al comercio.** MATU vende y emite la boleta, así que el comercio no necesita saber quién paga.
+- Aun así, el convenio con cada comercio le exige confidencialidad y seguridad, como a quien trata datos por encargo.
+- [PENDIENTE: consulta legal sobre si la referencia del pedido es un dato personal para el comercio]
 
-**Quien reparte**, si en el futuro hay despacho: ve la dirección de entrega solo mientras lleva el pedido.
+**Quien reparte**, si en el futuro hay despacho: ve la dirección de entrega solo mientras lleva el pedido. Lo hace por encargo de MATU y con un contrato que le exige confidencialidad, seguridad y borrar los datos al terminar.
 
 **Transbank**, cuando existan los pagos: el pago se hace en su página. MATU no ve el número de tu tarjeta ni su código. Solo guarda el resultado: el monto, el código de autorización, el tipo de tarjeta y sus últimos 4 dígitos. Puedes pagar con crédito o con débito, y funcionan igual: se cobra una sola vez el total que viste antes de pagar. Si hay una devolución, va a la misma tarjeta, y no te pedimos datos nuevos para hacerla. Durante el piloto los pagos ocurren solo en el ambiente de prueba de Transbank, sin cobros reales.
 
