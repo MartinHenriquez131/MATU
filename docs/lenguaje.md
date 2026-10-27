@@ -261,7 +261,11 @@ Aviso para el relevo como titular de su nombre y su teléfono. Va en la pantalla
 
 > MATU guarda tu nombre y tu teléfono, que anotó quien te compartió la ficha, para enviarte el enlace y poder contactarte. Tu teléfono se borra 30 días después de que el enlace vence o se corta. También registra cada vez que abres el enlace o la ficha y cada PIN incorrecto, y guarda ese registro 3 años, para saber a quién se compartió. Responsables de tus datos: Jorge Espinoza y Martín Henríquez. Puedes pedir ver, corregir o borrar tus datos escribiendo a [PENDIENTE: correo de contacto]. [Política de privacidad]
 
-El correo de contacto es el mismo de la política, sección 2, y se completa con la versión 1.0. Fuentes: decisiones de Jorge del 27-10 (contrato de MATU-09), política v0.9, secciones 2, 4, 8 y 10, y figura legal del piloto, secciones 4.1 y 4.4.
+El correo de contacto es el mismo de la política, sección 2, y se completa con la versión 1.0.
+
+**En la demo.** Como todavía no hay correo de contacto, la demo muestra el aviso sin esa frase. Termina en "Puedes pedir ver, corregir o borrar tus datos. [Política de privacidad]".
+
+Fuentes: decisiones de Jorge del 27-10 (contrato de MATU-09), política v0.9, secciones 2, 4, 8 y 10, y figura legal del piloto, secciones 4.1 y 4.4.
 
 ---
 
@@ -307,7 +311,7 @@ Textos de la demo, con los cambios que pide el contrato de MATU-09.
 | Preguntas del formulario | ¿Quién te va a reemplazar? · Su teléfono · ¿Qué puede ver? · ¿Hasta cuándo? · ¿Cuántos días? (Hasta 30 días.) |
 | Ayuda del teléfono · Aprobado por Jorge el 27-10 | Para enviarle el enlace y poder contactarle. |
 | Recordatorio bajo "¿Qué puede ver?" | Comparte solo lo que necesita para cuidarla. Quien recibe el enlace puede anotar o fotografiar lo que lee, y MATU no puede impedirlo. |
-| Recordatorio al crear el enlace | Cuéntale a `{nombre}` que anotaste su nombre y su teléfono en MATU, y que cada vez que abra la ficha queda registrado. |
+| Recordatorio al crear el enlace | Cuéntale a `{nombre}` que anotaste su nombre y su teléfono en MATU, y que cada vez que abra el enlace o la ficha queda registrado. |
 | Motivo (obligatorio, uno elegido de partida) | ¿Para qué lo compartes? · Salgo unas horas · Fin de semana fuera · Turno de noche · Otro motivo |
 | PIN recién creado | **Díctaselo a `{nombre}` por teléfono.** No lo mandes junto con el enlace. Solo lo verás ahora. |
 | PIN que ya no se ve | El PIN ya no se puede ver. Por seguridad se muestra una sola vez. Si se perdió, crea un enlace nuevo y corta el anterior. |
@@ -316,8 +320,8 @@ Textos de la demo, con los cambios que pide el contrato de MATU-09.
 | Botón y confirmación | Cortar el enlace de `{nombre}` · Enlace cortado. Ya no abre para `{nombre}`. |
 | Bajada de Enlaces | Al cortar un enlace deja de abrir de inmediato. Quien lo tenía no recibe aviso. |
 | Sin enlaces | No hay enlaces todavía. Crea uno desde Compartir. |
-| Bajada de Quién la vio | Una línea por cada vez que alguien abre la ficha o escribe mal el PIN. Es un respaldo para ti, no una vigilancia. |
-| Aperturas (`apertura`, `pin_incorrecto`, `bloqueo`) | `{nombre}` abrió la ficha · `{nombre}` escribió mal el PIN · El enlace de `{nombre}` se bloqueó por PIN incorrecto |
+| Bajada de Quién la vio · Aprobado por Jorge el 27-10 | Una línea por cada vez que alguien abre el enlace o la ficha, o escribe mal el PIN. Es un respaldo para ti, no una vigilancia. |
+| Aperturas (`presentacion`, `apertura`, `pin_incorrecto`, `bloqueo`) | `{nombre}` abrió el enlace · `{nombre}` abrió la ficha · `{nombre}` escribió mal el PIN · El enlace de `{nombre}` se bloqueó por PIN incorrecto |
 | Sin aperturas | Todavía nadie ha abierto la ficha. Cuando alguien la abra, aparece aquí. |
 
 ---
