@@ -530,7 +530,7 @@ erDiagram
 |---|---|---|
 | `plan_cuidado` | id, grupo_id, persona_cuidada_id, modo, completitud_pct, actualizado_por, actualizado_en | `modo` es `ficha_relevo` mientras rija el ADR-023. `completitud_pct` se calcula sobre los tres campos de la ficha, pero **la interfaz nunca bloquea por completitud**. Ver ADR-018 |
 | `plan_seccion` | id, plan_id, tipo, **contenido_cifrado**, **nonce**, **tag_auth**, **version**, actualizado_por, actualizado_en | Cifrado por sección, no por documento, para compartir una parte sin descifrar el resto. **`nonce` de 96 bits aleatorio por cada escritura, nunca un contador**: repetir un nonce en AES-GCM permite recuperar la clave de autenticación y forjar texto cifrado. `version` implementa bloqueo optimista (RF-04) |
-| `acceso_relevo` | id, plan_id, otorgado_a_nombre, otorgado_a_telefono, secciones_permitidas, token_hash, **pin_hash**, expira_en, revocado_en, motivo, usos | El relevo no crea cuenta. **Token de uso múltiple hasta vencer**, no de un solo uso: el relevo consulta el plan durante todo su turno. `pin_hash` es el segundo factor de cuatro dígitos enviado al teléfono ya registrado, porque un enlace por WhatsApp es una credencial al portador sobre datos de salud |
+| `acceso_relevo` | id, plan_id, otorgado_a_nombre, otorgado_a_telefono, secciones_permitidas, token_hash, **pin_hash**, expira_en, revocado_en, motivo, usos | El relevo no crea cuenta. **Token de uso múltiple hasta vencer**, no de un solo uso: el relevo consulta el plan durante todo su turno. `pin_hash` es el segundo factor de cuatro dígitos, porque un enlace por WhatsApp es una credencial al portador sobre datos de salud. **La API no envía el PIN.** Lo muestra una sola vez a quien comparte, que se lo dicta al relevo. El envío por SMS es *Debería* y está fuera del semestre. El teléfono sirve para que quien comparte le envíe el enlace desde su propio teléfono, por WhatsApp o SMS, y para que la familia pueda contactar al relevo (decisión 24 del contrato de MATU-09). Ninguna respuesta de la API lo devuelve |
 | `clave_datos` | id, persona_cuidada_id, dek_cifrada_con_kek, kek_version, creada_en, rotada_en | Sobre-cifrado. Una clave de datos por persona cuidada, cifrada con la clave maestra. Ver ADR-016 |
 
 **Tipos de sección:** `rutina`, `manejo_situaciones`, `red_apoyo`, `horarios`, `preferencias`, `actividades`, `alimentacion`, `movilidad`.
@@ -968,7 +968,7 @@ sequenceDiagram
 | Contexto de tenant | Header `X-Grupo-Id`. La API verifica membresía en cada petición y nunca confía en el header |
 | Errores | RFC 7807 `application/problem+json` con `type`, `title`, `status`, `detail`, `errores[]` |
 | Idempotencia | Header `Idempotency-Key` obligatorio en POST de pedidos, pagos y evidencias |
-| Concurrencia | `If-Match` con `ETag` en PUT de secciones del plan de cuidado. Respuesta 412 con el contenido actual si cambió |
+| Concurrencia | `If-Match` con `ETag` en el PUT de cada campo de la ficha. Respuesta 412 con el contenido actual si cambió |
 | Paginación | Cursor, no offset |
 | Fechas | ISO 8601 con zona. El servidor opera en UTC, la aplicación muestra en America/Santiago |
 | Versionado | La v1 no rompe contratos. Un cambio incompatible crea `/api/v2` |
@@ -977,19 +977,32 @@ sequenceDiagram
 
 ```
 POST   /v1/grupos/{id}/personas-cuidadas
-GET    /v1/personas-cuidadas/{id}/plan              → secciones, completitud, ETags
-PUT    /v1/personas-cuidadas/{id}/plan/ficha        → los tres campos obligatorios
-PUT    /v1/personas-cuidadas/{id}/plan/secciones/{tipo}
-       headers: If-Match: "<version>"               → 412 si otro miembro editó
-       body: {contenido, en_nombre_de}              → llenado asistido (RF-42)
-GET    /v1/personas-cuidadas/{id}/plan/exportar     → documento imprimible
+GET    /v1/personas-cuidadas/{id}/plan/ficha        → los tres campos, completitud y un ETag por campo
+PUT    /v1/personas-cuidadas/{id}/plan/ficha/{campo}
+       headers: If-Match: "v<version>"              → 412 si otro miembro editó
+                o If-None-Match: *                  → primera escritura del campo
+       body: {texto}                                → 428 sin ninguna de las dos cabeceras
+GET    /v1/personas-cuidadas/{id}/plan/exportar     → documento imprimible (RF-09)
 POST   /v1/personas-cuidadas/{id}/plan/accesos-relevo
-       body: {secciones:[...], expira_en, motivo, nombre, telefono}
+       body: {campos:[...], expira_en, motivo, nombre_relevo, telefono_relevo}
+                                                    → 201 con el enlace y el PIN, una sola vez
+GET    /v1/personas-cuidadas/{id}/plan/accesos-relevo → accesos y su estado
 DELETE /v1/accesos-relevo/{id}                      → revocación inmediata
-GET    /v1/relevo/{token}                           → vista pública restringida, sin sesión
+GET    /v1/personas-cuidadas/{id}/plan/aperturas    → lo que hicieron los relevos (RF-08)
+
+Relevo, sin cuenta. Enlace /r#<token>: el token va en el fragmento, nunca en la URL de una petición
+POST   /v1/relevo/presentacion  body: {token}       → nombres de pila de quien comparte y de la persona
+POST   /v1/relevo/canje         body: {token, pin}  → 204 y cookie de sesión efímera
+GET    /v1/relevo/ficha         con la cookie       → los campos compartidos, cada apertura auditada
 ```
 
-`PUT /plan/ficha` es nuevo en esta versión y es el endpoint que sostiene el ADR-023: escribe los tres campos obligatorios en una sola llamada, sin exigir el resto del plan.
+El contrato vigente es el de `docs/api/propuestos/` en MATU_PROYECTO (MATU-09). Esta lista lo resume. Cambios respecto de la v1.1:
+
+- **La ficha se escribe con un PUT por campo**, no con uno para los tres. El `ETag`, el 412 y el 428 son por campo (MATU-13): si dos personas editan campos distintos, ninguna pisa a la otra. El ADR-023 se sostiene igual, porque ningún campo exige el resto del plan.
+- **`PUT …/plan/secciones/{tipo}` no se expone en el semestre.** Las ocho secciones son *Podría* desde el ADR-023. El llenado asistido (`en_nombre_de`, RF-42) y la exportación (RF-09) no entran en el contrato de MATU-09.
+- **El acceso de relevo pide `campos`, no `secciones`.** La ficha solo admite `rutina`, `manejo_situaciones` y `red_apoyo`. `motivo` es un enumerado sin texto libre (7.2).
+- **El relevo ya no usa `GET /v1/relevo/{token}`.** El token nunca viaja en la URL de una petición. La página `/r#<token>` lo lee del fragmento, pide los nombres con `POST /v1/relevo/presentacion` y canjea token y PIN con `POST /v1/relevo/canje`. El canje deja una cookie `__Secure-matu-relevo` que dura 12 horas o hasta que vence el acceso, lo que ocurra primero. La ficha se lee siempre con `GET /v1/relevo/ficha`, que es lo que se audita como apertura.
+- **La API no envía el PIN.** Lo entrega una vez en el 201 y quien comparte se lo dicta al relevo (11.6).
 
 ### 9.3 Capa 2 · Perfil de consumo
 
@@ -1253,7 +1266,7 @@ Esta es la pregunta jurídica central del proyecto.
 | Base de datos | RLS forzado en toda tabla de negocio, con las dos excepciones de la sección 7.7 acotadas por permiso, usuario de aplicación sin `SUPERUSER`, `auditoria` sin UPDATE ni DELETE, cifrado de volumen |
 | Datos sensibles | Sobre-cifrado por sección, borrado criptográfico, sin plan de cuidado en ningún registro de log |
 | Archivos | Bucket privado, URL firmada de 5 minutos para lectura y 15 para subida, sin CDN público, hash SHA-256 de cada evidencia |
-| Acceso de relevo | Token de **uso múltiple hasta vencer** más **PIN de cuatro dígitos** enviado al teléfono registrado, alcance por sección, revocación inmediata, cada apertura auditada. El enlace se canjea por una cookie de sesión efímera en un paso, para que el token no quede en el historial de un teléfono prestado |
+| Acceso de relevo | Token de **uso múltiple hasta vencer** más **PIN de cuatro dígitos**, alcance por campo, revocación inmediata, cada apertura auditada. **La API no envía el PIN**: lo muestra una sola vez a quien comparte, que se lo dicta al relevo. El envío por SMS es *Debería* y está fuera del semestre. El enlace es `/r#<token>`, con el token en el fragmento, y se canjea con el PIN por una cookie de sesión efímera en un paso, para que el token no quede en el historial de un teléfono prestado. La página limpia el fragmento con `history.replaceState` después del canje |
 | Secretos | Variables inyectadas, nunca en el repositorio, escaneo de secretos en el pipeline |
 | Aplicación móvil | Sin datos sensibles en el dispositivo, tokens en el keystore del sistema, bloqueo de captura de pantalla en la vista del plan de cuidado |
 | Registro | Logs estructurados en JSON, sin datos personales en el mensaje y sin IP, correlación por `request_id` |
