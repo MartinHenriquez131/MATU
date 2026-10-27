@@ -12,27 +12,23 @@ erDiagram
     cargo {
         uuid id PK
         uuid pedido_id FK, UK
-        bigint monto_objetivo
-        int margen_bp
-        bigint monto_autorizado
-        bigint monto_capturado
         text estado
-        timestamptz recaudacion_expira_en
         uuid respaldo_usuario_id FK "opcional"
         timestamptz creado_en
         timestamptz actualizado_en
         int version
+        bigint monto_cobrado
+        bigint monto_devuelto
     }
     participacion {
         uuid id PK
         uuid cargo_id FK
         uuid usuario_id FK
         int porcentaje_bp
-        bigint monto_comprometido
-        bigint monto_autorizado
-        bigint monto_capturado
         text estado
         bool es_respaldo
+        bigint monto_cobrado
+        bigint monto_devuelto
     }
     transaccion_pasarela {
         uuid id PK
