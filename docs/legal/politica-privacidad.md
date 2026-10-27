@@ -89,7 +89,7 @@ La persona que cuidas no tiene cuenta en MATU. Sus datos los ingresas tú.
 
 ### De otras personas que tú anotas
 
-- **Relevo:** su nombre y su teléfono, qué campos le compartiste, hasta cuándo, el motivo, cuántas veces abrió la ficha y cada PIN incorrecto. Su teléfono es obligatorio: sirve para que tú le envíes el enlace desde tu teléfono, por WhatsApp o SMS, y para que tu grupo pueda contactarlo. MATU no le envía mensajes. Avísale que lo anotaste: cuando abra el enlace, MATU le muestra qué guarda de él, y también tu nombre de pila y el de la persona que cuidas.
+- **Relevo:** su nombre y su teléfono, qué campos le compartiste, hasta cuándo, el motivo, cada vez que abrió el enlace, aunque no haya escrito el PIN, cuántas veces abrió la ficha y cada PIN incorrecto. Su teléfono es obligatorio: sirve para que tú le envíes el enlace desde tu teléfono, por WhatsApp o SMS, y para que tu grupo pueda contactarlo. MATU no le envía mensajes. Avísale que lo anotaste: cuando abra el enlace, MATU le muestra qué guarda de él, y también tu nombre de pila y el de la persona que cuidas.
 - **"A quién llamar":** los nombres y teléfonos que escribas. Avísales que los anotaste.
 - **Invitaciones a tu grupo:** el email o el teléfono de la persona invitada. *Todavía no disponible.*
 
@@ -173,7 +173,7 @@ Cada declaración también tiene un identificador en el sistema: `declaracion_ti
 - Ve solo el nombre con que llaman a la persona, tu nombre de pila y los campos que tú elegiste.
 - Al abrir el enlace, y antes de escribir el PIN, ve tu nombre de pila y el de la persona que cuidas.
 - Entra con un enlace y un PIN de 4 dígitos. El acceso vence en 24 horas, o en el plazo que elijas hasta un máximo de 30 días, y puedes cortarlo cuando quieras.
-- Cada vez que abre la ficha queda registrado, y también cada PIN incorrecto y cada bloqueo.
+- Cada vez que abre la ficha queda registrado, y también cada PIN incorrecto y cada bloqueo. También queda registrado cada vez que abre el enlace, aunque no escriba el PIN.
 - Lo que el relevo lea puede anotarlo o fotografiarlo, y MATU no puede impedirlo. Comparte solo lo que necesita y por el tiempo justo.
 
 **Comercios en convenio**, cuando existan los pedidos:

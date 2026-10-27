@@ -119,9 +119,9 @@ Cada historia que empieza a tratar datos personales agrega aquí su entrada.
 - **Finalidad:**
   - dar un acceso temporal, de solo lectura, a los campos de la ficha que elige quien comparte, y que se puede cortar en cualquier momento
   - el teléfono del relevo sirve para que quien comparte le envíe el enlace desde su propio teléfono, por WhatsApp o SMS, y para que la familia pueda contactarlo. MATU no envía mensajes
-  - el registro sirve para saber a quién se entregó la ficha
+  - el registro sirve para saber a quién se entregó la ficha y para detectar un enlace reenviado
 - **Titulares:**
-  - el relevo: su nombre, su teléfono, sus aperturas, sus PIN incorrectos y su dirección IP
+  - el relevo: su nombre, su teléfono, cada vez que abre el enlace o la ficha, sus PIN incorrectos y su dirección IP
   - la persona cuidada: su nombre de pila y los campos compartidos
   - quien otorga el acceso. También por su nombre de pila, que el relevo ve (decisión de Jorge del 27-10)
 - **Datos:**
@@ -133,15 +133,15 @@ Cada historia que empieza a tratar datos personales agrega aquí su entrada.
   - las fechas de creación, vencimiento y corte, y quién otorgó el acceso
   - el hash del token y el PIN transformado con HMAC-SHA-256 y *pepper*. Nunca en claro
   - los intentos fallidos, los usos y el último uso
-  - la auditoría de aperturas, PIN incorrectos y bloqueos
-  - la dirección IP, solo como contador temporal de 1 hora en Redis, con una huella HMAC como clave. No se guarda en la base ni en los logs
+  - la auditoría, sin IP, de cada vez que el relevo abre el enlace aunque no escriba el PIN (`relevo.presentar`), y de las aperturas de la ficha, los PIN incorrectos y los bloqueos
+  - la dirección IP, solo en los contadores temporales de 1 hora en Redis, uno para abrir el enlace y otro para el canje, con una huella HMAC como clave. No se guarda en la base, en la auditoría ni en los logs
 - **Base de licitud:**
   - para lo que se muestra de la persona cuidada: la autorización de MATU-07, que permite "compartirla con el relevo que elija el grupo"
   - para los datos del relevo: [PENDIENTE: consulta legal]. MATU los recibe de quien comparte y se lo informa al relevo con el aviso de `lenguaje.md`, sección 7.5
   - para la dirección IP: [PENDIENTE: consulta legal]
 - **Quién accede:**
-  - administrador y cuidador crean accesos, los ven, los cortan y ven las aperturas
-  - el pagador con permiso de ver la ficha lista los accesos y las aperturas, sin crear ni cortar (contrato de MATU-09). Ninguna respuesta de la API devuelve el teléfono del relevo
+  - administrador y cuidador crean accesos, los ven, los cortan y ven las aperturas, incluidas las veces que se abrió el enlace ("abrió el enlace"). Son los únicos que ven el teléfono del relevo en la lista de accesos, y después de los 30 días aparece vacío (contrato de MATU-09, decisión 31)
+  - el pagador con permiso de ver la ficha lista los accesos y las aperturas, sin crear ni cortar (contrato de MATU-09). No ve el teléfono del relevo
   - el observador nunca
   - el relevo ve el nombre de pila de la persona cuidada y el de quien comparte, también antes de escribir el PIN (decisión de Jorge del 27-10). Los campos los ve solo después del PIN
   - operación nunca
@@ -149,14 +149,14 @@ Cada historia que empieza a tratar datos personales agrega aquí su entrada.
   - nombre del relevo, motivo y fechas: 3 años desde que el acceso vence o se corta, igual que la auditoría (arquitectura, sección 11.8)
   - teléfono del relevo: se borra 30 días después de que el acceso vence o se corta
   - sesión del relevo: 12 horas como máximo, y nunca más allá del vencimiento del acceso
-  - contador por IP: 1 hora
+  - contadores por IP: 1 hora
 - **Medidas:**
   - token de 256 bits en el fragmento del enlace (`/r#<token>`). Se canjea por POST junto con el PIN, y la página lo limpia con `history.replaceState`
-  - con solo el token, la presentación (`POST /v1/relevo/presentacion`) devuelve únicamente los dos nombres de pila. No crea sesión, no cuenta como intento de PIN ni como apertura
+  - con solo el token, la presentación (`POST /v1/relevo/presentacion`) devuelve únicamente los dos nombres de pila. No crea sesión ni cuenta como intento de PIN. Queda en la auditoría como `relevo.presentar`, sin IP, y la familia la ve en "Quién la vio" como "abrió el enlace", para detectar un enlace reenviado (decisión 30)
   - PIN de 4 dígitos, que se muestra una sola vez y quien comparte dicta por otro canal
   - cookie `HttpOnly`, `Secure` y `SameSite=Strict`, con la sesión en Redis
   - 5 PIN incorrectos bloquean el acceso (423)
-  - 10 presentaciones y canjes por hora desde una misma IP, contados con su huella
+  - desde una misma IP, 30 presentaciones por hora y 10 canjes por hora, cada límite con su propio contador por huella HMAC, que dura 1 hora (decisión 29)
   - un acceso vencido o cortado responde 410, aunque la cookie siga vigente
   - la sesión del relevo no fija el grupo
   - vigencia de 24 horas por omisión y de 30 días como máximo

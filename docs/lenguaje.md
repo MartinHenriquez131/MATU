@@ -210,7 +210,7 @@ Es la única causa de un 403 en la capa 1 (contrato, decisión 4).
 
 ## 7. El relevo (MATU-23)
 
-La página pública `/r#<token>`, sin cuenta. Antes de escribir el PIN, la página muestra el nombre de pila de quien compartió y el de la persona cuidada, como en la demo (aprobado por Jorge el 27-10). Quien envía el enlace lo hace a su nombre, y un enlace que pide un PIN sin decir qué es no da confianza. Jorge acepta el riesgo: quien reciba un enlace reenviado ve los dos nombres de pila. El nombre de quien comparte se guarda en el acceso con una migración de MATU-18. La pantalla del PIN pide los dos nombres a `POST /v1/relevo/presentacion` con solo el token, que devuelve `nombre_pila_comparte` y `nombre_pila`. Esa ruta no cuenta como intento de PIN ni como apertura, y responde los mismos 410 y 423 de la sección 7.3. Después del canje, `GET /v1/relevo/ficha` trae `nombre_pila` y `nombre_pila_comparte` (contrato de MATU-09, decisión 28).
+La página pública `/r#<token>`, sin cuenta. Antes de escribir el PIN, la página muestra el nombre de pila de quien compartió y el de la persona cuidada, como en la demo (aprobado por Jorge el 27-10). Quien envía el enlace lo hace a su nombre, y un enlace que pide un PIN sin decir qué es no da confianza. Jorge acepta el riesgo: quien reciba un enlace reenviado ve los dos nombres de pila. El nombre de quien comparte se guarda en el acceso con una migración de MATU-18. La pantalla del PIN pide los dos nombres a `POST /v1/relevo/presentacion` con solo el token, que devuelve `nombre_pila_comparte` y `nombre_pila`. Esa ruta no cuenta como intento de PIN. Queda registrada, y la familia la ve en "Quién la vio" como "abrió el enlace" (contrato, decisión 30). Responde los mismos 410 y 423 de la sección 7.3. Después del canje, `GET /v1/relevo/ficha` trae `nombre_pila` y `nombre_pila_comparte` (contrato de MATU-09, decisión 28).
 
 ### 7.1 Encabezado y pantalla del PIN
 
@@ -259,7 +259,7 @@ El mensaje del PIN se anuncia con `role="alert"` y deja el foco en el campo. Los
 
 Aviso para el relevo como titular de su nombre y su teléfono. Va en la pantalla del PIN, antes del canje, bajo el botón, en texto secundario, con el enlace a la política. Es el texto final: se copia tal cual.
 
-> MATU guarda tu nombre y tu teléfono, que anotó quien te compartió la ficha, para enviarte el enlace y poder contactarte. Tu teléfono se borra 30 días después de que el enlace vence o se corta. También registra cada vez que abres la ficha y cada PIN incorrecto, y guarda ese registro 3 años, para saber a quién se compartió. Responsables de tus datos: Jorge Espinoza y Martín Henríquez. Puedes pedir ver, corregir o borrar tus datos escribiendo a [PENDIENTE: correo de contacto]. [Política de privacidad]
+> MATU guarda tu nombre y tu teléfono, que anotó quien te compartió la ficha, para enviarte el enlace y poder contactarte. Tu teléfono se borra 30 días después de que el enlace vence o se corta. También registra cada vez que abres el enlace o la ficha y cada PIN incorrecto, y guarda ese registro 3 años, para saber a quién se compartió. Responsables de tus datos: Jorge Espinoza y Martín Henríquez. Puedes pedir ver, corregir o borrar tus datos escribiendo a [PENDIENTE: correo de contacto]. [Política de privacidad]
 
 El correo de contacto es el mismo de la política, sección 2, y se completa con la versión 1.0. Fuentes: decisiones de Jorge del 27-10 (contrato de MATU-09), política v0.9, secciones 2, 4, 8 y 10, y figura legal del piloto, secciones 4.1 y 4.4.
 
