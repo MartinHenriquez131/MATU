@@ -23,7 +23,6 @@ erDiagram
     producto ||--o{ plan_reposicion_linea : "producto_id"
     pedido ||--o{ regla_sustitucion : "pedido_id"
     producto ||--o{ regla_sustitucion : "producto_id"
-    producto ||--o{ regla_sustitucion : "producto_sustituto_id"
     pedido {
         uuid id PK
         uuid grupo_id FK
@@ -80,8 +79,6 @@ erDiagram
         uuid pedido_id FK
         uuid producto_id FK
         text accion
-        uuid producto_sustituto_id FK "opcional"
-        bigint precio_maximo "opcional"
     }
     pedido_transicion {
         bigint id PK

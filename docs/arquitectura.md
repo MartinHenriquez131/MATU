@@ -180,7 +180,7 @@ Catálogo de requisitos trazados a módulo y priorizados con MoSCoW. **Debe** en
 | ID | Requisito | Módulo | Prioridad |
 |---|---|---|---|
 | RF-20 | La familia arma un pedido desde un catálogo organizado por categorías de cuidado | `catalog`, `ordering` | Debe |
-| RF-21 | La familia define reglas de sustitución por producto. [PENDIENTE: decisión de Jorge; el ADR-027 descarta los equivalentes de otra marca] | `ordering` | Debe |
+| RF-21 | Por cada producto del pedido, la familia elige qué hace MATU si falta: buscarlo en otro comercio en convenio, que es lo que pasa si no elige, o quitarlo del pedido y devolver su precio. Nunca otra marca ni otro producto (redefinido por Jorge el 27-10, ADR-027) | `ordering` | Debe |
 | RF-25 | Se cobra una sola vez el total confirmado, en venta normal, con crédito o débito, y la única devolución es por anulación a la misma tarjeta (ADR-027) | `payments` | Debe |
 | RF-26 | El comercio en convenio confirma y aparta el stock, ve solo sus líneas del día y prepara | `fulfillment` | Debe |
 | RF-31 | La operación concilia la boleta contra el pedido y cierra períodos de liquidación | `settlement` | Debe |
@@ -522,7 +522,7 @@ erDiagram
 
 **El modelo no cambió en esta versión, y eso es deliberado.** La activación del ADR-023 reduce la versión mínima del plan de cuidado a tres campos, pero esos tres campos son tres de los ocho tipos de sección que `plan_seccion` ya contempla. Que el plan B no obligue a migrar el esquema es exactamente la razón por la que se escribió antes de entrevistar.
 
-**La migración 0002 (ADR-027) sí cambia la capa 3**, sin tablas nuevas: montos exactos en `pedido`, precio fijo y reasignación al mismo producto en `pedido_linea`, y monto cobrado y devuelto en `cargo` y `participacion`. El diagrama agrega la reasignación de una línea a otra oferta. `REGLA_SUSTITUCION` sigue en el esquema mientras se decide RF-21 (final de 7.4).
+**La migración 0002 (ADR-027) sí cambia la capa 3**, sin tablas nuevas: montos exactos en `pedido`, precio fijo y reasignación al mismo producto en `pedido_linea`, y monto cobrado y devuelto en `cargo` y `participacion`. El diagrama agrega la reasignación de una línea a otra oferta. `REGLA_SUSTITUCION` guarda la elección de RF-21 por producto: otro comercio o quitar (7.4).
 
 ### 7.2 Capa 1 · Plan de cuidado
 
@@ -572,7 +572,7 @@ Es aritmética de tercero básico, y esa es exactamente la gracia. **El valor no
 | `convenio` | comercio_id, vigencia_desde, vigencia_hasta, **comision_pct**, **tarifa_despacho**, prepara_pedidos, cuenta_corriente, estado | `comision_pct` y `tarifa_despacho` son la regla de cálculo de la liquidación |
 | `pedido` | id, grupo_id, persona_cuidada_id, comercio_id, direccion_id, estado, modo_cumplimiento, origen (`manual`, `alerta_quiebre`), ventana_entrega, **subtotal_productos**, **costo_envio**, **total**, **total_confirmado_en**, **total_vence_en**, **pagado_en**, codigo_retiro_hash, creado_por | `origen` incorpora `alerta_quiebre`, que es el camino que conecta la capa 2 con la 3. **`total = subtotal_productos + costo_envio`** por `CHECK`, con un envío único por pedido. `total_vence_en` lo fija el dominio 15 minutos después de `total_confirmado_en`; la base exige que los dos existan juntos y que el vencimiento sea posterior. **`pagado_en` marca desde cuándo el precio queda fijo**: nulo en `borrador`, `total_confirmado` y `vencido`, obligatorio desde `pagado` en adelante, y solo con un total confirmado (`CHECK`). Los 17 estados están en 8.1 |
 | `pedido_linea` | id, pedido_id, oferta_id, producto_id, cantidad, **precio_unitario**, estado_linea, **monto_devuelto**, **devuelta_en**, **oferta_reasignada_id**, **precio_reasignado**, **reasignada_en** | **Con el pedido pagado la línea no se edita**: un trigger impide cambiar producto, oferta, cantidad o precio, y agregar o borrar líneas. Lo que no se entrega se devuelve: `monto_devuelto` nunca supera cantidad × `precio_unitario`, y la línea está en `devuelta` si y solo si tiene monto y fecha de devolución. **La reasignación es al mismo producto en otra oferta**, nunca otra marca (trigger), y `precio_reasignado` es lo que MATU paga, con la diferencia a su cargo. Estados: `pendiente`, `sin_stock`, `preparada`, `faltante`, `devuelta`, `eliminada` |
-| `regla_sustitucion` | id, pedido_id, producto_id, accion, producto_sustituto_id, precio_maximo | La migración 0002 no la toca. [PENDIENTE: decisión de Jorge sobre RF-21] |
+| `regla_sustitucion` | id, pedido_id, producto_id, accion | **RF-21, redefinido el 27-10.** Qué hace MATU si un producto del pedido falta: `otro_comercio` (el mismo producto en otro comercio en convenio) o `quitar` (sale del pedido y se devuelve su precio). **Sin fila, se busca en otro comercio**: es la opción por omisión. Una regla por producto y pedido. Salieron `producto_sustituto_id` y `precio_maximo`: nunca otra marca ni otro producto. El backend propone renombrarla a `regla_faltante`; es una propuesta y no se renombró |
 | `cargo` | id, pedido_id, **monto_cobrado**, **monto_devuelto**, estado, respaldo_usuario_id | Uno por pedido. Sin margen, monto autorizado ni capturado. Estados `pendiente`, `pagado`, `rechazado`, `devuelto_parcial` y `anulado`, y un `CHECK` ata cada estado a sus montos: nada cobrado en `pendiente` y `rechazado`, nada devuelto en `pagado`, devolución menor que lo cobrado en `devuelto_parcial` e igual en `anulado`. **Lo devuelto nunca supera lo cobrado** (`CHECK`) |
 | `participacion` | id, cargo_id, usuario_id, porcentaje_bp, **monto_cobrado**, **monto_devuelto**, estado, es_respaldo | **Se mantiene en el modelo aunque el MVP use una sola participación al 100%.** Conservarla es lo que permite activar RF-22 a RF-24 en la fase 2. Mismos montos y la misma regla que `cargo`, con los estados en femenino (`pendiente`, `pagada`, `rechazada`, `devuelta_parcial`, `anulada`). [PENDIENTE: la 0002 quitó `monto_comprometido`, que es la base del prorrateo de 8.3; cuando vuelva el pago entre varios familiares, la base del reparto se define con otra migración] |
 | `transaccion_pasarela` | id, participacion_id, proveedor, buy_order, token, tipo (`venta`, `anulacion`), monto, estado, payload_respuesta, idempotency_key | La venta normal de Webpay Plus y su anulación, total o parcial. Nunca se borra ni se actualiza destructivamente. Es el registro contable |
@@ -586,7 +586,6 @@ Es aritmética de tercero básico, y esa es exactamente la gracia. **El valor no
 - [PENDIENTE: `consumo_comercio.monto_autorizado`, "el tope que vio el comercio", sigue en el esquema aunque el ADR-027 ya no tiene tope autorizado. Se rediseña con la conciliación de 11.7 y el convenio.]
 - [PENDIENTE: los tipos `desviacion_monto` y `captura_rechazada` de `incidencia` siguen en su `CHECK`. Con precio exacto y sin captura pierden su sentido original; se revisan junto con la conciliación.]
 - [PENDIENTE: `oferta.precio_referencia` conserva el nombre y el comentario de precio referencial del ADR-011, aunque con el ADR-027 es el precio exacto.]
-- [PENDIENTE: `regla_sustitucion` sigue en el esquema. Depende de la decisión de Jorge sobre RF-21; el ADR-027 descarta los equivalentes de otra marca y el trigger de `pedido_linea` ya impide reasignar a otro producto.]
 - [PENDIENTE: el RLS del comercio se resuelve por `pedido.comercio_id`. **El comercio que reemplaza a otro no ve la línea reasignada**, porque la línea hereda la visibilidad del pedido y no de `oferta_reasignada_id`. La reasignación es de la fase 2, y cómo se le da a ese comercio la proyección de 11.2 es una decisión de aislamiento pendiente.]
 - [PENDIENTE: por lo mismo, `pedido` conserva un solo `comercio_id`, y el comercio ve todas las líneas del pedido. Cómo se registra un pedido que al confirmar se abastece en dos comercios, con un solo cobro y un solo envío (ADR-027, ajuste del ADR-024), no está en la 0002.]
 
@@ -757,9 +756,9 @@ stateDiagram-v2
 
 **El pedido se prepara antes de asignar repartidor**, no después. El comercio confirma `listo_retiro` y recién ahí sale el retiro. Eso baja el tiempo del repartidor por pedido de unos 40 minutos a menos de 10.
 
-**El faltante tardío no es un estado del pedido, es un evento de la línea.** Si al preparar o al retirar un producto apartado ya no está, se aplica la regla de la sección 8.3: el mismo producto en otro comercio, o la devolución de su precio. El pedido sigue su curso con las demás líneas. Solo si no se entrega ningún producto pasa a `cancelado_con_devolucion`.
+**El faltante tardío no es un estado del pedido, es un evento de la línea.** Si al preparar o al retirar un producto apartado ya no está, se aplica la elección de la familia para ese producto (RF-21) con la regla de la sección 8.3: el mismo producto en otro comercio, o la devolución de su precio. Si eligió quitarlo, o ningún comercio lo tiene, se devuelve su precio. El pedido sigue su curso con las demás líneas. Solo si no se entrega ningún producto pasa a `cancelado_con_devolucion`.
 
-**`requiere_decision` sale de la máquina.** Existía para que la familia eligiera un sustituto con el comercio preparando. El ADR-027 descarta los equivalentes de otra marca, así que no queda nada que decidir después de pagar. [PENDIENTE: decisión de Jorge sobre RF-21 (reglas de sustitución), que pierde su uso en el MVP.]
+**`requiere_decision` sale de la máquina.** Existía para que la familia eligiera un sustituto con el comercio preparando. Con RF-21 redefinido (27-10), la familia decide **antes de pagar**, por cada producto, si un faltante se busca en otro comercio (lo que pasa si no elige) o se quita y se devuelve su precio. No queda nada que decidir después de pagar.
 
 **Los estados de recaudación salen del esquema.** La migración 0002 quitó `pendiente_recaudacion`, que dependía del reparto entre varios pagadores, y convirtió `expirado` en `vencido`. **`asignado` y `sin_repartidor` siguen en el `CHECK`** para la app de repartidor de la fase 2, pero la máquina del MVP no los usa: el pedido pasa de `listo_retiro` a `retirado`.
 
@@ -775,7 +774,8 @@ stateDiagram-v2
 **Lo que la base garantiza del ciclo.** Las transiciones las controla el dominio, pero la migración 0002 agrega `CHECK` que atan el estado a los datos del cobro:
 - antes del pago (`borrador`, `total_confirmado`, `vencido`) no hay `pagado_en`; desde `pagado` en adelante, incluido `cancelado_con_devolucion`, siempre lo hay. `cancelado` admite los dos casos;
 - `total_confirmado` y `vencido` exigen `total_confirmado_en`, y un pedido con total confirmado tiene un total mayor que cero;
-- el comercio ve el pedido solo con `pagado_en` y desde `enviado_a_comercio`.
+- el comercio ve el pedido solo con `pagado_en` y desde `enviado_a_comercio`;
+- con el pedido pagado, el trigger `pedido_pagado_fijo` deja fijos el total, sus partes, la confirmación y `pagado_en`, y no deja volver a `borrador`, `total_confirmado` ni `vencido`, ni a la familia ni al comercio.
 
 **Estados del cargo.** `pendiente`, `pagado`, `rechazado`, `devuelto_parcial` y `anulado`. La participación usa los mismos en femenino. Un `CHECK` ata cada estado a sus montos (sección 7.4).
 
@@ -810,8 +810,8 @@ Una prueba parametrizada recorre **todas las combinaciones** de estados y verifi
 
 | Situación | Qué se devuelve | Cómo |
 |---|---|---|
-| Un producto apartado falta y otro comercio en convenio lo tiene | Nada. **MATU asume la diferencia de precio**, y la familia paga lo que aceptó | Reasignación del retiro. **Fase 2**: requiere la aplicación de repartidor y la asignación en cascada. En el semestre se muestra simulada en la demo |
-| Un producto falta y ningún comercio lo tiene | El precio pagado de ese producto | Anulación parcial de Webpay Plus, a la misma tarjeta, el mismo día, con aviso a la familia en el momento |
+| Un producto apartado falta, la familia no eligió quitarlo (RF-21) y otro comercio en convenio lo tiene | Nada. **MATU asume la diferencia de precio**, y la familia paga lo que aceptó | Reasignación del retiro. **Fase 2**: requiere la aplicación de repartidor y la asignación en cascada. En el semestre se muestra simulada en la demo |
+| Un producto falta y la familia eligió quitarlo (RF-21), o ningún comercio lo tiene | El precio pagado de ese producto | Anulación parcial de Webpay Plus, a la misma tarjeta, el mismo día, con aviso a la familia en el momento |
 | No se entrega ningún producto | El total, envío incluido | Anulación de Webpay Plus por el total |
 | La familia cancela antes de que el comercio empiece a preparar | El total, envío incluido, sin costo | Anulación de Webpay Plus por el total |
 
@@ -1018,6 +1018,7 @@ GET    /v1/catalogo/productos/{id}/ofertas?comuna=     → precio exacto con IVA
 
 POST   /v1/pedidos                                  → crea borrador
 PUT    /v1/pedidos/{id}/lineas
+PUT    /v1/pedidos/{id}/reglas-faltante             → PROPUESTA: si falta, otro_comercio (por omisión) o quitar, por producto; solo antes de pagar
 POST   /v1/pedidos/{id}/confirmar                   → consulta stock, aparta y arma el total confirmado (vale 15 min)
 GET    /v1/pedidos/{id}
 GET    /v1/pedidos/{id}/comprobante                 → comprobante del pago y condiciones aceptadas
@@ -1030,7 +1031,9 @@ POST   /v1/pagos/retorno                            → commit, público con val
 
 **Qué devuelve `confirmar`:** las líneas con cantidad, precio y subtotal, el comercio de cada una, las que salieron por no disponibles, las que cambiaron de precio o de comercio respecto de la lista, el envío único, el total con IVA y la hora en que vence.
 
-**Salen del contrato:** `POST /v1/pedidos/{id}/reglas-sustitucion` y `POST /v1/pedidos/{id}/decisiones/{lid}`, porque el ADR-027 descarta los equivalentes de otra marca y el estado `requiere_decision` (sección 8.1). [PENDIENTE: decisión de Jorge sobre RF-21.]
+**Salen del contrato:** `POST /v1/pedidos/{id}/reglas-sustitucion` y `POST /v1/pedidos/{id}/decisiones/{lid}`, porque el ADR-027 descarta los equivalentes de otra marca y el estado `requiere_decision` (sección 8.1).
+
+**Propuesta para RF-21, por aprobar:** `PUT /v1/pedidos/{id}/reglas-faltante` reemplaza todas las elecciones del pedido con una lista de `{producto_id, accion}`, donde `accion` es `otro_comercio` o `quitar`. Un producto que no está en la lista queda en `otro_comercio`. Se acepta solo antes de pagar; con el pedido pagado responde 409. El nombre sigue al de la tabla que propone el backend (`regla_faltante`). [PENDIENTE: la base no impide cambiar la regla con el pedido pagado, porque `pedido_pagado_fijo` no cubre `regla_sustitucion`; si hace falta, lo hace el dominio o una migración nueva.] `confirmar` devuelve la elección de cada línea, para mostrarla antes de pagar.
 
 ### 9.5 Comercio y operación
 

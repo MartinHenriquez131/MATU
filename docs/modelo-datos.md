@@ -544,7 +544,6 @@ erDiagram
     producto ||--o{ plan_reposicion_linea : "producto_id"
     pedido ||--o{ regla_sustitucion : "pedido_id"
     producto ||--o{ regla_sustitucion : "producto_id"
-    producto ||--o{ regla_sustitucion : "producto_sustituto_id"
     pedido {
         uuid id PK
         uuid grupo_id FK
@@ -601,8 +600,6 @@ erDiagram
         uuid pedido_id FK
         uuid producto_id FK
         text accion
-        uuid producto_sustituto_id FK "opcional"
-        bigint precio_maximo "opcional"
     }
     pedido_transicion {
         bigint id PK
@@ -659,10 +656,10 @@ erDiagram
 
 | Tabla | Propósito | Reglas que conviene notar |
 |---|---|---|
-| `pedido` | El pedido, con sus 17 estados (sección 8.1 de la arquitectura) | Los 17 estados están en un `CHECK`: `borrador`, `total_confirmado`, `vencido`, `pagado`, `enviado_a_comercio`, `preparando`, `listo_retiro`, `asignado`, `sin_repartidor`, `retirado`, `en_ruta`, `entregado`, `no_entregado`, `reprogramado`, `cerrado`, `cancelado` y `cancelado_con_devolucion`. Las transiciones válidas las controla el dominio, no la base. **`total = subtotal_productos + costo_envio`**, con un envío único por pedido. `total_vence_en` (15 minutos, lo fija el dominio) existe si y solo si existe `total_confirmado_en`, y es posterior. **`pagado_en` fija el precio**: nulo antes del pago, obligatorio desde `pagado`, y solo con total confirmado. `destinatario_nombre_pila` es lo único de la persona que ve el comercio |
+| `pedido` | El pedido, con sus 17 estados (sección 8.1 de la arquitectura) | Los 17 estados están en un `CHECK`: `borrador`, `total_confirmado`, `vencido`, `pagado`, `enviado_a_comercio`, `preparando`, `listo_retiro`, `asignado`, `sin_repartidor`, `retirado`, `en_ruta`, `entregado`, `no_entregado`, `reprogramado`, `cerrado`, `cancelado` y `cancelado_con_devolucion`. Las transiciones válidas las controla el dominio, no la base. **`total = subtotal_productos + costo_envio`**, con un envío único por pedido. `total_vence_en` (15 minutos, lo fija el dominio) existe si y solo si existe `total_confirmado_en`, y es posterior. **`pagado_en` fija el precio**: nulo antes del pago, obligatorio desde `pagado`, y solo con total confirmado. Desde ahí, el trigger `pedido_pagado_fijo` impide cambiar el total, sus partes, la confirmación y `pagado_en`, y volver a un estado previo al pago. `destinatario_nombre_pila` es lo único de la persona que ve el comercio |
 | `pedido_entrega` | La dirección de entrega congelada al confirmar | **Tabla aparte a propósito**: el comercio ve el pedido y nunca la dirección (11.2), y RLS filtra filas, no columnas |
 | `pedido_linea` | Qué se pidió, a qué precio, y qué se devolvió | `precio_unitario` es el precio exacto pagado. **Con el pedido pagado, un trigger impide cambiar producto, oferta, cantidad o precio, y agregar o borrar líneas** (`pedido_linea_pagada_fija`): lo que no se entrega se devuelve, no se edita. `monto_devuelto` nunca supera cantidad × `precio_unitario`, y la línea está en `devuelta` si y solo si tiene monto y fecha de devolución. La reasignación apunta a otra oferta **del mismo producto** (trigger `pedido_linea_mismo_producto`), con sus tres columnas juntas o ninguna; la diferencia de `precio_reasignado` la asume MATU (arquitectura, 7.6 b). Estados: `pendiente`, `sin_stock`, `preparada`, `faltante`, `devuelta`, `eliminada`. [PENDIENTE: el comercio que reemplaza a otro no ve la línea reasignada, porque la línea hereda la visibilidad del pedido y el RLS del comercio usa `pedido.comercio_id`. Es de la fase 2, con una decisión de aislamiento pendiente] |
-| `regla_sustitucion` | Qué hacer si falta un producto (RF-21) | Una regla por producto y pedido. `producto_especifico` exige el sustituto. La migración 0002 no la toca. [PENDIENTE: decisión de Jorge sobre RF-21; el ADR-027 descarta los equivalentes de otra marca y el trigger de `pedido_linea` ya impide reasignar a otro producto] |
+| `regla_sustitucion` | Qué hace MATU si falta un producto (RF-21, redefinido el 27-10) | Una regla por producto y pedido. `accion` es `otro_comercio` (el mismo producto en otro comercio en convenio) o `quitar` (sale del pedido y se devuelve su precio), por `CHECK`. **Sin fila, se busca en otro comercio**: es la opción por omisión. La migración 0002 quitó `producto_sustituto_id`, `precio_maximo` y `regla_sustitucion_especifico`: nunca otra marca ni otro producto. Mantiene `regla_sustitucion_uq` y la política `regla_hereda`. El backend propone renombrarla a `regla_faltante`; es una propuesta y no se renombró |
 | `pedido_transicion` | La línea de tiempo del pedido | Solo inserción. Es lo que permite reconstruir un pedido con incidencia sin tocar la base (atributo de calidad 6) |
 | `plan_reposicion` y `plan_reposicion_linea` | Envíos periódicos (RF-17) | Las líneas se proponen desde el perfil de consumo (8.9) |
 | `ocurrencia` | Cada envío programado, materializado con 14 días de anticipación | Única por plan y fecha (ADR-012). `generada` si y solo si tiene pedido |
@@ -1128,7 +1125,9 @@ Reglas que la base hace cumplir aunque el código se equivoque:
 | Lo devuelto nunca supera lo cobrado, ni en el cargo ni en cada participación, y cada estado calza con sus montos | `CHECK` |
 | El total del pedido es productos más un envío único, y el total confirmado tiene un vencimiento posterior | `CHECK` |
 | Antes del pago no hay `pagado_en`; desde `pagado`, siempre | `CHECK` |
+| Con el pedido pagado, el total, el envío, el subtotal, `pagado_en` y las marcas de la confirmación quedan fijos, y el pedido no vuelve a `borrador`, `total_confirmado` ni `vencido` | Trigger `pedido_pagado_fijo` |
 | Con el pedido pagado, sus líneas no cambian de producto, cantidad ni precio, y no se agregan ni se borran | Trigger `pedido_linea_pagada_fija` |
+| Si falta un producto, solo se busca en otro comercio o se quita: nunca otro producto | `CHECK` de `regla_sustitucion.accion` |
 | Una línea nunca se reasigna a otro producto, y su oferta es de su producto | Trigger `pedido_linea_mismo_producto` |
 | Lo devuelto de una línea nunca supera cantidad × precio | `CHECK` |
 | El comercio ve un pedido solo si está pagado y enviado | Política de RLS |
