@@ -22,6 +22,7 @@ Esta es la **versión 1.1** del documento de arquitectura de MATU. Incorpora los
 > - El resultado de la [prueba de concepto de Transbank](pruebas-concepto/transbank.md): el débito no admite captura diferida. **Ya incorporado** con el ADR-027 (sección 14), que reemplazó al ADR-006 y al ADR-011, y propagado a las secciones 8, 9.4, 9.5, 10.4, 11.2, 11.7, 12, 17 y 18.1. La sección 7 (7.1, 7.4 y 7.6 b, c y f) y los estados de 8.1 y 12.3 se alinearon el 27 de octubre con la migración 0002 (`0002_precios_exactos_un_cobro`). Lo que esa migración dejó fuera a propósito está al final de 7.4
 > - La separación en dos repositorios: la documentación en MATU y el código en MATU_PROYECTO (anexo 19.1)
 > - La suspensión de la regla de ejes en los sprints 1 a 3 y el traslado de la prueba de capa 3 desacoplable, declarados en el backlog
+> - Las decisiones de Jorge del 27 de octubre sobre el contrato de MATU-09 (decisiones 16, 23 a 28). **Ya incorporadas** en 2.1, 7.2, 7.5, 7.7 b, 9.1, 9.2, 10.1, 11.6 y 11.8, y en el [modelo de datos](modelo-datos.md): la IP no se guarda, la API no envía el PIN, la 9.2 sigue el contrato, la retención del acceso de relevo y de su teléfono, las columnas nuevas de `acceso_relevo` e `indice_token`, y edades sin valores exactos
 
 ### Cómo se llegó a esta línea base
 
@@ -116,7 +117,7 @@ Estas cifras establecen que el problema es grande, está mal cubierto y duele en
 | **Datos de salud y de personas con dependencia** | Cumplimiento de Ley 21.719 como requisito de diseño, no como mejora futura |
 | **Ningún convenio comercial garantizado al inicio** | El despacho tiene que ser desacoplable. El sistema no puede depender de un tercero para entregar valor |
 | El equipo aprende el stack mientras construye | Preferir tecnología aburrida y documentada sobre tecnología óptima |
-| **Usuario primario en situación de carga, de 38 a 71 años en la muestra medida** | La accesibilidad y la simplicidad son requisitos funcionales, no acabado. La validación agregó dos restricciones no previstas: hay usuarias que no manejan aplicaciones y piden que un tercero llene por ellas, y hay contenido que nadie va a digitalizar por dignidad de la persona cuidada |
+| **Usuario primario en situación de carga, de entre 30 y 79 años** | La accesibilidad y la simplicidad son requisitos funcionales, no acabado. La validación agregó dos restricciones no previstas: hay usuarias que no manejan aplicaciones y piden que un tercero llene por ellas, y hay contenido que nadie va a digitalizar por dignidad de la persona cuidada |
 
 ### 2.2 Atributos de calidad priorizados
 
@@ -530,7 +531,7 @@ erDiagram
 |---|---|---|
 | `plan_cuidado` | id, grupo_id, persona_cuidada_id, modo, completitud_pct, actualizado_por, actualizado_en | `modo` es `ficha_relevo` mientras rija el ADR-023. `completitud_pct` se calcula sobre los tres campos de la ficha, pero **la interfaz nunca bloquea por completitud**. Ver ADR-018 |
 | `plan_seccion` | id, plan_id, tipo, **contenido_cifrado**, **nonce**, **tag_auth**, **version**, actualizado_por, actualizado_en | Cifrado por sección, no por documento, para compartir una parte sin descifrar el resto. **`nonce` de 96 bits aleatorio por cada escritura, nunca un contador**: repetir un nonce en AES-GCM permite recuperar la clave de autenticación y forjar texto cifrado. `version` implementa bloqueo optimista (RF-04) |
-| `acceso_relevo` | id, plan_id, otorgado_a_nombre, otorgado_a_telefono, secciones_permitidas, token_hash, **pin_hash**, expira_en, revocado_en, motivo, usos | El relevo no crea cuenta. **Token de uso múltiple hasta vencer**, no de un solo uso: el relevo consulta el plan durante todo su turno. `pin_hash` es el segundo factor de cuatro dígitos enviado al teléfono ya registrado, porque un enlace por WhatsApp es una credencial al portador sobre datos de salud |
+| `acceso_relevo` | id, plan_id, otorgado_a_nombre, otorgado_a_telefono, **nombre_pila_persona**, **nombre_pila_comparte**, secciones_permitidas, token_hash, **pin_hash**, expira_en, revocado_en, **motivo**, usos | El relevo no crea cuenta. **Los dos nombres de pila se copian al crear el acceso**, para que el relevo nunca lea `persona_cuidada` ni `usuario`. Con ellos la pantalla del PIN dice quién compartió la ficha y de quién es (decisión 28 del contrato de MATU-09). [PENDIENTE: `nombre_pila_comparte` lo agrega una migración de MATU-18.] **`motivo` es un enumerado sin texto libre**: `salgo_unas_horas`, `fin_de_semana_fuera`, `turno_de_noche` u `otro` (decisión 16). Queda en la auditoría 3 años, y un texto libre podría guardar un dato de salud que no se puede borrar. Cabe en la columna `text` y lo valida la API. **Token de uso múltiple hasta vencer**, no de un solo uso: el relevo consulta el plan durante todo su turno. `pin_hash` es el segundo factor de cuatro dígitos, porque un enlace por WhatsApp es una credencial al portador sobre datos de salud. **La API no envía el PIN.** Lo muestra una sola vez a quien comparte, que se lo dicta al relevo. El envío por SMS es *Debería* y está fuera del semestre. El teléfono sirve para que quien comparte le envíe el enlace desde su propio teléfono, por WhatsApp o SMS, y para que la familia pueda contactar al relevo (decisión 24 del contrato de MATU-09). Ninguna respuesta de la API lo devuelve |
 | `clave_datos` | id, persona_cuidada_id, dek_cifrada_con_kek, kek_version, creada_en, rotada_en | Sobre-cifrado. Una clave de datos por persona cuidada, cifrada con la clave maestra. Ver ADR-016 |
 
 **Tipos de sección:** `rutina`, `manejo_situaciones`, `red_apoyo`, `horarios`, `preferencias`, `actividades`, `alimentacion`, `movilidad`.
@@ -594,7 +595,7 @@ Es aritmética de tercero básico, y esa es exactamente la gracia. **El valor no
 | Entidad | Campos relevantes | Notas |
 |---|---|---|
 | `consentimiento` | id, grupo_id, usuario_id, persona_cuidada_id, **calidad_otorgante** (`titular`, `representante_legal`, `cuidador_de_hecho`), finalidad, version_politica, evidencia, otorgado_en, revocado_en | Requisito directo de la Ley 21.719. **`calidad_otorgante` es la pieza clave**: el titular de los datos es muchas veces una persona sin capacidad para consentir, y quien opera la aplicación puede no ser su representante legal. Ver la sección 11.5 |
-| `auditoria` | id, grupo_id, actor_tipo, **actor_ref**, accion, entidad, entidad_id, **motivo**, ip, ocurrido_en | Append-only, con una prueba comprometida que lo verifique. **`actor_ref` es polimórfico** porque el relevo no es usuario y es justamente el actor más sensible del sistema |
+| `auditoria` | id, grupo_id, actor_tipo, **actor_ref**, accion, entidad, entidad_id, **motivo**, ip (no se llena), request_id, ocurrido_en | Append-only, con una prueba comprometida que lo verifique. **`actor_ref` es polimórfico** porque el relevo no es usuario y es justamente el actor más sensible del sistema. **La IP no se guarda** (decisión 27 del contrato de MATU-09, 27-10). La columna `ip` viene de la migración 0001, queda siempre vacía y se elimina con una migración. [PENDIENTE: migración pendiente, MATU-25] |
 | `evento_outbox` | id, grupo_id, tipo, **payload solo con identificadores**, agregado_id, disponible_en, intentos, publicado_en, fallido_en | Tabla de **infraestructura sin RLS**, acotada por permiso de rol. Contrato completo en 8.6 |
 | `idempotencia` | clave, **grupo_id**, endpoint, respuesta, creada_en | Soporta el header `Idempotency-Key`. **Lleva `grupo_id` y RLS como cualquier tabla de negocio**: guarda cuerpos de respuesta de pedidos y pagos, de modo que sin tenant sería una excepción no declarada al modelo de aislamiento (sección 12.8) |
 | `evento_consumido` | evento_id, consumidor, consumido_en | Clave primaria compuesta. Es lo que hace idempotente al consumidor |
@@ -700,7 +701,7 @@ GRANT SELECT, UPDATE ON evento_outbox   TO matu_publisher;
 GRANT SELECT, INSERT ON evento_consumido TO matu_publisher;
 ```
 
-**b) Los endpoints públicos.** La vista de relevo y el retorno de pasarela deben resolver un token **antes** de saber a qué grupo pertenece. Se resuelve con `indice_token`, una tabla sin RLS y sin dato sensible que solo traduce `token_hash → grupo_id`.
+**b) Los endpoints públicos.** La vista de relevo y el retorno de pasarela deben resolver un token **antes** de saber a qué grupo pertenece. Se resuelve con `indice_token`, una tabla sin RLS y sin dato sensible que solo traduce `token_hash → grupo_id`. **`indice_token` guarda también `revocado_en`** (decisión 23 del contrato de MATU-09). Revocar un acceso la fija en la misma transacción que `acceso_relevo.revocado_en`. Así el canje y la sesión de relevo distinguen revocado de vencido con una sola lectura, sin el rol `sistema`. [PENDIENTE: migración en MATU-19 o MATU-20.]
 
 #### Qué hay que demostrar, y no solo afirmar
 
@@ -968,7 +969,7 @@ sequenceDiagram
 | Contexto de tenant | Header `X-Grupo-Id`. La API verifica membresía en cada petición y nunca confía en el header |
 | Errores | RFC 7807 `application/problem+json` con `type`, `title`, `status`, `detail`, `errores[]` |
 | Idempotencia | Header `Idempotency-Key` obligatorio en POST de pedidos, pagos y evidencias |
-| Concurrencia | `If-Match` con `ETag` en PUT de secciones del plan de cuidado. Respuesta 412 con el contenido actual si cambió |
+| Concurrencia | `If-Match` con `ETag` en el PUT de cada campo de la ficha. Respuesta 412 con el contenido actual si cambió |
 | Paginación | Cursor, no offset |
 | Fechas | ISO 8601 con zona. El servidor opera en UTC, la aplicación muestra en America/Santiago |
 | Versionado | La v1 no rompe contratos. Un cambio incompatible crea `/api/v2` |
@@ -977,19 +978,32 @@ sequenceDiagram
 
 ```
 POST   /v1/grupos/{id}/personas-cuidadas
-GET    /v1/personas-cuidadas/{id}/plan              → secciones, completitud, ETags
-PUT    /v1/personas-cuidadas/{id}/plan/ficha        → los tres campos obligatorios
-PUT    /v1/personas-cuidadas/{id}/plan/secciones/{tipo}
-       headers: If-Match: "<version>"               → 412 si otro miembro editó
-       body: {contenido, en_nombre_de}              → llenado asistido (RF-42)
-GET    /v1/personas-cuidadas/{id}/plan/exportar     → documento imprimible
+GET    /v1/personas-cuidadas/{id}/plan/ficha        → los tres campos, completitud y un ETag por campo
+PUT    /v1/personas-cuidadas/{id}/plan/ficha/{campo}
+       headers: If-Match: "v<version>"              → 412 si otro miembro editó
+                o If-None-Match: *                  → primera escritura del campo
+       body: {texto}                                → 428 sin ninguna de las dos cabeceras
+GET    /v1/personas-cuidadas/{id}/plan/exportar     → documento imprimible (RF-09)
 POST   /v1/personas-cuidadas/{id}/plan/accesos-relevo
-       body: {secciones:[...], expira_en, motivo, nombre, telefono}
+       body: {campos:[...], expira_en, motivo, nombre_relevo, telefono_relevo}
+                                                    → 201 con el enlace y el PIN, una sola vez
+GET    /v1/personas-cuidadas/{id}/plan/accesos-relevo → accesos y su estado
 DELETE /v1/accesos-relevo/{id}                      → revocación inmediata
-GET    /v1/relevo/{token}                           → vista pública restringida, sin sesión
+GET    /v1/personas-cuidadas/{id}/plan/aperturas    → lo que hicieron los relevos (RF-08)
+
+Relevo, sin cuenta. Enlace /r#<token>: el token va en el fragmento, nunca en la URL de una petición
+POST   /v1/relevo/presentacion  body: {token}       → nombres de pila de quien comparte y de la persona
+POST   /v1/relevo/canje         body: {token, pin}  → 204 y cookie de sesión efímera
+GET    /v1/relevo/ficha         con la cookie       → los campos compartidos, cada apertura auditada
 ```
 
-`PUT /plan/ficha` es nuevo en esta versión y es el endpoint que sostiene el ADR-023: escribe los tres campos obligatorios en una sola llamada, sin exigir el resto del plan.
+El contrato vigente es el de `docs/api/propuestos/` en MATU_PROYECTO (MATU-09). Esta lista lo resume. Cambios respecto de la v1.1:
+
+- **La ficha se escribe con un PUT por campo**, no con uno para los tres. El `ETag`, el 412 y el 428 son por campo (MATU-13): si dos personas editan campos distintos, ninguna pisa a la otra. El ADR-023 se sostiene igual, porque ningún campo exige el resto del plan.
+- **`PUT …/plan/secciones/{tipo}` no se expone en el semestre.** Las ocho secciones son *Podría* desde el ADR-023. El llenado asistido (`en_nombre_de`, RF-42) y la exportación (RF-09) no entran en el contrato de MATU-09.
+- **El acceso de relevo pide `campos`, no `secciones`.** La ficha solo admite `rutina`, `manejo_situaciones` y `red_apoyo`. `motivo` es un enumerado sin texto libre (7.2).
+- **El relevo ya no usa `GET /v1/relevo/{token}`.** El token nunca viaja en la URL de una petición. La página `/r#<token>` lo lee del fragmento, pide los nombres con `POST /v1/relevo/presentacion` y canjea token y PIN con `POST /v1/relevo/canje`. El canje deja una cookie `__Secure-matu-relevo` que dura 12 horas o hasta que vence el acceso, lo que ocurra primero. La ficha se lee siempre con `GET /v1/relevo/ficha`, que es lo que se audita como apertura.
+- **La API no envía el PIN.** Lo entrega una vez en el 201 y quien comparte se lo dicta al relevo (11.6).
 
 ### 9.3 Capa 2 · Perfil de consumo
 
@@ -1083,9 +1097,9 @@ La clave está en `acciones`. **`exportar_lista` y `compartir_enlace` funcionan 
 
 ### 10.1 Perfiles de usuario
 
-| Perfil | Edad medida | Contexto de uso | Implicancia de diseño |
+| Perfil | Edad aproximada | Contexto de uso | Implicancia de diseño |
 |---|---|---|---|
-| **Cuidador principal** | 38 a 71 en la muestra | En casa, con interrupciones constantes, muchas veces cansado o de noche | Todo tiene que poder pausarse y retomarse. Nada de formularios largos sin guardado |
+| **Cuidador principal** | Entre 30 y 79 | En casa, con interrupciones constantes, muchas veces cansado o de noche | Todo tiene que poder pausarse y retomarse. Nada de formularios largos sin guardado |
 | **Familiar que aporta** | 30 a 65 | A distancia, sin visibilidad de la operación, en dos minutos | El aportante quiere información, no logística. Puede no manejar aplicaciones |
 | **Relevo** | 20 a 70 | Primera vez, con urgencia, en casa ajena, muchas veces sin instalar nada | Vista web, sin cuenta, legible en un teléfono prestado |
 | **Cuidador remunerado** | 25 a 55 | Con contrato, alta competencia digital, sin relevo propio | Perfil no previsto en la v1.0 y el que mejor entendió el producto. Ver 10.6 |
@@ -1249,14 +1263,14 @@ Esta es la pregunta jurídica central del proyecto.
 |---|---|
 | Transporte | TLS 1.3 y HSTS. **Sin certificate pinning en el piloto**: con renovación automática de certificados, fijar el certificado hoja inhabilita todas las instalaciones publicadas cada 60 días |
 | Autenticación | Argon2id, access token de 15 min, refresh rotativo con detección de reutilización, MFA obligatorio para operación. **La revocación de un access token es efectiva en 15 minutos por caducidad**, no de forma inmediata: un JWT autocontenido no se revoca. Se acepta y se declara |
-| API | Rate limiting por IP y por usuario, validación estricta con Pydantic, CORS restringido, proyecciones por rol |
+| API | Rate limiting por IP y por usuario, validación estricta con Pydantic, CORS restringido, proyecciones por rol. **La IP no se guarda.** El contador de intentos del relevo (MATU-25) vive en Redis. Su clave es una huella HMAC de la IP, con un secreto de `.env`, y vence a la hora. La IP en claro no llega a la base, a la auditoría ni a los logs |
 | Base de datos | RLS forzado en toda tabla de negocio, con las dos excepciones de la sección 7.7 acotadas por permiso, usuario de aplicación sin `SUPERUSER`, `auditoria` sin UPDATE ni DELETE, cifrado de volumen |
 | Datos sensibles | Sobre-cifrado por sección, borrado criptográfico, sin plan de cuidado en ningún registro de log |
 | Archivos | Bucket privado, URL firmada de 5 minutos para lectura y 15 para subida, sin CDN público, hash SHA-256 de cada evidencia |
-| Acceso de relevo | Token de **uso múltiple hasta vencer** más **PIN de cuatro dígitos** enviado al teléfono registrado, alcance por sección, revocación inmediata, cada apertura auditada. El enlace se canjea por una cookie de sesión efímera en un paso, para que el token no quede en el historial de un teléfono prestado |
+| Acceso de relevo | Token de **uso múltiple hasta vencer** más **PIN de cuatro dígitos**, alcance por campo, revocación inmediata, cada apertura auditada. **La API no envía el PIN**: lo muestra una sola vez a quien comparte, que se lo dicta al relevo. El envío por SMS es *Debería* y está fuera del semestre. El enlace es `/r#<token>`, con el token en el fragmento, y se canjea con el PIN por una cookie de sesión efímera en un paso, para que el token no quede en el historial de un teléfono prestado. La página limpia el fragmento con `history.replaceState` después del canje |
 | Secretos | Variables inyectadas, nunca en el repositorio, escaneo de secretos en el pipeline |
 | Aplicación móvil | Sin datos sensibles en el dispositivo, tokens en el keystore del sistema, bloqueo de captura de pantalla en la vista del plan de cuidado |
-| Registro | Logs estructurados en JSON, sin datos personales en el mensaje, correlación por `request_id` |
+| Registro | Logs estructurados en JSON, sin datos personales en el mensaje y sin IP, correlación por `request_id` |
 
 ### 11.7 Control de fraude sobre la cuenta del comercio
 
@@ -1282,6 +1296,10 @@ Que la incidencia **no bloquee la entrega** es deliberado: la familia está espe
 | **Plan de cuidado** | Mientras exista consentimiento vigente, más 90 días | Dato sensible. Se minimiza |
 | Perfil de consumo | Igual que el plan de cuidado | Deriva de él |
 | Auditoría de acceso | 3 años | Capacidad de acreditar cumplimiento |
+| Acceso de relevo: nombre del relevo, motivo y fechas | 3 años desde que el acceso vence o se revoca, igual que la auditoría | Identifica a quién se entregó la ficha (decisión 25 del contrato de MATU-09) |
+| Teléfono del relevo | 30 días desde que el acceso vence o se revoca | Solo sirve mientras el acceso está vigente (decisión 25). [PENDIENTE: una migración quita el `NOT NULL` de `acceso_relevo.otorgado_a_telefono`, y una tarea lo borra al cumplirse el plazo. Las hace la historia que implemente la conservación] |
+
+**Si se borra a la persona cuidada**, su nombre de pila copiado en `acceso_relevo.nombre_pila_persona` se anonimiza (decisión 26). Lo hace la historia de borrado.
 
 ---
 

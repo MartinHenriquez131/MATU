@@ -338,8 +338,9 @@ erDiagram
         text otorgado_a_nombre
         text otorgado_a_telefono
         text nombre_pila_persona
+        text nombre_pila_comparte "migración pendiente, MATU-18"
         text_array secciones_permitidas
-        text motivo
+        text motivo "enumerado, sin texto libre"
         bytea token_hash UK
         text pin_hash
         smallint pin_intentos_fallidos
@@ -365,7 +366,7 @@ erDiagram
 | `clave_datos` | Una clave de datos (DEK) por persona cuidada, cifrada con la clave maestra (KEK) | `dek_cifrada_con_kek` nula **si y solo si** `destruida_en` tiene valor. El borrado criptográfico no deja estados ambiguos ni se regenera en silencio (defecto 5 de la sección 12.8) |
 | `plan_cuidado` | Un plan por persona cuidada | `modo` = `ficha_relevo` por defecto, tras el cierre del ADR-023. `completo` queda disponible sin migración |
 | `plan_seccion` | El contenido, cifrado sección por sección | Nonce de exactamente 12 bytes, tag de 16. **El nonce es único en toda la tabla**: repetirlo rompe AES-GCM. `version` implementa el bloqueo optimista (RF-04) |
-| `acceso_relevo` | El enlace temporal para el relevo (RF-05 a RF-07) | Solo secciones válidas y al menos una. Vigencia máxima de 30 días. PIN con máximo 5 intentos fallidos. Guarda `nombre_pila_persona` para que el relevo nunca lea `persona_cuidada` |
+| `acceso_relevo` | El enlace temporal para el relevo (RF-05 a RF-07) | Solo secciones válidas y al menos una. Vigencia máxima de 30 días. PIN con máximo 5 intentos fallidos. Guarda `nombre_pila_persona` para que el relevo nunca lea `persona_cuidada`, y `nombre_pila_comparte` para que nunca lea `usuario` (decisión 28 del contrato de MATU-09). [PENDIENTE: `nombre_pila_comparte` lo agrega una migración de MATU-18.] **`motivo` es un enumerado sin texto libre**: `salgo_unas_horas`, `fin_de_semana_fuera`, `turno_de_noche` u `otro` (decisión 16). Cabe en la columna `text` y lo valida la API. La retención del teléfono y del resto del acceso está en la sección 11.8 de la arquitectura |
 
 **La ficha de relevo no necesita tablas nuevas.** Sus tres campos (rutina en una línea, qué hacer si se altera, a quién llamar) son tres tipos de sección que ya existían: `rutina`, `manejo_situaciones` y `red_apoyo`. El ADR-023 decía que el plan B "no toca el modelo de datos", y este diseño lo confirma.
 
@@ -873,7 +874,7 @@ erDiagram
         text entidad
         uuid entidad_id "opcional"
         text motivo "opcional"
-        inet ip "opcional"
+        inet ip "no se llena, migración pendiente"
         text request_id "opcional"
         timestamptz ocurrido_en
     }
@@ -914,6 +915,7 @@ erDiagram
         uuid referencia_id
         timestamptz expira_en
         timestamptz creado_en
+        timestamptz revocado_en "opcional, migración pendiente"
     }
     notificacion {
         uuid id PK
@@ -960,11 +962,11 @@ erDiagram
 
 | Tabla | Propósito | Reglas que conviene notar |
 |---|---|---|
-| `auditoria` | Todo acceso al plan y toda acción sensible | **Solo inserción**, por permiso y por trigger. `actor_ref` es polimórfico porque el relevo no es usuario |
+| `auditoria` | Todo acceso al plan y toda acción sensible | **Solo inserción**, por permiso y por trigger. `actor_ref` es polimórfico porque el relevo no es usuario. **La IP no se guarda** (decisión 27 del contrato de MATU-09, 27-10): la columna `ip` viene de la 0001, no se llena y se elimina con una migración. [PENDIENTE: migración pendiente, MATU-25] |
 | `evento_outbox` | Eventos de dominio hacia notificaciones (8.6) | Sin RLS. **El payload solo admite UUID**: un `CHECK` rechaza cualquier otro valor, así que un dato personal no puede colarse por error |
 | `evento_consumido` | Idempotencia del consumidor | Clave primaria compuesta |
 | `idempotencia` | Respuestas guardadas por `Idempotency-Key` | Lleva `grupo_id` y RLS (defecto 4 de la sección 12.8). Guarda el hash de la petición: la misma clave con otro cuerpo es un error 422 |
-| `indice_token` | Traduce el hash de un token al tenant, para endpoints públicos | Sin RLS y sin dato sensible. Cubre relevo, invitación, retorno de pasarela y refresh |
+| `indice_token` | Traduce el hash de un token al tenant, para endpoints públicos | Sin RLS y sin dato sensible. Cubre relevo, invitación, retorno de pasarela y refresh. **Guarda también `revocado_en`** (decisión 23 del contrato de MATU-09): revocar un acceso de relevo la fija en la misma transacción que `acceso_relevo.revocado_en`, y el canje distingue revocado de vencido con una sola lectura. [PENDIENTE: migración en MATU-19 o MATU-20] |
 | `preferencia_notificacion`, `notificacion` | Canales, horario de silencio y registro de envíos | El registro no guarda el mensaje, solo que se envió. Las plantillas viven en el código |
 | `incidencia` | Incidencias de operación sobre un pedido (RF-40) | La familia ve las de sus pedidos. [PENDIENTE: los tipos `desviacion_monto` y `captura_rechazada` siguen en el `CHECK`; con precio exacto y sin captura pierden su sentido original y se revisan junto con la conciliación] |
 
@@ -1223,13 +1225,14 @@ Cuando entre, `receta` será dato de salud: llevará la misma política que el p
 | Dato | Dónde | Por qué |
 |---|---|---|
 | Sesión efímera del relevo (cookie) | Redis, con vencimiento | Se canjea el enlace por una cookie en un paso (11.6). Es efímera por definición |
+| Contador de intentos por IP (MATU-25) | Redis, con vencimiento de 1 hora | La clave es una huella HMAC de la IP, nunca la IP en claro. El secreto vive en `.env`. La IP no se guarda en ninguna tabla |
 | Posición del repartidor | Redis | Retención de 30 días y consulta cada 20 segundos (ADR-017) |
 | Caché de catálogo | Redis | Se puede vaciar sin pérdida |
 | Fotos de evidencia y exportaciones | Almacenamiento de objetos | La base guarda la ruta y el hash |
 | Plantillas de notificación | Código | Se versionan con el código |
 | KEK | Custodia de secretos del proveedor | ADR-016 |
 
-**Jobs de retención** (sección 11.8) que el modelo deja preparados: limpiar `indice_token` e `idempotencia` vencidos (diario), purgar pedidos y evidencias de más de 2 años, auditoría de más de 3 y pagos de más de 6.
+**Jobs de retención** (sección 11.8) que el modelo deja preparados: limpiar `indice_token` e `idempotencia` vencidos (diario), purgar pedidos y evidencias de más de 2 años, auditoría de más de 3 y pagos de más de 6. Para el acceso de relevo (decisiones 25 y 26 del contrato de MATU-09): borrar el teléfono del relevo 30 días después de que el acceso vence o se revoca, purgar el resto del acceso a los 3 años, y anonimizar `nombre_pila_persona` si se borra a la persona cuidada. [PENDIENTE: borrar el teléfono exige quitar el `NOT NULL` de `otorgado_a_telefono` con una migración de la historia de conservación]
 
 ---
 
