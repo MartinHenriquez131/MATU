@@ -322,7 +322,7 @@ Textos de la demo, con los cambios que pide el contrato de MATU-09.
 | Sin enlaces | No hay enlaces todavía. Crea uno desde Compartir. |
 | Bajada de Quién la vio · Aprobado por Jorge el 27-10 | Una línea por cada vez que alguien abre el enlace o la ficha, o escribe mal el PIN. Es un respaldo para ti, no una vigilancia. |
 | Aperturas (`presentacion`, `apertura`, `pin_incorrecto`, `bloqueo`) | `{nombre}` abrió el enlace · `{nombre}` abrió la ficha · `{nombre}` escribió mal el PIN · El enlace de `{nombre}` se bloqueó por PIN incorrecto |
-| Sin aperturas | Todavía nadie ha abierto la ficha. Cuando alguien la abra, aparece aquí. |
+| Sin aperturas · Aprobado por Jorge el 27-10 | Todavía nadie ha abierto el enlace ni la ficha. Cuando alguien lo haga, aparece aquí. |
 
 ---
 
