@@ -1295,6 +1295,10 @@ Que la incidencia **no bloquee la entrega** es deliberado: la familia está espe
 | **Plan de cuidado** | Mientras exista consentimiento vigente, más 90 días | Dato sensible. Se minimiza |
 | Perfil de consumo | Igual que el plan de cuidado | Deriva de él |
 | Auditoría de acceso | 3 años | Capacidad de acreditar cumplimiento |
+| Acceso de relevo: nombre del relevo, motivo y fechas | 3 años desde que el acceso vence o se revoca, igual que la auditoría | Identifica a quién se entregó la ficha (decisión 25 del contrato de MATU-09) |
+| Teléfono del relevo | 30 días desde que el acceso vence o se revoca | Solo sirve mientras el acceso está vigente (decisión 25). [PENDIENTE: una migración quita el `NOT NULL` de `acceso_relevo.otorgado_a_telefono`, y una tarea lo borra al cumplirse el plazo. Las hace la historia que implemente la conservación] |
+
+**Si se borra a la persona cuidada**, su nombre de pila copiado en `acceso_relevo.nombre_pila_persona` se anonimiza (decisión 26). Lo hace la historia de borrado.
 
 ---
 

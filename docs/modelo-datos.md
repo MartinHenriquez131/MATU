@@ -1230,7 +1230,7 @@ Cuando entre, `receta` será dato de salud: llevará la misma política que el p
 | Plantillas de notificación | Código | Se versionan con el código |
 | KEK | Custodia de secretos del proveedor | ADR-016 |
 
-**Jobs de retención** (sección 11.8) que el modelo deja preparados: limpiar `indice_token` e `idempotencia` vencidos (diario), purgar pedidos y evidencias de más de 2 años, auditoría de más de 3 y pagos de más de 6.
+**Jobs de retención** (sección 11.8) que el modelo deja preparados: limpiar `indice_token` e `idempotencia` vencidos (diario), purgar pedidos y evidencias de más de 2 años, auditoría de más de 3 y pagos de más de 6. Para el acceso de relevo (decisiones 25 y 26 del contrato de MATU-09): borrar el teléfono del relevo 30 días después de que el acceso vence o se revoca, purgar el resto del acceso a los 3 años, y anonimizar `nombre_pila_persona` si se borra a la persona cuidada. [PENDIENTE: borrar el teléfono exige quitar el `NOT NULL` de `otorgado_a_telefono` con una migración de la historia de conservación]
 
 ---
 
