@@ -1160,10 +1160,16 @@ Tres dimensiones, evaluadas siempre en este orden: **quién es** (JWT válido y 
 | `pagador` | según permiso explícito | ver | ver | ver | pagar | nombre, dirección |
 | `observador` | no | ver | ver | ver | no | nombre |
 | `relevo` (token) | **solo secciones habilitadas, solo lectura** | no | no | no | no | nombre de pila |
-| `comercio` | **nunca** | **nunca** | solo su propia oferta | solo sus pedidos del día | no | nombre de pila, **sin dirección de entrega** |
-| `operación` | **nunca** | **nunca** | administrar | ver todos, intervenir | ver, reembolsar, liquidar | nombre, dirección |
+| `comercio` | **nunca** | **nunca** | solo su propia oferta, con precio y stock | solo sus líneas de los pedidos del día | no | **ninguno**: solo la referencia del pedido y el código de retiro |
+| `operación` | **nunca** | **nunca** | administrar | ver todos, intervenir | ver, devolver por anulación, liquidar | nombre, dirección |
 
 **Las celdas "nunca" no se garantizan por permiso, se garantizan por arquitectura.** `fulfillment`, `settlement` y `backoffice` no importan `care_plan` ni `consumption`, y la regla se verifica con la prueba de dependencias de la sección 6.4. Un permiso se puede configurar mal. Una importación que no existe, no.
+
+**Lo que ve un comercio, con el ADR-027.**
+- **La consulta de stock no trata datos personales.** Lleva solo productos, cantidades y una referencia opaca para apartar. No lleva datos de la familia, de la persona cuidada ni de la dirección, y una prueba sobre el objeto de la consulta lo verifica.
+- **El comercio que prepara ve solo sus líneas**, la referencia del pedido y el código de retiro. Nunca un nombre, la ficha ni la dirección. Como MATU emite la boleta, el comercio no necesita el nombre de quien paga.
+- **El comercio que reemplaza a otro** recibe la misma proyección que el original, solo con las líneas que le tocan.
+- **Los productos del pedido se tratan como datos sensibles** mientras se consulta, porque junto con un dato que identifica pueden revelar salud o dependencia. [PENDIENTE: consulta legal sobre si lo son según la Ley 21.719, y si los comercios en convenio son encargados o responsables.]
 
 ### 11.3 Minimización de datos de salud
 
@@ -1226,13 +1232,16 @@ Esta es la pregunta jurídica central del proyecto.
 
 ### 11.7 Control de fraude sobre la cuenta del comercio
 
+> **Cambia de sentido con el ADR-027.** Antes, el monto de la boleta del comercio contra el precio pagado medía si el comercio se desviaba del tope autorizado. Con precio exacto y reasignación a otro comercio, esa comparación ya no mide al comercio: la familia pagó un precio fijo, y si MATU retiró en otro comercio a otro precio, la diferencia es un costo de MATU, no una desviación. [PENDIENTE: el tope y la conciliación se rediseñan junto con la migración 0002 y el convenio.]
+
 | Control | Implementación |
 |---|---|
 | Código de retiro de un solo uso | Generado al preparar, guardado con hash, vence en 90 minutos, se invalida al primer uso |
-| Tope autorizado por pedido, como control **detectivo** | Viaja al comercio con el pedido. **No es un control técnico**: sin integración con el punto de venta, el tope es un número en una pantalla que el encargado puede ignorar. Si `monto_boleta` lo excede, la conciliación marca la desviación, MATU captura hasta el tope y la diferencia se disputa con el comercio. Presentarlo como barrera dura era falso |
-| Conciliación boleta contra pedido | `consumo_comercio.desviacion_pct`. Sobre umbral abre incidencia sin bloquear la entrega |
-| Evidencia de entrega | Foto de boleta con hash que impide alteración posterior |
-| Bloqueo automático **del comercio** | Dos desviaciones de monto en 30 días abren revisión del convenio. En modo `preparado` el comercio informa el monto, de modo que la desviación le es imputable |
+| Precio de convenio por línea, como control **detectivo** | El comercio cobra a MATU el precio de convenio de las líneas que preparó, no el que pagó la familia. **No es un control técnico**: sin integración con el punto de venta, es un número que el encargado puede ignorar. Si el documento del comercio excede el precio de convenio de sus líneas, la conciliación marca la desviación y la diferencia se disputa con el comercio. Nunca se convierte en un cobro a la familia |
+| Conciliación del documento del comercio contra sus líneas | Se compara lo que cobra cada comercio contra el precio de convenio de sus líneas. Sobre un umbral abre incidencia sin bloquear la entrega |
+| Costo de reasignación, aparte | Cuando el retiro pasa a otro comercio, la diferencia de precio que MATU asume se registra como costo propio, separada de la desviación del comercio. Así no se imputa al comercio un precio que no fijó |
+| Evidencia de entrega | Foto del documento con hash que impide alteración posterior |
+| Bloqueo automático **del comercio** | Dos desviaciones contra el precio de convenio en 30 días abren revisión del convenio |
 
 Que la incidencia **no bloquee la entrega** es deliberado: la familia está esperando insumos que no admiten quiebre.
 
