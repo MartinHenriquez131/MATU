@@ -68,7 +68,7 @@ El orden de la tabla es el orden de ejecución.
 | 6 | MATU-07 | Historia | Dar de alta a la persona cuidada con su consentimiento | RF-01 · Ley 21.719 | Jorge | 6 |
 | 7 | MATU-03 | Técnica | Puertos y prueba de arquitectura | ADR-021 | Jorge | 2 |
 | 8 | MATU-27 | Equipo | Decidir la figura legal del piloto | Riesgo sección 17 | Jorge | 1 |
-| 9 | MATU-28 | Equipo | Corregir la anonimización de la entrevista A55 | Protocolo, sección 4 | Jorge | 0,5 |
+| 9 | MATU-28 | Equipo | Corregir la anonimización de la entrevista E05 | Protocolo, sección 4 | Jorge | 0,5 |
 | | | | | | **Martín 11 · Jorge 11** | **22** |
 
 Jorge empieza por MATU-26 y MATU-07 contra una sesión simulada de pruebas mientras Martín cierra la autenticación. MATU-07 se integra con el contexto real cuando MATU-02 está fusionada.
@@ -155,12 +155,12 @@ Jorge empieza por MATU-26 y MATU-07 contra una sesión simulada de pruebas mient
 
 **Decisión del 24-10 (Jorge):** durante el semestre el piloto opera solo en el ambiente de integración de Transbank, con datos sintéticos y sin cobros reales, y se declara en el informe. La persona jurídica y el alta comercial quedan para después del semestre. Detalle en `docs/legal/figura-legal-piloto.md`
 
-### MATU-28 · Corregir la anonimización de A55
+### MATU-28 · Corregir la anonimización de E05
 
-- La ficha de A55 no contiene nombres propios. El análisis de las entrevistas no cambia
+- La ficha de E05 no contiene nombres propios. El análisis de las entrevistas no cambia
 - Se decide qué hacer con las versiones anteriores que siguen en el historial público del repositorio
 
-**Estado al 13-10:** los nombres se quitaron de A55, y la mención del integrante del equipo que hizo el contacto se quitó también de F52 y J54. Queda la decisión sobre el historial.
+**Estado al 13-10:** los nombres se quitaron de E05, y la mención del integrante del equipo que hizo el contacto se quitó también de E03 y E01. Queda la decisión sobre el historial.
 
 ---
 

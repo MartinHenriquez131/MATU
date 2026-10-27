@@ -61,7 +61,7 @@ El orden es el orden de ejecución.
 | 2 | **MATU-07** Alta de la persona cuidada con consentimiento | Esquemas con rechazo de campos extra (1) · servicio transaccional persona más consentimiento (1,5) · `POST` y `GET /v1/grupos/{id}/personas-cuidadas` (1) · reglas por calidad del otorgante (0,5) · pruebas (2) | 6 |
 | 3 | **MATU-03** Puertos y prueba de arquitectura | Puertos `Reloj` y `CustodiaClaves` con sus dobles (1) · `test_arquitectura.py` con caso negativo (1) | 2 |
 | 4 | **MATU-27** Figura legal | Revisar opciones y escribir la decisión (1) | 1 |
-| 5 | **MATU-28** Anonimizar A55 | Los nombres ya se quitaron el 13 de octubre. Queda decidir qué hacer con las versiones anteriores en el historial público del repositorio (0,5) | 0,5 |
+| 5 | **MATU-28** Anonimizar E05 | Los nombres ya se quitaron el 13 de octubre. Queda decidir qué hacer con las versiones anteriores en el historial público del repositorio (0,5) | 0,5 |
 | 6 | **S0-E** Prueba de Transbank, con Martín | Ver sección 3 | 1 |
 
 **Si sobra capacidad**, se adelantan en este orden: **MATU-09** (contrato de API de la ficha y del relevo, Martín) y **MATU-30** (fábricas y lista de lenguaje, Martín). Las dos abren el sprint 2.

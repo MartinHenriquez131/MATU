@@ -657,7 +657,7 @@ h2 span{font-size:13px;font-weight:600;color:var(--tq);background:var(--tq-claro
         if r == R1:
             extra = ('<div class="pend"><b>Anotado como Podría, sin pantalla todavía:</b> modo completo de ocho secciones '
                      'para quien quiera escribir más, y modo asistido, en que otra persona lee las preguntas y escribe '
-                     '(pedido en la entrevista E64).</div>')
+                     '(pedido en la entrevista E09).</div>')
         secciones.append(f'<h2>{r} <span>{len(ps)} pantallas</span></h2><div class="grid">{unidades}</div>{extra}')
 
     leyenda = f"""

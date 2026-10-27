@@ -50,7 +50,7 @@ backend/tests/
 │   ├── notificador_registrador.py
 │   ├── reloj_fijo.py
 │   └── custodia_en_memoria.py
-├── fabricas/                    constructores de datos sintéticos (factory-boy)
+├── fabricas/                    constructores de datos sintéticos, propios (sección 9)
 ├── unit/                        reglas de dominio, sin base de datos
 │   ├── test_prorrateo.py
 │   ├── test_quiebre.py
@@ -201,7 +201,8 @@ El pipeline de la sección 12.7 de la arquitectura, con estas puertas. Un pull r
 
 ## 9. Datos de prueba
 
-- **Local y CI:** datos sintéticos generados por las fábricas. Se crean y se revierten en cada prueba.
+- **Local y CI:** datos sintéticos generados por las fábricas. Se crean en la base de pruebas local y se borran al terminar cada prueba.
+- **Las fábricas son propias, sin factory-boy.** Viven en `backend/tests/fabricas/` del repositorio de desarrollo (MATU_PROYECTO). Escriben con SQL y necesitan conocer los ids antes del INSERT, la misma razón por la que la aplicación genera los ids en vez de usar `RETURNING`.
 - **Staging y demostración:** semilla sintética verosímil, versionada en `infra/semillas/`. Catálogo con los productos que más aparecieron en los quiebres de las entrevistas.
 - **Nunca** se copian datos de producción a otro ambiente, ni anonimizados. El plan de cuidado es dato sensible bajo la Ley 21.719.
 - **Las entrevistas no son datos de prueba.** Sus hallazgos informan el diseño. Sus fichas, anonimizadas, viven solo en `docs/entrevistas/` de este repositorio y nunca entran al repositorio de código ni a las fábricas.
