@@ -873,7 +873,7 @@ erDiagram
         text entidad
         uuid entidad_id "opcional"
         text motivo "opcional"
-        inet ip "opcional"
+        inet ip "no se llena, migración pendiente"
         text request_id "opcional"
         timestamptz ocurrido_en
     }
@@ -960,7 +960,7 @@ erDiagram
 
 | Tabla | Propósito | Reglas que conviene notar |
 |---|---|---|
-| `auditoria` | Todo acceso al plan y toda acción sensible | **Solo inserción**, por permiso y por trigger. `actor_ref` es polimórfico porque el relevo no es usuario |
+| `auditoria` | Todo acceso al plan y toda acción sensible | **Solo inserción**, por permiso y por trigger. `actor_ref` es polimórfico porque el relevo no es usuario. **La IP no se guarda** (decisión 27 del contrato de MATU-09, 27-10): la columna `ip` viene de la 0001, no se llena y se elimina con una migración. [PENDIENTE: migración pendiente, MATU-25] |
 | `evento_outbox` | Eventos de dominio hacia notificaciones (8.6) | Sin RLS. **El payload solo admite UUID**: un `CHECK` rechaza cualquier otro valor, así que un dato personal no puede colarse por error |
 | `evento_consumido` | Idempotencia del consumidor | Clave primaria compuesta |
 | `idempotencia` | Respuestas guardadas por `Idempotency-Key` | Lleva `grupo_id` y RLS (defecto 4 de la sección 12.8). Guarda el hash de la petición: la misma clave con otro cuerpo es un error 422 |
@@ -1223,6 +1223,7 @@ Cuando entre, `receta` será dato de salud: llevará la misma política que el p
 | Dato | Dónde | Por qué |
 |---|---|---|
 | Sesión efímera del relevo (cookie) | Redis, con vencimiento | Se canjea el enlace por una cookie en un paso (11.6). Es efímera por definición |
+| Contador de intentos por IP (MATU-25) | Redis, con vencimiento de 1 hora | La clave es una huella HMAC de la IP, nunca la IP en claro. El secreto vive en `.env`. La IP no se guarda en ninguna tabla |
 | Posición del repartidor | Redis | Retención de 30 días y consulta cada 20 segundos (ADR-017) |
 | Caché de catálogo | Redis | Se puede vaciar sin pérdida |
 | Fotos de evidencia y exportaciones | Almacenamiento de objetos | La base guarda la ruta y el hash |
