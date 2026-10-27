@@ -4,7 +4,7 @@
 **Estado:** borrador para el piloto académico. Todavía no sirve para tratar datos reales.
 **Aprobación:** aprobada como borrador v0.9 por Jorge Espinoza (Product Owner) el 25/10/2026. La revisión la hizo el orquestador del equipo de agentes, por delegación. Se confirman los tres compromisos del texto: MATU no vende datos, borra de inmediato los datos reales que entren por error, y ejercer los derechos es gratis. Los [PENDIENTE] que quedan (contacto, plazos, proveedores y procedimiento ante filtraciones) se resuelven en la versión 1.0, antes de tratar datos reales.
 **Identificador de versión en el sistema:** `0.9`
-**Borrador ADR-027 (27-10):** las secciones que empiezan con esa nota adaptan el texto a los pedidos y pagos del ADR-027. No están aprobadas y no cambian la versión: `POLITICA_VERSION` sigue en `0.9` hasta que Jorge decida si se publican como una versión nueva (la revisión previa del analista normativo propone 0.10).
+**ADR-027 (27-10):** las secciones que empiezan con esa nota adaptan el texto a los pedidos y pagos del ADR-027. Aprobado por Jorge el 27-10 como diseño. Las frases sobre lo que el comercio ve o no ve se publican solo cuando la migración del sprint 4 (requisitos R7 a R9, arquitectura 18.1) las haga ciertas. No cambian la versión: `POLITICA_VERSION` sigue en `0.9` hasta que Jorge decida publicar la 0.10, y los pedidos todavía no existen en la aplicación.
 
 ---
 
@@ -94,7 +94,7 @@ La persona que cuidas no tiene cuenta en MATU. Sus datos los ingresas tú.
 
 ### De tus pedidos
 
-> Borrador ADR-027 (27-10), por aprobar por Jorge.
+> ADR-027 (27-10), aprobado por Jorge.
 
 *Todavía no disponible.* Cuando existan los pedidos, guardaremos:
 
@@ -157,7 +157,7 @@ Cada declaración también tiene un identificador en el sistema: `declaracion_ti
 
 ## 6. Quién ve los datos
 
-> Borrador ADR-027 (27-10), por aprobar por Jorge. Cambian los párrafos de comercios, de quien reparte y de Transbank.
+> ADR-027 (27-10), aprobado por Jorge. Cambian los párrafos de comercios, de quien reparte y de Transbank.
 
 **Tu cuenta:** tu email lo ven solo tú y el equipo que opera MATU. Las personas de tus grupos ven tu nombre. [PENDIENTE: si también ven tu email, se define con la lista de miembros del grupo]
 
@@ -262,7 +262,7 @@ Si hay una filtración que afecte datos personales, avisaremos sin demora a la A
 
 ## 14. Leyes que aplican
 
-> Borrador ADR-027 (27-10), por aprobar por Jorge.
+> ADR-027 (27-10), aprobado por Jorge.
 
 - Ley 19.628 sobre protección de la vida privada, con las modificaciones de la Ley 21.719 de protección de datos personales, que rigen plenamente desde el 1 de diciembre de 2026.
 - Ley 19.496 sobre protección de los derechos de los consumidores, para pedidos y pagos cuando existan.

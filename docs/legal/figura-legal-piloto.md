@@ -3,11 +3,11 @@
 **Decisión:** tomada por Jorge Espinoza (Product Owner) el 24/10/2026
 **Redacción:** analista normativo del equipo de agentes, a partir de la arquitectura, el backlog y la prueba de concepto de Transbank. Este documento no es asesoría legal.
 **Aprobación del texto:** aprobado por Jorge Espinoza (Product Owner) el 25/10/2026. La revisión la hizo el orquestador del equipo de agentes, por delegación.
-**Borrador ADR-027:** las secciones que empiezan con esa nota adaptan el texto al ADR-027 (arquitectura, sección 14) y a la revisión previa del analista normativo (`revision-previa-adr-027.md`). No están aprobadas. Hasta que Jorge las apruebe, rige el texto aprobado el 25/10/2026, que está en el historial del repositorio.
+**ADR-027:** las secciones que empiezan con esa nota adaptan el texto al ADR-027 (arquitectura, sección 14), a la revisión previa y de cierre del analista normativo y a la investigación normativa del 27-10. Aprobado por Jorge el 27-10 como diseño. Las frases sobre lo que el comercio ve o no ve se publican solo cuando la migración del sprint 4 (requisitos R7 a R9, arquitectura 18.1) las haga ciertas.
 
 ## 1. Contexto
 
-> Borrador ADR-027 (27-10), por aprobar por Jorge.
+> ADR-027 (27-10), aprobado por Jorge.
 
 - MATU es el proyecto de título de dos estudiantes. Hoy no existe una persona jurídica que lo respalde.
 - Para cobrar con Webpay en producción se necesita un comercio dado de alta en Transbank, y el alta exige el RUT del comercio (arquitectura, sección 17).
@@ -34,7 +34,7 @@ La constitución de una persona jurídica y el alta comercial en Transbank queda
 
 ### 4.1 Lo que se puede hacer
 
-> Borrador ADR-027 (27-10), por aprobar por Jorge.
+> ADR-027 (27-10), aprobado por Jorge.
 
 - Demostrar el flujo de pago completo con las credenciales de integración de Transbank y sus tarjetas de prueba, en venta normal de Webpay Plus, con crédito y con débito. [PENDIENTE: verificar que el comercio de integración de venta normal ofrece débito]
 - Mostrar un catálogo con precios de ejemplo, rotulados como tales junto a cada precio. Texto propuesto por el analista normativo: "Precios de ejemplo. MATU todavía no tiene convenio con comercios, y en esta demo no se cobra dinero real." [PENDIENTE: texto definitivo del diseñador y de docs/lenguaje.md]
@@ -45,7 +45,7 @@ La constitución de una persona jurídica y el alta comercial en Transbank queda
 
 ### 4.2 Lo que no se hace
 
-> Borrador ADR-027 (27-10), por aprobar por Jorge.
+> ADR-027 (27-10), aprobado por Jorge.
 
 - Presentar precios de ejemplo como si fueran reales, o usar el nombre de un comercio real.
 - Ingresar datos de personas reales: ni de personas cuidadas, ni de familias, ni de cuidadoras, ni de las personas entrevistadas.
@@ -75,7 +75,7 @@ Durante el semestre, el responsable es el equipo del proyecto, Jorge Espinoza y 
 
 ## 5. Cómo se paga (ADR-027)
 
-> Borrador ADR-027 (27-10), por aprobar por Jorge.
+> ADR-027 (27-10), aprobado por Jorge.
 
 La aplicación no debe limitar las formas de pago (decisión del 24/10/2026, registrada en `docs/pruebas-concepto/transbank.md`). El ADR-027 lo cumple con un solo cobro que funciona igual con crédito y con débito, y reemplaza el plan B del ADR-006 que ocupaba esta sección.
 
@@ -105,7 +105,7 @@ La aplicación no debe limitar las formas de pago (decisión del 24/10/2026, reg
 
 ## 6. Qué se hace después del semestre
 
-> Borrador ADR-027 (27-10), por aprobar por Jorge.
+> ADR-027 (27-10), aprobado por Jorge.
 
 Antes de tratar datos reales o cobrar dinero real, en este orden:
 
@@ -126,7 +126,7 @@ Antes de tratar datos reales o cobrar dinero real, en este orden:
 
 ## 7. Cómo se declara en el informe
 
-> Borrador ADR-027 (27-10), por aprobar por Jorge.
+> ADR-027 (27-10), aprobado por Jorge.
 
 Texto propuesto:
 
@@ -134,7 +134,7 @@ Texto propuesto:
 
 ## 8. Cuándo se revisa esta decisión
 
-> Borrador ADR-027 (27-10), por aprobar por Jorge.
+> ADR-027 (27-10), aprobado por Jorge.
 
 - Si aparece la necesidad de operar con una familia real durante el semestre. Esta decisión no lo permite, así que se reabre.
 - Si un comercio acepta un convenio con dinero real.

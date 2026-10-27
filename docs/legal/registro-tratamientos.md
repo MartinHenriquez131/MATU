@@ -32,7 +32,9 @@ Cada historia que empieza a tratar datos personales agrega aquí su entrada.
 
 ## 2. Pedidos y pagos de insumos (ADR-027)
 
-> Borrador ADR-027 (27-10), por aprobar por Jorge.
+> Aprobado por Jorge el 27-10 como diseño. Las frases sobre lo que el comercio ve o no ve se publican solo cuando la migración del sprint 4 (requisitos R7 a R9, arquitectura 18.1) las haga ciertas.
+
+> ADR-027 (27-10), aprobado por Jorge.
 
 **Todavía no se trata.** Durante el semestre los pedidos y los pagos se hacen solo con datos sintéticos, precios de ejemplo y el ambiente de integración de Transbank (`figura-legal-piloto.md`, sección 5).
 
