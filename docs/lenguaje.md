@@ -2,6 +2,7 @@
 
 **Versión 1.0 · 26 de octubre de 2026 (26/10/2026)** · historia MATU-30
 **Estado:** borrador. Lo revisa Martín en MATU-31 y lo aprueba Jorge. Los textos marcados **[PENDIENTE DE JORGE]** no se usan hasta que él los apruebe.
+**Decisiones de Jorge del 27-10 (MATU-09 y MATU-30):** aprobó el aviso al relevo (7.5), los dos nombres antes del PIN (7.1 y 7.4), la ayuda del teléfono (9) y las preguntas guía con el nombre de la persona (5.1 y 5.2). La sección 10 marca qué diferencias quedan resueltas.
 **Fuentes:** resultados de las entrevistas (`docs/resultados-entrevistas.md`), arquitectura sección 10, política de privacidad v0.9, la demo aprobada (`Demo/src/`, rama `demo-web-viernes-30`) y el contrato de MATU-09 (`docs/api/`, rama `matu-09-contrato-api`).
 
 ---
@@ -20,7 +21,7 @@ Este documento es la fuente de **todo texto que ve una persona en MATU**: etique
 | Analista normativo | Revisa que los avisos digan lo que exige la política de privacidad |
 | Backend | El `detail` de un error RFC 7807 es para quien depura. La pantalla nunca lo muestra: se guía por `type` y muestra el texto de la sección 8 |
 
-**Cómo se lee.** Las llaves marcan lo que se reemplaza al mostrar el texto: `{nombre_pila}` es el nombre con que llaman a la persona cuidada, `{autor}` es quien guardó un campo, `{n}` es un número, `{fecha}` va en `DD/MM/AAAA` y `{hora}` en 24 horas (`HH:MM`). Las comillas latinas «» van tal cual en pantalla.
+**Cómo se lee.** Las llaves marcan lo que se reemplaza al mostrar el texto: `{nombre_pila}` es el nombre con que llaman a la persona cuidada, `{nombre_comparte}` es el nombre de pila de quien compartió la ficha con el relevo, `{autor}` es quien guardó un campo, `{n}` es un número, `{fecha}` va en `DD/MM/AAAA` y `{hora}` en 24 horas (`HH:MM`). Las comillas latinas «» van tal cual en pantalla.
 
 ---
 
@@ -81,14 +82,14 @@ Salen del análisis de las entrevistas, de la arquitectura y del contrato de MAT
 
 ## 4. Palabras de las familias
 
-Cómo nombraron las cosas las diez entrevistadas, y el término que usa MATU. Solo vocabulario cotidiano. No incluye condiciones de salud, citas textuales ni códigos de entrevista: los códigos que usan los documentos de las entrevistas son inicial y edad, y junto con esos documentos identifican a una persona.
+Cómo nombraron las cosas las diez entrevistadas, y el término que usa MATU. Solo vocabulario cotidiano. No incluye condiciones de salud, citas textuales ni códigos de entrevista.
 
 | Lo que dicen las familias | Dónde apareció | Lo que dice MATU |
 |---|---|---|
 | La hoja, el cuaderno, la pizarra, la planilla, la bitácora, las notas en el WhatsApp | Siete de diez tienen algo escrito, en uno de esos formatos (resultados, sección 2) | **Ficha** de relevo. La versión impresa es "la hoja" ("La ficha en una hoja, para pegar en el refrigerador") |
 | La que llegue, la que me reemplaza, quien me cubre | Varias entrevistadas, y el bloque 3 del protocolo | En la app de la familia: "quien te reemplaza". En botones: "relevo" ("Compartir con un relevo"). Al relevo nunca se le dice "relevo": lee "ficha de cuidado" |
 | Entrega de turno | La cuidadora remunerada entrevistada (arquitectura 10.6) | Ficha de relevo. "Entrega de turno" se entiende, pero viene del vocabulario clínico y no se usa en pantalla |
-| Qué la calma, qué hacer cuando se angustia | Tres de diez entrevistadas, cada una por su cuenta | Campo **"Si se altera"**, pregunta "¿Qué la calma…?" |
+| Qué la calma, qué hacer cuando se angustia | Tres de diez entrevistadas, cada una por su cuenta | Campo **"Si se altera"**, pregunta "¿Qué calma a `{nombre_pila}`…?" |
 | Un día bueno, un día malo | Una entrevistada se trabó al contar "un día normal" | La pregunta de **"Su día"** admite contar un día bueno o uno difícil |
 | A quién llamo, la vecina que tiene llave | Bloque 3 del protocolo | Campo **"A quién llamar"** |
 | Salir, no poder salir, salir unas horas | Nueve de diez dejaron de salir por falta de relevo | Motivos del enlace: "Salgo unas horas", "Fin de semana fuera", "Turno de noche" |
@@ -115,20 +116,20 @@ La ficha tiene tres campos. Cada uno acepta **hasta 500 caracteres** y se guarda
 
 ### 5.1 Su día (`rutina`)
 
-- **Pregunta guía:** ¿Cómo es un día normal para ella? Puedes contar un día bueno o uno difícil.
-- **Versión neutra, si Jorge la elige (sección 10, fila 8):** ¿Cómo es un día normal para `{nombre_pila}`? Puedes contar un día bueno o uno difícil.
+- **Pregunta guía:** ¿Cómo es un día normal para `{nombre_pila}`? Puedes contar un día bueno o uno difícil.
 - **Ejemplo:** Por ejemplo: «08:00 Despierta. Le gusta que abran la cortina primero». Si empiezas con la hora, lo mostramos como línea de tiempo.
 
 ### 5.2 Si se altera (`manejo_situaciones`)
 
-- **Pregunta guía:** ¿Qué la calma cuando se angustia?
-- **Versión neutra, si Jorge la elige (sección 10, fila 8):** ¿Qué calma a `{nombre_pila}` cuando se angustia?
+- **Pregunta guía:** ¿Qué calma a `{nombre_pila}` cuando se angustia?
 - **Ejemplo:** Por ejemplo: «Le hace bien que le tomen la mano y le hablen de su pueblo».
 
 ### 5.3 A quién llamar (`red_apoyo`)
 
 - **Pregunta guía:** ¿A quién llamar si algo pasa y no te ubican?
 - **Ejemplo:** Por ejemplo: «Rodrigo, su hijo: +56 9 5555 0102».
+
+Las preguntas guía nombran a la persona por su nombre y no usan femenino ni masculino, porque el modelo no guarda su género (aprobado por Jorge el 27-10). La demo del viernes 30 no cambia.
 
 Los ejemplos son sintéticos: Carmen cuida a María, Rosa la reemplaza y Rodrigo es su hijo. Los teléfonos usan la serie `5555`, que no se asigna. Un ejemplo nunca nombra una enfermedad, un remedio ni una dosis.
 
@@ -209,14 +210,14 @@ Es la única causa de un 403 en la capa 1 (contrato, decisión 4).
 
 ## 7. El relevo (MATU-23)
 
-La página pública `/r#<token>`, sin cuenta. Antes de escribir el PIN la página **no sabe** de quién es la ficha: con el token solo no se revela ningún nombre (contrato, diferencias con la demo). Después del canje la ficha trae `nombre_pila`, pero nunca quién la compartió.
+La página pública `/r#<token>`, sin cuenta. Antes de escribir el PIN, la página muestra el nombre de pila de quien compartió y el de la persona cuidada, como en la demo (aprobado por Jorge el 27-10). Quien envía el enlace lo hace a su nombre, y un enlace que pide un PIN sin decir qué es no da confianza. Jorge acepta el riesgo: quien reciba un enlace reenviado ve los dos nombres de pila. El nombre de quien comparte se guarda en el acceso con una migración de MATU-18. [PENDIENTE: el contrato de MATU-09 define cómo obtiene la página los dos nombres con el token, antes del canje]
 
 ### 7.1 Encabezado y pantalla del PIN
 
 | Parte | Texto |
 |---|---|
 | Encabezado | MATU · Ficha de cuidado compartida |
-| Título | Te compartieron una ficha de cuidado |
+| Título | `{nombre_comparte}` te compartió la ficha de `{nombre_pila}` |
 | Bajada | Escribe el PIN de cuatro números que te dictaron por teléfono. |
 | Etiqueta del campo | PIN |
 | Botón | Ver la ficha |
@@ -251,24 +252,16 @@ El mensaje del PIN se anuncia con `role="alert"` y deja el foco en el campo. Los
 | Encabezado de la hoja | Ficha de cuidado de · `{nombre_pila}` |
 | Vigencia | Puedes verla hasta el `{fecha}` a las `{hora}`. |
 | Botón | Actualizar |
-| Nota | Solo la familia puede cambiar esta ficha. |
+| Nota | Solo `{nombre_comparte}` puede cambiar esta ficha. |
 | Campo compartido sin texto | Sin completar |
 
-### 7.5 Aviso al relevo · [PENDIENTE DE JORGE]
+### 7.5 Aviso al relevo · Aprobado por Jorge el 27-10
 
-Propuesta del analista normativo para el relevo como titular de su nombre y su teléfono (contrato MATU-09, "Decisiones de Jorge", punto 5). Va en la pantalla del PIN, bajo el botón, en texto secundario, con el enlace a la política. **No se publica hasta que Jorge lo apruebe.** El plazo de conservación del teléfono sigue pendiente (punto 2 del mismo apartado), por eso el aviso no lo nombra.
+Aviso para el relevo como titular de su nombre y su teléfono. Va en la pantalla del PIN, antes del canje, bajo el botón, en texto secundario, con el enlace a la política. Es el texto final: se copia tal cual.
 
-> **Antes de entrar.** MATU es un piloto académico y usa solo datos de prueba.
->
-> Esta ficha te la compartió una familia para que cuides a una persona mientras la reemplazas. Úsala solo para eso y no la reenvíes.
->
-> Cada vez que abres la ficha o escribes mal el PIN queda registrado, y la familia puede verlo.
->
-> MATU guarda tu nombre y tu teléfono, que te pidió quien te compartió la ficha. [PENDIENTE: para qué se usa el teléfono, decisión de Jorge, contrato MATU-09, "Decisiones de Jorge", punto 1]
->
-> Responsables de tus datos: Jorge Espinoza y Martín Henríquez, el equipo del proyecto, como personas naturales. Puedes pedir ver, corregir o borrar tus datos escribiendo a [PENDIENTE: correo de contacto]. [Política de privacidad]
+> MATU guarda tu nombre y tu teléfono, que anotó quien te compartió la ficha, para enviarte el enlace y poder contactarte. Tu teléfono se borra 30 días después de que el enlace vence o se corta. También registra cada vez que abres la ficha y cada PIN incorrecto, y guarda ese registro 3 años, para saber a quién se compartió. Responsables de tus datos: Jorge Espinoza y Martín Henríquez. Puedes pedir ver, corregir o borrar tus datos escribiendo a [PENDIENTE: correo de contacto]. [Política de privacidad]
 
-Fuentes: política v0.9, secciones 2 y 10, y figura legal del piloto, secciones 4.1 y 4.4.
+El correo de contacto es el mismo de la política, sección 2, y se completa con la versión 1.0. Fuentes: decisiones de Jorge del 27-10 (contrato de MATU-09), política v0.9, secciones 2, 4, 8 y 10, y figura legal del piloto, secciones 4.1 y 4.4.
 
 ---
 
@@ -312,7 +305,7 @@ Textos de la demo, con los cambios que pide el contrato de MATU-09.
 |---|---|
 | Bajada de Compartir | Quien te reemplaza recibe un enlace por WhatsApp y el PIN se lo dictas tú. El enlace vence solo y lo puedes cortar antes. |
 | Preguntas del formulario | ¿Quién te va a reemplazar? · Su teléfono · ¿Qué puede ver? · ¿Hasta cuándo? · ¿Cuántos días? (Hasta 30 días.) |
-| Ayuda del teléfono · [PENDIENTE DE JORGE] | Queda anotado junto al enlace. MATU no le envía nada: el enlace se lo mandas tú. |
+| Ayuda del teléfono · Aprobado por Jorge el 27-10 | Para enviarle el enlace y poder contactarle. |
 | Recordatorio bajo "¿Qué puede ver?" | Comparte solo lo que necesita para cuidarla. Quien recibe el enlace puede anotar o fotografiar lo que lee, y MATU no puede impedirlo. |
 | Recordatorio al crear el enlace | Cuéntale a `{nombre}` que anotaste su nombre y su teléfono en MATU, y que cada vez que abra la ficha queda registrado. |
 | Motivo (obligatorio, uno elegido de partida) | ¿Para qué lo compartes? · Salgo unas horas · Fin de semana fuera · Turno de noche · Otro motivo |
@@ -335,23 +328,23 @@ La demo del viernes 30 no se modifica. Al conectarla a la API, o al construir MA
 
 | # | Demo | Contrato o este documento | Quién decide |
 |---|---|---|---|
-| 1 | La pantalla del PIN dice "Carmen te compartió la ficha de María", y la ficha abierta dice "Carmen te la compartió" y "Solo Carmen puede cambiar esta ficha" | Antes del canje no hay nombres, y la API nunca dice quién compartió. Este documento usa "Te compartieron una ficha de cuidado" y "Solo la familia puede cambiar esta ficha" | Jorge, si quiere mostrar quién compartió (requiere migración) |
+| 1 | La pantalla del PIN dice "Carmen te compartió la ficha de María", y la ficha abierta dice "Carmen te la compartió" y "Solo Carmen puede cambiar esta ficha" | Antes del canje no hay nombres, y la API nunca dice quién compartió. Este documento usa "Te compartieron una ficha de cuidado" y "Solo la familia puede cambiar esta ficha" | **Resuelto por Jorge el 27-10:** se muestran los dos nombres antes del PIN y "Solo `{nombre_comparte}` puede cambiar esta ficha" después (secciones 7.1 y 7.4). La demo coincide. La migración va en MATU-18 |
 | 2 | Un solo estado "Este enlace ya no está disponible" para vencido, cortado y bloqueado | Cuatro textos (sección 7.3), como pide MATU-23 | Ya resuelto aquí |
 | 3 | Mensaje del PIN con un punto y coma antes de "después el enlace se bloquea" | "Te quedan `{n}` intentos. Después, el enlace se bloquea." | Ya resuelto aquí |
 | 4 | El `detail` del 410 revocado en el contrato dice "Pídele uno nuevo si lo necesitas" | La acción del backlog es "Pídele a quien te envió el enlace uno nuevo". La pantalla no muestra `detail`, pero conviene alinear el ejemplo del contrato | Martín, en el contrato |
-| 5 | Ayuda del teléfono: "Para enviarle el enlace." | La API no envía nada (contrato, decisión 21). Texto propuesto en la sección 9, pendiente de la finalidad del teléfono | Jorge (contrato, "Decisiones de Jorge", punto 1) |
+| 5 | Ayuda del teléfono: "Para enviarle el enlace." | La API no envía nada (contrato, decisión 21). Texto propuesto en la sección 9, pendiente de la finalidad del teléfono | **Resuelto por Jorge el 27-10:** el teléfono es obligatorio, para enviarle el enlace desde el teléfono de quien comparte y poder contactarlo. MATU no envía mensajes. Ayuda aprobada en la sección 9 |
 | 6 | "Motivo, si quieres", tres chips que se pueden desmarcar | Motivo obligatorio con "Otro motivo" y sin texto libre | Ya resuelto aquí |
 | 7 | Estado "Activo" calculado en el cliente | `estado = vigente` de la API, que se muestra como "Activo" | Ya resuelto aquí |
-| 8 | Las preguntas guía hablan en femenino ("para ella", "qué la calma") | La persona cuidada no tiene género en el modelo. Alternativa neutra: "¿Cómo es un día normal para `{nombre_pila}`?" y "¿Qué calma a `{nombre_pila}` cuando se angustia?" | Jorge, antes de MATU-12 |
+| 8 | Las preguntas guía hablan en femenino ("para ella", "qué la calma") | La persona cuidada no tiene género en el modelo. Alternativa neutra: "¿Cómo es un día normal para `{nombre_pila}`?" y "¿Qué calma a `{nombre_pila}` cuando se angustia?" | **Resuelto por Jorge el 27-10:** las preguntas guía usan `{nombre_pila}` (secciones 5.1 y 5.2). La demo del viernes no cambia |
 | 9 | El texto que la demo dicta en "Si se altera" insinúa una condición de salud de María | Los ejemplos de este documento no lo hacen (sección 5). El dictado de la demo no se copia a la app | Jorge, si quiere cambiar el dictado después del viernes |
-| 10 | Los documentos de las entrevistas (`docs/resultados-entrevistas.md` y `docs/protocolo-entrevistas.md`) usan códigos de inicial y edad, y los cruzan con datos de la persona cuidada. El protocolo, sección 6, pide códigos correlativos (una E y un número del 01 al 10) | Este documento no usa códigos de entrevista | Jorge, en su tarjeta sobre resultados de las entrevistas |
+| 10 | Los documentos de las entrevistas no seguían los códigos del protocolo, sección 6 | Este documento no usa códigos de entrevista | **Resuelto por Jorge el 27-10:** los documentos de las entrevistas usan los códigos E01 a E10 del protocolo, sin iniciales ni edades exactas |
 | 11 | Demo: "Cada campo se guarda cifrado" y "se guarda protegido" | No se dice "cifrado" hasta que MATU-11 exista (política v0.9, sección 13). Marcado **[desde MATU-11]** en la sección 5.4 | Ya resuelto aquí |
 | 12 | Demo: "Sirve sin conexión y sin aplicación" en la hoja impresa | La hoja se imprime desde el navegador y no se descarga ni se guarda un archivo (política v0.9, sección 9) | Ya resuelto aquí |
 
 **Para la tarjeta de consulta legal en Trello:**
 
-- **El motivo del enlace es obligatorio** (contrato, decisión 16) y hay que contrastarlo con el principio de minimización: si no hace falta para la finalidad, podría ser opcional.
-- **La política v0.9 no dice que se registran los PIN incorrectos.** La sección 6 informa que queda registrada cada apertura, pero `/plan/aperturas` también registra `pin_incorrecto` y `bloqueo`. El aviso al relevo (7.5) ya lo dice. La política se ajusta en la versión 1.0.
+- **Resuelto:** el motivo del enlace es obligatorio y se elige de una lista cerrada, sin texto libre (contrato, decisión 16). Así no puede guardar un dato de salud.
+- **Resuelto:** la política v0.9 ya dice que se registran los PIN incorrectos y los bloqueos (secciones 4, 6 y 9, ajustadas el 27-10). El aviso al relevo (7.5) también lo dice.
 
 ---
 
