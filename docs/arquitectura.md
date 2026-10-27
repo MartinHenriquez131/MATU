@@ -1284,7 +1284,7 @@ Toda dependencia externa entra por un **puerto** definido en `application/ports.
 | **Contrato de API** | Que el esquema generado por el código **no rompa** el contrato versionado en `docs/api/openapi.json` | comparación del generado contra el versionado, más schemathesis | Cada push | 100% de endpoints |
 | **Extremo a extremo** | Los seis recorridos críticos | pytest + cliente HTTP + dobles | Cada push | Los 6, siempre verdes |
 | **Interfaz** | Widgets críticos y accesibilidad básica | flutter test | Cada push de móvil | Los flujos del prototipo |
-| **Manual con pasarela real** | Autorizar, capturar por menos, revertir | Guion escrito, ambiente de integración | Sprint 0 y sprint 7 | 3 casos |
+| **Manual con pasarela real** | Venta normal con crédito y con débito, anulación parcial con los dos, retorno duplicado (ADR-027) | Guion escrito, ambiente de integración | Antes del sprint 4 y en el sprint 4 | 4 casos |
 | **Usabilidad** | 3 usuarios reales, de tres perfiles distintos | Guion de tareas | Semana 13 | 3 sesiones |
 
 **Sobre la cobertura.** La meta es 85% en `domain/` y 70% en `application/`, y **ninguna meta en `infrastructure/`**. Una meta global de 70% se cumple probando adaptadores triviales y dejando sin probar la regla de cálculo de quiebre.
@@ -1295,10 +1295,11 @@ Las transiciones válidas se declaran una vez, como dato, y la prueba las recorr
 
 ```python
 TRANSICIONES_VALIDAS = {
-    ("borrador", "autorizado"),
+    ("borrador", "confirmando_stock"),
     ("borrador", "cancelado"),
-    ("autorizado", "enviado_a_comercio"),
-    ("autorizado", "cancelado"),
+    ("total_confirmado", "pagado"),
+    ("total_confirmado", "borrador"),            # vencen los 15 minutos
+    ("pagado", "cancelado_con_devolucion"),
     # ... el conjunto completo
 }
 
@@ -1318,19 +1319,25 @@ def test_transiciones(desde, hacia):
 
 ### 12.4 Pruebas obligatorias del flujo de pago
 
-Siete casos que tienen que estar verdes antes de considerar terminado el módulo de pagos.
+> **Reescrita con el ADR-027.** Los casos de autorizar, capturar por menos y capturar más que lo autorizado salen, porque ya no hay captura. Entran la venta normal con los dos medios, la anulación parcial y el total vencido.
+
+Nueve casos que tienen que estar verdes antes de considerar terminado el módulo de pagos.
 
 | # | Caso | Resultado esperado |
 |---|---|---|
-| 1 | Autorizar y capturar por el mismo monto | Cargo capturado, pedido cerrado |
-| 2 | Autorizar y capturar por menos | Se captura el real, se libera la diferencia |
-| 3 | Autorizar y revertir | Autorización liberada, nada cobrado |
-| 4 | Retorno de pasarela recibido dos veces | Un solo cobro. Idempotencia por token |
-| 5 | Retorno nunca recibido | El job de conciliación cierra el estado en menos de 15 min |
-| 6 | Pasarela no responde durante 20 minutos | Reintentos con backoff, sin doble cobro, alerta a operación |
-| 7 | Monto real mayor al autorizado | Se captura el autorizado. **La diferencia es pérdida de MATU o se disputa con el comercio, no es un saldo del cliente** |
+| 1 | Venta normal con **crédito** por el total confirmado | Cargo pagado por el total exacto, pedido `pagado` |
+| 2 | Venta normal con **débito** por el total confirmado | Igual que con crédito. Ninguna rama del código distingue el medio |
+| 3 | **Anulación parcial** de una línea no entregada, con crédito y con débito | Se devuelve solo el precio de esa línea, a la misma tarjeta. Lo cobrado menos lo devuelto calza al peso |
+| 4 | No se entrega ningún producto, o la familia cancela antes de que preparen | Se devuelve el total, envío incluido. Pedido `cancelado_con_devolucion` |
+| 5 | Retorno de pasarela recibido dos veces | Un solo cobro y un solo cargo. **El segundo `commit` no falla en Transbank**, así que la idempotencia se verifica en la base de MATU, con la `PasarelaFalsa` respondiendo como Transbank |
+| 6 | Retorno nunca recibido | El job de conciliación cierra el estado en menos de 15 min |
+| 7 | Pasarela no responde durante 20 minutos | Reintentos con backoff, sin doble cobro, alerta a operación |
+| 8 | **Total vencido a los 15 minutos** | Con el `Reloj` adelantado, `pagar` responde que el total venció, no se llama a la pasarela y el pedido vuelve a `borrador` para confirmar de nuevo |
+| 9 | Devolución repetida o mayor que lo cobrado | Una línea se devuelve una sola vez. La suma de lo devuelto nunca supera lo cobrado |
 
-**Los casos 1 a 3 se ejecutan además manualmente contra el ambiente de integración de Transbank en el sprint 0**, porque si alguno falla cae el ADR-006 y hay que saberlo en la semana 7, no en la semana 14. **Y hay un cuarto caso que la prueba de concepto debe verificar: el medio de pago.** La captura diferida opera sobre crédito y el débito es mayoritario en el segmento.
+**Los casos 1, 2, 3 y 5 se ejecutan además manualmente contra el ambiente de integración de Transbank antes del sprint 4.** La prueba de concepto del sprint 0 verificó la captura diferida, no la venta normal. Si la anulación parcial no se admite con débito, hay que saberlo antes de construir, no en la demo. [PENDIENTE: plazos máximos de anulación con crédito y con débito, y verificar que el comercio de integración de venta normal ofrece débito.]
+
+**Una prueba más, de privacidad, sobre la consulta de stock:** el objeto que sale por `CatalogoComercio` contiene solo productos, cantidades y la referencia opaca, y ningún dato de la familia, de la persona cuidada ni de la dirección. Es una prueba de dominio del módulo `catalog`, y se suma a las diez de aislamiento de la sección 12.5 sin cambiar su numeración.
 
 **Los cinco casos de recaudación multi-pagador quedan escritos y marcados como `skip`**, para que se activen junto con RF-22 a RF-24 en la fase 2 sin volver a diseñarlos.
 
