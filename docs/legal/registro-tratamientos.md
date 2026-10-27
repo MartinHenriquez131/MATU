@@ -113,10 +113,11 @@ Cada historia que empieza a tratar datos personales agrega aquí su entrada.
   - contador por IP: 1 hora
 - **Medidas:**
   - token de 256 bits en el fragmento del enlace (`/r#<token>`). Se canjea por POST junto con el PIN, y la página lo limpia con `history.replaceState`
+  - con solo el token, la presentación (`POST /v1/relevo/presentacion`) devuelve únicamente los dos nombres de pila. No crea sesión, no cuenta como intento de PIN ni como apertura
   - PIN de 4 dígitos, que se muestra una sola vez y quien comparte dicta por otro canal
   - cookie `HttpOnly`, `Secure` y `SameSite=Strict`, con la sesión en Redis
   - 5 PIN incorrectos bloquean el acceso (423)
-  - 10 canjes por hora desde una misma IP, contados con su huella
+  - 10 presentaciones y canjes por hora desde una misma IP, contados con su huella
   - un acceso vencido o cortado responde 410, aunque la cookie siga vigente
   - la sesión del relevo no fija el grupo
   - vigencia de 24 horas por omisión y de 30 días como máximo

@@ -21,7 +21,7 @@ Este documento es la fuente de **todo texto que ve una persona en MATU**: etique
 | Analista normativo | Revisa que los avisos digan lo que exige la política de privacidad |
 | Backend | El `detail` de un error RFC 7807 es para quien depura. La pantalla nunca lo muestra: se guía por `type` y muestra el texto de la sección 8 |
 
-**Cómo se lee.** Las llaves marcan lo que se reemplaza al mostrar el texto: `{nombre_pila}` es el nombre con que llaman a la persona cuidada, `{nombre_comparte}` es el nombre de pila de quien compartió la ficha con el relevo, `{autor}` es quien guardó un campo, `{n}` es un número, `{fecha}` va en `DD/MM/AAAA` y `{hora}` en 24 horas (`HH:MM`). Las comillas latinas «» van tal cual en pantalla.
+**Cómo se lee.** Las llaves marcan lo que se reemplaza al mostrar el texto: `{nombre_pila}` es el nombre con que llaman a la persona cuidada, `{nombre_comparte}` es el nombre de pila de quien compartió la ficha con el relevo (`nombre_pila_comparte` en la API), `{autor}` es quien guardó un campo, `{n}` es un número, `{fecha}` va en `DD/MM/AAAA` y `{hora}` en 24 horas (`HH:MM`). Las comillas latinas «» van tal cual en pantalla.
 
 ---
 
@@ -210,7 +210,7 @@ Es la única causa de un 403 en la capa 1 (contrato, decisión 4).
 
 ## 7. El relevo (MATU-23)
 
-La página pública `/r#<token>`, sin cuenta. Antes de escribir el PIN, la página muestra el nombre de pila de quien compartió y el de la persona cuidada, como en la demo (aprobado por Jorge el 27-10). Quien envía el enlace lo hace a su nombre, y un enlace que pide un PIN sin decir qué es no da confianza. Jorge acepta el riesgo: quien reciba un enlace reenviado ve los dos nombres de pila. El nombre de quien comparte se guarda en el acceso con una migración de MATU-18. [PENDIENTE: el contrato de MATU-09 define cómo obtiene la página los dos nombres con el token, antes del canje]
+La página pública `/r#<token>`, sin cuenta. Antes de escribir el PIN, la página muestra el nombre de pila de quien compartió y el de la persona cuidada, como en la demo (aprobado por Jorge el 27-10). Quien envía el enlace lo hace a su nombre, y un enlace que pide un PIN sin decir qué es no da confianza. Jorge acepta el riesgo: quien reciba un enlace reenviado ve los dos nombres de pila. El nombre de quien comparte se guarda en el acceso con una migración de MATU-18. La pantalla del PIN pide los dos nombres a `POST /v1/relevo/presentacion` con solo el token, que devuelve `nombre_pila_comparte` y `nombre_pila`. Esa ruta no cuenta como intento de PIN ni como apertura, y responde los mismos 410 y 423 de la sección 7.3. Después del canje, `GET /v1/relevo/ficha` trae `nombre_pila` y `nombre_pila_comparte` (contrato de MATU-09, decisión 28).
 
 ### 7.1 Encabezado y pantalla del PIN
 
@@ -328,7 +328,7 @@ La demo del viernes 30 no se modifica. Al conectarla a la API, o al construir MA
 
 | # | Demo | Contrato o este documento | Quién decide |
 |---|---|---|---|
-| 1 | La pantalla del PIN dice "Carmen te compartió la ficha de María", y la ficha abierta dice "Carmen te la compartió" y "Solo Carmen puede cambiar esta ficha" | Antes del canje no hay nombres, y la API nunca dice quién compartió. Este documento usa "Te compartieron una ficha de cuidado" y "Solo la familia puede cambiar esta ficha" | **Resuelto por Jorge el 27-10:** se muestran los dos nombres antes del PIN y "Solo `{nombre_comparte}` puede cambiar esta ficha" después (secciones 7.1 y 7.4). La demo coincide. La migración va en MATU-18 |
+| 1 | La pantalla del PIN dice "Carmen te compartió la ficha de María", y la ficha abierta dice "Carmen te la compartió" y "Solo Carmen puede cambiar esta ficha" | `POST /v1/relevo/presentacion` devuelve los dos nombres con solo el token, y `GET /v1/relevo/ficha` trae `nombre_pila_comparte` (contrato, decisión 28) | **Resuelto por Jorge el 27-10:** se muestran los dos nombres antes del PIN y "Solo `{nombre_comparte}` puede cambiar esta ficha" después (secciones 7.1 y 7.4). La demo coincide. La migración va en MATU-18 |
 | 2 | Un solo estado "Este enlace ya no está disponible" para vencido, cortado y bloqueado | Cuatro textos (sección 7.3), como pide MATU-23 | Ya resuelto aquí |
 | 3 | Mensaje del PIN con un punto y coma antes de "después el enlace se bloquea" | "Te quedan `{n}` intentos. Después, el enlace se bloquea." | Ya resuelto aquí |
 | 4 | El `detail` del 410 revocado en el contrato dice "Pídele uno nuevo si lo necesitas" | La acción del backlog es "Pídele a quien te envió el enlace uno nuevo". La pantalla no muestra `detail`, pero conviene alinear el ejemplo del contrato | Martín, en el contrato |
