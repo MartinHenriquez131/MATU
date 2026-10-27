@@ -4,7 +4,7 @@
 **Versión:** 1.0 · septiembre 2026 · sprint 0
 **Equipo:** Jorge Espinoza · Martín Henríquez
 **Documentos asociados:** Arquitectura v1.0 (secciones 7, 11 y 12) · ADR-023 (cierre) · Estrategia de pruebas
-**Estado:** diseño completo, ejecutado y probado contra PostgreSQL 16. Es la migración `0001_esquema_inicial` desde el sprint 0. Las decisiones que siguen abiertas están en la sección 14.
+**Estado:** diseño completo, ejecutado y probado contra PostgreSQL 16. Es la migración `0001_esquema_inicial` desde el sprint 0, y la capa 3 se alineó el 27 de octubre de 2026 con la migración `0002_precios_exactos_un_cobro` (ADR-027). Las decisiones que siguen abiertas están en la sección 14.
 
 ---
 
@@ -23,12 +23,15 @@ El código vive en el repositorio de desarrollo, [MATU_PROYECTO](https://github.
 | `backend/db/02_rls.sql` | 94 políticas de Row Level Security |
 | `backend/db/03_permisos.sql` | Permisos por rol |
 | `backend/alembic/versions/0001_esquema_inicial.py` | Migración inicial: aplica los tres scripts del esquema, con vuelta atrás |
+| `backend/alembic/versions/0002_precios_exactos_un_cobro.py` | ADR-027: precios exactos y un solo cobro. Cambia `pedido`, `pedido_linea`, `cargo`, `participacion`, `transaccion_pasarela` y dos políticas del comercio, con vuelta atrás exacta a la 0001. Los scripts de `backend/db` no se tocan: siguen siendo la 0001 |
 | `backend/tests/test_aislamiento.py` | 31 pruebas contra PostgreSQL real |
 | `infra/postgres/init/10_matu.sh` | Crea los roles, la base y `btree_gist` al primer arranque |
 | `backend/db/gen_diagramas.py` | Genera los diagramas entidad-relación desde el catálogo de la base |
 | `docs/diagramas/modelo-datos/` (en este repositorio) | Los 13 diagramas en `.svg` y `.png`, 12 de ellos con su fuente `.mmd`. La matriz de acceso (10) se genera con `gen_matriz.py` |
 
 **Los diagramas entidad-relación no están dibujados a mano.** Se generan leyendo el catálogo de PostgreSQL, así que no pueden quedar desalineados del esquema: si cambia una tabla, se vuelve a correr el script.
+
+> **Excepción temporal, migración 0002.** Los bloques de las secciones 4.5 y 4.6 y los `.mmd` 01, 06 y 07 se editaron a mano el 27 de octubre, con las columnas nuevas al final de cada tabla, como las deja PostgreSQL. Los `.svg` y `.png` todavía muestran la 0001. [PENDIENTE: regenerarlos con `gen_diagramas.py` contra una base con la 0002 aplicada.]
 
 ---
 
@@ -511,7 +514,7 @@ erDiagram
 | `comercio` | Comercios en convenio | Todos ven los activos (nombre para armar pedidos) |
 | `usuario_comercio` | Qué usuarios operan la vista de un comercio | Resuelve el `app.comercio_id` del encargado al iniciar sesión |
 | `convenio` | Condiciones comerciales | `comision_bp` en puntos base. **Un comercio no puede tener dos convenios vigentes que se traslapen** (`EXCLUDE` sobre el rango de vigencia) |
-| `oferta` | Precio referencial de un producto en un comercio | El comercio actualiza solo las suyas. Precio referencial, no vinculante (ADR-011) |
+| `oferta` | Precio de un producto en un comercio | El comercio actualiza solo las suyas. Con el ADR-027 es el precio exacto con IVA del comercio en convenio. [PENDIENTE: la migración 0002 no tocó `oferta`; la columna sigue llamándose `precio_referencia` y el esquema la comenta como referencial (ADR-011, ya reemplazado)] |
 
 ### 4.5 Capa 3 · Pedido, sustitución y reposición programada
 
@@ -528,9 +531,9 @@ erDiagram
     persona_cuidada ||--o{ pedido : "persona_cuidada_id"
     pedido ||--o| pedido_entrega : "pedido_id"
     oferta ||--o{ pedido_linea : "oferta_id"
+    oferta ||--o{ pedido_linea : "oferta_reasignada_id"
     pedido ||--o{ pedido_linea : "pedido_id"
     producto ||--o{ pedido_linea : "producto_id"
-    pedido_linea ||--o{ pedido_linea : "sustituto_de_linea_id"
     pedido ||--o{ pedido_transicion : "pedido_id"
     persona_cuidada ||--o{ perfil_consumo : "persona_cuidada_id"
     producto ||--o{ perfil_consumo : "producto_id"
@@ -551,9 +554,6 @@ erDiagram
         text modo_cumplimiento
         text origen
         tstzrange ventana_entrega "opcional"
-        bigint total_estimado
-        bigint total_autorizado "opcional"
-        bigint total_real "opcional"
         text destinatario_nombre_pila
         text codigo_retiro_hash "opcional"
         timestamptz codigo_retiro_expira_en "opcional"
@@ -563,6 +563,12 @@ erDiagram
         timestamptz creado_en
         timestamptz actualizado_en
         int version
+        bigint subtotal_productos
+        bigint costo_envio
+        bigint total
+        timestamptz total_confirmado_en "opcional"
+        timestamptz total_vence_en "opcional"
+        timestamptz pagado_en "opcional"
     }
     pedido_entrega {
         uuid pedido_id PK, FK
@@ -581,11 +587,14 @@ erDiagram
         uuid oferta_id FK
         uuid producto_id FK
         int cantidad
-        bigint precio_snapshot
-        bigint precio_real "opcional"
+        bigint precio_unitario
         text estado_linea
-        uuid sustituto_de_linea_id FK "opcional"
         timestamptz creado_en
+        bigint monto_devuelto
+        timestamptz devuelta_en "opcional"
+        uuid oferta_reasignada_id FK "opcional"
+        bigint precio_reasignado "opcional"
+        timestamptz reasignada_en "opcional"
     }
     regla_sustitucion {
         uuid id PK
@@ -650,10 +659,10 @@ erDiagram
 
 | Tabla | Propósito | Reglas que conviene notar |
 |---|---|---|
-| `pedido` | El pedido, con sus 20 estados (sección 8.1) | Los 20 estados están en un `CHECK`. Las transiciones válidas las controla el dominio, no la base. `destinatario_nombre_pila` es lo único de la persona que ve el comercio |
+| `pedido` | El pedido, con sus 17 estados (sección 8.1 de la arquitectura) | Los 17 estados están en un `CHECK`: `borrador`, `total_confirmado`, `vencido`, `pagado`, `enviado_a_comercio`, `preparando`, `listo_retiro`, `asignado`, `sin_repartidor`, `retirado`, `en_ruta`, `entregado`, `no_entregado`, `reprogramado`, `cerrado`, `cancelado` y `cancelado_con_devolucion`. Las transiciones válidas las controla el dominio, no la base. **`total = subtotal_productos + costo_envio`**, con un envío único por pedido. `total_vence_en` (15 minutos, lo fija el dominio) existe si y solo si existe `total_confirmado_en`, y es posterior. **`pagado_en` fija el precio**: nulo antes del pago, obligatorio desde `pagado`, y solo con total confirmado. `destinatario_nombre_pila` es lo único de la persona que ve el comercio |
 | `pedido_entrega` | La dirección de entrega congelada al confirmar | **Tabla aparte a propósito**: el comercio ve el pedido y nunca la dirección (11.2), y RLS filtra filas, no columnas |
-| `pedido_linea` | Qué se pidió y qué se cobró | `precio_snapshot` al confirmar, `precio_real` al preparar. La sustitución es una línea nueva que apunta a la original (7.6 b) |
-| `regla_sustitucion` | Qué hacer si falta un producto (RF-21) | Una regla por producto y pedido. `producto_especifico` exige el sustituto |
+| `pedido_linea` | Qué se pidió, a qué precio, y qué se devolvió | `precio_unitario` es el precio exacto pagado. **Con el pedido pagado, un trigger impide cambiar producto, oferta, cantidad o precio, y agregar o borrar líneas** (`pedido_linea_pagada_fija`): lo que no se entrega se devuelve, no se edita. `monto_devuelto` nunca supera cantidad × `precio_unitario`, y la línea está en `devuelta` si y solo si tiene monto y fecha de devolución. La reasignación apunta a otra oferta **del mismo producto** (trigger `pedido_linea_mismo_producto`), con sus tres columnas juntas o ninguna; la diferencia de `precio_reasignado` la asume MATU (arquitectura, 7.6 b). Estados: `pendiente`, `sin_stock`, `preparada`, `faltante`, `devuelta`, `eliminada`. [PENDIENTE: el comercio que reemplaza a otro no ve la línea reasignada, porque la línea hereda la visibilidad del pedido y el RLS del comercio usa `pedido.comercio_id`. Es de la fase 2, con una decisión de aislamiento pendiente] |
+| `regla_sustitucion` | Qué hacer si falta un producto (RF-21) | Una regla por producto y pedido. `producto_especifico` exige el sustituto. La migración 0002 no la toca. [PENDIENTE: decisión de Jorge sobre RF-21; el ADR-027 descarta los equivalentes de otra marca y el trigger de `pedido_linea` ya impide reasignar a otro producto] |
 | `pedido_transicion` | La línea de tiempo del pedido | Solo inserción. Es lo que permite reconstruir un pedido con incidencia sin tocar la base (atributo de calidad 6) |
 | `plan_reposicion` y `plan_reposicion_linea` | Envíos periódicos (RF-17) | Las líneas se proponen desde el perfil de consumo (8.9) |
 | `ocurrencia` | Cada envío programado, materializado con 14 días de anticipación | Única por plan y fecha (ADR-012). `generada` si y solo si tiene pedido |
@@ -675,27 +684,23 @@ erDiagram
     cargo {
         uuid id PK
         uuid pedido_id FK, UK
-        bigint monto_objetivo
-        int margen_bp
-        bigint monto_autorizado
-        bigint monto_capturado
         text estado
-        timestamptz recaudacion_expira_en
         uuid respaldo_usuario_id FK "opcional"
         timestamptz creado_en
         timestamptz actualizado_en
         int version
+        bigint monto_cobrado
+        bigint monto_devuelto
     }
     participacion {
         uuid id PK
         uuid cargo_id FK
         uuid usuario_id FK
         int porcentaje_bp
-        bigint monto_comprometido
-        bigint monto_autorizado
-        bigint monto_capturado
         text estado
         bool es_respaldo
+        bigint monto_cobrado
+        bigint monto_devuelto
     }
     transaccion_pasarela {
         uuid id PK
@@ -734,9 +739,9 @@ erDiagram
 
 | Tabla | Propósito | Reglas que conviene notar |
 |---|---|---|
-| `cargo` | Lo que MATU cobra a la familia por un pedido | Uno por pedido. Lo capturado nunca supera lo autorizado (`CHECK`) |
-| `participacion` | La parte de cada familiar | Un solo respaldo por cargo (índice único parcial). Lo capturado nunca supera lo autorizado. **En el MVP hay una sola participación por cargo:** el pago entre varios familiares salió del semestre con el segundo recorte de la arquitectura v1.1 (sección 15.3), y la tabla se mantiene para cuando vuelva |
-| `transaccion_pasarela` | Cada operación con Transbank: autorización, ampliación, captura o reversa | **Nunca se borra** (permiso y trigger). `buy_order` limitado a 26 caracteres, que es el límite de Transbank. `tipo_tarjeta` registra crédito, débito o prepago, que es justo lo que debe verificar la prueba de concepto |
+| `cargo` | Lo que MATU cobra a la familia por un pedido: un solo cobro del total exacto (ADR-027) | Uno por pedido. Sin margen, monto autorizado ni capturado. **Lo devuelto nunca supera lo cobrado** (`CHECK`). Estados `pendiente`, `pagado`, `rechazado`, `devuelto_parcial` y `anulado`, y un `CHECK` ata cada uno a sus montos: nada cobrado en `pendiente` y `rechazado`; cobrado y nada devuelto en `pagado`; devolución menor que lo cobrado en `devuelto_parcial` e igual en `anulado` |
+| `participacion` | La parte de cada familiar | Un solo respaldo por cargo (índice único parcial). Mismos montos y la misma regla que `cargo`, con los estados en femenino (`pendiente`, `pagada`, `rechazada`, `devuelta_parcial`, `anulada`). [PENDIENTE: la 0002 quitó `monto_comprometido`, que era la base del prorrateo de la arquitectura 8.3; cuando vuelva el pago entre varios familiares, la base del reparto se define con otra migración.] **En el MVP hay una sola participación por cargo:** el pago entre varios familiares salió del semestre con el segundo recorte de la arquitectura v1.1 (sección 15.3), y la tabla se mantiene para cuando vuelva |
+| `transaccion_pasarela` | Cada operación con Transbank: `venta` (venta normal de Webpay Plus) o `anulacion`, total o parcial | **Nunca se borra** (permiso y trigger). `buy_order` limitado a 26 caracteres, que es el límite de Transbank. `tipo_tarjeta` registra crédito, débito o prepago, que es justo lo que deben verificar los casos de venta normal con los dos medios. El estado `autorizando` se mantiene para el retorno pendiente de la pasarela y su índice de conciliación |
 | `medio_pago_inscrito` | Tarjeta inscrita con OneClick | Solo la ve su dueño. Entraba al MVP por el respaldo del pago dividido (ADR-007), que salió del semestre con el segundo recorte. Se mantiene en el esquema para la fase 2 del producto |
 
 ### 4.7 Capa 3 · Cumplimiento y liquidación al comercio
@@ -841,7 +846,7 @@ erDiagram
 |---|---|---|
 | `repartidor`, `oferta_asignacion`, `asignacion` | App de repartidor y cascada de ofertas | **Diseñadas y condicionadas**: RF-27 a RF-30 son *Debería* tras el recorte de la sección 15.3. Una sola asignación activa por pedido |
 | `evidencia` | Foto de boleta o de entrega, con hash | Se ata al **pedido** y no a la asignación, porque en el MVP la registra el comercio desde su vista |
-| `consumo_comercio` | Lo que MATU le debe al comercio por un pedido | Uno por pedido. `liquidado` si y solo si pertenece a una liquidación |
+| `consumo_comercio` | Lo que MATU le debe al comercio por un pedido | Uno por pedido. `liquidado` si y solo si pertenece a una liquidación. [PENDIENTE: `monto_autorizado`, "el tope que vio el comercio", sigue en el esquema aunque el ADR-027 ya no tiene tope autorizado. Se rediseña con la conciliación (arquitectura, 11.7) y el convenio] |
 | `liquidacion` | El cierre de un período con un comercio | `neto = bruto − comisión` por `CHECK`. **Dos liquidaciones del mismo comercio no pueden traslapar períodos** (`EXCLUDE`) |
 
 ### 4.8 Transversales
@@ -964,7 +969,7 @@ erDiagram
 | `idempotencia` | Respuestas guardadas por `Idempotency-Key` | Lleva `grupo_id` y RLS (defecto 4 de la sección 12.8). Guarda el hash de la petición: la misma clave con otro cuerpo es un error 422 |
 | `indice_token` | Traduce el hash de un token al tenant, para endpoints públicos | Sin RLS y sin dato sensible. Cubre relevo, invitación, retorno de pasarela y refresh |
 | `preferencia_notificacion`, `notificacion` | Canales, horario de silencio y registro de envíos | El registro no guarda el mensaje, solo que se envió. Las plantillas viven en el código |
-| `incidencia` | Incidencias de operación sobre un pedido (RF-40) | La familia ve las de sus pedidos |
+| `incidencia` | Incidencias de operación sobre un pedido (RF-40) | La familia ve las de sus pedidos. [PENDIENTE: los tipos `desviacion_monto` y `captura_rechazada` siguen en el `CHECK`; con precio exacto y sin captura pierden su sentido original y se revisan junto con la conciliación] |
 
 ---
 
@@ -1026,13 +1031,15 @@ Cada celda de esta matriz está respaldada por una prueba de `test_aislamiento.p
 |---|---|---|---|---|---|---|---|---|
 | **Familia** | Según rol¹ | Sí | Sí | Sí | Sí | Sí | Nunca | Su grupo |
 | **Relevo** | Solo secciones habilitadas y vigente | Nunca | Nunca | Nunca | Nunca | Nunca | Nunca | Inserta la suya |
-| **Comercio** | Nunca | Nunca | Enviados o posteriores | Sí | **Nunca** | Nunca | Los suyos | Nunca |
+| **Comercio** | Nunca | Nunca | Pagados y enviados o posteriores² | Sí | **Nunca** | Nunca | Los suyos | Nunca |
 | **Repartidor** | Nunca | Nunca | Su asignación activa | **Nunca** | Su asignación activa | Nunca | Nunca | Nunca |
 | **Operación** | **Nunca** | **Nunca** | Todos | Todos | Todos | Todos | Todos | Lee todo |
 | **Sistema (worker)** | Nunca | Su grupo | Su grupo | Su grupo | Su grupo | Su grupo | Nunca | Inserta |
 | **Sin contexto** | Nunca | Nunca | Nunca | Nunca | Nunca | Nunca | Nunca | Nunca |
 
 ¹ admin y cuidador siempre, pagador solo con `puede_ver_plan`, observador nunca. **Esta regla vive en RLS**, no solo en la API: si la API olvida revisar el rol, la base igual devuelve cero filas.
+
+² Desde la migración 0002, `pedido_comercio_ver` y `pedido_comercio_actualizar` exigen `pedido.comercio_id` del comercio, `pagado_en` con valor y un estado posterior a `pagado`. Las líneas heredan esa visibilidad. [PENDIENTE: con esa regla, el comercio que reemplaza a otro en la fase 2 no ve la línea reasignada (sección 4.5).]
 
 ### 5.4 Cinco hallazgos al escribir las políticas
 
@@ -1118,7 +1125,13 @@ Reglas que la base hace cumplir aunque el código se equivoque:
 
 | Regla | Mecanismo |
 |---|---|
-| La captura nunca supera lo autorizado, ni en el cargo ni en cada participación | `CHECK` |
+| Lo devuelto nunca supera lo cobrado, ni en el cargo ni en cada participación, y cada estado calza con sus montos | `CHECK` |
+| El total del pedido es productos más un envío único, y el total confirmado tiene un vencimiento posterior | `CHECK` |
+| Antes del pago no hay `pagado_en`; desde `pagado`, siempre | `CHECK` |
+| Con el pedido pagado, sus líneas no cambian de producto, cantidad ni precio, y no se agregan ni se borran | Trigger `pedido_linea_pagada_fija` |
+| Una línea nunca se reasigna a otro producto, y su oferta es de su producto | Trigger `pedido_linea_mismo_producto` |
+| Lo devuelto de una línea nunca supera cantidad × precio | `CHECK` |
+| El comercio ve un pedido solo si está pagado y enviado | Política de RLS |
 | Un solo respaldo por cargo | Índice único parcial |
 | Un nonce nunca se repite | Índice único |
 | Un solo consentimiento vigente por persona y finalidad | Índice único parcial |
@@ -1133,7 +1146,7 @@ Reglas que la base hace cumplir aunque el código se equivoque:
 | Un usuario de operación tiene MFA | `CHECK` |
 | Borrado criptográfico sin estados ambiguos | `CHECK` |
 
-Las transiciones de estado del pedido y del cargo **no** se validan en la base. Son reglas de dominio, viven en `domain/` y las cubre la prueba parametrizada de 400 combinaciones de la sección 12.3.
+Las transiciones de estado del pedido y del cargo **no** se validan en la base. Son reglas de dominio, viven en `domain/` y las cubre la prueba parametrizada de la sección 12.3 de la arquitectura: con la migración 0002, 289 pares de estados del pedido y 25 del cargo. [PENDIENTE: 225 pares del pedido si la máquina del MVP no declara `asignado` ni `sin_repartidor`.] La base sí ata el estado a los datos del cobro (filas anteriores).
 
 ---
 

@@ -19,7 +19,7 @@ Esta es la **versión 1.1** del documento de arquitectura de MATU. Incorpora los
 > - Los 16 cambios de la sección 10 y los hallazgos de la sección 5.4 del [modelo de datos](modelo-datos.md)
 > - El [calendario de sprints v1.3](sprints/calendario-sprints.md), que reemplaza las fechas y la agrupación de la tabla 15.4
 > - La prioridad de RF-03: el cierre del ADR-023 baja las ocho secciones a *Podría*, y la sección 3.1 todavía dice *Debe*
-> - El resultado de la [prueba de concepto de Transbank](pruebas-concepto/transbank.md): el débito no admite captura diferida. **Ya incorporado** con el ADR-027 (sección 14), que reemplazó al ADR-006 y al ADR-011, y propagado a las secciones 8, 9.4, 9.5, 10.4, 11.2, 11.7, 12, 17 y 18.1. Faltan 7.4 y 7.6 c, que se alinean con la migración 0002
+> - El resultado de la [prueba de concepto de Transbank](pruebas-concepto/transbank.md): el débito no admite captura diferida. **Ya incorporado** con el ADR-027 (sección 14), que reemplazó al ADR-006 y al ADR-011, y propagado a las secciones 8, 9.4, 9.5, 10.4, 11.2, 11.7, 12, 17 y 18.1. La sección 7 (7.1, 7.4 y 7.6 b, c y f) y los estados de 8.1 y 12.3 se alinearon el 27 de octubre con la migración 0002 (`0002_precios_exactos_un_cobro`). Lo que esa migración dejó fuera a propósito está al final de 7.4
 > - La separación en dos repositorios: la documentación en MATU y el código en MATU_PROYECTO (anexo 19.1)
 > - La suspensión de la regla de ejes en los sprints 1 a 3 y el traslado de la prueba de capa 3 desacoplable, declarados en el backlog
 
@@ -504,6 +504,7 @@ erDiagram
     PERSONA_CUIDADA ||--o{ PEDIDO : "destinado a"
     PEDIDO ||--|{ PEDIDO_LINEA : contiene
     OFERTA ||--o{ PEDIDO_LINEA : referencia
+    OFERTA ||--o{ PEDIDO_LINEA : "se reasigna a"
     PRODUCTO ||--o{ REGLA_SUSTITUCION : define
 
     PEDIDO ||--|| CARGO : "cobra con"
@@ -520,6 +521,8 @@ erDiagram
 ```
 
 **El modelo no cambió en esta versión, y eso es deliberado.** La activación del ADR-023 reduce la versión mínima del plan de cuidado a tres campos, pero esos tres campos son tres de los ocho tipos de sección que `plan_seccion` ya contempla. Que el plan B no obligue a migrar el esquema es exactamente la razón por la que se escribió antes de entrevistar.
+
+**La migración 0002 (ADR-027) sí cambia la capa 3**, sin tablas nuevas: montos exactos en `pedido`, precio fijo y reasignación al mismo producto en `pedido_linea`, y monto cobrado y devuelto en `cargo` y `participacion`. El diagrama agrega la reasignación de una línea a otra oferta. `REGLA_SUSTITUCION` sigue en el esquema mientras se decide RF-21 (final de 7.4).
 
 ### 7.2 Capa 1 · Plan de cuidado
 
@@ -565,15 +568,27 @@ Es aritmética de tercero básico, y esa es exactamente la gracia. **El valor no
 | Entidad | Campos relevantes | Notas de diseño |
 |---|---|---|
 | `producto` | id, categoria_id, nombre, marca, presentacion, unidad, **unidades_por_envase**, requiere_receta, activo | `unidades_por_envase` conecta el catálogo con el perfil de consumo: 30 pañales por paquete permite traducir tasa de uso a paquetes |
-| `oferta` | producto_id, comercio_id, precio_referencia, disponibilidad, actualizado_en | El precio es referencial, no vinculante. Ver ADR-011 |
+| `oferta` | producto_id, comercio_id, precio_referencia, disponible, actualizado_en | Con el ADR-027 el precio de la oferta es el precio exacto con IVA del comercio en convenio. [PENDIENTE: la migración 0002 no tocó `oferta`; la columna sigue llamándose `precio_referencia` y el esquema la comenta como referencial (ADR-011, ya reemplazado)] |
 | `convenio` | comercio_id, vigencia_desde, vigencia_hasta, **comision_pct**, **tarifa_despacho**, prepara_pedidos, cuenta_corriente, estado | `comision_pct` y `tarifa_despacho` son la regla de cálculo de la liquidación |
-| `pedido` | id, grupo_id, persona_cuidada_id, comercio_id, direccion_id, estado, modo_cumplimiento, origen (`manual`, `alerta_quiebre`), ventana_entrega, total_estimado, total_autorizado, total_real, codigo_retiro_hash, creado_por | `origen` incorpora `alerta_quiebre`, que es el camino que conecta la capa 2 con la 3 |
-| `pedido_linea` | id, pedido_id, oferta_id, cantidad, precio_snapshot, precio_real, estado_linea, sustituto_de_linea_id | La sustitución es una línea nueva que apunta a la original, no una edición |
-| `cargo` | id, pedido_id, monto_objetivo, monto_autorizado, monto_capturado, estado, pagador_usuario_id | |
-| `participacion` | id, cargo_id, usuario_id, monto_comprometido, monto_autorizado, **monto_capturado**, porcentaje, estado | **Se mantiene en el modelo aunque el MVP use una sola participación al 100%.** Conservarla es lo que permite activar RF-22 a RF-24 en la fase 2 sin migrar el esquema |
-| `transaccion_pasarela` | id, participacion_id, proveedor, buy_order, token, tipo (`autorizacion`, `captura`, `reversa`), monto, estado, payload_respuesta, idempotency_key | Nunca se borra ni se actualiza destructivamente. Es el registro contable |
-| `consumo_comercio` | id, comercio_id, pedido_id, monto_autorizado, monto_boleta, folio_boleta, evidencia_id, estado, desviacion_pct | Contrapartida de `cargo`: lo que MATU debe al comercio |
+| `pedido` | id, grupo_id, persona_cuidada_id, comercio_id, direccion_id, estado, modo_cumplimiento, origen (`manual`, `alerta_quiebre`), ventana_entrega, **subtotal_productos**, **costo_envio**, **total**, **total_confirmado_en**, **total_vence_en**, **pagado_en**, codigo_retiro_hash, creado_por | `origen` incorpora `alerta_quiebre`, que es el camino que conecta la capa 2 con la 3. **`total = subtotal_productos + costo_envio`** por `CHECK`, con un envío único por pedido. `total_vence_en` lo fija el dominio 15 minutos después de `total_confirmado_en`; la base exige que los dos existan juntos y que el vencimiento sea posterior. **`pagado_en` marca desde cuándo el precio queda fijo**: nulo en `borrador`, `total_confirmado` y `vencido`, obligatorio desde `pagado` en adelante, y solo con un total confirmado (`CHECK`). Los 17 estados están en 8.1 |
+| `pedido_linea` | id, pedido_id, oferta_id, producto_id, cantidad, **precio_unitario**, estado_linea, **monto_devuelto**, **devuelta_en**, **oferta_reasignada_id**, **precio_reasignado**, **reasignada_en** | **Con el pedido pagado la línea no se edita**: un trigger impide cambiar producto, oferta, cantidad o precio, y agregar o borrar líneas. Lo que no se entrega se devuelve: `monto_devuelto` nunca supera cantidad × `precio_unitario`, y la línea está en `devuelta` si y solo si tiene monto y fecha de devolución. **La reasignación es al mismo producto en otra oferta**, nunca otra marca (trigger), y `precio_reasignado` es lo que MATU paga, con la diferencia a su cargo. Estados: `pendiente`, `sin_stock`, `preparada`, `faltante`, `devuelta`, `eliminada` |
+| `regla_sustitucion` | id, pedido_id, producto_id, accion, producto_sustituto_id, precio_maximo | La migración 0002 no la toca. [PENDIENTE: decisión de Jorge sobre RF-21] |
+| `cargo` | id, pedido_id, **monto_cobrado**, **monto_devuelto**, estado, respaldo_usuario_id | Uno por pedido. Sin margen, monto autorizado ni capturado. Estados `pendiente`, `pagado`, `rechazado`, `devuelto_parcial` y `anulado`, y un `CHECK` ata cada estado a sus montos: nada cobrado en `pendiente` y `rechazado`, nada devuelto en `pagado`, devolución menor que lo cobrado en `devuelto_parcial` e igual en `anulado`. **Lo devuelto nunca supera lo cobrado** (`CHECK`) |
+| `participacion` | id, cargo_id, usuario_id, porcentaje_bp, **monto_cobrado**, **monto_devuelto**, estado, es_respaldo | **Se mantiene en el modelo aunque el MVP use una sola participación al 100%.** Conservarla es lo que permite activar RF-22 a RF-24 en la fase 2. Mismos montos y la misma regla que `cargo`, con los estados en femenino (`pendiente`, `pagada`, `rechazada`, `devuelta_parcial`, `anulada`). [PENDIENTE: la 0002 quitó `monto_comprometido`, que es la base del prorrateo de 8.3; cuando vuelva el pago entre varios familiares, la base del reparto se define con otra migración] |
+| `transaccion_pasarela` | id, participacion_id, proveedor, buy_order, token, tipo (`venta`, `anulacion`), monto, estado, payload_respuesta, idempotency_key | La venta normal de Webpay Plus y su anulación, total o parcial. Nunca se borra ni se actualiza destructivamente. Es el registro contable |
+| `consumo_comercio` | id, comercio_id, pedido_id, monto_autorizado, monto_boleta, folio_boleta, evidencia_id, estado, desviacion_pct | Contrapartida de `cargo`: lo que MATU debe al comercio. [PENDIENTE: `monto_autorizado` sigue en el esquema] |
 | `liquidacion` | id, comercio_id, periodo_desde, periodo_hasta, monto_bruto, **monto_comision**, monto_neto, estado, factura_ref, pagada_en | `monto_comision = Σ(consumo.monto_boleta × convenio.comision_pct)` |
+
+**Lo que el comercio ve, en la base.** Las políticas `pedido_comercio_ver` y `pedido_comercio_actualizar` le muestran un pedido solo si es suyo (`pedido.comercio_id`), tiene `pagado_en` y está en `enviado_a_comercio` o después. Las líneas heredan esa visibilidad desde el pedido.
+
+**Lo que la migración 0002 dejó fuera a propósito.** Ninguno de estos puntos tiene diseño todavía, y no se inventa aquí:
+
+- [PENDIENTE: `consumo_comercio.monto_autorizado`, "el tope que vio el comercio", sigue en el esquema aunque el ADR-027 ya no tiene tope autorizado. Se rediseña con la conciliación de 11.7 y el convenio.]
+- [PENDIENTE: los tipos `desviacion_monto` y `captura_rechazada` de `incidencia` siguen en su `CHECK`. Con precio exacto y sin captura pierden su sentido original; se revisan junto con la conciliación.]
+- [PENDIENTE: `oferta.precio_referencia` conserva el nombre y el comentario de precio referencial del ADR-011, aunque con el ADR-027 es el precio exacto.]
+- [PENDIENTE: `regla_sustitucion` sigue en el esquema. Depende de la decisión de Jorge sobre RF-21; el ADR-027 descarta los equivalentes de otra marca y el trigger de `pedido_linea` ya impide reasignar a otro producto.]
+- [PENDIENTE: el RLS del comercio se resuelve por `pedido.comercio_id`. **El comercio que reemplaza a otro no ve la línea reasignada**, porque la línea hereda la visibilidad del pedido y no de `oferta_reasignada_id`. La reasignación es de la fase 2, y cómo se le da a ese comercio la proyección de 11.2 es una decisión de aislamiento pendiente.]
+- [PENDIENTE: por lo mismo, `pedido` conserva un solo `comercio_id`, y el comercio ve todas las líneas del pedido. Cómo se registra un pedido que al confirmar se abastece en dos comercios, con un solo cobro y un solo envío (ADR-027, ajuste del ADR-024), no está en la 0002.]
 
 ### 7.5 Transversales
 
@@ -589,15 +604,15 @@ Es aritmética de tercero básico, y esa es exactamente la gracia. **El valor no
 
 **a) El dinero es entero, no decimal.** El peso chileno no tiene subunidad en uso. Todo monto es `BIGINT` en pesos. Usar coma flotante para dinero es un error clásico, y `NUMERIC(12,2)` aquí solo invita a redondeos que no existen en el dominio.
 
-**b) La sustitución es una línea nueva, no una edición.** Se crea una línea con `sustituto_de_linea_id` apuntando a la original, y la original pasa a `sustituida`. La familia ve exactamente qué pidió y qué llegó.
+**b) La reasignación queda en la misma línea, y siempre es el mismo producto.** Con el ADR-027 no hay sustitución por otra marca. Si al retirar falta un producto, la línea guarda `oferta_reasignada_id`, `precio_reasignado` y `reasignada_en`, y un trigger exige que la nueva oferta sea del mismo producto. La sustitución como línea nueva (`sustituto_de_linea_id`) salió con la migración 0002. La familia ve exactamente qué pidió y qué llegó.
 
-**c) El precio se congela al confirmar y se reconcilia al preparar.** `precio_snapshot` guarda el referencial mostrado, `precio_real` lo efectivamente cobrado. La diferencia es visible y auditable, y es la base de confianza de un servicio de compra por encargo.
+**c) El precio queda fijo al pagar, y lo que no se entrega se devuelve.** `precio_unitario` es el precio exacto que la familia aceptó en el total confirmado. Desde `pedido.pagado_en`, un trigger impide cambiar el producto, la cantidad o el precio de una línea, y agregar o borrar líneas. Lo que no se entrega no se edita: se registra como `monto_devuelto` en la línea y en el cargo, y la base exige que lo devuelto nunca supere lo cobrado. Reemplaza al par `precio_snapshot` y `precio_real` del ADR-011. Es la base de confianza de un servicio de compra por encargo: lo que la familia pagó no cambia después.
 
 **d) La alerta se materializa antes de dispararse.** El scheduler no pregunta "qué toca hoy", crea filas con anticipación. Una corrida doble del job no genera dos avisos, y "descartar" y "resolver" son transiciones auditables y no un borrado.
 
 **e) La fecha de quiebre es un campo materializado, no una consulta.** Se recalcula cuando cambia el perfil o cuando se registra una reposición, y una vez al día por seguridad. Consultarla en línea obligaría a calcular sobre toda la base para responder "qué se está por acabar", que es la consulta más frecuente de la aplicación.
 
-**f) Hay dos flujos de dinero y dos tablas distintas.** `cargo` describe lo que MATU cobra a la familia. `consumo_comercio` y `liquidacion` describen lo que MATU debe al comercio. Son montos parecidos en momentos distintos: se cobra el día de la entrega y se paga a fin de período.
+**f) Hay dos flujos de dinero y dos tablas distintas.** `cargo` describe lo que MATU cobra a la familia. `consumo_comercio` y `liquidacion` describen lo que MATU debe al comercio. Son montos parecidos en momentos distintos: se cobra al pagar el total confirmado, antes de preparar (ADR-027), y se paga al comercio a fin de período.
 
 **g) El código de retiro se guarda con hash, no en claro.** Es la credencial que autoriza a llevarse mercadería cargada a la cuenta de MATU. Se trata como contraseña de un solo uso.
 
@@ -707,15 +722,14 @@ La revisión de este modelo descrita en la sección 12.8 encontró **cinco defec
 
 ### 8.1 Ciclo de vida del pedido
 
-> **Reescrita con el ADR-027.** Reemplaza el ciclo del ADR-006, que autorizaba con margen al confirmar y capturaba el monto real al entregar. Por qué se cambió está en la sección 14. [PENDIENTE: los nombres finales de los estados se alinean con la migración 0002, que el backend diseña en paralelo.]
+> **Reescrita con el ADR-027.** Reemplaza el ciclo del ADR-006, que autorizaba con margen al confirmar y capturaba el monto real al entregar. Por qué se cambió está en la sección 14. **Alineada con la migración 0002** el 27 de octubre: los nombres son los del `CHECK` de `pedido`.
 
 ```mermaid
 stateDiagram-v2
     [*] --> borrador: la familia arma el pedido desde la lista
-    borrador --> confirmando_stock: pide el total
-    confirmando_stock --> total_confirmado: stock apartado, total con IVA y envío
-    confirmando_stock --> borrador: ningún producto disponible
-    total_confirmado --> borrador: vencen los 15 minutos, se vuelve a confirmar
+    borrador --> total_confirmado: stock apartado, total con IVA y envío
+    total_confirmado --> vencido: pasan los 15 minutos sin pagar
+    vencido --> total_confirmado: se vuelven a confirmar stock y precio
     total_confirmado --> pagado: cobro único aprobado
     pagado --> enviado_a_comercio: se publica en la vista del comercio
     enviado_a_comercio --> preparando: el comercio empieza a preparar
@@ -730,6 +744,7 @@ stateDiagram-v2
     reprogramado --> en_ruta
     borrador --> cancelado: la familia no sigue
     total_confirmado --> cancelado: la familia no paga, sin costo
+    vencido --> cancelado: la familia no sigue, sin costo
     pagado --> cancelado_con_devolucion: cancela antes de que preparen
     enviado_a_comercio --> cancelado_con_devolucion: cancela antes de que preparen
     preparando --> cancelado_con_devolucion: no se entrega ningún producto
@@ -746,13 +761,23 @@ stateDiagram-v2
 
 **`requiere_decision` sale de la máquina.** Existía para que la familia eligiera un sustituto con el comercio preparando. El ADR-027 descarta los equivalentes de otra marca, así que no queda nada que decidir después de pagar. [PENDIENTE: decisión de Jorge sobre RF-21 (reglas de sustitución), que pierde su uso en el MVP.]
 
-**Los estados de recaudación salen de la máquina del MVP.** `pendiente_recaudacion`, `expirado` y `sin_repartidor` dependían del reparto multi-pagador y de la app de repartidor, ambos fuera del alcance comprometido. Quedan documentados en esta sección como el camino de evolución, y su reincorporación no cambia el modelo de datos.
+**Los estados de recaudación salen del esquema.** La migración 0002 quitó `pendiente_recaudacion`, que dependía del reparto entre varios pagadores, y convirtió `expirado` en `vencido`. **`asignado` y `sin_repartidor` siguen en el `CHECK`** para la app de repartidor de la fase 2, pero la máquina del MVP no los usa: el pedido pasa de `listo_retiro` a `retirado`.
+
+**`confirmando_stock` no es un estado guardado.** La migración 0002 no lo incluye: mientras MATU consulta el stock, el pedido sigue en `borrador`, y si ningún producto está disponible no sale de ahí. Con el adaptador simulado la consulta dura un instante. [PENDIENTE: si un adaptador real responde de forma asíncrona, se decide si el estado se agrega con otra migración.]
 
 | Estado | Por qué existe |
 |---|---|
-| `confirmando_stock` | La consulta a los comercios en convenio no es instantánea con un adaptador real. Con el simulado dura un instante |
-| `total_confirmado` | El precio y el stock quedan apartados por **15 minutos**. Si vencen, el pedido vuelve a `borrador` y se confirma de nuevo |
+| `total_confirmado` | El precio y el stock quedan apartados por **15 minutos** (`total_vence_en`). Si vencen sin pago, el pedido pasa a `vencido` |
+| `vencido` | El total confirmado pasó sus 15 minutos. No se cobra: `pagar` verifica la vigencia contra el `Reloj`. Para seguir se vuelven a confirmar stock y precio, o la familia no sigue, sin costo |
+| `pagado` | El cobro único se aprobó y `pagado_en` fija el precio de las líneas. El comercio todavía no ve el pedido |
 | `cancelado_con_devolucion` | Cierra los casos en que ya se cobró y no se entrega nada: cancelación antes de preparar, ningún producto disponible al preparar, o nadie en el domicilio sin segunda ventana. Se devuelve el total, envío incluido |
+
+**Lo que la base garantiza del ciclo.** Las transiciones las controla el dominio, pero la migración 0002 agrega `CHECK` que atan el estado a los datos del cobro:
+- antes del pago (`borrador`, `total_confirmado`, `vencido`) no hay `pagado_en`; desde `pagado` en adelante, incluido `cancelado_con_devolucion`, siempre lo hay. `cancelado` admite los dos casos;
+- `total_confirmado` y `vencido` exigen `total_confirmado_en`, y un pedido con total confirmado tiene un total mayor que cero;
+- el comercio ve el pedido solo con `pagado_en` y desde `enviado_a_comercio`.
+
+**Estados del cargo.** `pendiente`, `pagado`, `rechazado`, `devuelto_parcial` y `anulado`. La participación usa los mismos en femenino. Un `CHECK` ata cada estado a sus montos (sección 7.4).
 
 Una prueba parametrizada recorre **todas las combinaciones** de estados y verifica que toda transición no declarada lanza. Dos pruebas adicionales comprueban que ningún estado no terminal queda sin salida y que todos son alcanzables desde `borrador`.
 
@@ -1295,10 +1320,11 @@ Las transiciones válidas se declaran una vez, como dato, y la prueba las recorr
 
 ```python
 TRANSICIONES_VALIDAS = {
-    ("borrador", "confirmando_stock"),
+    ("borrador", "total_confirmado"),
     ("borrador", "cancelado"),
     ("total_confirmado", "pagado"),
-    ("total_confirmado", "borrador"),            # vencen los 15 minutos
+    ("total_confirmado", "vencido"),             # pasan los 15 minutos
+    ("vencido", "total_confirmado"),             # se vuelve a confirmar
     ("pagado", "cancelado_con_devolucion"),
     # ... el conjunto completo
 }
@@ -1314,6 +1340,8 @@ def test_transiciones(desde, hacia):
         with pytest.raises(TransicionInvalida):
             pedido.transicionar_a(hacia)
 ```
+
+**Cuántas combinaciones son.** Con la migración 0002 el `CHECK` de `pedido` tiene 17 estados y el de `cargo` 5: 289 pares para el pedido y 25 para el cargo. [PENDIENTE: el número definitivo depende de si la máquina del MVP declara `asignado` y `sin_repartidor`, que siguen en el `CHECK` para la fase 2 pero el MVP no usa (sección 8.1). Sin ellos serían 15 estados y 225 pares. Lo fija la máquina de dominio del sprint 4.]
 
 **Es la mejor relación entre esfuerzo y confianza de todo el plan**, y cubre el error más frecuente en sistemas de estados, que es la transición que nadie previó.
 

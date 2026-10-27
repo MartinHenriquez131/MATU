@@ -137,7 +137,7 @@ Los nueve casos de la sección 12.4 de la arquitectura, reescrita con el ADR-027
 
 ### 6.3 Máquinas de estado
 
-Una prueba parametrizada recorre todas las combinaciones de los estados del pedido y del cargo. [PENDIENTE: el número de combinaciones se recalcula con los estados finales de la migración 0002; el ADR-027 quita `autorizado`, `captura_pendiente`, `incobrable` y `requiere_decision`, y agrega `confirmando_stock`, `total_confirmado` y `pagado`.] Toda transición no declarada lanza `TransicionInvalida`. Dos pruebas más verifican que todo estado es alcanzable desde `borrador` y que ningún estado no terminal queda sin salida.
+Una prueba parametrizada recorre todas las combinaciones de los estados del pedido y del cargo. Con la migración 0002 el pedido tiene 17 estados en su `CHECK` (289 pares) y el cargo 5 (25 pares). La 0002 quitó `pendiente_recaudacion`, `autorizado`, `requiere_decision`, `captura_pendiente` e `incobrable`, cambió `expirado` por `vencido` y agregó `total_confirmado` y `pagado`; `confirmando_stock` no es un estado guardado (arquitectura, 8.1). [PENDIENTE: el número definitivo depende de si la máquina del MVP declara `asignado` y `sin_repartidor`, que siguen en el `CHECK` para la fase 2. Sin ellos son 15 estados y 225 pares.] Toda transición no declarada lanza `TransicionInvalida`. Dos pruebas más verifican que todo estado es alcanzable desde `borrador` y que ningún estado no terminal queda sin salida.
 
 ### 6.4 Capa 1 · Plan de cuidado
 
