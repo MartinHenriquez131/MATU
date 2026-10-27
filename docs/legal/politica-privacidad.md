@@ -4,6 +4,7 @@
 **Estado:** borrador para el piloto académico. Todavía no sirve para tratar datos reales.
 **Aprobación:** aprobada como borrador v0.9 por Jorge Espinoza (Product Owner) el 25/10/2026. La revisión la hizo el orquestador del equipo de agentes, por delegación. Se confirman los tres compromisos del texto: MATU no vende datos, borra de inmediato los datos reales que entren por error, y ejercer los derechos es gratis. Los [PENDIENTE] que quedan (contacto, plazos, proveedores y procedimiento ante filtraciones) se resuelven en la versión 1.0, antes de tratar datos reales.
 **Identificador de versión en el sistema:** `0.9`
+**MATU-09 (27-10):** se ajustan las secciones 4, 6, 8, 9, 10 y 13 con el acceso de relevo. Aprobado por Jorge el 27-10 como diseño. No cambian la versión: `POLITICA_VERSION` sigue en `0.9`.
 
 ---
 
@@ -57,7 +58,7 @@ MATU no usa los datos para publicidad ni los vende. Tampoco toma decisiones auto
 - **Tu contraseña**, guardada transformada de una forma que no se puede revertir. Nadie en MATU puede leerla.
 - **Los grupos a los que perteneces** y tu rol en cada uno.
 - **Registros técnicos.** Por cada acción guardamos la fecha y hora, el tipo de acción sin su contenido, si resultó o no, cuánto tardó y un número interno que te identifica a ti y a tu grupo. En esos registros no guardamos tu email, tu contraseña, tus códigos de acceso, el nombre del grupo ni tu dirección IP.
-- **Más adelante,** para frenar los intentos de entrar a la fuerza, usaremos tu dirección IP solo como un contador temporal de intentos por hora. *Todavía no disponible.*
+- **Tu dirección IP.** Usamos tu dirección IP solo para limitar los intentos de entrada, por una hora, y no la guardamos. *Todavía no disponible.*
 - **Cuando des una autorización** para la persona que cuidas: la fecha y la hora, en qué calidad la diste, qué declaración viste y la versión de esta política. Si eres cuidadora o cuidador de hecho, también qué aviso viste: su identificador, su versión y una huella de su texto. Si registras la decisión de la propia persona, queda anotado que la registraste tú, en su presencia. No guardamos tu dirección IP ni tu navegador.
 
 ### Tu sesión
@@ -87,7 +88,7 @@ La persona que cuidas no tiene cuenta en MATU. Sus datos los ingresas tú.
 
 ### De otras personas que tú anotas
 
-- **Relevo:** su nombre y su teléfono, qué campos le compartiste, hasta cuándo, el motivo y cuántas veces abrió la ficha.
+- **Relevo:** su nombre y su teléfono, qué campos le compartiste, hasta cuándo, el motivo, cuántas veces abrió la ficha y cada PIN incorrecto. Su teléfono es obligatorio: sirve para que tú le envíes el enlace desde tu teléfono, por WhatsApp o SMS, y para que tu grupo pueda contactarlo. MATU no le envía mensajes. Avísale que lo anotaste: cuando abra el enlace, MATU le muestra qué guarda de él, y también tu nombre de pila y el de la persona que cuidas.
 - **"A quién llamar":** los nombres y teléfonos que escribas. Avísales que los anotaste.
 - **Invitaciones a tu grupo:** el email o el teléfono de la persona invitada. *Todavía no disponible.*
 
@@ -146,9 +147,10 @@ Cada declaración también tiene un identificador en el sistema: `declaracion_ti
 - **Observador:** ve el nombre. Nunca ve la ficha.
 
 **El relevo**, la persona que te reemplaza:
-- Ve solo el nombre con que llaman a la persona y los campos que tú elegiste.
+- Ve solo el nombre con que llaman a la persona, tu nombre de pila y los campos que tú elegiste.
+- Al abrir el enlace, y antes de escribir el PIN, ve tu nombre de pila y el de la persona que cuidas.
 - Entra con un enlace y un PIN de 4 dígitos. El acceso vence en 24 horas, o en el plazo que elijas hasta un máximo de 30 días, y puedes cortarlo cuando quieras.
-- Cada vez que abre la ficha queda registrado.
+- Cada vez que abre la ficha queda registrado, y también cada PIN incorrecto y cada bloqueo.
 - Lo que el relevo lea puede anotarlo o fotografiarlo, y MATU no puede impedirlo. Comparte solo lo que necesita y por el tiempo justo.
 
 **Comercios**, cuando existan los pedidos: ven el nombre con que llaman a la persona y los productos del pedido. Nunca ven la ficha. Para preparar el pedido no reciben la dirección.
@@ -178,7 +180,7 @@ Cada declaración también tiene un identificador en el sistema: `declaracion_ti
 - **Pagos y boletas**, cuando existan: 6 años, por obligación tributaria.
 - **Tu cuenta:** [PENDIENTE]
 - **Registro de autorizaciones:** [PENDIENTE]
-- **Accesos de relevo**, con el nombre y el teléfono del relevo: [PENDIENTE]
+- **Accesos de relevo:** el nombre del relevo, el motivo y las fechas, 3 años desde que vence o se corta el acceso, igual que el registro de quién abrió la ficha. El teléfono del relevo se borra 30 días después de que el acceso vence o se corta.
 - **Registros técnicos del sistema:** [PENDIENTE]
 
 ## 9. Cómo protegemos los datos
@@ -188,7 +190,7 @@ Cada declaración también tiene un identificador en el sistema: `declaracion_ti
 - La base de datos separa a cada familia: una familia no puede ver los datos de otra, aunque la aplicación tenga un error.
 - El registro de quién abrió la ficha no se puede modificar ni borrar.
 - Los registros técnicos no guardan el texto de la ficha, ni tu email, ni contraseñas, ni códigos de acceso, ni enlaces de relevo, ni PIN, ni el nombre del grupo, ni tu dirección IP.
-- El enlace de relevo se bloquea después de 5 PIN incorrectos.
+- El enlace de relevo se bloquea después de 5 PIN incorrectos. Cada PIN incorrecto y cada bloqueo quedan registrados. Además, desde una misma dirección IP se admite un número limitado de intentos de entrada por hora: la IP se usa solo para ese conteo y no se guarda.
 - La aplicación no guarda la ficha en tu teléfono ni en tu navegador, y no usa analítica ni programas de terceros.
 
 Ningún sistema es completamente seguro. Si algo falla, la sección 11 dice qué hacemos.
@@ -202,6 +204,8 @@ Puedes pedir:
 - **Oponerte** a un uso de los datos.
 - **Recibir una copia** de los datos para llevarla a otro lugar.
 - **Retirar una autorización.** Al retirarla, se cortan los accesos de relevo vigentes.
+
+Aprobado por Jorge el 27-10 como diseño. Que retirar una autorización corte los accesos de relevo vigentes depende de la historia del sprint 3 "Revocar el consentimiento y cortar los accesos de relevo vigentes", que es requisito para operar con datos reales, igual que los requisitos R7 a R9 del ADR-027 (arquitectura 18.1). Mientras no exista, no se tratan datos reales.
 
 **Quién puede pedirlo:**
 - Sobre tus datos, tú.
@@ -225,7 +229,7 @@ Si hay una filtración que afecte datos personales, avisaremos sin demora a la A
 ## 13. Lo que todavía no funciona en el piloto
 
 - Ficha cifrada y relevo con enlace y PIN: se están construyendo.
-- Retirar una autorización desde la aplicación.
+- Retirar una autorización desde la aplicación, y que al retirarla se corten los accesos de relevo vigentes.
 - Ver, descargar o borrar los datos desde la aplicación. Mientras tanto, por el correo de la sección 10.
 - El recordatorio de los 12 meses.
 - Cálculo de insumos, avisos, invitaciones, pedidos y pagos.
