@@ -30,7 +30,7 @@ Tres reglas gobiernan todo el documento:
 | **Contrato de API** | Que el código no rompa el contrato acordado | openapi-diff + schemathesis | Cada push | 2 min | 100% de endpoints |
 | **Extremo a extremo** | Los recorridos críticos de punta a punta, contra la API | pytest + httpx + dobles de puertos | Cada push a `main` | 5 min | Los recorridos del sprint, siempre verdes |
 | **Interfaz móvil** | Widgets críticos, semántica y escalado de texto | flutter test | Cada push de `mobile/` | 3 min | Flujos del prototipo |
-| **Manual con Transbank** | Autorizar, capturar por menos, revertir, tipo de tarjeta | Guion escrito, ambiente de integración | Sprint 0 y un sprint por medio | 1 h | Los casos del guion |
+| **Manual con Transbank** | Venta normal con crédito y con débito, anulación parcial con los dos, retorno duplicado (ADR-027) | Guion escrito, ambiente de integración | Antes del sprint 4 y en el sprint 4 | 1 h | Los casos del guion |
 | **Accesibilidad manual** | TalkBack, texto al 200%, contraste en pantalla real | Checklist de la sección 7 | Cada historia con pantalla | 15 min | Checklist completo |
 | **Usabilidad** | Tres personas reales, tres perfiles | Guion de tareas | Sprints 3 y 4 | 45 min c/u | 3 sesiones por ronda |
 | **Carga básica** | 50 usuarios concurrentes en el flujo de pedido | k6 | Sprint 5 | 15 min | p95 bajo 800 ms |
@@ -70,10 +70,11 @@ backend/tests/
 
 | Puerto | Implementación real | Doble | Qué permite probar |
 |---|---|---|---|
-| `PasarelaPago` | `TransbankAdapter` | `PasarelaFalsa` | Rechazo, timeout, retorno duplicado, retorno perdido, débito vs crédito |
+| `PasarelaPago` | `TransbankAdapter` | `PasarelaFalsa` | Rechazo, timeout, retorno duplicado que no falla (como Transbank), retorno perdido, crédito y débito iguales, anulación parcial aceptada o rechazada |
+| `CatalogoComercio` | Adaptador de convenio (después del semestre) | Adaptador simulado con catálogo semilla | Precios exactos, producto sin stock en un comercio y con stock en otro, producto que sale del pedido, objeto de consulta sin datos personales |
 | `AlmacenObjetos` | `S3Adapter` | `AlmacenEnMemoria` | Evidencias y exportaciones sin red |
 | `Notificador` | `FcmAdapter` | `NotificadorRegistrador` | Que un evento produce exactamente un aviso |
-| `Reloj` | `RelojSistema` | `RelojFijo` | Vencimiento de recaudación, del token de relevo y predicción de quiebre |
+| `Reloj` | `RelojSistema` | `RelojFijo` | Vencimiento del total confirmado a los 15 minutos, del token de relevo y predicción de quiebre |
 | `CustodiaClaves` | `KmsAdapter` | `CustodiaEnMemoria` | Cifrado, rotación de KEK y borrado criptográfico |
 
 **`Reloj` es el puerto más importante del sistema para las pruebas.** Sin él no se puede probar ninguna regla que dependa del tiempo, y en MATU casi todas dependen: el quiebre, el relevo, la recaudación, la ventana de 24 horas, las ocurrencias. Toda función de dominio recibe el reloj, nunca llama a `datetime.now()`.
@@ -132,11 +133,11 @@ Las diez de la sección 12.5 de la arquitectura, más las que agregó el modelo 
 
 ### 6.2 Pagos
 
-Los siete casos de la sección 12.4 de la arquitectura v1.1, en el sprint 4, junto con el pedido y el pago. Los cinco casos de recaudación entre varios pagadores salieron del semestre con el segundo recorte (sección 15.3): quedan escritos y marcados como `skip`. Entre ellos está la **prueba de propiedad sobre 300 casos generados** del prorrateo: para cualquier total y cualquier reparto, la suma capturada es exacta al peso, nadie captura más de lo autorizado, y la prueba falla si se invierte el criterio del mayor resto.
+Los nueve casos de la sección 12.4 de la arquitectura, reescrita con el ADR-027, en el sprint 4, junto con el pedido y el pago: venta normal con crédito y con débito, anulación parcial, devolución total, retorno duplicado, retorno perdido, pasarela caída, total vencido a los 15 minutos y devolución nunca mayor que lo cobrado. Los cinco casos de recaudación entre varios pagadores salieron del semestre con el segundo recorte (sección 15.3): quedan escritos y marcados como `skip`. Entre ellos está la **prueba de propiedad sobre 300 casos generados** del prorrateo: para cualquier total y cualquier reparto, la suma cobrada es exacta al peso, nadie paga más de lo comprometido, y la prueba falla si se invierte el criterio del mayor resto.
 
 ### 6.3 Máquinas de estado
 
-Una prueba parametrizada recorre las **400 combinaciones** de los 20 estados del pedido y las **64** de los 8 estados del cargo. Toda transición no declarada lanza `TransicionInvalida`. Dos pruebas más verifican que todo estado es alcanzable desde `borrador` y que ningún estado no terminal queda sin salida.
+Una prueba parametrizada recorre todas las combinaciones de los estados del pedido y del cargo. Con la migración 0002 el pedido tiene 17 estados en su `CHECK` (289 pares) y el cargo 5 (25 pares). La 0002 quitó `pendiente_recaudacion`, `autorizado`, `requiere_decision`, `captura_pendiente` e `incobrable`, cambió `expirado` por `vencido` y agregó `total_confirmado` y `pagado`; `confirmando_stock` no es un estado guardado (arquitectura, 8.1). [PENDIENTE: el número definitivo depende de si la máquina del MVP declara `asignado` y `sin_repartidor`, que siguen en el `CHECK` para la fase 2. Sin ellos son 15 estados y 225 pares.] Toda transición no declarada lanza `TransicionInvalida`. Dos pruebas más verifican que todo estado es alcanzable desde `borrador` y que ningún estado no terminal queda sin salida.
 
 ### 6.4 Capa 1 · Plan de cuidado
 
@@ -208,19 +209,32 @@ El pipeline de la sección 12.7 de la arquitectura, con estas puertas. Un pull r
 
 ---
 
-## 10. Prueba de concepto de Transbank · sprint 0
+## 10. Prueba de concepto de Transbank
 
-Es la prueba manual más importante del proyecto: si falla, caen juntos el ADR-006 y el ADR-007.
+> **Actualizada con el ADR-027 (26 de octubre).** La prueba del sprint 0 verificó la captura diferida del ADR-006, que el ADR-027 reemplazó. Sus resultados quedan como historia en [`docs/pruebas-concepto/transbank.md`](pruebas-concepto/transbank.md). Lo que hay que probar ahora es la venta normal.
+
+### 10.1 Sprint 0 · captura diferida (cerrada, reemplazada)
+
+| # | Caso | Resultado al 24 de octubre |
+|---|---|---|
+| 1 | Autorizar y capturar el mismo monto | Cumple |
+| 2 | Autorizar $69.000 y capturar $51.340 | Cumple |
+| 3 | Autorizar y revertir sin capturar | Cumple |
+| 4 | Autorización diferida con tarjeta de **débito** | El débito no admite captura diferida. Fue la razón principal del ADR-027 |
+| 5 | Retorno de pasarela recibido dos veces | Un solo cobro, y el segundo `commit` **no falla**. La idempotencia tiene que ser de MATU |
+
+### 10.2 Antes del sprint 4 · venta normal (ADR-027)
+
+Es la prueba manual más importante que queda: si la anulación parcial no funciona con débito, la única devolución del ADR-027 necesita otro medio.
 
 | # | Caso | Cómo | Resultado esperado | Si falla |
 |---|---|---|---|---|
-| 1 | Autorizar y capturar el mismo monto | Webpay Plus diferido, tarjeta de prueba de crédito | Captura aprobada | Revisar la integración |
-| 2 | Autorizar $69.000 y capturar $51.340 | Captura parcial | Se cobra $51.340 y se libera el resto | **Cae el ADR-006.** Plan B: cobro exacto y reembolso |
-| 3 | Autorizar y revertir sin capturar | Reversa | Autorización anulada, nada cobrado | **Cae el ADR-007** |
-| 4 | Autorización diferida con tarjeta de **débito** | Tarjeta de prueba de débito | Registrar qué pasa | Si no admite diferido: plan B del ADR-006 (cobrar el estimado y emitir nota de crédito por la diferencia) o MVP solo con crédito, y decirlo en la interfaz (sección 17) |
-| 5 | Retorno de pasarela recibido dos veces | Repetir el `commit` con el mismo token | Un solo cobro | Revisar la idempotencia |
+| 1 | Venta normal con **crédito** por un total exacto, por ejemplo $57.460 | Webpay Plus venta normal, tarjeta de prueba de crédito | Cobro aprobado por el total | Revisar la integración |
+| 2 | Venta normal con **débito** por el mismo total | Tarjeta de prueba de débito | Cobro aprobado, igual que con crédito | [PENDIENTE: verificar que el comercio de integración de venta normal ofrece débito] |
+| 3 | **Anulación parcial** de una línea, con crédito y con débito | `refund` por el precio de una línea, por ejemplo $8.990 | Se devuelve solo esa parte, y el estado de la transacción lo refleja | Se define otro medio de devolución antes del sprint 4, sin pedir datos bancarios a la familia salvo que se apruebe como tratamiento nuevo (ADR-027, riesgo declarado) |
+| 4 | Retorno de pasarela recibido dos veces en venta normal | Repetir el `commit` con el mismo token | Un solo cobro | Revisar la idempotencia propia |
 
-**Estado al 13 de octubre:** el caso 4 está respondido, el débito no admite captura diferida. La decisión entre las dos salidas y los casos 1, 2, 3 y 5 se cierran en el sprint 1.
+[PENDIENTE: plazos máximos de anulación de Transbank con crédito y con débito. Se registran junto con estos casos.]
 
 **Se registra** cada caso con fecha, monto, código de respuesta y captura de pantalla en [`docs/pruebas-concepto/transbank.md`](pruebas-concepto/transbank.md). El resultado real reemplaza a la afirmación del proveedor en la sección 18.1 de la arquitectura.
 

@@ -10,9 +10,9 @@ erDiagram
     persona_cuidada ||--o{ pedido : "persona_cuidada_id"
     pedido ||--o| pedido_entrega : "pedido_id"
     oferta ||--o{ pedido_linea : "oferta_id"
+    oferta ||--o{ pedido_linea : "oferta_reasignada_id"
     pedido ||--o{ pedido_linea : "pedido_id"
     producto ||--o{ pedido_linea : "producto_id"
-    pedido_linea ||--o{ pedido_linea : "sustituto_de_linea_id"
     pedido ||--o{ pedido_transicion : "pedido_id"
     persona_cuidada ||--o{ perfil_consumo : "persona_cuidada_id"
     producto ||--o{ perfil_consumo : "producto_id"
@@ -23,7 +23,6 @@ erDiagram
     producto ||--o{ plan_reposicion_linea : "producto_id"
     pedido ||--o{ regla_sustitucion : "pedido_id"
     producto ||--o{ regla_sustitucion : "producto_id"
-    producto ||--o{ regla_sustitucion : "producto_sustituto_id"
     pedido {
         uuid id PK
         uuid grupo_id FK
@@ -33,9 +32,6 @@ erDiagram
         text modo_cumplimiento
         text origen
         tstzrange ventana_entrega "opcional"
-        bigint total_estimado
-        bigint total_autorizado "opcional"
-        bigint total_real "opcional"
         text destinatario_nombre_pila
         text codigo_retiro_hash "opcional"
         timestamptz codigo_retiro_expira_en "opcional"
@@ -45,6 +41,12 @@ erDiagram
         timestamptz creado_en
         timestamptz actualizado_en
         int version
+        bigint subtotal_productos
+        bigint costo_envio
+        bigint total
+        timestamptz total_confirmado_en "opcional"
+        timestamptz total_vence_en "opcional"
+        timestamptz pagado_en "opcional"
     }
     pedido_entrega {
         uuid pedido_id PK, FK
@@ -63,19 +65,20 @@ erDiagram
         uuid oferta_id FK
         uuid producto_id FK
         int cantidad
-        bigint precio_snapshot
-        bigint precio_real "opcional"
+        bigint precio_unitario
         text estado_linea
-        uuid sustituto_de_linea_id FK "opcional"
         timestamptz creado_en
+        bigint monto_devuelto
+        timestamptz devuelta_en "opcional"
+        uuid oferta_reasignada_id FK "opcional"
+        bigint precio_reasignado "opcional"
+        timestamptz reasignada_en "opcional"
     }
     regla_sustitucion {
         uuid id PK
         uuid pedido_id FK
         uuid producto_id FK
         text accion
-        uuid producto_sustituto_id FK "opcional"
-        bigint precio_maximo "opcional"
     }
     pedido_transicion {
         bigint id PK

@@ -4,6 +4,7 @@
 **Estado:** borrador para el piloto académico. Todavía no sirve para tratar datos reales.
 **Aprobación:** aprobada como borrador v0.9 por Jorge Espinoza (Product Owner) el 25/10/2026. La revisión la hizo el orquestador del equipo de agentes, por delegación. Se confirman los tres compromisos del texto: MATU no vende datos, borra de inmediato los datos reales que entren por error, y ejercer los derechos es gratis. Los [PENDIENTE] que quedan (contacto, plazos, proveedores y procedimiento ante filtraciones) se resuelven en la versión 1.0, antes de tratar datos reales.
 **Identificador de versión en el sistema:** `0.9`
+**ADR-027 (27-10):** las secciones que empiezan con esa nota adaptan el texto a los pedidos y pagos del ADR-027. Aprobado por Jorge el 27-10 como diseño. Las frases sobre lo que el comercio ve o no ve se publican solo cuando la migración del sprint 4 (requisitos R7 a R9, arquitectura 18.1) las haga ciertas. No cambian la versión: `POLITICA_VERSION` sigue en `0.9` hasta que Jorge decida publicar la 0.10, y los pedidos todavía no existen en la aplicación.
 **MATU-09 (27-10):** se ajustan las secciones 4, 6, 8, 9, 10 y 13 con el acceso de relevo. Aprobado por Jorge el 27-10 como diseño. No cambian la versión: `POLITICA_VERSION` sigue en `0.9`.
 
 ---
@@ -92,6 +93,26 @@ La persona que cuidas no tiene cuenta en MATU. Sus datos los ingresas tú.
 - **"A quién llamar":** los nombres y teléfonos que escribas. Avísales que los anotaste.
 - **Invitaciones a tu grupo:** el email o el teléfono de la persona invitada. *Todavía no disponible.*
 
+### De tus pedidos
+
+> ADR-027 (27-10), aprobado por Jorge.
+
+*Todavía no disponible.* Cuando existan los pedidos, guardaremos:
+
+- Los productos que pediste, con su cantidad, su precio, el envío y el total.
+- El comercio que preparó cada producto.
+- La dirección de entrega.
+- El teléfono de contacto para la entrega.
+- Qué elegiste hacer si falta un producto.
+- Las condiciones del pedido que aceptaste, su versión y cuándo las aceptaste.
+- El pago: el monto cobrado y, si hubo, la devolución.
+
+**Tus pedidos y el consumo de insumos de la persona que cuidas se tratan como datos sensibles**, porque pueden revelar algo de su salud o de su dependencia. Los ven las personas de tu grupo y el equipo de MATU para dar soporte. Ningún comercio los ve junto a un nombre. A diferencia de la ficha, no se cifran con una clave propia de cada persona.
+
+**Para los pedidos te pediremos una autorización expresa y aparte**, distinta de la de la ficha. Puedes retirarla igual de fácil que la diste. Si la retiras, ya no podrás pedir desde MATU, pero sí exportar o compartir la lista. Los pedidos ya pagados se guardan el plazo de la sección 8, para responder reclamos y por obligación tributaria. [PENDIENTE: confirmar en la versión 1.0]
+
+[PENDIENTE: consulta legal sobre si los productos de un pedido son un dato relativo a la salud, y si el art. 16 bis, inciso 1, de la ley limita su tratamiento aunque haya autorización]
+
 ### Lo que MATU no pide
 
 - Diagnósticos, nombres de enfermedades, medicamentos, recetas, exámenes ni fichas clínicas.
@@ -137,6 +158,8 @@ Cada declaración también tiene un identificador en el sistema: `declaracion_ti
 
 ## 6. Quién ve los datos
 
+> ADR-027 (27-10), aprobado por Jorge. Cambian los párrafos de comercios, de quien reparte y de Transbank.
+
 **Tu cuenta:** tu email lo ven solo tú y el equipo que opera MATU. Las personas de tus grupos ven tu nombre. [PENDIENTE: si también ven tu email, se define con la lista de miembros del grupo]
 
 **El nombre del grupo:** lo ven las personas del grupo y el equipo que opera MATU.
@@ -153,11 +176,15 @@ Cada declaración también tiene un identificador en el sistema: `declaracion_ti
 - Cada vez que abre la ficha queda registrado, y también cada PIN incorrecto y cada bloqueo.
 - Lo que el relevo lea puede anotarlo o fotografiarlo, y MATU no puede impedirlo. Comparte solo lo que necesita y por el tiempo justo.
 
-**Comercios**, cuando existan los pedidos: ven el nombre con que llaman a la persona y los productos del pedido. Nunca ven la ficha. Para preparar el pedido no reciben la dirección.
+**Comercios en convenio**, cuando existan los pedidos:
+- Para saber si tienen los productos, MATU les pregunta solo por los productos y las cantidades, con una referencia que se crea al azar para cada pedido y no permite saber de quién es. Esa consulta no lleva tus datos, ni los de la persona que cuidas, ni la dirección.
+- El comercio que prepara tu pedido ve solo sus productos, la referencia del pedido y el código de retiro. Si falta un producto y otro comercio lo reemplaza, ese comercio ve lo mismo, solo con lo que le toca preparar.
+- **Ningún comercio ve un nombre**, ni el tuyo ni el de la persona que cuidas. Tampoco ven la ficha. **La dirección nunca llega al comercio.** MATU vende y emite la boleta, así que el comercio no necesita saber quién paga.
+- Aun así, MATU trata a cada comercio como si tratara datos por encargo: su convenio le exige siempre confidencialidad y seguridad.
 
-**Quien reparte**, si en el futuro hay despacho: ve la dirección de entrega solo mientras lleva el pedido.
+**Quien reparte**, si en el futuro hay despacho: ve la dirección de entrega y el teléfono de contacto solo mientras lleva el pedido. Lo hace por encargo de MATU y con un contrato que le exige confidencialidad, seguridad y borrar los datos al terminar.
 
-**Transbank**, cuando existan los pagos: el pago se hace en su página. MATU no ve el número de tu tarjeta ni su código. Solo guarda el resultado: el monto, el código de autorización, el tipo de tarjeta y sus últimos 4 dígitos. Puedes pagar con crédito o con débito. Con crédito se reserva el monto estimado y se cobra solo el real. Con débito se cobra el estimado y, si el pedido sale por menos, se devuelve la diferencia. Durante el piloto los pagos ocurren solo en el ambiente de prueba de Transbank, sin cobros reales.
+**Transbank**, cuando existan los pagos: el pago se hace en su página. MATU no ve el número de tu tarjeta ni su código. Solo guarda el resultado: el monto, el código de autorización, el tipo de tarjeta y sus últimos 4 dígitos. Puedes pagar con crédito o con débito, y funcionan igual: se cobra una sola vez el total que viste antes de pagar. Si hay una devolución, va a la misma tarjeta, y no te pedimos datos nuevos para hacerla. Durante el piloto los pagos ocurren solo en el ambiente de prueba de Transbank, sin cobros reales. [PENDIENTE: que el débito y la devolución parcial funcionen así se confirma con la prueba en el ambiente de integración de Transbank, antes del sprint 4]
 
 **El equipo de MATU:** para dar soporte ve los pedidos y los pagos. Sus herramientas no permiten leer la ficha ni el consumo de insumos.
 
@@ -238,6 +265,9 @@ Si hay una filtración que afecte datos personales, avisaremos sin demora a la A
 
 ## 14. Leyes que aplican
 
+> ADR-027 (27-10), aprobado por Jorge.
+
 - Ley 19.628 sobre protección de la vida privada, con las modificaciones de la Ley 21.719 de protección de datos personales, que rigen plenamente desde el 1 de diciembre de 2026.
 - Ley 19.496 sobre protección de los derechos de los consumidores, para pedidos y pagos cuando existan.
+- Decreto 6 de 2021 del Ministerio de Economía (Reglamento de Comercio Electrónico) y Decreto 52 de 2024 (exclusión del derecho a retracto), para pedidos y pagos cuando existan.
 - Ley 20.422 sobre igualdad de oportunidades e inclusión de personas con discapacidad. Por eso esta política está escrita para leerse en el teléfono.
