@@ -1,6 +1,6 @@
 # Historial reescrito el 21 de octubre de 2026 (MATU-28)
 
-El 21/10/2026 se reescribió el historial de este repositorio para reemplazar todas las versiones de `docs/entrevistas/Entrevista A55.docx` por una versión anonimizada. La ficha original contenía el nombre de pila de la entrevistada, y el protocolo de entrevistas (sección 4) promete no anotarlo.
+El 21/10/2026 se reescribió el historial de este repositorio para reemplazar todas las versiones de `docs/entrevistas/Entrevista E05.docx` por una versión anonimizada. La ficha original contenía el nombre de pila de la entrevistada, y el protocolo de entrevistas (sección 4) promete no anotarlo.
 
 - **Qué cambió:** solo el contenido de esa ficha. El resto de los archivos, los mensajes, los autores y las fechas de los commits quedan iguales.
 - **Qué no cambió:** el código de identificación de las entrevistas (inicial y edad) se mantiene.
