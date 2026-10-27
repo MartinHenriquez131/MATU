@@ -19,7 +19,7 @@ Esta es la **versión 1.1** del documento de arquitectura de MATU. Incorpora los
 > - Los 16 cambios de la sección 10 y los hallazgos de la sección 5.4 del [modelo de datos](modelo-datos.md)
 > - El [calendario de sprints v1.3](sprints/calendario-sprints.md), que reemplaza las fechas y la agrupación de la tabla 15.4
 > - La prioridad de RF-03: el cierre del ADR-023 baja las ocho secciones a *Podría*, y la sección 3.1 todavía dice *Debe*
-> - El resultado de la [prueba de concepto de Transbank](pruebas-concepto/transbank.md): el débito no admite captura diferida (secciones 17 y 18.1)
+> - El resultado de la [prueba de concepto de Transbank](pruebas-concepto/transbank.md): el débito no admite captura diferida. **Ya incorporado** con el ADR-027 (sección 14), que reemplazó al ADR-006 y al ADR-011, y propagado a las secciones 8, 9.4, 9.5, 10.4, 11.2, 11.7, 12, 17 y 18.1. Faltan 7.4 y 7.6 c, que se alinean con la migración 0002
 > - La separación en dos repositorios: la documentación en MATU y el código en MATU_PROYECTO (anexo 19.1)
 > - La suspensión de la regla de ejes en los sprints 1 a 3 y el traslado de la prueba de capa 3 desacoplable, declarados en el backlog
 
@@ -66,7 +66,7 @@ Las doce decisiones que determinan todo lo demás. Cada una se desarrolla en la 
 | 3 | **El perfil de consumo lo declara el cuidador, no lo infiere el sistema** | Al inicio no existe historial del cual inferir, y quien cuida sabe exactamente cuántos pañales al día se usan |
 | 4 | **Monolito modular en FastAPI**, con módulos de límite explícito, no microservicios | El volumen del piloto no justifica el costo operacional de servicios distribuidos |
 | 5 | **Un repositorio Flutter con dos aplicaciones** (familia y repartidor) sobre un núcleo compartido | Dos apps nativas separadas duplican el esfuerzo de un equipo de dos personas |
-| 6 | **El monto se autoriza con margen y se captura por el monto real** | El precio no se conoce hasta que el comercio prepara, y cobrar el estimado obliga a reembolsar en cada pedido |
+| 6 | **Precios exactos de comercios en convenio, y se cobra una sola vez el total confirmado** (ADR-027, reemplaza a la autorización con margen del ADR-006) | La captura diferida no opera con débito, que es el medio mayoritario del segmento, y una retención mayor que el pedido es difícil de explicar |
 | 7 | **El pago del MVP es de un solo pagador.** El reparto entre varios familiares queda diseñado y fuera del alcance comprometido | La hipótesis que lo justificaba quedó en zona intermedia, y sus 110 horas no caben en una ventana de nueve semanas. Ver ADR-007 y sección 15.3 |
 | 8 | **El repartidor nunca maneja dinero.** El comercio cobra a cuenta corriente de MATU | Los repartidores son multi-plataforma y sin vínculo fuerte. Una tarjeta prepago exigiría un control que el equipo no puede sostener |
 | 9 | **Aislamiento con Row Level Security sobre tres ejes** (familia, comercio, operación), con `FORCE` y rol de aplicación no propietario | Un olvido filtra datos de otra familia. Y un solo eje no alcanza: un comercio atiende pedidos de decenas de grupos distintos |
@@ -180,9 +180,9 @@ Catálogo de requisitos trazados a módulo y priorizados con MoSCoW. **Debe** en
 | ID | Requisito | Módulo | Prioridad |
 |---|---|---|---|
 | RF-20 | La familia arma un pedido desde un catálogo organizado por categorías de cuidado | `catalog`, `ordering` | Debe |
-| RF-21 | La familia define reglas de sustitución por producto | `ordering` | Debe |
-| RF-25 | El monto se autoriza con margen y se captura por el monto real | `payments` | Debe |
-| RF-26 | El comercio en convenio ve sus pedidos del día, resuelve faltantes e informa monto real | `fulfillment` | Debe |
+| RF-21 | La familia define reglas de sustitución por producto. [PENDIENTE: decisión de Jorge; el ADR-027 descarta los equivalentes de otra marca] | `ordering` | Debe |
+| RF-25 | Se cobra una sola vez el total confirmado, en venta normal, con crédito o débito, y la única devolución es por anulación a la misma tarjeta (ADR-027) | `payments` | Debe |
+| RF-26 | El comercio en convenio confirma y aparta el stock, ve solo sus líneas del día y prepara | `fulfillment` | Debe |
 | RF-31 | La operación concilia la boleta contra el pedido y cierra períodos de liquidación | `settlement` | Debe |
 | RF-32 | La operación gestiona catálogo, convenios, incidencias e indicadores | `backoffice` | Debe |
 | RF-22 | La familia reparte el gasto entre miembros del grupo y designa un respaldo | `payments` | Podría |
@@ -193,7 +193,7 @@ Catálogo de requisitos trazados a módulo y priorizados con MoSCoW. **Debe** en
 | RF-29 | El repartidor registra evidencia geolocalizada de boleta y entrega | `fulfillment` | Debería |
 | RF-30 | La familia sigue el estado del pedido y la posición del repartidor en ruta | `fulfillment` | Debería |
 
-**RF-22, RF-23 y RF-24 bajan de Debe a Podría, y RF-25 se simplifica.** El reparto del gasto entre varios pagadores era el compromiso más caro del semestre, 110 horas, y su justificación de negocio no sobrevivió a la validación: cuatro de diez reparten el gasto cuando el criterio exigía cinco, y ocho de diez declaran que pagaría la propia cuidadora. Con la ventana de construcción en nueve semanas, construirlo habría consumido casi la mitad de la capacidad sobre evidencia que no lo sostiene. **RF-25 se mantiene en el MVP sin el prorrateo**, porque autorizar con margen y capturar por el monto real sigue siendo necesario con un solo pagador. Ver ADR-007 y sección 15.3.
+**RF-22, RF-23 y RF-24 bajan de Debe a Podría, y RF-25 se simplifica.** El reparto del gasto entre varios pagadores era el compromiso más caro del semestre, 110 horas, y su justificación de negocio no sobrevivió a la validación: cuatro de diez reparten el gasto cuando el criterio exigía cinco, y ocho de diez declaran que pagaría la propia cuidadora. Con la ventana de construcción en nueve semanas, construirlo habría consumido casi la mitad de la capacidad sobre evidencia que no lo sostiene. **RF-25 se mantiene en el MVP sin el prorrateo**, porque autorizar con margen y capturar por el monto real seguía siendo necesario con un solo pagador. Ver ADR-007 y sección 15.3. *Después, el ADR-027 reemplazó la autorización con margen por el cobro único del total confirmado, y RF-25 cambió de texto.*
 
 ### 3.4 Transversales
 
@@ -386,7 +386,7 @@ graph TB
 |---|---|---|
 | **App Familia** | Ficha de relevo, secciones opcionales, perfil de consumo, catálogo, pedido, seguimiento | No calcula totales finales. No decide sustituciones |
 | **Backoffice** | Catálogo, convenios, monitoreo, incidencias, conciliación, liquidación, indicadores | No accede al plan de cuidado. No es canal de soporte al cliente final |
-| **Vista de Comercio** | Pedidos del día, resolución de faltantes, monto real, validación de código, marcado de retiro y entrega | No ve la dirección de entrega ni datos de la persona cuidada más allá del nombre de pila |
+| **Vista de Comercio** | Stock apartado, sus líneas de los pedidos del día, preparación, validación de código, marcado de retiro y entrega | No ve la dirección de entrega ni ningún nombre: solo la referencia del pedido y el código de retiro (ADR-027) |
 | **Vista de Relevo** | Lectura de las secciones habilitadas del plan de cuidado | No permite edición. No expone otras secciones. No crea sesión persistente |
 | **API MATU** | Toda la lógica de negocio y toda la autorización | No ejecuta trabajo largo. Nada sobre 2 segundos vive aquí |
 | **Worker** | Trabajo por tenant: predicción de quiebre, materialización de alertas | No expone endpoints. No es alcanzable desde internet. **No evade RLS** |
@@ -410,7 +410,7 @@ app/
 │   ├── catalog/          productos, comercios, convenios, ofertas
 │   ├── replenishment/    planes de reposición, ocurrencias        [DEBERÍA]
 │   ├── ordering/         carrito, pedido, líneas, reglas de sustitución
-│   ├── payments/         cargos, captura, pasarela                          ← CAPA 3
+│   ├── payments/         cargos, cobro único, devolución, pasarela          ← CAPA 3
 │   ├── fulfillment/      preparación, código, evidencia
 │   ├── settlement/       consumo por comercio, conciliación, liquidación
 │   ├── rx/               recetas, farmacia, CESFAM                  [FASE 2]
@@ -1864,9 +1864,9 @@ Existía en el diseño anterior sobre la publicación exclusiva en Android. Se r
 | **Plan de cuidado** | **Completo**: ficha de relevo de tres campos como mínimo obligatorio, ocho secciones opcionales, llenado asistido, cifrado, concurrencia, acceso de relevo, exportación | Plantillas por tipo de dependencia, adjuntos, historial de cambios |
 | **Perfil de consumo y predicción** | **Completo**: declaración, cálculo, alertas, lista, exportación | Corrección por historial real, sugerencia de cantidad óptima |
 | Registro, grupo familiar, persona cuidada | Completo | Invitaciones por enlace profundo |
-| Catálogo y convenios | Completo, administrado desde backoffice | Precios sincronizados, disponibilidad en vivo |
+| Catálogo y convenios | Completo, con precios exactos y stock detrás del puerto `CatalogoComercio`, con adaptador simulado (ADR-027) | Adaptador real de un comercio en convenio |
 | Reposición programada | **Fuera del alcance comprometido** | Envíos periódicos con calendario |
-| Pedido y pago | Completo **con un solo pagador**: autorización con margen, captura por monto real | Reparto entre varios pagadores, recaudación, respaldo, captura prorrateada |
+| Pedido y pago | Completo **con un solo pagador**: stock confirmado y cobro único del total confirmado (ADR-027) | Reparto entre varios pagadores, recaudación, respaldo, cobro prorrateado, reasignación del retiro después de pagar |
 | Vista de comercio | Completo, incluidos retiro y entrega | Integración con punto de venta |
 | Aplicación de repartidor | **Fuera del alcance comprometido** | Ofertas en cascada, código, evidencia geolocalizada |
 | Despacho y liquidación | Conciliación manual, **demostrable simulado si no hay convenio** | Liquidación automática, optimización de ruta |
@@ -1943,7 +1943,7 @@ Existía en el diseño anterior sobre la publicación exclusiva en Android. Se r
 | 4 | 11 | App familia, núcleo | Navegación, autenticación, ficha de relevo en móvil, criterios de accesibilidad aplicados |
 | 5 | 12 | **Perfil de consumo y predicción** | Declaración, cálculo de quiebre con ocho pruebas de dominio, alertas materializadas, notificaciones |
 | 6 | 13 | Catálogo y lista | Catálogo semilla, lista de reposición, exportación y enlace compartible. **Entorno de demostración operativo.** Pruebas de usabilidad con tres usuarios |
-| 7 | 14 | Pedido y pago | Carrito, reglas de sustitución, autorización con margen, captura por monto real, vista de comercio con código de retiro. Los siete casos de la sección 12.4 |
+| 7 | 14 | Pedido y pago | Carrito, confirmación de stock, cobro único del total confirmado, devolución por anulación parcial, vista de comercio con código de retiro. Los nueve casos de la sección 12.4 (ADR-027) |
 | 8 | 15 | Cierre | Endurecimiento, retención, pruebas de carga, despliegue, backoffice mínimo, guion de demostración |
 
 **El cambio decisivo está en el sprint 3, en la semana 10.** Es exactamente la semana de la evaluación de avance de Fase 2, y el equipo llega a ella con producto demostrable de punta a punta en la capa que constituye el diferenciador. No es casualidad: el plan se ordenó para que coincidieran.
