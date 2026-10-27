@@ -105,7 +105,7 @@ De Sernac solo se vieron fragmentos en un buscador. Son fuente secundaria.
 
 1. **El art. 16 bis, inciso 1.** Si limita a MATU aunque tenga consentimiento, y si sirve como base la letra e), sobre la asistencia social. Es el riesgo más alto.
 2. **Si los productos de un pedido son un dato relativo a la salud.**
-3. **Quién consiente por la persona mayor dependiente:** el mandato con facultad expresa y el caso de quien está impedido (arts. 12, 16 c y 16 bis a). Conecta con MATU-07 y con la consulta sobre el cuidador de hecho.
+3. **Quién consiente por la persona mayor dependiente:** el mandato con facultad expresa y el caso de quien está impedido (arts. 12 y 16 c). Conecta con MATU-07 y con la consulta sobre el cuidador de hecho.
 4. **El alcance del Decreto 52, art. 4 N° 4,** en pañales, guantes y apósitos, y si en el retracto se devuelve el envío.
 5. **Si la referencia opaca es un dato personal para el comercio.**
 6. **La falta de entrega:** si además de devolver procede una indemnización, y cómo se reparte la responsabilidad entre MATU y el comercio.

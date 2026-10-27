@@ -81,7 +81,7 @@ La aplicación no debe limitar las formas de pago (decisión del 24/10/2026, reg
 
 - **Un solo cobro del total confirmado.** Productos a precio exacto con IVA más un envío único por pedido, en venta normal de Webpay Plus. No hay reserva con margen, captura diferida ni cobros después.
 - **El total confirmado vale 15 minutos.** Si vence, se vuelve a confirmar y la pantalla lo dice. No pagar no tiene costo.
-- **Antes de pagar, la familia ve:** los productos con cantidad, precio y subtotal; los que salieron por no disponibles; los que cambiaron de precio o de comercio respecto de la lista; el envío y el total con IVA; quién emite la boleta; la ventana de entrega; y qué pasa si falta un producto, con el medio y el plazo de la devolución. Acepta las condiciones del pedido y recibe un comprobante.
+- **Antes de pagar, la familia ve:** los productos con cantidad, precio y subtotal; los que salieron por no disponibles; los que cambiaron de precio o de comercio respecto de la lista; qué eligió para cada producto si falta (RF-21); el envío y el total con IVA; quién emite la boleta; la ventana de entrega; y qué pasa si falta un producto, con el medio y el plazo de la devolución. Acepta las condiciones del pedido y recibe un comprobante.
 - **Quién vende.** MATU vende y emite una sola boleta por el total, con el envío incluido. Los comercios le cobran a MATU por cuenta corriente y no ven el nombre de nadie, solo la referencia del pedido y el código de retiro. Vender de verdad exige la persona jurídica de la sección 6. [PENDIENTE: consulta tributaria sobre el documento tributario cuando hay devolución]
 - **Lo que el Decreto 6 de 2021 (Reglamento de Comercio Electrónico) pide a MATU como vendedor** (`investigacion-normativa-adr-027.md`, sección 1):
   - identificar al vendedor (art. 7);
@@ -98,7 +98,7 @@ La aplicación no debe limitar las formas de pago (decisión del 24/10/2026, reg
 - **Derecho a retracto.** Aplica: son compras a distancia, con 10 días desde que se recibe el producto (Ley 19.496, art. 3 bis b). En los productos de uso personal o de higiene sellados, se pierde solo si se abre el sello después de recibirlos (Decreto 52 de 2024, art. 4 N° 4) (`investigacion-normativa-adr-027.md`, sección 1). Cómo se informa:
   - junto al precio y en el resumen antes de pagar, con una advertencia no menor que el precio y con las palabras "derecho a retracto" (Decreto 52, art. 6): "Derecho a retracto: tienes 10 días desde que lo recibes. No aplica si abres el sello del producto";
   - en el pedido entregado, la acción "Arrepentirme de la compra" durante 10 días;
-  - la devolución por retracto usa la misma anulación de Webpay Plus, sin retención de gastos y dentro de 45 días (art. 3 bis);
+  - la devolución por retracto se hace sin retención de gastos y dentro de 45 días (art. 3 bis), por anulación de Webpay Plus a la misma tarjeta mientras esté dentro del plazo máximo de anulación de Transbank. [PENDIENTE: el retracto puede ejercerse hasta 10 días después de recibir, o 90 sin confirmación escrita; si eso excede el plazo de anulación, se define otro medio antes del sprint 4, sin pedir datos bancarios a la familia salvo que se apruebe como tratamiento nuevo]
   - sin la confirmación escrita del art. 12 A, el plazo sube a 90 días.
 - [PENDIENTE: consulta legal sobre el alcance del Decreto 52, art. 4 N° 4, en pañales en paquetes de varias unidades, guantes y apósitos, si en el retracto se devuelve el envío y quién paga el retiro]
 - Nada de esto mueve dinero real durante el semestre. Después del semestre, el alta comercial cubre la venta normal de Webpay Plus.
@@ -111,10 +111,10 @@ Antes de tratar datos reales o cobrar dinero real, en este orden:
 
 1. Constituir la persona jurídica, con inicio de actividades, porque MATU vende y emite la boleta (sección 5). Tipo, plazo y costo: [PENDIENTE]
 2. Alta comercial en Transbank a nombre de la persona jurídica, en Webpay Plus venta normal (sección 5).
-3. Resolver la consulta legal: cuidador de hecho, registro escrito por una cuidadora remunerada, el documento tributario cuando hay devolución, y los siete puntos que la investigación normativa del ADR-027 deja para un abogado (`investigacion-normativa-adr-027.md`). El retracto y el plazo de la devolución ya los resuelve el texto (sección 5).
+3. Resolver la consulta legal: cuidador de hecho, registro escrito por una cuidadora remunerada y los puntos de la tarjeta de consulta legal del ADR-027, incluido el documento tributario cuando hay devolución. El texto de la ley ya resuelve que el retracto aplica y cómo se informa, y que no hay un plazo legal específico para devolver lo no entregado (sección 5). Quedan para el abogado el alcance de la exclusión del retracto y si devolver el mismo día basta como cumplimiento oportuno.
    - [PENDIENTE: consulta legal sobre si el art. 16 bis, inciso 1, de la Ley 19.628 según la Ley 21.719 limita a MATU aunque tenga consentimiento, y si sirve como base su letra e), sobre la asistencia social. Es el riesgo más alto]
    - [PENDIENTE: consulta legal sobre si los productos de un pedido son un dato relativo a la salud]
-   - [PENDIENTE: consulta legal sobre quién consiente por la persona mayor dependiente: el mandato con facultad expresa y el caso de quien está impedido (arts. 12, 16 c y 16 bis a)]
+   - [PENDIENTE: consulta legal sobre quién consiente por la persona mayor dependiente: el mandato con facultad expresa y el caso de quien está impedido (arts. 12 y 16 c)]
    - [PENDIENTE: consulta legal sobre el alcance del Decreto 52, art. 4 N° 4, en pañales, guantes y apósitos, y si en el retracto se devuelve el envío]
    - [PENDIENTE: consulta legal sobre si la referencia opaca es un dato personal para el comercio]
    - [PENDIENTE: consulta legal sobre si procede una indemnización por falta de entrega y cómo se reparte la responsabilidad entre MATU y el comercio]

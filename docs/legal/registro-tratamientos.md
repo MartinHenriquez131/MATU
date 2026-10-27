@@ -39,15 +39,17 @@ Cada historia que empieza a tratar datos personales agrega aquí su entrada.
 - **Finalidad:** pedir insumos a comercios en convenio, a precio exacto, y cobrar una sola vez el total confirmado. MATU vende y emite una sola boleta por el total, con el envío incluido.
 - **Titulares:** el usuario que pide y paga, y la persona cuidada a quien va el pedido.
 - **Datos:**
-  - productos, cantidades, precios, envío y total. El historial de pedidos y de consumo de la persona cuidada se trata como **dato sensible**, con la misma protección que la ficha, porque junto con un dato que identifica puede revelar salud o dependencia (`investigacion-normativa-adr-027.md`, sección 3) [PENDIENTE: consulta legal sobre si los productos de un pedido son un dato relativo a la salud]
+  - productos, cantidades, precios, envío y total. El historial de pedidos y de consumo de la persona cuidada se trata como **dato sensible**, porque junto con un dato que identifica puede revelar salud o dependencia (`investigacion-normativa-adr-027.md`, sección 3) [PENDIENTE: consulta legal sobre si los productos de un pedido son un dato relativo a la salud]
   - dirección de entrega
+  - teléfono de contacto para la entrega
+  - la elección por producto si falta (RF-21), y la versión de las condiciones del pedido aceptadas, con su fecha
   - el pago: monto cobrado, monto devuelto, código de autorización, tipo de tarjeta y últimos 4 dígitos. MATU nunca recibe ni guarda los datos de la tarjeta
 - **Base de licitud:** consentimiento expreso y **separado** del de la ficha, solo para los pedidos, que se revoca por un medio igual de fácil que el usado para darlo. La titular es la persona cuidada, y quién consiente sigue la calidad de MATU-07.
   - [PENDIENTE: consulta legal sobre si el art. 16 bis, inciso 1, limita el tratamiento aunque haya consentimiento, y si sirve como base su letra e)]
-  - [PENDIENTE: consulta legal sobre quién consiente por la persona mayor dependiente: mandato con facultad expresa y titular impedido (arts. 12, 16 c y 16 bis a)]
+  - [PENDIENTE: consulta legal sobre quién consiente por la persona mayor dependiente: mandato con facultad expresa y titular impedido (arts. 12 y 16 c)]
   - [PENDIENTE: consulta legal sobre si la evaluación de impacto del art. 15 ter es obligatoria, y desde cuándo]
 - **Quién accede:**
-  - en el grupo, todos los roles ven los pedidos; administrador y cuidador los crean, y administrador y pagador pagan (arquitectura, sección 11.2)
+  - en el grupo, todos los roles ven los pedidos, incluido el observador, que nunca ve la ficha; administrador y cuidador los crean, y administrador y pagador pagan (arquitectura, sección 11.2)
   - el comercio que prepara ve solo sus productos, la referencia del pedido y el código de retiro. **Ningún nombre**, ni la ficha ni la dirección. El comercio que reemplaza a otro ve lo mismo, solo con lo que le toca
   - operación ve pedidos y pagos para dar soporte, y devuelve por anulación. Nunca la ficha ni el consumo de insumos
 - **La consulta de stock no trata datos personales:** lleva solo productos, cantidades y una referencia opaca para apartar, **aleatoria por pedido y nunca por familia**. No lleva datos de la familia, de la persona cuidada ni de la dirección, y una prueba sobre el objeto de la consulta lo verifica.
@@ -57,9 +59,10 @@ Cada historia que empieza a tratar datos personales agrega aquí su entrada.
   - el comercio ve un pedido solo cuando está pagado y enviado, y nunca la dirección, que vive en una tabla aparte
   - el precio pagado queda fijo en la base desde el pago, y lo devuelto nunca supera lo cobrado
   - registro de transacciones de pasarela que nunca se borra
+  - la proyección del comercio excluye todo identificador de la familia y de la persona, con una prueba de contrato. [PENDIENTE: hoy la base deja al comercio leer `destinatario_nombre_pila`, `grupo_id`, `persona_cuidada_id`, `creado_por` y las transiciones de los pedidos que ve, y escribir la elección de RF-21 y `monto_devuelto`. Se corrige con una migración nueva antes de construir la vista del comercio]
 - **Comunicaciones a terceros:**
   - comercios en convenio, con lo que dice "Quién accede". **La dirección nunca llega al comercio.** Se puede sostener que el comercio no trata datos personales; aun así, el convenio incluye las cláusulas del art. 15 bis [PENDIENTE: consulta legal sobre si la referencia opaca es un dato personal para el comercio]
-  - quien despacha, que ve la dirección y el paquete: **encargado** de MATU, con contrato según el art. 15 bis (instrucciones, confidencialidad, seguridad, reporte de vulneraciones y supresión al terminar)
+  - quien despacha, que ve la dirección, el teléfono de contacto y el paquete: **encargado** de MATU, con contrato según el art. 15 bis (instrucciones, confidencialidad, seguridad, reporte de vulneraciones y supresión al terminar)
   - Transbank, que procesa el pago en su propia página. La devolución vuelve a la misma tarjeta, por anulación de Webpay Plus, sin pedir datos nuevos
 - **Transferencia internacional:** [PENDIENTE: proveedor y país].
 - **Decisiones automatizadas:** ninguna.

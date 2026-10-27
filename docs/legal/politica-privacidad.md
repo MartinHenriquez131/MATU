@@ -101,11 +101,14 @@ La persona que cuidas no tiene cuenta en MATU. Sus datos los ingresas tú.
 - Los productos que pediste, con su cantidad, su precio, el envío y el total.
 - El comercio que preparó cada producto.
 - La dirección de entrega.
+- El teléfono de contacto para la entrega.
+- Qué elegiste hacer si falta un producto.
+- Las condiciones del pedido que aceptaste, su versión y cuándo las aceptaste.
 - El pago: el monto cobrado y, si hubo, la devolución.
 
-**Tus pedidos y el consumo de insumos de la persona que cuidas se tratan como datos sensibles**, con la misma protección que la ficha, porque pueden revelar algo de su salud o de su dependencia.
+**Tus pedidos y el consumo de insumos de la persona que cuidas se tratan como datos sensibles**, porque pueden revelar algo de su salud o de su dependencia. Los ven las personas de tu grupo y el equipo de MATU para dar soporte. Ningún comercio los ve junto a un nombre. A diferencia de la ficha, no se cifran con una clave propia de cada persona.
 
-**Para los pedidos te pediremos una autorización expresa y aparte**, distinta de la de la ficha. Puedes retirarla igual de fácil que la diste.
+**Para los pedidos te pediremos una autorización expresa y aparte**, distinta de la de la ficha. Puedes retirarla igual de fácil que la diste. Si la retiras, ya no podrás pedir desde MATU, pero sí exportar o compartir la lista. Los pedidos ya pagados se guardan el plazo de la sección 8, para responder reclamos y por obligación tributaria. [PENDIENTE: confirmar en la versión 1.0]
 
 [PENDIENTE: consulta legal sobre si los productos de un pedido son un dato relativo a la salud, y si el art. 16 bis, inciso 1, de la ley limita su tratamiento aunque haya autorización]
 
@@ -178,9 +181,9 @@ Cada declaración también tiene un identificador en el sistema: `declaracion_ti
 - Aun así, el convenio con cada comercio le exige confidencialidad y seguridad, como a quien trata datos por encargo.
 - [PENDIENTE: consulta legal sobre si la referencia del pedido es un dato personal para el comercio]
 
-**Quien reparte**, si en el futuro hay despacho: ve la dirección de entrega solo mientras lleva el pedido. Lo hace por encargo de MATU y con un contrato que le exige confidencialidad, seguridad y borrar los datos al terminar.
+**Quien reparte**, si en el futuro hay despacho: ve la dirección de entrega y el teléfono de contacto solo mientras lleva el pedido. Lo hace por encargo de MATU y con un contrato que le exige confidencialidad, seguridad y borrar los datos al terminar.
 
-**Transbank**, cuando existan los pagos: el pago se hace en su página. MATU no ve el número de tu tarjeta ni su código. Solo guarda el resultado: el monto, el código de autorización, el tipo de tarjeta y sus últimos 4 dígitos. Puedes pagar con crédito o con débito, y funcionan igual: se cobra una sola vez el total que viste antes de pagar. Si hay una devolución, va a la misma tarjeta, y no te pedimos datos nuevos para hacerla. Durante el piloto los pagos ocurren solo en el ambiente de prueba de Transbank, sin cobros reales.
+**Transbank**, cuando existan los pagos: el pago se hace en su página. MATU no ve el número de tu tarjeta ni su código. Solo guarda el resultado: el monto, el código de autorización, el tipo de tarjeta y sus últimos 4 dígitos. Puedes pagar con crédito o con débito, y funcionan igual: se cobra una sola vez el total que viste antes de pagar. Si hay una devolución, va a la misma tarjeta, y no te pedimos datos nuevos para hacerla. Durante el piloto los pagos ocurren solo en el ambiente de prueba de Transbank, sin cobros reales. [PENDIENTE: que el débito y la devolución parcial funcionen así se confirma con la prueba en el ambiente de integración de Transbank, antes del sprint 4]
 
 **El equipo de MATU:** para dar soporte ve los pedidos y los pagos. Sus herramientas no permiten leer la ficha ni el consumo de insumos.
 
@@ -259,6 +262,9 @@ Si hay una filtración que afecte datos personales, avisaremos sin demora a la A
 
 ## 14. Leyes que aplican
 
+> Borrador ADR-027 (27-10), por aprobar por Jorge.
+
 - Ley 19.628 sobre protección de la vida privada, con las modificaciones de la Ley 21.719 de protección de datos personales, que rigen plenamente desde el 1 de diciembre de 2026.
 - Ley 19.496 sobre protección de los derechos de los consumidores, para pedidos y pagos cuando existan.
+- Decreto 6 de 2021 del Ministerio de Economía (Reglamento de Comercio Electrónico) y Decreto 52 de 2024 (exclusión del derecho a retracto), para pedidos y pagos cuando existan.
 - Ley 20.422 sobre igualdad de oportunidades e inclusión de personas con discapacidad. Por eso esta política está escrita para leerse en el teléfono.
