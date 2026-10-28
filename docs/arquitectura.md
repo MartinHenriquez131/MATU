@@ -1737,6 +1737,8 @@ Los dos indicadores en negrita son los que miden si el producto funciona como pr
 
 **Si el piloto termina en un servidor único sin ese servicio**, la limitación se declara explícitamente en el informe de título. **Declarar la limitación es preferible a fingir que no existe.**
 
+> **Desvío aprobado para el semestre (Jorge Espinoza, 28 de octubre de 2026, MATU-12).** Mientras se usen solo datos sintéticos, la clave maestra se lee de una variable de entorno del mismo servidor, con un adaptador de `CustodiaClaves` que solo se construye en los entornos `local` y `pruebas`: con `produccion` la API no arranca. Es exactamente la limitación que declara la sección 11.4. Antes de operar con datos reales se reemplaza por el servicio de custodia, sin tocar el cifrado, porque está detrás del puerto. Las condiciones del adaptador están en `docs/api/README.md` de MATU_PROYECTO.
+
 ---
 
 ### ADR-017 · Seguimiento por sondeo con cadencias alineadas
