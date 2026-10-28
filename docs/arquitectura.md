@@ -20,6 +20,7 @@ Esta es la **versión 1.1** del documento de arquitectura de MATU. Incorpora los
 > - El [calendario de sprints v1.3](sprints/calendario-sprints.md), que reemplaza las fechas y la agrupación de la tabla 15.4
 > - La prioridad de RF-03: el cierre del ADR-023 baja las ocho secciones a *Podría*, y la sección 3.1 todavía dice *Debe*
 > - El resultado de la [prueba de concepto de Transbank](pruebas-concepto/transbank.md): el débito no admite captura diferida. **Ya incorporado** con el ADR-027 (sección 14), que reemplazó al ADR-006 y al ADR-011, y propagado a las secciones 8, 9.4, 9.5, 10.4, 11.2, 11.7, 12, 17 y 18.1. La sección 7 (7.1, 7.4 y 7.6 b, c y f) y los estados de 8.1 y 12.3 se alinearon el 27 de octubre con la migración 0002 (`0002_precios_exactos_un_cobro`). Lo que esa migración dejó fuera a propósito está al final de 7.4
+> - El [ADR-026](adr/ADR-026-aplicacion-web.md): la aplicación de la familia es web, mobile first, y reemplaza a Flutter. El ADR ya está escrito y lista las secciones que cambian (1, 6.1, 12.2, 15, 17 y 19.1). Hasta la v1.2, donde este documento dice Flutter, manda el ADR-026
 > - La separación en dos repositorios: la documentación en MATU y el código en MATU_PROYECTO (anexo 19.1)
 > - La suspensión de la regla de ejes en los sprints 1 a 3 y el traslado de la prueba de capa 3 desacoplable, declarados en el backlog
 > - Las decisiones de Jorge del 27 de octubre sobre el contrato de MATU-09 (decisiones 16, 23 a 28). **Ya incorporadas** en 2.1, 7.2, 7.5, 7.7 b, 9.1, 9.2, 10.1, 11.6 y 11.8, y en el [modelo de datos](modelo-datos.md): la IP no se guarda, la API no envía el PIN, la 9.2 sigue el contrato, la retención del acceso de relevo y de su teléfono, las columnas nuevas de `acceso_relevo` e `indice_token`, y edades sin valores exactos
@@ -1590,6 +1591,8 @@ Los dos indicadores en negrita son los que miden si el producto funciona como pr
 
 ### ADR-005 · Flutter con un repositorio y dos aplicaciones
 
+> **Reemplazado durante el semestre por el [ADR-026](adr/ADR-026-aplicacion-web.md)** (la aplicación de la familia es web, mobile first), decidido el 14 de octubre de 2026. Se conserva como registro.
+
 **Decisión.** Flutter, monorepo con un paquete `core` compartido. En el MVP se publica solo `app_familia`.
 
 **Por qué Flutter y no React Native. Una sola razón, y es honesta.** La aplicación de repartidor necesita **ubicación en segundo plano y cámara con buen rendimiento**, y el soporte para ese par está más consolidado en un solo paquete.
@@ -1830,9 +1833,15 @@ Existía en el diseño anterior sobre la publicación exclusiva en Android. Se r
 
 ---
 
+### ADR-026 · La aplicación de la familia es web, mobile first
+
+**Estado.** Aceptado el 14 de octubre de 2026, por sugerencia del profesor guía. **Reemplaza al ADR-005 durante el semestre.** El texto completo está en [`adr/ADR-026-aplicacion-web.md`](adr/ADR-026-aplicacion-web.md), con la lista de las secciones de este documento que cambian en la v1.2.
+
+---
+
 ### ADR-027 · Precios exactos de comercios en convenio, y se cobra el total confirmado
 
-**Estado.** **Aprobado** por Jorge Espinoza (Product Owner) el 26 de octubre de 2026, con las observaciones de la revisión previa del analista normativo (`legal/revision-previa-adr-027.md`). **Reemplaza al ADR-006 y al ADR-011.** Lo que queda marcado [PENDIENTE] o en consulta legal se resuelve antes de cobrar dinero real. El ADR-026 (aplicación web) se registra aparte.
+**Estado.** **Aprobado** por Jorge Espinoza (Product Owner) el 26 de octubre de 2026, con las observaciones de la revisión previa del analista normativo (`legal/revision-previa-adr-027.md`). **Reemplaza al ADR-006 y al ADR-011.** Lo que queda marcado [PENDIENTE] o en consulta legal se resuelve antes de cobrar dinero real. El ADR-026 (aplicación web) está en `adr/ADR-026-aplicacion-web.md`.
 
 **Contexto.** El ADR-006 resolvía un precio que no se conocía hasta que el comercio preparaba. Se autorizaba el estimado con un margen del 15% y se capturaba el monto real. La prueba de concepto (`pruebas-concepto/transbank.md`) mostró el costo de ese diseño:
 - la captura diferida opera solo con crédito, y el débito es el medio mayoritario del segmento;
