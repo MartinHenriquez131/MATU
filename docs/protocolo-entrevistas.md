@@ -82,7 +82,7 @@ Este punto importa por dos razones: porque se conversa con personas en situació
 
 - **Consentimiento informado verbal**, pedido y anotado al inicio de la entrevista, indicando propósito, uso de la información, anonimización y derecho a interrumpir.
 - **No se graba audio ni video.** Solo se toma nota escrita. Es una decisión deliberada: en un proyecto cuyo núcleo es el tratamiento de datos sensibles, no generar una grabación evita crear el archivo más delicado de todo el proceso, y le permite al equipo decirlo así al pedir el consentimiento.
-- **No se anotan** datos identificatorios de la persona cuidada, diagnósticos ni información clínica. Si la persona los ofrece, no se escriben.
+- **No se anotan** datos identificatorios de la persona cuidada. **No se anotan diagnósticos ni información clínica, a menos que sea relevante para conocer el contexto del caso y que tenga estrecha relación con la necesidad de cuidados** (decisión de Jorge del 28-10: este es el repositorio académico, y esa información es parte de la comprensión del problema; nunca pasa a MATU_PROYECTO).
 - **No se ofrece consejo clínico** durante la entrevista, aunque quien entrevista esté habilitado para darlo. Confunde los roles y contamina la respuesta.
 - **Si aparece sobrecarga significativa o malestar**, se detiene la entrevista, se acoge y se ofrece derivación. La entrevista es lo secundario.
 - Duración máxima **45 minutos**, y se respeta aunque la conversación esté buena. Quien cuida no tiene tiempo de sobra.
