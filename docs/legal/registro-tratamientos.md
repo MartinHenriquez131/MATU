@@ -99,7 +99,7 @@ Cada historia que empieza a tratar datos personales agrega aquí su entrada.
   - copias de respaldo: [PENDIENTE]
   - auditoría: 3 años
 - **Medidas:**
-  - cifrado AES-256-GCM con una clave por persona, envuelta por una clave maestra en custodia externa (MATU-11). [PENDIENTE: servicio de custodia de claves]
+  - cifrado AES-256-GCM con una clave por persona, envuelta por una clave maestra (MATU-11). Durante el semestre, con datos sintéticos, la clave maestra está en una variable de entorno del mismo servidor: quien accede al servidor accede a todo. La API no arranca así en producción (decisión de Jorge del 28-10, MATU-12). [PENDIENTE: servicio de custodia de claves antes de operar con datos reales (ADR-016)]
   - nonce de 12 bytes, nuevo en cada escritura
   - el texto cifrado queda atado a su plan y a su campo
   - separación por familia con RLS forzado
