@@ -13,16 +13,16 @@ Diez entrevistas, cinco por integrante, entre agosto y septiembre de 2026. Sin g
 
 | Código | Entrevistador | Perfil | Meses en cuidado | Persona cuidada | Cómo se llegó |
 |---|---|---|---|---|---|
-| E01 | Martín | Conviviente, trabaja, comparte con su padre | 36 | Madre, Alzheimer avanzado | Red personal |
+| E01 | Martín | Conviviente, trabaja, comparte con su padre | 36 | Madre, requiere apoyo y supervisión permanentes | Red personal |
 | E02 | Martín | Conviviente, red cerrada de hermanas | 84 | Padre | Red personal |
-| E03 | Martín | Conviviente (a distancia, sin cronometrar) | 36 | Madre, Alzheimer | Red personal (vecina) |
-| E04 | Martín | Conviviente rural (a distancia, sin cronometrar) | 36 | Persona postrada con sonda | Red personal |
+| E03 | Martín | Conviviente (a distancia, sin cronometrar) | 36 | Madre, requiere supervisión constante, también de noche | Red personal (vecina) |
+| E04 | Martín | Conviviente rural (a distancia, sin cronometrar) | 36 | Persona que requiere apoyo total (alimentación, movilidad, aseo) | Red personal |
 | E05 | Martín | Conviviente, hija única | 3 a 4 | Padre, autovalente parcial | Red personal |
-| E06 | Jorge | Misma propiedad sin convivir (categoría nueva) | 30 | Cuñado, demencia + ostomía | Red profesional |
-| E07 | Jorge | Cuidadora remunerada | 11 | Adulta mayor con demencia | Red profesional |
+| E06 | Jorge | Misma propiedad sin convivir (categoría nueva) | 30 | Cuñado, requiere apoyo diario y manejo de insumos especializados | Red profesional |
+| E07 | Jorge | Cuidadora remunerada | 11 | Adulta mayor, requiere apoyo diario y supervisión | Red profesional |
 | E08 | Jorge | Conviviente, trabajo híbrido | 48 (30 efectivos) | Madre | Red profesional |
 | E09 | Jorge | Familiar aportante que no cuida | 48 como aportante | Madre, vive fuera de la región | Red profesional |
-| E10 | Jorge | Conviviente, con cuidadora de día | 48 (84 con el padre) | Madre, casi no habla | Red profesional |
+| E10 | Jorge | Conviviente, con cuidadora de día | 48 (84 con el padre) | Madre, requiere apoyo diario; se comunica más con gestos que con palabras | Red profesional |
 
 Todas mujeres, de entre 30 y 79 años. Mediana de meses en cuidado: 36.
 
@@ -59,7 +59,7 @@ Todas mujeres, de entre 30 y 79 años. Mediana de meses en cuidado: 36.
 | **H4** disposición a pagar $5.990 | Validada ≥4 ya pagan **y** ≥5 dicen sí · Refutada ≤2 pagan | 6 ya pagan (E03, E04, E06, E08, E09, E10). Sí a $5.990: 8 (E01, E02, E03, E05, E06, E08, E09, E10), 4 condicionadas a que resuelva insumos. Sí a $9.990: solo E09 | **Validada** | Precio se sostiene sobre capas 1+2, no sobre la capa 1 sola |
 | **H5** reparto del gasto con fricción | Validada ≥5 reparten con fricción · Refutada ≤3 reparten | 4 reparten (E04, E06, E09, E10). Fricción explícita: E04, E09. Latente: E06, E10. Compran más de lo que cobran: E10, E06, E07 | **Zona intermedia** | La regla de zona intermedia del protocolo obliga a 4 entrevistas más antes de decidir. **RF-22 a RF-24 salen del alcance comprometido** por la ventana de nueve semanas y pasan a fase 2. RF-25 se mantiene sin prorrateo. El resultado de la ampliación orienta la hoja de ruta, ya no el semestre |
 | **H6** quien paga no es quien cuida | Validada ≥5 otro pagador **o** ambos aportantes · Refutada ≥7 el cuidador **y** no podría | 8 dicen la cuidadora, solo E04 dice que no podría. Pagador distinto: E07 (los hijos), E09 (la aportante, sin usarla) | **Zona intermedia, tendencia en contra** | Destinatario comercial del piloto: la cuidadora principal a $5.990. Alta, pago y uso deben poder ser tres personas distintas |
-| **H7** canal concentrado | Validada ≥7 por canal, en uno, o con insumos públicos · Refutada ≤3 | 4 en padrón público (E01, E06, E05, E10). 2 desconocían el beneficio (E08, E06 pañales). 0 reclutadas por canal. Nodo ofrecido: grupo de WhatsApp del policlínico de ostomías (E06) | **Zona intermedia** | Las 4 entrevistas adicionales se reclutan solo por canal concentrado, lo que prueba H7 por conducta y no por declaración. La comuna del piloto se elige por la existencia de un socio institucional |
+| **H7** canal concentrado | Validada ≥7 por canal, en uno, o con insumos públicos · Refutada ≤3 | 4 en padrón público (E01, E06, E05, E10). 2 desconocían el beneficio (E08, E06 pañales). 0 reclutadas por canal. Nodo ofrecido: grupo de WhatsApp del policlínico de especialidad (E06) | **Zona intermedia** | Las 4 entrevistas adicionales se reclutan solo por canal concentrado, lo que prueba H7 por conducta y no por declaración. La comuna del piloto se elige por la existencia de un socio institucional |
 
 **Ampliación comprometida:** 4 entrevistas a familiares aportantes y no convivientes, reclutadas solo por canal concentrado, en la semana 9 (reprogramada para antes del sprint 4, el 6 de noviembre, según el calendario v1.3). No es reposición de una meta incumplida: es la regla de decisión del propio protocolo aplicada sin excepción a los tres resultados que cayeron entre umbrales.
 
@@ -90,7 +90,7 @@ Todas mujeres, de entre 30 y 79 años. Mediana de meses en cuidado: 36.
 
 **Producto**
 - Campo «qué la calma / qué hacer cuando se angustia»: pedido por E08, E10 y E07. Coincide con el campo 2 de la ficha de relevo.
-- Lenguaje de la incontinencia por dignidad: E01, E03, E10. Cambia redacción, no existencia de la sección.
+- Lenguaje del apoyo para ir al baño, por dignidad: E01, E03, E10. Cambia redacción, no existencia de la sección.
 - Modo asistido por voz o por un tercero (E09). Autoguardado (E08). Campo libre (E06). Variabilidad «día bueno / día malo» (E10). Tono «instructivo, no expediente» (E08).
 - RF-08 auditoría: la mirarían E02, E04, E06 (termómetro de involucramiento), E07 (respaldo laboral), E05. No: E01, E03, E08, E09, E10. Se mantiene por Ley 21.719 y por la cuidadora remunerada. Se presenta como «quién se está informando».
 - Propiedad del registro en relación laboral (E07: «¿de quién es esto, de la familia o mío?»). Pregunta abierta para la consulta legal de la sección 18.1.
@@ -101,7 +101,7 @@ Todas mujeres, de entre 30 y 79 años. Mediana de meses en cuidado: 36.
 - Sustituto instalado: 3 compran por aplicación (E04, E08, E10 parcial), 1 rechaza la app por especificidad del producto (E06), 1 por boleta (E07).
 
 **Instrumento**
-- P2 mide diagnóstico, no carga efectiva (E08).
+- P2 mide el tiempo desde el inicio formal, no la carga efectiva (E08).
 - P4 debe incluir fármacos y recetas explícitamente.
 - P15 exige repregunta por hechos concretos: sin ella E08 se registraba como NO.
 - Bloques 2 y 5 no son respondibles por aportantes. Versión aportante: «¿cuándo te pidieron plata fuera de lo acordado y para qué?».

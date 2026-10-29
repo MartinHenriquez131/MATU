@@ -2097,7 +2097,7 @@ Con costos fijos austeros de aproximadamente $600.000 mensuales, sin la pasarela
 |---|---|---|
 | **Cornershop, Rappi y despacho de supermercados** | Despachan lo que se les pide. No saben qué necesita la persona cuidada ni cuándo | **Tres de diez ya compran por aplicación y están conformes.** El sustituto está instalado. Una entrevistada rechaza el despacho por especificidad del producto, no por desconfianza, y otra por un requisito tributario: necesita la boleta a nombre de quien paga |
 | **Entrega pública de pañales** vía CESFAM y municipios | Cubre el insumo, no la continuidad del cuidado | **Cuatro de diez están en un padrón público y todas dicen que no alcanza.** Dos más no sabían que el beneficio existe. El canal institucional se confirma como oportunidad y no como competencia |
-| **Comercio electrónico especializado en incontinencia** | Vende producto, no gestión | Una entrevistada compra bolsas de ostomía en una casa ortopédica del centro, con media jornada de costo por viaje, y declaró que pagaría el doble por no tener que ir. **Es el caso de mayor disposición a pagar del piloto y es logística especializada, no supermercado** |
+| **Comercio electrónico especializado en incontinencia** | Vende producto, no gestión | Una entrevistada compra insumos especializados en una casa ortopédica del centro, con media jornada de costo por viaje, y declaró que pagaría el doble por no tener que ir. **Es el caso de mayor disposición a pagar del piloto y es logística especializada, no supermercado** |
 
 ### 16.6 Lo que esta sección sigue sin resolver
 
