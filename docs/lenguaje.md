@@ -200,7 +200,22 @@ El texto escrito no se borra: la persona lo puede copiar antes de reabrir.
 
 Si quien lo ve tiene otro rol (pagador u observador), el texto termina en: "Pídele a quien administra el grupo que la registre." **[PENDIENTE]** Hoy la autorización se registra en el alta (MATU-07). La pantalla para registrarla después del alta todavía no existe, y Grupo familiar la muestra solo para leer. Hasta que exista, el texto dice "Pídele a quien administra el grupo que la registre" a todos los roles.
 
-Es la única causa de un 403 en la capa 1 (contrato, decisión 4).
+Junto con 6.4b, son las dos causas de un 403 en la capa 1 (contrato, decisiones 4 y 33).
+
+### 6.4b Autorización por renovar (403, `revision-vencida`) · Aprobado por Jorge el 28-10
+
+Aparece cuando la autorización la registró quien la cuida sin ser su representante legal, y ya pasó un año sin renovarla. No es un error: es un aviso que ayuda a volver.
+
+> **Hay que renovar la autorización de la ficha de `{nombre_pila}`.** Se renueva una vez al año. Mientras tanto, la ficha no se puede ver ni cambiar, pero lo que escribiste sigue guardado.
+>
+> Pídele a quien administra el grupo que la renueve.
+>
+> [Apoyos del Estado para quienes cuidan](https://www.chileatiende.gob.cl/fichas/112779-persona-cuidadora) (se abre en ChileAtiende)
+
+- **El enlace** es la ficha oficial "Persona cuidadora" de ChileAtiende: explica cómo acreditarse como persona cuidadora y obtener la credencial. Se eligió por ser lo más útil para quien cuida (decisión de Jorge del 28-10).
+- **El texto no dice que la credencial renueva la autorización**, porque no la renueva: la credencial da acceso preferente en instituciones públicas, pero no convierte a nadie en representante legal. Qué trámite equivale a ser representante legal está en la consulta legal.
+- **[PENDIENTE]** Todavía no existe la pantalla para renovar la autorización. Cuando exista, para admin y cuidador la frase "Pídele a quien administra el grupo que la renueve" se cambia por el botón **Renovar la autorización**.
+- **Vale igual en el relevo** (decisión de Jorge del 28-10): mientras no se renueve, no se crean accesos nuevos y un relevo con un enlace anterior tampoco abre la ficha. Cortar un acceso y ver la lista siguen permitidos.
 
 ### 6.5 Texto demasiado largo (422, `validacion`, `tipo: string_too_long`)
 
@@ -278,6 +293,7 @@ La pantalla elige el texto por `type` (y, en un 422, por `errores[].campo` y `er
 | `/errores/no-autenticado` | 401 | App de la familia | Tu sesión terminó. Vuelve a entrar con tu email y tu contraseña. |
 | `/errores/token-invalido` | 401 | App de la familia | Tu sesión terminó. Vuelve a entrar con tu email y tu contraseña. |
 | `/errores/sin-consentimiento` | 403 | Ficha | Sección 6.4 |
+| `/errores/revision-vencida` | 403 | Ficha | Sección 6.4b |
 | `/errores/no-encontrado` | 404 | App de la familia | No encontramos lo que buscas. Puede que ya no tengas acceso. Vuelve al inicio. |
 | `/errores/version-desactualizada` | 412 | Ficha | Sección 6.2 |
 | `/errores/validacion` | 422 | Ficha, `string_too_long` | Sección 6.5 |
