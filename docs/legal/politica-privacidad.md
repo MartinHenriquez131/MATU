@@ -169,6 +169,8 @@ Cada declaración también tiene un identificador en el sistema: `declaracion_ti
 - **Pagador:** ve el nombre y la dirección. Ve la ficha solo si le dan ese permiso.
 - **Observador:** ve el nombre. Nunca ve la ficha.
 
+**Quién abrió o editó la ficha** (aprobado por Jorge el 28-10, MATU-14): cada vez que un miembro del círculo de cuidado abre o edita la ficha de relevo, MATU registra quién lo hizo, qué acción realizó y cuándo. Este registro no guarda el contenido de la ficha ni tu dirección IP. Puede consultarlo la persona administradora del grupo, y cada miembro puede ver sus propios registros. [PENDIENTE: el plazo de conservación, en consulta legal]
+
 **El relevo**, la persona que te reemplaza:
 - Ve solo el nombre con que llaman a la persona, tu nombre de pila y los campos que tú elegiste.
 - Al abrir el enlace, y antes de escribir el PIN, ve tu nombre de pila y el de la persona que cuidas.
