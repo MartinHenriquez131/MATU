@@ -505,3 +505,25 @@ Revisados contra los términos prohibidos (diagnóstico, conducta, incidente, de
 |---|---|
 | Cómo calculamos, observador y pagador | Dividimos lo que quedaba por lo que se usa, y contamos los días desde que la familia lo anotó. No sabe si compraron ni si cambió lo que usa {pila}. |
 | Nota corta, observador y pagador | Es un cálculo con lo que anotó la familia. |
+
+## 17. Avisos de insumos (MATU-37) · Aprobados por Jorge el 03-11
+
+En la app se dice «se acaba», nunca «quiebre». La fecha es una estimación. El aviso nunca ofrece comprar.
+
+| Dónde | Texto |
+|---|---|
+| Bloque | Se acaban pronto · Se acaban pronto ({n}) (con más de 3) |
+| Nota del bloque | Es una estimación con lo que anotaste. |
+| Marca en la lista | Te estamos avisando |
+| Botón (solo admin y cuidador) | Ya lo resolví |
+| Panel | ¿Compraste? ¿Cuántos? / ¿Cuántos sobres? · Si no compraste, déjalo en blanco y solo dejamos de avisarte. · Guardando… · Volver |
+| Con cantidad | Anotamos tu compra de {nombre}: {cantidad}. Ahora alcanza para {n} días. (1 día en singular) |
+| Con cantidad, si sigue en 0 o menos | Anotamos tu compra de {nombre}: {cantidad}. Si te quedan menos, cámbialo en la lista. |
+| Sin cantidad | Listo. No te avisaremos de nuevo por {nombre} hasta que cambie la fecha estimada. |
+| Ya resuelto por otra persona (409) | Alguien de tu familia ya resolvió este aviso. · Ver cómo quedó |
+| Aviso que ya no existe (404) | Este aviso ya no está. Puede que el insumo se haya cambiado o eliminado. |
+| Sin permiso | Solo quien administra o cuida puede resolver un aviso. |
+| Cantidad inválida | Escribe un número entre 1 y 9999, o déjalo en blanco. |
+| Error al guardar | No pudimos guardar. Revisa tu conexión y vuelve a intentarlo. |
+| Error al cargar | No pudimos ver qué se acaba pronto. |
+| Lista, singular | Queda 1 hoy · Quedan {n} hoy |
