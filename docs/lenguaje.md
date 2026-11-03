@@ -520,6 +520,7 @@ En la app se dice «se acaba», nunca «quiebre». La fecha es una estimación. 
 | Con cantidad | Anotamos tu compra de {nombre}: {cantidad}. Ahora alcanza para {n} días. (1 día en singular) |
 | Con cantidad, si sigue en 0 o menos | Anotamos tu compra de {nombre}: {cantidad}. Si te quedan menos, cámbialo en la lista. |
 | Sin cantidad | Listo. No te avisaremos de nuevo por {nombre} hasta que cambie la fecha estimada. |
+| Otra persona cambió el insumo antes de resolver (412) | {autor} cambió «{nombre}» mientras lo resolvías. Revisa cómo quedó y vuelve a intentarlo. · Ver cómo quedó |
 | Ya resuelto por otra persona (409) | Alguien de tu familia ya resolvió este aviso. · Ver cómo quedó |
 | Aviso que ya no existe (404) | Este aviso ya no está. Puede que el insumo se haya cambiado o eliminado. |
 | Sin permiso | Solo quien administra o cuida puede resolver un aviso. |
