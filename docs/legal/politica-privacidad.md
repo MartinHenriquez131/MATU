@@ -5,7 +5,7 @@
 **Aprobación:** aprobada como borrador v0.9 por Jorge Espinoza (Product Owner) el 25/10/2026. La revisión la hizo el orquestador del equipo de agentes, por delegación. Se confirman los tres compromisos del texto: MATU no vende datos, borra de inmediato los datos reales que entren por error, y ejercer los derechos es gratis. Los [PENDIENTE] que quedan (contacto, plazos, proveedores y procedimiento ante filtraciones) se resuelven en la versión 1.0, antes de tratar datos reales.
 **Identificador de versión en el sistema:** `0.10`
 **Versión 0.10 (03-11):** la redactó el analista normativo con las decisiones de Jorge del 31-10, del 02-11 y del 03-11 (contrato de MATU-32, MATU-36 y MATU-38). [PENDIENTE: aprobación de Jorge en este PR]. `POLITICA_VERSION` pasa a `0.10` en el backend con MATU-36
-**ADR-027 (27-10):** las secciones que empiezan con esa nota adaptan el texto a los pedidos y pagos del ADR-027. Aprobado por Jorge el 27-10 como diseño. Las frases sobre lo que el comercio ve o no ve se publican solo cuando la migración del sprint 4 (requisitos R7 a R9, arquitectura 18.1) las haga ciertas. No cambian la versión: `POLITICA_VERSION` sigue en `0.9` hasta que Jorge decida publicar la 0.10, y los pedidos todavía no existen en la aplicación.
+**ADR-027 (27-10):** las secciones que empiezan con esa nota adaptan el texto a los pedidos y pagos del ADR-027. Aprobado por Jorge el 27-10 como diseño. Las frases sobre lo que el comercio ve o no ve se publican solo cuando la migración del sprint 4 (requisitos R7 a R9, arquitectura 18.1) las haga ciertas. Siguen sin publicarse en la versión 0.10: se publican cuando el sprint 4 las haga ciertas, con una versión nueva.
 **MATU-09 (27-10):** se ajustan las secciones 4, 6, 8, 9, 10 y 13 con el acceso de relevo. Aprobado por Jorge el 27-10 como diseño. No cambian la versión: `POLITICA_VERSION` sigue en `0.9`.
 
 ---
@@ -43,11 +43,11 @@
 2. Formar tu grupo de cuidado y dar a cada persona su permiso.
 3. Registrar a la persona que cuidas y la autorización para usar sus datos.
 4. Guardar la ficha de relevo y compartirla con quien tú elijas.
-5. Calcular cuándo se acaba cada insumo de la persona que cuidas y mostrarte cuáles se acaban pronto. Los avisos todavía no están disponibles.
+5. Calcular cuándo se acaba cada insumo de la persona que cuidas, mostrarte cuáles se acaban pronto y avisarte. Los avisos dentro de la aplicación ya funcionan; los avisos por notificación o por correo todavía no están disponibles (MATU-41).
 6. Hacer pedidos y pagos de insumos. *Todavía no disponible.*
 7. Cuidar la seguridad: registrar quién abrió la ficha, detectar accesos extraños y responder si hay una filtración.
 
-**Cada uso se autoriza por separado.** MATU pide una autorización para la ficha de relevo y otra para el cálculo de insumos. La del cálculo se pide la primera vez que anotas un insumo. Antes de activar los pedidos o los avisos, te pediremos una autorización para cada uno.
+**Cada uso se autoriza por separado.** MATU pide una autorización para la ficha de relevo y otra para el cálculo de insumos. La del cálculo se pide la primera vez que anotas un insumo. Los avisos de insumos van dentro de esa misma autorización: no se pide otra. Antes de activar los pedidos, te pediremos una autorización aparte.
 
 MATU no usa los datos para publicidad ni los vende. Tampoco toma decisiones automáticas sobre las personas. La fecha en que se acaba un insumo es solo una estimación para avisarte.
 
@@ -169,15 +169,15 @@ Es aparte de la de la ficha y se da en la misma calidad. Se pide la primera vez 
 
 **La propia persona (titular):**
 
-> Declaro que la persona que cuido me dijo hoy, en persona, que autoriza a MATU a guardar qué insumos usa, cuánto usa y cuánto queda, y a calcular cuándo se acaban, según la política de privacidad vigente. Yo solo registro su decisión.
+> Declaro que la persona que cuido me dijo hoy, en persona, que autoriza a MATU a guardar qué insumos usa, cuánto usa y cuánto queda, y a calcular cuándo se acaban y avisarte cuando se esté por acabar, según la política de privacidad vigente. Yo solo registro su decisión.
 
 **Su representante legal:**
 
-> Declaro que soy representante legal de la persona que cuido y que la referencia que indico corresponde al documento que lo acredita. Como su representante, autorizo a MATU a guardar qué insumos usa, cuánto usa y cuánto queda, y a calcular cuándo se acaban, según la política de privacidad vigente.
+> Declaro que soy representante legal de la persona que cuido y que la referencia que indico corresponde al documento que lo acredita. Como su representante, autorizo a MATU a guardar qué insumos usa, cuánto usa y cuánto queda, y a calcular cuándo se acaban y avisarte cuando se esté por acabar, según la política de privacidad vigente.
 
 **Cuidadora o cuidador de hecho:**
 
-> Declaro que cuido a esta persona y que no soy su representante legal. Autorizo a MATU a guardar qué insumos usa, cuánto usa y cuánto queda, y a calcular cuándo se acaban, según la política de privacidad vigente. Leí el aviso sobre el límite de esta autorización.
+> Declaro que cuido a esta persona y que no soy su representante legal. Autorizo a MATU a guardar qué insumos usa, cuánto usa y cuánto queda, y a calcular cuándo se acaban y avisarte cuando se esté por acabar, según la política de privacidad vigente. Leí el aviso sobre el límite de esta autorización.
 
 Sus identificadores son `declaracion_consumo_titular`, `declaracion_consumo_representante_legal` y `declaracion_consumo_cuidador_de_hecho`. Las aprobó Jorge el 03-11.
 
@@ -240,7 +240,7 @@ Sus identificadores son `declaracion_consumo_titular`, `declaracion_consumo_repr
 - **Tu sesión:** cada sesión se borra 30 días después de vencer o de cerrarse.
 - **Tus dispositivos:** se borran 90 días después de su último uso. La dirección para enviarte avisos se borra al cerrar la sesión o sacar el dispositivo.
 - **Huellas para limitar intentos de entrada:** 1 hora.
-- **Avisos de insumos:** los avisos cerrados, 90 días; el registro de avisos enviados, 90 días; las compras anotadas, mientras exista el insumo.
+- **Avisos de insumos:** los avisos cerrados, 90 días; el registro de avisos enviados, 90 días; los eventos internos ya procesados, 30 días; las compras anotadas, mientras exista el insumo.
 - **Código para recuperar el acceso** (MATU-57, *todavía no disponible*): hasta que se usa o 10 minutos. Los contadores de intentos, 24 horas como máximo.
 - **Copias de respaldo:** [PENDIENTE: plazo]. El borrado queda completo cuando vence la última copia que contiene la clave.
 - **Registro de quién abrió la ficha:** 3 años.
@@ -258,7 +258,7 @@ Sus identificadores son `declaracion_consumo_titular`, `declaracion_consumo_repr
 - La base de datos separa a cada familia: una familia no puede ver los datos de otra, aunque la aplicación tenga un error.
 - El registro de quién abrió la ficha no se puede modificar ni borrar.
 - Los registros técnicos no guardan el texto de la ficha, ni tu email, ni contraseñas, ni códigos de acceso, ni enlaces de relevo, ni PIN, ni el nombre del grupo, ni tu dirección IP.
-- El enlace de relevo se bloquea después de 5 PIN incorrectos. Cada PIN incorrecto y cada bloqueo quedan registrados. Además, desde una misma dirección IP se admite un número limitado de intentos de entrada por hora: la IP se usa solo para ese conteo y no se guarda.
+- El enlace de relevo se bloquea después de 5 PIN incorrectos. Cada PIN incorrecto y cada bloqueo quedan registrados. Además, desde una misma dirección IP se admite un número limitado de intentos de entrada por hora: para ese conteo se guarda por una hora una huella de la IP que no permite recuperarla; la IP no se guarda en la base de datos ni en los registros.
 - La aplicación no guarda en tu teléfono ni en tu navegador la ficha, el consumo de insumos ni tu código de acceso, que vive solo en la memoria de la página. No usa analítica ni programas de terceros.
 - Los avisos al teléfono no llevan el nombre de la persona ni del insumo.
 
@@ -302,7 +302,7 @@ Si hay una filtración que afecte datos personales, avisaremos sin demora a la A
 - Ver, descargar o borrar los datos desde la aplicación. Mientras tanto, por el correo de la sección 10.
 - El recordatorio de los 12 meses.
 - Retirar la autorización de insumos desde la aplicación.
-- Avisos, invitaciones, pedidos y pagos.
+- Avisos de insumos por notificación o por correo (los de la aplicación ya funcionan), invitaciones, pedidos y pagos.
 - Verificar tu email al crear la cuenta. Mientras no exista, si intentas registrarte con un email que ya tiene cuenta, MATU te lo dirá, y alguien podría registrar un email que no es suyo.
 - Eliminar tu cuenta desde la aplicación. Mientras tanto, pídelo por el correo de la sección 10.
 

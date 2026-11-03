@@ -85,7 +85,7 @@ Cada historia que empieza a tratar datos personales agrega aquí su entrada.
   - quién escribió cada campo, cuándo y su versión
   - la auditoría de cada lectura y escritura, sin el texto
   - el texto de las secciones adicionales `quien_es`, `preferencias`, `alimentacion`, `movilidad`, `comunicacion` y `remedios`, hasta 500 caracteres cada una y 800 en `remedios`. Es **dato sensible**. `remedios` es un dato relativo a la salud, en texto libre escrito por la familia, sin catálogo, dosis estructuradas ni recordatorios (decisión de Jorge del 03-11, sin consulta legal previa, por la seguridad del cuidado). Quitar una sección borra su fila
-- **Base de licitud:** la autorización registrada en MATU-07, con el texto ampliado a las secciones adicionales desde la versión 0.10. Las autorizaciones de versiones anteriores no cubren las secciones adicionales. Sin autorización vigente la API responde 403.
+- **Base de licitud:** la autorización registrada en MATU-07, con el texto ampliado a las secciones adicionales desde la versión 0.10. Las versiones anteriores a la 0.10 solo se usaron con datos sintéticos y ninguna persona real las aceptó, así que no hay autorizaciones previas que renovar (decisión de Jorge del 03-11). Sin autorización vigente la API responde 403.
   - cuidadora o cuidador de hecho: [PENDIENTE: consulta legal]
   - personas anotadas en "A quién llamar": [PENDIENTE: consulta legal sobre su base de licitud]
 - **Quién accede:**
@@ -251,10 +251,6 @@ Cada historia que empieza a tratar datos personales agrega aquí su entrada.
 - **Medidas:** nunca en logs, errores, auditoría ni eventos.
 - **Comunicaciones a terceros:** ver la entrada 8.
 
-## Nota sobre la ficha ampliada (ADR-028)
-
-La sección "Sus remedios" se mantiene por decisión de Jorge del 03-11, sin consulta legal previa: quien releva y no conoce los remedios pone en riesgo a la persona cuidada. Se trata como dato sensible, cifrado como la ficha, y al compartir viene sin marcar. Su tratamiento queda descrito en las entradas 3 y 4 (revisión previa de MATU-49, 03-11).
-
 ## 8. Recuperación del acceso (MATU-57) · todavía no implementada
 
 - **Finalidad:** comprobar que quien pide recuperar la cuenta es su titular, y permitirle cambiar la contraseña.
@@ -278,3 +274,7 @@ La sección "Sus remedios" se mantiene por decisión de Jorge del 03-11, sin con
 - **Comunicaciones a terceros:** los proveedores de SMS, WhatsApp y correo, como encargados con contrato. Reciben solo el destino y el texto del mensaje. En el semestre el envío es simulado, sin proveedor real (decisión de Jorge del 03-11). [PENDIENTE: nombrarlos y su país]
 - **Transferencia internacional:** [PENDIENTE: proveedor, país y garantía]. Requiere consulta legal.
 - **Decisiones automatizadas:** ninguna. La espera después de varios intentos es un control de seguridad.
+
+## Nota sobre la ficha ampliada (ADR-028)
+
+La sección "Sus remedios" se mantiene por decisión de Jorge del 03-11, sin consulta legal previa: quien releva y no conoce los remedios pone en riesgo a la persona cuidada. Se trata como dato sensible, cifrado como la ficha, y al compartir viene sin marcar. Su tratamiento queda descrito en las entradas 3 y 4 (revisión previa de MATU-49, 03-11).
