@@ -242,35 +242,37 @@ Cada historia que empieza a tratar datos personales agrega aquí su entrada.
 
 ## 7. Celular de la cuenta (MATU-39, MATU-57)
 
-- **Finalidad:** enviar un código por SMS o WhatsApp para recuperar la contraseña o confirmar la identidad (MATU-57). El celular se confirma con un código antes de usarlo para recuperar (decisión de Jorge del 03-11).
-- **Titulares:** las personas usuarias.
-- **Datos:** celular en formato E.164 (`+569XXXXXXXX`), obligatorio al crear la cuenta (decisión de Jorge del 03-11).
-- **Base de licitud:** ejecución del servicio que pide la persona.
-- **Quién accede:** la propia persona y operación para soporte. No lo ven las otras personas del grupo.
-- **Conservación:** mientras exista la cuenta. [PENDIENTE: plazo tras eliminar la cuenta]
-- **Medidas:** nunca en logs, errores, auditoría ni eventos.
-- **Comunicaciones a terceros:** ver la entrada 8.
-
-## 8. Recuperación del acceso (MATU-57) · todavía no implementada
-
-- **Finalidad:** comprobar que quien pide recuperar la cuenta es su titular, y permitirle cambiar la contraseña.
+- **Finalidad:** enviar un código para recuperar la contraseña o confirmar el celular (MATU-57). El celular se confirma con un código antes de usarlo para recuperar (decisión de Jorge del 03-11).
 - **Titulares:** las personas usuarias.
 - **Datos:**
-  - el email que escribe la persona (nunca se pide el celular para recuperar);
-  - la huella HMAC del código (pepper propio);
-  - el canal (celular confirmado o email);
-  - la creación, la expiración, los intentos y el uso;
-  - las huellas HMAC de la IP, del email y del celular en los contadores de límite.
+  - celular en formato E.164 (`+569XXXXXXXX`), obligatorio al crear la cuenta (decisión de Jorge del 03-11);
+  - `celular_verificado_en`: cuándo se confirmó con un código. Vuelve a vacío si cambia el número, para que un número nuevo nunca herede la confirmación;
+  - `celular_canal`: la preferencia de canal (`sms` o `whatsapp`, por omisión `sms`), que se elige al confirmar. En el semestre el envío es simulado y siempre como SMS; la preferencia se guarda para cuando haya un proveedor.
 - **Base de licitud:** ejecución del servicio que pide la persona.
-- **Quién accede:** nadie ve el código. Operación ve solo eventos de auditoría sin datos de contacto.
-- **Conservación:** el código, hasta usarse o 10 minutos. Los contadores, 24 horas como máximo. La auditoría, según la entrada de auditoría.
+- **Quién accede:** la propia persona, que ve el número enmascarado (`+56 9 •••• ••37`) y si está confirmado, y operación para soporte. No lo ven las otras personas del grupo.
+- **Conservación:** mientras exista la cuenta. [PENDIENTE: plazo tras eliminar la cuenta]
+- **Medidas:** nunca en logs, errores, auditoría ni eventos. La auditoría registra `cuenta.celular_solicitar`, `cuenta.celular_verificar` y `cuenta.celular_verificar_fallido`, sin el número ni el canal.
+- **Comunicaciones a terceros:** ver la entrada 8.
+
+## 8. Recuperación del acceso y confirmación del celular (MATU-57)
+
+- **Finalidad:** comprobar que quien pide recuperar la cuenta es su titular y permitirle cambiar la contraseña, y confirmar que el celular de la cuenta es de su titular.
+- **Titulares:** las personas usuarias, y quien pide un código con un email (que puede no ser usuaria).
+- **Datos:**
+  - el email que escribe la persona (nunca se pide el celular para recuperar);
+  - por cada código, en Redis y nunca en la base: la huella HMAC del código (pepper propio), su vencimiento, el canal (celular o correo) y los intentos. Al usarse se borra;
+  - las huellas HMAC de la IP, del email, del celular y de la cuenta en los contadores de envíos, y de la IP, del email y de la cuenta en los contadores de intentos fallidos.
+- **Base de licitud:** ejecución del servicio que pide la persona. Para los contadores por huella: [PENDIENTE: consulta legal], como en la entrada 6.
+- **Quién accede:** nadie ve el código. Operación ve solo eventos de auditoría (`cuenta.recuperar_solicitar`, `cuenta.recuperar_verificar_fallido`, `cuenta.contrasena_cambiar`) sin datos de contacto, código ni IP.
+- **Conservación:** el código, hasta usarse o 10 minutos. Los contadores de envíos, 1 hora y 24 horas. La auditoría, según la entrada de auditoría.
 - **Medidas:**
   - código de 6 dígitos, de un solo uso y con 5 intentos como máximo; pedir uno nuevo invalida el anterior;
-  - límite de 3 envíos por hora y 10 al día por IP, email y celular;
-  - la misma respuesta exista o no la cuenta;
+  - por email, celular y cuenta: 60 segundos entre envíos, 3 por hora y 10 al día. Por IP: 20 por hora y 50 al día, sin espera entre envíos porque varias personas pueden compartirla;
+  - la misma respuesta exista o no la cuenta, y aunque se haya alcanzado el límite;
   - el celular se usa solo si está confirmado; si no, el email;
-  - cierre de todas las sesiones al cambiar la contraseña y aviso por el otro canal;
-  - nunca el código, el celular ni el email en logs, errores, auditoría ni eventos.
+  - al cambiar la contraseña se cierran todas las sesiones, se invalidan los códigos pendientes y se avisa por el otro canal (por el correo si el celular no está confirmado). Un acceso ya emitido puede seguir válido hasta 15 minutos;
+  - nunca el código, el celular, el email ni la IP en logs, errores, auditoría ni eventos;
+  - en el semestre el envío es simulado: no sale de la máquina y solo se admite con ENTORNO local o pruebas, con datos sintéticos.
 - **Comunicaciones a terceros:** los proveedores de SMS, WhatsApp y correo, como encargados con contrato. Reciben solo el destino y el texto del mensaje. En el semestre el envío es simulado, sin proveedor real (decisión de Jorge del 03-11). [PENDIENTE: nombrarlos y su país]
 - **Transferencia internacional:** [PENDIENTE: proveedor, país y garantía]. Requiere consulta legal.
 - **Decisiones automatizadas:** ninguna. La espera después de varios intentos es un control de seguridad.
