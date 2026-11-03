@@ -215,6 +215,8 @@ Sus identificadores son `declaracion_consumo_titular`, `declaracion_consumo_repr
 
 **El equipo de MATU:** para dar soporte ve los pedidos y los pagos. Sus herramientas no permiten leer la ficha ni el consumo de insumos.
 
+**Dictar en vez de escribir:** en la ficha puedes dictar con el botón del micrófono. El reconocimiento de voz lo hace el servicio de tu navegador, no MATU. Por ejemplo, en Chrome el audio se envía a Google para convertirlo en texto, y puede salir de Chile. MATU no guarda el audio, solo el texto que revisas y guardas tú. Si no quieres que el audio salga de tu teléfono, escribe o usa el dictado de tu teclado. [PENDIENTE: consulta legal sobre el envío de audio de un dato sensible a un tercero, y nombrar los servicios y sus países] (decisión de Jorge del 03-11)
+
 **Proveedores de tecnología** que guardan o procesan datos por encargo de MATU: [PENDIENTE: proveedor de nube, de correo, de SMS y de registro de errores, con qué datos recibe cada uno]
 
 **Autoridades:** solo cuando una ley o un tribunal lo exige.
