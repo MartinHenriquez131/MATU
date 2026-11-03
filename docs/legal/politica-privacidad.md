@@ -157,7 +157,7 @@ Este es el texto exacto que MATU muestra al elegir esta calidad. Su identificado
 >
 > En 12 meses te pediremos confirmar que sigues a cargo de su cuidado.
 
-Su huella en el sistema (SHA-256) es `9b33205fd93e18b3eaac569071b794d21071a414ccc0d8bb5b89f9c96af3dfc9`.
+Su huella en el sistema (SHA-256) es `8dfbca33f5c58a2c1f5c43a672b3e0fcd2ed4adcc971dcccd0f8879814b10489`.
 
 Cada declaración también tiene un identificador en el sistema: `declaracion_titular`, `declaracion_representante_legal` y `declaracion_cuidador_de_hecho`. Su versión es la de esta política. Cambiar una sola palabra de una declaración o del aviso es publicar una versión nueva.
 
