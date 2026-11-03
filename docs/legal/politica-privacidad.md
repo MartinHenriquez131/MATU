@@ -56,7 +56,7 @@ MATU no usa los datos para publicidad ni los vende. Tampoco toma decisiones auto
 ### De ti
 
 - **Tu nombre, tu email y tu celular.** Para crear tu cuenta no pedimos nada más.
-- **Tu celular** lo pedimos para enviarte un código por SMS o WhatsApp cuando quieras recuperar tu contraseña o confirmar que eres tú. *El envío del código todavía no está disponible.* No lo mostramos a otras personas del grupo ni lo usamos para publicidad.
+- **Tu celular** lo pedimos para enviarte un código por SMS o WhatsApp cuando quieras recuperar tu contraseña o confirmar que eres tú (MATU-57). *Todavía no disponible.* Antes de usarlo para recuperar tu cuenta, te pediremos confirmarlo con un código; mientras no lo confirmes, el código te llega a tu email. El mensaje solo trae el código: nunca tu nombre, el de la persona que cuidas ni nada de su cuidado. No lo mostramos a otras personas del grupo ni lo usamos para publicidad. Del código guardamos solo una huella que no permite reconstruirlo, cuándo vence y cuántas veces se intentó. Cuando cambias tu contraseña, cerramos tu sesión en todos tus dispositivos y te avisamos por el otro canal.
 - **Tu email se guarda legible**, porque lo necesitamos para que entres y para escribirte. Lo protege la separación entre familias de la base de datos. Para iniciar sesión usamos además una huella del email que no permite recuperarlo.
 - **Tu contraseña**, guardada transformada de una forma que no se puede revertir. Nadie en MATU puede leerla.
 - **Los grupos a los que perteneces** y tu rol en cada uno.
@@ -200,6 +200,8 @@ Sus identificadores son `declaracion_consumo_titular`, `declaracion_consumo_repr
 
 **El consumo de insumos** lo ven todas las personas del grupo, incluido el observador. Solo el administrador y el cuidador lo anotan, lo cambian, dejan de seguir un insumo o lo eliminan. Cada vez que alguien lo hace, MATU registra quién y cuándo, sin el nombre del insumo ni las cantidades. El equipo de MATU no puede leerlo.
 
+**Los avisos de insumos** (MATU-37). Cuando un insumo está por acabarse, MATU te avisa en la aplicación y, si lo activaste, por notificación o por correo. Por defecto avisa al administrador y al cuidador; el pagador y el observador pueden activarlo. El aviso dice solo «MATU: un insumo se está acabando. Abre la app para ver cuál»: no dice qué insumo ni de quién, porque a veces el teléfono está a la vista de otras personas. Para mandarlo usamos un servicio de notificaciones y uno de correo, que reciben ese texto y tu dirección o tu teléfono, y nada más. [PENDIENTE: nombres y país]. Solo el administrador y el cuidador pueden marcar un aviso como resuelto («Ya lo resolví»). Si anotan cuánto compraron, MATU guarda la cantidad, la fecha y quién la anotó, y la suma a lo que calculaba que quedaba. Si retiras la autorización de insumos, MATU deja de avisar en ese momento. El aviso nunca hace un pedido.
+
 **El relevo**, la persona que te reemplaza:
 - Ve solo el nombre con que llaman a la persona, tu nombre de pila, los tres campos de la ficha y las secciones adicionales que marcaste al compartir. Si agregas una sección después, no la ve hasta que le des un acceso nuevo.
 - Al abrir el enlace, y antes de escribir el PIN, ve tu nombre de pila y el de la persona que cuidas.
@@ -221,7 +223,7 @@ Sus identificadores son `declaracion_consumo_titular`, `declaracion_consumo_repr
 
 **Dictar en vez de escribir:** en la ficha puedes dictar con el botón del micrófono. El reconocimiento de voz lo hace el servicio de tu navegador, no MATU. Por ejemplo, en Chrome el audio se envía a Google para convertirlo en texto, y puede salir de Chile. MATU no guarda el audio, solo el texto que revisas y guardas tú. Si no quieres que el audio salga de tu teléfono, escribe o usa el dictado de tu teclado. [PENDIENTE: consulta legal sobre el envío de audio de un dato sensible a un tercero, y nombrar los servicios y sus países] (decisión de Jorge del 03-11)
 
-**Proveedores de tecnología** que guardan o procesan datos por encargo de MATU: [PENDIENTE: proveedor de nube, de correo, de SMS y de registro de errores, con qué datos recibe cada uno]
+**Proveedores de tecnología** que guardan o procesan datos por encargo de MATU: [PENDIENTE: proveedor de nube, de notificaciones push, de WhatsApp, de correo, de SMS y de registro de errores, con qué datos recibe cada uno]
 
 **Autoridades:** solo cuando una ley o un tribunal lo exige.
 
@@ -238,6 +240,8 @@ Sus identificadores son `declaracion_consumo_titular`, `declaracion_consumo_repr
 - **Tu sesión:** cada sesión se borra 30 días después de vencer o de cerrarse.
 - **Tus dispositivos:** se borran 90 días después de su último uso. La dirección para enviarte avisos se borra al cerrar la sesión o sacar el dispositivo.
 - **Huellas para limitar intentos de entrada:** 1 hora.
+- **Avisos de insumos:** los avisos cerrados, 90 días; el registro de avisos enviados, 90 días; las compras anotadas, mientras exista el insumo.
+- **Código para recuperar el acceso** (MATU-57, *todavía no disponible*): hasta que se usa o 10 minutos. Los contadores de intentos, 24 horas como máximo.
 - **Copias de respaldo:** [PENDIENTE: plazo]. El borrado queda completo cuando vence la última copia que contiene la clave.
 - **Registro de quién abrió la ficha:** 3 años.
 - **Pedidos y comprobantes de entrega**, cuando existan: 2 años.
