@@ -88,7 +88,7 @@ La persona que cuidas no tiene cuenta en MATU. Sus datos los ingresas tú.
 - Si diste la autorización como cuidadora o cuidador de hecho, la fecha en que te pediremos confirmar que sigues a cargo, 12 meses después.
 - La ficha de relevo, con sus tres campos: **Su día**, **Si se altera** y **A quién llamar**. También guardamos quién escribió cada campo y cuándo.
 - **Su consumo de insumos:** qué insumos usa, en qué unidad, cuánto usa cada cuántos días, cuánto quedaba la última vez que lo anotaste y con cuántos días de anticipación quieres saberlo. Con eso MATU calcula una fecha estimada. Si el insumo no está en el catálogo, guardamos el nombre que escribas: usa el nombre del envase, sin remedios ni para qué lo usa. Los remedios van en la ficha, no en los insumos.
-- **Secciones adicionales de la ficha**, si decides agregarlas: quién es, lo que la hace bien, alimentación, movilidad, comunicación y **sus remedios** (qué toma, cuánto y a qué hora, en texto libre). Se guardan cifradas, como la ficha. Al compartir, los remedios vienen sin marcar y eliges si los incluyes. *Todavía no disponible.*
+- **Secciones adicionales de la ficha**, si decides agregarlas: Quién es, Lo que le hace bien, Comer y beber, Moverse y descansar, Cómo hablarle y Sus remedios. Todas son opcionales y se escriben con tus palabras, hasta 500 caracteres cada una (800 en Sus remedios). Se guardan cifradas, como la ficha, y siguen sus mismos plazos. Si quitas una sección, se borra. **Sus remedios** guarda en texto libre qué remedios toma la persona y a qué hora, tal como se los da la familia. No es una receta y no reemplaza la indicación del médico. Al compartir con un relevo, tú marcas qué secciones ve. Sus remedios viene siempre sin marcar. Te recomendamos no escribir diagnósticos ni nombres de enfermedades en ninguna sección. *Todavía no disponible.*
 
 **El nivel de apoyo y la ficha son datos sensibles**, porque hablan de la salud y de la dependencia de la persona. Por eso los protegemos de forma especial.
 
@@ -122,7 +122,7 @@ La persona que cuidas no tiene cuenta en MATU. Sus datos los ingresas tú.
 
 ### Lo que MATU no pide
 
-- Diagnósticos, nombres de enfermedades, recetas, exámenes ni fichas clínicas. Los remedios que toma son opcionales y solo para quien la cuida y la reemplaza (decisión de Jorge del 03-11, por la seguridad del cuidado).
+- Diagnósticos, nombres de enfermedades, recetas, exámenes ni fichas clínicas. Si quieres, puedes anotar qué remedios toma y a qué hora, para que quien te reemplaza no se equivoque. Esa sección es opcional y solo la ven tu grupo y los relevos a quienes tú se la muestres (decisión de Jorge del 03-11, por la seguridad del cuidado).
 - El RUT de nadie.
 - Copias de documentos. Si eres representante legal, guardamos solo una referencia al documento.
 - Los datos de tu tarjeta.
@@ -135,25 +135,25 @@ Para guardar la ficha necesitamos una autorización. Al dar de alta a la persona
 
 **La propia persona (titular).** La persona que cuidas decide por sí misma y tú registras su decisión. Al registrarla declaras:
 
-> Declaro que la persona que cuido me dijo hoy, en persona, que autoriza a MATU a guardar su ficha de relevo y a compartirla con el relevo que elija el grupo, según la política de privacidad vigente. Yo solo registro su decisión.
+> Declaro que la persona que cuido me dijo hoy, en persona, que autoriza a MATU a guardar su ficha de relevo, incluidas las secciones adicionales y sus remedios si se agregan, y a compartirla con el relevo que elija el grupo, según la política de privacidad vigente. Yo solo registro su decisión.
 
 **Su representante legal.** Tienes un nombramiento legal para representarla. Declaras:
 
-> Declaro que soy representante legal de la persona que cuido y que la referencia que indico corresponde al documento que lo acredita. Como su representante, autorizo a MATU a guardar su ficha de relevo y a compartirla con el relevo que elija el grupo, según la política de privacidad vigente.
+> Declaro que soy representante legal de la persona que cuido y que la referencia que indico corresponde al documento que lo acredita. Como su representante, autorizo a MATU a guardar su ficha de relevo, incluidas las secciones adicionales y sus remedios si se agregan, y a compartirla con el relevo que elija el grupo, según la política de privacidad vigente.
 
 **Cuidadora o cuidador de hecho.** La cuidas en el día a día, pero no tienes un nombramiento legal para representarla. Declaras:
 
-> Declaro que cuido a esta persona y que no soy su representante legal. Autorizo a MATU a guardar su ficha de relevo y a compartirla con el relevo que elija el grupo, según la política de privacidad vigente. Leí el aviso sobre el límite de esta autorización.
+> Declaro que cuido a esta persona y que no soy su representante legal. Autorizo a MATU a guardar su ficha de relevo, incluidas las secciones adicionales y sus remedios si se agregan, y a compartirla con el relevo que elija el grupo, según la política de privacidad vigente. Leí el aviso sobre el límite de esta autorización.
 
 ### Aviso para quien cuida sin ser representante legal
 
-Este es el texto exacto que MATU muestra al elegir esta calidad. Su identificador en el sistema es `aviso_cuidador_de_hecho`, versión 1.0:
+Este es el texto exacto que MATU muestra al elegir esta calidad. Su identificador en el sistema es `aviso_cuidador_de_hecho`, versión 1.1 (la 1.0 asumía que la persona cuidada es mujer; cambio aprobado por Jorge el 03-11):
 
 > **Aviso: tu autorización tiene un límite**
 >
 > Declaraste que cuidas a esta persona y que no eres su representante legal. Con esa declaración puedes organizar su cuidado en MATU, pero tu autorización no equivale a la de la propia persona ni a la de su representante legal. MATU no puede comprobar lo que declaras. Por eso deja registrado que la autorización la diste tú, como cuidadora o cuidador de hecho, con la fecha y la versión de la política.
 >
-> Te pedimos tres cosas: anota solo lo necesario para su cuidado, cuéntale qué guardas en MATU si puede comprenderlo, y respeta lo que ella decida. Ella o su representante legal pueden pedir en cualquier momento que se borren sus datos.
+> Te pedimos tres cosas: anota solo lo necesario para su cuidado, cuéntale qué guardas en MATU si puede comprenderlo, y respeta lo que esa persona decida. La persona o su representante legal pueden pedir en cualquier momento que se borren sus datos.
 >
 > En 12 meses te pediremos confirmar que sigues a cargo de su cuidado.
 
@@ -199,7 +199,7 @@ Sus identificadores son `declaracion_consumo_titular`, `declaracion_consumo_repr
 **El consumo de insumos** lo ven todas las personas del grupo, incluido el observador. Solo el administrador y el cuidador lo anotan, lo cambian, dejan de seguir un insumo o lo eliminan. Cada vez que alguien lo hace, MATU registra quién y cuándo, sin el nombre del insumo ni las cantidades. El equipo de MATU no puede leerlo.
 
 **El relevo**, la persona que te reemplaza:
-- Ve solo el nombre con que llaman a la persona, tu nombre de pila y los campos que tú elegiste.
+- Ve solo el nombre con que llaman a la persona, tu nombre de pila, los tres campos de la ficha y las secciones adicionales que marcaste al compartir. Si agregas una sección después, no la ve hasta que le des un acceso nuevo.
 - Al abrir el enlace, y antes de escribir el PIN, ve tu nombre de pila y el de la persona que cuidas.
 - Entra con un enlace y un PIN de 4 dígitos. El acceso vence en 24 horas, o en el plazo que elijas hasta un máximo de 30 días, y puedes cortarlo cuando quieras.
 - Cada vez que abre la ficha queda registrado, y también cada PIN incorrecto y cada bloqueo. También queda registrado cada vez que abre el enlace, aunque no escriba el PIN.

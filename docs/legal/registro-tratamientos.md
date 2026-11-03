@@ -75,7 +75,7 @@ Cada historia que empieza a tratar datos personales agrega aquí su entrada.
 
 **Todavía no se trata con datos reales.** Durante el semestre la ficha se escribe solo con datos sintéticos (`figura-legal-piloto.md`).
 
-- **Finalidad:** guardar la ficha de relevo, con sus tres campos "Su día", "Si se altera" y "A quién llamar", para que quien reemplaza a la cuidadora sepa qué hacer.
+- **Finalidad:** guardar la ficha de relevo, con sus tres campos ("Su día", "Si se altera" y "A quién llamar") y hasta seis secciones adicionales opcionales (ADR-028), para que quien reemplaza a quien cuida sepa qué hacer y conozca a la persona.
 - **Titulares:**
   - la persona cuidada
   - los miembros del grupo que escriben la ficha
@@ -84,7 +84,8 @@ Cada historia que empieza a tratar datos personales agrega aquí su entrada.
   - el texto de cada campo, hasta 500 caracteres por campo. Es **dato sensible**, porque habla de la salud y de la dependencia de la persona. MATU no pide diagnósticos
   - quién escribió cada campo, cuándo y su versión
   - la auditoría de cada lectura y escritura, sin el texto
-- **Base de licitud:** la autorización registrada en MATU-07. Sin autorización vigente la API responde 403.
+  - el texto de las secciones adicionales `quien_es`, `preferencias`, `alimentacion`, `movilidad`, `comunicacion` y `remedios`, hasta 500 caracteres cada una y 800 en `remedios`. Es **dato sensible**. `remedios` es un dato relativo a la salud, en texto libre escrito por la familia, sin catálogo, dosis estructuradas ni recordatorios (decisión de Jorge del 03-11, sin consulta legal previa, por la seguridad del cuidado). Quitar una sección borra su fila
+- **Base de licitud:** la autorización registrada en MATU-07, con el texto ampliado a las secciones adicionales desde la versión 0.10. Las autorizaciones de versiones anteriores no cubren las secciones adicionales. Sin autorización vigente la API responde 403.
   - cuidadora o cuidador de hecho: [PENDIENTE: consulta legal]
   - personas anotadas en "A quién llamar": [PENDIENTE: consulta legal sobre su base de licitud]
 - **Quién accede:**
@@ -101,6 +102,8 @@ Cada historia que empieza a tratar datos personales agrega aquí su entrada.
 - **Medidas:**
   - cifrado AES-256-GCM con una clave por persona, envuelta por una clave maestra (MATU-11). Durante el semestre, con datos sintéticos, la clave maestra está en una variable de entorno del mismo servidor: quien accede al servidor accede a todo. La API no arranca así en producción (decisión de Jorge del 28-10, MATU-12). [PENDIENTE: servicio de custodia de claves antes de operar con datos reales (ADR-016)]
   - nonce de 12 bytes, nuevo en cada escritura
+  - cada sección adicional se cifra por separado, con AAD `plan_id ‖ tipo`, lo que permite compartirlas una por una
+  - `remedios` nunca se incluye en un acceso de relevo si quien comparte no la marca
   - el texto cifrado queda atado a su plan y a su campo
   - separación por familia con RLS forzado
   - auditoría de solo inserción (MATU-14)
@@ -117,7 +120,7 @@ Cada historia que empieza a tratar datos personales agrega aquí su entrada.
 **Todavía no se trata con datos reales.** Durante el semestre los accesos se crean solo con datos sintéticos (`figura-legal-piloto.md`).
 
 - **Finalidad:**
-  - dar un acceso temporal, de solo lectura, a los campos de la ficha que elige quien comparte, y que se puede cortar en cualquier momento
+  - dar un acceso temporal, de solo lectura, a los tres campos de la ficha y a las secciones adicionales que marque quien comparte (`remedios` viene sin marcar), y que se puede cortar en cualquier momento. Registra qué secciones se mostraron en cada apertura, sin su contenido
   - el teléfono del relevo sirve para que quien comparte le envíe el enlace desde su propio teléfono, por WhatsApp o SMS, y para que la familia pueda contactarlo. MATU no envía mensajes
   - el registro sirve para saber a quién se entregó la ficha y para detectar un enlace reenviado
 - **Titulares:**
@@ -241,4 +244,4 @@ Cada historia que empieza a tratar datos personales agrega aquí su entrada.
 
 ## Nota sobre la ficha ampliada (ADR-028)
 
-La sección "Sus remedios" se mantiene por decisión de Jorge del 03-11, sin consulta legal previa: quien releva y no conoce los remedios pone en riesgo a la persona cuidada. Se trata como dato sensible, cifrado como la ficha, y al compartir viene sin marcar. Su entrada en este registro se completa en MATU-49.
+La sección "Sus remedios" se mantiene por decisión de Jorge del 03-11, sin consulta legal previa: quien releva y no conoce los remedios pone en riesgo a la persona cuidada. Se trata como dato sensible, cifrado como la ficha, y al compartir viene sin marcar. Su tratamiento queda descrito en las entradas 3 y 4 (revisión previa de MATU-49, 03-11).
