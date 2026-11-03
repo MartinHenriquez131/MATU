@@ -290,8 +290,8 @@ La pantalla elige el texto por `type` (y, en un 422, por `errores[].campo` y `er
 
 | `type` | Status | Dónde | Texto al usuario |
 |---|---|---|---|
-| `/errores/no-autenticado` | 401 | App de la familia | Tu sesión terminó. Vuelve a entrar con tu email y tu contraseña. |
-| `/errores/token-invalido` | 401 | App de la familia | Tu sesión terminó. Vuelve a entrar con tu email y tu contraseña. |
+| `/errores/no-autenticado` | 401 | App de la familia | Hace tiempo que no entrabas. Vuelve a entrar con tu correo y tu contraseña. |
+| `/errores/token-invalido` | 401 | App de la familia | Hace tiempo que no entrabas. Vuelve a entrar con tu correo y tu contraseña. |
 | `/errores/sin-consentimiento` | 403 | Ficha | Sección 6.4 |
 | `/errores/revision-vencida` | 403 | Ficha | Sección 6.4b |
 | `/errores/no-encontrado` | 404 | App de la familia | No encontramos lo que buscas. Puede que ya no tengas acceso. Vuelve al inicio. |
@@ -389,3 +389,37 @@ Al pasar a datos reales, con la política 1.0, estos textos se retiran o se camb
 - Un término nuevo en la lista prohibida lo propone cualquiera y lo aprueba Jorge.
 - Un aviso legal o un texto que informa sobre datos personales pasa antes por el analista normativo.
 - Si este documento contradice la política de privacidad, manda la política y se corrige este documento.
+
+---
+
+## 13. Insumos, entrada y dispositivos (MATU-32, MATU-36 y MATU-38) · Aprobados por Jorge el 02-11 y el 03-11
+
+En la app se dice "entrar", nunca "sesión" (decisión de Jorge del 02-11). Los textos marcados [PROPUESTO] están en `docs/diseno/matu-36-insumos.md` (MATU_PROYECTO) y se aprueban con la pantalla.
+
+### 13.1 Cuánto alcanza
+
+| Caso | Texto |
+|---|---|
+| Quedan varios días | Alcanza para {n} días |
+| Queda un día | Alcanza para 1 día |
+| Cero días | Se acaba hoy |
+| El cálculo da negativo | Puede que ya no quede |
+| Nota bajo la fecha | Es un cálculo con lo que anotaste. Si compraste o te quedan menos, anótalo |
+| Ayuda del nombre del insumo | Por ejemplo: «Toallitas húmedas». Sin remedios ni para qué se usa |
+| Botón de descartar un aviso (MATU-37) | Ya lo resolví |
+
+### 13.2 La autorización para calcular insumos
+
+Son las tres declaraciones de la política de privacidad, en la sección 5, "La autorización para calcular insumos", con sus identificadores `declaracion_consumo_<calidad>`. Se copian sin cambiar una palabra: cambiarlas es publicar una versión nueva de la política.
+
+### 13.3 Entrar y dispositivos
+
+| Dónde | Texto |
+|---|---|
+| Entrada vencida (`sesion-expirada`, `no-autenticado`, `token-invalido`) | Hace tiempo que no entrabas. Vuelve a entrar con tu correo y tu contraseña. |
+| Varios intentos fallidos (429) | Hubo varios intentos de entrar. Espera {minutos} minutos. Si olvidaste tu contraseña, pídele ayuda a alguien de tu familia. |
+| Título de la pantalla de dispositivos | Dónde entraste |
+| El dispositivo actual | Este teléfono |
+| Último uso | Última vez: {fecha} a las {hora} |
+| Botón | Cerrar en ese teléfono |
+| Aviso push (MATU-41) | MATU: un insumo se está acabando. Abre la app para ver cuál |

@@ -165,3 +165,65 @@ Cada historia que empieza a tratar datos personales agrega aquí su entrada.
 - **Comunicaciones a terceros:** ninguna desde MATU. Si un día MATU envía el PIN por SMS, se agrega aquí.
 - **Transferencia internacional:** [PENDIENTE: proveedor y país].
 - **Decisiones automatizadas:** ninguna con efectos sobre las personas. El bloqueo por PIN incorrecto es un control de seguridad.
+
+## 5. Consumo de insumos y fecha estimada (MATU-36, MATU-37)
+
+**Todavía no se trata con datos reales.** Solo con datos sintéticos (`figura-legal-piloto.md`).
+
+- **Finalidad:** calcular cuándo se acaba cada insumo de la persona cuidada y mostrar cuáles se acaban pronto.
+- **Titulares:** la persona cuidada, y quien anota.
+- **Datos:**
+  - producto del catálogo o `nombre_libre` (1 a 60 caracteres, en una línea);
+  - unidad (la app ofrece unidad y sobre);
+  - tasa (`tasa_unidades`/`tasa_dias`);
+  - stock y fecha del stock (la fija el servidor);
+  - días de aviso y fecha estimada;
+  - si se sigue o no, y la versión.
+
+  Se trata como **dato sensible**. [PENDIENTE: consulta legal sobre si es dato relativo a la salud y si basta RLS sin cifrado (decisión 63)]
+- **Base de licitud:** consentimiento separado, `finalidad = consumo`, en la misma calidad de MATU-07, con la declaración `declaracion_consumo_<calidad>` (aprobadas por Jorge el 03-11) y la revisión de 12 meses. Sin él, 403. Cuidador de hecho: [PENDIENTE: consulta legal].
+- **Quién accede:**
+  - admin y cuidador leen y escriben (en la API y en una política RLS de escritura);
+  - pagador y observador solo leen (decisión de Jorge del 03-11);
+  - operación nunca.
+- **Conservación:**
+  - mientras la autorización esté vigente y hasta 90 días después, también los insumos que no se siguen;
+  - eliminar un insumo lo borra en el acto;
+  - el consumo se **borra**, porque no hay clave que destruir (decisiones de Jorge del 03-11);
+  - copias de respaldo: [PENDIENTE].
+- **Medidas:**
+  - RLS forzado por grupo y escritura por rol en RLS;
+  - `ETag`/`If-Match` (412/428);
+  - `nombre_libre` nunca en logs, errores, auditoría ni eventos;
+  - auditoría de solo inserción de `consumo.crear`, `consumo.editar`, `consumo.desactivar`, `consumo.activar`, `consumo.eliminar` y `consentimiento.otorgar`, sin nombre, cantidades ni IP;
+  - los eventos llevan solo identificadores;
+  - nada en el almacenamiento del navegador ni en la URL.
+- **Comunicaciones a terceros:** ninguna. **Transferencia internacional:** [PENDIENTE]. **Decisiones automatizadas:** ninguna. La fecha es una estimación informativa.
+
+## 6. Cuenta, sesión y dispositivos (MATU-38)
+
+- **Finalidad:** mantener la sesión, permitir sacar un dispositivo, detectar el robo de una sesión, limitar los intentos de entrada y enviar avisos.
+- **Titulares:** las personas usuarias, y quien intenta entrar con un email (que puede no ser usuaria).
+- **Datos:**
+  - sesión: SHA-256 del refresh, emisión, vencimiento, revocación y motivo;
+  - dispositivo: nombre general sin agente de usuario, creación, último uso y `push_token` opcional;
+  - huella HMAC de la IP y del email en Redis, por 1 hora;
+  - auditoría `sesion.*` y `dispositivo.*`, sin huella del email (decisión 64), con `sesiones_revocadas` como único detalle.
+- **Base de licitud:** ejecución del servicio que pide la persona. Para los contadores por huella de IP y de email: [PENDIENTE: consulta legal].
+- **Quién accede:**
+  - cada persona a sus dispositivos;
+  - operación no ve ninguna fila, y la conservación corre con `iam_conservar`;
+  - la auditoría de la cuenta la podrá leer su titular en "Dónde entraste" (MATU-55, sprint 4).
+- **Conservación:**
+  - ventana deslizante de 30 días sin tope absoluto (decisión de Jorge del 31-10);
+  - las sesiones se borran 30 días después de vencer o de cerrarse;
+  - los dispositivos, 90 días después del último uso;
+  - el `push_token`, al cerrar o sacar el dispositivo;
+  - los contadores, en 1 hora.
+- **Medidas:**
+  - cookie `HttpOnly`, `Secure`, `SameSite=Strict` y `Path=/v1/sesiones`;
+  - access token en memoria, por 15 minutos;
+  - rotación con detección de reutilización;
+  - `no-store`;
+  - push sin contenido y con una lista cerrada de hosts.
+- **Comunicaciones a terceros:** el servicio de push del navegador recibe un aviso sin contenido. [PENDIENTE: nombrarlos y su país]. **Decisiones automatizadas:** ninguna. La espera después de varios intentos es un control de seguridad.
