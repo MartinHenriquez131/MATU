@@ -75,7 +75,7 @@ Cada historia que empieza a tratar datos personales agrega aquí su entrada.
 
 **Todavía no se trata con datos reales.** Durante el semestre la ficha se escribe solo con datos sintéticos (`figura-legal-piloto.md`).
 
-- **Finalidad:** guardar la ficha de relevo, con sus tres campos "Su día", "Si se altera" y "A quién llamar", para que quien reemplaza a la cuidadora sepa qué hacer.
+- **Finalidad:** guardar la ficha de relevo, con sus tres campos ("Su día", "Si se altera" y "A quién llamar") y hasta seis secciones adicionales opcionales (ADR-028), para que quien reemplaza a quien cuida sepa qué hacer y conozca a la persona.
 - **Titulares:**
   - la persona cuidada
   - los miembros del grupo que escriben la ficha
@@ -84,7 +84,8 @@ Cada historia que empieza a tratar datos personales agrega aquí su entrada.
   - el texto de cada campo, hasta 500 caracteres por campo. Es **dato sensible**, porque habla de la salud y de la dependencia de la persona. MATU no pide diagnósticos
   - quién escribió cada campo, cuándo y su versión
   - la auditoría de cada lectura y escritura, sin el texto
-- **Base de licitud:** la autorización registrada en MATU-07. Sin autorización vigente la API responde 403.
+  - el texto de las secciones adicionales `quien_es`, `preferencias`, `alimentacion`, `movilidad`, `comunicacion` y `remedios`, hasta 500 caracteres cada una y 800 en `remedios`. Es **dato sensible**. `remedios` es un dato relativo a la salud, en texto libre escrito por la familia, sin catálogo, dosis estructuradas ni recordatorios (decisión de Jorge del 03-11, sin consulta legal previa, por la seguridad del cuidado). Quitar una sección borra su fila
+- **Base de licitud:** la autorización registrada en MATU-07, con el texto ampliado a las secciones adicionales desde la versión 0.10. Las versiones anteriores a la 0.10 solo se usaron con datos sintéticos y ninguna persona real las aceptó, así que no hay autorizaciones previas que renovar (decisión de Jorge del 03-11). Sin autorización vigente la API responde 403.
   - cuidadora o cuidador de hecho: [PENDIENTE: consulta legal]
   - personas anotadas en "A quién llamar": [PENDIENTE: consulta legal sobre su base de licitud]
 - **Quién accede:**
@@ -101,6 +102,8 @@ Cada historia que empieza a tratar datos personales agrega aquí su entrada.
 - **Medidas:**
   - cifrado AES-256-GCM con una clave por persona, envuelta por una clave maestra (MATU-11). Durante el semestre, con datos sintéticos, la clave maestra está en una variable de entorno del mismo servidor: quien accede al servidor accede a todo. La API no arranca así en producción (decisión de Jorge del 28-10, MATU-12). [PENDIENTE: servicio de custodia de claves antes de operar con datos reales (ADR-016)]
   - nonce de 12 bytes, nuevo en cada escritura
+  - cada sección adicional se cifra por separado, con AAD `plan_id ‖ tipo`, lo que permite compartirlas una por una
+  - `remedios` nunca se incluye en un acceso de relevo si quien comparte no la marca
   - el texto cifrado queda atado a su plan y a su campo
   - separación por familia con RLS forzado
   - auditoría de solo inserción (MATU-14)
@@ -117,7 +120,7 @@ Cada historia que empieza a tratar datos personales agrega aquí su entrada.
 **Todavía no se trata con datos reales.** Durante el semestre los accesos se crean solo con datos sintéticos (`figura-legal-piloto.md`).
 
 - **Finalidad:**
-  - dar un acceso temporal, de solo lectura, a los campos de la ficha que elige quien comparte, y que se puede cortar en cualquier momento
+  - dar un acceso temporal, de solo lectura, a los tres campos de la ficha y a las secciones adicionales que marque quien comparte (`remedios` viene sin marcar), y que se puede cortar en cualquier momento. Registra qué secciones se mostraron en cada apertura, sin su contenido
   - el teléfono del relevo sirve para que quien comparte le envíe el enlace desde su propio teléfono, por WhatsApp o SMS, y para que la familia pueda contactarlo. MATU no envía mensajes
   - el registro sirve para saber a quién se entregó la ficha y para detectar un enlace reenviado
 - **Titulares:**
@@ -140,7 +143,7 @@ Cada historia que empieza a tratar datos personales agrega aquí su entrada.
   - para los datos del relevo: [PENDIENTE: consulta legal]. MATU los recibe de quien comparte y se lo informa al relevo con el aviso de `lenguaje.md`, sección 7.5
   - para la dirección IP: [PENDIENTE: consulta legal]
 - **Quién accede:**
-  - administrador y cuidador crean accesos, los ven, los cortan y ven las aperturas, incluidas las veces que se abrió el enlace ("abrió el enlace"). Son los únicos que ven el teléfono del relevo en la lista de accesos, y después de los 30 días aparece vacío (contrato de MATU-09, decisión 31)
+  - administrador y cuidador crean accesos, los ven, los cortan y ven las aperturas en "Quién la vio" (MATU-45; el observador no las ve), incluidas las veces que se abrió el enlace ("abrió el enlace"). Son los únicos que ven el teléfono del relevo en la lista de accesos, y después de los 30 días aparece vacío (contrato de MATU-09, decisión 31)
   - el pagador con permiso de ver la ficha lista los accesos y las aperturas, sin crear ni cortar (contrato de MATU-09). No ve el teléfono del relevo
   - el observador nunca
   - el relevo ve el nombre de pila de la persona cuidada y el de quien comparte, también antes de escribir el PIN (decisión de Jorge del 27-10). Los campos los ve solo después del PIN
@@ -165,3 +168,113 @@ Cada historia que empieza a tratar datos personales agrega aquí su entrada.
 - **Comunicaciones a terceros:** ninguna desde MATU. Si un día MATU envía el PIN por SMS, se agrega aquí.
 - **Transferencia internacional:** [PENDIENTE: proveedor y país].
 - **Decisiones automatizadas:** ninguna con efectos sobre las personas. El bloqueo por PIN incorrecto es un control de seguridad.
+
+## 5. Consumo de insumos y fecha estimada (MATU-36, MATU-37)
+
+**Todavía no se trata con datos reales.** Solo con datos sintéticos (`figura-legal-piloto.md`).
+
+- **Finalidad:** calcular cuándo se acaba cada insumo de la persona cuidada y mostrar cuáles se acaban pronto.
+- **Titulares:** la persona cuidada, y quien anota.
+- **Datos:**
+  - producto del catálogo o `nombre_libre` (1 a 60 caracteres, en una línea);
+  - unidad (la app ofrece unidad y sobre);
+  - tasa (`tasa_unidades`/`tasa_dias`);
+  - stock y fecha del stock (la fija el servidor);
+  - días de aviso y fecha estimada;
+  - si se sigue o no, y la versión.
+
+  Se trata como **dato sensible**. [PENDIENTE: consulta legal sobre si es dato relativo a la salud y si basta RLS sin cifrado (decisión 63)]
+- **Base de licitud:** consentimiento separado, `finalidad = consumo`, en la misma calidad de MATU-07, con la declaración `declaracion_consumo_<calidad>` (aprobadas por Jorge el 03-11) y la revisión de 12 meses. Sin él, 403. Cuidador de hecho: [PENDIENTE: consulta legal].
+- **Quién accede:**
+  - admin y cuidador leen y escriben (en la API y en una política RLS de escritura);
+  - pagador y observador solo leen (decisión de Jorge del 03-11);
+  - operación nunca.
+- **Conservación:**
+  - mientras la autorización esté vigente y hasta 90 días después, también los insumos que no se siguen;
+  - eliminar un insumo lo borra en el acto;
+  - el consumo se **borra**, porque no hay clave que destruir (decisiones de Jorge del 03-11);
+  - copias de respaldo: [PENDIENTE].
+- **Medidas:**
+  - RLS forzado por grupo y escritura por rol en RLS;
+  - `ETag`/`If-Match` (412/428);
+  - `nombre_libre` nunca en logs, errores, auditoría ni eventos;
+  - auditoría de solo inserción de `consumo.crear`, `consumo.editar`, `consumo.desactivar`, `consumo.activar`, `consumo.eliminar` y `consentimiento.otorgar`, sin nombre, cantidades ni IP;
+  - los eventos llevan solo identificadores;
+  - nada en el almacenamiento del navegador ni en la URL;
+  - RLS separada de `alerta_quiebre` y `reposicion` (MATU-37): leen los cuatro roles; solo el rol sistema crea alertas; solo admin y cuidador las cierran o declaran una compra; nadie las borra a mano;
+  - auditoría de `alerta.materializar`, `alerta.resolver`, `alerta.descartar` y `reposicion.declarar`, sin nombre, cantidades ni IP;
+  - el aviso por push o correo es un texto fijo sin nombres de personas ni de insumos, y su enlace no lleva identificadores.
+- **Alertas y compras declaradas (MATU-37):**
+  - alertas: insumo (por su identificador), fecha estimada, estado y cuándo se avisó y se cerró. Sin nombre del insumo ni cantidades;
+  - compras declaradas con «Ya lo resolví»: cantidad, fecha y quién la anotó; se suman a lo que quedaba;
+  - el trabajo diario (rol sistema) crea las alertas solo para personas con la autorización de insumos vigente;
+  - para recorrer los grupos, el trabajo diario usa en el semestre el rol operación, que lee solo el identificador de cada grupo activo; después trabaja grupo por grupo con el rol sistema. [PENDIENTE: usuario propio de tareas programadas, con permiso solo para leer los identificadores, antes de datos reales];
+  - conservación: alertas cerradas 90 días desde que se cierran, eventos publicados 30 días, avisos enviados 90 días, compras mientras exista el insumo (decisiones de Jorge del 03-11).
+- **Comunicaciones a terceros:** el servicio de push del navegador y el proveedor de correo reciben un aviso de texto fijo, «MATU: un insumo se está acabando. Abre la app para ver cuál», y el destino (token push o email). Por defecto avisan a admin y cuidador. Son encargados de MATU. [PENDIENTE: nombrarlos, su país y el contrato de encargo]. **Transferencia internacional:** [PENDIENTE]. **Decisiones automatizadas:** ninguna. La fecha es una estimación informativa y la alerta nunca genera un pedido.
+
+## 6. Cuenta, sesión y dispositivos (MATU-38)
+
+- **Finalidad:** mantener la sesión, permitir sacar un dispositivo, detectar el robo de una sesión, limitar los intentos de entrada y enviar avisos.
+- **Titulares:** las personas usuarias, y quien intenta entrar con un email (que puede no ser usuaria).
+- **Datos:**
+  - sesión: SHA-256 del refresh, emisión, vencimiento, revocación y motivo;
+  - dispositivo: nombre general sin agente de usuario, creación, último uso y `push_token` opcional;
+  - huella HMAC de la IP y del email en Redis, por 1 hora;
+  - auditoría `sesion.*` y `dispositivo.*`, sin huella del email (decisión 64), con `sesiones_revocadas` como único detalle.
+- **Base de licitud:** ejecución del servicio que pide la persona. Para los contadores por huella de IP y de email: [PENDIENTE: consulta legal].
+- **Quién accede:**
+  - cada persona a sus dispositivos;
+  - operación no ve ninguna fila, y la conservación corre con `iam_conservar`;
+  - la auditoría de la cuenta la podrá leer su titular en "Dónde entraste" (MATU-55, sprint 4).
+- **Conservación:**
+  - ventana deslizante de 30 días sin tope absoluto (decisión de Jorge del 31-10);
+  - las sesiones se borran 30 días después de vencer o de cerrarse;
+  - los dispositivos, 90 días después del último uso;
+  - el `push_token`, al cerrar o sacar el dispositivo;
+  - los contadores, en 1 hora.
+- **Medidas:**
+  - cookie `HttpOnly`, `Secure`, `SameSite=Strict` y `Path=/v1/sesiones`;
+  - access token en memoria, por 15 minutos;
+  - rotación con detección de reutilización;
+  - `no-store`;
+  - push con texto fijo y sin datos de personas ni de insumos, y con una lista cerrada de hosts.
+- **Comunicaciones a terceros:** el servicio de push del navegador recibe un aviso de texto fijo, sin datos de personas ni de insumos. [PENDIENTE: nombrarlos y su país]. **Decisiones automatizadas:** ninguna. La espera después de varios intentos es un control de seguridad.
+
+## 7. Celular de la cuenta (MATU-39, MATU-57)
+
+- **Finalidad:** enviar un código por SMS o WhatsApp para recuperar la contraseña o confirmar la identidad (MATU-57). El celular se confirma con un código antes de usarlo para recuperar (decisión de Jorge del 03-11).
+- **Titulares:** las personas usuarias.
+- **Datos:** celular en formato E.164 (`+569XXXXXXXX`), obligatorio al crear la cuenta (decisión de Jorge del 03-11).
+- **Base de licitud:** ejecución del servicio que pide la persona.
+- **Quién accede:** la propia persona y operación para soporte. No lo ven las otras personas del grupo.
+- **Conservación:** mientras exista la cuenta. [PENDIENTE: plazo tras eliminar la cuenta]
+- **Medidas:** nunca en logs, errores, auditoría ni eventos.
+- **Comunicaciones a terceros:** ver la entrada 8.
+
+## 8. Recuperación del acceso (MATU-57) · todavía no implementada
+
+- **Finalidad:** comprobar que quien pide recuperar la cuenta es su titular, y permitirle cambiar la contraseña.
+- **Titulares:** las personas usuarias.
+- **Datos:**
+  - el email que escribe la persona (nunca se pide el celular para recuperar);
+  - la huella HMAC del código (pepper propio);
+  - el canal (celular confirmado o email);
+  - la creación, la expiración, los intentos y el uso;
+  - las huellas HMAC de la IP, del email y del celular en los contadores de límite.
+- **Base de licitud:** ejecución del servicio que pide la persona.
+- **Quién accede:** nadie ve el código. Operación ve solo eventos de auditoría sin datos de contacto.
+- **Conservación:** el código, hasta usarse o 10 minutos. Los contadores, 24 horas como máximo. La auditoría, según la entrada de auditoría.
+- **Medidas:**
+  - código de 6 dígitos, de un solo uso y con 5 intentos como máximo; pedir uno nuevo invalida el anterior;
+  - límite de 3 envíos por hora y 10 al día por IP, email y celular;
+  - la misma respuesta exista o no la cuenta;
+  - el celular se usa solo si está confirmado; si no, el email;
+  - cierre de todas las sesiones al cambiar la contraseña y aviso por el otro canal;
+  - nunca el código, el celular ni el email en logs, errores, auditoría ni eventos.
+- **Comunicaciones a terceros:** los proveedores de SMS, WhatsApp y correo, como encargados con contrato. Reciben solo el destino y el texto del mensaje. En el semestre el envío es simulado, sin proveedor real (decisión de Jorge del 03-11). [PENDIENTE: nombrarlos y su país]
+- **Transferencia internacional:** [PENDIENTE: proveedor, país y garantía]. Requiere consulta legal.
+- **Decisiones automatizadas:** ninguna. La espera después de varios intentos es un control de seguridad.
+
+## Nota sobre la ficha ampliada (ADR-028)
+
+La sección "Sus remedios" se mantiene por decisión de Jorge del 03-11, sin consulta legal previa: quien releva y no conoce los remedios pone en riesgo a la persona cuidada. Se trata como dato sensible, cifrado como la ficha, y al compartir viene sin marcar. Su tratamiento queda descrito en las entradas 3 y 4 (revisión previa de MATU-49, 03-11).

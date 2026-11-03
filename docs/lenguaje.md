@@ -270,11 +270,11 @@ El mensaje del PIN se anuncia con `role="alert"` y deja el foco en el campo. Los
 | Nota | Solo `{nombre_comparte}` puede cambiar esta ficha. |
 | Campo compartido sin texto | Sin completar |
 
-### 7.5 Aviso al relevo · Aprobado por Jorge el 27-10
+### 7.5 Aviso al relevo · Aprobado por Jorge el 27-10, ajustado el 03-11 (MATU-45: la familia ve el registro)
 
 Aviso para el relevo como titular de su nombre y su teléfono. Va en la pantalla del PIN, antes del canje, bajo el botón, en texto secundario, con el enlace a la política. Es el texto final: se copia tal cual.
 
-> MATU guarda tu nombre y tu teléfono, que anotó quien te compartió la ficha, para enviarte el enlace y poder contactarte. Tu teléfono se borra 30 días después de que el enlace vence o se corta. También registra cada vez que abres el enlace o la ficha y cada PIN incorrecto, y guarda ese registro 3 años, para saber a quién se compartió. Responsables de tus datos: Jorge Espinoza y Martín Henríquez. Puedes pedir ver, corregir o borrar tus datos escribiendo a [PENDIENTE: correo de contacto]. [Política de privacidad]
+> MATU guarda tu nombre y tu teléfono, que anotó quien te compartió la ficha, para enviarte el enlace y poder contactarte. Tu teléfono se borra 30 días después de que el enlace vence o se corta. También registra cada vez que abres el enlace o la ficha y cada PIN incorrecto, con la fecha y la hora. La familia que te compartió la ficha puede ver ese registro con tu nombre. Lo guardamos 3 años. Responsables de tus datos: Jorge Espinoza y Martín Henríquez. Puedes pedir ver, corregir o borrar tus datos escribiendo a [PENDIENTE: correo de contacto]. [Política de privacidad]
 
 El correo de contacto es el mismo de la política, sección 2, y se completa con la versión 1.0.
 
@@ -290,8 +290,8 @@ La pantalla elige el texto por `type` (y, en un 422, por `errores[].campo` y `er
 
 | `type` | Status | Dónde | Texto al usuario |
 |---|---|---|---|
-| `/errores/no-autenticado` | 401 | App de la familia | Tu sesión terminó. Vuelve a entrar con tu email y tu contraseña. |
-| `/errores/token-invalido` | 401 | App de la familia | Tu sesión terminó. Vuelve a entrar con tu email y tu contraseña. |
+| `/errores/no-autenticado` | 401 | App de la familia | Hace tiempo que no entrabas. Vuelve a entrar con tu correo y tu contraseña. |
+| `/errores/token-invalido` | 401 | App de la familia | Hace tiempo que no entrabas. Vuelve a entrar con tu correo y tu contraseña. |
 | `/errores/sin-consentimiento` | 403 | Ficha | Sección 6.4 |
 | `/errores/revision-vencida` | 403 | Ficha | Sección 6.4b |
 | `/errores/no-encontrado` | 404 | App de la familia | No encontramos lo que buscas. Puede que ya no tengas acceso. Vuelve al inicio. |
@@ -389,3 +389,155 @@ Al pasar a datos reales, con la política 1.0, estos textos se retiran o se camb
 - Un término nuevo en la lista prohibida lo propone cualquiera y lo aprueba Jorge.
 - Un aviso legal o un texto que informa sobre datos personales pasa antes por el analista normativo.
 - Si este documento contradice la política de privacidad, manda la política y se corrige este documento.
+
+---
+
+## 13. Insumos, entrada y dispositivos (MATU-32, MATU-36 y MATU-38) · Aprobados por Jorge el 02-11 y el 03-11
+
+En la app se dice "entrar", nunca "sesión" (decisión de Jorge del 02-11). Los textos marcados [PROPUESTO] están en `docs/diseno/matu-36-insumos.md` (MATU_PROYECTO) y se aprueban con la pantalla.
+
+### 13.1 Cuánto alcanza
+
+| Caso | Texto |
+|---|---|
+| Quedan varios días | Alcanza para {n} días |
+| Queda un día | Alcanza para 1 día |
+| Cero días | Se acaba hoy |
+| El cálculo da negativo | Puede que ya no quede |
+| Nota bajo la fecha | Es un cálculo con lo que anotaste. Si compraste o te quedan menos, anótalo |
+| Ayuda del nombre del insumo | Por ejemplo: «Toallitas húmedas». Sin remedios ni para qué se usa |
+| Botón de descartar un aviso (MATU-37) | Ya lo resolví |
+
+### 13.2 La autorización para calcular insumos
+
+Son las tres declaraciones de la política de privacidad, en la sección 5, "La autorización para calcular insumos", con sus identificadores `declaracion_consumo_<calidad>`. Se copian sin cambiar una palabra: cambiarlas es publicar una versión nueva de la política.
+
+### 13.3 Entrar y dispositivos
+
+| Dónde | Texto |
+|---|---|
+| Entrada vencida (`sesion-expirada`, `no-autenticado`, `token-invalido`) | Hace tiempo que no entrabas. Vuelve a entrar con tu correo y tu contraseña. |
+| Varios intentos fallidos (429) | Hubo varios intentos de entrar. Espera {minutos} minutos. Si olvidaste tu contraseña, pídele ayuda a alguien de tu familia. |
+| Título de la pantalla de dispositivos | Dónde entraste |
+| El dispositivo actual | Este teléfono |
+| Último uso | Última vez: {fecha} a las {hora} |
+| Botón | Cerrar en ese teléfono |
+| Aviso push (MATU-41) | MATU: un insumo se está acabando. Abre la app para ver cuál |
+
+---
+
+## 14. Ficha ampliada (MATU-49, ADR-028) · Aprobados por Jorge el 03-11
+
+Los textos de 14.3 están en `docs/diseno/matu-49-ficha-ampliada.md` (MATU_PROYECTO) y se aprueban en este PR.
+
+### 14.1 Las seis secciones
+
+| Sección | Título | Pregunta guía | Ejemplo |
+|---|---|---|---|
+| `quien_es` | Quién es | ¿Qué le gustaría que supiera de esta persona alguien que recién la conoce? | Por ejemplo: «Le dicen Tito. Fue profesor de música en Talca. Su nieta Sofía le visita los domingos y tiene un gato, el Pelusa.» |
+| `preferencias` | Lo que le hace bien | ¿Qué le alegra, le entretiene o le calma? | Por ejemplo: «Le gustan los boleros y conversar de fútbol. Ve las noticias a las 9 de la noche.» |
+| `alimentacion` | Comer y beber | ¿Qué le gusta comer y cómo se le sirve? | Por ejemplo: «Toma té con poca azúcar. Prefiere la comida picada en trozos chicos y el pan blando.» |
+| `movilidad` | Moverse y descansar | ¿Cómo se le ayuda a moverse, levantarse y descansar? | Por ejemplo: «Camina con bastón dentro de la casa. Para levantarse, ofrécele el brazo derecho. Duerme siesta después de almuerzo.» |
+| `comunicacion` | Cómo hablarle | ¿Qué ayuda a que se entiendan? | Por ejemplo: «Usa audífono en el oído izquierdo. Háblale de frente y despacio. Si algo le molesta, se toca la frente.» |
+| `remedios` | Sus remedios | ¿Qué remedios toma y a qué hora, tal como se los da la familia? | Por ejemplo: «8:00 con el desayuno: 1 pastilla blanca de la caja azul. 20:00: 1 pastilla de la caja verde.» |
+
+La pregunta guía y el ejemplo no se muestran en la página del relevo.
+
+### 14.2 Ayudas, avisos y compartir
+
+| Dónde | Texto |
+|---|---|
+| Bajo cada sección | No hace falta escribir diagnósticos ni enfermedades. Escribe lo que ayuda a cuidar. |
+| Comer y beber, y Sus remedios | Si tiene alergia a algún remedio o alimento, anótalo aquí. |
+| Sus remedios, siempre visible (también al relevo) | Esto lo escribe la familia. No reemplaza la indicación del médico. |
+| Contador | {n} de 500 caracteres · {n} de 800 caracteres |
+| Compartir, casilla (siempre sin marcar) | Incluir Sus remedios |
+| Compartir, ayuda de la casilla | Quien te reemplaza verá qué remedios toma y a qué hora. Márcalo solo si va a dárselos o a estar a cargo de ellos. |
+| Compartir, confirmación | Vas a compartir sus remedios con {nombre} hasta el {DD/MM/AAAA}. Puedes cortar el acceso cuando quieras. |
+
+### 14.3 Textos de la pantalla · Aprobados por Jorge el 03-11
+
+| Dónde | Texto |
+|---|---|
+| Ficha, título del bloque | «Más sobre `{nombre_pila}`» |
+| Ficha, bajada | «Si quieres, cuenta más para que quien te reemplace conozca a `{nombre_pila}`. Agrega solo lo que te sirva, cuando tengas tiempo.» |
+| Ficha, lo agregado | «Agregaste 1 sección.» · «Agregaste `{n}` secciones.» |
+| Ficha, encabezado de las no agregadas | «Puedes agregar» |
+| Ficha, botones | «Agregar «`{título}`»» (nombre accesible) · «Editar «`{título}`»» |
+| Ficha, vista previa | «Cada relevo ve solo las secciones que eliges al compartir.» |
+| Editor, sobre el título | «Más sobre `{nombre_pila}`» |
+| Guardado, primera vez | «Agregaste «`{título}`».» |
+| Guardado, cambio | «Guardamos «`{título}`».» |
+| Guardado, con accesos vigentes | «Quien ya tiene un enlace no la verá. Para que la vea, crea un enlace nuevo.» |
+| Quitar, botón | «Quitar «`{título}`»» |
+| Quitar, pregunta | «¿Quitar «`{título}`»?» |
+| Quitar, texto | «Se borra lo que escribiste en esta sección. Quien tenga un enlace dejará de verla. No se puede deshacer.» |
+| Quitar, botones | «Quitar y borrar» · «Dejarla como está» |
+| Quitar, en curso | «Quitando…» |
+| Quitar, hecho | «Quitaste «`{título}`».» |
+| Quitar, 404 | ««`{título}`» ya no estaba en la ficha.» |
+| Quitar, 412 | «`{autor}` cambió «`{título}`» mientras la ibas a quitar» · «Esta es la versión que guardó `{autor}`:» · «Quitarla igual» · «Dejarla como está» |
+| Compartir, base | «Siempre ve» · «Su día, Si se altera y A quién llamar.» |
+| Compartir, secciones | «¿Qué más puede ver?» · «Elige las secciones que le sirven.» |
+| Compartir, confirmación | «Sí, crear el enlace» · «No incluir sus remedios» |
+| PIN y Enlaces | «Ve su día, si se altera, a quién llamar, `{secciones en minúscula}`.» · «Si agregas una sección después, `{nombre}` no la verá. Para que la vea, crea un enlace nuevo.» |
+
+Revisados contra los términos prohibidos (diagnóstico, conducta, incidente, deterioro, incontinencia): «diagnósticos» aparece solo en la ayuda aprobada, como lo que **no** se pide. Ningún texto asume el género de la persona cuidada ni de quien usa la app.
+
+---
+
+## 15. Quién la vio (MATU-45) · Aprobados por Jorge el 03-11
+
+| Dónde | Texto |
+|---|---|
+| Bajada | Una línea por cada vez que alguien abre el enlace o la ficha, o escribe mal el PIN. Es un respaldo para ti. |
+| Volver | Volver a la ficha |
+| Enlace abierto sin abrir la ficha (solo si después no hubo otro evento de ese enlace) | Todavía no abre la ficha. Puede que no haya escrito el PIN aún, o que el enlace le haya llegado a otra persona. (Con MATU-48 se agrega: Si te preocupa, puedes cortarlo desde Enlaces.) |
+| Enlace bloqueado | Ya no abre con ese enlace. Si fue un error al escribir, crea uno nuevo y díctale el PIN de nuevo. |
+| Error | No pudimos traer quién la vio. Revisa tu conexión e inténtalo de nuevo. |
+| Paginación | Ver aperturas anteriores · Se agregaron {n} líneas. · No hay más. |
+| Nota final | La ficha se guarda cifrada. |
+| Fechas | Hoy · Ayer · El {día} (hasta 6 días) · El DD/MM/AAAA, con hora de 24 h de Chile |
+
+## 16. Insumos para quien solo lee (MATU-36) · Aprobado por Jorge el 03-11
+
+| Dónde | Texto |
+|---|---|
+| Cómo calculamos, observador y pagador | Dividimos lo que quedaba por lo que se usa, y contamos los días desde que la familia lo anotó. No sabe si compraron ni si cambió lo que usa {pila}. |
+| Nota corta, observador y pagador | Es un cálculo con lo que anotó la familia. |
+
+## 17. Avisos de insumos (MATU-37) · Aprobados por Jorge el 03-11
+
+En la app se dice «se acaba», nunca «quiebre». La fecha es una estimación. El aviso nunca ofrece comprar.
+
+| Dónde | Texto |
+|---|---|
+| Bloque | Se acaban pronto · Se acaban pronto ({n}) (con más de 3) |
+| Nota del bloque | Es una estimación con lo que anotaste. |
+| Marca en la lista | Te estamos avisando |
+| Botón (solo admin y cuidador) | Ya lo resolví |
+| Panel | ¿Compraste? ¿Cuántos? / ¿Cuántos sobres? · Si no compraste, déjalo en blanco y solo dejamos de avisarte. · Guardando… · Volver |
+| Con cantidad | Anotamos tu compra de {nombre}: {cantidad}. Ahora alcanza para {n} días. (1 día en singular) |
+| Con cantidad, si sigue en 0 o menos | Anotamos tu compra de {nombre}: {cantidad}. Si te quedan menos, cámbialo en la lista. |
+| Sin cantidad | Listo. No te avisaremos de nuevo por {nombre} hasta que cambie la fecha estimada. |
+| Otra persona cambió el insumo antes de resolver (412) | {autor} cambió «{nombre}» mientras lo resolvías. Revisa cómo quedó y vuelve a intentarlo. · Ver cómo quedó |
+| Ya resuelto por otra persona (409) | Alguien de tu familia ya resolvió este aviso. · Ver cómo quedó |
+| Aviso que ya no existe (404) | Este aviso ya no está. Puede que el insumo se haya cambiado o eliminado. |
+| Sin permiso | Solo quien administra o cuida puede resolver un aviso. |
+| Cantidad inválida | Escribe un número entre 1 y 9999, o déjalo en blanco. |
+| Error al guardar | No pudimos guardar. Revisa tu conexión y vuelve a intentarlo. |
+| Error al cargar | No pudimos ver qué se acaba pronto. |
+| Lista, singular | Queda 1 hoy · Quedan {n} hoy |
+
+## 18. Pantalla de Insumos (MATU-36) · Aprobados por Jorge el 03-11
+
+Complementa la sección 13 (lo central ya aprobado: «Alcanza para {n} días», «Se acaba hoy», «Puede que ya no quede», la ayuda del nombre y las declaraciones). El texto completo vive en `web/src/familia/textosInsumos.ts` (MATU_PROYECTO) y en `docs/diseno/matu-36-insumos.md`.
+
+| Parte | Textos |
+|---|---|
+| Permiso | Antes de calcular, un permiso · Es un permiso aparte del de su ficha. · Permiso guardado. Ahora anota el primer insumo. · No pudimos guardar el permiso. Revisa lo que elegiste y vuelve a intentarlo. · Falta el permiso para calcular los insumos de {nombre}. · Sin él no podemos mostrar cuándo se acaban. Pídele a quien administra el grupo o a quien cuida a {nombre} que lo registre. · Hay que renovar la autorización de los insumos de {nombre}. · Se renueva una vez al año. Mientras tanto, no podemos calcular ni mostrar sus insumos, pero lo que anotaste sigue guardado. |
+| Lista | Cargando los insumos… · Ver más · Anotar un insumo · Cambiar · Cómo calculamos · Dividimos lo que quedaba por lo que se usa, y contamos los días desde que lo anotaste. No sabe si compraste ni si cambió lo que usa {nombre}. · hasta el {fecha} · Según lo anotado, se acababa el {fecha} · Usa {n} al día. · Usa {n} cada {d} días. · Quedaban {n} el {fecha} · Queda 1 hoy. / Quedan {n} hoy. · Todavía no hay insumos anotados · Cuando alguien de tu grupo anote uno, aparece aquí. |
+| Formulario | Cambiar lo anotado · Volver a los insumos · ¿Qué insumo es? · ¿Cómo se cuenta? · Se cuenta por unidad. / por sobre. · ¿Cada cuánto se usa? · ¿Cada cuántos días? · ¿Cuántos usa {nombre} al día? / cada {d} días? · ¿Cuántos quedan hoy, más o menos? · El {fecha} anotaste {n}. Escribe cuántos quedan hoy, o déjalo en blanco si no lo sabes. · ¿Con cuántos días de anticipación te avisamos? · Si pones 0, te avisamos el mismo día. · Así, alcanza para {n} días, hasta el… · Así, se acaba hoy. · No había cambios. · Guardamos «{nombre}». |
+| Validación y errores | Escribe el nombre del insumo. · Escribe cuántos usa, al menos 1. · Escribe un número hasta 10.000. · Escribe un número de 2 a 90. · Escribe cuántos quedan. Si no queda nada, escribe 0. · Escribe un número hasta 100.000. · Escribe un número de 0 a 60. · El nombre admite hasta 60 caracteres. Acórtalo un poco. · Escribe el nombre en una sola línea. · Con esos números alcanzaría para más de 10 años. Revisa cuánto queda y cuánto se usa. · Ese producto no se puede seguir en MATU. · Ese producto ya está anotado. Búscalo en la lista y cámbialo ahí. · No pudimos guardar. Revisa los datos y vuelve a intentarlo. · Ya no se está siguiendo este insumo. · Alguien desmarcó «Seguir» mientras lo cambiabas. Para cambiarlo, vuelve a marcar «Seguir» en la lista. · No pudimos guardar este insumo. · Vuelve a abrirlo y guarda de nuevo. Lo que escribiste sigue aquí. |
+| Conflicto | {autor} cambió «{nombre}» mientras lo cambiabas · No guardamos lo tuyo encima de lo suyo. Elige qué dejar. · Lo que guardó · Lo tuyo, sin guardar · (cambió) · Guardar lo mío · Dejar lo que guardó · Dejaste lo que guardó {autor}. |
+| Seguir y eliminar | Seguir · Sin seguir · No calculamos ni avisamos mientras no lo sigues. · Dejaste de seguir «{nombre}». Lo anotado sigue guardado. · Volviste a seguir «{nombre}». Si cambió cuánto queda, anótalo. · ¿Eliminar «{nombre}»? · Se borra todo lo anotado de este insumo y no se puede recuperar. · Si solo quieres dejar de calcularlo por un tiempo, desmarca «Seguir». · Eliminar · Eliminando… · Eliminaste «{nombre}». |
