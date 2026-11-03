@@ -24,12 +24,12 @@ Al ver el producto en la demo del 30 de octubre apareció lo que la reducción d
 
 | Sección en la interfaz | Tipo en el modelo | Qué guarda | Pregunta guía |
 |---|---|---|---|
-| **Quién es** | `quien_es` (nuevo) | Cómo le gusta que la llamen, a qué se dedicó, de dónde es, personas y mascotas importantes, creencias | ¿Qué debería saber de ella alguien que la conoce hoy? |
-| **Lo que la hace bien** | `preferencias` | Música, temas de conversación, programas, actividades y formas simples de distraerla | ¿Qué la pone contenta o la entretiene? |
-| **Comer y beber** | `alimentacion` | Comidas favoritas, lo que no le gusta, texturas, cómo le gusta que le sirvan | ¿Qué le gusta comer y cómo? |
-| **Moverse y descansar** | `movilidad` | Bastón o silla, cómo ayudarla a levantarse o acostarse, cómo duerme | ¿Cómo se la ayuda a moverse y a descansar? |
-| **Cómo hablarle** | `comunicacion` (nuevo) | Audífonos, lentes, de qué lado oye mejor, cómo avisa que algo le duele o le molesta | ¿Qué ayuda a que te entienda y a entenderla? |
-| **Sus remedios** | `remedios` (nuevo) | Texto libre: qué toma y a qué hora, tal como se lo da la familia | ¿Qué remedios toma y cuándo? |
+| **Quién es** | `quien_es` (nuevo) | Cómo le gusta que le digan, a qué se dedicó, de dónde es, personas y mascotas importantes | ¿Qué le gustaría que supiera de esta persona alguien que recién la conoce? |
+| **Lo que le hace bien** | `preferencias` | Música, temas de conversación, programas, actividades y formas simples de distraer a la persona | ¿Qué le alegra, le entretiene o le calma? |
+| **Comer y beber** | `alimentacion` | Comidas favoritas, lo que no le gusta, cómo le gusta que le sirvan, alergias a alimentos | ¿Qué le gusta comer y cómo se le sirve? |
+| **Moverse y descansar** | `movilidad` | Bastón, andador u otra ayuda, cómo ayudar a levantarse o acostarse, cómo duerme | ¿Cómo se le ayuda a moverse, levantarse y descansar? |
+| **Cómo hablarle** | `comunicacion` (nuevo) | Audífonos, lentes, de qué lado oye mejor, cómo muestra que algo le molesta | ¿Qué ayuda a que se entiendan? |
+| **Sus remedios** | `remedios` (nuevo) | Texto libre: qué toma y a qué hora, tal como se lo da la familia, y alergias a remedios. Sin diagnósticos ni para qué es cada uno | ¿Qué remedios toma y a qué hora, tal como se los da la familia? |
 
 ### Por qué estas seis y no otras
 
@@ -40,9 +40,9 @@ Al ver el producto en la demo del 30 de octubre apareció lo que la reducción d
 | Tema | Va en | Por qué no en otra parte |
 |---|---|---|
 | Horarios, rutina del día | **Su día** (campo inicial) | Se elimina la sección `horarios` de RF-03: repetía Su día |
-| Qué hacer si se angustia | **Si se altera** (campo inicial) | Lo que se *hace* en el momento va ahí. **Lo que la hace bien** guarda los gustos que previenen y distraen, y Si se altera puede remitir a ella |
+| Qué hacer si se angustia | **Si se altera** (campo inicial) | Lo que se *hace* en el momento va ahí. **Lo que le hace bien** guarda los gustos que previenen y distraen, y Si se altera puede remitir a ella |
 | Familia, vecinos, a quién llamar | **A quién llamar** (campo inicial) | Se elimina la sección `red_apoyo` como complementaria. **Quién es** nombra a las personas importantes en su vida, no los contactos |
-| Actividades | **Lo que la hace bien** | Se unen `preferencias` y `actividades` de RF-03: la música o un programa podían ir en cualquiera de las dos |
+| Actividades | **Lo que le hace bien** | Se unen `preferencias` y `actividades` de RF-03: la música o un programa podían ir en cualquiera de las dos |
 
 **Lo que no entra, a propósito.** No hay una sección de aseo ni de cuidado personal. En el ADR-023, E01 y E10 dijeron que eso no se quiere escribir "así", por dignidad. Si la familia quiere decir algo, lo escribe en Moverse y descansar o en Si se altera, con sus palabras. Tampoco hay un campo de diagnóstico ni de "conductas": la ficha es un instructivo para el relevo, no un expediente (E07 y E08).
 
@@ -84,3 +84,16 @@ Al crear un acceso de relevo, la cuidadora ve los tres campos iniciales, que sie
 - **Si las seis secciones son las correctas para las cuidadoras chilenas.** Se pregunta en la segunda ronda de usabilidad (sprint 4) y en las entrevistas de MATU-35.
 - **Plantillas por tipo de dependencia** (por ejemplo, demencia o movilidad reducida). Siguen fuera del semestre.
 - **Los recordatorios de remedios.** Convertir el texto en alertas exige otra revisión normativa, y queda para después del semestre, junto con "Medicamentos y CESFAM".
+
+## Actualización del 03-11 (MATU-49)
+
+Decisiones de Jorge del 03-11, tras la revisión previa del analista normativo:
+- Nombres y preguntas guía sin género asumido (tabla de arriba). Bajo cada sección: «No hace falta escribir diagnósticos ni enfermedades. Escribe lo que ayuda a cuidar». Se quitan «creencias», «texturas», «silla» y «cómo avisa que algo le duele», porque invitan a escribir diagnósticos.
+- Alergias: en Comer y beber y en Sus remedios, «Si tiene alergia a algún remedio o alimento, anótalo aquí».
+- **Sus remedios se mantiene sin consulta legal previa**, por la seguridad del cuidado: quien releva y no conoce los remedios pone en riesgo a la persona.
+- Al compartir, los **tres campos base van siempre**; se eligen las secciones adicionales (0 a 6). Sus remedios viene siempre sin marcar y pide confirmación.
+- Largo: 500 caracteres por sección, 800 en Sus remedios.
+- Un relevo no ve las secciones agregadas después de crear su enlace, pero sí las ediciones de las que ya se le compartieron. Si se quita una sección, deja de verla en el acto.
+- La página del relevo no muestra las preguntas guía ni los ejemplos de las secciones.
+
+Especificación: `docs/diseno/matu-49-ficha-ampliada.md` y contrato propuesto `docs/api/propuestos/ficha-ampliada.openapi.yaml` (repositorio MATU_PROYECTO).

@@ -423,3 +423,63 @@ Son las tres declaraciones de la política de privacidad, en la sección 5, "La 
 | Último uso | Última vez: {fecha} a las {hora} |
 | Botón | Cerrar en ese teléfono |
 | Aviso push (MATU-41) | MATU: un insumo se está acabando. Abre la app para ver cuál |
+
+---
+
+## 14. Ficha ampliada (MATU-49, ADR-028) · Aprobados por Jorge el 03-11
+
+Los textos de 14.3 están en `docs/diseno/matu-49-ficha-ampliada.md` (MATU_PROYECTO) y se aprueban en este PR.
+
+### 14.1 Las seis secciones
+
+| Sección | Título | Pregunta guía | Ejemplo |
+|---|---|---|---|
+| `quien_es` | Quién es | ¿Qué le gustaría que supiera de esta persona alguien que recién la conoce? | Por ejemplo: «Le dicen Tito. Fue profesor de música en Talca. Su nieta Sofía le visita los domingos y tiene un gato, el Pelusa.» |
+| `preferencias` | Lo que le hace bien | ¿Qué le alegra, le entretiene o le calma? | Por ejemplo: «Le gustan los boleros y conversar de fútbol. Ve las noticias a las 9 de la noche.» |
+| `alimentacion` | Comer y beber | ¿Qué le gusta comer y cómo se le sirve? | Por ejemplo: «Toma té con poca azúcar. Prefiere la comida picada en trozos chicos y el pan blando.» |
+| `movilidad` | Moverse y descansar | ¿Cómo se le ayuda a moverse, levantarse y descansar? | Por ejemplo: «Camina con bastón dentro de la casa. Para levantarse, ofrécele el brazo derecho. Duerme siesta después de almuerzo.» |
+| `comunicacion` | Cómo hablarle | ¿Qué ayuda a que se entiendan? | Por ejemplo: «Usa audífono en el oído izquierdo. Háblale de frente y despacio. Si algo le molesta, se toca la frente.» |
+| `remedios` | Sus remedios | ¿Qué remedios toma y a qué hora, tal como se los da la familia? | Por ejemplo: «8:00 con el desayuno: 1 pastilla blanca de la caja azul. 20:00: 1 pastilla de la caja verde.» |
+
+La pregunta guía y el ejemplo no se muestran en la página del relevo.
+
+### 14.2 Ayudas, avisos y compartir
+
+| Dónde | Texto |
+|---|---|
+| Bajo cada sección | No hace falta escribir diagnósticos ni enfermedades. Escribe lo que ayuda a cuidar. |
+| Comer y beber, y Sus remedios | Si tiene alergia a algún remedio o alimento, anótalo aquí. |
+| Sus remedios, siempre visible (también al relevo) | Esto lo escribe la familia. No reemplaza la indicación del médico. |
+| Contador | {n} de 500 caracteres · {n} de 800 caracteres |
+| Compartir, casilla (siempre sin marcar) | Incluir Sus remedios |
+| Compartir, ayuda de la casilla | Quien te reemplaza verá qué remedios toma y a qué hora. Márcalo solo si va a dárselos o a estar a cargo de ellos. |
+| Compartir, confirmación | Vas a compartir sus remedios con {nombre} hasta el {DD/MM/AAAA}. Puedes cortar el acceso cuando quieras. |
+
+### 14.3 Textos de la pantalla [PROPUESTO: los aprueba Jorge en este PR]
+
+| Dónde | Texto |
+|---|---|
+| Ficha, título del bloque | «Más sobre `{nombre_pila}`» |
+| Ficha, bajada | «Si quieres, cuenta más para que quien te reemplace conozca a `{nombre_pila}`. Agrega solo lo que te sirva, cuando tengas tiempo.» |
+| Ficha, lo agregado | «Agregaste 1 sección.» · «Agregaste `{n}` secciones.» |
+| Ficha, encabezado de las no agregadas | «Puedes agregar» |
+| Ficha, botones | «Agregar «`{título}`»» (nombre accesible) · «Editar «`{título}`»» |
+| Ficha, vista previa | «Cada relevo ve solo las secciones que eliges al compartir.» |
+| Editor, sobre el título | «Más sobre `{nombre_pila}`» |
+| Guardado, primera vez | «Agregaste «`{título}`».» |
+| Guardado, cambio | ««`{título}`» guardado.» |
+| Guardado, con accesos vigentes | «Quien ya tiene un enlace no la verá. Para que la vea, crea un enlace nuevo.» |
+| Quitar, botón | «Quitar «`{título}`»» |
+| Quitar, pregunta | «¿Quitar «`{título}`»?» |
+| Quitar, texto | «Se borra lo que escribiste en esta sección. Quien tenga un enlace dejará de verla. No se puede deshacer.» |
+| Quitar, botones | «Quitar y borrar» · «Dejarla como está» |
+| Quitar, en curso | «Quitando…» |
+| Quitar, hecho | «Quitaste «`{título}`».» |
+| Quitar, 404 | ««`{título}`» ya no estaba en la ficha.» |
+| Quitar, 412 | «`{autor}` cambió «`{título}`» mientras la ibas a quitar» · «Esta es la versión que guardó `{autor}`:» · «Quitarla igual» · «Dejarla como está» |
+| Compartir, base | «Siempre ve» · «Su día, Si se altera y A quién llamar.» |
+| Compartir, secciones | «¿Qué más puede ver?» · «Elige las secciones que le sirven.» |
+| Compartir, confirmación | «Sí, crear el enlace» · «No incluir sus remedios» |
+| PIN y Enlaces | «Ve su día, si se altera, a quién llamar, `{secciones en minúscula}`.» · «Si agregas una sección después, `{nombre}` no la verá. Para que la vea, crea un enlace nuevo.» |
+
+Revisados contra los términos prohibidos (diagnóstico, conducta, incidente, deterioro, incontinencia): «diagnósticos» aparece solo en la ayuda aprobada, como lo que **no** se pide. Ningún texto asume el género de la persona cuidada ni de quien usa la app.
