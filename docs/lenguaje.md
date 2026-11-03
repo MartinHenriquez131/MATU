@@ -270,11 +270,11 @@ El mensaje del PIN se anuncia con `role="alert"` y deja el foco en el campo. Los
 | Nota | Solo `{nombre_comparte}` puede cambiar esta ficha. |
 | Campo compartido sin texto | Sin completar |
 
-### 7.5 Aviso al relevo · Aprobado por Jorge el 27-10
+### 7.5 Aviso al relevo · Aprobado por Jorge el 27-10, ajustado el 03-11 (MATU-45: la familia ve el registro)
 
 Aviso para el relevo como titular de su nombre y su teléfono. Va en la pantalla del PIN, antes del canje, bajo el botón, en texto secundario, con el enlace a la política. Es el texto final: se copia tal cual.
 
-> MATU guarda tu nombre y tu teléfono, que anotó quien te compartió la ficha, para enviarte el enlace y poder contactarte. Tu teléfono se borra 30 días después de que el enlace vence o se corta. También registra cada vez que abres el enlace o la ficha y cada PIN incorrecto, y guarda ese registro 3 años, para saber a quién se compartió. Responsables de tus datos: Jorge Espinoza y Martín Henríquez. Puedes pedir ver, corregir o borrar tus datos escribiendo a [PENDIENTE: correo de contacto]. [Política de privacidad]
+> MATU guarda tu nombre y tu teléfono, que anotó quien te compartió la ficha, para enviarte el enlace y poder contactarte. Tu teléfono se borra 30 días después de que el enlace vence o se corta. También registra cada vez que abres el enlace o la ficha y cada PIN incorrecto, con la fecha y la hora. La familia que te compartió la ficha puede ver ese registro con tu nombre. Lo guardamos 3 años. Responsables de tus datos: Jorge Espinoza y Martín Henríquez. Puedes pedir ver, corregir o borrar tus datos escribiendo a [PENDIENTE: correo de contacto]. [Política de privacidad]
 
 El correo de contacto es el mismo de la política, sección 2, y se completa con la versión 1.0.
 
@@ -483,3 +483,25 @@ La pregunta guía y el ejemplo no se muestran en la página del relevo.
 | PIN y Enlaces | «Ve su día, si se altera, a quién llamar, `{secciones en minúscula}`.» · «Si agregas una sección después, `{nombre}` no la verá. Para que la vea, crea un enlace nuevo.» |
 
 Revisados contra los términos prohibidos (diagnóstico, conducta, incidente, deterioro, incontinencia): «diagnósticos» aparece solo en la ayuda aprobada, como lo que **no** se pide. Ningún texto asume el género de la persona cuidada ni de quien usa la app.
+
+---
+
+## 15. Quién la vio (MATU-45) · Aprobados por Jorge el 03-11
+
+| Dónde | Texto |
+|---|---|
+| Bajada | Una línea por cada vez que alguien abre el enlace o la ficha, o escribe mal el PIN. Es un respaldo para ti. |
+| Volver | Volver a la ficha |
+| Enlace abierto sin abrir la ficha (solo si después no hubo otro evento de ese enlace) | Todavía no abre la ficha. Puede que no haya escrito el PIN aún, o que el enlace le haya llegado a otra persona. (Con MATU-48 se agrega: Si te preocupa, puedes cortarlo desde Enlaces.) |
+| Enlace bloqueado | Ya no abre con ese enlace. Si fue un error al escribir, crea uno nuevo y díctale el PIN de nuevo. |
+| Error | No pudimos traer quién la vio. Revisa tu conexión e inténtalo de nuevo. |
+| Paginación | Ver aperturas anteriores · Se agregaron {n} líneas. · No hay más. |
+| Nota final | La ficha se guarda cifrada. |
+| Fechas | Hoy · Ayer · El {día} (hasta 6 días) · El DD/MM/AAAA, con hora de 24 h de Chile |
+
+## 16. Insumos para quien solo lee (MATU-36) · Aprobado por Jorge el 03-11
+
+| Dónde | Texto |
+|---|---|
+| Cómo calculamos, observador y pagador | Dividimos lo que quedaba por lo que se usa, y contamos los días desde que la familia lo anotó. No sabe si compraron ni si cambió lo que usa {pila}. |
+| Nota corta, observador y pagador | Es un cálculo con lo que anotó la familia. |

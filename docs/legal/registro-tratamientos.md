@@ -143,7 +143,7 @@ Cada historia que empieza a tratar datos personales agrega aquí su entrada.
   - para los datos del relevo: [PENDIENTE: consulta legal]. MATU los recibe de quien comparte y se lo informa al relevo con el aviso de `lenguaje.md`, sección 7.5
   - para la dirección IP: [PENDIENTE: consulta legal]
 - **Quién accede:**
-  - administrador y cuidador crean accesos, los ven, los cortan y ven las aperturas, incluidas las veces que se abrió el enlace ("abrió el enlace"). Son los únicos que ven el teléfono del relevo en la lista de accesos, y después de los 30 días aparece vacío (contrato de MATU-09, decisión 31)
+  - administrador y cuidador crean accesos, los ven, los cortan y ven las aperturas en "Quién la vio" (MATU-45; el observador no las ve), incluidas las veces que se abrió el enlace ("abrió el enlace"). Son los únicos que ven el teléfono del relevo en la lista de accesos, y después de los 30 días aparece vacío (contrato de MATU-09, decisión 31)
   - el pagador con permiso de ver la ficha lista los accesos y las aperturas, sin crear ni cortar (contrato de MATU-09). No ve el teléfono del relevo
   - el observador nunca
   - el relevo ve el nombre de pila de la persona cuidada y el de quien comparte, también antes de escribir el PIN (decisión de Jorge del 27-10). Los campos los ve solo después del PIN

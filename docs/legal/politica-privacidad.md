@@ -96,7 +96,7 @@ La persona que cuidas no tiene cuenta en MATU. Sus datos los ingresas tú.
 
 ### De otras personas que tú anotas
 
-- **Relevo:** su nombre y su teléfono, qué campos le compartiste, hasta cuándo, el motivo, cada vez que abrió el enlace, aunque no haya escrito el PIN, cuántas veces abrió la ficha y cada PIN incorrecto. Su teléfono es obligatorio: sirve para que tú le envíes el enlace desde tu teléfono, por WhatsApp o SMS, y para que tu grupo pueda contactarlo. MATU no le envía mensajes. Avísale que lo anotaste: cuando abra el enlace, MATU le muestra qué guarda de él, y también tu nombre de pila y el de la persona que cuidas.
+- **Relevo:** su nombre y su teléfono, qué campos le compartiste, hasta cuándo, el motivo, cada vez que abrió el enlace, aunque no haya escrito el PIN, cuántas veces abrió la ficha y cada PIN incorrecto. Su teléfono es obligatorio: sirve para que tú le envíes el enlace desde tu teléfono, por WhatsApp o SMS, y para que tu grupo pueda contactarlo. MATU no le envía mensajes. Avísale que lo anotaste: cuando abra el enlace, MATU le muestra qué guarda de él, y también tu nombre de pila y el de la persona que cuidas. Tu grupo puede ver ese registro en "Quién la vio" (ver "Quién ve tus datos").
 - **"A quién llamar":** los nombres y teléfonos que escribas. Avísales que los anotaste.
 - **Invitaciones a tu grupo:** el email o el teléfono de la persona invitada. *Todavía no disponible.*
 
@@ -194,7 +194,9 @@ Sus identificadores son `declaracion_consumo_titular`, `declaracion_consumo_repr
 - **Pagador:** ve el nombre y la dirección. Ve la ficha solo si le dan ese permiso.
 - **Observador:** ve el nombre. Nunca ve la ficha.
 
-**Quién abrió o editó la ficha** (aprobado por Jorge el 28-10, MATU-14): cada vez que un miembro del círculo de cuidado abre o edita la ficha de relevo, MATU registra quién lo hizo, qué acción realizó y cuándo. Este registro no guarda el contenido de la ficha ni tu dirección IP. Puede consultarlo la persona administradora del grupo, y cada miembro puede ver sus propios registros. [PENDIENTE: el plazo de conservación, en consulta legal]
+**Quién abrió o editó la ficha** (aprobado por Jorge el 28-10, MATU-14): cada vez que un miembro del círculo de cuidado abre o edita la ficha de relevo, MATU registra quién lo hizo, qué acción realizó y cuándo. Este registro no guarda el contenido de la ficha ni tu dirección IP. Puede consultarlo la persona administradora del grupo, y cada miembro puede ver sus propios registros. Se guarda 3 años (sección 8).
+
+**Quién abrió el enlace de relevo** (MATU-45, aprobado por Jorge el 03-11): cada vez que un relevo abre el enlace, aunque no escriba el PIN, abre la ficha, escribe mal el PIN o el enlace se bloquea, MATU registra la fecha, la hora y el nombre del relevo. Lo ven en "Quién la vio" la persona administradora, quien cuida y quien paga si tiene permiso para ver la ficha. El observador no lo ve. Este registro no muestra el teléfono del relevo, su dirección IP, el enlace ni el PIN. Se guarda 3 años desde que el acceso vence o se corta. [PENDIENTE: consulta legal sobre si 3 años es proporcional para los datos de un tercero, el relevo]
 
 **El consumo de insumos** lo ven todas las personas del grupo, incluido el observador. Solo el administrador y el cuidador lo anotan, lo cambian, dejan de seguir un insumo o lo eliminan. Cada vez que alguien lo hace, MATU registra quién y cuándo, sin el nombre del insumo ni las cantidades. El equipo de MATU no puede leerlo.
 
