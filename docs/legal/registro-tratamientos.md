@@ -208,6 +208,7 @@ Cada historia que empieza a tratar datos personales agrega aquí su entrada.
   - alertas: insumo (por su identificador), fecha estimada, estado y cuándo se avisó y se cerró. Sin nombre del insumo ni cantidades;
   - compras declaradas con «Ya lo resolví»: cantidad, fecha y quién la anotó; se suman a lo que quedaba;
   - el trabajo diario (rol sistema) crea las alertas solo para personas con la autorización de insumos vigente;
+  - para recorrer los grupos, el trabajo diario usa en el semestre el rol operación, que lee solo el identificador de cada grupo activo; después trabaja grupo por grupo con el rol sistema. [PENDIENTE: usuario propio de tareas programadas, con permiso solo para leer los identificadores, antes de datos reales];
   - conservación: alertas cerradas 90 días desde que se cierran, eventos publicados 30 días, avisos enviados 90 días, compras mientras exista el insumo (decisiones de Jorge del 03-11).
 - **Comunicaciones a terceros:** el servicio de push del navegador y el proveedor de correo reciben un aviso de texto fijo, «MATU: un insumo se está acabando. Abre la app para ver cuál», y el destino (token push o email). Por defecto avisan a admin y cuidador. Son encargados de MATU. [PENDIENTE: nombrarlos, su país y el contrato de encargo]. **Transferencia internacional:** [PENDIENTE]. **Decisiones automatizadas:** ninguna. La fecha es una estimación informativa y la alerta nunca genera un pedido.
 
