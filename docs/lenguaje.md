@@ -455,7 +455,7 @@ La pregunta guía y el ejemplo no se muestran en la página del relevo.
 | Compartir, ayuda de la casilla | Quien te reemplaza verá qué remedios toma y a qué hora. Márcalo solo si va a dárselos o a estar a cargo de ellos. |
 | Compartir, confirmación | Vas a compartir sus remedios con {nombre} hasta el {DD/MM/AAAA}. Puedes cortar el acceso cuando quieras. |
 
-### 14.3 Textos de la pantalla [PROPUESTO: los aprueba Jorge en este PR]
+### 14.3 Textos de la pantalla · Aprobados por Jorge el 03-11
 
 | Dónde | Texto |
 |---|---|
@@ -467,7 +467,7 @@ La pregunta guía y el ejemplo no se muestran en la página del relevo.
 | Ficha, vista previa | «Cada relevo ve solo las secciones que eliges al compartir.» |
 | Editor, sobre el título | «Más sobre `{nombre_pila}`» |
 | Guardado, primera vez | «Agregaste «`{título}`».» |
-| Guardado, cambio | ««`{título}`» guardado.» |
+| Guardado, cambio | «Guardamos «`{título}`».» |
 | Guardado, con accesos vigentes | «Quien ya tiene un enlace no la verá. Para que la vea, crea un enlace nuevo.» |
 | Quitar, botón | «Quitar «`{título}`»» |
 | Quitar, pregunta | «¿Quitar «`{título}`»?» |
