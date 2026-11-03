@@ -227,3 +227,18 @@ Cada historia que empieza a tratar datos personales agrega aquí su entrada.
   - `no-store`;
   - push sin contenido y con una lista cerrada de hosts.
 - **Comunicaciones a terceros:** el servicio de push del navegador recibe un aviso sin contenido. [PENDIENTE: nombrarlos y su país]. **Decisiones automatizadas:** ninguna. La espera después de varios intentos es un control de seguridad.
+
+## 7. Celular de la cuenta (MATU-39, MATU-57)
+
+- **Finalidad:** enviar un código por SMS o WhatsApp para recuperar la contraseña o confirmar la identidad (MATU-57). Hasta MATU-57 solo se guarda.
+- **Titulares:** las personas usuarias.
+- **Datos:** celular en formato E.164 (`+569XXXXXXXX`), obligatorio al crear la cuenta (decisión de Jorge del 03-11).
+- **Base de licitud:** ejecución del servicio que pide la persona.
+- **Quién accede:** la propia persona y operación para soporte. No lo ven las otras personas del grupo.
+- **Conservación:** mientras exista la cuenta. [PENDIENTE: plazo tras eliminar la cuenta]
+- **Medidas:** nunca en logs, errores, auditoría ni eventos.
+- **Comunicaciones a terceros:** el proveedor de SMS o WhatsApp, cuando exista MATU-57. [PENDIENTE: nombrarlo y su país]
+
+## Nota sobre la ficha ampliada (ADR-028)
+
+La sección "Sus remedios" se mantiene por decisión de Jorge del 03-11, sin consulta legal previa: quien releva y no conoce los remedios pone en riesgo a la persona cuidada. Se trata como dato sensible, cifrado como la ficha, y al compartir viene sin marcar. Su entrada en este registro se completa en MATU-49.

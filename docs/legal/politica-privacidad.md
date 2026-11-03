@@ -14,7 +14,7 @@
 
 - MATU te ayuda a organizar el cuidado de una persona mayor. Su parte principal es una ficha de relevo para quien te reemplaza.
 - **Hoy MATU es un piloto académico y no guarda datos reales.** Si lo pruebas, usa nombres y datos inventados.
-- MATU **no pide diagnósticos** ni datos médicos. Solo pide lo necesario para cuidar.
+- MATU **no pide diagnósticos** ni fichas clínicas. Solo pide lo necesario para cuidar. Si quieres, puedes anotar en la ficha qué remedios toma y a qué hora, para que quien te reemplaza no se equivoque.
 - La ficha se guarda cifrada. La ven solo las personas de tu grupo que tienen permiso y el relevo al que tú se la compartes, por el tiempo que tú elijas.
 - MATU no usa publicidad ni analítica de terceros, y no vende datos.
 - MATU nunca ve ni guarda los datos completos de tu tarjeta.
@@ -55,7 +55,8 @@ MATU no usa los datos para publicidad ni los vende. Tampoco toma decisiones auto
 
 ### De ti
 
-- **Tu nombre y tu email.** Para crear tu cuenta no pedimos nada más.
+- **Tu nombre, tu email y tu celular.** Para crear tu cuenta no pedimos nada más.
+- **Tu celular** lo pedimos para enviarte un código por SMS o WhatsApp cuando quieras recuperar tu contraseña o confirmar que eres tú. *El envío del código todavía no está disponible.* No lo mostramos a otras personas del grupo ni lo usamos para publicidad.
 - **Tu email se guarda legible**, porque lo necesitamos para que entres y para escribirte. Lo protege la separación entre familias de la base de datos. Para iniciar sesión usamos además una huella del email que no permite recuperarlo.
 - **Tu contraseña**, guardada transformada de una forma que no se puede revertir. Nadie en MATU puede leerla.
 - **Los grupos a los que perteneces** y tu rol en cada uno.
@@ -86,7 +87,8 @@ La persona que cuidas no tiene cuenta en MATU. Sus datos los ingresas tú.
 - La autorización: quién la dio, en qué calidad y cuándo, y la referencia al documento si quien autoriza es su representante legal.
 - Si diste la autorización como cuidadora o cuidador de hecho, la fecha en que te pediremos confirmar que sigues a cargo, 12 meses después.
 - La ficha de relevo, con sus tres campos: **Su día**, **Si se altera** y **A quién llamar**. También guardamos quién escribió cada campo y cuándo.
-- **Su consumo de insumos:** qué insumos usa, en qué unidad, cuánto usa cada cuántos días, cuánto quedaba la última vez que lo anotaste y con cuántos días de anticipación quieres saberlo. Con eso MATU calcula una fecha estimada. Si el insumo no está en el catálogo, guardamos el nombre que escribas: usa el nombre del envase, sin remedios ni para qué lo usa.
+- **Su consumo de insumos:** qué insumos usa, en qué unidad, cuánto usa cada cuántos días, cuánto quedaba la última vez que lo anotaste y con cuántos días de anticipación quieres saberlo. Con eso MATU calcula una fecha estimada. Si el insumo no está en el catálogo, guardamos el nombre que escribas: usa el nombre del envase, sin remedios ni para qué lo usa. Los remedios van en la ficha, no en los insumos.
+- **Secciones adicionales de la ficha**, si decides agregarlas: quién es, lo que la hace bien, alimentación, movilidad, comunicación y **sus remedios** (qué toma, cuánto y a qué hora, en texto libre). Se guardan cifradas, como la ficha. Al compartir, los remedios vienen sin marcar y eliges si los incluyes. *Todavía no disponible.*
 
 **El nivel de apoyo y la ficha son datos sensibles**, porque hablan de la salud y de la dependencia de la persona. Por eso los protegemos de forma especial.
 
@@ -120,7 +122,7 @@ La persona que cuidas no tiene cuenta en MATU. Sus datos los ingresas tú.
 
 ### Lo que MATU no pide
 
-- Diagnósticos, nombres de enfermedades, medicamentos, recetas, exámenes ni fichas clínicas.
+- Diagnósticos, nombres de enfermedades, recetas, exámenes ni fichas clínicas. Los remedios que toma son opcionales y solo para quien la cuida y la reemplaza (decisión de Jorge del 03-11, por la seguridad del cuidado).
 - El RUT de nadie.
 - Copias de documentos. Si eres representante legal, guardamos solo una referencia al documento.
 - Los datos de tu tarjeta.
@@ -183,7 +185,7 @@ Sus identificadores son `declaracion_consumo_titular`, `declaracion_consumo_repr
 
 > ADR-027 (27-10), aprobado por Jorge. Cambian los párrafos de comercios, de quien reparte y de Transbank.
 
-**Tu cuenta:** tu email lo ven solo tú y el equipo que opera MATU. Las personas de tus grupos ven tu nombre. [PENDIENTE: si también ven tu email, se define con la lista de miembros del grupo]
+**Tu cuenta:** tu email y tu celular los ven solo tú y el equipo que opera MATU. Las personas de tus grupos ven tu nombre. [PENDIENTE: si también ven tu email, se define con la lista de miembros del grupo]
 
 **El nombre del grupo:** lo ven las personas del grupo y el equipo que opera MATU.
 
