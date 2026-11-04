@@ -138,7 +138,7 @@ Los ejemplos son sintéticos: Carmen cuida a María, Rosa la reemplaza y Rodrigo
 | Dónde | Texto |
 |---|---|
 | Título de la sección | Ficha de relevo |
-| Bajada de la lista de campos | Tres campos cortos para que quien te reemplace sepa qué hacer. Cada campo se guarda por separado y puedes compartir solo algunos. |
+| Bajada de la lista de campos · Cambiada por Jorge el 03-11 (ADR-028: los tres campos van siempre) | Tres campos cortos para que quien te reemplace sepa qué hacer. Cada campo se guarda por separado. |
 | Avance | `{n}` de 3 campos listos |
 | Estado de un campo con texto / sin texto | Listo / Falta |
 | Botón de un campo sin texto / con texto | Completar «`{campo}`» / Editar «`{campo}`» |
@@ -483,6 +483,18 @@ La pregunta guía y el ejemplo no se muestran en la página del relevo.
 Revisados contra los términos prohibidos (diagnóstico, conducta, incidente, deterioro, incontinencia): «diagnósticos» aparece solo en la ayuda aprobada, como lo que **no** se pide. Ningún texto asume el género de la persona cuidada ni de quien usa la app.
 
 ---
+
+### 14.4 Conflictos y errores de las secciones (MATU-50) · Aprobados por Jorge el 03-11
+
+| Dónde | Texto |
+|---|---|
+| Guardar cuando otra persona quitó la sección, título | Otra persona quitó «`{sección}`» mientras escribías |
+| Ídem, texto | Lo que escribiste no se guardó. Puedes agregarla de nuevo con tu texto. |
+| Ídem, botones | Agregarla de nuevo · Dejarla quitada |
+| Ídem, al pie | Si quieres, copia lo que escribiste antes de elegir. |
+| Ídem, al confirmar | Agregaste «`{sección}`». · Dejaste «`{sección}`» quitada. |
+| Texto demasiado largo (422) | Esta sección admite hasta `{tope}` caracteres. Acorta un poco el texto para guardarlo. |
+| «Dejarla como está» en el conflicto al quitar | Dejaste «`{sección}`» como la guardó `{autor}`. |
 
 ## 15. Quién la vio (MATU-45) · Aprobados por Jorge el 03-11
 
