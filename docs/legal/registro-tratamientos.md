@@ -205,7 +205,7 @@ Cada historia que empieza a tratar datos personales agrega aquí su entrada.
   - nada en el almacenamiento del navegador ni en la URL;
   - RLS separada de `alerta_quiebre` y `reposicion` (MATU-37): leen los cuatro roles; solo el rol sistema crea alertas; solo admin y cuidador las cierran o declaran una compra; nadie las borra a mano;
   - auditoría de `alerta.materializar`, `alerta.resolver`, `alerta.descartar` y `reposicion.declarar`, sin nombre, cantidades ni IP;
-  - el aviso por push o correo es un texto fijo sin nombres de personas ni de insumos, y su enlace no lleva identificadores. El correo va sin seguimiento de aperturas ni de clics, y el push con el contenido cifrado (RFC 8291)
+  - el aviso por push o correo es un texto fijo sin nombres de personas ni de insumos, y su enlace no lleva identificadores. El correo va sin seguimiento de aperturas ni de clics. El push va sin contenido (RFC 8030 con VAPID, decisión 50 del contrato): el servicio de push solo recibe la dirección de avisos y el teléfono muestra el texto fijo
   - antes de cada envío se revisa que la autorización de `consumo` siga vigente, que la alerta siga abierta y que el destinatario siga activo en el grupo; si no, el aviso queda `omitido` (MATU-41)
   - el correo sale siempre y el push además, desde las 9:00 hora de Chile; cada persona puede desactivar cada canal (`GET/PUT /v1/yo/avisos`)
   - los logs y el registro simulado nunca llevan el email, el `push_token` ni el texto
