@@ -151,10 +151,8 @@ Los ejemplos son sintéticos: Carmen cuida a María, Rosa la reemplaza y Rodrigo
 | Mientras se guarda | Guardando… |
 | Vista previa | Así la ve quien te reemplaza · La hoja, mientras escribes |
 | **Campo vacío** (en la hoja, para el relevo y en la vista previa) | **Sin completar** |
-| Campo vacío en la hoja impresa | Sin completar. Pregúntale a `{nombre de quien imprime}`. |
-| Pie de la hoja impresa | Para quien la cuide hoy. Gracias por estar. |
-| Bajada de la hoja impresa | La ficha en una hoja, para pegar en el refrigerador. Se imprime desde el navegador. MATU no descarga ni guarda un archivo en tu teléfono o computador. |
-| Botón de la hoja impresa | Imprimir |
+
+**Sin hoja impresa (ADR-029, 03-11):** la ficha no se imprime ni se exporta. Salieron de esta tabla los textos de la hoja impresa (la bajada, el botón «Imprimir», el pie y el campo vacío impreso). La hoja del refrigerador queda solo como el aspecto de la ficha en pantalla.
 
 "Guardar" con un campo vacío que nunca se escribió no hace nada y no muestra mensaje (contrato, decisión 6). Vaciar un campo que ya tenía texto sí se guarda, y el campo vuelve a "Sin completar".
 
@@ -359,7 +357,7 @@ La demo del viernes 30 no se modifica. Al conectarla a la API, o al construir MA
 | 9 | El texto que la demo dicta en "Si se altera" insinúa una condición de salud de María | Los ejemplos de este documento no lo hacen (sección 5). El dictado de la demo no se copia a la app | Jorge, si quiere cambiar el dictado después del viernes |
 | 10 | Los documentos de las entrevistas no seguían los códigos del protocolo, sección 6 | Este documento no usa códigos de entrevista | **Resuelto por Jorge el 27-10:** los documentos de las entrevistas usan los códigos E01 a E10 del protocolo, sin iniciales ni edades exactas |
 | 11 | Demo: "Cada campo se guarda cifrado" y "se guarda protegido" | No se dice "cifrado" hasta que MATU-11 exista (política v0.9, sección 13). Marcado **[desde MATU-11]** en la sección 5.4 | Ya resuelto aquí |
-| 12 | Demo: "Sirve sin conexión y sin aplicación" en la hoja impresa | La hoja se imprime desde el navegador y no se descarga ni se guarda un archivo (política v0.9, sección 9) | Ya resuelto aquí |
+| 12 | Demo: "Sirve sin conexión y sin aplicación" en la hoja impresa | La ficha no se imprime ([ADR-029](adr/ADR-029-ficha-no-se-imprime.md)). La demo no se copia a la app | **Resuelto por Jorge el 03-11** |
 
 **Para la tarjeta de consulta legal en Trello:**
 
