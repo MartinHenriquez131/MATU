@@ -541,3 +541,18 @@ Complementa la sección 13 (lo central ya aprobado: «Alcanza para {n} días», 
 | Validación y errores | Escribe el nombre del insumo. · Escribe cuántos usa, al menos 1. · Escribe un número hasta 10.000. · Escribe un número de 2 a 90. · Escribe cuántos quedan. Si no queda nada, escribe 0. · Escribe un número hasta 100.000. · Escribe un número de 0 a 60. · El nombre admite hasta 60 caracteres. Acórtalo un poco. · Escribe el nombre en una sola línea. · Con esos números alcanzaría para más de 10 años. Revisa cuánto queda y cuánto se usa. · Ese producto no se puede seguir en MATU. · Ese producto ya está anotado. Búscalo en la lista y cámbialo ahí. · No pudimos guardar. Revisa los datos y vuelve a intentarlo. · Ya no se está siguiendo este insumo. · Alguien desmarcó «Seguir» mientras lo cambiabas. Para cambiarlo, vuelve a marcar «Seguir» en la lista. · No pudimos guardar este insumo. · Vuelve a abrirlo y guarda de nuevo. Lo que escribiste sigue aquí. |
 | Conflicto | {autor} cambió «{nombre}» mientras lo cambiabas · No guardamos lo tuyo encima de lo suyo. Elige qué dejar. · Lo que guardó · Lo tuyo, sin guardar · (cambió) · Guardar lo mío · Dejar lo que guardó · Dejaste lo que guardó {autor}. |
 | Seguir y eliminar | Seguir · Sin seguir · No calculamos ni avisamos mientras no lo sigues. · Dejaste de seguir «{nombre}». Lo anotado sigue guardado. · Volviste a seguir «{nombre}». Si cambió cuánto queda, anótalo. · ¿Eliminar «{nombre}»? · Se borra todo lo anotado de este insumo y no se puede recuperar. · Si solo quieres dejar de calcularlo por un tiempo, desmarca «Seguir». · Eliminar · Eliminando… · Eliminaste «{nombre}». |
+
+## 20. Avisos por correo y push (MATU-41) · Aprobados por Jorge el 04-11
+
+El correo y el push nunca dicen qué insumo ni de quién, no ofrecen comprar y su enlace no lleva identificadores ni token. En el piloto se prueban sin enviarse.
+
+| Dónde | Texto |
+|---|---|
+| Correo, remitente | MATU |
+| Correo, asunto | MATU: un insumo se está acabando |
+| Correo, cuerpo | Un insumo se está acabando. Abre la app para ver cuál. |
+| Correo, botón o enlace (sin identificadores) | Abrir MATU |
+| Correo, pie | Te llega este correo porque eres parte de un grupo de cuidado en MATU. Para dejar de recibir estos avisos por correo, entra a MATU y desactívalos en Tu cuenta. |
+| Push, título y cuerpo | MATU · Un insumo se está acabando. Abre la app para ver cuál. |
+| Preferencias en «Tu cuenta» (pantalla en MATU-55) | Avisos cuando un insumo se está acabando · Por correo · En este teléfono |
+
