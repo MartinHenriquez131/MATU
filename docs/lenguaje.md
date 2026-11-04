@@ -372,7 +372,12 @@ Salen de la revisión previa del analista normativo y de la especificación `doc
 | Paginación | Ver enlaces anteriores |
 | Llamar al relevo (admin y cuidador) | Llamar a `{nombre}` |
 | Teléfono ya borrado (después de 30 días) | Ya no guardamos su teléfono. |
-| Autorización vencida o retirada, en Enlaces (decisión 33) | Aviso: Mientras no renueves la autorización, ningún enlace abre. Cuando la renueves, vuelven a abrir los que no hayan vencido. · En cada enlace vigente: En pausa (con ícono, en vez de «Activo») |
+| Autorización vencida o retirada, en Enlaces (decisión 33) | Aviso: Mientras no haya una autorización vigente, ningún enlace abre. Cuando la renueves, vuelven a abrir los que no hayan vencido. · En cada enlace vigente: En pausa (con ícono, en vez de «Activo») |
+| Ver las aperturas de un enlace | Ver cuándo la abrió |
+| Nombre accesible del enlace creado | Enlace para `{nombre}` |
+| Al cargar más enlaces | Se agregó 1 enlace. · Se agregaron `{n}` enlaces. |
+| Servicio no disponible (503) | MATU no está disponible en este momento. Vuelve a intentarlo en unos minutos. |
+| Nombre accesible de las pestañas | Vistas de Compartir |
 | En Quién la vio | Nadie tiene un enlace activo ahora. · Si te preocupa, puedes cortarlo desde Enlaces. · Ver todo en Quién la vio |
 
 ---
