@@ -324,7 +324,7 @@ Textos de la demo, con los cambios que pide el contrato de MATU-09.
 
 | Dónde | Texto |
 |---|---|
-| Bajada de Compartir | Quien te reemplaza recibe un enlace por WhatsApp y el PIN se lo dictas tú. El enlace vence solo y lo puedes cortar antes. |
+| Bajada de Compartir · Aprobada por Jorge el 04-11 (el envío ya no es solo por WhatsApp) | Quien te reemplaza recibe un enlace en un mensaje y el PIN se lo dictas tú. El enlace vence solo y lo puedes cortar antes. |
 | Preguntas del formulario | ¿Quién te va a reemplazar? · Su teléfono · ¿Hasta cuándo? · ¿Cuántos días? (Hasta 30 días.) Qué ve se elige con el selector de la sección 14.2 (desde MATU-50, «¿Qué puede ver?» se retira) |
 | Ayuda del teléfono · Aprobado por Jorge el 27-10 | Para enviarle el enlace y poder contactarle. |
 | Recordatorio bajo el selector de secciones · Versión neutra aprobada por Jorge el 04-11 | Comparte solo lo que necesita para cuidar a `{nombre_pila}`. Quien recibe el enlace puede anotar o fotografiar lo que lee, y MATU no puede impedirlo. |
