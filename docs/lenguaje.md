@@ -253,6 +253,7 @@ Todos los estados en que el enlace ya no abre terminan con la misma acción, en 
 | Vencido | `/errores/relevo-vencido` 410 | Este enlace venció | Los enlaces de MATU duran un tiempo fijo, y el de esta ficha ya terminó. | Pídele a quien te envió el enlace uno nuevo. |
 | Cortado | `/errores/relevo-revocado` 410 | Este enlace se cortó | Quien te compartió la ficha cortó el enlace, y ya no abre. | Pídele a quien te envió el enlace uno nuevo. |
 | No disponible | `/errores/relevo-no-disponible` 410 | Este enlace no está disponible | Puede que se haya copiado incompleto o que ya no exista. Revisa que lo abriste completo desde el mensaje. | Pídele a quien te envió el enlace uno nuevo. |
+| En pausa · Aprobado por Jorge el 04-11 (decisión 33) | `/errores/relevo-pausado` 410 | Por ahora esta ficha no se puede ver. | — (no dice el motivo a un tercero) | Pídele a quien te envió el enlace que lo revise. |
 | Sin sesión | `/errores/sin-sesion-relevo` 401 | Vuelve a abrir el enlace | Por seguridad, la ficha se cierra después de un rato. Abre de nuevo el enlace que te enviaron y escribe el PIN. | — (el enlace sigue sirviendo) |
 | Demasiados intentos desde la conexión | `/errores/demasiadas-peticiones` 429 | Espera un momento | Hubo muchos intentos de entrar desde esta conexión. Vuelve a intentarlo en `{minutos}` minutos. | — |
 
@@ -308,6 +309,7 @@ La pantalla elige el texto por `type` (y, en un 422, por `errores[].campo` y `er
 | `/errores/relevo-vencido` | 410 | Relevo | Sección 7.3 |
 | `/errores/relevo-revocado` | 410 | Relevo | Sección 7.3 |
 | `/errores/relevo-no-disponible` | 410 | Relevo | Sección 7.3 |
+| `/errores/relevo-pausado` | 410 | Relevo | Sección 7.3 |
 | `/errores/relevo-bloqueado` | 423 | Relevo | Sección 7.3 |
 | `/errores/demasiadas-peticiones` | 429 | Relevo | Sección 7.3 |
 | Cualquier otro, o sin respuesta | 5xx o red | Toda la app | No pudimos completar esto. Revisa tu conexión y vuelve a intentarlo. Lo que escribiste sigue aquí. |
@@ -370,6 +372,7 @@ Salen de la revisión previa del analista normativo y de la especificación `doc
 | Paginación | Ver enlaces anteriores |
 | Llamar al relevo (admin y cuidador) | Llamar a `{nombre}` |
 | Teléfono ya borrado (después de 30 días) | Ya no guardamos su teléfono. |
+| Autorización vencida o retirada, en Enlaces (decisión 33) | Aviso: Mientras no renueves la autorización, ningún enlace abre. Cuando la renueves, vuelven a abrir los que no hayan vencido. · En cada enlace vigente: En pausa (con ícono, en vez de «Activo») |
 | En Quién la vio | Nadie tiene un enlace activo ahora. · Si te preocupa, puedes cortarlo desde Enlaces. · Ver todo en Quién la vio |
 
 ---
