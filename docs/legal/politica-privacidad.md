@@ -90,7 +90,7 @@ La persona que cuidas no tiene cuenta en MATU. Sus datos los ingresas tú.
 - Si diste la autorización como cuidadora o cuidador de hecho, la fecha en que te pediremos confirmar que sigues a cargo, 12 meses después.
 - La ficha de relevo, con sus tres campos: **Su día**, **Si se altera** y **A quién llamar**. También guardamos quién escribió cada campo y cuándo.
 - **Su consumo de insumos:** qué insumos usa, en qué unidad, cuánto usa cada cuántos días, cuánto quedaba la última vez que lo anotaste y con cuántos días de anticipación quieres saberlo. Con eso MATU calcula una fecha estimada. Si el insumo no está en el catálogo, guardamos el nombre que escribas: usa el nombre del envase, sin remedios ni para qué lo usa. Los remedios van en la ficha, no en los insumos.
-- **Secciones adicionales de la ficha**, si decides agregarlas: Quién es, Lo que le hace bien, Comer y beber, Moverse y descansar, Cómo hablarle y Sus remedios. Todas son opcionales y se escriben con tus palabras, hasta 500 caracteres cada una (800 en Sus remedios). Se guardan cifradas, como la ficha, y siguen sus mismos plazos. Si quitas una sección, su texto se borra en ese momento y quien tenga un enlace deja de verla. Si la vuelves a agregar, ningún enlace anterior la ve. **Sus remedios** guarda en texto libre qué remedios toma la persona y a qué hora, tal como se los da la familia. No es una receta y no reemplaza la indicación del médico. Al compartir con un relevo, tú marcas qué secciones ve. Sus remedios viene siempre sin marcar. Te recomendamos no escribir diagnósticos ni nombres de enfermedades en ninguna sección. Ya puedes agregarlas, editarlas y quitarlas. *Elegir qué secciones ve un relevo todavía no está disponible:* por ahora un relevo ve solo los tres campos.
+- **Secciones adicionales de la ficha**, si decides agregarlas: Quién es, Lo que le hace bien, Comer y beber, Moverse y descansar, Cómo hablarle y Sus remedios. Todas son opcionales y se escriben con tus palabras, hasta 500 caracteres cada una (800 en Sus remedios). Se guardan cifradas, como la ficha, y siguen sus mismos plazos. Si quitas una sección, su texto se borra en ese momento y quien tenga un enlace deja de verla. Si la vuelves a agregar, ningún enlace anterior la ve. **Sus remedios** guarda en texto libre qué remedios toma la persona y a qué hora, tal como se los da la familia. No es una receta y no reemplaza la indicación del médico. Al compartir con un relevo, tú marcas qué secciones ve. Sus remedios viene siempre sin marcar. Te recomendamos no escribir diagnósticos ni nombres de enfermedades en ninguna sección. Ya puedes agregarlas, editarlas y quitarlas. Al compartir, eliges qué secciones ve el relevo (MATU-48).
 
 **El nivel de apoyo y la ficha son datos sensibles**, porque hablan de la salud y de la dependencia de la persona. Por eso los protegemos de forma especial.
 
@@ -300,7 +300,7 @@ Si hay una filtración que afecte datos personales, avisaremos sin demora a la A
 
 ## 13. Lo que todavía no funciona en el piloto
 
-- Ficha cifrada y relevo con enlace y PIN: se están construyendo.
+- Borrar el teléfono del relevo 30 días después de que el acceso vence o se corta (MATU-46). Mientras no exista, MATU no trata datos reales.
 - Retirar una autorización desde la aplicación, y que al retirarla se corten los accesos de relevo vigentes.
 - Ver, descargar o borrar los datos desde la aplicación. Mientras tanto, por el correo de la sección 10.
 - El recordatorio de los 12 meses.
