@@ -1,6 +1,7 @@
 # MATU — Estrategia de pruebas
 
-**Versión:** 1.1 · septiembre 2026 · alineada con el backlog v1.3 y el calendario de sprints v1.3
+**Versión:** 1.2 · 5 de noviembre de 2026 · alineada con el backlog v1.3 y el calendario de sprints v1.3
+**Cambios de la v1.2 (aprobados por Jorge el 05-11):** el nivel de interfaz pasa a la aplicación web del ADR-026, con Vitest y Testing Library. La v1.1 decía `flutter test`, que el ADR-026 dejó sin efecto.
 **Equipo:** Jorge Espinoza · Martín Henríquez
 **Documentos asociados:** Arquitectura v1.1, sección 12 · Modelo de datos v1.0 · Backlog sprints 1 a 3
 **Estado:** vigente desde el sprint 0. Los sprints se numeran según el [calendario v1.3](sprints/calendario-sprints.md).
@@ -29,7 +30,7 @@ Tres reglas gobiernan todo el documento:
 | **Aislamiento** | Qué filas alcanza cada eje de acceso | pytest contra PostgreSQL real | Cada push | 30 s | 100% de las celdas de la matriz de acceso |
 | **Contrato de API** | Que el código no rompa el contrato acordado | openapi-diff + schemathesis | Cada push | 2 min | 100% de endpoints |
 | **Extremo a extremo** | Los recorridos críticos de punta a punta, contra la API | pytest + httpx + dobles de puertos | Cada push a `main` | 5 min | Los recorridos del sprint, siempre verdes |
-| **Interfaz móvil** | Widgets críticos, semántica y escalado de texto | flutter test | Cada push de `mobile/` | 3 min | Flujos del prototipo |
+| **Interfaz web** | Componentes críticos: semántica, foco, errores de campo con `aria-describedby`, avisos con `role` y textos de `lenguaje.md` (ADR-026) | Vitest + Testing Library sobre jsdom, en `web/` (`npm test`) | Cada push, en el trabajo `web` del CI | 1 min | Cada corrección de pantalla deja una prueba que falla sin ella (definición de terminado, punto 6) |
 | **Manual con Transbank** | Venta normal con crédito y con débito, anulación parcial con los dos, retorno duplicado (ADR-027) | Guion escrito, ambiente de integración | Antes del sprint 4 y en el sprint 4 | 1 h | Los casos del guion |
 | **Accesibilidad manual** | TalkBack, texto al 200%, contraste en pantalla real | Checklist de la sección 7 | Cada historia con pantalla | 15 min | Checklist completo |
 | **Usabilidad** | Tres personas reales, tres perfiles | Guion de tareas | Sprints 3 y 4 | 45 min c/u | 3 sesiones por ronda |

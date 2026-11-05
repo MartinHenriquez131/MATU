@@ -313,7 +313,8 @@ La pantalla elige el texto por `type` (y, en un 422, por `errores[].campo` y `er
 | `/errores/relevo-bloqueado` | 423 | Relevo | Sección 7.3 |
 | `/errores/demasiadas-peticiones` | 429 | Relevo | Sección 7.3 |
 | `/errores/demasiadas-peticiones` | 429 | Entrar | Sección 13.3, «Varios intentos fallidos» |
-| `/errores/demasiadas-peticiones` | 429 | Crear cuenta, recuperar el acceso y verificar el celular | Sección 13.3, «Muchos intentos desde la conexión» |
+| `/errores/demasiadas-peticiones` | 429 | Crear cuenta | Sección 13.3, «Muchos intentos desde la conexión» |
+| `/errores/demasiadas-peticiones` | 429 | Recuperar el acceso y verificar el celular (demora por intentos con el código y límites de envío, no el límite por IP) | Sección 19 |
 | `/errores/validacion` | 422 | Crear cuenta, `email`, `dominio_no_permitido` (solo staging) | Sección 13.3 |
 | Cualquier otro, o sin respuesta | 5xx o red | Toda la app | No pudimos completar esto. Revisa tu conexión y vuelve a intentarlo. Lo que escribiste sigue aquí. |
 
@@ -461,7 +462,7 @@ Son las tres declaraciones de la política de privacidad, en la sección 5, "La 
 |---|---|
 | Entrada vencida (`sesion-expirada`, `no-autenticado`, `token-invalido`) | Hace tiempo que no entrabas. Vuelve a entrar con tu correo y tu contraseña. |
 | Varios intentos fallidos (429) | Hubo varios intentos de entrar. Espera {minutos} minutos. · enlace: Recupera tu cuenta (MATU-57, aprobado por Jorge el 03-11) |
-| Muchos intentos desde la conexión (429 del límite por IP de MATU-25), al crear la cuenta, recuperar el acceso y verificar el celular | Título: Espera un momento · Texto: Hubo muchos intentos desde esta conexión. Vuelve a intentarlo en {minutos} minutos. Con 1: «en 1 minuto». Los minutos salen de `Retry-After` redondeados hacia arriba (aprobado por Jorge el 05-11, P2-1 de la prueba en el teléfono) |
+| Muchos intentos desde la conexión (429 del límite por IP de MATU-25), solo al crear la cuenta. Recuperar el acceso y verificar el celular conservan sus textos de la sección 19 (corregido el 05-11) | Título: Espera un momento · Texto: Hubo muchos intentos desde esta conexión. Vuelve a intentarlo en {minutos} minutos. Con 1: «en 1 minuto». Los minutos salen de `Retry-After` redondeados hacia arriba (aprobado por Jorge el 05-11, P2-1 de la prueba en el teléfono) |
 | Correo de un dominio no permitido, solo en staging (`errores[].tipo = dominio_no_permitido`, decisión 105) | Bajo el campo del correo: En este ambiente de prueba usa un correo terminado en @example.com. (aprobado por Jorge el 05-11, P3-1 de la prueba en el teléfono) |
 | Título de la pantalla de dispositivos | Dónde entraste |
 | El dispositivo actual | Este teléfono |
