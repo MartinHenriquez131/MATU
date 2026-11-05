@@ -417,7 +417,7 @@ Son las tres declaraciones de la política de privacidad, en la sección 5, "La 
 | Dónde | Texto |
 |---|---|
 | Entrada vencida (`sesion-expirada`, `no-autenticado`, `token-invalido`) | Hace tiempo que no entrabas. Vuelve a entrar con tu correo y tu contraseña. |
-| Varios intentos fallidos (429) | Hubo varios intentos de entrar. Espera {minutos} minutos. Si olvidaste tu contraseña, pídele ayuda a alguien de tu familia. |
+| Varios intentos fallidos (429) | Hubo varios intentos de entrar. Espera {minutos} minutos. · enlace: Recupera tu cuenta (MATU-57, aprobado por Jorge el 03-11) |
 | Título de la pantalla de dispositivos | Dónde entraste |
 | El dispositivo actual | Este teléfono |
 | Último uso | Última vez: {fecha} a las {hora} |
@@ -541,6 +541,24 @@ Complementa la sección 13 (lo central ya aprobado: «Alcanza para {n} días», 
 | Validación y errores | Escribe el nombre del insumo. · Escribe cuántos usa, al menos 1. · Escribe un número hasta 10.000. · Escribe un número de 2 a 90. · Escribe cuántos quedan. Si no queda nada, escribe 0. · Escribe un número hasta 100.000. · Escribe un número de 0 a 60. · El nombre admite hasta 60 caracteres. Acórtalo un poco. · Escribe el nombre en una sola línea. · Con esos números alcanzaría para más de 10 años. Revisa cuánto queda y cuánto se usa. · Ese producto no se puede seguir en MATU. · Ese producto ya está anotado. Búscalo en la lista y cámbialo ahí. · No pudimos guardar. Revisa los datos y vuelve a intentarlo. · Ya no se está siguiendo este insumo. · Alguien desmarcó «Seguir» mientras lo cambiabas. Para cambiarlo, vuelve a marcar «Seguir» en la lista. · No pudimos guardar este insumo. · Vuelve a abrirlo y guarda de nuevo. Lo que escribiste sigue aquí. |
 | Conflicto | {autor} cambió «{nombre}» mientras lo cambiabas · No guardamos lo tuyo encima de lo suyo. Elige qué dejar. · Lo que guardó · Lo tuyo, sin guardar · (cambió) · Guardar lo mío · Dejar lo que guardó · Dejaste lo que guardó {autor}. |
 | Seguir y eliminar | Seguir · Sin seguir · No calculamos ni avisamos mientras no lo sigues. · Dejaste de seguir «{nombre}». Lo anotado sigue guardado. · Volviste a seguir «{nombre}». Si cambió cuánto queda, anótalo. · ¿Eliminar «{nombre}»? · Se borra todo lo anotado de este insumo y no se puede recuperar. · Si solo quieres dejar de calcularlo por un tiempo, desmarca «Seguir». · Eliminar · Eliminando… · Eliminaste «{nombre}». |
+
+---
+
+## 19. Recuperar el acceso y confirmar el celular (MATU-57) · Aprobados por Jorge el 03-11
+
+En la app se dice «correo» y «entrar», nunca «email» ni «sesión». La respuesta al pedir un código es siempre la misma, exista o no la cuenta.
+
+| Pantalla | Textos |
+|---|---|
+| Entrar | ¿Olvidaste tu contraseña? · Hubo varios intentos de entrar. Espera {minutos} minutos. · Recupera tu cuenta · Listo. Cambiamos tu contraseña. Por seguridad, tendrás que volver a entrar en tus otros teléfonos y computadores. |
+| Recuperar | Volver a entrar · Recupera tu cuenta · Escribe tu correo y te enviaremos un código para crear una contraseña nueva. · Enviar código · Enviando… |
+| Código | Si hay una cuenta con ese correo, te enviamos un código. Puede tardar un minuto. · Volver · Escribe el código · Te lo enviamos por mensaje al celular o al correo. Tiene 6 números. · Código · Nueva contraseña · Cambiar contraseña · Cambiando… · El código tiene 6 números. |
+| Reenvío y errores | ¿No te llegó? · Pide que te lo enviemos a tu correo · Si hay una cuenta con ese correo, te enviamos un código nuevo al correo. Puede tardar un minuto. · Puedes pedir otro en un minuto. · El código no es correcto o ya venció. Pide uno nuevo. · Hubo varios intentos con ese código. Pide uno nuevo en {minutos} minutos. |
+| Tu cuenta | Tu cuenta · Tus datos para entrar a MATU. · Tu correo · Tu celular · Confirmado · Sin confirmar · Confirmar celular · Tu cuenta todavía no tiene un celular. · Volver a tu cuenta |
+| Confirmar el celular | Confirma tu celular · Si algún día olvidas la contraseña, te enviaremos un código a este número para que puedas volver a entrar. · ¿Cómo prefieres recibir los códigos? · Mensaje de texto (SMS) · WhatsApp · Enviar código · Enviando… · Ahora no · Te enviamos un código al {celular oculto}. · Confirmar · Confirmando… · ¿No te llegó? Enviar otro código · Listo. Tu celular quedó confirmado. · Ir a la ficha · Ya pediste varios códigos. Espera {minutos} minutos y vuelve a intentarlo. · No pudimos enviar el mensaje ahora. Vuelve a intentarlo en unos minutos. |
+| Mensajes (simulados en el semestre) | MATU: tu código es {código}. Vence en 10 minutos. No lo compartas con nadie; MATU nunca te lo pedirá por teléfono. · MATU: se cambió la contraseña de tu cuenta. Si no fuiste tú, pide un código para recuperar tu acceso. |
+
+---
 
 ## 20. Avisos por correo y push (MATU-41) · Aprobados por Jorge el 04-11
 
