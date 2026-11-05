@@ -277,7 +277,7 @@ Cada historia que empieza a tratar datos personales agrega aquí su entrada.
   - el celular se usa solo si está confirmado; si no, el email;
   - al cambiar la contraseña se cierran todas las sesiones, se invalidan los códigos pendientes y se avisa por el otro canal (por el correo si el celular no está confirmado). Un acceso ya emitido puede seguir válido hasta 15 minutos;
   - nunca el código, el celular, el email ni la IP en logs, errores, auditoría ni eventos;
-  - en el semestre el envío es simulado: no sale de la máquina y solo se admite con ENTORNO local o pruebas, con datos sintéticos.
+  - en el semestre el envío es simulado: no sale de la máquina y solo se admite con ENTORNO local, pruebas o staging (decisión 105), con datos sintéticos. Si se define `REGISTRO_ENVIOS`, el adaptador simulado escribe el destino y el código en claro en un archivo JSON Lines de `.dev/`. Es un registro de desarrollo: nunca existe en producción, y en staging no debe quedar accesible desde fuera del servidor (revisión de Martín, P3-2). [PENDIENTE: plazo de borrado del archivo en staging]
 - **Comunicaciones a terceros:** los proveedores de SMS, WhatsApp y correo, como encargados con contrato. Reciben solo el destino y el texto del mensaje. En el semestre el envío es simulado, sin proveedor real (decisión de Jorge del 03-11). [PENDIENTE: nombrarlos y su país]
 - **Transferencia internacional:** [PENDIENTE: proveedor, país y garantía]. Requiere consulta legal.
 - **Decisiones automatizadas:** ninguna. La espera después de varios intentos es un control de seguridad.
