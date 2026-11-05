@@ -1,6 +1,6 @@
 # MATU — Backlog de producto · sprints 1 a 3
 
-**Versión:** 1.3 · dos rondas de revisión aplicadas y calendario ajustado
+**Versión:** 1.4 · dos rondas de revisión aplicadas, calendario ajustado y dos historias agregadas en el sprint 3
 **Product Owner:** Jorge Espinoza · **Scrum Master:** Martín Henríquez
 **Base:** Arquitectura v1.1 · Modelo de datos v1.0 · Estrategia de pruebas v1.1 · Cierre del ADR-023
 
@@ -317,6 +317,37 @@ La meta de tiempo ("menos de 3 minutos") no es un criterio de esta historia: se 
 
 ---
 
+### Agregadas durante el sprint 3 (calendario v1.3)
+
+Estas dos historias se agregaron al sprint 3 en Trello y no tenían entrada en este backlog. Se registran aquí el 05-11, a pedido de la revisión de Martín (TESTER, MATU-57), con los criterios con que se revisaron.
+
+#### MATU-57 · Recuperar el acceso con un código y confirmar el celular
+
+**Como** cuidadora mayor que olvidó su contraseña, **quiero** recibir un código para crear una nueva, **para** no quedar fuera de MATU. Creada el 03-11 por decisión de Jorge. Los criterios son las decisiones 81 a 90 de `MATU_PROYECTO/docs/api/README.md`:
+- un código de 6 dígitos que vence a los 10 minutos, de un solo uso y con 5 intentos como máximo; Redis guarda solo su huella HMAC (81 y 83)
+- en el semestre el envío es simulado, y la configuración no carga en producción (82)
+- pedir un código responde siempre 202, exista o no la cuenta; hay límites por IP, correo y celular (84)
+- un solo 422 `codigo-invalido` (85)
+- al cambiar la contraseña se cierran todas las sesiones, no se emiten tokens y se avisa por el otro canal (86). **Riesgo conocido, confirmado por Jorge el 05-11:** un access token ya emitido sigue vivo hasta 15 minutos. Se revisa antes de operar con datos reales
+- el celular se confirma con un código antes de usarlo para recuperar; mientras no esté confirmado, la recuperación va al correo (87 y 90)
+- los textos son los de `lenguaje.md` 19 (88)
+- «Tu cuenta» muestra el celular enmascarado (89)
+- la auditoría y los logs no guardan el código, el celular, el correo ni la IP
+
+**Pruebas:** `test_recuperacion_dominio.py`, `test_recuperacion_api.py` y `test_recuperacion_contrato.py`. PR MATU_PROYECTO #39, fusionado el 04-11.
+
+#### MATU-41 · Avisos por push y correo, con publicador del outbox
+
+**Como** familia, **quiero** que MATU me avise cuando un insumo se está acabando, aunque no tenga la app abierta, **para** comprar a tiempo. Viene de la sección 8 (RF-39). Los criterios son las decisiones 106 a 113 de `MATU_PROYECTO/docs/api/README.md`, más los cuatro del analista para MATU-37:
+- el publicador del outbox entrega al menos una vez, con backoff y un tope de 8 intentos, sin un rol que se salte RLS (106)
+- antes de cada envío se revisa que la autorización de consumo siga vigente, que la alerta siga abierta y que la membresía y el canal sigan activos (107)
+- `notificacion` no guarda destino ni texto, y sus errores son de una lista cerrada; un reintento no duplica, y si el push falla el correo sale igual (108)
+- nada sale antes de las 9:00 de Chile (109), y los eventos fallidos se borran a los 30 días (110)
+- la preferencia por canal es de la persona y vale para todos sus grupos; el `PUT` guarda solo el canal que cambia (111)
+- en el semestre el envío es simulado, el push va sin contenido y los textos son los de `lenguaje.md` 20 (112 y 113)
+
+**Pruebas** (`@pytest.mark.rf("RF-39")`): `test_avisos_dominio.py`, `test_avisos_integracion.py`, `test_preferencias_api.py`, `test_preferencia_por_grupo.py` y `tests/shared/test_outbox.py`. PR MATU_PROYECTO #47.
+
 ## 7. Qué se cae primero
 
 Si un sprint se atrasa, o si una tarea del sprint 0 queda abierta, se sacrifica en este orden:
@@ -371,3 +402,4 @@ Los destinos usan la numeración del calendario v1.3.
 | 1.1 | Primera revisión experta (nota 4,5). Capacidad real con reserva, alta de la persona fusionada con el consentimiento, dependencias invertidas corregidas, seguridad del relevo (token en el fragmento, AAD, HMAC), invitaciones y notificaciones fuera del tramo, orden de sacrificio |
 | 1.2 | Segunda revisión experta (nota 5,5). Orden de ejecución dentro de cada sprint, validación del JWT, listado con 404 cruzado para demostrar el aislamiento, estimaciones corregidas (MATU-12, 19 y 25), límite por IP en la API, fábricas y lista de lenguaje, revisión cruzada con horas, orden de sacrificio coherente con la definición de terminado, suspensión declarada de la regla de ejes |
 | 1.3 | Calendario v1.3: sprints de viernes a jueves desde el 16 de octubre, sprint 3 fusionado con el sprint 2 por el desarrollo asistido por IA, MATU-25 al sprint 3, estado del sprint 0 al 13 de octubre. Segunda revisión: MATU-02 baja a 3 h porque una tarea se cerró en el sprint 0, MATU-12 se traza a RF-02 como en la arquitectura v1.1 y los sprints posteriores al 3 usan la numeración del calendario |
+| 1.4 | 05-11: se agregan MATU-57 y MATU-41 al final de la sección 6, con sus criterios. Las dos se agregaron al sprint 3 en Trello y no estaban aquí (revisión de Martín de MATU-57) |

@@ -4,11 +4,14 @@
 **Estado:** borrador para el piloto académico. Todavía no sirve para tratar datos reales.
 **Aprobación:** aprobada como borrador v0.9 por Jorge Espinoza (Product Owner) el 25/10/2026. La revisión la hizo el orquestador del equipo de agentes, por delegación. Se confirman los tres compromisos del texto: MATU no vende datos, borra de inmediato los datos reales que entren por error, y ejercer los derechos es gratis. Los [PENDIENTE] que quedan (contacto, plazos, proveedores y procedimiento ante filtraciones) se resuelven en la versión 1.0, antes de tratar datos reales.
 **Identificador de versión en el sistema:** `0.10`
-**Versión 0.10 (03-11):** la redactó el analista normativo con las decisiones de Jorge del 31-10, del 02-11 y del 03-11 (contrato de MATU-32, MATU-36 y MATU-38). Aprobada por Jorge el 03-11 (PR MATU #23). `POLITICA_VERSION` pasa a `0.10` en el backend con MATU-36
+**Versión 0.10 (03-11):** la redactó el analista normativo con las decisiones de Jorge del 31-10, del 02-11 y del 03-11 (contrato de MATU-32, MATU-36 y MATU-38). Aprobada por Jorge el 05-11 como borrador del piloto, que trabaja solo con datos sintéticos. Antes de tratar datos reales pasa por la consulta legal. `POLITICA_VERSION` pasa a `0.10` en el backend con MATU-36
 **ADR-027 (27-10):** las secciones que empiezan con esa nota adaptan el texto a los pedidos y pagos del ADR-027. Aprobado por Jorge el 27-10 como diseño. Las frases sobre lo que el comercio ve o no ve se publican solo cuando la migración del sprint 4 (requisitos R7 a R9, arquitectura 18.1) las haga ciertas. Siguen sin publicarse en la versión 0.10: se publican cuando el sprint 4 las haga ciertas, con una versión nueva.
 **MATU-50 (03-11):** se precisan las secciones 4, 6, 8 y 9 con la ficha ampliada ya construida, y se agrega que la ficha no se imprime (ADR-029). No agregan usos, datos ni destinatarios, y no cambian las declaraciones. No cambian la versión: `POLITICA_VERSION` sigue en `0.10`. Aprobado por Jorge el 03-11.
 
 **MATU-09 (27-10):** se ajustan las secciones 4, 6, 8, 9, 10 y 13 con el acceso de relevo. Aprobado por Jorge el 27-10 como diseño. No cambian la versión: `POLITICA_VERSION` sigue en `0.9`.
+**MATU-41 (04-11):** se ajustan las secciones 3, 6, 8 y 13 con los avisos por notificación y por correo. No agregan usos ni datos. No cambian la versión: `POLITICA_VERSION` sigue en `0.10`. Aprobado por Jorge el 04-11. Mientras el envío sea simulado no hay destinatarios nuevos. Activar un proveedor real de correo o de notificaciones exige una versión nueva de esta política, con sus nombres y su país.
+
+**MATU-25 (05-11):** se ajustan las secciones 4, 7, 8 y 9 con el ambiente de prueba en Railway y el límite por IP. No cambian la versión: `POLITICA_VERSION` sigue en `0.10`, porque el ambiente de prueba trata solo datos inventados y ninguna persona real dio una autorización en él. Aprobado por Jorge el 05-11. La versión 1.0 nombrará el proveedor y el país donde se alojen los datos reales.
 
 ---
 
@@ -45,7 +48,7 @@
 2. Formar tu grupo de cuidado y dar a cada persona su permiso.
 3. Registrar a la persona que cuidas y la autorización para usar sus datos.
 4. Guardar la ficha de relevo y compartirla con quien tú elijas.
-5. Calcular cuándo se acaba cada insumo de la persona que cuidas, mostrarte cuáles se acaban pronto y avisarte. Los avisos dentro de la aplicación ya funcionan; los avisos por notificación o por correo todavía no están disponibles (MATU-41).
+5. Calcular cuándo se acaba cada insumo de la persona que cuidas, mostrarte cuáles se acaban pronto y avisarte. Los avisos dentro de la aplicación ya funcionan. En el piloto, los avisos por notificación y por correo se prueban sin enviarse: no salen de los equipos de MATU (MATU-41).
 6. Hacer pedidos y pagos de insumos. *Todavía no disponible.*
 7. Cuidar la seguridad: registrar quién abrió la ficha, detectar accesos extraños y responder si hay una filtración.
 
@@ -58,12 +61,12 @@ MATU no usa los datos para publicidad ni los vende. Tampoco toma decisiones auto
 ### De ti
 
 - **Tu nombre, tu email y tu celular.** Para crear tu cuenta no pedimos nada más.
-- **Tu celular** lo pedimos para enviarte un código por SMS o WhatsApp cuando quieras recuperar tu contraseña o confirmar que eres tú (MATU-57). *Todavía no disponible.* Antes de usarlo para recuperar tu cuenta, te pediremos confirmarlo con un código; mientras no lo confirmes, el código te llega a tu email. El mensaje solo trae el código: nunca tu nombre, el de la persona que cuidas ni nada de su cuidado. No lo mostramos a otras personas del grupo ni lo usamos para publicidad. Del código guardamos solo una huella que no permite reconstruirlo, cuándo vence y cuántas veces se intentó. Cuando cambias tu contraseña, cerramos tu sesión en todos tus dispositivos y te avisamos por el otro canal.
+- **Tu celular** lo pedimos para enviarte un código cuando quieras recuperar tu contraseña. Antes de usarlo para eso, te pedimos confirmarlo con un código; mientras no lo confirmes, el código te llega a tu correo. Guardamos si lo confirmaste y si prefieres recibir los códigos por SMS o por WhatsApp. Si cambias el número, tendrás que confirmarlo de nuevo. El mensaje solo trae el código: nunca tu nombre, el de la persona que cuidas ni nada de su cuidado. No lo mostramos a otras personas del grupo ni lo usamos para publicidad. Del código guardamos solo una huella que no permite reconstruirlo, cuándo vence y cuántas veces se intentó, y la borramos al usarlo o a los 10 minutos. Cuando cambias tu contraseña, cerramos tu sesión en todos tus dispositivos (ver «Tu sesión») y te avisamos por el otro canal, o por tu correo si tu celular no está confirmado. **En el piloto, el código se prueba sin enviarse:** no sale de los equipos de MATU, así que no te llega un SMS, un WhatsApp ni un correo (MATU-57).
 - **Tu email se guarda legible**, porque lo necesitamos para que entres y para escribirte. Lo protege la separación entre familias de la base de datos. Para iniciar sesión usamos además una huella del email que no permite recuperarlo.
 - **Tu contraseña**, guardada transformada de una forma que no se puede revertir. Nadie en MATU puede leerla.
 - **Los grupos a los que perteneces** y tu rol en cada uno.
 - **Registros técnicos.** Por cada acción guardamos la fecha y hora, el tipo de acción sin su contenido, si resultó o no, cuánto tardó y un número interno que te identifica a ti y a tu grupo. En esos registros no guardamos tu email, tu contraseña, tus códigos de acceso, el nombre del grupo ni tu dirección IP.
-- **Tu dirección IP y tu email, para limitar intentos.** Si alguien se equivoca varias veces al entrar, MATU hace esperar antes del siguiente intento. Para contarlos guardamos por una hora una huella de tu dirección IP y otra de tu email, que no permiten recuperarlos. No guardamos tu IP en la base de datos ni en los registros. [PENDIENTE: consulta legal sobre la base de este conteo]
+- **Tu dirección IP y tu email, para limitar intentos.** Para evitar abusos, MATU limita cuántas veces se puede, desde una misma dirección IP, crear una cuenta, entrar, pedir un código para recuperar el acceso y abrir un enlace de relevo. Si alguien se equivoca varias veces al entrar, MATU hace esperar antes del siguiente intento. Para contarlos guardamos una huella de tu dirección IP y, al entrar o al recuperar el acceso, otra de tu email, que no permiten recuperarlos. La mayoría se borra sola en una hora; las de recuperar el acceso, en 24 horas como máximo (sección 8). No guardamos tu IP en la base de datos ni en los registros de MATU. [PENDIENTE: consulta legal sobre la base de este conteo]
 - **Tus dispositivos.** Por cada navegador donde entras guardamos un nombre general, como «Chrome en Android», y cuándo lo usaste por última vez. No guardamos los datos de tu navegador. Si activas los avisos, guardamos además la dirección que tu navegador nos da para enviártelos. Los avisos no dicen el nombre de la persona ni del insumo.
 - **Cuando des una autorización** para la persona que cuidas: la fecha y la hora, en qué calidad la diste, qué declaración viste y la versión de esta política. Si eres cuidadora o cuidador de hecho, también qué aviso viste: su identificador, su versión y una huella de su texto. Si registras la decisión de la propia persona, queda anotado que la registraste tú, en su presencia. No guardamos tu dirección IP ni tu navegador.
 
@@ -171,15 +174,15 @@ Es aparte de la de la ficha y se da en la misma calidad. Se pide la primera vez 
 
 **La propia persona (titular):**
 
-> Declaro que la persona que cuido me dijo hoy, en persona, que autoriza a MATU a guardar qué insumos usa, cuánto usa y cuánto queda, y a calcular cuándo se acaban y avisarte cuando se esté por acabar, según la política de privacidad vigente. Yo solo registro su decisión.
+> Declaro que la persona que cuido me dijo hoy, en persona, que autoriza a MATU a guardar qué insumos usa, cuánto usa y cuánto queda, y a calcular cuándo se acaban y avisarme cuando se esté por acabar, según la política de privacidad vigente. Yo solo registro su decisión.
 
 **Su representante legal:**
 
-> Declaro que soy representante legal de la persona que cuido y que la referencia que indico corresponde al documento que lo acredita. Como su representante, autorizo a MATU a guardar qué insumos usa, cuánto usa y cuánto queda, y a calcular cuándo se acaban y avisarte cuando se esté por acabar, según la política de privacidad vigente.
+> Declaro que soy representante legal de la persona que cuido y que la referencia que indico corresponde al documento que lo acredita. Como su representante, autorizo a MATU a guardar qué insumos usa, cuánto usa y cuánto queda, y a calcular cuándo se acaban y avisarme cuando se esté por acabar, según la política de privacidad vigente.
 
 **Cuidadora o cuidador de hecho:**
 
-> Declaro que cuido a esta persona y que no soy su representante legal. Autorizo a MATU a guardar qué insumos usa, cuánto usa y cuánto queda, y a calcular cuándo se acaban y avisarte cuando se esté por acabar, según la política de privacidad vigente. Leí el aviso sobre el límite de esta autorización.
+> Declaro que cuido a esta persona y que no soy su representante legal. Autorizo a MATU a guardar qué insumos usa, cuánto usa y cuánto queda, y a calcular cuándo se acaban y avisarme cuando se esté por acabar, según la política de privacidad vigente. Leí el aviso sobre el límite de esta autorización.
 
 Sus identificadores son `declaracion_consumo_titular`, `declaracion_consumo_representante_legal` y `declaracion_consumo_cuidador_de_hecho`. Las aprobó Jorge el 03-11.
 
@@ -202,7 +205,7 @@ Sus identificadores son `declaracion_consumo_titular`, `declaracion_consumo_repr
 
 **El consumo de insumos** lo ven todas las personas del grupo, incluido el observador. Solo el administrador y el cuidador lo anotan, lo cambian, dejan de seguir un insumo o lo eliminan. Cada vez que alguien lo hace, MATU registra quién y cuándo, sin el nombre del insumo ni las cantidades. El equipo de MATU no puede leerlo.
 
-**Los avisos de insumos** (MATU-37). Cuando un insumo está por acabarse, MATU te avisa en la aplicación y, si lo activaste, por notificación o por correo. Por defecto avisa al administrador y al cuidador; el pagador y el observador pueden activarlo. El aviso dice solo «MATU: un insumo se está acabando. Abre la app para ver cuál»: no dice qué insumo ni de quién, porque a veces el teléfono está a la vista de otras personas. Para mandarlo usamos un servicio de notificaciones y uno de correo, que reciben ese texto y tu dirección o tu teléfono, y nada más. [PENDIENTE: nombres y país]. Solo el administrador y el cuidador pueden marcar un aviso como resuelto («Ya lo resolví»). Si anotan cuánto compraron, MATU guarda la cantidad, la fecha y quién la anotó, y la suma a lo que calculaba que quedaba. Si retiras la autorización de insumos, MATU deja de avisar en ese momento. El aviso nunca hace un pedido.
+**Los avisos de insumos** (MATU-37 y MATU-41). Cuando un insumo está por acabarse, MATU te avisa en la aplicación. MATU también está preparado para avisarte por correo y con una notificación en los teléfonos donde activaste los avisos, pero **en el piloto esos avisos se prueban sin enviarse: no salen de los equipos de MATU** (sección 13). Cuando se activen, saldrán desde las 9:00, hora de Chile. Por defecto avisan al administrador y al cuidador. El pagador y el observador reciben avisos solo si los activan. Tu elección es tuya, no del grupo, y vale para todos tus grupos. El aviso dice solo «MATU: un insumo se está acabando. Abre la app para ver cuál»: no dice qué insumo ni de quién, porque a veces el teléfono está a la vista de otras personas. Su enlace lleva a la aplicación y no dice quién eres. El correo no sabe si lo abriste ni si hiciste clic. Antes de enviar cada aviso, MATU revisa que la autorización de insumos siga vigente y al día, que el aviso siga abierto y que sigas en el grupo. Si algo de eso falla, no lo envía. Cuando se activen los envíos, un servicio de correo recibirá ese texto y tu correo, y el servicio de notificaciones de tu navegador recibirá solo la dirección de avisos de tu navegador, sin ningún texto: el texto lo pone tu teléfono. Nada más. [PENDIENTE: nombres y país, antes de activar los envíos]. Puedes dejar de recibir los avisos por correo o por notificación cuando quieras, en «Tu cuenta» (sección 13), y dejar de recibirlos en un teléfono si cierras la sesión en él o lo sacas de tus dispositivos. Solo el administrador y el cuidador pueden marcar un aviso como resuelto («Ya lo resolví»). Si anotan cuánto compraron, MATU guarda la cantidad, la fecha y quién la anotó, y la suma a lo que calculaba que quedaba. Si retiras la autorización de insumos, MATU deja de avisar en ese momento. El aviso nunca hace un pedido.
 
 **El relevo**, la persona que te reemplaza:
 - Ve solo el nombre con que llaman a la persona, tu nombre de pila, los tres campos de la ficha y las secciones adicionales que marcaste al compartir. Si agregas una sección después, no la ve hasta que le des un acceso nuevo.
@@ -231,19 +234,20 @@ Sus identificadores son `declaracion_consumo_titular`, `declaracion_consumo_repr
 
 ## 7. Dónde se guardan los datos
 
-- En los sprints 1 a 3, el sistema corre en los computadores del equipo y en un ambiente de prueba, siempre con datos inventados.
-- [PENDIENTE: proveedor y país donde se alojarán los datos]
-- Si los datos se guardan fuera de Chile, lo diremos aquí y aplicaremos lo que la ley exige para ese caso.
+- Durante el semestre, MATU corre en los computadores del equipo y en un ambiente de prueba en Railway, un proveedor de servidores, en su región de California, Estados Unidos. Ese ambiente tiene solo datos inventados y se borra al terminar el semestre.
+- Aunque los datos sean inventados, cuando usas el ambiente de prueba tu dirección IP pasa por los servidores de Railway en Estados Unidos. MATU no la guarda: solo una huella que no permite recuperarla, por el plazo de la sección 8. Railway puede guardar la dirección IP de cada conexión en sus propios registros técnicos. [PENDIENTE: confirmar qué registra Railway y por cuánto tiempo]
+- [PENDIENTE: proveedor y país donde se alojarán los datos reales]
+- Si los datos reales se guardan fuera de Chile, lo diremos aquí y aplicaremos lo que la ley exige para ese caso.
 
 ## 8. Cuánto tiempo guardamos los datos
 
 - **Ficha de relevo:** mientras la autorización esté vigente y hasta 90 días después de que termine. Si pides borrarla, la dejamos ilegible de inmediato destruyendo su clave. [PENDIENTE: confirmar que una solicitud de borrado no espera los 90 días] Una sección adicional que quitas se borra en ese momento. Hasta que vence la última copia de respaldo que la contiene, sigue en esa copia, cifrada.
 - **Consumo de insumos:** mientras la autorización para calcular insumos esté vigente y hasta 90 días después de que termine, también los insumos que dejaste de seguir. Un insumo que eliminas se borra en ese momento. Si pides borrar todo el consumo, lo borramos de la base de datos: no se deja ilegible, se borra.
 - **Tu sesión:** cada sesión se borra 30 días después de vencer o de cerrarse.
-- **Tus dispositivos:** se borran 90 días después de su último uso. La dirección para enviarte avisos se borra al cerrar la sesión o sacar el dispositivo.
-- **Huellas para limitar intentos de entrada:** 1 hora.
-- **Avisos de insumos:** los avisos cerrados, 90 días; el registro de avisos enviados, 90 días; los eventos internos ya procesados, 30 días; las compras anotadas, mientras exista el insumo.
-- **Código para recuperar el acceso** (MATU-57, *todavía no disponible*): hasta que se usa o 10 minutos. Los contadores de intentos, 24 horas como máximo.
+- **Tus dispositivos:** se borran 90 días después de su último uso. La dirección para enviarte avisos se borra cuando cierras la sesión, sacas el dispositivo o desactivas los avisos en él, o cuando el servicio de notificaciones informa que ya no existe.
+- **Huellas para limitar intentos** al crear una cuenta, al entrar y al abrir un enlace de relevo: 1 hora desde el primer intento.
+- **Avisos de insumos:** los avisos cerrados, 90 días. El registro de avisos, que dice a quién, por qué canal y si salió o por qué no salió, sin el texto ni tu correo: 90 días desde que se crea. Los eventos internos ya procesados, y los que no se pudieron procesar, 30 días. Las compras anotadas, mientras exista el insumo.
+- **Código para recuperar el acceso** (MATU-57): hasta que se usa o 10 minutos. Los contadores de envíos, 24 horas como máximo.
 - **Copias de respaldo:** [PENDIENTE: plazo]. El borrado queda completo cuando vence la última copia que contiene la clave.
 - **Registro de quién abrió la ficha:** 3 años.
 - **Pedidos y comprobantes de entrega**, cuando existan: 2 años.
@@ -256,12 +260,12 @@ Sus identificadores son `declaracion_consumo_titular`, `declaracion_consumo_repr
 ## 9. Cómo protegemos los datos
 
 - La conexión con MATU va cifrada.
-- Cada campo y cada sección adicional de la ficha se cifra por separado con una clave propia de cada persona cuidada. Esa clave está protegida por una clave maestra que se guarda fuera del servidor. [PENDIENTE: confirmar el servicio de custodia de claves]
+- Cada campo y cada sección adicional de la ficha se cifra por separado con una clave propia de cada persona cuidada. Esa clave está protegida por una clave maestra. Durante el piloto, que usa solo datos inventados, la clave maestra está en el mismo servidor que la aplicación. Antes de usar MATU con personas reales, pasará a un servicio de custodia separado del servidor. [PENDIENTE: confirmar el servicio de custodia de claves]
 - MATU no imprime ni exporta la ficha. Solo se comparte con el enlace con PIN (ADR-029).
 - La base de datos separa a cada familia: una familia no puede ver los datos de otra, aunque la aplicación tenga un error.
 - El registro de quién abrió la ficha no se puede modificar ni borrar.
-- Los registros técnicos no guardan el texto de la ficha, ni tu email, ni contraseñas, ni códigos de acceso, ni enlaces de relevo, ni PIN, ni el nombre del grupo, ni tu dirección IP.
-- El enlace de relevo se bloquea después de 5 PIN incorrectos. Cada PIN incorrecto y cada bloqueo quedan registrados. Además, desde una misma dirección IP se admite un número limitado de intentos de entrada por hora: para ese conteo se guarda por una hora una huella de la IP que no permite recuperarla; la IP no se guarda en la base de datos ni en los registros.
+- Los registros técnicos de MATU no guardan el texto de la ficha, ni tu email, ni contraseñas, ni códigos de acceso, ni enlaces de relevo, ni PIN, ni el nombre del grupo, ni tu dirección IP. El proveedor de servidores puede registrar la dirección IP de cada conexión (sección 7).
+- El enlace de relevo se bloquea después de 5 PIN incorrectos. Cada PIN incorrecto y cada bloqueo quedan registrados. Además, desde una misma dirección IP se admite un número limitado de intentos por hora para crear una cuenta, entrar y abrir un enlace de relevo: para contarlos se guarda una huella de la IP que no permite recuperarla y que se borra sola en el plazo de la sección 8. La IP no se guarda en la base de datos ni en los registros de MATU.
 - La aplicación no guarda en tu teléfono ni en tu navegador la ficha, el consumo de insumos ni tu código de acceso, que vive solo en la memoria de la página. No usa analítica ni programas de terceros.
 - Los avisos al teléfono no llevan el nombre de la persona ni del insumo.
 
@@ -305,7 +309,9 @@ Si hay una filtración que afecte datos personales, avisaremos sin demora a la A
 - Ver, descargar o borrar los datos desde la aplicación. Mientras tanto, por el correo de la sección 10.
 - El recordatorio de los 12 meses.
 - Retirar la autorización de insumos desde la aplicación.
-- Avisos de insumos por notificación o por correo (los de la aplicación ya funcionan), invitaciones, pedidos y pagos.
+- Avisos de insumos por notificación o por correo: en el piloto se prueban sin enviarse (los de la aplicación ya funcionan). Elegir desde la aplicación, en «Tu cuenta», si los recibes por correo o en un teléfono (MATU-55).
+- Enviar correos solo a direcciones verificadas.
+- Invitaciones, pedidos y pagos.
 - Verificar tu email al crear la cuenta. Mientras no exista, si intentas registrarte con un email que ya tiene cuenta, MATU te lo dirá, y alguien podría registrar un email que no es suyo.
 - Eliminar tu cuenta desde la aplicación. Mientras tanto, pídelo por el correo de la sección 10.
 

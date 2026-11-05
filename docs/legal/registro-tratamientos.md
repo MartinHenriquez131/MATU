@@ -186,6 +186,8 @@ Cada historia que empieza a tratar datos personales agrega aquí su entrada.
   - tasa (`tasa_unidades`/`tasa_dias`);
   - stock y fecha del stock (la fija el servidor);
   - días de aviso y fecha estimada;
+  - preferencias de aviso por persona: tipo de aviso, canal y si está activo (`preferencia_notificacion`);
+  - registro de avisos (`notificacion`): persona, grupo, evento, canal, plantilla, estado, fechas y un código de error de una lista cerrada. **Sin destino ni contenido**;
   - si se sigue o no, y la versión.
 
   Se trata como **dato sensible**. [PENDIENTE: consulta legal sobre si es dato relativo a la salud y si basta RLS sin cifrado (decisión 63)]
@@ -208,23 +210,27 @@ Cada historia que empieza a tratar datos personales agrega aquí su entrada.
   - nada en el almacenamiento del navegador ni en la URL;
   - RLS separada de `alerta_quiebre` y `reposicion` (MATU-37): leen los cuatro roles; solo el rol sistema crea alertas; solo admin y cuidador las cierran o declaran una compra; nadie las borra a mano;
   - auditoría de `alerta.materializar`, `alerta.resolver`, `alerta.descartar` y `reposicion.declarar`, sin nombre, cantidades ni IP;
-  - el aviso por push o correo es un texto fijo sin nombres de personas ni de insumos, y su enlace no lleva identificadores.
+  - el aviso por push o correo es un texto fijo sin nombres de personas ni de insumos, y su enlace no lleva identificadores. El correo va sin seguimiento de aperturas ni de clics. El push va sin contenido (RFC 8030 con VAPID, decisión 50 del contrato): el servicio de push solo recibe la dirección de avisos y el teléfono muestra el texto fijo
+  - antes de cada envío, en cada intento y en cada canal, se revisa que la autorización de `consumo` esté `VIGENTE` según el `Reloj` (no retirada y con la revisión de 12 meses al día), que la alerta siga abierta con su perfil, que la membresía y el usuario sigan activos, y que el canal esté activo y tenga destino. Si algo falla, el aviso queda `omitida` con su código (MATU-41, decisión 107)
+  - el correo es el canal garantizado y el push va además, cada uno solo si la persona no lo apagó, desde las 9:00 hora de Chile. La preferencia es de la persona, por canal, y vale para todos sus grupos (`GET/PUT /v1/yo/avisos`, decisión 111). Un canal que la persona no eligió usa el valor por omisión de su rol en cada grupo: avisa a admin y cuidador, y al pagador y al observador solo si lo activan. El `PUT` guarda solo el canal que la persona cambia (decisión de Jorge del 04-11)
+  - los logs y el registro simulado nunca llevan el email, el `push_token` ni el texto. El registro simulado (`REGISTRO_AVISOS`, por omisión `.dev/avisos.jsonl`) guarda la hora, `notificacion_id`, `usuario_id`, el canal y la plantilla. Solo existe en local, pruebas y staging, con datos sintéticos, y la configuración no carga en producción. [PENDIENTE: plazo de borrado del archivo en staging]
 - **Alertas y compras declaradas (MATU-37):**
   - alertas: insumo (por su identificador), fecha estimada, estado y cuándo se avisó y se cerró. Sin nombre del insumo ni cantidades;
   - compras declaradas con «Ya lo resolví»: cantidad, fecha y quién la anotó; se suman a lo que quedaba;
   - el trabajo diario (rol sistema) crea las alertas solo para personas con la autorización de insumos vigente;
   - para recorrer los grupos, el trabajo diario usa en el semestre el rol operación, que lee solo el identificador de cada grupo activo; después trabaja grupo por grupo con el rol sistema. [PENDIENTE: usuario propio de tareas programadas, con permiso solo para leer los identificadores, antes de datos reales];
-  - conservación: alertas cerradas 90 días desde que se cierran, eventos publicados 30 días, avisos enviados 90 días, compras mientras exista el insumo (decisiones de Jorge del 03-11).
-- **Comunicaciones a terceros:** el servicio de push del navegador y el proveedor de correo reciben un aviso de texto fijo, «MATU: un insumo se está acabando. Abre la app para ver cuál», y el destino (token push o email). Por defecto avisan a admin y cuidador. Son encargados de MATU. [PENDIENTE: nombrarlos, su país y el contrato de encargo]. **Transferencia internacional:** [PENDIENTE]. **Decisiones automatizadas:** ninguna. La fecha es una estimación informativa y la alerta nunca genera un pedido.
+  - conservación: alertas cerradas 90 días desde que se cierran, eventos publicados 30 días, registro de avisos (`notificacion`, enviados, omitidos y fallidos) 90 días desde `creada_en`, compras mientras exista el insumo (decisiones de Jorge del 03-11). Eventos que no se pudieron procesar: 30 días desde `fallido_en` (decisión de Jorge del 04-11, MATU-41).
+- **Comunicaciones a terceros:** **en el semestre el envío es simulado y no sale de la máquina (MATU-41, decisión 112).** Cuando entre un proveedor real, el proveedor de correo recibirá el email del destinatario y el texto fijo del correo (remitente, asunto, cuerpo, enlace a la raíz de la aplicación y pie), sin identificadores internos y sin seguimiento de aperturas ni clics. El servicio de push, que elige el navegador y no MATU, recibirá solo el `push_token` y un push sin contenido (decisión 50). El proveedor de correo será encargado de MATU, con contrato de encargo. [PENDIENTE: nombrarlo, su país y el contrato]. [PENDIENTE: consulta legal sobre la calidad del servicio de push del navegador y la transferencia internacional]. Antes de activarlo: versión nueva de la política, MATU-55 en `main`, verificación del email y la preferencia resuelta. **Decisiones automatizadas:** ninguna. La fecha es una estimación informativa y la alerta nunca genera un pedido.
 
 ## 6. Cuenta, sesión y dispositivos (MATU-38)
 
-- **Finalidad:** mantener la sesión, permitir sacar un dispositivo, detectar el robo de una sesión, limitar los intentos de entrada y enviar avisos.
-- **Titulares:** las personas usuarias, y quien intenta entrar con un email (que puede no ser usuaria).
+- **Finalidad:** mantener la sesión, permitir sacar un dispositivo, detectar el robo de una sesión, limitar los intentos de entrada y la creación de cuentas desde una misma IP (MATU-25), y enviar avisos.
+- **Titulares:** las personas usuarias, y quien intenta entrar o crear una cuenta (que puede no ser usuaria).
 - **Datos:**
   - sesión: SHA-256 del refresh, emisión, vencimiento, revocación y motivo;
   - dispositivo: nombre general sin agente de usuario, creación, último uso y `push_token` opcional;
   - huella HMAC de la IP y del email en Redis, por 1 hora;
+  - huella HMAC de la IP en el contador de creación de cuentas (`usuarios-ip`, 5 por hora, ventana fija de 1 hora; MATU-25, decisión 114). La IP no llega a Redis, a los logs, a la auditoría ni a la respuesta 429;
   - auditoría `sesion.*` y `dispositivo.*`, sin huella del email (decisión 64), con `sesiones_revocadas` como único detalle.
 - **Base de licitud:** ejecución del servicio que pide la persona. Para los contadores por huella de IP y de email: [PENDIENTE: consulta legal].
 - **Quién accede:**
@@ -235,50 +241,67 @@ Cada historia que empieza a tratar datos personales agrega aquí su entrada.
   - ventana deslizante de 30 días sin tope absoluto (decisión de Jorge del 31-10);
   - las sesiones se borran 30 días después de vencer o de cerrarse;
   - los dispositivos, 90 días después del último uso;
-  - el `push_token`, al cerrar o sacar el dispositivo;
+  - el `push_token`, al cerrar o sacar el dispositivo, al desactivar los avisos en él, o cuando el servicio de push dice que la suscripción ya no existe (MATU-41);
   - los contadores, en 1 hora.
 - **Medidas:**
   - cookie `HttpOnly`, `Secure`, `SameSite=Strict` y `Path=/v1/sesiones`;
   - access token en memoria, por 15 minutos;
   - rotación con detección de reutilización;
   - `no-store`;
-  - push con texto fijo y sin datos de personas ni de insumos, y con una lista cerrada de hosts.
-- **Comunicaciones a terceros:** el servicio de push del navegador recibe un aviso de texto fijo, sin datos de personas ni de insumos. [PENDIENTE: nombrarlos y su país]. **Decisiones automatizadas:** ninguna. La espera después de varios intentos es un control de seguridad.
+  - push sin contenido (el texto fijo lo pone el service worker), sin datos de personas ni de insumos, y con una lista cerrada de hosts.
+- **Comunicaciones a terceros:** el servicio de push del navegador recibirá solo el `push_token` y un push sin contenido (decisión 50). El texto fijo lo muestra el service worker de la aplicación. En el semestre el envío es simulado (MATU-41). [PENDIENTE: nombrarlos y su país]. **Decisiones automatizadas:** ninguna. La espera después de varios intentos es un control de seguridad.
 
 ## 7. Celular de la cuenta (MATU-39, MATU-57)
 
-- **Finalidad:** enviar un código por SMS o WhatsApp para recuperar la contraseña o confirmar la identidad (MATU-57). El celular se confirma con un código antes de usarlo para recuperar (decisión de Jorge del 03-11).
-- **Titulares:** las personas usuarias.
-- **Datos:** celular en formato E.164 (`+569XXXXXXXX`), obligatorio al crear la cuenta (decisión de Jorge del 03-11).
-- **Base de licitud:** ejecución del servicio que pide la persona.
-- **Quién accede:** la propia persona y operación para soporte. No lo ven las otras personas del grupo.
-- **Conservación:** mientras exista la cuenta. [PENDIENTE: plazo tras eliminar la cuenta]
-- **Medidas:** nunca en logs, errores, auditoría ni eventos.
-- **Comunicaciones a terceros:** ver la entrada 8.
-
-## 8. Recuperación del acceso (MATU-57) · todavía no implementada
-
-- **Finalidad:** comprobar que quien pide recuperar la cuenta es su titular, y permitirle cambiar la contraseña.
+- **Finalidad:** enviar un código para recuperar la contraseña o confirmar el celular (MATU-57). El celular se confirma con un código antes de usarlo para recuperar (decisión de Jorge del 03-11).
 - **Titulares:** las personas usuarias.
 - **Datos:**
-  - el email que escribe la persona (nunca se pide el celular para recuperar);
-  - la huella HMAC del código (pepper propio);
-  - el canal (celular confirmado o email);
-  - la creación, la expiración, los intentos y el uso;
-  - las huellas HMAC de la IP, del email y del celular en los contadores de límite.
+  - celular en formato E.164 (`+569XXXXXXXX`), obligatorio al crear la cuenta (decisión de Jorge del 03-11);
+  - `celular_verificado_en`: cuándo se confirmó con un código. Vuelve a vacío si cambia el número, para que un número nuevo nunca herede la confirmación;
+  - `celular_canal`: la preferencia de canal (`sms` o `whatsapp`, por omisión `sms`), que se elige al confirmar. En el semestre el envío es simulado y siempre como SMS; la preferencia se guarda para cuando haya un proveedor.
 - **Base de licitud:** ejecución del servicio que pide la persona.
-- **Quién accede:** nadie ve el código. Operación ve solo eventos de auditoría sin datos de contacto.
-- **Conservación:** el código, hasta usarse o 10 minutos. Los contadores, 24 horas como máximo. La auditoría, según la entrada de auditoría.
+- **Quién accede:** la propia persona, que ve el número enmascarado (`+56 9 •••• ••37`) y si está confirmado, y operación para soporte. No lo ven las otras personas del grupo.
+- **Conservación:** mientras exista la cuenta. [PENDIENTE: plazo tras eliminar la cuenta]
+- **Medidas:** nunca en logs, errores, auditoría ni eventos. La auditoría registra `cuenta.celular_solicitar`, `cuenta.celular_verificar` y `cuenta.celular_verificar_fallido`, sin el número ni el canal.
+- **Comunicaciones a terceros:** ver la entrada 8.
+
+## 8. Recuperación del acceso y confirmación del celular (MATU-57)
+
+- **Finalidad:** comprobar que quien pide recuperar la cuenta es su titular y permitirle cambiar la contraseña, y confirmar que el celular de la cuenta es de su titular.
+- **Titulares:** las personas usuarias, y quien pide un código con un email (que puede no ser usuaria).
+- **Datos:**
+  - el email que escribe la persona (nunca se pide el celular para recuperar);
+  - por cada código, en Redis y nunca en la base: la huella HMAC del código (pepper propio), su vencimiento, el canal (celular o correo) y los intentos. Al usarse se borra;
+  - las huellas HMAC de la IP, del email, del celular y de la cuenta en los contadores de envíos, y de la IP, del email y de la cuenta en los contadores de intentos fallidos.
+- **Base de licitud:** ejecución del servicio que pide la persona. Para los contadores por huella: [PENDIENTE: consulta legal], como en la entrada 6.
+- **Quién accede:** nadie ve el código. Operación ve solo eventos de auditoría (`cuenta.recuperar_solicitar`, `cuenta.recuperar_verificar_fallido`, `cuenta.contrasena_cambiar`) sin datos de contacto, código ni IP.
+- **Conservación:** el código, hasta usarse o 10 minutos. Los contadores de envíos, 1 hora y 24 horas. La auditoría, según la entrada de auditoría.
 - **Medidas:**
   - código de 6 dígitos, de un solo uso y con 5 intentos como máximo; pedir uno nuevo invalida el anterior;
-  - límite de 3 envíos por hora y 10 al día por IP, email y celular;
-  - la misma respuesta exista o no la cuenta;
+  - por email, celular y cuenta: 60 segundos entre envíos, 3 por hora y 10 al día. Por IP: 20 por hora y 50 al día, sin espera entre envíos porque varias personas pueden compartirla;
+  - la misma respuesta exista o no la cuenta, y aunque se haya alcanzado el límite;
   - el celular se usa solo si está confirmado; si no, el email;
-  - cierre de todas las sesiones al cambiar la contraseña y aviso por el otro canal;
-  - nunca el código, el celular ni el email en logs, errores, auditoría ni eventos.
+  - al cambiar la contraseña se cierran todas las sesiones, se invalidan los códigos pendientes y se avisa por el otro canal (por el correo si el celular no está confirmado). Un acceso ya emitido puede seguir válido hasta 15 minutos;
+  - nunca el código, el celular, el email ni la IP en logs, errores, auditoría ni eventos;
+  - en el semestre el envío es simulado: no sale de la máquina y solo se admite con ENTORNO local, pruebas o staging (decisión 105), con datos sintéticos. Si se define `REGISTRO_ENVIOS`, el adaptador simulado escribe el destino y el código en claro en un archivo JSON Lines de `.dev/`. Es un registro de desarrollo: nunca existe en producción, y en staging no debe quedar accesible desde fuera del servidor (revisión de Martín, P3-2). En staging, `REGISTRO_ENVIOS` apunta a `/tmp/matu-envios.jsonl`, dentro del contenedor. La API no lo sirve, se lee solo con `railway ssh` y se borra en cada despliegue, y a más tardar con el cierre de staging (MATU-25).
 - **Comunicaciones a terceros:** los proveedores de SMS, WhatsApp y correo, como encargados con contrato. Reciben solo el destino y el texto del mensaje. En el semestre el envío es simulado, sin proveedor real (decisión de Jorge del 03-11). [PENDIENTE: nombrarlos y su país]
 - **Transferencia internacional:** [PENDIENTE: proveedor, país y garantía]. Requiere consulta legal.
 - **Decisiones automatizadas:** ninguna. La espera después de varios intentos es un control de seguridad.
+
+## 9. Ambiente de staging (MATU-25)
+
+- **Finalidad:** probar MATU por HTTPS y mostrarlo en la demostración del semestre.
+- **Proveedor y lugar:** Railway, región `sfo` (California, Estados Unidos), para la API, PostgreSQL 16 y Redis. Anotado el 05-11 en `infra/railway/README.md` del repositorio MATU_PROYECTO. Railway trata estos datos por encargo de MATU. [PENDIENTE: revisar las condiciones de servicio y el acuerdo de tratamiento de datos de Railway]
+- **Datos:** solo sintéticos: la semilla de `infra/semillas/demo.py` y cuentas con correos de dominios reservados, lo único que acepta el registro en staging (decisión 105). Datos reales que existen igual:
+  - la dirección IP de quien abre staging (el equipo y quien pruebe la demostración), que la API usa solo en memoria para su huella HMAC;
+  - las huellas en Redis: 1 hora, y 24 horas como máximo en la recuperación del acceso;
+  - los registros HTTP de la plataforma Railway, que guardan la IP de cada conexión (campo `srcIp`, confirmado por Martín el 05-11) [PENDIENTE: su plazo en el plan Hobby];
+  - las cuentas de Railway de Jorge y Martín.
+- **Medidas:** HTTPS terminado por Railway; KEK y secretos nuevos y propios de staging, rotados el 05-11 sin pasar por un chat, solo como variables secretas de Railway, con acceso solo de Jorge y Martín con autenticación en dos pasos (decisión 105, g y h); la API se conecta como `matu_app`; logs JSON sin IP, cuerpo, token ni PIN, verificado con grep tras el e2e (05-11); registro simulado de envíos en `/tmp` del contenedor. Limitación declarada: la KEK y los respaldos con las claves envueltas quedan en el mismo proveedor.
+- **Diagnóstico temporal del proxy (MATU-25, decisión 114, punto 7):** mientras se verifica `PROXY_SALTOS`, una línea de log por petición con la cantidad de cabeceras y de elementos del X-Forwarded-For y la clase de cada uno (interna, privada, pública o inválida), con el `request_id` y sin IP, usuario ni grupo. Apagado por omisión, no carga en producción. Las fechas de encendido y apagado quedan en `infra/railway/README.md` del repositorio MATU_PROYECTO. Plazo: el de los registros de Railway [PENDIENTE].
+- **Conservación:** hasta el cierre del semestre. Al cerrar se borran la KEK, la base, los respaldos y Redis, y se anota la fecha (decisión 105, l). [PENDIENTE: fecha de cierre]
+- **Transferencia internacional:** staging está en Estados Unidos. Con datos sintéticos, solo salen de Chile la IP de quien lo usa y su huella. **Staging nunca se usa con datos reales.** Antes de datos reales se elige el proveedor y la región de producción (ADR-019), y si quedan fuera de Chile se aplican las reglas de transferencia internacional de la Ley 21.719, con contrato de encargo. [PENDIENTE: consulta legal]
+- **Decisiones automatizadas:** ninguna.
 
 ## Nota sobre la ficha ampliada (ADR-028)
 
