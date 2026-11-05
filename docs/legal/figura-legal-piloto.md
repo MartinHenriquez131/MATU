@@ -57,7 +57,7 @@ La constitución de una persona jurídica y el alta comercial en Transbank queda
 
 ### 4.3 Los pocos datos reales que existen igual
 
-Aunque el producto use datos sintéticos, existen algunos datos personales reales: las cuentas que use el equipo y los registros técnicos del servidor de demostración.
+Aunque el producto use datos sintéticos, existen algunos datos personales reales: las cuentas que use el equipo y los registros técnicos del servidor de demostración. El servidor de staging está en Railway, en su región de California, Estados Unidos (MATU-25, 05-11). Ahí los únicos datos reales son la dirección IP de quien lo abre, que pasa por la plataforma, y las cuentas de Railway del equipo.
 
 - Las cuentas de prueba usan correos ficticios de dominios reservados para ejemplos (example.com, .test o .invalid).
 - Si una persona fuera del equipo prueba la demostración, usa una cuenta de prueba que le entrega el equipo.
@@ -131,7 +131,7 @@ Antes de tratar datos reales o cobrar dinero real, en este orden:
 
 Texto propuesto:
 
-> Durante el semestre, MATU operó como piloto académico. Todos los datos de personas cuidadas, familias y pedidos fueron sintéticos, y los precios del catálogo fueron de ejemplo, sin convenio con comercios. Los pagos se demostraron en el ambiente de integración de Transbank, en venta normal, con tarjetas de prueba y sin cobros reales. MATU no recibe ni guarda datos de tarjetas. En los ambientes local y de staging, la clave maestra que protege las claves de cifrado de la ficha estuvo en una variable de entorno del mismo servidor, y no en un servicio de custodia separado (arquitectura, sección 11.4); por eso esos ambientes solo operaron con datos sintéticos. El proyecto no cuenta con persona jurídica, y por eso no inició el alta comercial en Transbank. Operar con familias reales exige constituirla, completar el alta comercial, resolver la consulta legal sobre quién autoriza el tratamiento de los datos de una persona sin capacidad para consentir y publicar una política de privacidad revisada por un abogado.
+> Durante el semestre, MATU operó como piloto académico. Todos los datos de personas cuidadas, familias y pedidos fueron sintéticos, y los precios del catálogo fueron de ejemplo, sin convenio con comercios. Los pagos se demostraron en el ambiente de integración de Transbank, en venta normal, con tarjetas de prueba y sin cobros reales. MATU no recibe ni guarda datos de tarjetas. En los ambientes local y de staging, la clave maestra que protege las claves de cifrado de la ficha estuvo en una variable de entorno del mismo servidor, y no en un servicio de custodia separado (arquitectura, sección 11.4); por eso esos ambientes solo operaron con datos sintéticos. El ambiente de staging funcionó en Railway, en su región de California (Estados Unidos), solo con datos sintéticos, y se elimina al terminar el semestre. Operar con datos reales exige elegir el alojamiento definitivo y, si queda fuera de Chile, cumplir las reglas de transferencia internacional de datos. El proyecto no cuenta con persona jurídica, y por eso no inició el alta comercial en Transbank. Operar con familias reales exige constituirla, completar el alta comercial, resolver la consulta legal sobre quién autoriza el tratamiento de los datos de una persona sin capacidad para consentir y publicar una política de privacidad revisada por un abogado.
 
 ## 8. Cuándo se revisa esta decisión
 

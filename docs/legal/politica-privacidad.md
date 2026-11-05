@@ -9,6 +9,8 @@
 **MATU-09 (27-10):** se ajustan las secciones 4, 6, 8, 9, 10 y 13 con el acceso de relevo. Aprobado por Jorge el 27-10 como diseño. No cambian la versión: `POLITICA_VERSION` sigue en `0.9`.
 **MATU-41 (04-11):** se ajustan las secciones 3, 6, 8 y 13 con los avisos por notificación y por correo. No agregan usos ni datos. No cambian la versión: `POLITICA_VERSION` sigue en `0.10`. Aprobado por Jorge el 04-11. Mientras el envío sea simulado no hay destinatarios nuevos. Activar un proveedor real de correo o de notificaciones exige una versión nueva de esta política, con sus nombres y su país.
 
+**MATU-25 (05-11):** se ajustan las secciones 4, 7, 8 y 9 con el ambiente de prueba en Railway y el límite por IP. No cambian la versión: `POLITICA_VERSION` sigue en `0.10`, porque el ambiente de prueba trata solo datos inventados y ninguna persona real dio una autorización en él. Aprobado por Jorge el 05-11. La versión 1.0 nombrará el proveedor y el país donde se alojen los datos reales.
+
 ---
 
 ## En un minuto
@@ -62,7 +64,7 @@ MATU no usa los datos para publicidad ni los vende. Tampoco toma decisiones auto
 - **Tu contraseña**, guardada transformada de una forma que no se puede revertir. Nadie en MATU puede leerla.
 - **Los grupos a los que perteneces** y tu rol en cada uno.
 - **Registros técnicos.** Por cada acción guardamos la fecha y hora, el tipo de acción sin su contenido, si resultó o no, cuánto tardó y un número interno que te identifica a ti y a tu grupo. En esos registros no guardamos tu email, tu contraseña, tus códigos de acceso, el nombre del grupo ni tu dirección IP.
-- **Tu dirección IP y tu email, para limitar intentos.** Si alguien se equivoca varias veces al entrar, MATU hace esperar antes del siguiente intento. Para contarlos guardamos por una hora una huella de tu dirección IP y otra de tu email, que no permiten recuperarlos. No guardamos tu IP en la base de datos ni en los registros. [PENDIENTE: consulta legal sobre la base de este conteo]
+- **Tu dirección IP y tu email, para limitar intentos.** Para evitar abusos, MATU limita cuántas veces se puede, desde una misma dirección IP, crear una cuenta, entrar, pedir un código para recuperar el acceso y abrir un enlace de relevo. Si alguien se equivoca varias veces al entrar, MATU hace esperar antes del siguiente intento. Para contarlos guardamos una huella de tu dirección IP y, al entrar o al recuperar el acceso, otra de tu email, que no permiten recuperarlos. La mayoría se borra sola en una hora; las de recuperar el acceso, en 24 horas como máximo (sección 8). No guardamos tu IP en la base de datos ni en los registros de MATU. [PENDIENTE: consulta legal sobre la base de este conteo]
 - **Tus dispositivos.** Por cada navegador donde entras guardamos un nombre general, como «Chrome en Android», y cuándo lo usaste por última vez. No guardamos los datos de tu navegador. Si activas los avisos, guardamos además la dirección que tu navegador nos da para enviártelos. Los avisos no dicen el nombre de la persona ni del insumo.
 - **Cuando des una autorización** para la persona que cuidas: la fecha y la hora, en qué calidad la diste, qué declaración viste y la versión de esta política. Si eres cuidadora o cuidador de hecho, también qué aviso viste: su identificador, su versión y una huella de su texto. Si registras la decisión de la propia persona, queda anotado que la registraste tú, en su presencia. No guardamos tu dirección IP ni tu navegador.
 
@@ -230,9 +232,10 @@ Sus identificadores son `declaracion_consumo_titular`, `declaracion_consumo_repr
 
 ## 7. Dónde se guardan los datos
 
-- En los sprints 1 a 3, el sistema corre en los computadores del equipo y en un ambiente de prueba, siempre con datos inventados.
-- [PENDIENTE: proveedor y país donde se alojarán los datos]
-- Si los datos se guardan fuera de Chile, lo diremos aquí y aplicaremos lo que la ley exige para ese caso.
+- Durante el semestre, MATU corre en los computadores del equipo y en un ambiente de prueba en Railway, un proveedor de servidores, en su región de California, Estados Unidos. Ese ambiente tiene solo datos inventados y se borra al terminar el semestre.
+- Aunque los datos sean inventados, cuando usas el ambiente de prueba tu dirección IP pasa por los servidores de Railway en Estados Unidos. MATU no la guarda: solo una huella que no permite recuperarla, por el plazo de la sección 8. Railway puede guardar la dirección IP de cada conexión en sus propios registros técnicos. [PENDIENTE: confirmar qué registra Railway y por cuánto tiempo]
+- [PENDIENTE: proveedor y país donde se alojarán los datos reales]
+- Si los datos reales se guardan fuera de Chile, lo diremos aquí y aplicaremos lo que la ley exige para ese caso.
 
 ## 8. Cuánto tiempo guardamos los datos
 
@@ -240,7 +243,7 @@ Sus identificadores son `declaracion_consumo_titular`, `declaracion_consumo_repr
 - **Consumo de insumos:** mientras la autorización para calcular insumos esté vigente y hasta 90 días después de que termine, también los insumos que dejaste de seguir. Un insumo que eliminas se borra en ese momento. Si pides borrar todo el consumo, lo borramos de la base de datos: no se deja ilegible, se borra.
 - **Tu sesión:** cada sesión se borra 30 días después de vencer o de cerrarse.
 - **Tus dispositivos:** se borran 90 días después de su último uso. La dirección para enviarte avisos se borra cuando cierras la sesión, sacas el dispositivo o desactivas los avisos en él, o cuando el servicio de notificaciones informa que ya no existe.
-- **Huellas para limitar intentos de entrada:** 1 hora.
+- **Huellas para limitar intentos** al crear una cuenta, al entrar y al abrir un enlace de relevo: 1 hora desde el primer intento.
 - **Avisos de insumos:** los avisos cerrados, 90 días. El registro de avisos, que dice a quién, por qué canal y si salió o por qué no salió, sin el texto ni tu correo: 90 días desde que se crea. Los eventos internos ya procesados, y los que no se pudieron procesar, 30 días. Las compras anotadas, mientras exista el insumo.
 - **Código para recuperar el acceso** (MATU-57): hasta que se usa o 10 minutos. Los contadores de envíos, 24 horas como máximo.
 - **Copias de respaldo:** [PENDIENTE: plazo]. El borrado queda completo cuando vence la última copia que contiene la clave.
@@ -258,8 +261,8 @@ Sus identificadores son `declaracion_consumo_titular`, `declaracion_consumo_repr
 - Cada campo de la ficha se cifra con una clave propia de cada persona cuidada. Esa clave está protegida por una clave maestra. Durante el piloto, que usa solo datos inventados, la clave maestra está en el mismo servidor que la aplicación. Antes de usar MATU con personas reales, pasará a un servicio de custodia separado del servidor. [PENDIENTE: confirmar el servicio de custodia de claves]
 - La base de datos separa a cada familia: una familia no puede ver los datos de otra, aunque la aplicación tenga un error.
 - El registro de quién abrió la ficha no se puede modificar ni borrar.
-- Los registros técnicos no guardan el texto de la ficha, ni tu email, ni contraseñas, ni códigos de acceso, ni enlaces de relevo, ni PIN, ni el nombre del grupo, ni tu dirección IP.
-- El enlace de relevo se bloquea después de 5 PIN incorrectos. Cada PIN incorrecto y cada bloqueo quedan registrados. Además, desde una misma dirección IP se admite un número limitado de intentos de entrada por hora: para ese conteo se guarda por una hora una huella de la IP que no permite recuperarla; la IP no se guarda en la base de datos ni en los registros.
+- Los registros técnicos de MATU no guardan el texto de la ficha, ni tu email, ni contraseñas, ni códigos de acceso, ni enlaces de relevo, ni PIN, ni el nombre del grupo, ni tu dirección IP. El proveedor de servidores puede registrar la dirección IP de cada conexión (sección 7).
+- El enlace de relevo se bloquea después de 5 PIN incorrectos. Cada PIN incorrecto y cada bloqueo quedan registrados. Además, desde una misma dirección IP se admite un número limitado de intentos por hora para crear una cuenta, entrar y abrir un enlace de relevo: para contarlos se guarda una huella de la IP que no permite recuperarla y que se borra sola en el plazo de la sección 8. La IP no se guarda en la base de datos ni en los registros de MATU.
 - La aplicación no guarda en tu teléfono ni en tu navegador la ficha, el consumo de insumos ni tu código de acceso, que vive solo en la memoria de la página. No usa analítica ni programas de terceros.
 - Los avisos al teléfono no llevan el nombre de la persona ni del insumo.
 
