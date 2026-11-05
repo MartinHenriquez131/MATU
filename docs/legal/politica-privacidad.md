@@ -56,7 +56,7 @@ MATU no usa los datos para publicidad ni los vende. Tampoco toma decisiones auto
 ### De ti
 
 - **Tu nombre, tu email y tu celular.** Para crear tu cuenta no pedimos nada más.
-- **Tu celular** lo pedimos para enviarte un código por SMS o WhatsApp cuando quieras recuperar tu contraseña o confirmar que eres tú (MATU-57). *Todavía no disponible.* Antes de usarlo para recuperar tu cuenta, te pediremos confirmarlo con un código; mientras no lo confirmes, el código te llega a tu email. El mensaje solo trae el código: nunca tu nombre, el de la persona que cuidas ni nada de su cuidado. No lo mostramos a otras personas del grupo ni lo usamos para publicidad. Del código guardamos solo una huella que no permite reconstruirlo, cuándo vence y cuántas veces se intentó. Cuando cambias tu contraseña, cerramos tu sesión en todos tus dispositivos y te avisamos por el otro canal.
+- **Tu celular** lo pedimos para enviarte un código cuando quieras recuperar tu contraseña. Antes de usarlo para eso, te pedimos confirmarlo con un código; mientras no lo confirmes, el código te llega a tu correo. Guardamos si lo confirmaste y si prefieres recibir los códigos por SMS o por WhatsApp. Si cambias el número, tendrás que confirmarlo de nuevo. El mensaje solo trae el código: nunca tu nombre, el de la persona que cuidas ni nada de su cuidado. No lo mostramos a otras personas del grupo ni lo usamos para publicidad. Del código guardamos solo una huella que no permite reconstruirlo, cuándo vence y cuántas veces se intentó, y la borramos al usarlo o a los 10 minutos. Cuando cambias tu contraseña, cerramos tu sesión en todos tus dispositivos (ver «Tu sesión») y te avisamos por el otro canal, o por tu correo si tu celular no está confirmado.
 - **Tu email se guarda legible**, porque lo necesitamos para que entres y para escribirte. Lo protege la separación entre familias de la base de datos. Para iniciar sesión usamos además una huella del email que no permite recuperarlo.
 - **Tu contraseña**, guardada transformada de una forma que no se puede revertir. Nadie en MATU puede leerla.
 - **Los grupos a los que perteneces** y tu rol en cada uno.
@@ -169,15 +169,15 @@ Es aparte de la de la ficha y se da en la misma calidad. Se pide la primera vez 
 
 **La propia persona (titular):**
 
-> Declaro que la persona que cuido me dijo hoy, en persona, que autoriza a MATU a guardar qué insumos usa, cuánto usa y cuánto queda, y a calcular cuándo se acaban y avisarte cuando se esté por acabar, según la política de privacidad vigente. Yo solo registro su decisión.
+> Declaro que la persona que cuido me dijo hoy, en persona, que autoriza a MATU a guardar qué insumos usa, cuánto usa y cuánto queda, y a calcular cuándo se acaban y avisarme cuando se esté por acabar, según la política de privacidad vigente. Yo solo registro su decisión.
 
 **Su representante legal:**
 
-> Declaro que soy representante legal de la persona que cuido y que la referencia que indico corresponde al documento que lo acredita. Como su representante, autorizo a MATU a guardar qué insumos usa, cuánto usa y cuánto queda, y a calcular cuándo se acaban y avisarte cuando se esté por acabar, según la política de privacidad vigente.
+> Declaro que soy representante legal de la persona que cuido y que la referencia que indico corresponde al documento que lo acredita. Como su representante, autorizo a MATU a guardar qué insumos usa, cuánto usa y cuánto queda, y a calcular cuándo se acaban y avisarme cuando se esté por acabar, según la política de privacidad vigente.
 
 **Cuidadora o cuidador de hecho:**
 
-> Declaro que cuido a esta persona y que no soy su representante legal. Autorizo a MATU a guardar qué insumos usa, cuánto usa y cuánto queda, y a calcular cuándo se acaban y avisarte cuando se esté por acabar, según la política de privacidad vigente. Leí el aviso sobre el límite de esta autorización.
+> Declaro que cuido a esta persona y que no soy su representante legal. Autorizo a MATU a guardar qué insumos usa, cuánto usa y cuánto queda, y a calcular cuándo se acaban y avisarme cuando se esté por acabar, según la política de privacidad vigente. Leí el aviso sobre el límite de esta autorización.
 
 Sus identificadores son `declaracion_consumo_titular`, `declaracion_consumo_representante_legal` y `declaracion_consumo_cuidador_de_hecho`. Las aprobó Jorge el 03-11.
 
@@ -241,7 +241,7 @@ Sus identificadores son `declaracion_consumo_titular`, `declaracion_consumo_repr
 - **Tus dispositivos:** se borran 90 días después de su último uso. La dirección para enviarte avisos se borra al cerrar la sesión o sacar el dispositivo.
 - **Huellas para limitar intentos de entrada:** 1 hora.
 - **Avisos de insumos:** los avisos cerrados, 90 días; el registro de avisos enviados, 90 días; los eventos internos ya procesados, 30 días; las compras anotadas, mientras exista el insumo.
-- **Código para recuperar el acceso** (MATU-57, *todavía no disponible*): hasta que se usa o 10 minutos. Los contadores de intentos, 24 horas como máximo.
+- **Código para recuperar el acceso** (MATU-57): hasta que se usa o 10 minutos. Los contadores de envíos, 24 horas como máximo.
 - **Copias de respaldo:** [PENDIENTE: plazo]. El borrado queda completo cuando vence la última copia que contiene la clave.
 - **Registro de quién abrió la ficha:** 3 años.
 - **Pedidos y comprobantes de entrega**, cuando existan: 2 años.
