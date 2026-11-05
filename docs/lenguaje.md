@@ -138,7 +138,7 @@ Los ejemplos son sintéticos: Carmen cuida a María, Rosa la reemplaza y Rodrigo
 | Dónde | Texto |
 |---|---|
 | Título de la sección | Ficha de relevo |
-| Bajada de la lista de campos | Tres campos cortos para que quien te reemplace sepa qué hacer. Cada campo se guarda por separado y puedes compartir solo algunos. |
+| Bajada de la lista de campos · Cambiada por Jorge el 03-11 (ADR-028: los tres campos van siempre) | Tres campos cortos para que quien te reemplace sepa qué hacer. Cada campo se guarda por separado. |
 | Avance | `{n}` de 3 campos listos |
 | Estado de un campo con texto / sin texto | Listo / Falta |
 | Botón de un campo sin texto / con texto | Completar «`{campo}`» / Editar «`{campo}`» |
@@ -151,10 +151,8 @@ Los ejemplos son sintéticos: Carmen cuida a María, Rosa la reemplaza y Rodrigo
 | Mientras se guarda | Guardando… |
 | Vista previa | Así la ve quien te reemplaza · La hoja, mientras escribes |
 | **Campo vacío** (en la hoja, para el relevo y en la vista previa) | **Sin completar** |
-| Campo vacío en la hoja impresa | Sin completar. Pregúntale a `{nombre de quien imprime}`. |
-| Pie de la hoja impresa | Para quien la cuide hoy. Gracias por estar. |
-| Bajada de la hoja impresa | La ficha en una hoja, para pegar en el refrigerador. Se imprime desde el navegador. MATU no descarga ni guarda un archivo en tu teléfono o computador. |
-| Botón de la hoja impresa | Imprimir |
+
+**Sin hoja impresa (ADR-029, 03-11):** la ficha no se imprime ni se exporta. Salieron de esta tabla los textos de la hoja impresa (la bajada, el botón «Imprimir», el pie y el campo vacío impreso). La hoja del refrigerador queda solo como el aspecto de la ficha en pantalla.
 
 "Guardar" con un campo vacío que nunca se escribió no hace nada y no muestra mensaje (contrato, decisión 6). Vaciar un campo que ya tenía texto sí se guarda, y el campo vuelve a "Sin completar".
 
@@ -359,7 +357,7 @@ La demo del viernes 30 no se modifica. Al conectarla a la API, o al construir MA
 | 9 | El texto que la demo dicta en "Si se altera" insinúa una condición de salud de María | Los ejemplos de este documento no lo hacen (sección 5). El dictado de la demo no se copia a la app | Jorge, si quiere cambiar el dictado después del viernes |
 | 10 | Los documentos de las entrevistas no seguían los códigos del protocolo, sección 6 | Este documento no usa códigos de entrevista | **Resuelto por Jorge el 27-10:** los documentos de las entrevistas usan los códigos E01 a E10 del protocolo, sin iniciales ni edades exactas |
 | 11 | Demo: "Cada campo se guarda cifrado" y "se guarda protegido" | No se dice "cifrado" hasta que MATU-11 exista (política v0.9, sección 13). Marcado **[desde MATU-11]** en la sección 5.4 | Ya resuelto aquí |
-| 12 | Demo: "Sirve sin conexión y sin aplicación" en la hoja impresa | La hoja se imprime desde el navegador y no se descarga ni se guarda un archivo (política v0.9, sección 9) | Ya resuelto aquí |
+| 12 | Demo: "Sirve sin conexión y sin aplicación" en la hoja impresa | La ficha no se imprime ([ADR-029](adr/ADR-029-ficha-no-se-imprime.md)). La demo no se copia a la app | **Resuelto por Jorge el 03-11** |
 
 **Para la tarjeta de consulta legal en Trello:**
 
@@ -485,6 +483,18 @@ La pregunta guía y el ejemplo no se muestran en la página del relevo.
 Revisados contra los términos prohibidos (diagnóstico, conducta, incidente, deterioro, incontinencia): «diagnósticos» aparece solo en la ayuda aprobada, como lo que **no** se pide. Ningún texto asume el género de la persona cuidada ni de quien usa la app.
 
 ---
+
+### 14.4 Conflictos y errores de las secciones (MATU-50) · Aprobados por Jorge el 03-11
+
+| Dónde | Texto |
+|---|---|
+| Guardar cuando otra persona quitó la sección, título | Otra persona quitó «`{sección}`» mientras escribías |
+| Ídem, texto | Lo que escribiste no se guardó. Puedes agregarla de nuevo con tu texto. |
+| Ídem, botones | Agregarla de nuevo · Dejarla quitada |
+| Ídem, al pie | Si quieres, copia lo que escribiste antes de elegir. |
+| Ídem, al confirmar | Agregaste «`{sección}`». · Dejaste «`{sección}`» quitada. |
+| Texto demasiado largo (422) | Esta sección admite hasta `{tope}` caracteres. Acorta un poco el texto para guardarlo. |
+| «Dejarla como está» en el conflicto al quitar | Dejaste «`{sección}`» como la guardó `{autor}`. |
 
 ## 15. Quién la vio (MATU-45) · Aprobados por Jorge el 03-11
 

@@ -375,7 +375,7 @@ Los destinos usan la numeración del calendario v1.3.
 | Prueba de capa 3 desacoplable (ADR-002) | Sprint 3 | La arquitectura la pide junto con el relevo. Se mueve un sprint por capacidad, y se registra en la v1.2 |
 | Arquitectura v1.2 | Sprint 3 (4 h) | Solo la sección 7 tiene 16 cambios. El cierre del ADR-023 ya documenta la decisión urgente |
 | Ver quién abrió la ficha (RF-08, pantalla) | Sprint 3, con la app | La auditoría se registra desde el sprint 2. Solo falta mostrarla |
-| Exportar la ficha imprimible (RF-09) | Sprint 3, con la app | Es *Debería* y se ve en la app |
+| ~~Exportar la ficha imprimible (RF-09)~~ | **Quitada el 03-11 ([ADR-029](adr/ADR-029-ficha-no-se-imprime.md))** | La ficha no se imprime ni se exporta. RF-09 pasa a la lista de reposición (sprint 4) |
 | Contrato de los endpoints de la app familia | Sprint 3, primer día (3 h) | Para que el desarrollo de la app no se bloquee |
 | Invitar a un familiar y gestionar roles (RF-38) | Sprint 3 | No aporta al objetivo de los sprints 1 a 3. La concurrencia se prueba con las fábricas |
 | Publicador del outbox y avisos por push y correo (RF-39) | Sprint 3 | Sin eventos que publicar hasta las alertas de quiebre, y FCM necesita el token que da la app |

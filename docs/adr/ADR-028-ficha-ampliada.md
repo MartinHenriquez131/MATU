@@ -67,7 +67,7 @@ Al crear un acceso de relevo, la cuidadora ve los tres campos iniciales, que sie
 - La tarjeta "Secciones opcionales del plan de cuidado" sale del Product Backlog.
 - En el sprint 3, MATU-49 (diseño, revisión normativa y contrato).
 - En el sprint 4, MATU-50 (backend y pantallas).
-- La hoja imprimible (MATU-52) incluye las secciones que la familia haya agregado.
+- ~~La hoja imprimible (MATU-52) incluye las secciones que la familia haya agregado.~~ Quitado el 03-11: la ficha y sus secciones no se imprimen ([ADR-029](ADR-029-ficha-no-se-imprime.md)).
 
 **En la arquitectura v1.2:**
 - **RF-03** se reescribe con estas seis secciones, como *Debe* en el semestre.
@@ -97,3 +97,7 @@ Decisiones de Jorge del 03-11, tras la revisión previa del analista normativo:
 - La página del relevo no muestra las preguntas guía ni los ejemplos de las secciones.
 
 Especificación: `docs/diseno/matu-49-ficha-ampliada.md` y contrato propuesto `docs/api/propuestos/ficha-ampliada.openapi.yaml` (repositorio MATU_PROYECTO).
+
+## Actualización del 03-11 (ADR-029)
+
+La ficha y sus secciones **no se imprimen ni se exportan**: se comparten solo con el acceso de relevo. MATU-52 sale del alcance. Ver [ADR-029](ADR-029-ficha-no-se-imprime.md).

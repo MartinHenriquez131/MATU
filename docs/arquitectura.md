@@ -21,6 +21,7 @@ Esta es la **versión 1.1** del documento de arquitectura de MATU. Incorpora los
 > - La prioridad de RF-03: el cierre del ADR-023 baja las ocho secciones a *Podría*, y la sección 3.1 todavía dice *Debe*
 > - El resultado de la [prueba de concepto de Transbank](pruebas-concepto/transbank.md): el débito no admite captura diferida. **Ya incorporado** con el ADR-027 (sección 14), que reemplazó al ADR-006 y al ADR-011, y propagado a las secciones 8, 9.4, 9.5, 10.4, 11.2, 11.7, 12, 17 y 18.1. La sección 7 (7.1, 7.4 y 7.6 b, c y f) y los estados de 8.1 y 12.3 se alinearon el 27 de octubre con la migración 0002 (`0002_precios_exactos_un_cobro`). Lo que esa migración dejó fuera a propósito está al final de 7.4
 > - El [ADR-026](adr/ADR-026-aplicacion-web.md): la aplicación de la familia es web, mobile first, y reemplaza a Flutter. El ADR ya está escrito y lista las secciones que cambian (1, 6.1, 12.2, 15, 17 y 19.1). Hasta la v1.2, donde este documento dice Flutter, manda el ADR-026
+> - El [ADR-029](adr/ADR-029-ficha-no-se-imprime.md) (03-11): la ficha de relevo no se imprime ni se exporta, y RF-09 pasa a la lista de reposición. **Ya incorporado** en 3.1, la ruta de la ficha y el alcance
 > - La separación en dos repositorios: la documentación en MATU y el código en MATU_PROYECTO (anexo 19.1)
 > - La suspensión de la regla de ejes en los sprints 1 a 3 y el traslado de la prueba de capa 3 desacoplable, declarados en el backlog
 > - Las decisiones de Jorge del 27 de octubre sobre el contrato de MATU-09 (decisiones 16, 23 a 28). **Ya incorporadas** en 2.1, 7.2, 7.5, 7.7 b, 9.1, 9.2, 10.1, 11.6 y 11.8, y en el [modelo de datos](modelo-datos.md): la IP no se guarda, la API no envía el PIN, la 9.2 sigue el contrato, la retención del acceso de relevo y de su teléfono, las columnas nuevas de `acceso_relevo` e `indice_token`, y edades sin valores exactos
@@ -155,7 +156,7 @@ Catálogo de requisitos trazados a módulo y priorizados con MoSCoW. **Debe** en
 | RF-06 | El relevo accede al plan sin crear cuenta, mediante un enlace con token expirable | `care_plan` | Debe |
 | RF-07 | El cuidador revoca un acceso de relevo en cualquier momento, con efecto inmediato | `care_plan` | Debe |
 | RF-08 | Todo acceso al plan de cuidado queda registrado en auditoría | `care_plan` | Debe |
-| RF-09 | El plan de cuidado se exporta como documento imprimible para el relevo sin conexión | `care_plan` | Debe |
+| RF-09 | La lista de reposición se exporta y se imprime. La ficha de relevo no se imprime ni se exporta: se comparte solo con el acceso de relevo ([ADR-029](adr/ADR-029-ficha-no-se-imprime.md)) | `consumption` | Debe |
 | RF-42 | El plan de cuidado admite **llenado asistido**: un miembro del círculo familiar completa o corrige la ficha en nombre del cuidador principal, y la autoría queda registrada | `care_plan` | Debe |
 
 **RF-02, RF-03 y RF-42 son nuevos o reescritos en esta versión.** La v1.0 tenía un RF-02 que exigía ocho secciones y un RF-03 que pedía "una versión mínima utilizable en menos de 5 minutos". La validación refutó que eso fuera posible. RF-42 entra porque el único abandono del piloto fue por manejo del teléfono, y la entrevistada pidió ella misma que alguien escribiera por ella.
@@ -984,7 +985,6 @@ PUT    /v1/personas-cuidadas/{id}/plan/ficha/{campo}
        headers: If-Match: "v<version>"              → 412 si otro miembro editó
                 o If-None-Match: *                  → primera escritura del campo
        body: {texto}                                → 428 sin ninguna de las dos cabeceras
-GET    /v1/personas-cuidadas/{id}/plan/exportar     → documento imprimible (RF-09)
 POST   /v1/personas-cuidadas/{id}/plan/accesos-relevo
        body: {campos:[...], expira_en, motivo, nombre_relevo, telefono_relevo}
                                                     → 201 con el enlace y el PIN, una sola vez
@@ -1001,7 +1001,7 @@ GET    /v1/relevo/ficha         con la cookie       → los campos compartidos, 
 El contrato vigente es el de `docs/api/propuestos/` en MATU_PROYECTO (MATU-09). Esta lista lo resume. Cambios respecto de la v1.1:
 
 - **La ficha se escribe con un PUT por campo**, no con uno para los tres. El `ETag`, el 412 y el 428 son por campo (MATU-13): si dos personas editan campos distintos, ninguna pisa a la otra. El ADR-023 se sostiene igual, porque ningún campo exige el resto del plan.
-- **`PUT …/plan/secciones/{tipo}` no se expone en el semestre.** Las ocho secciones son *Podría* desde el ADR-023. El llenado asistido (`en_nombre_de`, RF-42) y la exportación (RF-09) no entran en el contrato de MATU-09.
+- **`PUT …/plan/secciones/{tipo}` no se expone en el semestre.** Las ocho secciones son *Podría* desde el ADR-023. El llenado asistido (`en_nombre_de`, RF-42) no entra en el contrato de MATU-09. La ficha no se exporta ([ADR-029](adr/ADR-029-ficha-no-se-imprime.md)).
 - **El acceso de relevo pide `campos`, no `secciones`.** La ficha solo admite `rutina`, `manejo_situaciones` y `red_apoyo`. `motivo` es un enumerado sin texto libre (7.2).
 - **El relevo ya no usa `GET /v1/relevo/{token}`.** El token nunca viaja en la URL de una petición. La página `/r#<token>` lo lee del fragmento, pide los nombres con `POST /v1/relevo/presentacion` y canjea token y PIN con `POST /v1/relevo/canje`. El canje deja una cookie `__Secure-matu-relevo` que dura 12 horas o hasta que vence el acceso, lo que ocurra primero. La ficha se lee siempre con `GET /v1/relevo/ficha`, que es lo que se audita como apertura.
 - **La API no envía el PIN.** Lo entrega una vez en el 201 y quien comparte se lo dicta al relevo (11.6).
@@ -1154,7 +1154,7 @@ La clave está en `acciones`. **`exportar_lista` y `compartir_enlace` funcionan 
 El prototipo navegable de los flujos críticos está terminado y cubre:
 
 0. Alta de persona cuidada y consentimiento
-1. Ficha de relevo, secciones opcionales, acceso de relevo, vista del relevo, auditoría, revocación y versión imprimible
+1. Ficha de relevo, secciones opcionales, acceso de relevo, vista del relevo, auditoría y revocación
 2. Declaración de consumo, alerta de quiebre y lista de reposición
 3. Pedido y pago
 4. Vista de comercio
@@ -1999,7 +1999,7 @@ Existía en el diseño anterior sobre la publicación exclusiva en Android. Se r
 | 0 | 7 | Preparación | Repositorios, pipeline, esquema base, **prueba de concepto de Transbank** |
 | 1 | 8 | Identidad y grupo | Registro, login, grupo familiar, persona cuidada, RLS con **diez pruebas de aislamiento** en API y en worker |
 | 2 | 9 | **Ficha de relevo** | Los tres campos obligatorios, cifrado con sobre-cifrado, concurrencia optimista, consentimiento, auditoría de acceso, llenado asistido |
-| 3 | 10 | **Acceso de relevo** | Token expirable con PIN, vista de relevo, revocación, exportación imprimible. **Primer producto demostrable de punta a punta**, en la misma semana de la evaluación de avance |
+| 3 | 10 | **Acceso de relevo** | Token expirable con PIN, vista de relevo y revocación. **Primer producto demostrable de punta a punta**, en la misma semana de la evaluación de avance |
 | 4 | 11 | App familia, núcleo | Navegación, autenticación, ficha de relevo en móvil, criterios de accesibilidad aplicados |
 | 5 | 12 | **Perfil de consumo y predicción** | Declaración, cálculo de quiebre con ocho pruebas de dominio, alertas materializadas, notificaciones |
 | 6 | 13 | Catálogo y lista | Catálogo semilla, lista de reposición, exportación y enlace compartible. **Entorno de demostración operativo.** Pruebas de usabilidad con tres usuarios |

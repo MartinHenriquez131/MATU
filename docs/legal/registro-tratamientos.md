@@ -1,6 +1,6 @@
 # Registro de tratamientos de MATU
 
-**Estado:** borrador para el piloto académico, a la par de la política de privacidad v0.9. Lo redacta el analista normativo y lo aprueba Jorge Espinoza. Este documento no es asesoría legal.
+**Estado:** borrador para el piloto académico, a la par de la política de privacidad v0.10. Lo redacta el analista normativo y lo aprueba Jorge Espinoza. Este documento no es asesoría legal.
 
 Cada historia que empieza a tratar datos personales agrega aquí su entrada.
 
@@ -69,7 +69,7 @@ Cada historia que empieza a tratar datos personales agrega aquí su entrada.
 - **Transferencia internacional:** [PENDIENTE: proveedor y país].
 - **Decisiones automatizadas:** ninguna.
 
-## 3. Ficha de relevo (MATU-09, MATU-11 a MATU-14)
+## 3. Ficha de relevo (MATU-09, MATU-11 a MATU-14, MATU-50)
 
 > Aprobado por Jorge el 27-10 como diseño. Que retirar la autorización corte los accesos de relevo vigentes depende de la historia del sprint 3 "Revocar el consentimiento y cortar los accesos de relevo vigentes". Esa historia es requisito para operar con datos reales, igual que los requisitos R7 a R9 del ADR-027.
 
@@ -81,24 +81,25 @@ Cada historia que empieza a tratar datos personales agrega aquí su entrada.
   - los miembros del grupo que escriben la ficha
   - las personas anotadas en "A quién llamar"
 - **Datos:**
-  - el texto de cada campo, hasta 500 caracteres por campo. Es **dato sensible**, porque habla de la salud y de la dependencia de la persona. MATU no pide diagnósticos
-  - quién escribió cada campo, cuándo y su versión
-  - la auditoría de cada lectura y escritura, sin el texto
-  - el texto de las secciones adicionales `quien_es`, `preferencias`, `alimentacion`, `movilidad`, `comunicacion` y `remedios`, hasta 500 caracteres cada una y 800 en `remedios`. Es **dato sensible**. `remedios` es un dato relativo a la salud, en texto libre escrito por la familia, sin catálogo, dosis estructuradas ni recordatorios (decisión de Jorge del 03-11, sin consulta legal previa, por la seguridad del cuidado). Quitar una sección borra su fila
+  - el texto de cada uno de los tres campos, hasta 500 caracteres por campo. Es **dato sensible**, porque habla de la salud y de la dependencia de la persona. MATU no pide diagnósticos
+  - quién escribió cada campo y cada sección, cuándo y su versión, y cuándo se agregó cada sección (`plan_seccion.creado_en`, que no cambia al editar)
+  - la auditoría, sin el texto: `plan.leer` de cada lectura, incluida la del 412; `plan.editar` de cada escritura, con el tipo de la sección en `detalle.seccion` si es adicional; y `plan.quitar_seccion`, con el tipo de la sección quitada. El `CHECK auditoria_detalle_acotado` admite solo los seis tipos (migración 0013)
+  - el texto de las secciones adicionales `quien_es`, `preferencias`, `alimentacion`, `movilidad`, `comunicacion` y `remedios`, hasta 500 caracteres cada una y 800 en `remedios`. Es **dato sensible**. `remedios` es un dato relativo a la salud, en texto libre escrito por la familia, sin catálogo, dosis estructuradas ni recordatorios (decisión de Jorge del 03-11, sin consulta legal previa, por la seguridad del cuidado). Quitar una sección (`DELETE` con `If-Match`) borra su fila y su texto cifrado en el acto; volver a agregarla crea otra fila. El servidor no interpreta ni clasifica el texto
 - **Base de licitud:** la autorización registrada en MATU-07, con el texto ampliado a las secciones adicionales desde la versión 0.10. Las versiones anteriores a la 0.10 solo se usaron con datos sintéticos y ninguna persona real las aceptó, así que no hay autorizaciones previas que renovar (decisión de Jorge del 03-11). Sin autorización vigente la API responde 403.
   - cuidadora o cuidador de hecho: [PENDIENTE: consulta legal]
   - personas anotadas en "A quién llamar": [PENDIENTE: consulta legal sobre su base de licitud]
 - **Quién accede:**
-  - administrador y cuidador leen y escriben
-  - el pagador lee solo si tiene el permiso de ver la ficha
+  - administrador y cuidador leen, escriben y quitan secciones
+  - el pagador lee los campos y las secciones solo si tiene el permiso de ver la ficha. No escribe ni quita: la API le responde 404, y la política RLS de `plan_seccion` solo permite escribir a administrador y cuidador (decisión 102, migración 0013)
   - el observador nunca. La API le responde 404
-  - el relevo lee solo los campos habilitados, mientras su acceso esté vigente
+  - el relevo, mientras su acceso esté vigente, lee los campos base habilitados y las secciones adicionales que se le marcaron y que ya existían al crear su acceso (`plan_seccion.creado_en <= acceso_relevo.creado_en`, en la política RLS `seccion_relevo`, de solo lectura, y en la consulta)
   - operación nunca
 - **Conservación:**
   - mientras la autorización esté vigente y hasta 90 días después
   - el borrado se cumple destruyendo la clave de la persona. [PENDIENTE: confirmar que una solicitud de borrado no espera los 90 días]
   - copias de respaldo: [PENDIENTE]
-  - auditoría: 3 años
+  - una sección adicional quitada: se borra en el acto. Queda en las copias de respaldo hasta que venzan
+  - auditoría: 3 años, también la que guarda el tipo de una sección quitada
 - **Medidas:**
   - cifrado AES-256-GCM con una clave por persona, envuelta por una clave maestra (MATU-11). Durante el semestre, con datos sintéticos, la clave maestra está en una variable de entorno del mismo servidor: quien accede al servidor accede a todo. La API no arranca así en producción (decisión de Jorge del 28-10, MATU-12). [PENDIENTE: servicio de custodia de claves antes de operar con datos reales (ADR-016)]
   - nonce de 12 bytes, nuevo en cada escritura
@@ -109,7 +110,11 @@ Cada historia que empieza a tratar datos personales agrega aquí su entrada.
   - auditoría de solo inserción (MATU-14)
   - `ETag` y 412 cuando dos personas editan el mismo campo (MATU-13)
   - el texto nunca aparece en logs, errores, URLs ni en el almacenamiento del navegador
-- **Comunicaciones a terceros:** solo al relevo, con lo que dice la entrada 4.
+  - el detalle de la auditoría solo admite tipos de sección, nunca texto (`CHECK` de la migración 0013)
+  - la ficha y sus secciones no se imprimen ni se exportan: no hay ruta ni vista de impresión (ADR-029)
+- **Comunicaciones a terceros:**
+  - solo al relevo, con lo que dice la entrada 4
+  - dictado: si quien escribe usa el micrófono, el reconocimiento de voz lo hace el servicio del navegador (en Chrome, Google), que recibe el audio. MATU no lo recibe ni lo guarda. En Sus remedios el dictado está desactivado hasta la respuesta legal (decisión de Jorge del 03-11). [PENDIENTE: consulta legal sobre el envío de audio de un dato sensible, nombrar los servicios y sus países]
 - **Transferencia internacional:** [PENDIENTE: proveedor y país].
 - **Decisiones automatizadas:** ninguna.
 
@@ -125,18 +130,18 @@ Cada historia que empieza a tratar datos personales agrega aquí su entrada.
   - el registro sirve para saber a quién se entregó la ficha y para detectar un enlace reenviado
 - **Titulares:**
   - el relevo: su nombre, su teléfono, cada vez que abre el enlace o la ficha, sus PIN incorrectos y su dirección IP
-  - la persona cuidada: su nombre de pila y los campos compartidos
+  - la persona cuidada: su nombre de pila, y los campos y secciones adicionales compartidos
   - quien otorga el acceso. También por su nombre de pila, que el relevo ve (decisión de Jorge del 27-10)
 - **Datos:**
   - nombre y teléfono del relevo, obligatorios
   - el nombre de pila de la persona cuidada, copiado al crear el acceso. Se anonimiza si se borra a la persona
   - el nombre de pila de quien comparte
-  - los campos habilitados
+  - los campos base y las secciones adicionales habilitadas (`secciones_permitidas`). Los accesos nuevos llevan siempre los tres campos base; los anteriores a MATU-50 conservan los que se eligieron
   - el motivo, elegido de una lista cerrada (`salgo_unas_horas`, `fin_de_semana_fuera`, `turno_de_noche`, `otro`), sin texto libre
   - las fechas de creación, vencimiento y corte, y quién otorgó el acceso
   - el hash del token y el PIN transformado con HMAC-SHA-256 y *pepper*. Nunca en claro
   - los intentos fallidos, los usos y el último uso
-  - la auditoría, sin IP, de cada vez que el relevo abre el enlace aunque no escriba el PIN (`relevo.presentar`), y de las aperturas de la ficha, los PIN incorrectos y los bloqueos
+  - la auditoría, sin IP, de cada vez que el relevo abre el enlace aunque no escriba el PIN (`relevo.presentar`), y de las aperturas de la ficha, los PIN incorrectos y los bloqueos. `relevo.abrir` guarda en `detalle.secciones` la lista de tipos de las secciones adicionales mostradas (puede ser vacía), sin su texto. La familia la ve en "Quién la vio"
   - la dirección IP, solo en los contadores temporales de 1 hora en Redis, uno para abrir el enlace y otro para el canje, con una huella HMAC como clave. No se guarda en la base, en la auditoría ni en los logs
 - **Base de licitud:**
   - para lo que se muestra de la persona cuidada: la autorización de MATU-07, que permite "compartirla con el relevo que elija el grupo"
@@ -146,7 +151,7 @@ Cada historia que empieza a tratar datos personales agrega aquí su entrada.
   - administrador y cuidador crean accesos, los ven, los cortan y ven las aperturas en "Quién la vio" (MATU-45; el observador no las ve), incluidas las veces que se abrió el enlace ("abrió el enlace"). Son los únicos que ven el teléfono del relevo en la lista de accesos, y después de los 30 días aparece vacío (contrato de MATU-09, decisión 31)
   - el pagador con permiso de ver la ficha lista los accesos y las aperturas, sin crear ni cortar (contrato de MATU-09). No ve el teléfono del relevo
   - el observador nunca
-  - el relevo ve el nombre de pila de la persona cuidada y el de quien comparte, también antes de escribir el PIN (decisión de Jorge del 27-10). Los campos los ve solo después del PIN
+  - el relevo ve el nombre de pila de la persona cuidada y el de quien comparte, también antes de escribir el PIN (decisión de Jorge del 27-10). Los campos y las secciones los ve solo después del PIN
   - operación nunca
 - **Conservación:**
   - nombre del relevo, motivo y fechas: 3 años desde que el acceso vence o se corta, igual que la auditoría (arquitectura, sección 11.8)
@@ -300,4 +305,4 @@ Cada historia que empieza a tratar datos personales agrega aquí su entrada.
 
 ## Nota sobre la ficha ampliada (ADR-028)
 
-La sección "Sus remedios" se mantiene por decisión de Jorge del 03-11, sin consulta legal previa: quien releva y no conoce los remedios pone en riesgo a la persona cuidada. Se trata como dato sensible, cifrado como la ficha, y al compartir viene sin marcar. Su tratamiento queda descrito en las entradas 3 y 4 (revisión previa de MATU-49, 03-11).
+La sección "Sus remedios" se mantiene por decisión de Jorge del 03-11, sin consulta legal previa: quien releva y no conoce los remedios pone en riesgo a la persona cuidada. Se trata como dato sensible, cifrado como la ficha, y al compartir viene sin marcar. Su tratamiento queda descrito en las entradas 3 y 4 (revisión previa de MATU-49 y de cierre de MATU-50, 03-11). La confirmación al compartir Sus remedios se revisa cuando MATU-48 integre el paso de compartir.
