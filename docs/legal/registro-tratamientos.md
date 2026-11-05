@@ -181,6 +181,8 @@ Cada historia que empieza a tratar datos personales agrega aquí su entrada.
   - tasa (`tasa_unidades`/`tasa_dias`);
   - stock y fecha del stock (la fija el servidor);
   - días de aviso y fecha estimada;
+  - preferencias de aviso por persona: tipo de aviso, canal y si está activo (`preferencia_notificacion`);
+  - registro de avisos (`notificacion`): persona, grupo, evento, canal, plantilla, estado, fechas y un código de error de una lista cerrada. **Sin destino ni contenido**;
   - si se sigue o no, y la versión.
 
   Se trata como **dato sensible**. [PENDIENTE: consulta legal sobre si es dato relativo a la salud y si basta RLS sin cifrado (decisión 63)]
@@ -203,14 +205,17 @@ Cada historia que empieza a tratar datos personales agrega aquí su entrada.
   - nada en el almacenamiento del navegador ni en la URL;
   - RLS separada de `alerta_quiebre` y `reposicion` (MATU-37): leen los cuatro roles; solo el rol sistema crea alertas; solo admin y cuidador las cierran o declaran una compra; nadie las borra a mano;
   - auditoría de `alerta.materializar`, `alerta.resolver`, `alerta.descartar` y `reposicion.declarar`, sin nombre, cantidades ni IP;
-  - el aviso por push o correo es un texto fijo sin nombres de personas ni de insumos, y su enlace no lleva identificadores.
+  - el aviso por push o correo es un texto fijo sin nombres de personas ni de insumos, y su enlace no lleva identificadores. El correo va sin seguimiento de aperturas ni de clics. El push va sin contenido (RFC 8030 con VAPID, decisión 50 del contrato): el servicio de push solo recibe la dirección de avisos y el teléfono muestra el texto fijo
+  - antes de cada envío, en cada intento y en cada canal, se revisa que la autorización de `consumo` esté `VIGENTE` según el `Reloj` (no retirada y con la revisión de 12 meses al día), que la alerta siga abierta con su perfil, que la membresía y el usuario sigan activos, y que el canal esté activo y tenga destino. Si algo falla, el aviso queda `omitida` con su código (MATU-41, decisión 107)
+  - el correo es el canal garantizado y el push va además, cada uno solo si la persona no lo apagó, desde las 9:00 hora de Chile. La preferencia es de la persona, por canal, y vale para todos sus grupos (`GET/PUT /v1/yo/avisos`, decisión 111). Un canal que la persona no eligió usa el valor por omisión de su rol en cada grupo: avisa a admin y cuidador, y al pagador y al observador solo si lo activan. El `PUT` guarda solo el canal que la persona cambia (decisión de Jorge del 04-11)
+  - los logs y el registro simulado nunca llevan el email, el `push_token` ni el texto. El registro simulado (`REGISTRO_AVISOS`, por omisión `.dev/avisos.jsonl`) guarda la hora, `notificacion_id`, `usuario_id`, el canal y la plantilla. Solo existe en local, pruebas y staging, con datos sintéticos, y la configuración no carga en producción. [PENDIENTE: plazo de borrado del archivo en staging]
 - **Alertas y compras declaradas (MATU-37):**
   - alertas: insumo (por su identificador), fecha estimada, estado y cuándo se avisó y se cerró. Sin nombre del insumo ni cantidades;
   - compras declaradas con «Ya lo resolví»: cantidad, fecha y quién la anotó; se suman a lo que quedaba;
   - el trabajo diario (rol sistema) crea las alertas solo para personas con la autorización de insumos vigente;
   - para recorrer los grupos, el trabajo diario usa en el semestre el rol operación, que lee solo el identificador de cada grupo activo; después trabaja grupo por grupo con el rol sistema. [PENDIENTE: usuario propio de tareas programadas, con permiso solo para leer los identificadores, antes de datos reales];
-  - conservación: alertas cerradas 90 días desde que se cierran, eventos publicados 30 días, avisos enviados 90 días, compras mientras exista el insumo (decisiones de Jorge del 03-11).
-- **Comunicaciones a terceros:** el servicio de push del navegador y el proveedor de correo reciben un aviso de texto fijo, «MATU: un insumo se está acabando. Abre la app para ver cuál», y el destino (token push o email). Por defecto avisan a admin y cuidador. Son encargados de MATU. [PENDIENTE: nombrarlos, su país y el contrato de encargo]. **Transferencia internacional:** [PENDIENTE]. **Decisiones automatizadas:** ninguna. La fecha es una estimación informativa y la alerta nunca genera un pedido.
+  - conservación: alertas cerradas 90 días desde que se cierran, eventos publicados 30 días, registro de avisos (`notificacion`, enviados, omitidos y fallidos) 90 días desde `creada_en`, compras mientras exista el insumo (decisiones de Jorge del 03-11). Eventos que no se pudieron procesar: 30 días desde `fallido_en` (decisión de Jorge del 04-11, MATU-41).
+- **Comunicaciones a terceros:** **en el semestre el envío es simulado y no sale de la máquina (MATU-41, decisión 112).** Cuando entre un proveedor real, el proveedor de correo recibirá el email del destinatario y el texto fijo del correo (remitente, asunto, cuerpo, enlace a la raíz de la aplicación y pie), sin identificadores internos y sin seguimiento de aperturas ni clics. El servicio de push, que elige el navegador y no MATU, recibirá solo el `push_token` y un push sin contenido (decisión 50). El proveedor de correo será encargado de MATU, con contrato de encargo. [PENDIENTE: nombrarlo, su país y el contrato]. [PENDIENTE: consulta legal sobre la calidad del servicio de push del navegador y la transferencia internacional]. Antes de activarlo: versión nueva de la política, MATU-55 en `main`, verificación del email y la preferencia resuelta. **Decisiones automatizadas:** ninguna. La fecha es una estimación informativa y la alerta nunca genera un pedido.
 
 ## 6. Cuenta, sesión y dispositivos (MATU-38)
 
@@ -230,15 +235,15 @@ Cada historia que empieza a tratar datos personales agrega aquí su entrada.
   - ventana deslizante de 30 días sin tope absoluto (decisión de Jorge del 31-10);
   - las sesiones se borran 30 días después de vencer o de cerrarse;
   - los dispositivos, 90 días después del último uso;
-  - el `push_token`, al cerrar o sacar el dispositivo;
+  - el `push_token`, al cerrar o sacar el dispositivo, al desactivar los avisos en él, o cuando el servicio de push dice que la suscripción ya no existe (MATU-41);
   - los contadores, en 1 hora.
 - **Medidas:**
   - cookie `HttpOnly`, `Secure`, `SameSite=Strict` y `Path=/v1/sesiones`;
   - access token en memoria, por 15 minutos;
   - rotación con detección de reutilización;
   - `no-store`;
-  - push con texto fijo y sin datos de personas ni de insumos, y con una lista cerrada de hosts.
-- **Comunicaciones a terceros:** el servicio de push del navegador recibe un aviso de texto fijo, sin datos de personas ni de insumos. [PENDIENTE: nombrarlos y su país]. **Decisiones automatizadas:** ninguna. La espera después de varios intentos es un control de seguridad.
+  - push sin contenido (el texto fijo lo pone el service worker), sin datos de personas ni de insumos, y con una lista cerrada de hosts.
+- **Comunicaciones a terceros:** el servicio de push del navegador recibirá solo el `push_token` y un push sin contenido (decisión 50). El texto fijo lo muestra el service worker de la aplicación. En el semestre el envío es simulado (MATU-41). [PENDIENTE: nombrarlos y su país]. **Decisiones automatizadas:** ninguna. La espera después de varios intentos es un control de seguridad.
 
 ## 7. Celular de la cuenta (MATU-39, MATU-57)
 
@@ -272,7 +277,7 @@ Cada historia que empieza a tratar datos personales agrega aquí su entrada.
   - el celular se usa solo si está confirmado; si no, el email;
   - al cambiar la contraseña se cierran todas las sesiones, se invalidan los códigos pendientes y se avisa por el otro canal (por el correo si el celular no está confirmado). Un acceso ya emitido puede seguir válido hasta 15 minutos;
   - nunca el código, el celular, el email ni la IP en logs, errores, auditoría ni eventos;
-  - en el semestre el envío es simulado: no sale de la máquina y solo se admite con ENTORNO local o pruebas, con datos sintéticos.
+  - en el semestre el envío es simulado: no sale de la máquina y solo se admite con ENTORNO local, pruebas o staging (decisión 105), con datos sintéticos. Si se define `REGISTRO_ENVIOS`, el adaptador simulado escribe el destino y el código en claro en un archivo JSON Lines de `.dev/`. Es un registro de desarrollo: nunca existe en producción, y en staging no debe quedar accesible desde fuera del servidor (revisión de Martín, P3-2). [PENDIENTE: plazo de borrado del archivo en staging]
 - **Comunicaciones a terceros:** los proveedores de SMS, WhatsApp y correo, como encargados con contrato. Reciben solo el destino y el texto del mensaje. En el semestre el envío es simulado, sin proveedor real (decisión de Jorge del 03-11). [PENDIENTE: nombrarlos y su país]
 - **Transferencia internacional:** [PENDIENTE: proveedor, país y garantía]. Requiere consulta legal.
 - **Decisiones automatizadas:** ninguna. La espera después de varios intentos es un control de seguridad.

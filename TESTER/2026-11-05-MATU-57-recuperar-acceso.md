@@ -71,16 +71,21 @@ MATU-57 no tiene entrada en `docs/backlog-sprints-1-3.md`. Se revisó contra las
 
 | ID | Sev. | Hallazgo | Respuesta de Jorge | Verificado |
 |---|---|---|---|---|
-| P2-1 | P2 | Falta la prueba en el teléfono y el recorrido de punta a punta. Se hace en staging apenas esté arriba | | |
-| P2-2 | P2 · Para decidir (PO) | `politica-privacidad.md:59` dice «te enviamos un código» y ofrece SMS o WhatsApp, pero no dice que en el semestre el envío es simulado. El registro sí lo dice (`:250`). Con usuarios reales nadie recibiría el código. ¿Se informa en la política, o la recuperación no se usa con usuarios reales mientras el envío sea simulado? | | |
-| P2-3 | P2 · Consulta legal | El plazo de conservación del celular tras eliminar la cuenta sigue en [PENDIENTE] (`registro-tratamientos.md:253`). Va a la tarjeta de consulta legal, junto con la base de licitud del celular obligatorio | | |
-| P2-4 | P2 · Para decidir (PO) | `politica-privacidad.md:7`: la versión 0.10 sigue con «[PENDIENTE: aprobación de Jorge en este PR]». Viene del PR MATU#23, que ya está en `main`, no de este PR. Hay que cerrarlo antes de tratar datos reales | | |
-| P3-1 | P3 | Falta comparar uno por uno los textos de `textos.ts` contra `lenguaje.md` 19 | | |
-| P3-2 | P3 | Con `REGISTRO_ENVIOS` definido, el envío simulado escribe el destino y el código en claro en un JSONL (`enviador_simulado.py:44-51`), solo fuera de producción y con datos sintéticos. Conviene una línea en el registro de tratamientos que diga que es un registro de desarrollo. En staging hay que revisar que ese archivo no quede accesible | | |
-| P3-3 | P3 | `enviador_simulado.py` usa `datetime.now(UTC)` en `infrastructure/`. Está permitido, pero no usa el puerto `Reloj` | | |
+| P2-1 | P2 | Falta la prueba en el teléfono y el recorrido de punta a punta. Se hace en staging apenas esté arriba | De acuerdo. La haces tú en staging cuando MATU-25 esté arriba. El código se lee en el registro del envío simulado. Ver P3-2 | |
+| P2-2 | P2 · Para decidir (PO) | `politica-privacidad.md:59` dice «te enviamos un código» y ofrece SMS o WhatsApp, pero no dice que en el semestre el envío es simulado. El registro sí lo dice (`:250`). Con usuarios reales nadie recibiría el código. ¿Se informa en la política, o la recuperación no se usa con usuarios reales mientras el envío sea simulado? | Se informa en la política: «En el piloto, el código se prueba sin enviarse». MATU#30, commit f1e3d35 | |
+| P2-3 | P2 · Consulta legal | El plazo de conservación del celular tras eliminar la cuenta sigue en [PENDIENTE] (`registro-tratamientos.md:253`). Va a la tarjeta de consulta legal, junto con la base de licitud del celular obligatorio | A la tarjeta de consulta legal (comentario del 05-11), con la base de licitud del celular obligatorio. No bloquea el semestre | |
+| P2-4 | P2 · Para decidir (PO) | `politica-privacidad.md:7`: la versión 0.10 sigue con «[PENDIENTE: aprobación de Jorge en este PR]». Viene del PR MATU#23, que ya está en `main`, no de este PR. Hay que cerrarlo antes de tratar datos reales | La 0.10 queda aprobada por Jorge el 05-11 como borrador del piloto, con datos sintéticos. La consulta legal sigue siendo obligatoria antes de datos reales. MATU#30, f1e3d35 | |
+| P3-1 | P3 | Falta comparar uno por uno los textos de `textos.ts` contra `lenguaje.md` 19 | Hecho por el QA el 05-11: PASS, los 62 textos coinciden y no hay términos prohibidos. §19 ahora dice que «1 minuto» va en singular. MATU#30, cecefbf | |
+| P3-2 | P3 | Con `REGISTRO_ENVIOS` definido, el envío simulado escribe el destino y el código en claro en un JSONL (`enviador_simulado.py:44-51`), solo fuera de producción y con datos sintéticos. Conviene una línea en el registro de tratamientos que diga que es un registro de desarrollo. En staging hay que revisar que ese archivo no quede accesible | El registro de tratamientos dice que es un registro de desarrollo con el código en claro, que se admite en staging (decisión 105) y que ahí no debe quedar accesible desde fuera. MATU#30, f1e3d35 | |
+| P3-3 | P3 | `enviador_simulado.py` usa `datetime.now(UTC)` en `infrastructure/`. Está permitido, pero no usa el puerto `Reloj` | No se cambia: `infrastructure/` puede usar el reloj del sistema, y el adaptador simulado no tiene reglas de dominio | |
 
 ## Para decidir (PO)
 
 - P2-2 y P2-4.
 - MATU-57 no tiene entrada en `docs/backlog-sprints-1-3.md`. ¿Se agrega con sus criterios?
 - Decisión 86: después del cambio de contraseña, un access token ya emitido sigue vivo hasta 15 minutos. ¿Se confirma?
+
+**Respuestas de Jorge (05-11):**
+- P2-2 y P2-4: ver la tabla.
+- Backlog: sí. MATU-57 y MATU-41 quedan en `backlog-sprints-1-3.md` v1.4, con sus criterios (MATU#30, ff538a6).
+- Decisión 86: se confirma para el semestre. Las sesiones de todos los teléfonos se cierran, y la ventana de hasta 15 minutos queda como riesgo conocido. Se revisa antes de operar con datos reales.

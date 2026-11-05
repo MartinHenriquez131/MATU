@@ -546,7 +546,7 @@ Complementa la sección 13 (lo central ya aprobado: «Alcanza para {n} días», 
 
 ## 19. Recuperar el acceso y confirmar el celular (MATU-57) · Aprobados por Jorge el 03-11
 
-En la app se dice «correo» y «entrar», nunca «email» ni «sesión». La respuesta al pedir un código es siempre la misma, exista o no la cuenta.
+En la app se dice «correo» y «entrar», nunca «email» ni «sesión». La respuesta al pedir un código es siempre la misma, exista o no la cuenta. Con `{minutos}` igual a 1 se escribe en singular: «1 minuto».
 
 | Pantalla | Textos |
 |---|---|
@@ -557,3 +557,20 @@ En la app se dice «correo» y «entrar», nunca «email» ni «sesión». La re
 | Tu cuenta | Tu cuenta · Tus datos para entrar a MATU. · Tu correo · Tu celular · Confirmado · Sin confirmar · Confirmar celular · Tu cuenta todavía no tiene un celular. · Volver a tu cuenta |
 | Confirmar el celular | Confirma tu celular · Si algún día olvidas la contraseña, te enviaremos un código a este número para que puedas volver a entrar. · ¿Cómo prefieres recibir los códigos? · Mensaje de texto (SMS) · WhatsApp · Enviar código · Enviando… · Ahora no · Te enviamos un código al {celular oculto}. · Confirmar · Confirmando… · ¿No te llegó? Enviar otro código · Listo. Tu celular quedó confirmado. · Ir a la ficha · Ya pediste varios códigos. Espera {minutos} minutos y vuelve a intentarlo. · No pudimos enviar el mensaje ahora. Vuelve a intentarlo en unos minutos. |
 | Mensajes (simulados en el semestre) | MATU: tu código es {código}. Vence en 10 minutos. No lo compartas con nadie; MATU nunca te lo pedirá por teléfono. · MATU: se cambió la contraseña de tu cuenta. Si no fuiste tú, pide un código para recuperar tu acceso. |
+
+---
+
+## 20. Avisos por correo y push (MATU-41) · Aprobados por Jorge el 04-11
+
+El correo y el push nunca dicen qué insumo ni de quién, no ofrecen comprar y su enlace no lleva identificadores ni token. En el piloto se prueban sin enviarse.
+
+| Dónde | Texto |
+|---|---|
+| Correo, remitente | MATU |
+| Correo, asunto | MATU: un insumo se está acabando |
+| Correo, cuerpo | Un insumo se está acabando. Abre la app para ver cuál. |
+| Correo, botón o enlace (sin identificadores) | Abrir MATU |
+| Correo, pie | Te llega este correo porque eres parte de un grupo de cuidado en MATU. Para dejar de recibir estos avisos por correo, entra a MATU y desactívalos en Tu cuenta. |
+| Push, título y cuerpo | MATU · Un insumo se está acabando. Abre la app para ver cuál. |
+| Preferencias en «Tu cuenta» (pantalla en MATU-55) | Avisos cuando un insumo se está acabando · Por correo · En este teléfono |
+
