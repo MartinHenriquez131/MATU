@@ -126,7 +126,7 @@ Cada historia que empieza a tratar datos personales agrega aquí su entrada.
 
 - **Finalidad:**
   - dar un acceso temporal, de solo lectura, a los tres campos de la ficha y a las secciones adicionales que marque quien comparte (`remedios` viene sin marcar), y que se puede cortar en cualquier momento. Registra qué secciones se mostraron en cada apertura, sin su contenido
-  - el teléfono del relevo sirve para que quien comparte le envíe el enlace desde su propio teléfono, por WhatsApp o SMS, y para que la familia pueda contactarlo. MATU no envía mensajes
+  - el teléfono del relevo sirve para que quien comparte le envíe el enlace desde su propio teléfono, con la aplicación de mensajes que elija, y para que la familia pueda contactarlo. MATU no envía mensajes
   - el registro sirve para saber a quién se entregó la ficha y para detectar un enlace reenviado
 - **Titulares:**
   - el relevo: su nombre, su teléfono, cada vez que abre el enlace o la ficha, sus PIN incorrectos y su dirección IP
@@ -136,16 +136,17 @@ Cada historia que empieza a tratar datos personales agrega aquí su entrada.
   - nombre y teléfono del relevo, obligatorios
   - el nombre de pila de la persona cuidada, copiado al crear el acceso. Se anonimiza si se borra a la persona
   - el nombre de pila de quien comparte
-  - los campos base y las secciones adicionales habilitadas (`secciones_permitidas`). Los accesos nuevos llevan siempre los tres campos base; los anteriores a MATU-50 conservan los que se eligieron
+  - los campos base y las secciones adicionales habilitadas (`secciones_permitidas`). Los accesos nuevos llevan siempre los tres campos base y las secciones adicionales marcadas; `remedios` solo si quien comparte la marca y confirma. Los anteriores a MATU-50 conservan los que se eligieron
   - el motivo, elegido de una lista cerrada (`salgo_unas_horas`, `fin_de_semana_fuera`, `turno_de_noche`, `otro`), sin texto libre
   - las fechas de creación, vencimiento y corte, y quién otorgó el acceso
   - el hash del token y el PIN transformado con HMAC-SHA-256 y *pepper*. Nunca en claro
   - los intentos fallidos, los usos y el último uso
   - la auditoría, sin IP, de cada vez que el relevo abre el enlace aunque no escriba el PIN (`relevo.presentar`), y de las aperturas de la ficha, los PIN incorrectos y los bloqueos. `relevo.abrir` guarda en `detalle.secciones` la lista de tipos de las secciones adicionales mostradas (puede ser vacía), sin su texto. La familia la ve en "Quién la vio"
+  - la auditoría de quien crea (`relevo.compartir`) y de quien corta (`relevo.revocar`) cada acceso: la fecha, el usuario, el identificador del acceso y, al crear, el motivo de la lista cerrada. Sin el nombre ni el teléfono del relevo, sin IP, sin el token y sin el PIN
   - la dirección IP, solo en los contadores temporales de 1 hora en Redis, uno para abrir el enlace y otro para el canje, con una huella HMAC como clave. No se guarda en la base, en la auditoría ni en los logs
 - **Base de licitud:**
   - para lo que se muestra de la persona cuidada: la autorización de MATU-07, que permite "compartirla con el relevo que elija el grupo"
-  - para los datos del relevo: [PENDIENTE: consulta legal]. MATU los recibe de quien comparte y se lo informa al relevo con el aviso de `lenguaje.md`, sección 7.5
+  - para los datos del relevo: interés legítimo de la familia, informado. Quien comparte declara que avisó al relevo (`relevo_informado`, con la fecha en `acceso_relevo.relevo_informado_en`, decisión 34 del contrato), y el relevo ve el aviso de `lenguaje.md`, sección 7.5, antes del PIN. [PENDIENTE: consulta legal]
   - para la dirección IP: [PENDIENTE: consulta legal]
 - **Quién accede:**
   - administrador y cuidador crean accesos, los ven, los cortan y ven las aperturas en "Quién la vio" (MATU-45; el observador no las ve), incluidas las veces que se abrió el enlace ("abrió el enlace"). Son los únicos que ven el teléfono del relevo en la lista de accesos, y después de los 30 días aparece vacío (contrato de MATU-09, decisión 31)
@@ -166,10 +167,15 @@ Cada historia que empieza a tratar datos personales agrega aquí su entrada.
   - 5 PIN incorrectos bloquean el acceso (423)
   - desde una misma IP, 30 presentaciones por hora y 10 canjes por hora, cada límite con su propio contador por huella HMAC, que dura 1 hora (decisión 29)
   - un acceso vencido o cortado responde 410, aunque la cookie siga vigente
+  - si la autorización de la persona no está vigente (sin consentimiento o revisión anual vencida), la presentación, el canje y la ficha responden 410 `relevo-pausado` sin decir el motivo, y el canje no cuenta como intento (decisión 33). Vuelve a abrir al renovarse, si el acceso no venció. Con MATU-44, el retiro explícito de la autorización corta los accesos para siempre
+  - cortar un acceso no exige autorización vigente (204 idempotente)
   - la sesión del relevo no fija el grupo
   - vigencia de 24 horas por omisión y de 30 días como máximo
   - cabeceras `no-store`, `no-referrer` y `noindex`
   - nunca token, PIN ni texto de la ficha en los logs
+  - la app de la familia guarda el PIN y el enlace solo en la memoria de la pantalla, los muestra una vez y nunca copia el PIN al portapapeles ni lo pone en el mensaje. El enlace se envía con la hoja de compartir del teléfono o copiándolo, nunca con el token en la dirección de un servicio de terceros (MATU-48)
+  - nombre y teléfono del relevo sin autocompletado del navegador
+  - sin impresión ni exportación de la ficha (ADR-029)
 - **Comunicaciones a terceros:** ninguna desde MATU. Si un día MATU envía el PIN por SMS, se agrega aquí.
 - **Transferencia internacional:** [PENDIENTE: proveedor y país].
 - **Decisiones automatizadas:** ninguna con efectos sobre las personas. El bloqueo por PIN incorrecto es un control de seguridad.

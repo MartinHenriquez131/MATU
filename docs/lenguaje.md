@@ -253,6 +253,7 @@ Todos los estados en que el enlace ya no abre terminan con la misma acción, en 
 | Vencido | `/errores/relevo-vencido` 410 | Este enlace venció | Los enlaces de MATU duran un tiempo fijo, y el de esta ficha ya terminó. | Pídele a quien te envió el enlace uno nuevo. |
 | Cortado | `/errores/relevo-revocado` 410 | Este enlace se cortó | Quien te compartió la ficha cortó el enlace, y ya no abre. | Pídele a quien te envió el enlace uno nuevo. |
 | No disponible | `/errores/relevo-no-disponible` 410 | Este enlace no está disponible | Puede que se haya copiado incompleto o que ya no exista. Revisa que lo abriste completo desde el mensaje. | Pídele a quien te envió el enlace uno nuevo. |
+| En pausa · Aprobado por Jorge el 04-11 (decisión 33) | `/errores/relevo-pausado` 410 | Por ahora esta ficha no se puede ver. | — (no dice el motivo a un tercero) | Pídele a quien te envió el enlace que lo revise. |
 | Sin sesión | `/errores/sin-sesion-relevo` 401 | Vuelve a abrir el enlace | Por seguridad, la ficha se cierra después de un rato. Abre de nuevo el enlace que te enviaron y escribe el PIN. | — (el enlace sigue sirviendo) |
 | Demasiados intentos desde la conexión | `/errores/demasiadas-peticiones` 429 | Espera un momento | Hubo muchos intentos de entrar desde esta conexión. Vuelve a intentarlo en `{minutos}` minutos. | — |
 
@@ -300,13 +301,15 @@ La pantalla elige el texto por `type` (y, en un 422, por `errores[].campo` y `er
 | `/errores/validacion` | 422 | Compartir, `expira_en`, `vigencia_maxima` | El enlace puede durar como máximo 30 días. |
 | `/errores/validacion` | 422 | Compartir, `telefono_relevo` | Escribe un celular de Chile, por ejemplo +56 9 5555 0137. |
 | `/errores/validacion` | 422 | Compartir, `nombre_relevo` | Escribe el nombre de quien te reemplaza. |
-| `/errores/validacion` | 422 | Compartir, `campos` | Elige al menos un campo. |
+| `/errores/validacion` | 422 | Compartir, `relevo_informado` | Marca que le avisaste a `{nombre}` para crear el enlace. |
+| `/errores/validacion` | 422 | Compartir, `seccion_no_agregada` | Otra persona quitó una sección mientras compartías. Revisa qué más puede ver y vuelve a crear el enlace. |
 | `/errores/falta-version` | 428 | Ficha | Sección 6.3 |
 | `/errores/pin-incorrecto` | 401 | Relevo | Sección 7.3 |
 | `/errores/sin-sesion-relevo` | 401 | Relevo | Sección 7.3 |
 | `/errores/relevo-vencido` | 410 | Relevo | Sección 7.3 |
 | `/errores/relevo-revocado` | 410 | Relevo | Sección 7.3 |
 | `/errores/relevo-no-disponible` | 410 | Relevo | Sección 7.3 |
+| `/errores/relevo-pausado` | 410 | Relevo | Sección 7.3 |
 | `/errores/relevo-bloqueado` | 423 | Relevo | Sección 7.3 |
 | `/errores/demasiadas-peticiones` | 429 | Relevo | Sección 7.3 |
 | Cualquier otro, o sin respuesta | 5xx o red | Toda la app | No pudimos completar esto. Revisa tu conexión y vuelve a intentarlo. Lo que escribiste sigue aquí. |
@@ -321,10 +324,10 @@ Textos de la demo, con los cambios que pide el contrato de MATU-09.
 
 | Dónde | Texto |
 |---|---|
-| Bajada de Compartir | Quien te reemplaza recibe un enlace por WhatsApp y el PIN se lo dictas tú. El enlace vence solo y lo puedes cortar antes. |
-| Preguntas del formulario | ¿Quién te va a reemplazar? · Su teléfono · ¿Qué puede ver? · ¿Hasta cuándo? · ¿Cuántos días? (Hasta 30 días.) |
+| Bajada de Compartir · Aprobada por Jorge el 04-11 (el envío ya no es solo por WhatsApp) | Quien te reemplaza recibe un enlace en un mensaje y el PIN se lo dictas tú. El enlace vence solo y lo puedes cortar antes. |
+| Preguntas del formulario | ¿Quién te va a reemplazar? · Su teléfono · ¿Hasta cuándo? · ¿Cuántos días? (Hasta 30 días.) Qué ve se elige con el selector de la sección 14.2 (desde MATU-50, «¿Qué puede ver?» se retira) |
 | Ayuda del teléfono · Aprobado por Jorge el 27-10 | Para enviarle el enlace y poder contactarle. |
-| Recordatorio bajo "¿Qué puede ver?" | Comparte solo lo que necesita para cuidarla. Quien recibe el enlace puede anotar o fotografiar lo que lee, y MATU no puede impedirlo. |
+| Recordatorio bajo el selector de secciones · Versión neutra aprobada por Jorge el 04-11 | Comparte solo lo que necesita para cuidar a `{nombre_pila}`. Quien recibe el enlace puede anotar o fotografiar lo que lee, y MATU no puede impedirlo. |
 | Recordatorio al crear el enlace | Cuéntale a `{nombre}` que anotaste su nombre y su teléfono en MATU, y que cada vez que abra el enlace o la ficha queda registrado. |
 | Motivo (obligatorio, uno elegido de partida) | ¿Para qué lo compartes? · Salgo unas horas · Fin de semana fuera · Turno de noche · Otro motivo |
 | PIN recién creado | **Díctaselo a `{nombre}` por teléfono.** No lo mandes junto con el enlace. Solo lo verás ahora. |
@@ -332,11 +335,50 @@ Textos de la demo, con los cambios que pide el contrato de MATU-09.
 | Estados de un enlace (`vigente`, `vencido`, `revocado`, `bloqueado`) | Activo · Vencido · Cortado · Bloqueado |
 | Detalle de bloqueado | Se bloqueó porque el PIN se escribió mal cinco veces. |
 | Botón y confirmación | Cortar el enlace de `{nombre}` · Enlace cortado. Ya no abre para `{nombre}`. |
-| Bajada de Enlaces | Al cortar un enlace deja de abrir de inmediato. Quien lo tenía no recibe aviso. |
+| Bajada de Enlaces · Aprobada por Jorge el 04-11 | Al cortar un enlace deja de abrir de inmediato. Si quien lo tenía estaba mirando la ficha, se cierra cuando vuelva a mirarla. Quien lo tenía no recibe aviso. En la tarjeta de un enlace: «Si `{nombre}` tenía la ficha abierta, se cierra cuando vuelva a mirarla.» |
 | Sin enlaces | No hay enlaces todavía. Crea uno desde Compartir. |
 | Bajada de Quién la vio · Aprobado por Jorge el 27-10 | Una línea por cada vez que alguien abre el enlace o la ficha, o escribe mal el PIN. Es un respaldo para ti, no una vigilancia. |
 | Aperturas (`presentacion`, `apertura`, `pin_incorrecto`, `bloqueo`) | `{nombre}` abrió el enlace · `{nombre}` abrió la ficha · `{nombre}` escribió mal el PIN · El enlace de `{nombre}` se bloqueó por PIN incorrecto |
 | Sin aperturas | Todavía nadie ha abierto la ficha. Cuando alguien la abra, aparece aquí. |
+
+
+### 9.1 Compartir y enlaces en la app de la familia (MATU-48) · Aprobados por Jorge el 04-11
+
+Salen de la revisión previa del analista normativo y de la especificación `docs/diseno/matu-48-compartir.md` (MATU_PROYECTO). El enlace se envía con la hoja de compartir del teléfono o copiándolo, nunca con el token en la dirección de un servicio de terceros, y nunca con el PIN.
+
+| Dónde | Texto |
+|---|---|
+| Pestañas | Compartir · Enlaces |
+| Vigencias | 24 horas · Fin de semana · Otra cantidad de días |
+| Ayuda del nombre | Basta con su nombre de pila. |
+| Casilla obligatoria (decisión 34 del contrato) | Le avisé a `{nombre}` que MATU guarda su nombre y su teléfono para enviarle la ficha. |
+| Casilla sin marcar | Marca que le avisaste a `{nombre}` para crear el enlace. |
+| Vigencia antes de crear | Vence el `{DD/MM/AAAA}` a las `{HH:MM}`. |
+| Fecha que ya pasó | Esa fecha ya pasó. Elige de nuevo hasta cuándo. |
+| Botón y espera | Crear enlace · Creando el enlace… |
+| Vista previa | Lo que verá `{nombre}` · sin nombre escrito: Lo que verá quien te reemplaza |
+| Enlace creado | Enlace creado para `{nombre}` · PIN para abrir la ficha |
+| Envío | Enviar el enlace · Copiar el enlace |
+| Mensaje que acompaña el enlace (sin el PIN) | Hola, `{nombre}`. Te comparto la ficha de cuidado en MATU: `{url}`. El PIN te lo digo por teléfono. |
+| Copiado | Enlace copiado. Pégalo en tu mensaje a `{nombre}`. |
+| No se pudo copiar | No pudimos copiar el enlace. Usa «Enviar el enlace». |
+| Después de crear | Ver los enlaces · Crear un enlace nuevo |
+| Grupos de la lista | Abren ahora · Ya no abren |
+| Ningún enlace activo | Ningún enlace abre ahora. |
+| Estado de un enlace | Activo, vence en `{restante}` («45 min», «23 h», «3 días») · Lo creó `{nombre}`. Vence el `{fecha}` a las `{hora}`. · Venció el `{fecha}` a las `{hora}`. · Lo cortaron el `{fecha}` a las `{hora}`. |
+| Cortando | Cortando… |
+| Error al cortar | No pudimos cortar el enlace. Revisa tu conexión y vuelve a intentarlo. El enlace todavía abre. |
+| Error al listar | No pudimos traer los enlaces. Revisa tu conexión e inténtalo de nuevo. |
+| Paginación | Ver enlaces anteriores |
+| Llamar al relevo (admin y cuidador) | Llamar a `{nombre}` |
+| Teléfono ya borrado (después de 30 días) | Ya no guardamos su teléfono. |
+| Autorización vencida o retirada, en Enlaces (decisión 33) | Aviso: Mientras no haya una autorización vigente, ningún enlace abre. Cuando la renueves, vuelven a abrir los que no hayan vencido. · En cada enlace vigente: En pausa (con ícono, en vez de «Activo») |
+| Ver las aperturas de un enlace | Ver cuándo la abrió |
+| Nombre accesible del enlace creado | Enlace para `{nombre}` |
+| Al cargar más enlaces | Se agregó 1 enlace. · Se agregaron `{n}` enlaces. |
+| Servicio no disponible (503) | MATU no está disponible en este momento. Vuelve a intentarlo en unos minutos. |
+| Nombre accesible de las pestañas | Vistas de Compartir |
+| En Quién la vio | Nadie tiene un enlace activo ahora. · Si te preocupa, puedes cortarlo desde Enlaces. · Ver todo en Quién la vio |
 
 ---
 

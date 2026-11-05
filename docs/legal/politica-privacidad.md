@@ -93,7 +93,7 @@ La persona que cuidas no tiene cuenta en MATU. Sus datos los ingresas tú.
 - Si diste la autorización como cuidadora o cuidador de hecho, la fecha en que te pediremos confirmar que sigues a cargo, 12 meses después.
 - La ficha de relevo, con sus tres campos: **Su día**, **Si se altera** y **A quién llamar**. También guardamos quién escribió cada campo y cuándo.
 - **Su consumo de insumos:** qué insumos usa, en qué unidad, cuánto usa cada cuántos días, cuánto quedaba la última vez que lo anotaste y con cuántos días de anticipación quieres saberlo. Con eso MATU calcula una fecha estimada. Si el insumo no está en el catálogo, guardamos el nombre que escribas: usa el nombre del envase, sin remedios ni para qué lo usa. Los remedios van en la ficha, no en los insumos.
-- **Secciones adicionales de la ficha**, si decides agregarlas: Quién es, Lo que le hace bien, Comer y beber, Moverse y descansar, Cómo hablarle y Sus remedios. Todas son opcionales y se escriben con tus palabras, hasta 500 caracteres cada una (800 en Sus remedios). Se guardan cifradas, como la ficha, y siguen sus mismos plazos. Si quitas una sección, su texto se borra en ese momento y quien tenga un enlace deja de verla. Si la vuelves a agregar, ningún enlace anterior la ve. **Sus remedios** guarda en texto libre qué remedios toma la persona y a qué hora, tal como se los da la familia. No es una receta y no reemplaza la indicación del médico. Al compartir con un relevo, tú marcas qué secciones ve. Sus remedios viene siempre sin marcar. Te recomendamos no escribir diagnósticos ni nombres de enfermedades en ninguna sección. Ya puedes agregarlas, editarlas y quitarlas. *Elegir qué secciones ve un relevo todavía no está disponible:* por ahora un relevo ve solo los tres campos.
+- **Secciones adicionales de la ficha**, si decides agregarlas: Quién es, Lo que le hace bien, Comer y beber, Moverse y descansar, Cómo hablarle y Sus remedios. Todas son opcionales y se escriben con tus palabras, hasta 500 caracteres cada una (800 en Sus remedios). Se guardan cifradas, como la ficha, y siguen sus mismos plazos. Si quitas una sección, su texto se borra en ese momento y quien tenga un enlace deja de verla. Si la vuelves a agregar, ningún enlace anterior la ve. **Sus remedios** guarda en texto libre qué remedios toma la persona y a qué hora, tal como se los da la familia. No es una receta y no reemplaza la indicación del médico. Al compartir con un relevo, tú marcas qué secciones ve. Sus remedios viene siempre sin marcar. Te recomendamos no escribir diagnósticos ni nombres de enfermedades en ninguna sección. Ya puedes agregarlas, editarlas y quitarlas.
 
 **El nivel de apoyo y la ficha son datos sensibles**, porque hablan de la salud y de la dependencia de la persona. Por eso los protegemos de forma especial.
 
@@ -101,7 +101,7 @@ La persona que cuidas no tiene cuenta en MATU. Sus datos los ingresas tú.
 
 ### De otras personas que tú anotas
 
-- **Relevo:** su nombre y su teléfono, qué campos y qué secciones adicionales le compartiste, hasta cuándo, el motivo, cada vez que abrió el enlace, aunque no haya escrito el PIN, cuántas veces abrió la ficha y cada PIN incorrecto. Su teléfono es obligatorio: sirve para que tú le envíes el enlace desde tu teléfono, por WhatsApp o SMS, y para que tu grupo pueda contactarlo. MATU no le envía mensajes. Avísale que lo anotaste: cuando abra el enlace, MATU le muestra qué guarda de él, y también tu nombre de pila y el de la persona que cuidas. Tu grupo puede ver ese registro en "Quién la vio" (ver "Quién ve tus datos").
+- **Relevo:** su nombre y su teléfono, qué campos y qué secciones adicionales le compartiste, hasta cuándo, el motivo, cada vez que abrió el enlace, aunque no haya escrito el PIN, cuántas veces abrió la ficha y cada PIN incorrecto. Su teléfono es obligatorio: sirve para que tú le envíes el enlace desde tu teléfono, con la aplicación de mensajes que elijas, y para que quien administra el grupo o lo cuida pueda llamarlo. MATU no le envía mensajes. El PIN no va en el mensaje: se lo dictas por teléfono. Avísale que lo anotaste: cuando abra el enlace, MATU le muestra qué guarda de él, y también tu nombre de pila y el de la persona que cuidas. Tu grupo puede ver ese registro en "Quién la vio" (ver "Quién ve tus datos").
 - **"A quién llamar":** los nombres y teléfonos que escribas. Avísales que los anotaste.
 - **Invitaciones a tu grupo:** el email o el teléfono de la persona invitada. *Todavía no disponible.*
 
@@ -166,7 +166,7 @@ Su huella en el sistema (SHA-256) es `8dfbca33f5c58a2c1f5c43a672b3e0fcd2ed4adcc9
 
 Cada declaración también tiene un identificador en el sistema: `declaracion_titular`, `declaracion_representante_legal` y `declaracion_cuidador_de_hecho`. Su versión es la de esta política. Cambiar una sola palabra de una declaración o del aviso es publicar una versión nueva.
 
-[PENDIENTE: qué pasa si no se confirma a los 12 meses. Está en consulta legal]
+Si pasan los 12 meses sin confirmarlo, la ficha queda en pausa: nadie del grupo la puede ver ni cambiar, pero lo escrito sigue guardado. Los enlaces de relevo dejan de abrir mientras tanto, y quien tenga uno ve que por ahora la ficha no se puede ver, sin el motivo. Puedes cortar un enlace igual. Cuando se renueva, vuelven a abrir los enlaces que no hayan vencido. [PENDIENTE: qué pasa si nunca se renueva y cuánto tiempo se guarda una ficha en pausa. Está en consulta legal]
 
 ### La autorización para calcular insumos
 
@@ -196,7 +196,7 @@ Sus identificadores son `declaracion_consumo_titular`, `declaracion_consumo_repr
 
 **Tu grupo, según el rol de cada persona:**
 - **Administrador y cuidador:** ven todo, incluida la calidad en que se dio la autorización, y pueden editar y compartir la ficha. La referencia al documento del representante legal no se muestra en la aplicación: queda guardada solo como respaldo.
-- **Pagador:** ve el nombre y la dirección. Ve la ficha solo si le dan ese permiso.
+- **Pagador:** ve el nombre y la dirección. Ve la ficha solo si le dan ese permiso. Con ese permiso también ve la lista de enlaces de relevo (el nombre del relevo, el motivo, las fechas y quién lo creó), sin su teléfono, y no puede crear ni cortar enlaces.
 - **Observador:** ve el nombre. Nunca ve la ficha.
 
 **Quién abrió o editó la ficha** (aprobado por Jorge el 28-10, MATU-14): cada vez que un miembro del círculo de cuidado abre o edita la ficha de relevo, MATU registra quién lo hizo, qué acción realizó y cuándo. Si la acción fue agregar, editar o quitar una sección adicional, también queda registrado cuál sección fue, por ejemplo «Sus remedios», aunque después la quites. Nunca su texto. Este registro no guarda el contenido de la ficha ni tu dirección IP. Puede consultarlo la persona administradora del grupo, y cada miembro puede ver sus propios registros. Se guarda 3 años (sección 8).
@@ -211,6 +211,7 @@ Sus identificadores son `declaracion_consumo_titular`, `declaracion_consumo_repr
 - Ve solo el nombre con que llaman a la persona, tu nombre de pila, los tres campos de la ficha y las secciones adicionales que marcaste al compartir. Si agregas una sección después, no la ve hasta que le des un acceso nuevo.
 - Al abrir el enlace, y antes de escribir el PIN, ve tu nombre de pila y el de la persona que cuidas.
 - Entra con un enlace y un PIN de 4 dígitos. El acceso vence en 24 horas, o en el plazo que elijas hasta un máximo de 30 días, y puedes cortarlo cuando quieras.
+- Si la autorización de la ficha no está vigente, el enlace deja de abrir mientras tanto. El relevo no ve el motivo.
 - Cada vez que abre la ficha queda registrado, y también cada PIN incorrecto y cada bloqueo. También queda registrado cada vez que abre el enlace, aunque no escriba el PIN.
 - Lo que el relevo lea puede anotarlo o fotografiarlo, y MATU no puede impedirlo. Comparte solo lo que necesita y por el tiempo justo.
 
@@ -304,7 +305,7 @@ Si hay una filtración que afecte datos personales, avisaremos sin demora a la A
 
 ## 13. Lo que todavía no funciona en el piloto
 
-- Ficha cifrada y relevo con enlace y PIN: se están construyendo.
+- Borrar el teléfono del relevo 30 días después de que el acceso vence o se corta (MATU-46). Mientras no exista, MATU no trata datos reales.
 - Retirar una autorización desde la aplicación, y que al retirarla se corten los accesos de relevo vigentes.
 - Ver, descargar o borrar los datos desde la aplicación. Mientras tanto, por el correo de la sección 10.
 - El recordatorio de los 12 meses.
