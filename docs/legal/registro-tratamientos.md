@@ -219,12 +219,13 @@ Cada historia que empieza a tratar datos personales agrega aquí su entrada.
 
 ## 6. Cuenta, sesión y dispositivos (MATU-38)
 
-- **Finalidad:** mantener la sesión, permitir sacar un dispositivo, detectar el robo de una sesión, limitar los intentos de entrada y enviar avisos.
-- **Titulares:** las personas usuarias, y quien intenta entrar con un email (que puede no ser usuaria).
+- **Finalidad:** mantener la sesión, permitir sacar un dispositivo, detectar el robo de una sesión, limitar los intentos de entrada y la creación de cuentas desde una misma IP (MATU-25), y enviar avisos.
+- **Titulares:** las personas usuarias, y quien intenta entrar o crear una cuenta (que puede no ser usuaria).
 - **Datos:**
   - sesión: SHA-256 del refresh, emisión, vencimiento, revocación y motivo;
   - dispositivo: nombre general sin agente de usuario, creación, último uso y `push_token` opcional;
   - huella HMAC de la IP y del email en Redis, por 1 hora;
+  - huella HMAC de la IP en el contador de creación de cuentas (`usuarios-ip`, 5 por hora, ventana fija de 1 hora; MATU-25, decisión 114). La IP no llega a Redis, a los logs, a la auditoría ni a la respuesta 429;
   - auditoría `sesion.*` y `dispositivo.*`, sin huella del email (decisión 64), con `sesiones_revocadas` como único detalle.
 - **Base de licitud:** ejecución del servicio que pide la persona. Para los contadores por huella de IP y de email: [PENDIENTE: consulta legal].
 - **Quién accede:**
@@ -277,10 +278,24 @@ Cada historia que empieza a tratar datos personales agrega aquí su entrada.
   - el celular se usa solo si está confirmado; si no, el email;
   - al cambiar la contraseña se cierran todas las sesiones, se invalidan los códigos pendientes y se avisa por el otro canal (por el correo si el celular no está confirmado). Un acceso ya emitido puede seguir válido hasta 15 minutos;
   - nunca el código, el celular, el email ni la IP en logs, errores, auditoría ni eventos;
-  - en el semestre el envío es simulado: no sale de la máquina y solo se admite con ENTORNO local, pruebas o staging (decisión 105), con datos sintéticos. Si se define `REGISTRO_ENVIOS`, el adaptador simulado escribe el destino y el código en claro en un archivo JSON Lines de `.dev/`. Es un registro de desarrollo: nunca existe en producción, y en staging no debe quedar accesible desde fuera del servidor (revisión de Martín, P3-2). [PENDIENTE: plazo de borrado del archivo en staging]
+  - en el semestre el envío es simulado: no sale de la máquina y solo se admite con ENTORNO local, pruebas o staging (decisión 105), con datos sintéticos. Si se define `REGISTRO_ENVIOS`, el adaptador simulado escribe el destino y el código en claro en un archivo JSON Lines de `.dev/`. Es un registro de desarrollo: nunca existe en producción, y en staging no debe quedar accesible desde fuera del servidor (revisión de Martín, P3-2). En staging, `REGISTRO_ENVIOS` apunta a `/tmp/matu-envios.jsonl`, dentro del contenedor. La API no lo sirve, se lee solo con `railway ssh` y se borra en cada despliegue, y a más tardar con el cierre de staging (MATU-25).
 - **Comunicaciones a terceros:** los proveedores de SMS, WhatsApp y correo, como encargados con contrato. Reciben solo el destino y el texto del mensaje. En el semestre el envío es simulado, sin proveedor real (decisión de Jorge del 03-11). [PENDIENTE: nombrarlos y su país]
 - **Transferencia internacional:** [PENDIENTE: proveedor, país y garantía]. Requiere consulta legal.
 - **Decisiones automatizadas:** ninguna. La espera después de varios intentos es un control de seguridad.
+
+## 9. Ambiente de staging (MATU-25)
+
+- **Finalidad:** probar MATU por HTTPS y mostrarlo en la demostración del semestre.
+- **Proveedor y lugar:** Railway, región `sfo` (California, Estados Unidos), para la API, PostgreSQL 16 y Redis. Anotado el 05-11 en `infra/railway/README.md` del repositorio MATU_PROYECTO. Railway trata estos datos por encargo de MATU. [PENDIENTE: revisar las condiciones de servicio y el acuerdo de tratamiento de datos de Railway]
+- **Datos:** solo sintéticos: la semilla de `infra/semillas/demo.py` y cuentas con correos de dominios reservados, lo único que acepta el registro en staging (decisión 105). Datos reales que existen igual:
+  - la dirección IP de quien abre staging (el equipo y quien pruebe la demostración), que la API usa solo en memoria para su huella HMAC;
+  - las huellas en Redis: 1 hora, y 24 horas como máximo en la recuperación del acceso;
+  - los registros de la plataforma Railway, que pueden incluir la IP de cada conexión [PENDIENTE: confirmar qué registra y su plazo];
+  - las cuentas de Railway de Jorge y Martín.
+- **Medidas:** HTTPS terminado por Railway; KEK y secretos nuevos y propios de staging, rotados el 05-11 sin pasar por un chat, solo como variables secretas de Railway, con acceso solo de Jorge y Martín con autenticación en dos pasos (decisión 105, g y h); la API se conecta como `matu_app`; logs JSON sin IP, cuerpo, token ni PIN, verificado con grep tras el e2e (05-11); registro simulado de envíos en `/tmp` del contenedor. Limitación declarada: la KEK y los respaldos con las claves envueltas quedan en el mismo proveedor.
+- **Conservación:** hasta el cierre del semestre. Al cerrar se borran la KEK, la base, los respaldos y Redis, y se anota la fecha (decisión 105, l). [PENDIENTE: fecha de cierre]
+- **Transferencia internacional:** staging está en Estados Unidos. Con datos sintéticos, solo salen de Chile la IP de quien lo usa y su huella. **Staging nunca se usa con datos reales.** Antes de datos reales se elige el proveedor y la región de producción (ADR-019), y si quedan fuera de Chile se aplican las reglas de transferencia internacional de la Ley 21.719, con contrato de encargo. [PENDIENTE: consulta legal]
+- **Decisiones automatizadas:** ninguna.
 
 ## Nota sobre la ficha ampliada (ADR-028)
 
