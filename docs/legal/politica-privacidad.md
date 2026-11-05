@@ -254,7 +254,7 @@ Sus identificadores son `declaracion_consumo_titular`, `declaracion_consumo_repr
 ## 9. Cómo protegemos los datos
 
 - La conexión con MATU va cifrada.
-- Cada campo de la ficha se cifra con una clave propia de cada persona cuidada. Esa clave está protegida por una clave maestra que se guarda fuera del servidor. [PENDIENTE: confirmar el servicio de custodia de claves]
+- Cada campo de la ficha se cifra con una clave propia de cada persona cuidada. Esa clave está protegida por una clave maestra. Durante el piloto, que usa solo datos inventados, la clave maestra está en el mismo servidor que la aplicación. Antes de usar MATU con personas reales, pasará a un servicio de custodia separado del servidor. [PENDIENTE: confirmar el servicio de custodia de claves]
 - La base de datos separa a cada familia: una familia no puede ver los datos de otra, aunque la aplicación tenga un error.
 - El registro de quién abrió la ficha no se puede modificar ni borrar.
 - Los registros técnicos no guardan el texto de la ficha, ni tu email, ni contraseñas, ni códigos de acceso, ni enlaces de relevo, ni PIN, ni el nombre del grupo, ni tu dirección IP.
