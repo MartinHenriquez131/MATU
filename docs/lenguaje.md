@@ -546,7 +546,7 @@ Complementa la sección 13 (lo central ya aprobado: «Alcanza para {n} días», 
 
 ## 19. Recuperar el acceso y confirmar el celular (MATU-57) · Aprobados por Jorge el 03-11
 
-En la app se dice «correo» y «entrar», nunca «email» ni «sesión». La respuesta al pedir un código es siempre la misma, exista o no la cuenta.
+En la app se dice «correo» y «entrar», nunca «email» ni «sesión». La respuesta al pedir un código es siempre la misma, exista o no la cuenta. Con `{minutos}` igual a 1 se escribe en singular: «1 minuto».
 
 | Pantalla | Textos |
 |---|---|
