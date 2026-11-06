@@ -632,3 +632,40 @@ El correo y el push nunca dicen qué insumo ni de quién, no ofrecen comprar y s
 | Push, título y cuerpo | MATU · Un insumo se está acabando. Abre la app para ver cuál. |
 | Preferencias en «Tu cuenta» (pantalla en MATU-55) | Avisos cuando un insumo se está acabando · Por correo · En este teléfono |
 
+---
+
+## 21. Lista de insumos (MATU-60) · Aprobados por Jorge el 06-11
+
+En la app se dice «lista de insumos», nunca «lista de reposición» ni «quiebre». La cantidad es una sugerencia y la lista nunca ofrece comprar. El texto que se imprime o se comparte no lleva los días que quedan ni el nombre de la persona (ADR-031).
+
+| Dónde | Texto |
+|---|---|
+| Título de la pantalla | Lista de insumos |
+| Título impreso y primera línea del texto compartido | Lista de insumos · {DD/MM/AAAA} |
+| Bajada | Lo que se acaba pronto, con una cantidad sugerida para 30 días. Puedes cambiarla antes de imprimir o compartir. |
+| Línea, en pantalla | {nombre} · {cantidad} · Alcanza para {n} días / Alcanza para 1 día / Se acaba hoy / Puede que ya no quede |
+| Cantidad, con envase conocido | {n} envases de {u} unidades / 1 envase de {u} unidades (con ml o g: «de {u} ml», «de {u} g») |
+| Cantidad, sin envase | {n} unidades / {n} sobres / {n} ml / {n} g (con 1: «1 unidad», «1 sobre») |
+| Etiqueta del campo | Cantidad |
+| Nota del cálculo | Es una sugerencia con lo que anotaste. Cambia la cantidad si necesitas otra. |
+| Agregar a mano | Agregar otro insumo · Por ejemplo: «Toallitas húmedas». Sin remedios ni para qué se usa · Esto queda solo en esta pantalla. No lo guardamos. |
+| Aviso, siempre visible sobre los botones | La lista no lleva el nombre de {pila}, pero sí lo que usa. Lo que imprimas o compartas sale de MATU y no podemos borrarlo. Compártela solo con quien va a comprar. |
+| Botones | Imprimir o guardar en PDF · Compartir la lista · Copiar la lista |
+| Copiada | Copiamos la lista. Pégala donde quieras. |
+| No se pudo copiar | No pudimos copiar la lista. Usa «Compartir la lista». |
+| Sin insumos | No hay insumos que se acaben pronto. Si quieres, agrega uno a mano. |
+| Observador | Quien administra, cuida o paga puede imprimirla o compartirla. |
+| Error al cargar | No pudimos traer la lista. Revisa tu conexión e inténtalo de nuevo. |
+| Sin autorización o revisión vencida | Los textos de «Permiso» de la sección 18 |
+| Pie del texto compartido y de la impresión | Piloto académico con datos de prueba |
+| Campo nuevo en el formulario del insumo (opcional) | ¿Cuántas unidades trae cada envase? · Ayuda: Si lo anotas, la lista sugiere envases enteros. Puedes dejarlo en blanco. |
+
+Formato exacto del texto compartido (sin enlace, sin los días y sin el nombre de la persona ni del grupo):
+
+```
+Lista de insumos · 06/11/2026
+- Pañal adulto talla M: 6 envases de 20 unidades
+- Toallitas húmedas: 120 unidades
+Piloto académico con datos de prueba
+```
+

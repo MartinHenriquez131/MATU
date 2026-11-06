@@ -190,6 +190,7 @@ Cada historia que empieza a tratar datos personales agrega aquí su entrada.
   - producto del catálogo o `nombre_libre` (1 a 60 caracteres, en una línea);
   - unidad (la app ofrece unidad y sobre);
   - tasa (`tasa_unidades`/`tasa_dias`);
+  - unidades por envase (`unidades_por_envase`, opcional, de 1 a 10.000; describe el envase, no a la persona; MATU-60);
   - stock y fecha del stock (la fija el servidor);
   - días de aviso y fecha estimada;
   - preferencias de aviso por persona: tipo de aviso, canal y si está activo (`preferencia_notificacion`);
@@ -220,6 +221,17 @@ Cada historia que empieza a tratar datos personales agrega aquí su entrada.
   - antes de cada envío, en cada intento y en cada canal, se revisa que la autorización de `consumo` esté `VIGENTE` según el `Reloj` (no retirada y con la revisión de 12 meses al día), que la alerta siga abierta con su perfil, que la membresía y el usuario sigan activos, y que el canal esté activo y tenga destino. Si algo falla, el aviso queda `omitida` con su código (MATU-41, decisión 107)
   - el correo es el canal garantizado y el push va además, cada uno solo si la persona no lo apagó, desde las 9:00 hora de Chile. La preferencia es de la persona, por canal, y vale para todos sus grupos (`GET/PUT /v1/yo/avisos`, decisión 111). Un canal que la persona no eligió usa el valor por omisión de su rol en cada grupo: avisa a admin y cuidador, y al pagador y al observador solo si lo activan. El `PUT` guarda solo el canal que la persona cambia (decisión de Jorge del 04-11)
   - los logs y el registro simulado nunca llevan el email, el `push_token` ni el texto. El registro simulado (`REGISTRO_AVISOS`, por omisión `.dev/avisos.jsonl`) guarda la hora, `notificacion_id`, `usuario_id`, el canal y la plantilla. Solo existe en local, pruebas y staging, con datos sintéticos, y la configuración no carga en producción. Cada línea se conserva como máximo 90 días desde que se escribe, igual que el registro de avisos (política, sección 8; decisión de Jorge del 05-11). En staging se borra antes: el contenedor de la API no tiene volumen persistente, así que el archivo desaparece en cada despliegue o reinicio. Solo se lee con `railway ssh`, desde la cuenta del proyecto con autenticación en dos pasos (confirmado por Martín el 05-11)
+- **Lista de insumos (MATU-60):**
+  - Finalidad: armar, con los insumos que tienen una alerta abierta, una lista para que la familia compre donde quiera, sin depender de la capa 3 (RF-09, RF-14 y RF-15; ADR-002; ADR-027, punto 2; ADR-031).
+  - Datos: nombre del producto o `nombre_libre`, días hasta la fecha estimada (solo en pantalla) y cantidad sugerida (consumo de 30 días, redondeado hacia arriba a envases enteros si se conocen las unidades por envase, o en la unidad del insumo si no), calculados en cada petición. Sin el nombre de la persona cuidada, la ficha, el nivel de apoyo, la dirección, el grupo, la tasa, el stock, precios ni comercios. El texto que se imprime o se comparte no lleva los días.
+  - No se guarda nada nuevo en el servidor. Los ítems agregados a mano y las cantidades cambiadas viven solo en la memoria de la página y nunca llegan al servidor.
+  - Base de licitud: la misma autorización de `consumo`, `VIGENTE` según el `Reloj` (no retirada y con la revisión de 12 meses al día). Sin ella, 403. [PENDIENTE: consulta legal sobre si la declaración de consumo debe nombrar la lista y su salida antes de la versión 1.0]
+  - Quién accede: los cuatro roles leen la lista. Administrador, cuidador y pagador la imprimen o la comparten desde la interfaz, y el observador solo la ve (decisión de Jorge del 06-11). Operación nunca. Otro grupo recibe 404.
+  - Comunicaciones a terceros: ninguna por parte de MATU. La impresión, el PDF, la hoja de compartir del teléfono (`navigator.share`, solo con texto) y el portapapeles los usa la persona desde su dispositivo, con el destinatario que ella elige. MATU no lo conoce.
+  - Medidas: `Cache-Control: no-store`. Nada en el almacenamiento del navegador, la URL, `history.state` ni `document.title`. La impresión oculta todo salvo la lista y el distintivo del piloto. Aviso en pantalla antes de compartir. `nombre_libre` nunca en logs, errores ni eventos. Usa las políticas RLS que ya existen para `perfil_consumo` y `alerta_quiebre`, sin cambios.
+  - Auditoría: no se registra que se imprimió o se compartió, porque el navegador no lo confirma y un registro de intención no prueba nada. Las lecturas del consumo tampoco se auditan (decisión 52).
+  - Conservación: no aplica en el servidor. Las copias que salen del teléfono no las alcanzan ni el borrado del insumo ni el retiro de la autorización, y la política lo informa.
+  - Decisiones automatizadas: ninguna. La cantidad es una sugerencia que la familia cambia.
 - **Alertas y compras declaradas (MATU-37):**
   - alertas: insumo (por su identificador), fecha estimada, estado y cuándo se avisó y se cerró. Sin nombre del insumo ni cantidades;
   - compras declaradas con «Ya lo resolví»: cantidad, fecha y quién la anotó; se suman a lo que quedaba;
