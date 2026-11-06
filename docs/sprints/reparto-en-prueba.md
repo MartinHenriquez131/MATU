@@ -1,6 +1,6 @@
 # Reparto del trabajo en prueba · Jorge desarrolla, Martín prueba y despliega
 
-**Estado:** en prueba
+**Estado:** convertida en el [ADR-030](../adr/ADR-030-roles-del-equipo.md) el 5 de noviembre de 2026, por decisión de Jorge en la revisión del sprint 3. Esta nota queda como antecedente
 **Aprobado por:** Jorge Espinoza (Product Owner) y Martín Henríquez (Scrum Master), el 4 de noviembre de 2026
 **Se evalúa:** el jueves 5 de noviembre de 2026, en la revisión y la retrospectiva del sprint 3
 **Si continúa:** esta nota se convierte en el ADR-030. **Si no continúa:** se vuelve al reparto anterior y esta nota queda como antecedente
