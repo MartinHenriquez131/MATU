@@ -393,6 +393,7 @@ erDiagram
         int tasa_unidades
         int tasa_dias
         int stock_unidades
+        int unidades_por_envase "opcional, 1 a 10.000, MATU-60"
         date stock_medido_en
         date fecha_quiebre_estimada
         smallint dias_aviso
