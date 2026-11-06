@@ -13,7 +13,7 @@
 
 **MATU-25 (05-11):** se ajustan las secciones 4, 7, 8 y 9 con el ambiente de prueba en Railway y el límite por IP. No cambian la versión: `POLITICA_VERSION` sigue en `0.10`, porque el ambiente de prueba trata solo datos inventados y ninguna persona real dio una autorización en él. Aprobado por Jorge el 05-11. La versión 1.0 nombrará el proveedor y el país donde se alojen los datos reales.
 
-**MATU-60 (06-11):** se ajustan las secciones 3, 5, 6, 8 y 9 con la lista de insumos. La lista se arma con lo que el grupo ya ve, MATU no la guarda ni la envía, y quien la imprime o la comparte lo hace desde su teléfono. El único dato nuevo es cuántas unidades trae cada envase de un insumo, que describe el envase y no a la persona. No agregan usos ni destinatarios de MATU, así que no cambian la versión: `POLITICA_VERSION` sigue en `0.10`. Aprobado por Jorge el 06-11.
+**MATU-60 (06-11):** se ajustan las secciones 3, 5, 6, 8 y 9 con la lista de insumos. La lista se arma con lo que el grupo ya ve, MATU no la guarda ni la envía, y quien la imprime o la comparte lo hace desde su teléfono. El único dato nuevo es cuántas unidades trae cada envase de un insumo, que describe el envase y no a la persona. No agregan usos ni destinatarios de MATU, así que no cambian la versión: `POLITICA_VERSION` sigue en `0.10`. **Criterio desde el 06-11 (decisión de Jorge):** la versión cambia cuando una declaración deja de cubrir lo que se trata. Un dato o una función nueva dentro de la misma finalidad se informa en la política vigente sin cambiar la versión. La consulta legal lo confirma antes de la versión 1.0 (CL-4). Aprobado por Jorge el 06-11.
 
 ---
 
@@ -121,7 +121,7 @@ La persona que cuidas no tiene cuenta en MATU. Sus datos los ingresas tú.
 - Las condiciones del pedido que aceptaste, su versión y cuándo las aceptaste.
 - El pago: el monto cobrado y, si hubo, la devolución.
 
-**Tus pedidos y el consumo de insumos de la persona que cuidas se tratan como datos sensibles**, porque pueden revelar algo de su salud o de su dependencia. Los ven las personas de tu grupo y el equipo de MATU para dar soporte. Ningún comercio los ve junto a un nombre. A diferencia de la ficha, no se cifran con una clave propia de cada persona.
+**Tus pedidos y el consumo de insumos de la persona que cuidas se tratan como datos sensibles**, porque pueden revelar algo de su salud o de su dependencia. Tus pedidos los ven las personas de tu grupo y el equipo de MATU para dar soporte. El consumo de insumos lo ven solo las personas de tu grupo. Ningún comercio los ve junto a un nombre. A diferencia de la ficha, no se cifran con una clave propia de cada persona.
 
 **Para los pedidos te pediremos una autorización expresa y aparte**, distinta de la de la ficha. Puedes retirarla igual de fácil que la diste. Si la retiras, ya no podrás pedir desde MATU, pero sí imprimir o compartir la lista. Los pedidos ya pagados se guardan el plazo de la sección 8, para responder reclamos y por obligación tributaria. [PENDIENTE: confirmar en la versión 1.0]
 
