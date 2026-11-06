@@ -18,7 +18,7 @@ La lista muestra qué insumos usa la persona, y el diseño trata el consumo como
 1. **En el semestre la lista se comparte como texto, sin enlace.** Se imprime o se guarda como PDF desde el navegador del teléfono, y se comparte con la hoja de compartir del teléfono (`navigator.share`, solo con texto) o con «Copiar la lista».
 2. **MATU no genera archivos, no guarda exportaciones y no crea un acceso público.** No existe `POST …/exportar` ni una ruta pública para la lista.
 3. **RF-15 se cumple con el documento.** «Enviarla a un miembro del grupo» (ADR-027, punto 2) se cumple porque todos los miembros ven la lista en la app.
-4. **La lista no lleva el nombre de la persona cuidada** ni nada de la ficha (ADR-029). El texto que sale del teléfono tampoco lleva los días que quedan, para que no se pueda deducir el consumo diario.
+4. **La lista no lleva el nombre de la persona cuidada** ni nada de la ficha (ADR-029). El texto que sale del teléfono tampoco lleva los días que quedan, para que sea más difícil deducir el consumo diario. Cuando MATU estima que no queda nada y el insumo no tiene envase, la cantidad es el consumo de 30 días, y el aviso en pantalla lo advierte («pero sí lo que usa»).
 5. **Quién la saca del teléfono:** administrador, cuidador y pagador. El observador la ve, sin esos botones.
 6. **La cantidad sugerida va en envases** cuando el insumo tiene anotadas sus unidades por envase (dato opcional nuevo). Si no las tiene, va en la unidad del insumo.
 

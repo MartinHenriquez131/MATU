@@ -512,7 +512,7 @@ erDiagram
 
 | Tabla | Propósito | Reglas que conviene notar |
 |---|---|---|
-| `categoria_cuidado`, `producto` | El catálogo curado | Datos de referencia: todos los leen, solo operación los escribe. `unidades_por_envase` conecta el catálogo con el perfil de consumo |
+| `categoria_cuidado`, `producto` | El catálogo curado | Datos de referencia: todos los leen, solo operación los escribe. `producto.unidades_por_envase` es del catálogo (capa 3). La lista de insumos usa solo `perfil_consumo.unidades_por_envase` (decisión 121) |
 | `comercio` | Comercios en convenio | Todos ven los activos (nombre para armar pedidos) |
 | `usuario_comercio` | Qué usuarios operan la vista de un comercio | Resuelve el `app.comercio_id` del encargado al iniciar sesión |
 | `convenio` | Condiciones comerciales | `comision_bp` en puntos base. **Un comercio no puede tener dos convenios vigentes que se traslapen** (`EXCLUDE` sobre el rango de vigencia) |
