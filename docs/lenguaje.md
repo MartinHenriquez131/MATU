@@ -662,7 +662,7 @@ En la app se dice «lista de insumos», nunca «lista de reposición» ni «quie
 | Agregar a mano, cómo se cuenta | ¿Cómo se cuenta? (de la sección 18) · Unidades · Sobres · Envases |
 | Agregar a mano, botón | Agregar |
 | Agregar a mano, anuncio | Agregamos «{nombre}» a la lista. |
-| Quitar una línea | Quitar de la lista · Para el lector: Quitar «{nombre}» de la lista |
+| Quitar una línea | Quitar de la lista · Para el lector: Quitar de la lista: {nombre} |
 | Quitar, anuncio, línea de MATU | Quitamos «{nombre}» de la lista. Sigue en Insumos. |
 | Quitar, anuncio, línea agregada a mano | Quitamos «{nombre}» de la lista. |
 | Después de quitar una línea de MATU | Lo que quitaste sigue en Insumos. Vuelve a esta lista cuando entras de nuevo. |
@@ -682,7 +682,7 @@ En la app se dice «lista de insumos», nunca «lista de reposición» ni «quie
 | Al imprimir cualquier otra pantalla de la app | Esta pantalla no se imprime. |
 | Campo nuevo en el formulario del insumo (opcional) | ¿Cuántas unidades trae cada envase? · Ayuda: Si lo anotas, la lista sugiere envases enteros. Puedes dejarlo en blanco. |
 | Campo del envase, fuera de rango | Escribe un número de 1 a 10.000, o déjalo en blanco. |
-| Campo del envase, en el conflicto (412) | Cada envase trae {u} {unidades / sobres / ml / g}. · Sin unidades por envase. |
+| Campo del envase, en el conflicto (412) | Cada envase trae {u} {unidades / sobres / ml / g} (con 1: «1 unidad», «1 sobre»). · Sin unidades por envase. |
 
 Formato exacto del texto compartido (sin enlace, sin los días y sin el nombre de la persona ni del grupo):
 
