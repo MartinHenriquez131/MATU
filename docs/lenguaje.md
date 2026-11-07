@@ -571,7 +571,7 @@ En la app se dice «se acaba», nunca «quiebre». La fecha es una estimación. 
 | Dónde | Texto |
 |---|---|
 | Bloque | Se acaban pronto · Se acaban pronto ({n}) (con más de 3) |
-| Nota del bloque | Es una estimación con lo que anotaste. |
+| Nota del bloque | Admin y cuidador: Es una estimación con lo que anotaste. · Pagador y observador (MATU-51, aprobado por Jorge el 07-11): Es una estimación con lo que anotó la familia. |
 | Marca en la lista | Te estamos avisando |
 | Botón (solo admin y cuidador) | Ya lo resolví |
 | Panel | Con envase conocido (MATU-51): ¿Compraste? ¿Cuántos envases? · Si no compraste, déjalo en 0 y solo dejamos de avisarte. · Junto al campo: envase de {u} unidades / envases de {u} unidades (sección 21). Sin envase: ¿Compraste? ¿Cuántos? / ¿Cuántos sobres? / ¿Cuántos ml? / ¿Cuántos gramos? · Si no compraste, déjalo en blanco y solo dejamos de avisarte. En los dos: Guardando… · Volver |
