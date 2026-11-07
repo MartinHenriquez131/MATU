@@ -448,7 +448,7 @@ En la app se dice "entrar", nunca "sesión" (decisión de Jorge del 02-11). Los 
 | Queda un día | Alcanza para 1 día |
 | Cero días | Se acaba hoy |
 | El cálculo da negativo | Puede que ya no quede |
-| Nota bajo la fecha | Es un cálculo con lo que anotaste. Si compraste o te quedan menos, anótalo |
+| Nota bajo la fecha | Es un cálculo con lo que anotaste. Si compraste o te quedan menos, anótalo con «Compré» o «Me quedan». (MATU-51) |
 | Ayuda del nombre del insumo | Por ejemplo: «Toallitas húmedas». Sin remedios ni para qué se usa |
 | Botón de descartar un aviso (MATU-37) | Ya lo resolví |
 
@@ -561,7 +561,7 @@ Revisados contra los términos prohibidos (diagnóstico, conducta, incidente, de
 
 | Dónde | Texto |
 |---|---|
-| Cómo calculamos, observador y pagador | Dividimos lo que quedaba por lo que se usa, y contamos los días desde que la familia lo anotó. No sabe si compraron ni si cambió lo que usa {pila}. |
+| Cómo calculamos, observador y pagador | Dividimos lo que quedaba por lo que se usa, y contamos los días desde que la familia lo anotó. Si compraron y no lo anotaron, no lo sabe. Tampoco sabe si cambió lo que usa {pila}. (MATU-51) |
 | Nota corta, observador y pagador | Es un cálculo con lo que anotó la familia. |
 
 ## 17. Avisos de insumos (MATU-37) · Aprobados por Jorge el 03-11
@@ -574,15 +574,16 @@ En la app se dice «se acaba», nunca «quiebre». La fecha es una estimación. 
 | Nota del bloque | Es una estimación con lo que anotaste. |
 | Marca en la lista | Te estamos avisando |
 | Botón (solo admin y cuidador) | Ya lo resolví |
-| Panel | ¿Compraste? ¿Cuántos? / ¿Cuántos sobres? · Si no compraste, déjalo en blanco y solo dejamos de avisarte. · Guardando… · Volver |
-| Con cantidad | Anotamos tu compra de {nombre}: {cantidad}. Ahora alcanza para {n} días. (1 día en singular) |
+| Panel | Con envase conocido (MATU-51): ¿Compraste? ¿Cuántos envases? · Si no compraste, déjalo en 0 y solo dejamos de avisarte. · Junto al campo: envase de {u} unidades / envases de {u} unidades (sección 21). Sin envase: ¿Compraste? ¿Cuántos? / ¿Cuántos sobres? / ¿Cuántos ml? / ¿Cuántos gramos? · Si no compraste, déjalo en blanco y solo dejamos de avisarte. En los dos: Guardando… · Volver |
+| Con cantidad | Anotamos tu compra de {nombre}: {cantidad}. Ahora alcanza para {n} días. (1 día en singular). Desde MATU-51, {cantidad} se arma como en la sección 21: «2 envases de 20 unidades», «24 unidades», «1 sobre», «500 ml» |
 | Con cantidad, si sigue en 0 o menos | Anotamos tu compra de {nombre}: {cantidad}. Si te quedan menos, cámbialo en la lista. |
 | Sin cantidad | Listo. No te avisaremos de nuevo por {nombre} hasta que cambie la fecha estimada. |
 | Otra persona cambió el insumo antes de resolver (412) | {autor} cambió «{nombre}» mientras lo resolvías. Revisa cómo quedó y vuelve a intentarlo. · Ver cómo quedó |
 | Ya resuelto por otra persona (409) | Alguien de tu familia ya resolvió este aviso. · Ver cómo quedó |
 | Aviso que ya no existe (404) | Este aviso ya no está. Puede que el insumo se haya cambiado o eliminado. |
 | Sin permiso | Solo quien administra o cuida puede resolver un aviso. |
-| Cantidad inválida | Escribe un número entre 1 y 9999, o déjalo en blanco. |
+| Cantidad inválida | Con envase: Escribe un número de 0 a 99. Si no compraste, déjalo en 0. · Sin envase: Escribe un número de 1 a 10.000, o déjalo en blanco. (MATU-51) |
+| Más de 100.000 o más de 10 años (MATU-51) | Con esa compra quedarían más de 100.000 {unidades / sobres / ml / g}. Revisa cuántos compraste. · Con esa compra alcanzaría para más de 10 años. Revisa cuántos compraste. |
 | Error al guardar | No pudimos guardar. Revisa tu conexión y vuelve a intentarlo. |
 | Error al cargar | No pudimos ver qué se acaba pronto. |
 | Lista, singular | Queda 1 hoy · Quedan {n} hoy |
@@ -594,7 +595,7 @@ Complementa la sección 13 (lo central ya aprobado: «Alcanza para {n} días», 
 | Parte | Textos |
 |---|---|
 | Permiso | Antes de calcular, un permiso · Es un permiso aparte del de su ficha. · Permiso guardado. Ahora anota el primer insumo. · No pudimos guardar el permiso. Revisa lo que elegiste y vuelve a intentarlo. · Falta el permiso para calcular los insumos de {nombre}. · Sin él no podemos mostrar cuándo se acaban. Pídele a quien administra el grupo o a quien cuida a {nombre} que lo registre. · Hay que renovar la autorización de los insumos de {nombre}. · Se renueva una vez al año. Mientras tanto, no podemos calcular ni mostrar sus insumos, pero lo que anotaste sigue guardado. |
-| Lista | Cargando los insumos… · Ver más · Anotar un insumo · Cambiar · Cómo calculamos · Dividimos lo que quedaba por lo que se usa, y contamos los días desde que lo anotaste. No sabe si compraste ni si cambió lo que usa {nombre}. · hasta el {fecha} · Según lo anotado, se acababa el {fecha} · Usa {n} al día. · Usa {n} cada {d} días. · Quedaban {n} el {fecha} · Queda 1 hoy. / Quedan {n} hoy. · Todavía no hay insumos anotados · Cuando alguien de tu grupo anote uno, aparece aquí. |
+| Lista | Cargando los insumos… · Ver más · Anotar un insumo · Cambiar · Cómo calculamos · Dividimos lo que quedaba por lo que se usa, y contamos los días desde que lo anotaste. Si compraste o cambió lo que queda, anótalo con «Compré» o «Me quedan». No sabe si cambió lo que usa {nombre}. (MATU-51) · hasta el {fecha} · Según lo anotado, se acababa el {fecha} · Usa {n} al día. · Usa {n} cada {d} días. · Quedaban {n} el {fecha} · Queda 1 hoy. / Quedan {n} hoy. · Todavía no hay insumos anotados · Cuando alguien de tu grupo anote uno, aparece aquí. |
 | Formulario | Cambiar lo anotado · Volver a los insumos · ¿Qué insumo es? · ¿Cómo se cuenta? · Se cuenta por unidad. / por sobre. · ¿Cada cuánto se usa? · ¿Cada cuántos días? · ¿Cuántos usa {nombre} al día? / cada {d} días? · ¿Cuántos quedan hoy, más o menos? · El {fecha} anotaste {n}. Escribe cuántos quedan hoy, o déjalo en blanco si no lo sabes. · ¿Con cuántos días de anticipación te avisamos? · Si pones 0, te avisamos el mismo día. · Así, alcanza para {n} días, hasta el… · Así, se acaba hoy. · No había cambios. · Guardamos «{nombre}». |
 | Validación y errores | Escribe el nombre del insumo. · Escribe cuántos usa, al menos 1. · Escribe un número hasta 10.000. · Escribe un número de 2 a 90. · Escribe cuántos quedan. Si no queda nada, escribe 0. · Escribe un número hasta 100.000. · Escribe un número de 0 a 60. · El nombre admite hasta 60 caracteres. Acórtalo un poco. · Escribe el nombre en una sola línea. · Con esos números alcanzaría para más de 10 años. Revisa cuánto queda y cuánto se usa. · Ese producto no se puede seguir en MATU. · Ese producto ya está anotado. Búscalo en la lista y cámbialo ahí. · No pudimos guardar. Revisa los datos y vuelve a intentarlo. · Ya no se está siguiendo este insumo. · Alguien desmarcó «Seguir» mientras lo cambiabas. Para cambiarlo, vuelve a marcar «Seguir» en la lista. · No pudimos guardar este insumo. · Vuelve a abrirlo y guarda de nuevo. Lo que escribiste sigue aquí. |
 | Conflicto | {autor} cambió «{nombre}» mientras lo cambiabas · No guardamos lo tuyo encima de lo suyo. Elige qué dejar. · Lo que guardó · Lo tuyo, sin guardar · (cambió) · Guardar lo mío · Dejar lo que guardó · Dejaste lo que guardó {autor}. |
@@ -733,3 +734,32 @@ En la app se dice «autorización» y «retirar», nunca «consentimiento» ni �
 | Enlaces, autorización retirada | Título: Se retiró la autorización de la ficha. · Cuerpo: Los enlaces se cortaron y no vuelven a abrir. · Ver los permisos en Grupo familiar |
 
 **Reglas de armado:** si no se pudieron contar los enlaces, se omite «Hoy abren `{n}`.». Si la persona no tiene autorización de insumos, se omite «La autorización de los insumos no cambia.». El caso de la autorización retirada en Enlaces sale de la sección 9.1 y queda en esta tabla.
+
+## 23. Anotar una compra o lo que queda (MATU-51) · Aprobados por Jorge el 07-11
+
+En la app se dice «Compré» y «Me quedan», nunca «reposición», «reponer» ni «stock». «Compré» habla de lo que la familia ya hizo: la app nunca ofrece comprar. La fecha la pone MATU (hoy) y la familia no la elige. Los días y la fecha de la confirmación los da la API.
+
+| Dónde | Texto |
+|---|---|
+| Botones de cada insumo (solo admin y cuidador) | Compré · Me quedan |
+| Nombre accesible de los botones | Compré: {nombre} · Me quedan: {nombre} |
+| Compré, pregunta | Con envase conocido: ¿Cuántos envases compraste? · Sin envase: ¿Cuántos compraste? / ¿Cuántos sobres compraste? / ¿Cuántos ml compraste? / ¿Cuántos gramos compraste? |
+| Compré, ayuda | Lo sumamos a lo que calculamos que queda hoy. |
+| Compré, cantidad junto al campo | La de la sección 21 («envase de {u} unidades», «envases de {u} unidades»), y sin envase la de la sección 18 («unidades», «sobres», «ml», «g») |
+| Compré, botón | Anotar la compra |
+| Me quedan, pregunta | ¿Cuántos quedan hoy, más o menos? (de la sección 18) |
+| Me quedan, ayuda | Reemplaza lo que calculábamos. Si no queda nada, escribe 0. |
+| Me quedan, botón | Anotar lo que queda |
+| En curso y cerrar | Guardando… · Volver (de la sección 17) |
+| Compra anotada | Compra anotada para «{nombre}»: {cantidad}. Ahora alcanza para {n} días, hasta el {fecha}. (Con 1: «1 día». Con 0: «Compra anotada para «{nombre}»: {cantidad}. Así, se acaba hoy.» Negativo: «… Según lo anotado, puede que ya no quede.») |
+| Lo que queda, anotado | Anotamos lo que queda de «{nombre}»: {cantidad}. Alcanza para {n} días, hasta el {fecha}. (Con 1: «1 día». Si se acaba hoy: «Anotamos lo que queda de «{nombre}»: {cantidad}. Así, se acaba hoy.») |
+| Lo que queda, con 0 | Anotamos que no queda «{nombre}». Cuando compres, anótalo con «Compré». |
+| Compré, falta la cantidad | Escribe cuántos envases compraste, al menos 1. · Escribe cuántos compraste, al menos 1. |
+| Compré, sobre el tope | Con envase: Escribe un número de 1 a 99 envases. · Sin envase: Escribe un número hasta 10.000. (de la sección 18) |
+| Compré, lo que queda pasaría de 100.000 | Con esa compra quedarían más de 100.000 {unidades / sobres / ml / g}. Revisa cuántos compraste. |
+| Me quedan, falta o sobre el tope | Escribe cuántos quedan. Si no queda nada, escribe 0. · Escribe un número hasta 100.000. (de la sección 18) |
+| Más de 10 años | Compré: Con esa compra alcanzaría para más de 10 años. Revisa cuántos compraste. · Me quedan: Con esa cantidad alcanzaría para más de 10 años. Revisa cuántos quedan. |
+| El insumo ya no está (404) | Este insumo ya no está. Puede que alguien de tu familia lo haya eliminado. |
+| Dejaron de seguirlo (409) | Alguien de tu familia dejó de seguir «{nombre}» mientras lo anotabas. No anotamos nada. Si quieres anotarlo, vuelve a marcar «Seguir». · Ver cómo quedó |
+| Otra persona lo cambió (412) | {autor} cambió «{nombre}» mientras lo anotabas. Revisa cómo quedó y vuelve a intentarlo. · Ver cómo quedó |
+| Errores generales | No pudimos guardar. Revisa tu conexión y vuelve a intentarlo. (sección 17) · No pudimos guardar. Revisa los datos y vuelve a intentarlo. (sección 18) |
