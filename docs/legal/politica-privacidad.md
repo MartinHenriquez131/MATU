@@ -340,7 +340,7 @@ Si hay una filtración que afecte datos personales, avisaremos sin demora a la A
 - Borrar el teléfono del relevo 30 días después de que el acceso vence o se corta (MATU-46). Mientras no exista, MATU no trata datos reales.
 - Ver, descargar o borrar los datos desde la aplicación. Mientras tanto, por el correo de la sección 10.
 - El recordatorio de los 12 meses.
-- Las tareas que borran la ficha y los insumos 90 días después de retirar su autorización existen, pero se corren a mano: todavía no hay un programador de tareas. Desde el día 90, la aplicación muestra lo guardado como borrado y nadie lo puede ver ni recuperar, aunque la tarea todavía no haya corrido. Mientras no exista el programador, MATU no trata datos reales.
+- Las tareas que borran la ficha y los insumos 90 días después de retirar su autorización, y la que borra a los 90 días los avisos cerrados, el registro de avisos y las compras anotadas, existen, pero se corren a mano: todavía no hay un programador de tareas. Desde el día 90, la aplicación muestra lo guardado como borrado y nadie lo puede ver ni recuperar, aunque la tarea todavía no haya corrido. Mientras no exista el programador, MATU no trata datos reales.
 - Renovar desde la aplicación la autorización cuando vence su revisión de los 12 meses.
 - Avisos de insumos por notificación o por correo: en el piloto se prueban sin enviarse (los de la aplicación ya funcionan). Elegir desde la aplicación, en «Tu cuenta», si los recibes por correo o en un teléfono (MATU-55).
 - Enviar correos solo a direcciones verificadas.
