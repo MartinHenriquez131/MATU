@@ -196,7 +196,7 @@ El texto escrito no se borra: la persona lo puede copiar antes de reabrir.
 
 > **Falta la autorización para usar la ficha de `{nombre_pila}`.** Sin ella no podemos guardar ni mostrar la ficha. La puede registrar quien administra el grupo o quien la cuida en MATU, desde Grupo familiar, en "Permiso para guardar su ficha".
 
-Para admin y cuidador, el texto termina en: "La puedes volver a autorizar desde Grupo familiar.", con el botón secundario **Volver a autorizar** (MATU-44, sección 22). Si quien lo ve tiene otro rol (pagador u observador), el texto termina en: "Pídele a quien administra el grupo que la registre."
+Para admin y cuidador, la última oración («La puede registrar quien administra…») se reemplaza por "La puedes volver a autorizar desde Grupo familiar.", con el botón secundario **Volver a autorizar** (MATU-44, sección 22). Si quien lo ve tiene otro rol (pagador u observador), el texto termina en: "Pídele a quien administra el grupo que la registre."
 
 Junto con 6.4b, son las dos causas de un 403 en la capa 1 (contrato, decisiones 4 y 33).
 
