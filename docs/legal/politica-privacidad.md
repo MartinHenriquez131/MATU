@@ -17,7 +17,7 @@
 
 **MATU-44 (06-11):** se ajustan las secciones 4, 5, 6, 8, 10 y 13 con el retiro de las autorizaciones desde la aplicación, volver a autorizar la ficha y el borrado de la ficha 90 días después del retiro. No agregan usos, datos ni destinatarios, y no cambian las declaraciones, así que no cambian la versión: `POLITICA_VERSION` sigue en `0.10` (criterio del 06-11). Aprobado por Jorge el 06-11.
 
-**MATU-51 (07-11):** se ajustan las secciones 6 y 8 con «Compré» y «Me quedan», que anotan una compra o lo que queda en cualquier insumo, haya aviso o no, y las compras anotadas pasan a guardarse 90 días. No agregan usos, datos ni destinatarios, y un plazo más corto no cambia las declaraciones, así que no cambian la versión: `POLITICA_VERSION` sigue en `0.10` (criterio del 06-11). [PENDIENTE DE JORGE]
+**MATU-51 (07-11):** se ajustan las secciones 6 y 8 con «Compré» y «Me quedan», que anotan una compra o lo que queda en cualquier insumo, haya aviso o no, y las compras anotadas pasan a guardarse 90 días. No agregan usos, datos ni destinatarios, y un plazo más corto no cambia las declaraciones, así que no cambian la versión: `POLITICA_VERSION` sigue en `0.10` (criterio del 06-11). Aprobado por Jorge el 07-11.
 
 ---
 
