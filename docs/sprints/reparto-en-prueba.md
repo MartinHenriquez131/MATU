@@ -3,7 +3,7 @@
 **Estado:** convertida en el [ADR-030](../adr/ADR-030-roles-del-equipo.md) el 5 de noviembre de 2026, por decisión de Jorge en la revisión del sprint 3. Esta nota queda como antecedente
 **Aprobado por:** Jorge Espinoza (Product Owner) y Martín Henríquez (Scrum Master), el 4 de noviembre de 2026
 **Se evalúa:** el jueves 5 de noviembre de 2026, en la revisión y la retrospectiva del sprint 3
-**Si continúa:** esta nota se convierte en el ADR-030. **Si no continúa:** se vuelve al reparto anterior y esta nota queda como antecedente
+**Resultado:** continuó. La evaluación del 5 de noviembre lo dejó como definitivo, y esta nota se convirtió en el ADR-030
 
 ---
 
@@ -94,4 +94,4 @@ Cada criterio se mide con datos, no con impresiones:
      - las horas de Jorge frente a las 11 h de su capacidad.
    - **Funciona si:** ninguna historia que nunca se sacrifica queda bloqueada por falta de capacidad de Jorge.
 
-El resultado de la evaluación queda como comentario en la tarjeta de la retrospectiva del sprint 3. Si continúa, se redacta el ADR-030 y se actualizan `CLAUDE.md`, el backlog, la arquitectura (v1.2, MATU-43) y `docs/sprints/`.
+El resultado de la evaluación quedó como comentario en la tarjeta de la retrospectiva del sprint 3. Como continuó, se redactó el ADR-030, y se actualizan `CLAUDE.md` (MATU_PROYECTO #56), el backlog, la arquitectura (v1.2, MATU-43) y `docs/sprints/`.
