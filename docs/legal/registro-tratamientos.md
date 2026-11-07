@@ -13,19 +13,22 @@ Cada historia que empieza a tratar datos personales agrega aquí su entrada.
   - nivel de apoyo, que es un **dato sensible**
   - dirección de entrega, opcional
   - la autorización: calidad, versión de la política, evidencia mínima y la referencia al documento si es representante legal
+  - el retiro (MATU-44): `revocado_en` con `revocacion_motivo = retiro`, y en la auditoría `consentimiento.revocar`, quién y cuándo, sin nombre ni IP
 - **Base de licitud:** consentimiento del titular o de su representante legal. Cuidadora o cuidador de hecho: [PENDIENTE: consulta legal].
 - **Quién accede:**
   - administrador y cuidador ven todo
   - el pagador ve el nombre y la dirección
   - el observador ve el nombre
+  - el estado de cada autorización (vigente, por renovar, retirada o borrada) y sus fechas los ven los cuatro roles. La calidad del otorgante, solo administrador y cuidador (MATU-44, decisión de Jorge del 06-11)
+  - administrador y cuidador retiran cualquier autorización de la persona, sin importar quién la dio, y vuelven a darla. Pagador y observador reciben 404, y una política RLS por rol limita quién fija `revocado_en` (MATU-44, migración 0016)
   - operación: [PENDIENTE: acotar a nombre y dirección en la historia de backoffice]
-- **Conservación:** [PENDIENTE: plazo del registro de autorizaciones, en consulta legal].
+- **Conservación:** [PENDIENTE: plazo del registro de autorizaciones, también de las retiradas, en consulta legal]. Hoy no se borra (trigger `consentimiento_sin_borrado`).
 - **Medidas:**
   - separación por familia con RLS forzado
   - la aplicación se conecta sin privilegios de dueño
   - registros técnicos sin datos de la persona
   - auditoría de solo inserción
-  - consentimiento de solo inserción: [PENDIENTE: tarjeta "S2 · Consentimiento inalterable"]
+  - consentimiento inalterable (migración 0006, ajustada en la 0016): solo se fijan `revocado_en` y `revocacion_motivo`, juntos y una vez, y nunca se borra
 - **Comunicaciones a terceros:** ninguna.
 - **Transferencia internacional:** [PENDIENTE: proveedor y país].
 - **Decisiones automatizadas:** ninguna.
@@ -71,7 +74,7 @@ Cada historia que empieza a tratar datos personales agrega aquí su entrada.
 
 ## 3. Ficha de relevo (MATU-09, MATU-11 a MATU-14, MATU-50)
 
-> Aprobado por Jorge el 27-10 como diseño. Que retirar la autorización corte los accesos de relevo vigentes depende de la historia del sprint 3 "Revocar el consentimiento y cortar los accesos de relevo vigentes". Esa historia es requisito para operar con datos reales, igual que los requisitos R7 a R9 del ADR-027.
+> Aprobado por Jorge el 27-10 como diseño. Desde MATU-44, retirar la autorización de la ficha corta en la misma transacción los accesos de relevo que todavía abrían.
 
 **Todavía no se trata con datos reales.** Durante el semestre la ficha se escribe solo con datos sintéticos (`figura-legal-piloto.md`).
 
@@ -95,8 +98,8 @@ Cada historia que empieza a tratar datos personales agrega aquí su entrada.
   - el relevo, mientras su acceso esté vigente, lee los campos base habilitados y las secciones adicionales que se le marcaron y que ya existían al crear su acceso (`plan_seccion.creado_en <= acceso_relevo.creado_en`, en la política RLS `seccion_relevo`, de solo lectura, y en la consulta)
   - operación nunca
 - **Conservación:**
-  - mientras la autorización esté vigente y hasta 90 días después
-  - el borrado se cumple destruyendo la clave de la persona. [PENDIENTE: confirmar que una solicitud de borrado no espera los 90 días]
+  - mientras la autorización esté vigente y hasta 90 días después de que se retire o termine. En ese plazo nadie la lee: la API responde 403 a todos los roles y el relevo, 410
+  - el borrado se cumple destruyendo la clave de la persona (borrado criptográfico de MATU-11). Lo hace la tarea `tarea_destruccion` (función `plan_destruir_claves`, migración 0016) con las fichas cuya autorización se retiró hace 90 días o más: destruye la clave y, en la misma transacción, borra el texto cifrado y las filas de las secciones de esa persona, con `clave.destruir` en la auditoría. Mientras no haya programador de tareas, se corre a mano. Desde el día 90 nadie puede leer ni recuperar la ficha, aunque la tarea no haya corrido, porque una autorización nueva destruye primero la clave y borra lo cifrado con ella. La ficha empieza en blanco y la primera escritura crea una clave nueva, que solo puede existir después de esa autorización (índice `clave_datos_vigente_uq` y trigger `clave_datos_nueva_tras_autorizacion`). [PENDIENTE: confirmar que una solicitud de borrado no espera los 90 días]
   - copias de respaldo: [PENDIENTE]
   - una sección adicional quitada: se borra en el acto. Queda en las copias de respaldo hasta que venzan
   - auditoría: 3 años, también la que guarda el tipo de una sección quitada
@@ -120,7 +123,7 @@ Cada historia que empieza a tratar datos personales agrega aquí su entrada.
 
 ## 4. Acceso de relevo (MATU-09, MATU-18 a MATU-20, MATU-23, MATU-25)
 
-> Aprobado por Jorge el 27-10 como diseño. Que retirar la autorización corte los accesos de relevo vigentes depende de la historia del sprint 3 "Revocar el consentimiento y cortar los accesos de relevo vigentes". Esa historia es requisito para operar con datos reales, igual que los requisitos R7 a R9 del ADR-027.
+> Aprobado por Jorge el 27-10 como diseño. Desde MATU-44, retirar la autorización de la ficha corta en la misma transacción los accesos de relevo que todavía abrían.
 
 **Todavía no se trata con datos reales.** Durante el semestre los accesos se crean solo con datos sintéticos (`figura-legal-piloto.md`).
 
@@ -167,7 +170,8 @@ Cada historia que empieza a tratar datos personales agrega aquí su entrada.
   - 5 PIN incorrectos bloquean el acceso (423)
   - desde una misma IP, 30 presentaciones por hora y 10 canjes por hora, cada límite con su propio contador por huella HMAC, que dura 1 hora (decisión 29)
   - un acceso vencido o cortado responde 410, aunque la cookie siga vigente
-  - si la autorización de la persona no está vigente (sin consentimiento o revisión anual vencida), la presentación, el canje y la ficha responden 410 `relevo-pausado` sin decir el motivo, y el canje no cuenta como intento (decisión 33). Vuelve a abrir al renovarse, si el acceso no venció. Con MATU-44, el retiro explícito de la autorización corta los accesos para siempre
+  - si la autorización de la persona está en pausa porque venció la revisión anual, la presentación, el canje y la ficha responden 410 `relevo-pausado` sin decir el motivo, y el canje no cuenta como intento (decisión 33). Vuelve a abrir al renovarse, si el acceso no venció
+  - si la autorización se retira (MATU-44), en la misma transacción se cortan todos los accesos que no vencieron ni se cortaron, incluidos los bloqueados y los en pausa (`acceso_relevo.revocado_en` e `indice_token.revocado_en`), con un `relevo.revocar` por acceso y el mismo `request_id`. Responden 410 `relevo-revocado` y no vuelven a abrir, aunque se autorice de nuevo. Los plazos de 3 años y de 30 días corren desde el corte
   - cortar un acceso no exige autorización vigente (204 idempotente)
   - la sesión del relevo no fija el grupo
   - vigencia de 24 horas por omisión y de 30 días como máximo
@@ -198,7 +202,7 @@ Cada historia que empieza a tratar datos personales agrega aquí su entrada.
   - si se sigue o no, y la versión.
 
   Se trata como **dato sensible**. [PENDIENTE: consulta legal sobre si es dato relativo a la salud y si basta RLS sin cifrado (decisión 63)]
-- **Base de licitud:** consentimiento separado, `finalidad = consumo`, en la misma calidad de MATU-07, con la declaración `declaracion_consumo_<calidad>` (aprobadas por Jorge el 03-11) y la revisión de 12 meses. Sin él, 403. Cuidador de hecho: [PENDIENTE: consulta legal].
+- **Base de licitud:** consentimiento separado, `finalidad = consumo`, en la misma calidad de MATU-07, con la declaración `declaracion_consumo_<calidad>` (aprobadas por Jorge el 03-11) y la revisión de 12 meses. Sin él, 403. Cuidador de hecho: [PENDIENTE: consulta legal]. Se retira en la aplicación (MATU-44): en ese momento deja de calcular, de crear alertas y de avisar, y las alertas abiertas se descartan con `alerta.descartar`. El consumo queda sin lectura y se borra a los 90 días con `consumo_conservar`, que en el piloto se corre a mano. Si se vuelve a autorizar antes del día 90, lo anotado vuelve. Desde el día 90, una autorización nueva borra primero los perfiles de la persona, aunque la tarea no haya corrido (decisión 128).
 - **Quién accede:**
   - admin y cuidador leen y escriben (en la API y en una política RLS de escritura);
   - pagador y observador solo leen (decisión de Jorge del 03-11);
@@ -212,7 +216,7 @@ Cada historia que empieza a tratar datos personales agrega aquí su entrada.
   - RLS forzado por grupo y escritura por rol en RLS;
   - `ETag`/`If-Match` (412/428);
   - `nombre_libre` nunca en logs, errores, auditoría ni eventos;
-  - auditoría de solo inserción de `consumo.crear`, `consumo.editar`, `consumo.desactivar`, `consumo.activar`, `consumo.eliminar` y `consentimiento.otorgar`, sin nombre, cantidades ni IP;
+  - auditoría de solo inserción de `consumo.crear`, `consumo.editar`, `consumo.desactivar`, `consumo.activar`, `consumo.eliminar`, `consentimiento.otorgar` y `consentimiento.revocar`, sin nombre, cantidades ni IP;
   - los eventos llevan solo identificadores;
   - nada en el almacenamiento del navegador ni en la URL;
   - RLS separada de `alerta_quiebre` y `reposicion` (MATU-37): leen los cuatro roles; solo el rol sistema crea alertas; solo admin y cuidador las cierran o declaran una compra; nadie las borra a mano;

@@ -196,7 +196,7 @@ El texto escrito no se borra: la persona lo puede copiar antes de reabrir.
 
 > **Falta la autorización para usar la ficha de `{nombre_pila}`.** Sin ella no podemos guardar ni mostrar la ficha. La puede registrar quien administra el grupo o quien la cuida en MATU, desde Grupo familiar, en "Permiso para guardar su ficha".
 
-Si quien lo ve tiene otro rol (pagador u observador), el texto termina en: "Pídele a quien administra el grupo que la registre." **[PENDIENTE]** Hoy la autorización se registra en el alta (MATU-07). La pantalla para registrarla después del alta todavía no existe, y Grupo familiar la muestra solo para leer. Hasta que exista, el texto dice "Pídele a quien administra el grupo que la registre" a todos los roles.
+Para admin y cuidador, la última oración («La puede registrar quien administra…») se reemplaza por "La puedes volver a autorizar desde Grupo familiar.", con el botón secundario **Volver a autorizar** (MATU-44, sección 22). Si quien lo ve tiene otro rol (pagador u observador), el texto termina en: "Pídele a quien administra el grupo que la registre."
 
 Junto con 6.4b, son las dos causas de un 403 en la capa 1 (contrato, decisiones 4 y 33).
 
@@ -376,7 +376,7 @@ Salen de la revisión previa del analista normativo y de la especificación `doc
 | Paginación | Ver enlaces anteriores |
 | Llamar al relevo (admin y cuidador) | Llamar a `{nombre}` |
 | Teléfono ya borrado (después de 30 días) | Ya no guardamos su teléfono. |
-| Autorización vencida o retirada, en Enlaces (decisión 33) | Aviso: Mientras no haya una autorización vigente, ningún enlace abre. Cuando la renueves, vuelven a abrir los que no hayan vencido. · En cada enlace vigente: En pausa (con ícono, en vez de «Activo») |
+| Autorización por renovar, en Enlaces (decisión 33) | Aviso: Mientras no se renueve la autorización, ningún enlace abre. Cuando se renueve, vuelven a abrir los que no hayan vencido. · En cada enlace vigente: En pausa (con ícono, en vez de «Activo») · La autorización retirada está en la sección 22 |
 | Ver las aperturas de un enlace | Ver cuándo la abrió |
 | Nombre accesible del enlace creado | Enlace para `{nombre}` |
 | Al cargar más enlaces | Se agregó 1 enlace. · Se agregaron `{n}` enlaces. |
@@ -694,3 +694,42 @@ Lista de insumos · 06/11/2026
 Piloto académico con datos de prueba
 ```
 
+## 22. Retirar una autorización (MATU-44) · Aprobados por Jorge el 06-11
+
+En la app se dice «autorización» y «retirar», nunca «consentimiento» ni «revocar». El botón y la confirmación usan el mismo verbo. Los números de enlaces y las fechas los da la API, la pantalla no los calcula.
+
+| Dónde | Texto |
+|---|---|
+| Barra de secciones | Grupo familiar · corto: Grupo |
+| Grupo familiar, título y bajada | Grupo familiar · A quién cuidan en `{nombre del grupo}` y qué permisos dieron. |
+| Grupo familiar, bloque de la ficha | Permiso para guardar su ficha · Autorizada el `{fecha}`. · Retirar la autorización |
+| Grupo familiar, bloque de los insumos | Permiso para calcular sus insumos · Autorizado el `{fecha}`. · Retirar la autorización |
+| Bloque, por renovar | Autorizada el `{fecha}`. Hay que renovarla desde el `{fecha_revision}`. · Insumos: Autorizado el `{fecha}`. Hay que renovarlo desde el `{fecha_revision}`. |
+| Insumos sin autorización todavía | Sin permiso todavía. Se pide al anotar el primer insumo. |
+| Nombre accesible de los botones | Retirar la autorización de la ficha de `{nombre_pila}` · Retirar la autorización de los insumos de `{nombre_pila}` · Volver a autorizar la ficha de `{nombre_pila}` · Volver a autorizar los insumos de `{nombre_pila}` |
+| Error al cargar Grupo familiar | No pudimos traer los permisos. Revisa tu conexión e inténtalo de nuevo. · Intentar de nuevo |
+| Confirmación de la ficha, título | ¿Retirar la autorización de la ficha de `{nombre_pila}`? |
+| Confirmación de la ficha, texto | Nadie del grupo podrá ver ni cambiar su ficha. · Se cortan ahora todos sus enlaces de relevo. Hoy abren `{n}`. (Con 1: «Hoy abre 1.» Con 0: «Hoy ningún enlace abre.») Si alguien tiene la ficha abierta, se le cierra cuando vuelva a mirarla. No recibe aviso. · Un enlace cortado no vuelve a abrir, aunque autorices de nuevo. · Lo escrito queda guardado sin que nadie lo vea. Si no vuelves a autorizar en 90 días, se borra. · La autorización de los insumos no cambia. |
+| Confirmación de la ficha, autorización por renovar | En lugar de «Hoy abren `{n}`.»: Hoy están en pausa `{n}`. (Con 1: «Hoy está en pausa 1.» Con 0: «Hoy ningún enlace abre.») |
+| Confirmación de los insumos, título | ¿Retirar la autorización de los insumos de `{nombre_pila}`? |
+| Confirmación de los insumos, texto | Dejamos de calcular cuándo se acaban y de avisar, desde ahora. Tampoco avisamos al resto del grupo. · Nadie del grupo podrá ver los insumos anotados. · Lo anotado queda guardado sin que nadie lo vea. Si no vuelves a autorizar en 90 días, se borra. · Una lista que ya imprimiste o compartiste no se borra: quedó fuera de MATU. · Su ficha y los enlaces de relevo no cambian. |
+| Botones | Retirar la autorización · No retirar |
+| En curso | Retirando… |
+| Hecho, ficha | Autorización retirada. Cortamos `{n}` enlaces. (Con 1: «Autorización retirada. Cortamos 1 enlace.» Con 0: «Autorización retirada. No había enlaces que abrieran.») |
+| Hecho, insumos | Autorización retirada. Ya no calculamos ni avisamos por los insumos de `{nombre_pila}`. |
+| Error de conexión | No pudimos retirar la autorización. Revisa tu conexión y vuelve a intentarlo. Todo sigue como estaba. |
+| Ya la retiró otra persona | Otra persona de tu grupo ya retiró esta autorización. |
+| Grupo familiar, después del retiro | Autorización retirada el `{fecha}`. Si no vuelves a autorizar, lo guardado se borra el `{fecha_borrado}`. · Volver a autorizar |
+| Grupo familiar, ya borrado | Autorización retirada el `{fecha}`. Lo guardado se borró el `{fecha_borrado}`. · Volver a autorizar |
+| Pagador y observador, debajo del estado | Vigente o por renovar: Puede retirarla quien administra el grupo o quien cuida a `{nombre_pila}`. · Retirada o borrada: Puede volver a autorizarla quien administra el grupo o quien cuida a `{nombre_pila}`. |
+| Pagador y observador, después del retiro | Autorización retirada el `{fecha}`. Si nadie vuelve a autorizar, lo guardado se borra el `{fecha_borrado}`. |
+| Ficha sin autorización (6.4), admin y cuidador | Termina en: La puedes volver a autorizar desde Grupo familiar. · Volver a autorizar |
+| Volver a autorizar, enlace de vuelta | Volver a Grupo familiar |
+| Volver a autorizar la ficha, frase de estado | Dentro de los 90 días: Al autorizar de nuevo, vuelve lo que estaba escrito. Los enlaces que se cortaron no vuelven a abrir. · Después: Lo escrito antes se borró el `{fecha_borrado}`. La ficha empieza en blanco. |
+| Volver a autorizar la ficha, botón | Acepto y vuelvo a autorizar · Autorizando… |
+| Volver a autorizar los insumos, frase de estado | Dentro de los 90 días: Si vuelves a dar el permiso antes del `{fecha_borrado}`, vuelve lo que estaba anotado. · Después: Lo anotado antes se borró el `{fecha_borrado}`. Hay que anotar los insumos de nuevo. |
+| Volver a autorizar, errores | No pudimos guardar la autorización. Revisa lo que elegiste y vuelve a intentarlo. · Otra persona de tu grupo ya volvió a autorizar. |
+| Volver a autorizar, hecho | Ficha: Autorización registrada. Ya puedes ver y cambiar la ficha de `{nombre_pila}`. · Ficha después de los 90 días: Autorización registrada. La ficha de `{nombre_pila}` empieza en blanco. · Insumos: Permiso guardado. Volvió lo que estaba anotado. · Insumos después de los 90 días: Permiso guardado. Ahora anota el primer insumo. |
+| Enlaces, autorización retirada | Título: Se retiró la autorización de la ficha. · Cuerpo: Los enlaces se cortaron y no vuelven a abrir. · Ver los permisos en Grupo familiar |
+
+**Reglas de armado:** si no se pudieron contar los enlaces, se omite «Hoy abren `{n}`.». Si la persona no tiene autorización de insumos, se omite «La autorización de los insumos no cambia.». El caso de la autorización retirada en Enlaces sale de la sección 9.1 y queda en esta tabla.
