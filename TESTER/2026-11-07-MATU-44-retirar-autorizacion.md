@@ -3,7 +3,7 @@
 **Historia:** MATU-44 · Revocar el consentimiento y cortar los accesos de relevo ([tarjeta](https://trello.com/c/zAyxF6J0))
 **PR revisado:** MartinHenriquez131/MATU_PROYECTO#58 (head 312267e, después 15d5cec y, al día con `main`, 2353b2f) y MartinHenriquez131/MATU#46
 **Revisó:** Martín Henríquez, con `qa-tester-revisor`, `analista-revisor`, `disenador-revisor` y `revisor-documental` · **Fecha:** 07/11/2026
-**Veredicto general:** PASS en el código, el contrato y lo normativo. No hay P1. **Falta la prueba en el teléfono**, que va en un informe aparte
+**Veredicto general:** PASS. No hay P1. La prueba en el teléfono también dio PASS
 
 ## Contexto de la revisión
 
@@ -38,7 +38,7 @@
 | 2. Integración: camino feliz y de error | PASS | `test_retiro_autorizacion_api.py`, `test_destruccion_ficha_api.py`, `test_retiro_consumo_api.py`, 184 líneas en `test_aislamiento.py` |
 | 3. Contrato OpenAPI | PASS | `test_retiro_contrato.py`; `POST …/consentimientos/{finalidad}/retiro` con 404, 409 y RFC 7807 |
 | 4. Accesibilidad | PASS | Revisión visual de Martín (abajo) y tres rondas del diseñador de Jorge |
-| 5. Revisión de la otra persona | PASS en la revisión; **pendiente en el teléfono** | Aprobado y fusionado por Martín el 07-11 a las 12:58 (02a707e) |
+| 5. Revisión de la otra persona | PASS | Aprobado y fusionado por Martín el 07-11 a las 12:58 (02a707e); prueba en el teléfono PASS |
 | 6. Prueba que falla sin la corrección | No aplica | No se corrige un defecto |
 
 ## Revisión normativa (analista-revisor)
@@ -61,12 +61,16 @@
 
 ## Prueba en el teléfono
 
-**Pendiente.** Va en `TESTER/2026-11-07-MATU-44-telefono.md` cuando Martín la haga:
-- enlace de relevo en otro dispositivo;
-- retirar la autorización;
-- el enlace se corta en el acto;
-- volver a autorizar;
-- la tarea de 90 días a mano.
+Staging (02a707e, y después 3f7495a, que no toca MATU-44), en el Motorola Edge 50 con Edge, como admin, más otro dispositivo para el relevo. Solo cuentas sintéticas:
+1. Crear un enlace de relevo con PIN.
+2. Abrirlo en el otro dispositivo y dejar la ficha abierta.
+3. En Grupo familiar, «Retirar la autorización» de la ficha. La confirmación explica que se cortan los enlaces y hasta cuándo se guarda la ficha.
+4. Recargar en el otro dispositivo: el enlace queda cortado en el acto.
+5. En Enlaces aparece el aviso del retiro.
+6. «Volver a autorizar»: la ficha vuelve con lo escrito y el enlace viejo sigue cortado.
+7. Correr a mano la tarea de 90 días (`python -m app.modules.care_plan.infrastructure.tarea_destruccion`): no hay ningún retiro de 90 días en staging, así que solo se comprueba que corre.
+
+**Resultado:** PASS (informado por Martín el 07-11). La cantidad de claves destruidas no se informó aparte. No se hicieron capturas con el enlace ni el PIN.
 
 ## Hallazgos
 
