@@ -141,7 +141,7 @@ La persona que cuidas no tiene cuenta en MATU. Sus datos los ingresas tú.
 
 ## 5. La autorización para usar los datos de la persona que cuidas
 
-Para guardar la ficha necesitamos una autorización. Al dar de alta a la persona, eliges en qué calidad la das.
+Para guardar la ficha necesitamos una autorización. Al dar de alta a la persona, eliges en qué calidad la das. Si después se retira, quien administra el grupo o quien cuida a la persona puede volver a darla desde «Grupo familiar», con la misma declaración y eligiendo de nuevo la calidad (sección 10).
 
 **La propia persona (titular).** La persona que cuidas decide por sí misma y tú registras su decisión. Al registrarla declaras:
 
@@ -204,7 +204,7 @@ Sus identificadores son `declaracion_consumo_titular`, `declaracion_consumo_repr
 - **Pagador:** ve el nombre y la dirección. Ve la ficha solo si le dan ese permiso. Con ese permiso también ve la lista de enlaces de relevo (el nombre del relevo, el motivo, las fechas y quién lo creó), sin su teléfono, y no puede crear ni cortar enlaces.
 - **Observador:** ve el nombre. Nunca ve la ficha.
 
-**El estado de las autorizaciones** (MATU-44): todas las personas del grupo ven, en «Grupo familiar», si cada autorización de la persona está vigente, por renovar o retirada, con sus fechas y hasta cuándo se guarda lo escrito. La calidad en que se dio la ven solo el administrador y el cuidador, que son también los únicos que pueden retirarla o volver a darla.
+**El estado de las autorizaciones** (MATU-44): todas las personas del grupo ven, en «Grupo familiar», si cada autorización de la persona está vigente, por renovar, retirada o ya borrada, con sus fechas y hasta cuándo se guarda lo escrito. La calidad en que se dio la ven solo el administrador y el cuidador, que son también los únicos que pueden retirarla o volver a darla. Solo la autorización de una cuidadora o un cuidador de hecho se revisa a los 12 meses, así que quien ve esa fecha, o que está por renovar, puede deducir en qué calidad se dio.
 
 **Quién abrió o editó la ficha** (aprobado por Jorge el 28-10, MATU-14): cada vez que un miembro del círculo de cuidado abre o edita la ficha de relevo, MATU registra quién lo hizo, qué acción realizó y cuándo. Si la acción fue agregar, editar o quitar una sección adicional, también queda registrado cuál sección fue, por ejemplo «Sus remedios», aunque después la quites. Nunca su texto. Este registro no guarda el contenido de la ficha ni tu dirección IP. Puede consultarlo la persona administradora del grupo, y cada miembro puede ver sus propios registros. Se guarda 3 años (sección 8).
 
@@ -251,7 +251,7 @@ Sus identificadores son `declaracion_consumo_titular`, `declaracion_consumo_repr
 
 ## 8. Cuánto tiempo guardamos los datos
 
-- **Ficha de relevo:** mientras la autorización esté vigente y hasta 90 días después de que termine. Pasado ese plazo, MATU la borra destruyendo su clave. Si después se vuelve a autorizar, la ficha empieza en blanco y lo de antes no vuelve. Si pides borrarla, la dejamos ilegible de inmediato destruyendo su clave. [PENDIENTE: confirmar que una solicitud de borrado no espera los 90 días] Una sección adicional que quitas se borra en ese momento. Hasta que vence la última copia de respaldo que la contiene, sigue en esa copia, cifrada.
+- **Ficha de relevo:** mientras la autorización esté vigente y hasta 90 días después de que termine. Pasado ese plazo, MATU la borra destruyendo su clave y borrando el texto cifrado. En el piloto esa tarea se corre a mano (sección 13). Mientras no corre, la ficha ya no se puede ver ni recuperar, aunque su clave todavía exista. Si después se vuelve a autorizar, la ficha empieza en blanco y lo de antes no vuelve. Si pides borrarla, la dejamos ilegible de inmediato destruyendo su clave. [PENDIENTE: confirmar que una solicitud de borrado no espera los 90 días] Una sección adicional que quitas se borra en ese momento. Hasta que vence la última copia de respaldo que la contiene, sigue en esa copia, cifrada.
 - **Consumo de insumos:** mientras la autorización para calcular insumos esté vigente y hasta 90 días después de que termine, también los insumos que dejaste de seguir. Un insumo que eliminas se borra en ese momento. Si pides borrar todo el consumo, lo borramos de la base de datos: no se deja ilegible, se borra.
 - **Lista de insumos:** MATU no la guarda. Se arma cada vez que la abres, con lo que ya está anotado. Lo que agregas o cambias a mano se pierde al salir de la pantalla. Las copias que imprimas, guardes como PDF o compartas quedan fuera de MATU y no siguen estos plazos.
 - **Tu sesión:** cada sesión se borra 30 días después de vencer o de cerrarse.
@@ -308,7 +308,7 @@ Puedes retirar cada autorización por separado, cuando quieras y sin dar un moti
 **Si retiras la autorización de los insumos:**
 - MATU deja de calcular cuándo se acaban y de avisar, desde ese momento. Un aviso que estaba por salir ya no sale, y los avisos abiertos se descartan.
 - Nadie del grupo puede ver los insumos anotados.
-- Lo anotado se guarda hasta 90 días. Si en ese plazo das una autorización nueva, vuelve a verse tal como estaba. Si no, se borra (sección 8).
+- Lo anotado se guarda hasta 90 días. Si en ese plazo das una autorización nueva, vuelve a verse tal como estaba. Si no, se borra (sección 8). Si autorizas después de ese plazo, hay que anotar los insumos de nuevo.
 - Una lista de insumos que ya imprimiste o compartiste no se borra, porque está fuera de MATU.
 - La ficha y los enlaces de relevo no cambian.
 
@@ -338,7 +338,7 @@ Si hay una filtración que afecte datos personales, avisaremos sin demora a la A
 - Borrar el teléfono del relevo 30 días después de que el acceso vence o se corta (MATU-46). Mientras no exista, MATU no trata datos reales.
 - Ver, descargar o borrar los datos desde la aplicación. Mientras tanto, por el correo de la sección 10.
 - El recordatorio de los 12 meses.
-- Las tareas que borran la ficha y los insumos 90 días después de retirar su autorización existen, pero se corren a mano: todavía no hay un programador de tareas. Mientras no exista, MATU no trata datos reales.
+- Las tareas que borran la ficha y los insumos 90 días después de retirar su autorización existen, pero se corren a mano: todavía no hay un programador de tareas. Desde el día 90, la aplicación muestra lo guardado como borrado y nadie lo puede ver ni recuperar, aunque la tarea todavía no haya corrido. Mientras no exista el programador, MATU no trata datos reales.
 - Renovar desde la aplicación la autorización cuando vence su revisión de los 12 meses.
 - Avisos de insumos por notificación o por correo: en el piloto se prueban sin enviarse (los de la aplicación ya funcionan). Elegir desde la aplicación, en «Tu cuenta», si los recibes por correo o en un teléfono (MATU-55).
 - Enviar correos solo a direcciones verificadas.

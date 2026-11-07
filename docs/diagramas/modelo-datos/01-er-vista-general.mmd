@@ -10,7 +10,7 @@ erDiagram
     repartidor ||--o{ asignacion : "repartidor_id"
     pedido ||--o| cargo : "pedido_id"
     grupo_familiar ||--o{ clave_datos : "grupo_id"
-    persona_cuidada ||--o| clave_datos : "persona_cuidada_id"
+    persona_cuidada ||--o{ clave_datos : "persona_cuidada_id"
     grupo_familiar ||--o{ consentimiento : "grupo_id"
     persona_cuidada ||--o{ consentimiento : "persona_cuidada_id"
     usuario ||--o{ consentimiento : "usuario_id"

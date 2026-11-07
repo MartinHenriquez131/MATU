@@ -278,7 +278,7 @@ erDiagram
 | `invitacion` | Invitar a un familiar por email o teléfono (RF-38) | Token con hash, vence en máximo 7 días |
 | `direccion` | Direcciones del grupo | Coordenadas opcionales, validadas por rango |
 | `persona_cuidada` | La persona que recibe el cuidado. Es sujeto de datos, no usuario | **Sin diagnóstico** (11.3). `nivel_apoyo` es operacional |
-| `consentimiento` | Consentimiento por persona y finalidad (Ley 21.719, sección 11.5) | Un solo consentimiento vigente por persona y finalidad. `representante_legal` exige referencia al documento. `cuidador_de_hecho` exige fecha de revisión anual. **Inalterable** (migración 0006, 28-10, ajustada en la 0016 de MATU-44): solo se registra su revocación, una vez, y nunca se borra. `revocacion_motivo` (`retiro` o `renovacion`) se fija junto con `revocado_en`, con un `CHECK` que exige los dos juntos: el retiro corta los accesos de relevo en el caso de uso, y la renovación no. Solo administrador y cuidador fijan `revocado_en` (política RLS `consentimiento_familia_revocar`). A los 90 días de un retiro sin autorización nueva, `plan_destruir_claves` destruye la clave de la persona; si después se autoriza de nuevo, la ficha empieza en blanco con una clave nueva. La confirmación anual del cuidador de hecho crea una fila nueva con su propia evidencia y no edita la anterior; ese historial es la prueba de licitud. Que DELETE se rechace siempre es provisional hasta la consulta legal sobre conservación y anonimización |
+| `consentimiento` | Consentimiento por persona y finalidad (Ley 21.719, sección 11.5) | Un solo consentimiento vigente por persona y finalidad. `representante_legal` exige referencia al documento. `cuidador_de_hecho` exige fecha de revisión anual. **Inalterable** (migración 0006, 28-10, ajustada en la 0016 de MATU-44): solo se registra su revocación, una vez, y nunca se borra. `revocacion_motivo` (`retiro` o `renovacion`) se fija junto con `revocado_en`, con un `CHECK` que exige los dos juntos: el retiro corta los accesos de relevo en el caso de uso, y la renovación no. Solo administrador y cuidador fijan `revocado_en` (política RLS `consentimiento_familia_revocar`). A los 90 días de un retiro sin autorización nueva, la tarea `tarea_destruccion`, que hoy se corre a mano, llama a `plan_destruir_claves`, que destruye la clave de la persona y borra lo cifrado con ella; si después se autoriza de nuevo, la ficha empieza en blanco con una clave nueva. La confirmación anual del cuidador de hecho crea una fila nueva con su propia evidencia y no edita la anterior; ese historial es la prueba de licitud. Que DELETE se rechace siempre es provisional hasta la consulta legal sobre conservación y anonimización |
 
 ### 4.2 Capa 1 · Plan de cuidado, cifrado y relevo
 
@@ -291,7 +291,7 @@ erDiagram
     usuario ||--o{ acceso_relevo : "otorgado_por"
     plan_cuidado ||--o{ acceso_relevo : "plan_id"
     grupo_familiar ||--o{ clave_datos : "grupo_id"
-    persona_cuidada ||--o| clave_datos : "persona_cuidada_id"
+    persona_cuidada ||--o{ clave_datos : "persona_cuidada_id"
     usuario ||--o{ grupo_familiar : "creado_por"
     grupo_familiar ||--o{ persona_cuidada : "grupo_id"
     usuario ||--o{ plan_cuidado : "actualizado_por"
@@ -302,7 +302,7 @@ erDiagram
     clave_datos {
         uuid id PK
         uuid grupo_id FK
-        uuid persona_cuidada_id FK, UK
+        uuid persona_cuidada_id FK "una no destruida por persona (0016)"
         bytea dek_cifrada_con_kek "opcional"
         int kek_version
         timestamptz creada_en
@@ -364,7 +364,7 @@ erDiagram
 
 | Tabla | Propósito | Reglas que conviene notar |
 |---|---|---|
-| `clave_datos` | Una clave de datos (DEK) por persona cuidada, cifrada con la clave maestra (KEK) | `dek_cifrada_con_kek` nula **si y solo si** `destruida_en` tiene valor. El borrado criptográfico no deja estados ambiguos ni se regenera en silencio (defecto 5 de la sección 12.8) |
+| `clave_datos` | Una clave de datos (DEK) por persona cuidada, cifrada con la clave maestra (KEK) | `dek_cifrada_con_kek` nula **si y solo si** `destruida_en` tiene valor. El borrado criptográfico no deja estados ambiguos ni se regenera en silencio (defecto 5 de la sección 12.8). Desde la migración 0016 (MATU-44), el `UNIQUE (persona_cuidada_id)` es el índice parcial `clave_datos_vigente_uq`: una sola clave no destruida por persona. Una clave nueva solo se crea después de una autorización nueva para `plan_cuidado`, otorgada en el instante de la última destrucción o después (trigger `clave_datos_nueva_tras_autorizacion`) |
 | `plan_cuidado` | Un plan por persona cuidada | `modo` = `ficha_relevo` por defecto, tras el cierre del ADR-023. `completo` queda disponible sin migración |
 | `plan_seccion` | El contenido, cifrado sección por sección | Nonce de exactamente 12 bytes, tag de 16. **El nonce es único en toda la tabla**: repetirlo rompe AES-GCM. `version` implementa el bloqueo optimista (RF-04) |
 | `acceso_relevo` | El enlace temporal para el relevo (RF-05 a RF-07) | Solo secciones válidas y al menos una. Vigencia máxima de 30 días. PIN con máximo 5 intentos fallidos. Guarda `nombre_pila_persona` para que el relevo nunca lea `persona_cuidada`, y `nombre_pila_comparte` para que nunca lea `usuario` (decisión 28 del contrato de MATU-09). [PENDIENTE: `nombre_pila_comparte` lo agrega una migración de MATU-18.] **`motivo` es un enumerado sin texto libre**: `salgo_unas_horas`, `fin_de_semana_fuera`, `turno_de_noche` u `otro` (decisión 16). Cabe en la columna `text` y lo valida la API. La retención del teléfono y del resto del acceso está en la sección 11.8 de la arquitectura |
@@ -1093,7 +1093,7 @@ flowchart LR
 - **Secciones:** AES-256-GCM con la DEK. Nonce aleatorio de 96 bits por cada escritura, guardado junto al texto cifrado y único en toda la tabla.
 - **Datos asociados (AAD):** `plan_id ‖ tipo`. Sin AAD, alguien con escritura en la base podría mover el texto cifrado de una sección a otra de la misma persona y el descifrado pasaría igual. Con AAD, falla.
 - **Creación de la DEK:** en la primera escritura del plan, no al dar de alta a la persona. Así "todavía no existe" y "fue destruida" son estados distintos.
-- **Borrado criptográfico:** `dek_cifrada_con_kek = NULL` y `destruida_en = now()`, en la misma sentencia. Un `CHECK` impide dejar uno sin el otro. Escribir sobre un plan con clave destruida es un error de dominio explícito, nunca una clave nueva generada en silencio.
+- **Borrado criptográfico:** `dek_cifrada_con_kek = NULL` y `destruida_en = now()`, en la misma sentencia. Un `CHECK` impide dejar uno sin el otro. Escribir sobre un plan con clave destruida es un error de dominio explícito, nunca una clave nueva generada en silencio. La única excepción es una autorización nueva para `plan_cuidado` después de la destrucción (MATU-44, decisión 130): en esa transacción se borran las secciones cifradas con la clave anterior, y la primera escritura crea una clave nueva. La clave destruida nunca vuelve a tener DEK. A los 90 días de un retiro, la tarea de destrucción borra también el texto cifrado de esa persona.
 - **El relevo** puede leer la DEK solo de la persona de su acceso vigente, y solo las secciones habilitadas.
 
 ---

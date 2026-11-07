@@ -99,7 +99,7 @@ Cada historia que empieza a tratar datos personales agrega aquí su entrada.
   - operación nunca
 - **Conservación:**
   - mientras la autorización esté vigente y hasta 90 días después de que se retire o termine. En ese plazo nadie la lee: la API responde 403 a todos los roles y el relevo, 410
-  - el borrado se cumple destruyendo la clave de la persona. A los 90 días lo hace la tarea `tarea_destruccion` (MATU-44), con `clave.destruir` en la auditoría. Si se vuelve a autorizar después, la ficha empieza en blanco con una clave nueva y lo anterior no se puede leer. Mientras no haya programador de tareas, se corre a mano. [PENDIENTE: confirmar que una solicitud de borrado no espera los 90 días]
+  - el borrado se cumple destruyendo la clave de la persona (borrado criptográfico de MATU-11). Lo hace la tarea `tarea_destruccion` (función `plan_destruir_claves`, migración 0016) con las fichas cuya autorización se retiró hace 90 días o más: destruye la clave y, en la misma transacción, borra el texto cifrado y las filas de las secciones de esa persona, con `clave.destruir` en la auditoría. Mientras no haya programador de tareas, se corre a mano. Desde el día 90 nadie puede leer ni recuperar la ficha, aunque la tarea no haya corrido, porque una autorización nueva destruye primero la clave y borra lo cifrado con ella. La ficha empieza en blanco y la primera escritura crea una clave nueva, que solo puede existir después de esa autorización (índice `clave_datos_vigente_uq` y trigger `clave_datos_nueva_tras_autorizacion`). [PENDIENTE: confirmar que una solicitud de borrado no espera los 90 días]
   - copias de respaldo: [PENDIENTE]
   - una sección adicional quitada: se borra en el acto. Queda en las copias de respaldo hasta que venzan
   - auditoría: 3 años, también la que guarda el tipo de una sección quitada
@@ -202,7 +202,7 @@ Cada historia que empieza a tratar datos personales agrega aquí su entrada.
   - si se sigue o no, y la versión.
 
   Se trata como **dato sensible**. [PENDIENTE: consulta legal sobre si es dato relativo a la salud y si basta RLS sin cifrado (decisión 63)]
-- **Base de licitud:** consentimiento separado, `finalidad = consumo`, en la misma calidad de MATU-07, con la declaración `declaracion_consumo_<calidad>` (aprobadas por Jorge el 03-11) y la revisión de 12 meses. Sin él, 403. Cuidador de hecho: [PENDIENTE: consulta legal]. Se retira en la aplicación (MATU-44): en ese momento deja de calcular, de crear alertas y de avisar, y las alertas abiertas se descartan con `alerta.descartar`. El consumo queda sin lectura y se borra a los 90 días con `consumo_conservar`.
+- **Base de licitud:** consentimiento separado, `finalidad = consumo`, en la misma calidad de MATU-07, con la declaración `declaracion_consumo_<calidad>` (aprobadas por Jorge el 03-11) y la revisión de 12 meses. Sin él, 403. Cuidador de hecho: [PENDIENTE: consulta legal]. Se retira en la aplicación (MATU-44): en ese momento deja de calcular, de crear alertas y de avisar, y las alertas abiertas se descartan con `alerta.descartar`. El consumo queda sin lectura y se borra a los 90 días con `consumo_conservar`, que en el piloto se corre a mano. Si se vuelve a autorizar antes del día 90, lo anotado vuelve. Desde el día 90, una autorización nueva borra primero los perfiles de la persona, aunque la tarea no haya corrido (decisión 128).
 - **Quién accede:**
   - admin y cuidador leen y escriben (en la API y en una política RLS de escritura);
   - pagador y observador solo leen (decisión de Jorge del 03-11);

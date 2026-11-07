@@ -6,7 +6,7 @@ erDiagram
     usuario ||--o{ acceso_relevo : "otorgado_por"
     plan_cuidado ||--o{ acceso_relevo : "plan_id"
     grupo_familiar ||--o{ clave_datos : "grupo_id"
-    persona_cuidada ||--o| clave_datos : "persona_cuidada_id"
+    persona_cuidada ||--o{ clave_datos : "persona_cuidada_id"
     usuario ||--o{ grupo_familiar : "creado_por"
     grupo_familiar ||--o{ persona_cuidada : "grupo_id"
     usuario ||--o{ plan_cuidado : "actualizado_por"
@@ -17,7 +17,7 @@ erDiagram
     clave_datos {
         uuid id PK
         uuid grupo_id FK
-        uuid persona_cuidada_id FK, UK
+        uuid persona_cuidada_id FK "una no destruida por persona (0016)"
         bytea dek_cifrada_con_kek "opcional"
         int kek_version
         timestamptz creada_en
