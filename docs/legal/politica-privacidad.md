@@ -15,7 +15,7 @@
 
 **MATU-60 (06-11):** se ajustan las secciones 3, 5, 6, 8 y 9 con la lista de insumos. La lista se arma con lo que el grupo ya ve, MATU no la guarda ni la envía, y quien la imprime o la comparte lo hace desde su teléfono. El único dato nuevo es cuántas unidades trae cada envase de un insumo, que describe el envase y no a la persona. No agregan usos ni destinatarios de MATU, así que no cambian la versión: `POLITICA_VERSION` sigue en `0.10`. **Criterio desde el 06-11 (decisión de Jorge):** la versión cambia cuando una declaración deja de cubrir lo que se trata. Un dato o una función nueva dentro de la misma finalidad se informa en la política vigente sin cambiar la versión. La consulta legal lo confirma antes de la versión 1.0 (CL-4). Aprobado por Jorge el 06-11.
 
-**MATU-44 (06-11):** se ajustan las secciones 4, 5, 6, 8, 10 y 13 con el retiro de las autorizaciones desde la aplicación, volver a autorizar la ficha y el borrado de la ficha 90 días después del retiro. No agregan usos, datos ni destinatarios, y no cambian las declaraciones, así que no cambian la versión: `POLITICA_VERSION` sigue en `0.10` (criterio del 06-11). [PENDIENTE DE JORGE]
+**MATU-44 (06-11):** se ajustan las secciones 4, 5, 6, 8, 10 y 13 con el retiro de las autorizaciones desde la aplicación, volver a autorizar la ficha y el borrado de la ficha 90 días después del retiro. No agregan usos, datos ni destinatarios, y no cambian las declaraciones, así que no cambian la versión: `POLITICA_VERSION` sigue en `0.10` (criterio del 06-11). Aprobado por Jorge el 06-11.
 
 ---
 

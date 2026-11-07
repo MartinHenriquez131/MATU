@@ -694,7 +694,7 @@ Lista de insumos · 06/11/2026
 Piloto académico con datos de prueba
 ```
 
-## 22. Retirar una autorización (MATU-44) · [PENDIENTE DE JORGE]
+## 22. Retirar una autorización (MATU-44) · Aprobados por Jorge el 06-11
 
 En la app se dice «autorización» y «retirar», nunca «consentimiento» ni «revocar». El botón y la confirmación usan el mismo verbo. Los números de enlaces y las fechas los da la API, la pantalla no los calcula.
 
