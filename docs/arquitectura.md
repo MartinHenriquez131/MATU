@@ -150,7 +150,7 @@ Catálogo de requisitos trazados a módulo y priorizados con MoSCoW. **Debe** en
 |---|---|---|---|
 | RF-01 | El cuidador registra a la persona cuidada con nombre, nivel de apoyo y dirección de entrega | `care_circle` | Debe |
 | RF-02 | El cuidador completa una **ficha de relevo de tres campos**: la rutina en una línea, qué hacer si la persona se altera y a quién llamar. Es la versión mínima obligatoria del plan de cuidado | `care_plan` | Debe |
-| RF-03 | El cuidador amplía la ficha con hasta ocho secciones opcionales: rutina, horarios, manejo de situaciones difíciles, preferencias, actividades, red de apoyo, alimentación y movilidad. **Ningún flujo del sistema exige el plan completo** | `care_plan` | Debe |
+| RF-03 | El cuidador amplía la ficha con hasta seis **secciones complementarias**, opcionales: Quién es, Lo que le hace bien, Comer y beber, Moverse y descansar, Cómo hablarle y Sus remedios ([ADR-028](adr/ADR-028-ficha-ampliada.md)). Al compartir elige cuáles ve cada relevo. **Ningún flujo del sistema las exige**, y la ficha nunca aparece como incompleta sin ellas | `care_plan` | Debe |
 | RF-04 | El sistema impide la sobreescritura silenciosa cuando dos miembros editan la misma sección | `care_plan` | Debe |
 | RF-05 | El cuidador genera un acceso de relevo con alcance por sección, vencimiento y motivo | `care_plan` | Debe |
 | RF-06 | El relevo accede al plan sin crear cuenta, mediante un enlace con token expirable | `care_plan` | Debe |
@@ -159,7 +159,11 @@ Catálogo de requisitos trazados a módulo y priorizados con MoSCoW. **Debe** en
 | RF-09 | La lista de reposición se exporta y se imprime. La ficha de relevo no se imprime ni se exporta: se comparte solo con el acceso de relevo ([ADR-029](adr/ADR-029-ficha-no-se-imprime.md)) | `consumption` | Debe |
 | RF-42 | El plan de cuidado admite **llenado asistido**: un miembro del círculo familiar completa o corrige la ficha en nombre del cuidador principal, y la autoría queda registrada | `care_plan` | Debe |
 
-**RF-02, RF-03 y RF-42 son nuevos o reescritos en esta versión.** La v1.0 tenía un RF-02 que exigía ocho secciones y un RF-03 que pedía "una versión mínima utilizable en menos de 5 minutos". La validación refutó que eso fuera posible. RF-42 entra porque el único abandono del piloto fue por manejo del teléfono, y la entrevistada pidió ella misma que alguien escribiera por ella.
+**RF-02, RF-03 y RF-42 son nuevos o reescritos en la v1.1.** La v1.0 tenía un RF-02 que exigía ocho secciones y un RF-03 que pedía "una versión mínima utilizable en menos de 5 minutos". La validación refutó que eso fuera posible. RF-42 entra porque el único abandono del piloto fue por manejo del teléfono, y la entrevistada pidió ella misma que alguien escribiera por ella.
+
+**RF-03 cambió dos veces desde la v1.1.** El cierre del ADR-023 bajó las ocho secciones de entonces a *Podría*, fuera del semestre, aunque la v1.1 todavía decía *Debe*. Después, el ADR-028 (31 de octubre) lo reabrió como *Debe* con otra lista: seis secciones que no repiten lo que ya dicen los tres campos. Salen `horarios` (repetía Su día), `actividades` (se une con Lo que le hace bien) y `red_apoyo` como sección aparte (ya es A quién llamar), y entran `quien_es`, `comunicacion` y `remedios`. Se construyó en MATU-50 (migración 0013).
+
+**RF-09 se redefinió con el ADR-029** (3 de noviembre). La v1.1 decía que el plan de cuidado se exportaba como documento imprimible para el relevo sin conexión. Una hoja en papel no vence, no se corta y la lee cualquiera, así que la ficha se comparte solo con el acceso de relevo. Lo que se exporta y se imprime es la lista de reposición, que no lleva datos de la ficha (RF-15, ADR-031).
 
 ### 3.2 Capa 2 · Consumo y predicción
 
@@ -256,7 +260,7 @@ graph LR
     style C3 fill:#f5f1ea,stroke:#c3c2b7,stroke-dasharray: 5 5
 ```
 
-**La capa 1 es el producto.** El plan de cuidado convierte el conocimiento del cuidador en algo transferible, que es lo que permite el relevo. Sin ella, MATU es un despacho más. **Su versión mínima obligatoria es la ficha de relevo de tres campos**, y las ocho secciones son ampliación opcional. Ese cambio viene de la refutación de H1 y está en el ADR-023.
+**La capa 1 es el producto.** El plan de cuidado convierte el conocimiento del cuidador en algo transferible, que es lo que permite el relevo. Sin ella, MATU es un despacho más. **Su versión mínima obligatoria es la ficha de relevo de tres campos**, y las seis secciones complementarias son ampliación opcional. La ficha de tres campos viene de la refutación de H1 (ADR-023), y las secciones complementarias de ver el producto funcionando en la demo del 30 de octubre (ADR-028).
 
 **La capa 2 es el diferenciador computable.** Del perfil de consumo declarado en la capa 1 se deriva cuándo se acaba cada insumo. Ese cálculo es lo que MATU tiene y un delivery genérico no puede tener, porque requiere conocer a la persona cuidada.
 
@@ -1039,8 +1043,11 @@ PUT    /v1/personas-cuidadas/{id}/plan/ficha/{campo}
        headers: If-Match: "v<version>"              → 412 si otro miembro editó
                 o If-None-Match: *                  → primera escritura del campo
        body: {texto}                                → 428 sin ninguna de las dos cabeceras
+PUT    /v1/personas-cuidadas/{id}/plan/secciones/{seccion}   → igual que un campo (ADR-028)
+DELETE /v1/personas-cuidadas/{id}/plan/secciones/{seccion}   → la sección deja de verse en el acto
 POST   /v1/personas-cuidadas/{id}/plan/accesos-relevo
-       body: {campos:[...], expira_en, motivo, nombre_relevo, telefono_relevo}
+       body: {secciones_adicionales:[...], expira_en, motivo, nombre_relevo,
+              telefono_relevo, relevo_informado}
                                                     → 201 con el enlace y el PIN, una sola vez
 GET    /v1/personas-cuidadas/{id}/plan/accesos-relevo → accesos y su estado
 DELETE /v1/accesos-relevo/{id}                      → revocación inmediata
@@ -1052,10 +1059,11 @@ POST   /v1/relevo/canje         body: {token, pin}  → 204 y cookie de sesión 
 GET    /v1/relevo/ficha         con la cookie       → los campos compartidos, cada apertura auditada
 ```
 
-El contrato vigente es el de `docs/api/propuestos/` en MATU_PROYECTO (MATU-09). Esta lista lo resume. Cambios respecto de la v1.1:
+El contrato vigente es `docs/api/openapi.json` de MATU_PROYECTO, generado desde el código. La presentación y el canje del relevo siguen descritos en `docs/api/propuestos/relevo.openapi.yaml`. Esta lista lo resume. Cambios respecto de la v1.1:
 
 - **La ficha se escribe con un PUT por campo**, no con uno para los tres. El `ETag`, el 412 y el 428 son por campo (MATU-13): si dos personas editan campos distintos, ninguna pisa a la otra. El ADR-023 se sostiene igual, porque ningún campo exige el resto del plan.
-- **`PUT …/plan/secciones/{tipo}` no se expone en el semestre.** Las ocho secciones son *Podría* desde el ADR-023. El llenado asistido (`en_nombre_de`, RF-42) no entra en el contrato de MATU-09. La ficha no se exporta ([ADR-029](adr/ADR-029-ficha-no-se-imprime.md)).
+- **Las secciones complementarias se escriben y se quitan una por una** (ADR-028, MATU-50): `PUT …/plan/secciones/{seccion}` con el mismo `ETag`, 412 y 428 que los campos, y `DELETE …/plan/secciones/{seccion}`. La v1.1 no las exponía porque las ocho secciones eran *Podría*. El llenado asistido (`en_nombre_de`, RF-42) no entra en el contrato. **La ficha no se exporta** ([ADR-029](adr/ADR-029-ficha-no-se-imprime.md)): no hay `GET …/plan/exportar`.
+- **El acceso de relevo pide `secciones_adicionales`.** Los tres campos base van siempre, y `campos` queda deprecado. Cada sección adicional tiene que estar agregada, y el relevo no ve las que se agreguen después de crear su enlace.
 - **El acceso de relevo pide `campos`, no `secciones`.** La ficha solo admite `rutina`, `manejo_situaciones` y `red_apoyo`. `motivo` es un enumerado sin texto libre (7.2).
 - **El relevo ya no usa `GET /v1/relevo/{token}`.** El token nunca viaja en la URL de una petición. La página `/r#<token>` lo lee del fragmento, pide los nombres con `POST /v1/relevo/presentacion` y canjea token y PIN con `POST /v1/relevo/canje`. El canje deja una cookie `__Secure-matu-relevo` que dura 12 horas o hasta que vence el acceso, lo que ocurra primero. La ficha se lee siempre con `GET /v1/relevo/ficha`, que es lo que se audita como apertura.
 - **La API no envía el PIN.** Lo entrega una vez en el 201 y quien comparte se lo dicta al relevo (11.6).
@@ -1195,9 +1203,25 @@ La clave está en `acciones`. **`exportar_lista` y `compartir_enlace` funcionan 
 
 **b) Llenar el plan de cuidado sin abandonar.** Era el riesgo de producto más grande del diseño y **la validación lo confirmó**: con ocho preguntas, solo tres de diez entrevistadas respondieron tres de ellas en menos de cinco minutos, cuando el criterio fijado exigía siete. Una rechazó responder y una abandonó en la segunda pregunta.
 
-> **Solución, tras el ADR-023:** la versión mínima obligatoria es una ficha de tres campos que se responde en menos de tres minutos. Las ocho secciones quedan como ampliación opcional, con dictado por voz en todos los campos y una barra de completitud que celebra el avance sin castigar lo que falta. El acceso de relevo se genera con la ficha sola. Y se agrega el **llenado asistido** (RF-42), porque la entrevistada que abandonó no lo hizo por falta de disposición sino por el teclado del teléfono, y pidió ella misma que se lo leyeran y alguien escribiera.
+> **Solución, tras el ADR-023:** la versión mínima obligatoria es una ficha de tres campos que se responde en menos de tres minutos. Las secciones complementarias del ADR-028 quedan como ampliación opcional, con dictado por voz en todos los campos y una barra de completitud que celebra el avance sin castigar lo que falta. El acceso de relevo se genera con la ficha sola. Y se agrega el **llenado asistido** (RF-42), porque la entrevistada que abandonó no lo hizo por falta de disposición sino por el teclado del teléfono, y pidió ella misma que se lo leyeran y alguien escribiera.
 >
 > Dos hallazgos entran directamente a la redacción: el segundo campo se llama **"Si se altera"** y su pregunta guía es **"¿qué la calma?"**, en vez de "manejo de situaciones difíciles", porque es la expresión que usaron tres entrevistadas por su cuenta, y la rutina admite responder por el día bueno o el día malo, porque una entrevistada se trabó exactamente ahí.
+>
+> **Las preguntas guía** (ADR-023 y ADR-028, actualización del 3 de noviembre). Los nombres y las preguntas no asumen el género de la persona cuidada. Los textos definitivos, con un ejemplo por sección, están en `lenguaje.md`:
+>
+> | Campo o sección | Pregunta guía |
+> |---|---|
+> | Su día | ¿Cómo es un día normal, en una o dos líneas? |
+> | Si se altera | ¿Qué la calma cuando se angustia o se desorienta? |
+> | A quién llamar | ¿A quién se llama si algo pasa? |
+> | Quién es | ¿Qué le gustaría que supiera de esta persona alguien que recién la conoce? |
+> | Lo que le hace bien | ¿Qué le alegra, le entretiene o le calma? |
+> | Comer y beber | ¿Qué le gusta comer y cómo se le sirve? |
+> | Moverse y descansar | ¿Cómo se le ayuda a moverse, levantarse y descansar? |
+> | Cómo hablarle | ¿Qué ayuda a que se entiendan? |
+> | Sus remedios | ¿Qué remedios toma y a qué hora, tal como se los da la familia? |
+>
+> Bajo cada sección va «No hace falta escribir diagnósticos ni enfermedades. Escribe lo que ayuda a cuidar». Sus remedios es solo texto libre, de hasta 800 caracteres (las demás, 500), con el aviso siempre visible «Esto lo escribe la familia. No reemplaza la indicación del médico». La página del relevo no muestra las preguntas guía ni los ejemplos.
 
 **c) Presentar la auditoría de accesos sin que parezca vigilancia.** Cinco de diez entrevistadas declararon que no mirarían nunca la pantalla de "quién ha visto el plan". Dos la valoran, y por razones opuestas: una como termómetro de involucramiento familiar, la cuidadora remunerada como respaldo laboral.
 
@@ -1208,7 +1232,7 @@ La clave está en `acciones`. **`exportar_lista` y `compartir_enlace` funcionan 
 El prototipo navegable de los flujos críticos está terminado y cubre:
 
 0. Alta de persona cuidada y consentimiento
-1. Ficha de relevo, secciones opcionales, acceso de relevo, vista del relevo, auditoría y revocación
+1. Ficha de relevo, secciones opcionales (las ocho de la v1.1, antes del ADR-028), acceso de relevo, vista del relevo, auditoría y revocación
 2. Declaración de consumo, alerta de quiebre y lista de reposición
 3. Pedido y pago
 4. Vista de comercio
@@ -1853,13 +1877,15 @@ Existía en el diseño anterior sobre la publicación exclusiva en Android. Se r
 
 ### ADR-023 · Modo ficha de relevo · **ACTIVADO**
 
+> **Cerrado** en [`adr/ADR-023-cierre.md`](adr/ADR-023-cierre.md), con la evidencia por entrevista. **Complementado por el ADR-028** (31 de octubre): la ficha de tres campos sigue siendo lo único obligatorio, y las secciones opcionales vuelven al semestre con otra lista.
+
 **Contexto.** El riesgo de mayor criticidad del proyecto era que un cuidador agotado no completara el plan de cuidado. Este ADR se escribió como plan B **antes** de entrevistar, para no tener que rediseñar bajo presión si la hipótesis caía.
 
 **Estado: activado en septiembre de 2026**, tras la refutación de H1. No es una decisión tomada bajo presión: es la ejecución de una decisión escrita con anticipación, que es exactamente para lo que se escribió.
 
 **Decisión.** La versión mínima obligatoria de la capa 1 es una **ficha de relevo de tres campos**: la rutina en una línea, qué hacer si la persona se altera y a quién llamar. Las ocho secciones pasan a ser ampliación opcional y ningún flujo del sistema exige el plan completo. El peso del producto se traslada a la capa 2, que no depende de texto largo porque el perfil de consumo son dos números por producto.
 
-**Qué NO cambia, y por eso el plan B funciona.** El modelo de datos casi no se toca: la ficha son tres de los ocho tipos de sección que `plan_seccion` ya contempla, y solo se agrega la columna `plan_cuidado.modo`. El cifrado por sección, el acceso de relevo con token, la auditoría y la exportación operan igual. El ADR-001 y el ADR-002 quedan intactos. **El costo de la activación es menor a un sprint.**
+**Qué NO cambia, y por eso el plan B funciona.** El modelo de datos casi no se toca: la ficha son tres de los ocho tipos de sección que `plan_seccion` ya contempla, y solo se agrega la columna `plan_cuidado.modo`. El cifrado por sección, el acceso de relevo con token y la auditoría operan igual. El ADR-001 y el ADR-002 quedan intactos. **El costo de la activación es menor a un sprint.**
 
 **Qué se agrega.** RF-42, llenado asistido por un tercero, porque el único abandono del piloto fue por manejo del teléfono y por no tener la información, no por falta de disposición. La entrevistada lo pidió ella misma: que se lo leyeran y alguien escribiera.
 
@@ -1965,6 +1991,28 @@ Existía en el diseño anterior sobre la publicación exclusiva en Android. Se r
 - **Cobrar primero y devolver lo que falte.** Es más rápido para la familia, pero convierte la devolución en una operación rutinaria y vuelve a depender de devoluciones con débito, que no están verificadas.
 - **Mantener el ADR-006 con el plan B del débito.** Funciona, pero deja dos experiencias de pago distintas según la tarjeta y textos con plazos por definir.
 
+### ADR-028 · La ficha de relevo crece con secciones complementarias
+
+**Estado.** Aceptado el 31 de octubre de 2026, con la actualización del 3 de noviembre (MATU-49). **Complementa el ADR-023 y reabre RF-03.** Texto completo en [`adr/ADR-028-ficha-ampliada.md`](adr/ADR-028-ficha-ampliada.md).
+
+**Decisión.** La ficha tiene dos niveles. La ficha inicial de tres campos no cambia: es lo único obligatorio, se llena en menos de 3 minutos y basta para compartir. Encima, seis secciones complementarias y opcionales (sección 7.2), que la cuidadora agrega cuando quiere. Al compartir, los tres campos van siempre y elige de cero a seis secciones. Sus remedios viene sin marcar.
+
+**Por qué.** Tres campos bastan para que un relevo no cometa errores graves, pero no para que conozca a la persona. La lista sigue el cuidado centrado en la persona y no repite lo que ya dicen los tres campos.
+
+**Consecuencias.** Sin tablas nuevas: tres tipos de sección más en el `CHECK` (migración 0013), cifrados y auditados igual que los campos. `plan_cuidado.modo` deja de ser necesario. Construido en MATU-50.
+
+---
+
+### ADR-029 · La ficha de relevo no se imprime ni se exporta
+
+**Estado.** Aceptado el 3 de noviembre de 2026. **Reemplaza a RF-09** tal como estaba en la v1.1 y a la historia de la ficha imprimible. Texto completo en [`adr/ADR-029-ficha-no-se-imprime.md`](adr/ADR-029-ficha-no-se-imprime.md).
+
+**Decisión.** Ni los tres campos ni las secciones se imprimen ni se exportan. La ficha se comparte solo con el acceso de relevo, que vence y se puede cortar. Lo que se exporta y se imprime es la lista de reposición.
+
+**Por qué.** Una hoja en papel no vence, no se corta y la lee cualquiera que entre a la casa, y retirar la autorización no alcanza a las hojas impresas.
+
+**Consecuencias.** Se pierde el plan B sin internet del relevo, y se acepta. No es una excepción a los derechos del titular: «Mis datos» (MATU-54) entrega todo lo que MATU guarda de la persona, incluida la ficha.
+
 ---
 
 ## 15. Alcance por fases y plan de sprints
@@ -1973,7 +2021,7 @@ Existía en el diseño anterior sobre la publicación exclusiva en Android. Se r
 
 | Componente | MVP (8 sprints) | Fase 2 |
 |---|---|---|
-| **Plan de cuidado** | **Completo**: ficha de relevo de tres campos como mínimo obligatorio, ocho secciones opcionales, llenado asistido, cifrado, concurrencia, acceso de relevo, exportación | Plantillas por tipo de dependencia, adjuntos, historial de cambios |
+| **Plan de cuidado** | **Completo**: ficha de relevo de tres campos como mínimo obligatorio, seis secciones complementarias (ADR-028), llenado asistido, cifrado, concurrencia, acceso de relevo y retiro de la autorización. **Sin versión imprimible** (ADR-029) | Plantillas por tipo de dependencia, adjuntos, historial de cambios, recordatorios de remedios |
 | **Perfil de consumo y predicción** | **Completo**: declaración, cálculo, alertas, lista, exportación | Corrección por historial real, sugerencia de cantidad óptima |
 | Registro, grupo familiar, persona cuidada | Completo | Invitaciones por enlace profundo |
 | Catálogo y convenios | Completo, con precios exactos y stock detrás del puerto `CatalogoComercio`, con adaptador simulado (ADR-027) | Adaptador real de un comercio en convenio |
@@ -2306,7 +2354,8 @@ modules/consumption/
 | Término | Significado en MATU |
 |---|---|
 | **Plan de cuidado** | Conjunto cifrado de secciones que describen cómo se cuida a una persona. Núcleo del producto |
-| **Ficha de relevo** | Versión mínima obligatoria del plan: su día en una línea, si se altera (qué la calma) y a quién llamar. Tres de los ocho tipos de sección |
+| **Ficha de relevo** | Versión mínima obligatoria del plan: su día en una línea, si se altera (qué la calma) y a quién llamar. Se comparte solo con el acceso de relevo y no se imprime (ADR-029) |
+| **Sección complementaria** | Una de las seis secciones opcionales que amplían la ficha: Quién es, Lo que le hace bien, Comer y beber, Moverse y descansar, Cómo hablarle y Sus remedios (ADR-028) |
 | **Llenado asistido** | Un miembro del círculo familiar completa la ficha en nombre del cuidador principal, con autoría registrada |
 | **Perfil de consumo** | Declaración de a qué ritmo se consume un insumo, base de la predicción de quiebre |
 | **Quiebre** | Momento en que se agota un insumo que no admite agotarse |
