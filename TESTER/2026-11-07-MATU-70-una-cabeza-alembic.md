@@ -43,4 +43,4 @@
 
 | ID | Respuesta | Commit o PR | Verificado (Martín) |
 |---|---|---|---|
-| H1 | | | |
+| H1 | Se anota y no se cambia: la otra prueba da el mensaje claro con dos cabezas | — | |
