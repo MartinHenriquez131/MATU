@@ -214,11 +214,11 @@ de aislamiento, está ahí en `backend/db/`.
 |---|---|
 | Backend | Python 3.12, FastAPI, Pydantic v2 |
 | Base de datos | PostgreSQL 16 con Row Level Security |
-| Acceso a datos | SQLAlchemy 2 (async), asyncpg, Alembic |
-| Trabajos asíncronos | ARQ sobre Redis, patrón *transactional outbox* |
+| Acceso a datos | SQLAlchemy 2 con psycopg 3, Alembic |
+| Trabajos asíncronos | Tareas de línea de comando por tenant, sin ARQ, con patrón *transactional outbox*. El programador de tareas llega con MATU-74 |
 | Aplicación de la familia | Aplicación web mobile first: React 19 con TypeScript, Vite y Tailwind CSS v4 (ADR-026, reemplaza a Flutter en el semestre) |
 | Panel web y consola de operación | React + TypeScript |
-| Pagos | Transbank — Webpay Plus diferido y OneClick |
+| Pagos | Transbank — Webpay Plus en venta normal: un solo cobro del total confirmado (ADR-027), sin OneClick ni captura diferida |
 | Infraestructura | Docker, Docker Compose |
 | Integración continua | GitHub Actions |
 | Control de versiones | Git, GitHub |
