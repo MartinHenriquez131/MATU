@@ -129,10 +129,10 @@ Cada atributo se expresa como escenario medible, porque un atributo sin métrica
 |---|---|---|---|
 | 1 | **Integridad transaccional del pago** | Ante caída del backend durante el retorno de la pasarela, ningún pedido queda pagado sin registrar ni registrado sin pagar | Prueba de reintento del retorno y del job de conciliación (sección 12.4) |
 | 2 | **Confidencialidad y trazabilidad** | Todo acceso al plan de cuidado queda registrado con actor, momento y motivo. Un repartidor nunca recibe datos clínicos en ninguna respuesta de la API | Prueba de aislamiento entre grupos y prueba de proyecciones por rol (sección 12.5) |
-| 3 | **Accesibilidad del flujo principal** | Una persona de 68 años completa la ficha de relevo sin ayuda en menos de 3 minutos, con el texto del sistema al 200% de escala | Prueba con 3 usuarios reales, de tres perfiles distintos, en la semana 13 (sección 10.5) |
+| 3 | **Accesibilidad del flujo principal** | Una persona de 68 años completa la ficha de relevo sin ayuda en menos de 3 minutos, con el texto del sistema al 200% de escala | Prueba con 3 usuarios reales, de tres perfiles distintos, en los sprints 3 y 4 del calendario v1.3 (sección 10.5) |
 | 4 | **Evolucionabilidad modular** | Agregar el módulo de retiro en CESFAM no obliga a modificar el módulo de pedidos | Prueba automática de dependencias (sección 6.4) |
-| 5 | **Disponibilidad del flujo de pedido** | Catálogo a pedido a pago bajo 800 ms en percentil 95 con 50 usuarios concurrentes. Disponibilidad objetivo 99% mensual | Prueba de carga básica en el sprint 8 |
-| 6 | **Observabilidad operacional** | Ante un pedido con incidencia, la operación reconstruye la línea de tiempo completa desde el backoffice sin tocar la base de datos | Revisión manual en el sprint 8 |
+| 5 | **Disponibilidad del flujo de pedido** | Catálogo a pedido a pago bajo 800 ms en percentil 95 con 50 usuarios concurrentes. Disponibilidad objetivo 99% mensual | Prueba de carga básica en el sprint 5 del calendario v1.3 |
+| 6 | **Observabilidad operacional** | Ante un pedido con incidencia, la operación reconstruye la línea de tiempo completa desde el backoffice sin tocar la base de datos | Revisión manual en el sprint 5 del calendario v1.3 |
 
 **El atributo 3 cambió de métrica en esta versión.** La v1.0 medía "primer pedido completo en menos de 6 minutos". La validación mostró que el cuello de botella no es el pedido sino el llenado del plan, y que ocho preguntas no se responden en cinco minutos. La métrica pasa a medir la ficha de relevo, que es la versión mínima obligatoria.
 
@@ -347,11 +347,11 @@ graph TB
         VR["<b>Vista de Relevo</b><br/>página /r del mismo cliente web<br/>sin cuenta · solo lo compartido"]
     end
 
-    GW["<b>Reverse proxy</b><br/>Caddy · TLS · rate limiting"]
+    GW["<b>Borde HTTPS</b><br/>TLS de la plataforma<br/>en staging, Railway"]
 
     subgraph "Núcleo"
         API["<b>API MATU</b><br/>Python 3.12 · FastAPI<br/>monolito modular · REST /v1"]
-        WK["<b>Worker</b><br/>ARQ sobre Redis<br/>por tenant, respeta RLS"]
+        WK["<b>Trabajos</b><br/>tareas por tenant, respetan RLS<br/>en el semestre, sin ARQ"]
         PUB["<b>Publicador de outbox</b><br/>transversal · payload<br/>solo con identificadores"]
         SCH["<b>Scheduler</b><br/>enumera tenants<br/>y encola por grupo"]
     end
@@ -1197,7 +1197,7 @@ GET    /v1/backoffice/indicadores
 | Etiquetado para lector de pantalla | Todo control con etiqueta semántica, incluidos íconos. Con HTML el árbol de accesibilidad lo da el navegador (ADR-026) | Pruebas de interfaz con Vitest y Testing Library, y prueba con TalkBack en el flujo principal |
 | **Entrada por dictado** | Disponible en todos los campos de texto del plan | Prueba manual |
 | **Llenado asistido** | Un tercero puede completar la ficha en nombre del cuidador, con autoría registrada | RF-42, prueba de integración |
-| Objetivo de tiempo | **Ficha de relevo completa en menos de 3 minutos** por una persona de 65+ sin ayuda | Prueba con 3 usuarios reales en la semana 13 |
+| Objetivo de tiempo | **Ficha de relevo completa en menos de 3 minutos** por una persona de 65+ sin ayuda | Prueba con 3 usuarios reales en los sprints 3 y 4 |
 
 ### 10.4 Los tres momentos difíciles
 
@@ -1248,7 +1248,7 @@ El prototipo navegable de los flujos críticos está terminado y cubre:
 
 En total **32 pantallas en siete recorridos**. Se usó como instrumento en las diez entrevistas de validación, lo que permitió medir conducta y no opinión: la prueba cronometrada del plan de cuidado se hizo sobre él.
 
-**Validación de usabilidad pendiente:** tres usuarios reales, de tres perfiles distintos, en la semana 13. No es investigación de mercado, es prueba de usabilidad, y con tres personas se detecta la mayoría de los problemas graves.
+**Validación de usabilidad:** tres usuarios reales, de tres perfiles distintos, por ronda, en los sprints 3 y 4 del calendario v1.3 (estrategia de pruebas, sección 2). La dirige Martín (ADR-030). No es investigación de mercado, es prueba de usabilidad, y con tres personas se detecta la mayoría de los problemas graves.
 
 ### 10.6 Un perfil que la validación descubrió
 
@@ -1415,10 +1415,12 @@ Toda dependencia externa entra por un **puerto** definido en `application/ports.
 | **Unitarias de dominio** | Reglas puras: cálculo de quiebre, prorrateo, transiciones de estado | pytest, sin base de datos | Cada push, < 10 s | **85% en `app/modules/*/domain` y `app/shared`** |
 | **Integración** | Repositorios, RLS, migraciones, transacciones | pytest + PostgreSQL en contenedor | Cada push, < 3 min | 70% en `application/` |
 | **Contrato de API** | Que el esquema generado por el código **no rompa** el contrato versionado en `docs/api/openapi.json` | comparación del generado contra el versionado, más schemathesis | Cada push | 100% de endpoints |
-| **Extremo a extremo** | Los seis recorridos críticos | pytest + cliente HTTP + dobles | Cada push | Los 6, siempre verdes |
+| **Extremo a extremo** | Los seis recorridos críticos del objetivo específico 7, que se fijan en MATU-64 | pytest + cliente HTTP + dobles | Cada push | Los 6, siempre verdes |
 | **Interfaz web** | Componentes críticos: semántica, foco, errores de campo y textos de `lenguaje.md` (ADR-026) | Vitest y Testing Library sobre jsdom, en `web/` | Cada push, en el trabajo `web` del CI | Cada corrección de pantalla deja una prueba que falla sin ella |
 | **Manual con pasarela real** | Venta normal con crédito y con débito, anulación parcial con los dos, retorno duplicado (ADR-027) | Guion escrito, ambiente de integración | Antes del sprint 4 y en el sprint 4 | 4 casos |
-| **Usabilidad** | 3 usuarios reales, de tres perfiles distintos | Guion de tareas | Semana 13 | 3 sesiones |
+| **Usabilidad** | 3 usuarios reales, de tres perfiles distintos | Guion de tareas | Sprints 3 y 4 | 3 sesiones por ronda |
+
+**La estrategia de pruebas v1.2 manda en el detalle** ([`estrategia-pruebas.md`](estrategia-pruebas.md), 5 de noviembre). Esta tabla la resume, y desde la v1.2 coinciden en el nivel de interfaz: Vitest y Testing Library sobre la aplicación web, en vez de `flutter test`.
 
 **Sobre la cobertura.** La meta es 85% en `domain/` y 70% en `application/`, y **ninguna meta en `infrastructure/`**. Una meta global de 70% se cumple probando adaptadores triviales y dejando sin probar la regla de cálculo de quiebre.
 
@@ -1500,37 +1502,33 @@ Una historia está terminada cuando, y solo cuando:
 2. Tiene al menos una prueba de integración del camino feliz y una del principal camino de error.
 3. El pipeline pasa completo, incluidas las pruebas de arquitectura y de aislamiento.
 4. Si toca una pantalla, cumple los criterios de accesibilidad de la sección 10.3.
-5. Si toca dinero o datos sensibles, la revisa la otra persona del equipo. **Sin excepción.**
+5. Si toca dinero o datos sensibles, la revisa la otra persona del equipo. **Sin excepción.** Con el ADR-030, esa persona es Martín.
+6. Si corrige un defecto, deja una prueba que falla sin la corrección (estrategia de pruebas v1.2, sección 12).
 
 ### 12.7 Integración continua
 
 ```yaml
-# .github/workflows/ci.yml (esquema)
+# .github/workflows/ci.yml de MATU_PROYECTO, tal como corre al 7 de noviembre
 on: [push, pull_request]
 jobs:
-  calidad:
-    - ruff check + ruff format --check
-    - mypy app/
-    - pytest tests/unit --cov=app/modules --cov=app/shared --cov-fail-under=85
-    - pytest tests/integration --cov=app/modules --cov-fail-under=70
-    - openapi-diff docs/api/openapi.json <(python -m app.exportar_openapi)
-    - pytest tests/test_arquitectura.py       # regla de dependencias
-    - pytest tests/test_aislamiento.py        # RLS entre grupos y en workers
-    - pytest tests/test_capa3_desacoplable.py # arranca sin la capa 3
-    - schemathesis run openapi.json
-    - detect-secrets scan
-  migraciones:
-    - alembic upgrade head sobre base efímera
-    - alembic downgrade -1 y upgrade de vuelta   # reversibilidad
-  build:
-    - docker build api, worker
-  deploy:
-    - solo en main, tras aprobación
-    - migración antes del cambio de imagen
-    - healthcheck posterior, rollback automático si falla
+  backend:                      # con PostgreSQL 16 y Redis 7 como servicios
+    - ruff check .
+    - mypy .
+    - detect-secrets-hook --baseline .secrets.baseline
+    - roles y base con infra/postgres/init/10_matu.sh
+    - alembic upgrade head, downgrade -1 y upgrade head   # reversibilidad
+    - pytest      # incluye test_arquitectura, test_aislamiento, test_capa3_desacoplable,
+                  # test_conexion_app, test_migraciones y test_cadena_migraciones
+  web:
+    - npm run typecheck
+    - npm test                  # Vitest y Testing Library
+    - npm run build
+    - el contrato tipado de web/ coincide con docs/api/openapi.json
 ```
 
-La prueba `test_capa3_desacoplable.py` merece mención aparte: debe **arrancar la aplicación con los routers de la capa 3 desactivados y verificar que los flujos de las capas 1 y 2 responden.** Es la garantía ejecutable de la decisión 2 de cabecera. Es entregable del sprint 3.
+**Lo que el esquema de la v1.1 tenía y todavía no corre.** Las metas de cobertura con `--cov-fail-under`, la comparación del contrato con openapi-diff y schemathesis. Tampoco corre `pip-audit`, que pide la estrategia de pruebas. En su lugar, cada módulo tiene pruebas de contrato que fallan si una ruta cambia sin volver a exportar `openapi.json`. El despliegue no lo hace el CI: Railway construye la imagen y corre `alembic upgrade head` antes de cada despliegue, con la revisión de salud en `/v1/salud` (sección 13). [PENDIENTE: las puertas de cobertura, openapi-diff, schemathesis y pip-audit de la estrategia de pruebas, sección 8.]
+
+La prueba `test_capa3_desacoplable.py` merece mención aparte: debe **arrancar la aplicación con los routers de la capa 3 desactivados y verificar que los flujos de las capas 1 y 2 responden.** Es la garantía ejecutable de la decisión 2 de cabecera. El backlog la movió del sprint en que la pedía la v1.1 al sprint 3 del calendario v1.3, por capacidad, y se entregó ahí (MATU-40).
 
 ### 12.8 Cinco defectos que el modelo de aislamiento tenía y no se veían
 
@@ -1556,7 +1554,7 @@ graph TB
         WEB["Cliente web en el navegador<br/>familia, relevo, comercio<br/>y backoffice"]
     end
     subgraph "Nodo de aplicación"
-        CAD["Caddy · TLS · rate limit"]
+        CAD["Borde HTTPS de la plataforma"]
         C1["contenedor api"]
         C2["contenedor worker"]
         C3["contenedor publicador + scheduler"]
@@ -1600,7 +1598,7 @@ Kubernetes queda descartado: consume sprints y no agrega puntos en la defensa.
 | **Demostración** | **Entorno dedicado con catálogo semilla, comercio simulado y guion de recorrido** | Sintéticos verosímiles |
 | Producción | Fuera del alcance del semestre. Requiere persona jurídica. Ver 16.6 | — |
 
-**El entorno de demostración es entregable del sprint 6, en la semana 13, no del último.** En un proyecto cuyo mayor riesgo externo es no conseguir convenio, el entorno de demostración es también el plan de contingencia de la defensa.
+**El staging con HTTPS se construyó en el sprint 3 (MATU-25)** en Railway, la plataforma gestionada que eligió Martín (ADR-019), y es donde se hace la prueba en el teléfono. **El entorno de demostración es entregable del sprint 5 del calendario v1.3**, con el guion listo el 16 de noviembre. En un proyecto cuyo mayor riesgo externo es no conseguir convenio, el entorno de demostración es también el plan de contingencia de la defensa.
 
 **El catálogo semilla se arma con los productos que reportaron las entrevistadas**, y no con una lista inventada: pañales de adulto, toallitas húmedas, protectores diarios, crema para escaras, suplemento nutricional y bolsas de ostomía. Los seis salieron de quiebres reales relatados en el piloto.
 
@@ -1624,7 +1622,7 @@ Los dos indicadores en negrita son los que miden si el producto funciona como pr
 **Decisión.** Reestructurar en tres capas con dependencia estrictamente descendente. Capa 1, el plan de cuidado, es el núcleo. Capa 2, el perfil de consumo y la predicción de quiebre, deriva de la capa 1. Capa 3, el despacho, deriva de la capa 2 y es desacoplable.
 
 **Consecuencias.**
-- El diferenciador se construye desde el sprint 2 y queda demostrable de punta a punta en el sprint 3.
+- El diferenciador se construye desde el sprint 2 y queda demostrable de punta a punta en el sprint 3 de la v1.1. Con el calendario v1.3, la ficha y el relevo quedaron de punta a punta en el sprint 2, al 29 de octubre (objetivo específico 3).
 - La pregunta "¿esto no lo hace Cornershop?" tiene respuesta estructural: un despacho genérico no sabe cuánto consume la persona cuidada.
 - El cumplimiento de la Ley 21.719 pasa de importante a estructural, porque el núcleo del producto es dato sensible.
 - El cuidador principal reemplaza al familiar pagador como usuario central.
@@ -2075,7 +2073,9 @@ Existía en el diseño anterior sobre la publicación exclusiva en Android. Se r
 | Horas semanales por persona | 15 | 15 |
 | **Capacidad total** | 390 h | **270 h** |
 
-**Equivalencia entre sprints y semanas:** el sprint 0 ocupa la semana 7, y desde ahí el sprint N corresponde a la semana N más 7. El semestre cierra con informe final y defensa entre las semanas 16 y 18.
+**Equivalencia entre sprints y semanas en la v1.1:** el sprint 0 ocupaba la semana 7, y desde ahí el sprint N correspondía a la semana N más 7. El semestre cierra con informe final y defensa entre las semanas 16 y 18.
+
+**El calendario v1.3 reemplazó esa equivalencia** ([`sprints/calendario-sprints.md`](sprints/calendario-sprints.md), vigente desde el 13 de octubre). El sprint 0 se extendió hasta la semana 10, los sprints van de viernes a jueves, y el alcance de los ocho sprints de la v1.1 se agrupó en cinco, más dos de reserva. La capacidad real sigue en 23 horas por sprint, y el supuesto es que en ellas caben hasta 41 horas de las estimaciones originales, con un factor de vibecoding de 1,8 que se mide en cada retrospectiva. **El alcance comprometido de la 15.3 y el orden de sacrificio no cambian.** En este documento, un número de sprint sin otra indicación es del calendario v1.3, salvo en las tablas y los textos marcados como de la v1.1.
 
 **No se aplica factor de foco.** Las tallas están estimadas en horas reales, no ideales. La v1.1 incluía en ellas el costo de aprender Flutter. Con el ADR-026 ese costo desaparece, porque el frontend se construye en React con TypeScript, que el equipo ya usaba. Las tallas no se reestimaron: la diferencia queda como holgura.
 
@@ -2124,21 +2124,41 @@ Existía en el diseño anterior sobre la publicación exclusiva en Android. Se r
 
 ### 15.4 Plan de sprints
 
+> **Desde la v1.2 rige el [calendario de sprints v1.3](sprints/calendario-sprints.md).** Reemplaza las fechas y la agrupación de la tabla de la v1.1, que se conserva más abajo como antecedente.
+
+| Sprint | Fechas | Objetivo | Agrupa (v1.1) | Estado al 8 de noviembre |
+|---|---|---|---|---|
+| 0 | 21 sep – 15 oct | Preparación: repositorios, pipeline, esquema base y prueba de concepto de Transbank | 0 | Cerrado. 31 pruebas de aislamiento en verde (objetivo específico 2) |
+| 1 | 16 – 22 oct | Identidad y grupo, y cierre de la prueba de Transbank | 1 | Cerrado |
+| 2 | 23 – 29 oct | Ficha de relevo y acceso de relevo: **primer producto de punta a punta** | 2 y 3 | Cerrado (objetivo específico 3) |
+| 3 | 30 oct – 5 nov | App de familia, perfil de consumo con predicción, staging y avisos | 4 y 5 | Cerrado con 15 historias en `main` (objetivo específico 4) |
+| 4 | 6 – 12 nov | Catálogo, lista de reposición, pedido y pago con un solo pagador, y vista de comercio | 6 y 7 | En curso (objetivos específicos 5 y 6) |
+| 5 | 13 – 19 nov | Cierre: endurecimiento, retención, despliegue, backoffice mínimo y guion de demostración. Guion e informe listos el lunes 16 | 8 | Planificado (objetivo específico 7) |
+| 6 y 7 | 20 nov – 3 dic | **Reserva**, sin alcance comprometido: ajustes por la retroalimentación y la presentación final | — | — |
+
+**Los objetivos específicos 5, 6 y 7, en su redacción vigente:**
+
+- **5. La lista de reposición, operativa sin convenio comercial.** Se comparte como texto, sin enlace: se imprime o se guarda como PDF desde el navegador y se comparte desde el teléfono ([ADR-031](adr/ADR-031-lista-insumos-solo-texto.md)). La v1.1 y el informe de avance decían "exportable como documento y como enlace compartible".
+- **6. El flujo de pedido con un solo cobro del total exacto** (ADR-027), con los nueve casos obligatorios de la sección 12.4 en verde. Sin captura diferida ni autorización con margen.
+- **7. El sistema desplegado en un entorno de demostración, con los seis recorridos críticos operativos** y el pipeline en verde. Los seis recorridos se están fijando en MATU-64.
+
+**La tabla de la v1.1, como antecedente.** Sus sprints eran de una semana, desde la semana 7.
+
 | Sprint | Semana | Objetivo | Entregable verificable |
 |---|---|---|---|
 | 0 | 7 | Preparación | Repositorios, pipeline, esquema base, **prueba de concepto de Transbank** |
 | 1 | 8 | Identidad y grupo | Registro, login, grupo familiar, persona cuidada, RLS con **diez pruebas de aislamiento** en API y en worker |
 | 2 | 9 | **Ficha de relevo** | Los tres campos obligatorios, cifrado con sobre-cifrado, concurrencia optimista, consentimiento, auditoría de acceso, llenado asistido |
 | 3 | 10 | **Acceso de relevo** | Token expirable con PIN, vista de relevo y revocación. **Primer producto demostrable de punta a punta**, en la misma semana de la evaluación de avance |
-| 4 | 11 | App familia, núcleo | Navegación, autenticación, ficha de relevo en móvil, criterios de accesibilidad aplicados |
+| 4 | 11 | App familia, núcleo | Navegación, autenticación, ficha de relevo en la aplicación web, criterios de accesibilidad aplicados |
 | 5 | 12 | **Perfil de consumo y predicción** | Declaración, cálculo de quiebre con ocho pruebas de dominio, alertas materializadas, notificaciones |
-| 6 | 13 | Catálogo y lista | Catálogo semilla, lista de reposición, exportación y enlace compartible. **Entorno de demostración operativo.** Pruebas de usabilidad con tres usuarios |
+| 6 | 13 | Catálogo y lista | Catálogo semilla, lista de reposición y su salida como texto (ADR-031). **Entorno de demostración operativo.** Pruebas de usabilidad con tres usuarios |
 | 7 | 14 | Pedido y pago | Carrito, confirmación de stock, cobro único del total confirmado, devolución por anulación parcial, vista de comercio con código de retiro. Los nueve casos de la sección 12.4 (ADR-027) |
 | 8 | 15 | Cierre | Endurecimiento, retención, pruebas de carga, despliegue, backoffice mínimo, guion de demostración |
 
-**El cambio decisivo está en el sprint 3, en la semana 10.** Es exactamente la semana de la evaluación de avance de Fase 2, y el equipo llega a ella con producto demostrable de punta a punta en la capa que constituye el diferenciador. No es casualidad: el plan se ordenó para que coincidieran.
+**Con el calendario v1.3 el producto de punta a punta llegó antes.** La v1.1 lo ubicaba en el sprint 3, la semana de la evaluación de avance de la Fase 2. El sprint 0 se extendió hasta esa misma semana, y la ficha con el relevo quedó de punta a punta en el sprint 2, el 29 de octubre.
 
-**Qué se sacrifica ante atraso, en este orden:** primero los indicadores del backoffice, después la vista de comercio automatizada, que se puede operar a mano en la demostración, después el catálogo curado, que se reduce a diez productos. **Nunca la ficha de relevo, el acceso de relevo, la predicción de quiebre ni la exportación de lista.**
+**Qué se sacrifica ante atraso, en este orden:** primero los indicadores del backoffice, después la vista de comercio automatizada, que se puede operar a mano en la demostración, después el catálogo curado, que se reduce a diez productos. El calendario v1.3 agrega un cuarto: el staging se reemplaza por un túnel HTTPS temporal para la demostración. **Nunca la ficha de relevo, el acceso de relevo, la predicción de quiebre ni la salida de la lista.**
 
 ### 15.5 Reparto del trabajo entre dos personas
 
@@ -2258,7 +2278,7 @@ De los cuatro huecos que la v1.0 declaraba, **uno se cerró y tres siguen abiert
 |---|---|---|---|
 | ~~El cuidador no completa el plan de cuidado~~ **MATERIALIZADO Y MITIGADO** | — | — | Era el riesgo número uno. Se validó antes del sprint 2, la hipótesis quedó refutada y **se activó el ADR-023**: ficha de relevo de tres campos, secciones opcionales y llenado asistido. Costo menor a un sprint, sin cambios en el modelo de datos |
 | ~~El reclutamiento de diez cuidadores no se logra~~ **CERRADO** | — | — | La meta del protocolo se cumplió íntegra: diez de diez |
-| **La ventana de construcción es de nueve semanas** | Alta | **Alto** | Es el riesgo dominante de la v1.1. Mitigación: segundo recorte de 160 h aplicado antes del primer sprint, 21% de holgura, orden de sacrificio declarado y producto demostrable en el sprint 3 |
+| **La ventana de construcción es de nueve semanas**, y el desarrollo empezó tres semanas tarde | Alta | **Alto** | Es el riesgo dominante. Mitigación: segundo recorte de 160 h aplicado antes del primer sprint, orden de sacrificio declarado, calendario v1.3 con cinco sprints y dos de reserva, y el factor de vibecoding medido en cada retrospectiva. El producto de punta a punta llegó en el sprint 2 |
 | **Tres hipótesis quedaron en zona intermedia** | Alta | Medio | H5, H6 y H7. Cuatro entrevistas adicionales por canal concentrado en la semana 9, según la regla del propio protocolo. Como el reparto multi-pagador ya salió del alcance, su resultado orienta la fase 2 y no condiciona el semestre |
 | ~~La captura diferida no se comporta como documenta el proveedor~~ **CERRADO, Y REEMPLAZADO** | — | — | La prueba de concepto del 24 de octubre la verificó con crédito. El ADR-027 dejó de usarla |
 | ~~**La captura diferida no aplica a débito ni prepago**~~ **MATERIALIZADO Y REEMPLAZADO** | — | — | Se confirmó en el sprint 0: el débito no admite captura diferida. Fue la razón principal del ADR-027, que cobra una sola vez el total exacto en venta normal, con crédito y débito iguales |
@@ -2267,10 +2287,10 @@ De los cuatro huecos que la v1.0 declaraba, **uno se cerró y tres siguen abiert
 | **Un producto apartado falta al retirar** | Baja | Medio | El comercio que confirma el stock lo aparta. Si falta, el mismo producto en otro comercio, con la diferencia a cargo de MATU, o devolución de su precio. La reasignación después de pagar es fase 2 y en el semestre se muestra simulada |
 | **La consulta legal del ADR-027 no llega antes de cobrar dinero real** | Media | Alto | En el semestre no se cobra dinero real. La investigación normativa del 27-10 resolvió con el texto de la ley que el retracto aplica y cómo se informa, y que no hay un plazo legal específico para devolver lo no entregado. El 27-10 Jorge resolvió por diseño P3 a P7 con la opción más protectora. Antes de cobrar dinero real quedan P1 y P2 para un abogado y P8 para un contador (sección 18.1). Mientras tanto, los productos se tratan como sensibles. |
 | Pérdida de capacidad de una persona | Media | **Crítico en nueve semanas** | Con el ADR-030 el desarrollo depende de Jorge, y la revisión y el despliegue de Martín. Estado documentado en los dos repositorios, informes de revisión en `TESTER/` y PR pequeños. Con la ventana acortada, una ausencia de dos semanas ya no es recuperable y obliga a aplicar el orden de sacrificio de inmediato |
-| Curar el catálogo toma más de lo previsto | Media | Bajo | El catálogo semilla son los seis productos que reportaron las entrevistadas, no una lista inventada. Es trabajo humano acotado, en el sprint 6 |
+| Curar el catálogo toma más de lo previsto | Media | Bajo | El catálogo semilla son los seis productos que reportaron las entrevistadas, no una lista inventada. Es trabajo humano acotado, en el sprint 4 |
 | Ningún comercio acepta convenio | Media | **Medio**, ya no crítico | El ADR-002 lo degradó. Y la validación entregó un candidato concreto: la farmacia de barrio que ya opera con cuenta corriente para una familia entrevistada |
 | Filtración entre grupos familiares | Baja | **Crítico** | RLS forzado incluidos los workers, más diez pruebas de aislamiento en el pipeline |
-| Rendimiento en dispositivos de gama baja | Media | Medio | Probar en un dispositivo real de gama baja desde el sprint 4 |
+| Rendimiento en dispositivos de gama baja | Media | Medio | Probar en un teléfono real en staging desde el sprint 3, con la prueba en el teléfono de cada historia (ADR-030) |
 | Cambio regulatorio con la vigencia de la Ley 21.719 | Media | Medio | El diseño ya cumple lo exigible. Revisar guías de la Agencia cuando se publiquen |
 | ~~El equipo no domina Dart~~ **RETIRADO** | — | — | El ADR-026 reemplazó Flutter por una aplicación web en React con TypeScript |
 | **El push web en iPhone exige agregar MATU a la pantalla de inicio** | Alta | Medio | El correo es el canal garantizado de los avisos de quiebre (RF-39) y el push es complemento (ADR-026). En Android el push funciona desde el navegador |
@@ -2285,11 +2305,11 @@ De los cuatro huecos que la v1.0 declaraba, **uno se cerró y tres siguen abiert
 |---|---|---|
 | ~~¿Un cuidador agotado completa ocho preguntas?~~ **RESPONDIDA: no.** Tres de diez bajo cinco minutos | Refutó H1 y activó el ADR-023 | Cerrada en septiembre de 2026 |
 | ~~¿Cuánto está dispuesta a pagar una familia?~~ **RESPONDIDA con reserva.** Seis de diez ya pagan por algo del cuidado | El precio de la sección 16 se sostiene, condicionado a que el producto resuelva insumos y no solo el plan | Cerrada, con la condición anotada |
-| **¿El gasto se reparte y quién pagaría?** | Decide si RF-22 a RF-24 entran en la fase 2 | Semana 9 |
-| **¿Existe un canal concentrado de captación?** | Decide el costo de adquisición y con él la alcanzabilidad de las 84 familias | Semana 9 |
-| ¿Cuál es la comuna de partida? | Zonificación, catálogo inicial, volumen esperado | Sprint 6 |
+| **¿El gasto se reparte y quién pagaría?** | Decide si RF-22 a RF-24 entran en la fase 2 | Antes del sprint 4 del calendario v1.3 (cierre del ADR-023). [PENDIENTE: resultado de las entrevistas de ampliación] |
+| **¿Existe un canal concentrado de captación?** | Decide el costo de adquisición y con él la alcanzabilidad de las 84 familias | Antes del sprint 4 del calendario v1.3. [PENDIENTE: resultado de las entrevistas de ampliación] |
+| ¿Cuál es la comuna de partida? | Zonificación, catálogo inicial, volumen esperado | Sprint 4 |
 | ¿De quién es el registro cuando lo escribe una cuidadora con contrato? | Alcance del consentimiento y responsabilidad laboral. Pregunta nueva, planteada por una entrevistada | Antes de operar con datos reales |
-| ¿Hay un comercio dispuesto a convenio con preparación? | Si sí, la capa 3 se demuestra real. Si no, simulada | Sprint 7 |
+| ¿Hay un comercio dispuesto a convenio con preparación? | Si sí, la capa 3 se demuestra real. Si no, simulada con el adaptador de `CatalogoComercio` (ADR-027) | Sprint 4 |
 | ¿Existe un CESFAM dispuesto a un convenio piloto? | Revisaría el alcance de fase 2 | Sin plazo |
 
 ### 18.1 Lo que este documento no puede resolver por sí solo
