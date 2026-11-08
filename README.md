@@ -110,9 +110,9 @@ pagadores salió del alcance comprometido del semestre.
 
 ## Arquitectura de la solución
 
-Documento completo: [docs/arquitectura.md](docs/arquitectura.md) — versión 1.1,
-42 requisitos trazados a módulos, 13 diagramas y 24 decisiones de arquitectura
-vigentes (ADR, numerados hasta el 25 porque la numeración no se reutiliza) con
+Documento completo: [docs/arquitectura.md](docs/arquitectura.md) — versión 1.2,
+42 requisitos trazados a módulos, 13 diagramas y 27 decisiones de arquitectura
+vigentes (ADR, numerados hasta el 31 porque la numeración no se reutiliza) con
 alternativas descartadas y consecuencias. GitHub lo renderiza con los diagramas incluidos. Existe también
 una [versión navegable](docs/arquitectura.html), con índice lateral, para leer
 fuera de GitHub o imprimir. **Esa versión es la 1.0, anterior a la validación con
@@ -205,7 +205,7 @@ MATU/
 El código no está en este repositorio. Vive en
 [MATU_PROYECTO](https://github.com/MartinHenriquez131/MATU_PROYECTO), con la estructura
 comprometida en el anexo 19.1 del documento de arquitectura: `backend/`,
-`mobile/`, `web/` e `infra/`. El modelo de datos ejecutable, con sus 31 pruebas
+`web/` e `infra/` (sin `mobile/`, ADR-026). El modelo de datos ejecutable, con sus 31 pruebas
 de aislamiento, está ahí en `backend/db/`.
 
 ## Tecnologías previstas
@@ -216,7 +216,7 @@ de aislamiento, está ahí en `backend/db/`.
 | Base de datos | PostgreSQL 16 con Row Level Security |
 | Acceso a datos | SQLAlchemy 2 (async), asyncpg, Alembic |
 | Trabajos asíncronos | ARQ sobre Redis, patrón *transactional outbox* |
-| Aplicación móvil | Flutter |
+| Aplicación de la familia | Aplicación web mobile first: React 19 con TypeScript, Vite y Tailwind CSS v4 (ADR-026, reemplaza a Flutter en el semestre) |
 | Panel web y consola de operación | React + TypeScript |
 | Pagos | Transbank — Webpay Plus diferido y OneClick |
 | Infraestructura | Docker, Docker Compose |
