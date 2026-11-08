@@ -174,7 +174,7 @@ Catálogo de requisitos trazados a módulo y priorizados con MoSCoW. **Debe** en
 | RF-12 | El sistema avisa a la familia antes del quiebre, con anticipación configurable | `consumption` | Debe |
 | RF-13 | El cuidador registra una reposición hecha fuera de MATU y el cálculo se ajusta | `consumption` | Debe |
 | RF-14 | El sistema genera una lista de reposición con los productos próximos a quiebre | `consumption` | Debe |
-| RF-15 | La familia exporta la lista de reposición como documento o enlace compartible | `consumption` | Debe |
+| RF-15 | La familia saca la lista de reposición del teléfono **como texto, sin enlace**: la imprime o la guarda como PDF desde el navegador, o la comparte con la hoja de compartir del teléfono o con «Copiar la lista». La lista no lleva el nombre de la persona cuidada ni nada de la ficha ([ADR-031](adr/ADR-031-lista-insumos-solo-texto.md)) | `consumption` | Debe |
 | RF-16 | Las líneas de un plan de reposición se proponen desde el perfil de consumo | `replenishment` | Debería |
 | RF-17 | La familia programa envíos periódicos con frecuencia definida | `replenishment` | Debería |
 | RF-18 | La familia adelanta, salta o cancela una ocurrencia programada | `replenishment` | Debería |
@@ -359,7 +359,7 @@ graph TB
     subgraph "Persistencia"
         PG[("<b>PostgreSQL 16</b><br/>RLS por grupo familiar")]
         RD[("<b>Redis</b><br/>colas, caché")]
-        S3[("<b>Object storage</b><br/>evidencias y exportaciones")]
+        S3[("<b>Object storage</b><br/>evidencias de entrega")]
         KM[("<b>Custodia de KEK</b><br/>clave maestra de cifrado")]
     end
 
@@ -402,7 +402,7 @@ graph TB
 | **Publicador de outbox** | Publicación de eventos de dominio hacia notificaciones | **Transversal a tenants, y por eso su payload contiene solo identificadores, nunca datos** |
 | **PostgreSQL** | Fuente única de verdad transaccional | No almacena archivos binarios |
 | **Redis** | Colas y caché de catálogo | No es fuente de verdad de nada. Se puede vaciar sin pérdida |
-| **Object storage** | Evidencias, exportaciones del plan de cuidado y de la lista de reposición | Nunca sirve archivos públicos. Solo URLs firmadas de vida corta |
+| **Object storage** | Evidencias de entrega | Nunca sirve archivos públicos. Solo URLs firmadas de vida corta. **No guarda exportaciones**: la ficha no se exporta (ADR-029) y la lista sale del teléfono como texto, sin archivos en el servidor (ADR-031). En el semestre todavía no se usa |
 | **Custodia de KEK** | Guarda la clave maestra que cifra las claves de datos | No guarda datos. Ver ADR-016 |
 
 ### 6.3 Módulos del backend (C4 nivel 3)
@@ -1071,18 +1071,26 @@ El contrato vigente es `docs/api/openapi.json` de MATU_PROYECTO, generado desde 
 ### 9.3 Capa 2 · Perfil de consumo
 
 ```
-GET    /v1/personas-cuidadas/{id}/consumo           → perfiles con fecha de quiebre
+Todo cuelga de la persona cuidada, con X-Grupo-Id, igual que la ficha (contrato de MATU-32)
+GET    /v1/personas-cuidadas/{id}/consumo                       → insumos con fecha de quiebre
 POST   /v1/personas-cuidadas/{id}/consumo
-       body: {producto_id, tasa_uso, unidad_tasa, stock_estimado, dias_aviso}
-PATCH  /v1/consumo/{id}
-POST   /v1/consumo/{id}/reposiciones                → registrar compra hecha por fuera
-GET    /v1/personas-cuidadas/{id}/lista-reposicion  → productos próximos a quiebre
-POST   /v1/personas-cuidadas/{id}/lista-reposicion/exportar
-                                                     → PDF o enlace compartible
-GET    /v1/alertas?estado=pendiente
-POST   /v1/alertas/{id}/descartar
-POST   /v1/pedidos/desde-alertas                    → borrador por comercio (ADR-024)
+       body: {producto_id o nombre_libre, unidad, tasa_unidades, tasa_dias,
+              stock_unidades, dias_aviso, unidades_por_envase?}
+GET    /v1/personas-cuidadas/{id}/consumo/{perfil_id}
+PATCH  /v1/personas-cuidadas/{id}/consumo/{perfil_id}           → If-Match, 412 si otro lo cambió
+DELETE /v1/personas-cuidadas/{id}/consumo/{perfil_id}
+POST   /v1/personas-cuidadas/{id}/consumo/{perfil_id}/desactivar · /activar
+POST   /v1/personas-cuidadas/{id}/consumo/{perfil_id}/reponer   → «Compré», compra hecha por fuera (RF-13)
+POST   /v1/personas-cuidadas/{id}/consumo/{perfil_id}/recontar  → «Me quedan», stock medido hoy
+POST   /v1/personas-cuidadas/{id}/consumo/{perfil_id}/resolver  → «Ya lo resolví»
+GET    /v1/personas-cuidadas/{id}/consumo/por-acabarse          → qué se acaba pronto
+GET    /v1/personas-cuidadas/{id}/consumo/lista                 → lista de insumos, en texto (ADR-031)
+GET    /v1/personas-cuidadas/{id}/consumo/alertas
+POST   /v1/personas-cuidadas/{id}/consumo/alertas/{alerta_id}/descartar
+POST   /v1/pedidos/desde-alertas                    → borrador por comercio (ADR-024), sprint 4
 ```
+
+**Cambios respecto de la v1.1.** Las rutas cuelgan de la persona y no de `/v1/consumo/{id}` ni de `/v1/alertas` (decisión 54 del contrato de MATU-32). La tasa es una fracción entera (7.3). **No existe `POST …/lista-reposicion/exportar`** ni una ruta pública para la lista (ADR-031): la lista se lee con `GET …/consumo/lista` y el teléfono la imprime, la guarda como PDF o la comparte como texto. Leen la lista los cuatro roles de la familia, y solo admin, cuidador y pagador ven los botones para sacarla del teléfono.
 
 ### 9.4 Capa 3 · Catálogo, pedidos y pagos
 
@@ -1131,26 +1139,26 @@ GET    /v1/backoffice/indicadores
 
 ### 9.6 Ejemplo de respuesta con la capa 2 en acción
 
+`GET /v1/personas-cuidadas/{id}/consumo/lista`, con datos sintéticos:
+
 ```json
 {
-  "persona_cuidada": {"id": "3a...", "nombre": "María"},
-  "generada_en": "2026-09-15T09:00:00-03:00",
+  "fecha": "2026-11-08",
   "items": [
     {
-      "producto": "Pañal adulto talla M x30",
-      "tasa_uso": "4 por día",
-      "stock_estimado": 24,
+      "perfil_id": "3a...",
+      "nombre": "Pañal adulto talla M",
+      "unidad": "unidad",
       "dias_restantes": 6,
-      "fecha_quiebre_estimada": "2026-09-21",
-      "sugerido": {"cantidad": 2, "razon": "cubre 15 días"},
-      "estado_alerta": "notificada"
+      "unidades_sugeridas": 96,
+      "unidades_por_envase": 30,
+      "envases_sugeridos": 4
     }
-  ],
-  "acciones": ["armar_pedido", "exportar_lista", "compartir_enlace"]
+  ]
 }
 ```
 
-La clave está en `acciones`. **`exportar_lista` y `compartir_enlace` funcionan sin ningún comercio en convenio.** Es la decisión 2 de cabecera hecha contrato de API.
+**La lista no lleva el nombre de la persona cuidada, nada de la ficha ni acciones** (ADR-031). La v1.1 traía el nombre de la persona y una acción `compartir_enlace`, que salieron. La cantidad sugerida cubre 30 días y va en envases enteros cuando la familia anotó las unidades por envase. **La lista funciona sin ningún comercio en convenio**: es la decisión 2 de cabecera hecha contrato de API. El texto que sale del teléfono tampoco lleva los días que quedan, para que sea más difícil deducir el consumo diario.
 
 ---
 
@@ -2015,6 +2023,18 @@ Existía en el diseño anterior sobre la publicación exclusiva en Android. Se r
 
 ---
 
+### ADR-031 · La lista de insumos se comparte como texto, sin enlace
+
+**Estado.** Aceptado el 6 de noviembre de 2026. **Ajusta RF-15**, las secciones 9.3 y 9.6 y el almacenamiento de objetos. Texto completo en [`adr/ADR-031-lista-insumos-solo-texto.md`](adr/ADR-031-lista-insumos-solo-texto.md).
+
+**Decisión.** En el semestre la lista se comparte como texto, sin enlace: se imprime o se guarda como PDF desde el navegador, y se comparte con la hoja de compartir del teléfono o con «Copiar la lista». MATU no genera archivos, no guarda exportaciones y no crea un acceso público. La lista no lleva el nombre de la persona cuidada.
+
+**Por qué.** La lista muestra qué insumos usa la persona, y el diseño trata el consumo como un dato de salud. Un enlace abierto lo abre cualquiera que lo reciba, y un PDF hecho en el servidor obliga a guardar archivos con datos de consumo.
+
+**Consecuencias.** Si después hace falta un enlace, va con un ADR nuevo, una revisión normativa y su propio acceso con token, vencimiento y corte, como el del relevo. Construido en MATU-60 (migración 0015).
+
+---
+
 ## 15. Alcance por fases y plan de sprints
 
 ### 15.1 Alcance
@@ -2022,7 +2042,7 @@ Existía en el diseño anterior sobre la publicación exclusiva en Android. Se r
 | Componente | MVP (8 sprints) | Fase 2 |
 |---|---|---|
 | **Plan de cuidado** | **Completo**: ficha de relevo de tres campos como mínimo obligatorio, seis secciones complementarias (ADR-028), llenado asistido, cifrado, concurrencia, acceso de relevo y retiro de la autorización. **Sin versión imprimible** (ADR-029) | Plantillas por tipo de dependencia, adjuntos, historial de cambios, recordatorios de remedios |
-| **Perfil de consumo y predicción** | **Completo**: declaración, cálculo, alertas, lista, exportación | Corrección por historial real, sugerencia de cantidad óptima |
+| **Perfil de consumo y predicción** | **Completo**: declaración, cálculo, alertas, lista y su salida como texto (ADR-031) | Corrección por historial real, sugerencia de cantidad óptima, enlace compartible con su propio acceso |
 | Registro, grupo familiar, persona cuidada | Completo | Invitaciones por enlace profundo |
 | Catálogo y convenios | Completo, con precios exactos y stock detrás del puerto `CatalogoComercio`, con adaptador simulado (ADR-027) | Adaptador real de un comercio en convenio |
 | Reposición programada | **Fuera del alcance comprometido** | Envíos periódicos con calendario |
