@@ -17,6 +17,8 @@
 
 **MATU-44 (06-11):** se ajustan las secciones 4, 5, 6, 8, 10 y 13 con el retiro de las autorizaciones desde la aplicación, volver a autorizar la ficha y el borrado de la ficha 90 días después del retiro. No agregan usos, datos ni destinatarios, y no cambian las declaraciones, así que no cambian la versión: `POLITICA_VERSION` sigue en `0.10` (criterio del 06-11). Aprobado por Jorge el 06-11.
 
+**MATU-74 (08-11):** se ajustan las secciones 8 y 13 con el programador de tareas: los borrados por plazo corren solos cada madrugada. No agregan usos, datos ni destinatarios, así que no cambian la versión: `POLITICA_VERSION` sigue en `0.10` (criterio del 06-11). Aprobado por Jorge el 08-11.
+
 **MATU-51 (07-11):** se ajustan las secciones 6 y 8 con «Compré» y «Me quedan», que anotan una compra o lo que queda en cualquier insumo, haya aviso o no, y las compras anotadas pasan a guardarse 90 días. No agregan usos, datos ni destinatarios, y un plazo más corto no cambia las declaraciones, así que no cambian la versión: `POLITICA_VERSION` sigue en `0.10` (criterio del 06-11). Aprobado por Jorge el 07-11.
 
 **MATU-68 (08-11):** se precisa la sección 5: al dar de alta a la persona, «eliges quién la da» en vez de «eliges en qué calidad la das». No es una declaración y no agrega usos, datos ni destinatarios, así que no cambia la versión: `POLITICA_VERSION` sigue en `0.10`. Aprobado por Jorge el 08-11.
@@ -255,7 +257,8 @@ Sus identificadores son `declaracion_consumo_titular`, `declaracion_consumo_repr
 
 ## 8. Cuánto tiempo guardamos los datos
 
-- **Ficha de relevo:** mientras la autorización esté vigente y hasta 90 días después de que se retire o termine. Pasado ese plazo, MATU la borra destruyendo su clave y borrando el texto cifrado. En el piloto esa tarea se corre a mano (sección 13). Mientras no corre, la ficha ya no se puede ver ni recuperar, aunque su clave todavía exista. Si después se vuelve a autorizar, la ficha empieza en blanco y lo de antes no vuelve. Si pides borrarla, la dejamos ilegible de inmediato destruyendo su clave. [PENDIENTE: confirmar que una solicitud de borrado no espera los 90 días] Una sección adicional que quitas se borra en ese momento. Hasta que vence la última copia de respaldo que la contiene, sigue en esa copia, cifrada.
+- **Cuándo se borra:** las tareas que borran los datos vencidos corren solas cada madrugada (hora de Chile). Por eso un dato se borra a más tardar el día siguiente al que vence su plazo. Si una corrida falla, la siguiente borra lo que quedó pendiente.
+- **Ficha de relevo:** mientras la autorización esté vigente y hasta 90 días después de que se retire o termine. Pasado ese plazo, MATU la borra destruyendo su clave y borrando el texto cifrado. Esa tarea corre cada madrugada. Desde el día 90, y hasta que corre, la ficha ya no se puede ver ni recuperar, aunque su clave todavía exista. Si después se vuelve a autorizar, la ficha empieza en blanco y lo de antes no vuelve. Si pides borrarla, la dejamos ilegible de inmediato destruyendo su clave. [PENDIENTE: confirmar que una solicitud de borrado no espera los 90 días] Una sección adicional que quitas se borra en ese momento. Hasta que vence la última copia de respaldo que la contiene, sigue en esa copia, cifrada.
 - **Consumo de insumos:** mientras la autorización para calcular insumos esté vigente y hasta 90 días después de que termine, también los insumos que dejaste de seguir. Un insumo que eliminas se borra en ese momento. Si pides borrar todo el consumo, lo borramos de la base de datos: no se deja ilegible, se borra.
 - **Lista de insumos:** MATU no la guarda. Se arma cada vez que la abres, con lo que ya está anotado. Lo que agregas o cambias a mano se pierde al salir de la pantalla. Las copias que imprimas, guardes como PDF o compartas quedan fuera de MATU y no siguen estos plazos.
 - **Tu sesión:** cada sesión se borra 30 días después de vencer o de cerrarse.
@@ -342,7 +345,7 @@ Si hay una filtración que afecte datos personales, avisaremos sin demora a la A
 - Borrar el teléfono del relevo 30 días después de que el acceso vence o se corta (MATU-46). Mientras no exista, MATU no trata datos reales.
 - Ver, descargar o borrar los datos desde la aplicación. Mientras tanto, por el correo de la sección 10.
 - El recordatorio de los 12 meses.
-- Las tareas que borran la ficha y los insumos 90 días después de retirar su autorización, y la que borra a los 90 días los avisos cerrados, el registro de avisos y las compras anotadas, existen, pero se corren a mano: todavía no hay un programador de tareas. Desde el día 90, la aplicación muestra lo guardado como borrado y nadie lo puede ver ni recuperar, aunque la tarea todavía no haya corrido. Mientras no exista el programador, MATU no trata datos reales.
+- Un aviso automático al equipo cuando una de las tareas diarias de borrado falla. Mientras no exista, el equipo revisa a mano el historial de corridas.
 - Renovar desde la aplicación la autorización cuando vence su revisión de los 12 meses.
 - Avisos de insumos por notificación o por correo: en el piloto se prueban sin enviarse (los de la aplicación ya funcionan). Elegir desde la aplicación, en «Tu cuenta», si los recibes por correo o en un teléfono (MATU-55).
 - Enviar correos solo a direcciones verificadas.
