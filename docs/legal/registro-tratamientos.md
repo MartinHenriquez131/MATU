@@ -14,6 +14,7 @@ Cada historia que empieza a tratar datos personales agrega aquí su entrada.
   - dirección de entrega, opcional
   - la autorización: calidad, versión de la política, evidencia mínima y la referencia al documento si es representante legal
   - el retiro (MATU-44): `revocado_en` con `revocacion_motivo = retiro`, y en la auditoría `consentimiento.revocar`, quién y cuándo, sin nombre ni IP
+  - el borrado (MATU-72): `revocado_en` con `revocacion_motivo = borrado` en las autorizaciones vigentes, `persona_cuidada.datos_borrados_en` y `eliminado_en`, y en la auditoría `persona.borrar`, quién y cuándo, sin nombre ni IP. El nombre, el nombre de pila, el nivel de apoyo y la dirección se borran en la misma transacción
 - **Base de licitud:** consentimiento del titular o de su representante legal. Cuidadora o cuidador de hecho: [PENDIENTE: consulta legal].
 - **Quién accede:**
   - administrador y cuidador ven todo
@@ -21,8 +22,9 @@ Cada historia que empieza a tratar datos personales agrega aquí su entrada.
   - el observador ve el nombre
   - el estado de cada autorización (vigente, por renovar, retirada o borrada) y sus fechas los ven los cuatro roles. La calidad del otorgante, solo administrador y cuidador (MATU-44, decisión de Jorge del 06-11)
   - administrador y cuidador retiran cualquier autorización de la persona, sin importar quién la dio, y vuelven a darla. Pagador y observador reciben 404, y una política RLS por rol limita quién fija `revocado_en` (MATU-44, migración 0016)
+  - administrador y cuidador borran los datos de la persona. Pagador, observador y otro grupo reciben 404. Una política RLS por rol lo limita (`app_retira_autorizacion()`) (MATU-72)
   - operación: [PENDIENTE: acotar a nombre y dirección en la historia de backoffice]
-- **Conservación:** [PENDIENTE: plazo del registro de autorizaciones, también de las retiradas, en consulta legal]. Hoy no se borra (trigger `consentimiento_sin_borrado`).
+- **Conservación:** [PENDIENTE: plazo del registro de autorizaciones, también de las retiradas, en consulta legal]. Hoy no se borra (trigger `consentimiento_sin_borrado`). Después de un borrado, la autorización se conserva con su motivo. [PENDIENTE: plazo, CL-8]
 - **Medidas:**
   - separación por familia con RLS forzado
   - la aplicación se conecta sin privilegios de dueño
@@ -99,8 +101,9 @@ Cada historia que empieza a tratar datos personales agrega aquí su entrada.
   - operación nunca
 - **Conservación:**
   - mientras la autorización esté vigente y hasta 90 días después de que se retire o termine. En ese plazo nadie la lee: la API responde 403 a todos los roles y el relevo, 410
-  - el borrado se cumple destruyendo la clave de la persona (borrado criptográfico de MATU-11). Lo hace la tarea `tarea_destruccion` (función `plan_destruir_claves`, migración 0016) con las fichas cuya autorización se retiró hace 90 días o más: destruye la clave y, en la misma transacción, borra el texto cifrado y las filas de las secciones de esa persona, con `clave.destruir` en la auditoría. La corre el programador de tareas cada madrugada, en hora de Chile (MATU-74). Si una corrida falla, la siguiente destruye lo pendiente. Desde el día 90 nadie puede leer ni recuperar la ficha, aunque la tarea no haya corrido, porque una autorización nueva destruye primero la clave y borra lo cifrado con ella. La ficha empieza en blanco y la primera escritura crea una clave nueva, que solo puede existir después de esa autorización (índice `clave_datos_vigente_uq` y trigger `clave_datos_nueva_tras_autorizacion`). [PENDIENTE: confirmar que una solicitud de borrado no espera los 90 días]
-  - copias de respaldo: [PENDIENTE]
+  - el borrado se cumple destruyendo la clave de la persona (borrado criptográfico de MATU-11). Lo hace la tarea `tarea_destruccion` (función `plan_destruir_claves`, migración 0016) con las fichas cuya autorización se retiró hace 90 días o más: destruye la clave y, en la misma transacción, borra el texto cifrado y las filas de las secciones de esa persona, con `clave.destruir` en la auditoría. La corre el programador de tareas cada madrugada, en hora de Chile (MATU-74). Si una corrida falla, la siguiente destruye lo pendiente. Desde el día 90 nadie puede leer ni recuperar la ficha, aunque la tarea no haya corrido, porque una autorización nueva destruye primero la clave y borra lo cifrado con ella. La ficha empieza en blanco y la primera escritura crea una clave nueva, que solo puede existir después de esa autorización (índice `clave_datos_vigente_uq` y trigger `clave_datos_nueva_tras_autorizacion`).
+  - una solicitud de borrado no espera los 90 días (decisión de Jorge del 07-11, MATU-72): en la misma transacción de la petición se destruye la clave, se borran las filas de `plan_seccion` y el plan queda en 0 de 3, con `clave.destruir` y `persona.borrar` en la auditoría
+  - copias de respaldo: [PENDIENTE: plazo, CL-6]. La auditoría `persona.borrar` sirve de lista para volver a borrar antes de usar una copia restaurada
   - una sección adicional quitada: se borra en el acto. Queda en las copias de respaldo hasta que venzan
   - auditoría: 3 años, también la que guarda el tipo de una sección quitada
 - **Medidas:**
@@ -172,6 +175,7 @@ Cada historia que empieza a tratar datos personales agrega aquí su entrada.
   - un acceso vencido o cortado responde 410, aunque la cookie siga vigente
   - si la autorización de la persona está en pausa porque venció la revisión anual, la presentación, el canje y la ficha responden 410 `relevo-pausado` sin decir el motivo, y el canje no cuenta como intento (decisión 33). Vuelve a abrir al renovarse, si el acceso no venció
   - si la autorización se retira (MATU-44), en la misma transacción se cortan todos los accesos que no vencieron ni se cortaron, incluidos los bloqueados y los en pausa (`acceso_relevo.revocado_en` e `indice_token.revocado_en`), con un `relevo.revocar` por acceso y el mismo `request_id`. Responden 410 `relevo-revocado` y no vuelven a abrir, aunque se autorice de nuevo. Los plazos de 3 años y de 30 días corren desde el corte
+  - al borrar los datos de la persona (MATU-72) se cortan los accesos como en el retiro, con un `relevo.revocar` por acceso, y se anonimiza `nombre_pila_persona`. Los plazos de 3 años y 30 días corren desde el corte
   - cortar un acceso no exige autorización vigente (204 idempotente)
   - la sesión del relevo no fija el grupo
   - vigencia de 24 horas por omisión y de 30 días como máximo
@@ -202,7 +206,7 @@ Cada historia que empieza a tratar datos personales agrega aquí su entrada.
   - si se sigue o no, y la versión.
 
   Se trata como **dato sensible**. [PENDIENTE: consulta legal sobre si es dato relativo a la salud y si basta RLS sin cifrado (decisión 63)]
-- **Base de licitud:** consentimiento separado, `finalidad = consumo`, en la misma calidad de MATU-07, con la declaración `declaracion_consumo_<calidad>` (aprobadas por Jorge el 03-11) y la revisión de 12 meses. Sin él, 403. Cuidador de hecho: [PENDIENTE: consulta legal]. Se retira en la aplicación (MATU-44): en ese momento deja de calcular, de crear alertas y de avisar, y las alertas abiertas se descartan con `alerta.descartar`. El consumo queda sin lectura y se borra a los 90 días con `consumo_conservar`, que corre cada madrugada con el programador de tareas (MATU-74). Si se vuelve a autorizar antes del día 90, lo anotado vuelve. Desde el día 90, una autorización nueva borra primero los perfiles de la persona, aunque la tarea no haya corrido (decisión 128).
+- **Base de licitud:** consentimiento separado, `finalidad = consumo`, en la misma calidad de MATU-07, con la declaración `declaracion_consumo_<calidad>` (aprobadas por Jorge el 03-11) y la revisión de 12 meses. Sin él, 403. Cuidador de hecho: [PENDIENTE: consulta legal]. Se retira en la aplicación (MATU-44): en ese momento deja de calcular, de crear alertas y de avisar, y las alertas abiertas se descartan con `alerta.descartar`. El consumo queda sin lectura y se borra a los 90 días con `consumo_conservar`, que corre cada madrugada con el programador de tareas (MATU-74). Si se vuelve a autorizar antes del día 90, lo anotado vuelve. Desde el día 90, una autorización nueva borra primero los perfiles de la persona, aunque la tarea no haya corrido (decisión 128). El borrado a pedido (MATU-72) borra en el acto los perfiles, y con ellos las alertas y las compras, por `ON DELETE CASCADE`, sin esperar `consumo_conservar` ni `quiebre_conservar`.
 - **Quién accede:**
   - admin y cuidador leen y escriben (en la API y en una política RLS de escritura);
   - pagador y observador solo leen (decisión de Jorge del 03-11);
@@ -211,7 +215,7 @@ Cada historia que empieza a tratar datos personales agrega aquí su entrada.
   - mientras la autorización esté vigente y hasta 90 días después, también los insumos que no se siguen;
   - eliminar un insumo lo borra en el acto;
   - el consumo se **borra**, porque no hay clave que destruir (decisiones de Jorge del 03-11);
-  - copias de respaldo: [PENDIENTE].
+  - copias de respaldo: [PENDIENTE: plazo, CL-6].
 - **Medidas:**
   - RLS forzado por grupo y escritura por rol en RLS;
   - `ETag`/`If-Match` (412/428);
