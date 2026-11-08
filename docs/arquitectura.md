@@ -164,6 +164,8 @@ Catálogo de requisitos trazados a módulo y priorizados con MoSCoW. **Debe** en
 
 **RF-09 se redefinió con el ADR-029** (3 de noviembre). La v1.1 decía que el plan de cuidado se exportaba como documento imprimible para el relevo sin conexión. Una hoja en papel no vence, no se corta y la lee cualquiera, así que la ficha se comparte solo con el acceso de relevo. Lo que se exporta y se imprime es la lista de reposición, que no lleva datos de la ficha (RF-15, ADR-031).
 
+**RF-42 sigue en *Debe*.** El cierre del ADR-023 lo había bajado a *Podría*. Jorge decidió el 8 de noviembre volverlo a *Debe* y cerrarlo con una prueba de llenado asistido en MATU-42: un miembro con permiso completa o corrige la ficha, y la autoría queda registrada.
+
 ### 3.2 Capa 2 · Consumo y predicción
 
 | ID | Requisito | Módulo | Prioridad |
@@ -716,7 +718,7 @@ El `true` de `set_config(clave, valor, true)` hace el ajuste **local a la transa
 2. Cada job abre su transacción y fija `app.grupo_id` con el mismo helper que usa la API.
 3. **El worker corre con el mismo rol que la API.** No existe un rol de aplicación que evada RLS.
 
-**Cómo quedó en el semestre.** No hay ARQ ni un worker en escucha todavía. Los trabajos son tareas de línea de comando que se invocan a mano o desde un cron, con la conexión de `matu_app` (MATU-37, MATU-41 y MATU-44): el trabajo diario de quiebres, el publicador de avisos y las conservaciones. Cumplen las tres reglas: el trabajo diario enumera los grupos con `app.rol = 'operacion'`, que solo devuelve identificadores, y por cada grupo abre su propia transacción con `app.grupo_id` y `app.rol = 'sistema'`. Si un grupo falla, se deshace solo ese grupo. **Las conservaciones borran con funciones `SECURITY DEFINER`** (dueño `matu_owner`, `search_path` fijo, `EXECUTE` solo para `matu_app`) que exigen `app.rol = 'operacion'`, solo borran filas vencidas y devuelven contadores, nunca columnas. [PENDIENTE: el programador de tareas del despliegue, con el cierre del sprint 5.]
+**Cómo quedó en el semestre.** No hay ARQ ni un worker en escucha todavía. Los trabajos son tareas de línea de comando que se invocan a mano o desde un cron, con la conexión de `matu_app` (MATU-37, MATU-41 y MATU-44): el trabajo diario de quiebres, el publicador de avisos y las conservaciones. Cumplen las tres reglas: el trabajo diario enumera los grupos con `app.rol = 'operacion'`, que solo devuelve identificadores, y por cada grupo abre su propia transacción con `app.grupo_id` y `app.rol = 'sistema'`. Si un grupo falla, se deshace solo ese grupo. **Las conservaciones borran con funciones `SECURITY DEFINER`** (dueño `matu_owner`, `search_path` fijo, `EXECUTE` solo para `matu_app`) que exigen `app.rol = 'operacion'`, solo borran filas vencidas y devuelven contadores, nunca columnas. [PENDIENTE: el programador de tareas del despliegue llega con MATU-74.]
 
 #### Las excepciones, reconocidas y acotadas
 
