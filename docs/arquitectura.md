@@ -133,7 +133,7 @@ Cada atributo se expresa como escenario medible, porque un atributo sin métrica
 | 5 | **Disponibilidad del flujo de pedido** | Catálogo a pedido a pago bajo 800 ms en percentil 95 con 50 usuarios concurrentes. Disponibilidad objetivo 99% mensual | Prueba de carga básica en el sprint 5 del calendario v1.3 |
 | 6 | **Observabilidad operacional** | Ante un pedido con incidencia, la operación reconstruye la línea de tiempo completa desde el backoffice sin tocar la base de datos | Revisión manual en el sprint 5 del calendario v1.3 |
 
-**El atributo 3 cambió de métrica en esta versión.** La v1.0 medía "primer pedido completo en menos de 6 minutos". La validación mostró que el cuello de botella no es el pedido sino el llenado del plan, y que ocho preguntas no se responden en cinco minutos. La métrica pasa a medir la ficha de relevo, que es la versión mínima obligatoria.
+**El atributo 3 cambió de métrica en la v1.1.** La v1.0 medía "primer pedido completo en menos de 6 minutos". La validación mostró que el cuello de botella no es el pedido sino el llenado del plan, y que ocho preguntas no se responden en cinco minutos. La métrica pasa a medir la ficha de relevo, que es la versión mínima obligatoria.
 
 Atributos deliberadamente **no** priorizados: escalabilidad horizontal, latencia sub-100 ms, multi-región y alta disponibilidad activo-activo. Declararlo es parte de la decisión.
 
@@ -1163,7 +1163,7 @@ GET    /v1/backoffice/indicadores
 
 ## 10. Diseño de interacción y accesibilidad
 
-**Aquí la accesibilidad es un requisito funcional, no un acabado.** Y en esta versión, además, es la sección con más cambios de origen empírico: la validación con cuidadoras tocó directamente el diseño del flujo principal.
+**Aquí la accesibilidad es un requisito funcional, no un acabado.** Y en la v1.1, además, fue la sección con más cambios de origen empírico: la validación con cuidadoras tocó directamente el diseño del flujo principal.
 
 ### 10.1 Perfiles de usuario
 
@@ -1352,7 +1352,7 @@ Esta es la pregunta jurídica central del proyecto.
 | Transporte | TLS 1.3 y HSTS. **Sin certificate pinning en el piloto**: con renovación automática de certificados, fijar el certificado hoja inhabilita todas las instalaciones publicadas cada 60 días |
 | Autenticación | Argon2id, access token de 15 min, refresh rotativo con detección de reutilización, MFA obligatorio para operación. **La revocación de un access token es efectiva en 15 minutos por caducidad**, no de forma inmediata: un JWT autocontenido no se revoca. Se acepta y se declara |
 | API | Rate limiting por IP y por usuario, validación estricta con Pydantic, CORS restringido, proyecciones por rol. **La IP no se guarda.** El contador de intentos del relevo (MATU-25) vive en Redis. Su clave es una huella HMAC de la IP, con un secreto de `.env`, y vence a la hora. La IP en claro no llega a la base, a la auditoría ni a los logs |
-| Base de datos | RLS forzado en toda tabla de negocio, con las dos excepciones de la sección 7.7 acotadas por permiso, usuario de aplicación sin `SUPERUSER`, `auditoria` sin UPDATE ni DELETE, cifrado de volumen |
+| Base de datos | RLS forzado en toda tabla de negocio, con las excepciones de la sección 7.7 acotadas por permiso, usuario de aplicación sin `SUPERUSER`, `auditoria` sin UPDATE ni DELETE, cifrado de volumen |
 | Datos sensibles | Sobre-cifrado por sección, borrado criptográfico, sin plan de cuidado en ningún registro de log |
 | Archivos | Bucket privado, URL firmada de 5 minutos para lectura y 15 para subida, sin CDN público, hash SHA-256 de cada evidencia |
 | Acceso de relevo | Token de **uso múltiple hasta vencer** más **PIN de cuatro dígitos**, alcance por campo, revocación inmediata, cada apertura auditada. **La API no envía el PIN**: lo muestra una sola vez a quien comparte, que se lo dicta al relevo. El envío por SMS es *Debería* y está fuera del semestre. El enlace es `/r#<token>`, con el token en el fragmento, y se canjea con el PIN por una cookie de sesión efímera en un paso, para que el token no quede en el historial de un teléfono prestado. La página limpia el fragmento con `history.replaceState` después del canje |
@@ -1610,7 +1610,7 @@ Kubernetes queda descartado: consume sprints y no agrega puntos en la defensa.
 - `/health` que verifica base de datos, Redis, almacenamiento y custodia de claves, consultado por un monitor externo.
 - **Cuatro indicadores de negocio** en el backoffice, que son los que se muestran en la defensa: pedidos por estado, **alertas de quiebre generadas y convertidas en pedido**, tiempo medio de entrega y **completitud media de la ficha de relevo**.
 
-Los dos indicadores en negrita son los que miden si el producto funciona como producto y no solo como software. El segundo cambió de métrica en esta versión: mide la ficha, que es lo obligatorio, y no el plan completo.
+Los dos indicadores en negrita son los que miden si el producto funciona como producto y no solo como software. El segundo cambió de métrica en la v1.1: mide la ficha, que es lo obligatorio, y no el plan completo.
 
 ---
 
@@ -1706,7 +1706,7 @@ Los dos indicadores en negrita son los que miden si el producto funciona como pr
 
 **Contexto.** El documento conceptual pide dividir el gasto entre familiares. **Ninguna pasarela chilena divide un cobro entre pagadores distintos**, de modo que había que orquestarlo: autorizaciones independientes, plazo de recaudación, redistribución sobre un respaldo y captura prorrateada por resto mayor. El diseño completo está en la sección 8.3 y es correcto.
 
-**Decisión, revisada en esta versión: el reparto multi-pagador sale del alcance comprometido del semestre y pasa a la fase 2.** RF-22, RF-23 y RF-24 bajan a *Podría*. RF-25 se mantiene sin prorrateo.
+**Decisión, revisada en la v1.1: el reparto multi-pagador sale del alcance comprometido del semestre y pasa a la fase 2.** RF-22, RF-23 y RF-24 bajan a *Podría*. RF-25 se mantiene sin prorrateo.
 
 **Por qué cambió, y son dos razones que se refuerzan.**
 
