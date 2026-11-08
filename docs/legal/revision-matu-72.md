@@ -38,7 +38,7 @@
 12. **C12:** no depende de los pedidos (capa 3). Si existiera un pedido, se conserva, y la dirección no se borra mientras la use.
 13. **C13:** pruebas marcadas con su RF: camino feliz, 404, 409, concurrencia de C6 y C7, relevo 410, auditoría sin contenido y vuelta atrás si falla un efecto.
 
-**Textos:** salen tal cual de `lenguaje.md` 24, aprobados por Jorge el 08-11, con los ajustes A1 y A2 del diseñador.
+**Textos:** salen tal cual de `lenguaje.md` 24, aprobados por Jorge el 08-11, con los ajustes A1, A2 y A3 del diseñador (A3: sin pronombre para la persona).
 
 ## Consulta legal
 
@@ -52,3 +52,17 @@ CL-1 a CL-5 siguen abiertas como en MATU-44. Las tres van a la tarjeta de consul
 - el borrado a pedido por correo, sin pasar por el grupo (política, sección 13)
 - el plazo de las copias de respaldo (CL-6)
 - el correo de contacto.
+
+## Revisión de cierre (08-11)
+
+Revisé lo implementado en la rama `matu-72-borrar-al-tiro`: la migración 0018, el caso de uso y su repositorio, los efectos de la ficha y del consumo, las dependencias de escritura, el contrato (decisiones 149 a 157) y la pantalla de Grupo familiar.
+
+- **D1 a D8:** cumplen. D3 y el plazo de D4 quedan en consulta legal (CL-6 y CL-8).
+- **Qué se borra y qué se conserva:** cumple con la tabla de la revisión previa. La dirección se conserva solo si la usa otra persona del grupo.
+- **Auditoría y logs:** cumplen. Sin nombres, teléfonos, insumos, cantidades, contadores ni IP.
+- **C1 a C13:** cumplen, con pruebas de concurrencia para C6, C7 y C8.
+- **Textos de la pantalla:** cumplen con `lenguaje.md` 24.
+- **Política:** se corrigieron tres textos para que digan lo mismo que el código: el estado «borrada a pedido» que nadie ve (§6), la dirección compartida (§8 y §10) y lo que se conserva y ya no se ve en la aplicación (§10). Aprobado por Jorge el 08-11.
+- **Para la capa 3:** un pedido o una reposición programada de una persona borrada se decide al construirlos. Hoy el borrado fallaría cerrado si existiera una reposición programada.
+
+**Antes de operar con datos reales:** el borrado a pedido por correo (política, sección 13), el plazo de las copias de respaldo (CL-6), CL-7, CL-8, MATU-46 y el correo de contacto.

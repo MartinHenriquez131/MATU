@@ -24,7 +24,7 @@ Cada historia que empieza a tratar datos personales agrega aquí su entrada.
   - administrador y cuidador retiran cualquier autorización de la persona, sin importar quién la dio, y vuelven a darla. Pagador y observador reciben 404, y una política RLS por rol limita quién fija `revocado_en` (MATU-44, migración 0016)
   - administrador y cuidador borran los datos de la persona. Pagador, observador y otro grupo reciben 404. Una política RLS por rol lo limita (`app_retira_autorizacion()`) (MATU-72)
   - operación: [PENDIENTE: acotar a nombre y dirección en la historia de backoffice]
-- **Conservación:** [PENDIENTE: plazo del registro de autorizaciones, también de las retiradas, en consulta legal]. Hoy no se borra (trigger `consentimiento_sin_borrado`). Después de un borrado, la autorización se conserva con su motivo. [PENDIENTE: plazo, CL-8]
+- **Conservación:** [PENDIENTE: plazo del registro de autorizaciones, también de las retiradas, en consulta legal]. Hoy no se borra (trigger `consentimiento_sin_borrado`). Después de un borrado, la autorización se conserva con su motivo. [PENDIENTE: plazo, CL-8] La fila de una persona borrada queda solo con su id, el grupo, las fechas y el valor fijo `borrada`, sin nivel de apoyo ni dirección, mientras existan los registros que la referencian. [PENDIENTE: plazo, CL-8]
 - **Medidas:**
   - separación por familia con RLS forzado
   - la aplicación se conecta sin privilegios de dueño
@@ -215,6 +215,7 @@ Cada historia que empieza a tratar datos personales agrega aquí su entrada.
   - mientras la autorización esté vigente y hasta 90 días después, también los insumos que no se siguen;
   - eliminar un insumo lo borra en el acto;
   - el consumo se **borra**, porque no hay clave que destruir (decisiones de Jorge del 03-11);
+  - borrado a pedido (MATU-72): en el acto, los perfiles y con ellos las alertas y las compras (`ON DELETE CASCADE`). El registro de avisos (`notificacion`) sigue su plazo de 90 días, sin destino ni contenido;
   - copias de respaldo: [PENDIENTE: plazo, CL-6].
 - **Medidas:**
   - RLS forzado por grupo y escritura por rol en RLS;
