@@ -4,6 +4,7 @@
 **Estado:** borrador. Lo revisa Martín en MATU-31 y lo aprueba Jorge. Los textos marcados **[PENDIENTE DE JORGE]** no se usan hasta que él los apruebe.
 **Decisiones de Jorge del 27-10 (MATU-09 y MATU-30):** aprobó el aviso al relevo (7.5), los dos nombres antes del PIN (7.1 y 7.4), la ayuda del teléfono (9) y las preguntas guía con el nombre de la persona (5.1 y 5.2). La sección 10 marca qué diferencias quedan resueltas.
 **MATU-68 (08-11):** entran los textos que la app ya mostraba sin estar aquí: las secciones nuevas 25 (alta) y 26 (marco de la app), la 6.6 y filas en 5.4, 7.1, 7.3, 7.4, 7.5, 8, 9.1, 13.3, 15 y 18. Los del alta los revisó el analista normativo, y donde propuso un cambio va el texto propuesto. El alta ya no pide la dirección. Aprobados por Jorge el 08-11. La sección 24 queda para MATU-72.
+**MATU-72 (08-11):** entra la sección 24, borrar los datos de la persona, con los ajustes A1 y A2 del diseñador. La 22 precisa que después de un borrado no vuelve nada. Aprobados por Jorge el 08-11.
 **Fuentes:** resultados de las entrevistas (`docs/resultados-entrevistas.md`), arquitectura sección 10, política de privacidad v0.9, la demo aprobada (`Demo/src/`, rama `demo-web-viernes-30`) y el contrato de MATU-09 (`docs/api/`, rama `matu-09-contrato-api`).
 
 ---
@@ -770,6 +771,8 @@ En la app se dice «autorización» y «retirar», nunca «consentimiento» ni �
 
 **Reglas de armado:** si no se pudieron contar los enlaces, se omite «Hoy abren `{n}`.». Si la persona no tiene autorización de insumos, se omite «La autorización de los insumos no cambia.». El caso de la autorización retirada en Enlaces sale de la sección 9.1 y queda en esta tabla.
 
+**Después de un borrado (MATU-72):** lo que dice «vuelve lo que estaba escrito» o «vuelve lo que estaba anotado» vale solo para un retiro. Si se borraron los datos de la persona (sección 24), no vuelve nada: la persona sale de MATU y no hay autorización que volver a dar. Para cuidarla con MATU de nuevo hay que registrarla otra vez, y todo empieza en blanco.
+
 ## 23. Anotar una compra o lo que queda (MATU-51) · Aprobados por Jorge el 07-11
 
 En la app se dice «Compré» y «Me quedan», nunca «reposición», «reponer» ni «stock». «Compré» habla de lo que la familia ya hizo: la app nunca ofrece comprar. La fecha la pone MATU (hoy) y la familia no la elige. Los días y la fecha de la confirmación los da la API.
@@ -799,6 +802,28 @@ En la app se dice «Compré» y «Me quedan», nunca «reposición», «reponer�
 | Otra persona lo cambió (412) | {autor} cambió «{nombre}» mientras lo anotabas. Revisa cómo quedó y vuelve a intentarlo. · Ver cómo quedó |
 | Errores generales | No pudimos guardar. Revisa tu conexión y vuelve a intentarlo. (sección 17) · No pudimos guardar. Revisa los datos y vuelve a intentarlo. (sección 18) |
 
+
+## 24. Borrar los datos de la persona (MATU-72) · Aprobados por Jorge el 08-11
+
+En la app se dice «borrar», nunca «suprimir» ni «eliminar». El número de enlaces lo da la API, la pantalla no lo calcula.
+
+| Dónde | Texto |
+|---|---|
+| Grupo familiar, bloque al final, separado de los permisos | Borrar sus datos · Si {nombre_pila} o su representante legal lo pide, o si ya no la cuidan con MATU, puedes borrar todo lo guardado de ella. No se puede deshacer. · [botón] Borrar los datos de {nombre_pila} |
+| Confirmación, título | ¿Borrar todo lo guardado de {nombre_pila}? |
+| Confirmación, texto | Esto no se puede deshacer. · Borramos ahora su ficha, con todas sus secciones, y los insumos y las compras anotadas. Nadie los podrá recuperar, tampoco el equipo de MATU. · Se cortan ahora todos sus enlaces de relevo. Hoy abren {n}. (1: «Hoy abre 1.» 0: «Hoy ningún enlace abre.») Quien tenga la ficha abierta deja de verla cuando vuelva a mirarla. No recibe aviso. · {nombre_pila} sale de MATU. Si después quieren volver a usar MATU para cuidarla, hay que registrarla de nuevo, y todo empieza en blanco. · Guardamos, sin nada de lo escrito, el registro de las autorizaciones, de los enlaces y de quién abrió la ficha, por los plazos de la política de privacidad. · Lo borrado sigue en las copias de respaldo hasta que vencen, y nadie las usa para ver datos. · Una lista que ya imprimiste o compartiste no se borra: quedó fuera de MATU. |
+| Casilla obligatoria | Entiendo que esto no se puede deshacer. |
+| Botones | Borrar todo · No borrar |
+| En curso | Borrando… |
+| Hecho | Borramos los datos de {nombre_pila}. Cortamos {n} enlaces. (1: «Cortamos 1 enlace.» 0: «No había enlaces que abrieran.») |
+| Error de conexión | No pudimos borrar los datos. Revisa tu conexión y vuelve a intentarlo. Todo sigue como estaba. |
+| 409 | Otra persona de tu grupo ya borró los datos de {nombre_pila}. |
+| Pagador y observador, en lugar del botón | Puede borrarlos quien administra el grupo o quien cuida a {nombre_pila}. |
+| Relevo | Sin texto nuevo: el 410 `relevo-revocado` de siempre. |
+
+**Ajustes del diseñador, aprobados el 08-11:** A1, el botón no lleva `aria-label`: su nombre accesible es el texto visible. A2, al pagador y al observador el bloque les muestra solo el título y la línea de quién puede borrar.
+
+**Reglas de armado:** si no se pudieron contar los enlaces, se omite «Hoy abren {n}.».
 
 ## 25. Alta: la cuenta, el grupo, la persona y la autorización (MATU-39) · Aprobados por Jorge el 08-11
 
