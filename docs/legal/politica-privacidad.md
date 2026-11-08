@@ -17,9 +17,9 @@
 
 **MATU-44 (06-11):** se ajustan las secciones 4, 5, 6, 8, 10 y 13 con el retiro de las autorizaciones desde la aplicación, volver a autorizar la ficha y el borrado de la ficha 90 días después del retiro. No agregan usos, datos ni destinatarios, y no cambian las declaraciones, así que no cambian la versión: `POLITICA_VERSION` sigue en `0.10` (criterio del 06-11). Aprobado por Jorge el 06-11.
 
-**MATU-74 (08-11):** se ajustan las secciones 8 y 13 con el programador de tareas: los borrados por plazo corren solos cada madrugada. No agregan usos, datos ni destinatarios, así que no cambian la versión: `POLITICA_VERSION` sigue en `0.10` (criterio del 06-11). Aprobado por Jorge el 08-11.
-
 **MATU-51 (07-11):** se ajustan las secciones 6 y 8 con «Compré» y «Me quedan», que anotan una compra o lo que queda en cualquier insumo, haya aviso o no, y las compras anotadas pasan a guardarse 90 días. No agregan usos, datos ni destinatarios, y un plazo más corto no cambia las declaraciones, así que no cambian la versión: `POLITICA_VERSION` sigue en `0.10` (criterio del 06-11). Aprobado por Jorge el 07-11.
+
+**MATU-74 (08-11):** se ajustan las secciones 8 y 13 con el programador de tareas: los borrados por plazo corren solos cada madrugada. No agregan usos, datos ni destinatarios, así que no cambian la versión: `POLITICA_VERSION` sigue en `0.10` (criterio del 06-11). Aprobado por Jorge el 08-11.
 
 ---
 
@@ -343,7 +343,7 @@ Si hay una filtración que afecte datos personales, avisaremos sin demora a la A
 - Borrar el teléfono del relevo 30 días después de que el acceso vence o se corta (MATU-46). Mientras no exista, MATU no trata datos reales.
 - Ver, descargar o borrar los datos desde la aplicación. Mientras tanto, por el correo de la sección 10.
 - El recordatorio de los 12 meses.
-- Un aviso automático al equipo cuando una de las tareas diarias de borrado falla. Mientras no exista, el equipo revisa a mano el historial de corridas.
+- Un aviso automático al equipo cuando una de las tareas diarias falla. Mientras no exista, el equipo revisa a mano el historial de corridas.
 - Renovar desde la aplicación la autorización cuando vence su revisión de los 12 meses.
 - Avisos de insumos por notificación o por correo: en el piloto se prueban sin enviarse (los de la aplicación ya funcionan). Elegir desde la aplicación, en «Tu cuenta», si los recibes por correo o en un teléfono (MATU-55).
 - Enviar correos solo a direcciones verificadas.
