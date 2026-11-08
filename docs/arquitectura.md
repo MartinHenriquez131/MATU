@@ -49,7 +49,7 @@ Este documento define **cómo se construye MATU**. Asume el documento conceptual
 
 Está escrito para cuatro lectores:
 
-- **El equipo de desarrollo**, que necesita requisitos, módulos, modelo de datos, contratos y estados. Este documento es además el **contrato de trabajo entre Jorge y Martín**: define los límites por los que se puede avanzar en paralelo sin pisarse.
+- **El equipo de desarrollo**, que necesita requisitos, módulos, modelo de datos, contratos y estados. Este documento es además el **contrato de trabajo entre Jorge y Martín**: define qué se construye y con qué criterio se revisa. Desde el ADR-030, Jorge desarrolla y Martín despliega, prueba y revisa (sección 15.5).
 - **El profesor guía y la comisión**, que evalúan si las decisiones están fundamentadas.
 - **Quien evalúe el cumplimiento legal**, que necesita ver el tratamiento de datos sensibles.
 - **El equipo de dentro de seis meses**, que necesita entender por qué se decidió algo antes de cambiarlo.
@@ -1275,7 +1275,7 @@ MATU trata datos que la ley clasifica como sensibles: estado de salud y condici�
 | Finalidad limitada y minimización | Proyecciones por rol. El comercio recibe un DTO distinto, no el objeto completo con campos ocultos en la interfaz |
 | Medidas proporcionales al riesgo | Sobre-cifrado por sección, MFA para operación, URLs firmadas de vida corta, cifrado de volumen |
 | Notificación de brecha **sin dilación indebida** | La ley chilena exige notificar sin dilación indebida a la Agencia y a los titulares. **El plazo de 72 horas proviene del RGPD europeo**, y se adopta como objetivo interno, no como cifra legal chilena. Requiere **detectar**: registro de acceso a datos sensibles con alerta ante patrones anómalos |
-| Derechos de acceso, rectificación y supresión | Endpoints de exportación y borrado por titular, con borrado lógico que respeta obligaciones contables sobre pagos |
+| Derechos de acceso, rectificación y supresión | «Mis datos» (MATU-54, sprint 5) entrega a quien corresponde todo lo que MATU guarda de la persona, incluida la ficha, que no se exporta de otra forma (ADR-029). Retirar la autorización (MATU-44) corta los accesos de relevo y destruye la ficha a los 90 días. Borrado lógico que respeta obligaciones contables sobre pagos |
 | Encargados de tratamiento | Los proveedores de infraestructura y quien despacha son encargados de MATU, con contrato según el art. 15 bis. El comercio en convenio recibe solo productos, cantidades y una referencia aleatoria por pedido; se puede sostener que no trata datos personales, y aun así MATU lo trata como si fuera encargado y su convenio lleva siempre las cláusulas del art. 15 bis, sea o no la referencia un dato personal para él (decisión de Jorge, 27-10). |
 
 ### 11.2 Modelo de autorización
@@ -2023,6 +2023,16 @@ Existía en el diseño anterior sobre la publicación exclusiva en Android. Se r
 
 ---
 
+### ADR-030 · Roles del equipo: Jorge desarrolla, Martín despliega, prueba y revisa
+
+**Estado.** Aceptado el 5 de noviembre de 2026, en la revisión del sprint 3. **Reemplaza la nota del reparto en prueba** del 4 de noviembre y **ajusta el reparto por eje vertical** de la sección 15.5. Texto completo en [`adr/ADR-030-roles-del-equipo.md`](adr/ADR-030-roles-del-equipo.md).
+
+**Decisión.** Jorge es Product Owner y desarrolla todas las tarjetas con los seis agentes. Martín es Scrum Master, dueño del despliegue y de las pruebas en el teléfono y con usuarios, y revisa y fusiona los PR de Jorge. Las políticas innegociables, la definición de terminado y la regla de que nadie fusiona su propio trabajo no cambian.
+
+**Consecuencias.** La capacidad de desarrollo depende de una persona. Es el riesgo principal y se mide con el factor de vibecoding de cada retrospectiva.
+
+---
+
 ### ADR-031 · La lista de insumos se comparte como texto, sin enlace
 
 **Estado.** Aceptado el 6 de noviembre de 2026. **Ajusta RF-15**, las secciones 9.3 y 9.6 y el almacenamiento de objetos. Texto completo en [`adr/ADR-031-lista-insumos-solo-texto.md`](adr/ADR-031-lista-insumos-solo-texto.md).
@@ -2132,24 +2142,34 @@ Existía en el diseño anterior sobre la publicación exclusiva en Android. Se r
 
 ### 15.5 Reparto del trabajo entre dos personas
 
-Con dos desarrolladores el mayor riesgo de calendario no es la dificultad técnica sino el bloqueo mutuo. **El reparto es por eje vertical, no por capa.**
+> **Reescrita con el ADR-030** (5 de noviembre). La v1.1 repartía el trabajo por eje vertical entre dos desarrolladores. Ese reparto rigió hasta el sprint 3, con la regla de ejes suspendida en una parte. Desde el 5 de noviembre el reparto es por rol.
 
-| Eje | Módulos | Sprints |
+**El reparto vigente (ADR-030).**
+
+| Persona | Rol | Qué hace |
 |---|---|---|
-| **A · Cuidado y consumo** | `care_plan`, `consumption`, `catalog` | 2, 3, 5 y 6 |
-| **B · Identidad, dinero y operación** | `iam`, `care_circle`, `ordering`, `payments`, `settlement`, `backoffice` | 0, 1, 7 y 8 |
+| **Jorge Espinoza** | Product Owner y desarrollo | Todas las tarjetas de arquitectura, backend y frontend, con los seis agentes: el QA previo al PR, el analista normativo antes y al cierre, y el diseñador en la especificación y en la revisión visual. Como PO decide el alcance, las prioridades y los criterios |
+| **Martín Henríquez** | Scrum Master, despliegue y pruebas | Dueño del despliegue (staging, HTTPS y el entorno de demostración), de la prueba en el teléfono y de las pruebas con usuarios. Revisa y fusiona los PR de Jorge, con su informe en `TESTER/` (PASS o FAIL, con evidencia), y revisa la redacción de los documentos. No toca código de producto ni cambia decisiones: las evalúa |
 
-Ambos ejes tocan la app de familia, así que el paquete `core` de Flutter se construye **en conjunto** en el sprint 4.
+**Por qué.** Lo probó el equipo durante una semana, desde el 4 de noviembre: Martín revisó y fusionó toda la fila de PR del sprint 3 y probó en el teléfono seis historias, y el sprint 3 cerró con 15 historias en `main`. El motivo inicial fue de costo: el desarrollo con todos los agentes consume muchos tokens, y solo una de las dos cuentas lo sostiene.
 
-**Tres reglas de coordinación:**
+**Lo que no cambia:**
 
-1. **El contrato de API se acuerda y se mergea antes que la implementación.** A partir de ahí quien consume trabaja contra un doble sin esperar.
-2. **Nadie edita módulos del otro eje.** Si el eje A necesita algo del B, lo pide como cambio.
-3. **Las migraciones de Alembic se revisan de a dos, siempre.** Es el único punto del repositorio donde dos ramas paralelas producen un conflicto que no se resuelve solo.
+1. **El contrato de API se acuerda antes que la implementación.** Los contratos propuestos viven en `docs/api/propuestos/` hasta que el código los cumple, y desde ahí manda `openapi.json`.
+2. **Nadie fusiona su propio trabajo.** Martín fusiona los PR de Jorge, y cuando una historia toca datos sensibles o dinero, su revisión es obligatoria (sección 12.6, punto 5).
+3. **Las migraciones se apilan en orden.** Dos historias con migración no salen de la misma cabeza: la segunda se encadena a la primera, y `test_cadena_migraciones.py` exige una sola cabeza (sección 7.8). Los PR apilados se fusionan con merge commit, no con squash, para que el siguiente de la pila no quede en conflicto.
+4. **La revisión previa del analista normativo** va antes de implementar todo lo que toque datos personales, consentimiento o dinero.
 
-**Trabajo conjunto obligatorio:** sprint 0 completo, modelo de datos, `core` de Flutter, prueba de concepto de Transbank, y toda revisión que toque dinero o datos sensibles.
+**El reparto anterior, por eje vertical, hasta el 4 de noviembre.**
 
-**Riesgo de capacidad.** Con dos personas, la ausencia de una es el 50% de la capacidad, y una ventana de nueve semanas no permite absorberla. La mitigación es que cada eje tenga documentado su estado en el propio repositorio y que las revisiones cruzadas mantengan a ambos al tanto del otro eje. No elimina el riesgo, lo hace sobrevivible.
+| Eje | Módulos | Sprints de la v1.1 |
+|---|---|---|
+| **A · Cuidado y consumo** (Jorge) | `care_plan`, `consumption`, `catalog` | 2, 3, 5 y 6 |
+| **B · Identidad, dinero y operación** (Martín) | `iam`, `care_circle`, `ordering`, `payments`, `settlement`, `backoffice` | 0, 1, 7 y 8 |
+
+Su regla central era que nadie editaba módulos del otro eje. **En los sprints 1 a 3 esa regla se suspendió para `care_circle`, `care_plan` y `shared`**, porque el tramo concentraba el trabajo de la capa 1, y el dueño del módulo revisaba todo PR que lo tocara (backlog, sección "Regla de ejes en este tramo"). Con el ADR-030 la regla deja de aplicarse, porque una sola persona desarrolla. Las etiquetas de eje de Trello siguen diciendo quién lleva cada tarjeta, y cada ítem de sus checklists empieza con «Jorge ·» o «Martín ·».
+
+**Riesgo de capacidad.** Las 23 horas semanales de desarrollo dependen de las 11 horas de Jorge, con el factor de vibecoding del calendario v1.3. Es el riesgo principal del reparto y se mide en cada retrospectiva. Con una ventana de nueve semanas, una ausencia de Jorge obliga a aplicar el orden de sacrificio de inmediato, y una de Martín deja los PR sin fusionar.
 
 ---
 
@@ -2246,7 +2266,7 @@ De los cuatro huecos que la v1.0 declaraba, **uno se cerró y tres siguen abiert
 | **Los precios del comercio no están al día** | Media | Medio | El convenio obliga al comercio a mantener precios y stock. Sin convenio, el piloto usa precios de ejemplo detrás del puerto `CatalogoComercio` y lo declara en la interfaz |
 | **Un producto apartado falta al retirar** | Baja | Medio | El comercio que confirma el stock lo aparta. Si falta, el mismo producto en otro comercio, con la diferencia a cargo de MATU, o devolución de su precio. La reasignación después de pagar es fase 2 y en el semestre se muestra simulada |
 | **La consulta legal del ADR-027 no llega antes de cobrar dinero real** | Media | Alto | En el semestre no se cobra dinero real. La investigación normativa del 27-10 resolvió con el texto de la ley que el retracto aplica y cómo se informa, y que no hay un plazo legal específico para devolver lo no entregado. El 27-10 Jorge resolvió por diseño P3 a P7 con la opción más protectora. Antes de cobrar dinero real quedan P1 y P2 para un abogado y P8 para un contador (sección 18.1). Mientras tanto, los productos se tratan como sensibles. |
-| Pérdida de capacidad de una persona | Media | **Crítico en nueve semanas** | 50% de la capacidad. Revisiones cruzadas y estado documentado en el repositorio. Con la ventana acortada, una ausencia de dos semanas ya no es recuperable y obliga a aplicar el orden de sacrificio de inmediato |
+| Pérdida de capacidad de una persona | Media | **Crítico en nueve semanas** | Con el ADR-030 el desarrollo depende de Jorge, y la revisión y el despliegue de Martín. Estado documentado en los dos repositorios, informes de revisión en `TESTER/` y PR pequeños. Con la ventana acortada, una ausencia de dos semanas ya no es recuperable y obliga a aplicar el orden de sacrificio de inmediato |
 | Curar el catálogo toma más de lo previsto | Media | Bajo | El catálogo semilla son los seis productos que reportaron las entrevistadas, no una lista inventada. Es trabajo humano acotado, en el sprint 6 |
 | Ningún comercio acepta convenio | Media | **Medio**, ya no crítico | El ADR-002 lo degradó. Y la validación entregó un candidato concreto: la farmacia de barrio que ya opera con cuenta corriente para una familia entrevistada |
 | Filtración entre grupos familiares | Baja | **Crítico** | RLS forzado incluidos los workers, más diez pruebas de aislamiento en el pipeline |
