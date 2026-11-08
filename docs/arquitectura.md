@@ -20,7 +20,7 @@ Esta es la **versión 1.2** del documento de arquitectura de MATU. La v1.1 incor
 |---|---|---|
 | 1.0 | septiembre de 2026 | Línea base de diseño, revisada y auditada, anterior a la validación con cuidadoras |
 | 1.1 | septiembre de 2026 | Validación con diez cuidadoras: ficha de relevo de tres campos (ADR-023), llenado asistido, pago de un solo pagador, ventana de nueve semanas y segundo recorte de 160 horas. Después, entre el 26 y el 27 de octubre, el ADR-027 (precios exactos y un solo cobro) y las decisiones del contrato de MATU-09 se propagaron al texto |
-| **1.2** | **8 de noviembre de 2026** | **Sección 7** alineada con el modelo de datos: sus 16 diferencias y sus cinco hallazgos, los tipos de sección del ADR-028 y la nueva 7.8 con las migraciones 0001 a 0017. **ADR-026**: aplicación web mobile first en lugar de Flutter (secciones 1, 2.1, 6.1, 6.2, 10.3, 11.6, 12.2, 13.1, 15, 17 y anexo 19.1). **ADR-027** completo en el estado de los ADR-006, 011 y 024. **ADR-028**: RF-03 con seis secciones complementarias, *Debe* en el semestre, y las preguntas guía en 10.4 b. **ADR-029**: la ficha no se imprime y RF-09 pasa a la lista. **ADR-030**: Jorge desarrolla y Martín despliega, prueba y revisa (15.5). **ADR-031**: la lista sale del teléfono como texto, sin enlace (RF-15, 9.3 y 9.6). **Calendario v1.3** en 15.2 y 15.4, con los objetivos específicos 5, 6 y 7 en su redacción vigente. **Estrategia de pruebas v1.2** en 12.2, 12.6 y 12.7, con el CI tal como corre. La clave maestra en variable de entorno (11.4), la regla de ejes suspendida en los sprints 1 a 3, la prueba de capa 3 desacoplable en el sprint 3, el resultado de Transbank y los dos repositorios (19.1) |
+| **1.2** | **8 de noviembre de 2026** | **Sección 7** alineada con el modelo de datos: sus 16 diferencias y sus cinco hallazgos, los tipos de sección del ADR-028 y la nueva 7.8 con las migraciones 0001 a 0017. **ADR-026**: aplicación web mobile first en lugar de Flutter (secciones 1, 2.1, 6.1, 6.2, 10.3, 11.6, 12.2, 13.1, 15, 17 y anexo 19.1). **ADR-027** con archivo propio ([`adr/ADR-027-precios-exactos.md`](adr/ADR-027-precios-exactos.md)), movido sin cambios desde la sección 14, que lo resume, y completo en el estado de los ADR-006, 011 y 024. **ADR-028**: RF-03 con seis secciones complementarias, *Debe* en el semestre, y las preguntas guía en 10.4 b. **ADR-029**: la ficha no se imprime y RF-09 pasa a la lista. **ADR-030**: Jorge desarrolla y Martín despliega, prueba y revisa (15.5). **ADR-031**: la lista sale del teléfono como texto, sin enlace (RF-15, 9.3 y 9.6). **Calendario v1.3** en 15.2 y 15.4, con los objetivos específicos 5, 6 y 7 en su redacción vigente. **Estrategia de pruebas v1.2** en 12.2, 12.6 y 12.7, con el CI tal como corre. La clave maestra en variable de entorno (11.4), la regla de ejes suspendida en los sprints 1 a 3, la prueba de capa 3 desacoplable en el sprint 3, el resultado de Transbank y los dos repositorios (19.1) |
 
 > **Pendiente para la v1.3.** Todo lo que la v1.1 dejaba para esta versión quedó incorporado. Lo que sigue abierto está marcado [PENDIENTE] en la sección que corresponde, y se revisa en cada cierre de sprint.
 
@@ -783,7 +783,7 @@ El esquema solo cambia con migraciones de Alembic revisables y reversibles. **De
 
 ### 8.1 Ciclo de vida del pedido
 
-> **Reescrita con el ADR-027.** Reemplaza el ciclo del ADR-006, que autorizaba con margen al confirmar y capturaba el monto real al entregar. Por qué se cambió está en la sección 14. **Alineada con la migración 0002** el 27 de octubre: los nombres son los del `CHECK` de `pedido`.
+> **Reescrita con el ADR-027.** Reemplaza el ciclo del ADR-006, que autorizaba con margen al confirmar y capturaba el monto real al entregar. Por qué se cambió está en el [ADR-027](adr/ADR-027-precios-exactos.md), resumido en la sección 14. **Alineada con la migración 0002** el 27 de octubre: los nombres son los del `CHECK` de `pedido`.
 
 ```mermaid
 stateDiagram-v2
@@ -858,7 +858,7 @@ Una prueba parametrizada recorre **todas las combinaciones** de estados y verifi
 
 **El precio queda fijo al pagar el total confirmado**, no al armar la lista. Si un precio o un comercio cambia respecto de lo que la familia vio en la lista, la pantalla lo marca antes de pagar (sección 10.4 a).
 
-**Obligación de interfaz.** Antes de pagar, la familia ve la lista del ADR-027, punto 4, más lo que agregó la investigación normativa del 27-10: productos con cantidad, precio y subtotal; los que salieron; los que cambiaron de precio o de comercio; qué hace MATU si falta cada producto (RF-21); el envío y el total con IVA; quién vende y emite la boleta, con sus datos de identificación; la ventana de entrega; qué pasa si falta un producto, con el medio y el plazo de la devolución; el aviso de derecho a retracto; un canal de reclamo; y un enlace a las condiciones del pedido. Acepta las condiciones y recibe una confirmación escrita (sección 18.1).
+**Obligación de interfaz.** Antes de pagar, la familia ve la lista del [ADR-027, punto 4](adr/ADR-027-precios-exactos.md), más lo que agregó la investigación normativa del 27-10: productos con cantidad, precio y subtotal; los que salieron; los que cambiaron de precio o de comercio; qué hace MATU si falta cada producto (RF-21); el envío y el total con IVA; quién vende y emite la boleta, con sus datos de identificación; la ventana de entrega; qué pasa si falta un producto, con el medio y el plazo de la devolución; el aviso de derecho a retracto; un canal de reclamo; y un enlace a las condiciones del pedido. Acepta las condiciones y recibe una confirmación escrita (sección 18.1).
 
 **Quién vende.** MATU vende y emite **una sola boleta por el total**, con el envío incluido. Los comercios le cobran a MATU por cuenta corriente (ADR-008). [PENDIENTE: consulta legal y tributaria sobre MATU como vendedor; requiere persona jurídica con inicio de actividades, después del semestre.]
 
@@ -1204,7 +1204,7 @@ GET    /v1/backoffice/indicadores
 
 **a) Explicar qué se cobra y qué pasa si falta algo.** *Reescrito con el ADR-027.* Antes el problema era explicar una retención mayor que el pedido ($69.000 retenidos para cobrar $51.340). Con el cobro único del total confirmado esa retención desaparece. Lo difícil ahora es que la familia entienda, antes de pagar, que se cobra una sola vez, qué cambió respecto de su lista y qué pasa si al retirar falta un producto.
 
-> **Solución:** antes de pagar, una pantalla de resumen muestra la lista del ADR-027, punto 4, en este orden: productos con cantidad, precio y subtotal; los que salieron por no disponibles; los que cambiaron de precio o de comercio, marcados con texto y no solo con color; el envío en una línea aparte; el total con IVA; quién emite la boleta; la ventana de entrega; qué eligió la familia para cada producto si falta (RF-21); qué pasa si falta un producto; el aviso *"Derecho a retracto: tienes 10 días desde que lo recibes. No aplica si abres el sello del producto"*, con una letra no menor que la del precio; quién vende, con un canal de reclamo; y el enlace a las condiciones del pedido. Un bloque fijo dice *"Se cobra una sola vez este total, con crédito o con débito. No hay reserva ni cobros después."* y otro *"Si un producto no llega, te devolvemos su precio el mismo día, a la misma tarjeta. Cuándo lo ves en tu cuenta depende de tu banco."* El vencimiento se ve como hora: *"Este total vale hasta las 16:45. Si vence, lo volvemos a confirmar."* Hay una salida visible para no pagar, sin costo.
+> **Solución:** antes de pagar, una pantalla de resumen muestra la lista del [ADR-027, punto 4](adr/ADR-027-precios-exactos.md), en este orden: productos con cantidad, precio y subtotal; los que salieron por no disponibles; los que cambiaron de precio o de comercio, marcados con texto y no solo con color; el envío en una línea aparte; el total con IVA; quién emite la boleta; la ventana de entrega; qué eligió la familia para cada producto si falta (RF-21); qué pasa si falta un producto; el aviso *"Derecho a retracto: tienes 10 días desde que lo recibes. No aplica si abres el sello del producto"*, con una letra no menor que la del precio; quién vende, con un canal de reclamo; y el enlace a las condiciones del pedido. Un bloque fijo dice *"Se cobra una sola vez este total, con crédito o con débito. No hay reserva ni cobros después."* y otro *"Si un producto no llega, te devolvemos su precio el mismo día, a la misma tarjeta. Cuándo lo ves en tu cuenta depende de tu banco."* El vencimiento se ve como hora: *"Este total vale hasta las 16:45. Si vence, lo volvemos a confirmar."* Hay una salida visible para no pagar, sin costo.
 >
 > Si falta un producto después de pagar, la notificación dice qué faltó y cuánto se devolvió, por ejemplo *"No pudimos conseguir el producto X. Te devolvimos $8.990 a la misma tarjeta."* Si se consiguió en otro comercio, no se cobra nada más y no hace falta avisar de la diferencia.
 >
@@ -1936,75 +1936,15 @@ Existía en el diseño anterior sobre la publicación exclusiva en Android. Se r
 
 ### ADR-027 · Precios exactos de comercios en convenio, y se cobra el total confirmado
 
-**Estado.** **Aprobado** por Jorge Espinoza (Product Owner) el 26 de octubre de 2026, con las observaciones de la revisión previa del analista normativo (`legal/revision-previa-adr-027.md`). **Reemplaza al ADR-006 y al ADR-011.** Lo que queda marcado [PENDIENTE] o en consulta legal se resuelve antes de cobrar dinero real. El ADR-026 (aplicación web) está en [`adr/ADR-026-aplicacion-web.md`](adr/ADR-026-aplicacion-web.md).
+**Estado.** **Aprobado** por Jorge Espinoza (Product Owner) el 26 de octubre de 2026, con la revisión previa del analista normativo. **Reemplaza al ADR-006 y al ADR-011.** Texto completo, con sus seis puntos, en [`adr/ADR-027-precios-exactos.md`](adr/ADR-027-precios-exactos.md).
 
-**Contexto.** El ADR-006 resolvía un precio que no se conocía hasta que el comercio preparaba. Se autorizaba el estimado con un margen del 15% y se capturaba el monto real. La prueba de concepto (`pruebas-concepto/transbank.md`) mostró el costo de ese diseño:
-- la captura diferida opera solo con crédito, y el débito es el medio mayoritario del segmento;
-- el plan B del débito obligó a cobrar el estimado y a devolver diferencias, con un medio y un plazo que siguen sin definir;
-- explicar una retención mayor que el pedido (sección 10.4) es difícil para una familia cansada, y lo observó el análisis normativo de la Ley 19.496.
+**Decisión.** El catálogo muestra precios exactos con IVA de comercios en convenio, detrás del puerto `CatalogoComercio`, con un adaptador simulado en el semestre. Antes de cobrar se confirma el stock, y el total confirmado vale 15 minutos. Se cobra una sola vez el total exacto, productos más un envío único, en venta normal de Webpay Plus, con crédito y débito iguales. **Antes de pagar la familia ve la lista del punto 4** (productos, los que salieron, envío y total, quién emite la boleta, ventana de entrega y qué pasa si falta un producto). Si un producto apartado falta al retirar, se busca el mismo en otro comercio, con la diferencia a cargo de MATU, o se devuelve su precio por anulación a la misma tarjeta. Nunca otra marca.
 
-**Decisión.**
-1. **Precios exactos.** El catálogo muestra precios exactos de comercios preestablecidos en convenio, con IVA incluido y con su stock. El costo del envío se ve desde la lista de reposición. El precio queda fijo cuando la familia paga el total confirmado.
-2. **La lista de reposición tiene tres salidas:**
-   - exportarla y comprar libremente;
-   - enviarla a un miembro del grupo, o compartirla desde el teléfono de la familia;
-   - pedir desde MATU al precio exacto más el envío.
+**Por qué.** La prueba de concepto de Transbank mostró que la captura diferida del ADR-006 opera solo con crédito, y el débito es el medio mayoritario del segmento. Una retención mayor que el pedido además es difícil de explicar a una familia cansada.
 
-   Las dos primeras son gratuitas y no dependen de la capa 3 (ADR-002).
-3. **Antes de cobrar se confirma el stock.**
-   - MATU consulta el stock de los comercios en convenio. Si el comercio elegido no tiene un producto, lo busca en otro comercio en convenio. Si ninguno lo tiene, el producto sale del pedido.
-   - **La consulta de stock lleva solo productos y cantidades**, con una referencia opaca para apartar. No lleva datos de la familia, de la persona cuidada ni de la dirección. Una prueba sobre el objeto de la consulta lo verifica.
-   - Si un precio o un comercio cambia respecto de lo que la familia vio en la lista, la pantalla lo marca antes de pagar.
-   - El total confirmado vale por **15 minutos** (decisión de Jorge, 26 de octubre). Si vence, se vuelve a confirmar. La familia puede no pagar, sin costo.
-4. **Se cobra una sola vez el total exacto.** Son los productos más un **envío único por pedido**, aunque el retiro pase por más de un comercio, y MATU absorbe la parada extra. Es una venta normal de Webpay Plus, y **crédito y débito funcionan igual**. No hay reserva con margen, ni captura diferida, ni ajuste posterior.
+**Consecuencias.** Desaparecen la captura diferida, la reserva del 15% y el plan B del débito. El esquema cambió con la migración 0002 (7.4 y 8.1). La sección 11.7 cambia de sentido y el ADR-024 se ajusta. La reasignación del retiro después de pagar queda en la fase 2. Antes de cobrar dinero real faltan los casos de venta normal en el ambiente de integración y la consulta legal (18.1).
 
-   **Antes de pagar**, la familia ve:
-   - los productos con cantidad, precio y subtotal;
-   - los que salieron por no disponibles;
-   - el envío y el total con IVA;
-   - quién emite la boleta;
-   - la ventana de entrega;
-   - qué pasa si al retirar falta un producto (punto 5), con el medio y el plazo de la devolución.
-
-   Acepta las condiciones del pedido y recibe un comprobante.
-
-   **Decisiones de producto del 26 de octubre** (Jorge, sujetas a validación en la consulta legal):
-   - **Quién vende.** MATU vende y emite **una sola boleta por el total**, con el envío incluido. Los comercios le cobran a MATU por cuenta corriente (ADR-008) y nunca ven a la familia. Para vender de verdad, MATU necesita existir como persona jurídica con inicio de actividades, y eso queda para después del semestre.
-   - **Devolución.** "Si un producto no llega, te devolvemos su precio el mismo día, a la misma tarjeta. Cuándo lo ves en tu cuenta depende de tu banco."
-   - **Cancelación.** Antes de pagar, no pedir no tiene costo. Después de pagar, se cancela sin costo mientras el comercio no empiece a preparar.
-   - **Sin equivalentes de otra marca.** Si falta un producto, se busca el mismo en otro comercio o sale del pedido.
-   - **El comercio no ve ningún nombre**, solo la referencia del pedido y el código de retiro.
-5. **El comercio que confirma el stock lo aparta.** Si al retirar el producto ya no está, que es el caso excepcional:
-   - el retiro se reasigna a otro comercio en convenio **con el mismo producto**, y MATU asume la diferencia de precio. La familia paga lo mismo que aceptó, y queda escrito como garantía en las condiciones del pedido;
-   - nunca se reemplaza por otra marca ni por otro producto (decisión del 26 de octubre);
-   - si la familia eligió quitarlo (RF-21), o ningún comercio lo tiene, se devuelve el precio de ese producto a la misma tarjeta, por anulación de Webpay Plus, y se avisa a la familia en el momento. Si no se entrega ningún producto, se devuelve también el envío. Es la única devolución por falta de producto; la del retracto se rige por la sección 18.1.
-6. **Los comercios, los precios y el stock entran por un puerto**, `CatalogoComercio`, en el módulo `catalog` (ADR-021). Hoy no hay convenio con distribuidores, así que el adaptador es simulado, con un catálogo semilla, y la interfaz rotula los precios como de ejemplo. Cuando exista un convenio, que posiblemente llegue después del semestre, se agrega un adaptador real sin tocar los módulos que lo usan.
-
-**Consecuencias.**
-- **Se simplifica el pago.** Desaparecen la captura diferida, la reserva del 15%, el plan B del débito y su nota de crédito. Si la devolución excepcional obliga a corregir un documento tributario, se resuelve con la consulta legal sobre quién emite la boleta.
-- **El cumplimiento ya no informa un monto real.** Desaparecen `precio_real` y el paso "monto real" del comercio. El comercio confirma el stock y prepara.
-- **La sección 11.7 cambia de sentido.** Con precio exacto, `monto_boleta` contra el precio pagado ya no mide una desviación del comercio cuando MATU retiró en otro comercio. El tope y la conciliación se rediseñan.
-- **ADR-024 se ajusta.** Un pedido de la familia puede abastecerse en más de un comercio, con un solo cobro y un solo envío. El registro por comercio se mantiene para preparar y liquidar (ADR-008). Cada comercio recibe solo sus líneas del pedido, y el que reemplaza a otro recibe la misma proyección que el original (sección 11.2).
-- **Cambia el esquema.** Hay que ajustar `pedido` (`total_estimado` y `total_autorizado`), `cargo` y `participacion` (`monto_autorizado` y `monto_capturado`) y sus estados (`autorizado`, `captura_pendiente`). Va en una migración reversible.
-- **Aparece una espera corta** entre pedir y pagar, mientras se confirma el stock. Con el adaptador simulado es inmediata.
-
-**Alcance en el semestre.**
-- **Se construye:** el catálogo con precios exactos detrás del puerto con el adaptador simulado, la confirmación de stock entre comercios antes de pagar y el cobro del total exacto.
-- **Queda en la fase 2:** la reasignación del retiro a otro comercio después de pagar, porque requiere la aplicación de repartidor y la asignación en cascada (ADR-010 y ADR-025). En el semestre se muestra simulada en la demo y queda diseñada aquí.
-
-**Riesgo declarado.**
-- **Devolución excepcional.** Hay que verificar en el ambiente de integración que se admita la anulación parcial de una venta normal con crédito y con débito, y los plazos máximos de anulación de Transbank. Si no se admite, se define otro medio antes del sprint 4, sin pedir datos bancarios a la familia salvo que se apruebe como tratamiento nuevo en la política de privacidad y en el registro de tratamientos.
-- **La prueba de concepto verificó la captura diferida, no la venta normal.** Faltan los casos de venta normal con crédito y con débito, la anulación parcial con los dos y el retorno duplicado en venta normal.
-- **Precios al día.** Los precios exactos dependen de que el comercio mantenga su catálogo al día, y el convenio debe obligarlo a hacerlo. Sin convenio, el piloto usa precios de ejemplo y lo declara en la interfaz.
-- **Consulta legal antes de cobrar dinero real.** Hay que validar las decisiones de producto del 26 de octubre (MATU como vendedor, devolución y cancelación) y resolver:
-  - el retracto;
-  - el plazo legal de la devolución, si existe;
-  - si los productos del pedido son datos sensibles;
-  - si los comercios son encargados o responsables.
-
-**Alternativas descartadas.**
-- **Cobrar primero y devolver lo que falte.** Es más rápido para la familia, pero convierte la devolución en una operación rutinaria y vuelve a depender de devoluciones con débito, que no están verificadas.
-- **Mantener el ADR-006 con el plan B del débito.** Funciona, pero deja dos experiencias de pago distintas según la tarjeta y textos con plazos por definir.
+---
 
 ### ADR-028 · La ficha de relevo crece con secciones complementarias
 
