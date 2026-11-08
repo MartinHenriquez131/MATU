@@ -494,7 +494,7 @@ erDiagram
     ACCESO_RELEVO ||--o| INDICE_TOKEN : "se resuelve por"
 
     PERSONA_CUIDADA ||--o{ PERFIL_CONSUMO : declara
-    PRODUCTO ||--o{ PERFIL_CONSUMO : referencia
+    PRODUCTO |o--o{ PERFIL_CONSUMO : "referencia (opcional)"
     PERFIL_CONSUMO ||--o{ REPOSICION : registra
     PERFIL_CONSUMO ||--o{ ALERTA_QUIEBRE : genera
 
@@ -506,6 +506,7 @@ erDiagram
     GRUPO_FAMILIAR ||--o{ PEDIDO : realiza
     PERSONA_CUIDADA ||--o{ PEDIDO : "destinado a"
     PEDIDO ||--|{ PEDIDO_LINEA : contiene
+    PEDIDO ||--o| PEDIDO_ENTREGA : "se entrega en"
     OFERTA ||--o{ PEDIDO_LINEA : referencia
     OFERTA ||--o{ PEDIDO_LINEA : "se reasigna a"
     PRODUCTO ||--o{ REGLA_SUSTITUCION : define
@@ -523,42 +524,52 @@ erDiagram
     USUARIO ||--o{ AUDITORIA : genera
 ```
 
-**El modelo no cambió en esta versión, y eso es deliberado.** La activación del ADR-023 reduce la versión mínima del plan de cuidado a tres campos, pero esos tres campos son tres de los ocho tipos de sección que `plan_seccion` ya contempla. Que el plan B no obligue a migrar el esquema es exactamente la razón por la que se escribió antes de entrevistar.
+**Desde la v1.2 esta sección describe el esquema que se ejecuta.** El [modelo de datos](modelo-datos.md) es la migración `0001_esquema_inicial` desde el sprint 0. Al escribirlo y probarlo contra PostgreSQL aparecieron 16 diferencias con esta sección (su sección 10) y cinco hallazgos en las políticas (su sección 5.4). La v1.2 los incorpora en 7.2 a 7.7, y la sección 7.8 lista las migraciones que vinieron después. El detalle de cada tabla, con sus restricciones e índices, está en el modelo de datos. **Donde los dos documentos difieran, manda el esquema de las migraciones.**
 
-**La migración 0002 (ADR-027) sí cambia la capa 3**, sin tablas nuevas: montos exactos en `pedido`, precio fijo y reasignación al mismo producto en `pedido_linea`, y monto cobrado y devuelto en `cargo` y `participacion`. El diagrama agrega la reasignación de una línea a otra oferta. `REGLA_SUSTITUCION` guarda la elección de RF-21 por producto: otro comercio o quitar (7.4).
+El diagrama es un resumen: muestra las entidades que esta sección discute. El modelo completo tiene 49 tablas, entre ellas `pedido_entrega`, `pedido_transicion`, `sesion_refresh`, `dispositivo`, `invitacion`, `usuario_comercio`, `medio_pago_inscrito`, `preferencia_notificacion`, `notificacion`, `incidencia` e `indice_credencial`, que esta sección no detallaba y que soportan requisitos que sí estaban (RF-37 a RF-40, ADR-007, sección 11.6 y atributo de calidad 6).
+
+**Las fichas del ADR-023 y del ADR-028 no agregaron tablas.** Los tres campos de la ficha son tres tipos de sección que `plan_seccion` ya tenía, y las seis secciones complementarias suman tres tipos nuevos al mismo `CHECK` (migración 0013). Que el plan B no obligara a migrar el esquema es exactamente la razón por la que se escribió antes de entrevistar.
+
+**La migración 0002 (ADR-027) cambia la capa 3**, sin tablas nuevas: montos exactos en `pedido`, precio fijo y reasignación al mismo producto en `pedido_linea`, y monto cobrado y devuelto en `cargo` y `participacion`. El diagrama agrega la reasignación de una línea a otra oferta. `REGLA_SUSTITUCION` guarda la elección de RF-21 por producto: otro comercio o quitar (7.4).
 
 ### 7.2 Capa 1 · Plan de cuidado
 
 | Entidad | Campos relevantes | Notas de diseño |
 |---|---|---|
-| `plan_cuidado` | id, grupo_id, persona_cuidada_id, modo, completitud_pct, actualizado_por, actualizado_en | `modo` es `ficha_relevo` mientras rija el ADR-023. `completitud_pct` se calcula sobre los tres campos de la ficha, pero **la interfaz nunca bloquea por completitud**. Ver ADR-018 |
-| `plan_seccion` | id, plan_id, tipo, **contenido_cifrado**, **nonce**, **tag_auth**, **version**, actualizado_por, actualizado_en | Cifrado por sección, no por documento, para compartir una parte sin descifrar el resto. **`nonce` de 96 bits aleatorio por cada escritura, nunca un contador**: repetir un nonce en AES-GCM permite recuperar la clave de autenticación y forjar texto cifrado. `version` implementa bloqueo optimista (RF-04) |
-| `acceso_relevo` | id, plan_id, otorgado_a_nombre, otorgado_a_telefono, **nombre_pila_persona**, **nombre_pila_comparte**, secciones_permitidas, token_hash, **pin_hash**, expira_en, revocado_en, **motivo**, usos | El relevo no crea cuenta. **Los dos nombres de pila se copian al crear el acceso**, para que el relevo nunca lea `persona_cuidada` ni `usuario`. Con ellos la pantalla del PIN dice quién compartió la ficha y de quién es (decisión 28 del contrato de MATU-09). [PENDIENTE: `nombre_pila_comparte` lo agrega una migración de MATU-18.] **`motivo` es un enumerado sin texto libre**: `salgo_unas_horas`, `fin_de_semana_fuera`, `turno_de_noche` u `otro` (decisión 16). Queda en la auditoría 3 años, y un texto libre podría guardar un dato de salud que no se puede borrar. Cabe en la columna `text` y lo valida la API. **Token de uso múltiple hasta vencer**, no de un solo uso: el relevo consulta el plan durante todo su turno. `pin_hash` es el segundo factor de cuatro dígitos, porque un enlace por WhatsApp es una credencial al portador sobre datos de salud. **La API no envía el PIN.** Lo muestra una sola vez a quien comparte, que se lo dicta al relevo. El envío por SMS es *Debería* y está fuera del semestre. El teléfono sirve para que quien comparte le envíe el enlace desde su propio teléfono, por WhatsApp o SMS, y para que la familia pueda contactar al relevo (decisión 24 del contrato de MATU-09). Ninguna respuesta de la API lo devuelve |
-| `clave_datos` | id, persona_cuidada_id, dek_cifrada_con_kek, kek_version, creada_en, rotada_en | Sobre-cifrado. Una clave de datos por persona cuidada, cifrada con la clave maestra. Ver ADR-016 |
+| `plan_cuidado` | id, grupo_id, persona_cuidada_id, modo, completitud_pct, actualizado_por, actualizado_en | `modo` lo agregó el cierre del ADR-023 (`ficha_relevo` o `completo`). **Con el ADR-028 deja de ser necesario**: no hay un "modo completo", solo secciones agregadas. La columna sigue en el esquema con su valor por omisión `ficha_relevo`. `completitud_pct` se calcula sobre los tres campos de la ficha, pero **la interfaz nunca bloquea por completitud** ni muestra la ficha como incompleta por no tener secciones. Ver ADR-018 |
+| `plan_seccion` | id, plan_id, tipo, **contenido_cifrado**, **nonce**, **tag_auth**, kek_version, **version**, actualizado_por, actualizado_en, **creado_en** | Cifrado por sección, no por documento, para compartir una parte sin descifrar el resto. **`nonce` de 96 bits aleatorio por cada escritura, nunca un contador**: repetir un nonce en AES-GCM permite recuperar la clave de autenticación y forjar texto cifrado. `version` implementa bloqueo optimista (RF-04) y viaja como `ETag`. `creado_en` (migración 0013) es cuándo nació la sección, fijo en los UPDATE: un relevo ve una sección complementaria solo si nació antes de su acceso. **No hereda por `EXISTS`** del plan (hallazgo 1 del modelo de datos, 5.4): declara su propia condición por eje, o el relevo vería todas las secciones y no solo las habilitadas |
+| `acceso_relevo` | id, **grupo_id**, plan_id, otorgado_por, otorgado_a_nombre, otorgado_a_telefono, **nombre_pila_persona**, **nombre_pila_comparte**, **relevo_informado_en**, secciones_permitidas, token_hash, **pin_hash**, pin_intentos_fallidos, creado_en, expira_en, revocado_en, **motivo**, usos, ultimo_uso_en | El relevo no crea cuenta. **Lleva `grupo_id` propio** en vez de heredarlo del plan, porque `plan_cuidado` y `acceso_relevo` se consultan mutuamente y PostgreSQL rechaza el ciclo de políticas (hallazgo 3). **Los dos nombres de pila se copian al crear el acceso**, para que el relevo nunca lea `persona_cuidada` ni `usuario`. Con ellos la pantalla del PIN dice quién compartió la ficha y de quién es (decisión 28 del contrato de MATU-09, migración 0004). `relevo_informado_en` es cuándo quien comparte declaró que le avisó al relevo que MATU guarda su nombre y su teléfono (decisión 34, migración 0004). **`motivo` es un enumerado sin texto libre**: `salgo_unas_horas`, `fin_de_semana_fuera`, `turno_de_noche` u `otro` (decisión 16). Queda en la auditoría 3 años, y un texto libre podría guardar un dato de salud que no se puede borrar. Cabe en la columna `text` y lo valida la API. **Token de uso múltiple hasta vencer**, no de un solo uso: el relevo consulta el plan durante todo su turno, y el acceso dura como máximo 30 días (`CHECK`). `pin_hash` es el segundo factor de cuatro dígitos, porque un enlace por WhatsApp es una credencial al portador sobre datos de salud, y `pin_intentos_fallidos` lo bloquea al quinto error. **La API no envía el PIN.** Lo muestra una sola vez a quien comparte, que se lo dicta al relevo. El envío por SMS es *Debería* y está fuera del semestre. El teléfono sirve para que quien comparte le envíe el enlace desde su propio teléfono, por WhatsApp o SMS, y para que la familia pueda contactar al relevo (decisión 24 del contrato de MATU-09). Ninguna respuesta de la API lo devuelve. El relevo solo puede actualizar `pin_intentos_fallidos`, `usos` y `ultimo_uso_en` (trigger de la migración 0007) |
+| `clave_datos` | id, grupo_id, persona_cuidada_id, dek_cifrada_con_kek, kek_version, creada_en, rotada_en, **destruida_en** | Sobre-cifrado. Una clave de datos por persona cuidada, cifrada con la clave maestra. Ver ADR-016. **El borrado criptográfico** deja `dek_cifrada_con_kek` en nulo y fija `destruida_en` en la misma sentencia (`CHECK`). Desde la migración 0003 una clave destruida no se borra ni se vuelve a llenar: no resucita (defecto 5 de la sección 12.8) |
 
-**Tipos de sección:** `rutina`, `manejo_situaciones`, `red_apoyo`, `horarios`, `preferencias`, `actividades`, `alimentacion`, `movilidad`.
+**Tipos de sección, desde el ADR-028 y la migración 0013:**
 
-**Los tres primeros constituyen la ficha de relevo y son los únicos obligatorios.** El orden de la lista cambió en esta versión para que refleje la prioridad real. La validación mostró que tres de diez entrevistadas pidieron por su cuenta un campo de «qué la calma», que es precisamente el contenido de `manejo_situaciones`, y que tres piden otro lenguaje para la incontinencia dentro de `alimentacion` y `movilidad`, lo que cambia la redacción de las preguntas y no el modelo.
+| Nivel | Tipos | En la interfaz |
+|---|---|---|
+| **Ficha inicial**, obligatoria | `rutina`, `manejo_situaciones`, `red_apoyo` | Su día · Si se altera · A quién llamar |
+| **Secciones complementarias**, opcionales | `quien_es`, `preferencias`, `alimentacion`, `movilidad`, `comunicacion`, `remedios` | Quién es · Lo que le hace bien · Comer y beber · Moverse y descansar · Cómo hablarle · Sus remedios |
+| En el `CHECK`, sin uso | `horarios`, `actividades` | La API ya no los escribe. `horarios` repetía Su día y `actividades` quedó dentro de Lo que le hace bien |
+
+**Los tres campos iniciales constituyen la ficha de relevo y son lo único obligatorio.** Al compartir, los tres van siempre y la cuidadora elige de cero a seis secciones complementarias. Sus remedios viene sin marcar y pide confirmación (ADR-028, actualización del 3 de noviembre). La validación mostró que tres de diez entrevistadas pidieron por su cuenta un campo de «qué la calma», que es precisamente el contenido de `manejo_situaciones`, y que tres prefieren no escribir sobre el aseo ni el cuidado del cuerpo con términos clínicos, por dignidad de la persona cuidada. Por eso no hay una sección de aseo: si la familia quiere decir algo, lo escribe con sus palabras en Moverse y descansar o en Si se altera. Las preguntas guía de cada tipo están en la sección 10.4 b.
 
 ### 7.3 Capa 2 · Perfil de consumo
 
 | Entidad | Campos relevantes | Notas de diseño |
 |---|---|---|
-| `perfil_consumo` | id, grupo_id, persona_cuidada_id, producto_id, **tasa_uso_diaria**, **stock_unidades**, **stock_medido_en**, **fecha_quiebre_estimada**, dias_aviso, activo | El corazón de la capa 2. **Todo en unidades base**, nunca en envases: la conversión vive en la presentación. **El ancla del cálculo es `stock_medido_en`, no la última reposición**, porque el cuidador declara stock en cualquier momento sin haber comprado nada, y anclar en la reposición produce fechas de quiebre en el pasado |
-| `reposicion` | id, perfil_id, **cantidad_unidades**, origen (`pedido_matu`, `declarada`), **pedido_ref**, ocurrida_en | Registrar una compra hecha fuera de MATU es obligatorio (RF-13): sin eso el cálculo se desalinea y las alertas pierden credibilidad. **`pedido_ref` es una referencia opaca sin clave foránea**, para que la capa 2 no dependa de la 3 |
-| `alerta_quiebre` | id, perfil_id, fecha_prevista, estado (`pendiente`, `notificada`, `resuelta`, `descartada`), notificada_en | Se materializa antes de dispararse, lo que hace idempotente el aviso |
+| `perfil_consumo` | id, grupo_id, persona_cuidada_id, producto_id, **nombre_libre**, unidad, **tasa_unidades**, **tasa_dias**, **stock_unidades**, **stock_medido_en**, **fecha_quiebre_estimada**, dias_aviso, **unidades_por_envase**, activo, **version**, actualizado_por | El corazón de la capa 2. **Todo en unidades base**, nunca en envases: la conversión vive en la presentación. **El ancla del cálculo es `stock_medido_en`, no la última reposición**, porque el cuidador declara stock en cualquier momento sin haber comprado nada, y anclar en la reposición produce fechas de quiebre en el pasado. **La tasa es una fracción entera** (`tasa_unidades` cada `tasa_dias`), igual que el dinero: "un suplemento cada cinco días" no necesita decimales. **Admite un insumo fuera del catálogo** con `nombre_libre`, exactamente uno de los dos (`CHECK`), porque la capa 2 funciona sin catálogo ni convenio (ADR-002). `version` es el `ETag` del PATCH y `actualizado_por` permite decir quién cambió el insumo en un 412 (migración 0009). `unidades_por_envase` es opcional y la anota la familia (migración 0015, ADR-031): sirve para sugerir envases enteros en la lista, y nunca se lee del catálogo de la capa 3. Solo admin y cuidador escriben, también en RLS |
+| `reposicion` | id, perfil_id, **cantidad_unidades**, origen (`pedido_matu`, `declarada`), **pedido_ref**, ocurrida_en, registrada_por, registrada_en | Registrar una compra hecha fuera de MATU es obligatorio (RF-13): sin eso el cálculo se desalinea y las alertas pierden credibilidad. **`pedido_ref` es una referencia opaca sin clave foránea**, para que la capa 2 no dependa de la 3. Las compras declaradas se borran a los 90 días de registradas (migración 0017) |
+| `alerta_quiebre` | id, perfil_id, fecha_prevista, estado (`pendiente`, `notificada`, `resuelta`, `descartada`), creada_en, notificada_en, cerrada_en | Se materializa antes de dispararse, con una restricción única por perfil y fecha, lo que hace idempotente el aviso. Solo el trabajo diario la crea abierta y la notifica, y un trigger fija las transiciones permitidas (migración 0011) |
 
 **El cálculo, completo:**
 
 ```
-dias_de_cobertura = piso(stock_unidades / tasa_uso_diaria)
+dias_de_cobertura = piso(stock_unidades × tasa_dias / tasa_unidades)   -- división entera
 fecha_quiebre     = stock_medido_en + dias_de_cobertura
 alerta_si         = (fecha_quiebre - hoy) <= dias_aviso
 ```
 
 Tres detalles que parecen menores y no lo son. **El piso es deliberado**: es preferible avisar un día antes que un día tarde. **El ancla es `stock_medido_en`**, no la reposición. Y **`unidades_a_envases` redondea hacia arriba**, porque nadie compra un tercio de paquete de pañales.
 
-Vive en `app/modules/consumption/domain/quiebre.py` y su criterio de aceptación son ocho pruebas de dominio, incluida una de regresión sobre el ancla. Entregable del sprint 5.
+Vive en `app/modules/consumption/domain/perfil.py` (MATU-36) y su criterio de aceptación eran ocho pruebas de dominio, incluida una de regresión sobre el ancla. Se entregó en el sprint 3 del calendario v1.3, con las alertas de MATU-37 (objetivo específico 4).
 
 Es aritmética de tercero básico, y esa es exactamente la gracia. **El valor no está en el algoritmo, está en tener el dato.** Ningún despacho genérico sabe que la persona usa cuatro pañales al día, porque nunca se lo preguntó a nadie.
 
@@ -574,6 +585,7 @@ Es aritmética de tercero básico, y esa es exactamente la gracia. **El valor no
 | `oferta` | producto_id, comercio_id, precio_referencia, disponible, actualizado_en | Con el ADR-027 el precio de la oferta es el precio exacto con IVA del comercio en convenio. [PENDIENTE: la migración 0002 no tocó `oferta`; la columna sigue llamándose `precio_referencia` y el esquema la comenta como referencial (ADR-011, ya reemplazado)] |
 | `convenio` | comercio_id, vigencia_desde, vigencia_hasta, **comision_pct**, **tarifa_despacho**, prepara_pedidos, cuenta_corriente, estado | `comision_pct` y `tarifa_despacho` son la regla de cálculo de la liquidación |
 | `pedido` | id, grupo_id, persona_cuidada_id, comercio_id, direccion_id, estado, modo_cumplimiento, origen (`manual`, `alerta_quiebre`), ventana_entrega, **subtotal_productos**, **costo_envio**, **total**, **total_confirmado_en**, **total_vence_en**, **pagado_en**, codigo_retiro_hash, creado_por | `origen` incorpora `alerta_quiebre`, que es el camino que conecta la capa 2 con la 3. **`total = subtotal_productos + costo_envio`** por `CHECK`, con un envío único por pedido. `total_vence_en` lo fija el dominio 15 minutos después de `total_confirmado_en`; la base exige que los dos existan juntos y que el vencimiento sea posterior. **`pagado_en` marca desde cuándo el precio queda fijo**: nulo en `borrador`, `total_confirmado` y `vencido`, obligatorio desde `pagado` en adelante, y solo con un total confirmado (`CHECK`). Los 17 estados están en 8.1 |
+| `pedido_entrega` | pedido_id, calle, numero, depto, comuna, referencia, lat, lng, telefono_contacto | **Separada de `pedido`** porque RLS filtra filas, no columnas: es la única forma de que el comercio vea el pedido sin la dirección de entrega (diferencia 9 del modelo de datos). El comercio no tiene política sobre esta tabla |
 | `pedido_linea` | id, pedido_id, oferta_id, producto_id, cantidad, **precio_unitario**, estado_linea, **monto_devuelto**, **devuelta_en**, **oferta_reasignada_id**, **precio_reasignado**, **reasignada_en** | **Con el pedido pagado la línea no se edita**: un trigger impide cambiar producto, oferta, cantidad o precio, y agregar o borrar líneas. Lo que no se entrega se devuelve: `monto_devuelto` nunca supera cantidad × `precio_unitario`, y la línea está en `devuelta` si y solo si tiene monto y fecha de devolución. **La reasignación es al mismo producto en otra oferta**, nunca otra marca (trigger), y `precio_reasignado` es lo que MATU paga, con la diferencia a su cargo. Estados: `pendiente`, `sin_stock`, `preparada`, `faltante`, `devuelta`, `eliminada` |
 | `regla_sustitucion` | id, pedido_id, producto_id, accion | **RF-21, redefinido el 27-10.** Qué hace MATU si un producto del pedido falta: `otro_comercio` (el mismo producto en otro comercio en convenio) o `quitar` (sale del pedido y se devuelve su precio). **Sin fila, se busca en otro comercio**: es la opción por omisión. Una regla por producto y pedido. Salieron `producto_sustituto_id` y `precio_maximo`: nunca otra marca ni otro producto. El backend propone renombrarla a `regla_faltante`; es una propuesta y no se renombró |
 | `cargo` | id, pedido_id, **monto_cobrado**, **monto_devuelto**, estado, respaldo_usuario_id | Uno por pedido. Sin margen, monto autorizado ni capturado. Estados `pendiente`, `pagado`, `rechazado`, `devuelto_parcial` y `anulado`, y un `CHECK` ata cada estado a sus montos: nada cobrado en `pendiente` y `rechazado`, nada devuelto en `pagado`, devolución menor que lo cobrado en `devuelto_parcial` e igual en `anulado`. **Lo devuelto nunca supera lo cobrado** (`CHECK`) |
@@ -596,10 +608,10 @@ Es aritmética de tercero básico, y esa es exactamente la gracia. **El valor no
 
 | Entidad | Campos relevantes | Notas |
 |---|---|---|
-| `consentimiento` | id, grupo_id, usuario_id, persona_cuidada_id, **calidad_otorgante** (`titular`, `representante_legal`, `cuidador_de_hecho`), finalidad, version_politica, evidencia, otorgado_en, revocado_en | Requisito directo de la Ley 21.719. **`calidad_otorgante` es la pieza clave**: el titular de los datos es muchas veces una persona sin capacidad para consentir, y quien opera la aplicación puede no ser su representante legal. Ver la sección 11.5 |
-| `auditoria` | id, grupo_id, actor_tipo, **actor_ref**, accion, entidad, entidad_id, **motivo**, ip (no se llena), request_id, ocurrido_en | Append-only, con una prueba comprometida que lo verifique. **`actor_ref` es polimórfico** porque el relevo no es usuario y es justamente el actor más sensible del sistema. **La IP no se guarda** (decisión 27 del contrato de MATU-09, 27-10). La columna `ip` viene de la migración 0001, queda siempre vacía y se elimina con una migración. [PENDIENTE: migración pendiente, MATU-25] |
+| `consentimiento` | id, grupo_id, usuario_id, persona_cuidada_id, **calidad_otorgante** (`titular`, `representante_legal`, `cuidador_de_hecho`), finalidad, version_politica, evidencia, otorgado_en, revocado_en, revocacion_motivo | Requisito directo de la Ley 21.719. **`calidad_otorgante` es la pieza clave**: el titular de los datos es muchas veces una persona sin capacidad para consentir, y quien opera la aplicación puede no ser su representante legal. Ver la sección 11.5. **Es inalterable** desde la migración 0006: no se actualiza ni se borra, y solo se registra la revocación, una vez. Desde la 0016 la revocación lleva su motivo (`retiro` o `renovacion`) y solo la registran admin o cuidador (MATU-44) |
+| `auditoria` | id, grupo_id, actor_tipo, **actor_ref**, accion, entidad, entidad_id, **motivo**, ip (no se llena), request_id, ocurrido_en | Append-only, con una prueba comprometida que lo verifique. **`actor_ref` es polimórfico** porque el relevo no es usuario y es justamente el actor más sensible del sistema. **La IP no se guarda** (decisión 27 del contrato de MATU-09, 27-10). La columna `ip` viene de la migración 0001 y queda siempre vacía. **Quién lee la auditoría** lo fija la migración 0005 (decisión 36): el administrador lee todas las filas de su grupo, cada miembro solo las suyas, y operación no tiene lectura amplia. La 0010 agrega que quien puede ver el plan lee las aperturas de los relevos (RF-08). [PENDIENTE: ninguna migración hasta la 0017 elimina la columna `ip`.] |
 | `evento_outbox` | id, grupo_id, tipo, **payload solo con identificadores**, agregado_id, disponible_en, intentos, publicado_en, fallido_en | Tabla de **infraestructura sin RLS**, acotada por permiso de rol. Contrato completo en 8.6 |
-| `idempotencia` | clave, **grupo_id**, endpoint, respuesta, creada_en | Soporta el header `Idempotency-Key`. **Lleva `grupo_id` y RLS como cualquier tabla de negocio**: guarda cuerpos de respuesta de pedidos y pagos, de modo que sin tenant sería una excepción no declarada al modelo de aislamiento (sección 12.8) |
+| `idempotencia` | clave, **grupo_id**, endpoint, usuario_id, hash_peticion, estado_http, respuesta, creada_en | Soporta el header `Idempotency-Key`. **Lleva `grupo_id` y RLS como cualquier tabla de negocio**: guarda cuerpos de respuesta de pedidos y pagos, de modo que sin tenant sería una excepción no declarada al modelo de aislamiento (sección 12.8) |
 | `evento_consumido` | evento_id, consumidor, consumido_en | Clave primaria compuesta. Es lo que hace idempotente al consumidor |
 
 ### 7.6 Nueve decisiones de modelado que conviene defender
@@ -651,12 +663,14 @@ CREATE POLICY pedido_operacion ON pedido FOR ALL
 
 **Y el eje de operación no está en todas partes.** `plan_cuidado` y `perfil_consumo` quedan deliberadamente **fuera** de él, porque la sección 11.2 declara que operación nunca los alcanza.
 
-**3. Las tablas hijas no llevan `grupo_id`: heredan del padre.**
+**3. Las tablas hijas no llevan `grupo_id`: heredan del padre, salvo las de varios ejes.**
 
 ```sql
 CREATE POLICY plan_seccion_hereda ON plan_seccion FOR ALL
   USING (EXISTS (SELECT 1 FROM plan_cuidado p WHERE p.id = plan_seccion.plan_id));
 ```
+
+**Este ejemplo es el de la v1.1, y el esquema lo corrigió.** Una hija que hereda por `EXISTS` hereda todas las políticas del padre, no solo la de familia: así el relevo habría visto todas las secciones y el comercio la dirección de entrega. Por eso las hijas de tablas con varios ejes (`plan_seccion`, `acceso_relevo`, `pedido_entrega`, `pedido_linea`) declaran su condición explícita por eje, y `acceso_relevo` y `asignacion` llevan `grupo_id` propio para no formar un ciclo de políticas (hallazgos 1 y 3 del [modelo de datos](modelo-datos.md), 5.4). **El rol de la membresía también se exige en RLS** para el plan de cuidado: un observador recibe cero filas aunque la API olvide revisar su rol.
 
 #### Contexto de sesión
 
@@ -665,7 +679,11 @@ CREATE POLICY plan_seccion_hereda ON plan_seccion FOR ALL
 | `app.usuario_id` | **Siempre y primero.** La política de `membresia` depende de él |
 | `app.grupo_id` | Cuando el actor es una familia |
 | `app.comercio_id` | Cuando el actor es un comercio en convenio |
-| `app.rol` | `operacion` habilita el eje transversal, auditado |
+| `app.repartidor_id` | Cuando el actor es un repartidor (fase 2) |
+| `app.acceso_relevo_id` | En la vista de relevo, después de resolver el token y validar el PIN |
+| `app.rol` | `operacion` habilita el eje transversal, auditado. `relevo` y `sistema` acotan al relevo y a los trabajos de un grupo. Sin valor, vale `ninguno` |
+
+**Son seis variables y no cuatro** (diferencia 1 del modelo de datos): el repartidor y el relevo no son tenants de familia ni de comercio. **El relevo nunca fija `app.grupo_id`**: si lo fijara, heredaría todas las políticas de la familia y vería pedidos, pagos y direcciones (hallazgo 2). Sus políticas se resuelven solo por `app.acceso_relevo_id`.
 
 ```python
 @asynccontextmanager
@@ -693,9 +711,11 @@ El `true` de `set_config(clave, valor, true)` hace el ajuste **local a la transa
 2. Cada job abre su transacción y fija `app.grupo_id` con el mismo helper que usa la API.
 3. **El worker corre con el mismo rol que la API.** No existe un rol de aplicación que evada RLS.
 
-#### Las dos excepciones, reconocidas y acotadas
+**Cómo quedó en el semestre.** No hay ARQ ni un worker en escucha todavía. Los trabajos son tareas de línea de comando que se invocan a mano o desde un cron, con la conexión de `matu_app` (MATU-37, MATU-41 y MATU-44): el trabajo diario de quiebres, el publicador de avisos y las conservaciones. Cumplen las tres reglas: el trabajo diario enumera los grupos con `app.rol = 'operacion'`, que solo devuelve identificadores, y por cada grupo abre su propia transacción con `app.grupo_id` y `app.rol = 'sistema'`. Si un grupo falla, se deshace solo ese grupo. **Las conservaciones borran con funciones `SECURITY DEFINER`** (dueño `matu_owner`, `search_path` fijo, `EXECUTE` solo para `matu_app`) que exigen `app.rol = 'operacion'`, solo borran filas vencidas y devuelven contadores, nunca columnas. [PENDIENTE: el programador de tareas del despliegue, con el cierre del sprint 5.]
 
-**a) El publicador de outbox.** Es transversal por definición. `evento_outbox` se declara **tabla de infraestructura sin RLS**, justificado porque su payload contiene solo identificadores. El publicador corre con un rol propio con permiso **únicamente** sobre esa tabla:
+#### Las excepciones, reconocidas y acotadas
+
+**a) El publicador de outbox.** Es transversal por definición. `evento_outbox` se declara **tabla de infraestructura sin RLS**, justificado porque su payload contiene solo identificadores (un `CHECK` solo admite UUID). El diseño le da un rol propio con permiso **únicamente** sobre esa tabla:
 
 ```sql
 REVOKE ALL ON ALL TABLES IN SCHEMA public FROM matu_publisher;
@@ -703,11 +723,17 @@ GRANT SELECT, UPDATE ON evento_outbox   TO matu_publisher;
 GRANT SELECT, INSERT ON evento_consumido TO matu_publisher;
 ```
 
-**b) Los endpoints públicos.** La vista de relevo y el retorno de pasarela deben resolver un token **antes** de saber a qué grupo pertenece. Se resuelve con `indice_token`, una tabla sin RLS y sin dato sensible que solo traduce `token_hash → grupo_id`. **`indice_token` guarda también `revocado_en`** (decisión 23 del contrato de MATU-09). Revocar un acceso la fija en la misma transacción que `acceso_relevo.revocado_en`. Así el canje y la sesión de relevo distinguen revocado de vencido con una sola lectura, sin el rol `sistema`. [PENDIENTE: migración en MATU-19 o MATU-20.]
+**En el semestre `matu_publisher` no tiene credenciales en la infraestructura.** El publicador de MATU-41 usa cuatro funciones `SECURITY DEFINER` de la migración 0014, con `EXECUTE` solo para `matu_app` y que exigen `app.rol = 'operacion'`. Así `matu_app` sigue sin leer ni actualizar `evento_outbox` directamente, y no aparece un rol que se salte RLS.
+
+**b) Los endpoints públicos.** La vista de relevo y el retorno de pasarela deben resolver un token **antes** de saber a qué grupo pertenece. Se resuelve con `indice_token`, una tabla sin RLS y sin dato sensible que solo traduce `token_hash → grupo_id`. **`indice_token` guarda también `revocado_en`** (decisión 23 del contrato de MATU-09, migración 0007). Revocar un acceso la fija en la misma transacción que `acceso_relevo.revocado_en`. Así el canje y la sesión de relevo distinguen revocado de vencido con una sola lectura, sin el rol `sistema`. `indice_token` cubre cuatro tipos de token y no dos: relevo, invitación, retorno de pago y refresh.
+
+**c) El login.** Buscar el email de quien entra ocurre antes de tener contexto, igual que la vista de relevo, y con RLS forzado devolvería cero filas. Es la **tercera excepción**, que la v1.1 no contemplaba: `indice_credencial`, sin RLS y sin dato personal en claro, porque guarda un HMAC del email con un secreto que vive fuera de la base (hallazgo 4). Con `evento_consumido` son cuatro tablas de infraestructura sin RLS, todas acotadas por permiso.
+
+**d) El scheduler.** Tiene su propio rol, `matu_scheduler`, con permiso por columna sobre `grupo_familiar`, y su propia política. Una política declarada para todos los roles se evaluaba también para él y le impedía listar grupos (hallazgo 5).
 
 #### Qué hay que demostrar, y no solo afirmar
 
-`tests/test_aislamiento.py` es entregable comprometido del sprint 1 y debe correr contra PostgreSQL real, no contra un doble.
+`tests/test_aislamiento.py` corre contra PostgreSQL real, no contra un doble. Cerró el sprint 0 con 31 pruebas en verde, y cada migración que toca RLS sumó las suyas: al 7 de noviembre, con la 0017, tiene 116 funciones de prueba.
 
 | Prueba | Qué debe demostrar |
 |---|---|
@@ -717,6 +743,32 @@ GRANT SELECT, INSERT ON evento_consumido TO matu_publisher;
 | `FORCE` activo tabla por tabla | El escenario "RLS finge proteger" no puede ocurrir |
 
 La revisión de este modelo descrita en la sección 12.8 encontró **cinco defectos que la lectura del diseño no dejaba ver**. Los cinco están corregidos en el modelo que esta sección describe.
+
+### 7.8 Migraciones
+
+El esquema solo cambia con migraciones de Alembic revisables y reversibles. **Decisión del 28 de octubre:** los scripts de `backend/db/` (roles, esquema, RLS y permisos) quedan como la migración 0001 y no se tocan. Cada cambio posterior va en una migración nueva, con el SQL de políticas, permisos, triggers y `CHECK` dentro de ella (`op.execute`), y su `downgrade()` deja el esquema exactamente como en la anterior. Lo verifican `tests/test_migraciones.py`, que sube y baja cada una, y `tests/test_cadena_migraciones.py` (MATU-70), que exige una sola cabeza: dos ramas con su migración sobre la misma cabeza se apilan en orden antes de fusionarse.
+
+| # | Migración | Historia | Fecha | Qué cambia |
+|---|---|---|---|---|
+| 0001 | `esquema_inicial` | Sprint 0 | 13 de octubre | 49 tablas, 94 políticas de RLS y los permisos por rol |
+| 0002 | `precios_exactos_un_cobro` | ADR-027 | 27 de octubre | Montos exactos y un solo cobro en `pedido`, `pedido_linea`, `cargo` y `participacion`, triggers del pedido pagado y RLS del comercio (7.4 y 8.1) |
+| 0003 | `clave_datos_destruida_fija` | MATU-11 | 28 de octubre | Una clave de datos destruida no se borra ni se vuelve a llenar |
+| 0004 | `acceso_relevo_nombre_comparte` | MATU-18 | 28 de octubre | `nombre_pila_comparte` y `relevo_informado_en` en `acceso_relevo` |
+| 0005 | `auditoria_lectura_admin` | MATU-14 | 28 de octubre | Quién lee la auditoría |
+| 0006 | `consentimiento_inalterable` | MATU-07 | 28 de octubre | El consentimiento no se cambia ni se borra; solo se registra la revocación |
+| 0007 | `relevo_abrir` | MATU-19 | 29 de octubre | `indice_token.revocado_en`, políticas del relevo y la función que verifica la autorización vigente en el relevo |
+| 0008 | `sesion_dispositivos` | MATU-38 | 2 de noviembre | Refresh rotativo, dispositivos y su conservación, sin lectura de operación |
+| 0009 | `perfil_consumo` | MATU-36 | 3 de noviembre | Versión y autor del perfil, insumo del catálogo o libre, escritura solo de admin y cuidador, y conservación |
+| 0010 | `auditoria_aperturas_relevo` | MATU-45 | 3 de noviembre | Quien ve el plan lee las aperturas de los relevos |
+| 0011 | `alertas_quiebre` | MATU-37 | 3 de noviembre | Políticas y transiciones de las alertas y las reposiciones, y su conservación |
+| 0012 | `celular_verificado` | MATU-57 | 3 de noviembre | Celular verificado y su canal preferido |
+| 0013 | `ficha_ampliada` | MATU-50 | 3 de noviembre | Tres tipos de sección nuevos (ADR-028) y `plan_seccion.creado_en` para lo que ve cada relevo |
+| 0014 | `avisos_outbox` | MATU-41 | 4 de noviembre | Publicador del outbox con funciones acotadas, avisos por correo y push |
+| 0015 | `perfil_unidades_por_envase` | MATU-60 | 6 de noviembre | Unidades por envase, opcionales, para la lista de insumos (ADR-031) |
+| 0016 | `retiro_autorizacion` | MATU-44 | 6 de noviembre | Motivo del retiro de una autorización, barrera por rol y destrucción de la ficha a los 90 días |
+| 0017 | `conservar_compras` | MATU-51 | 7 de noviembre | Las compras declaradas se borran a los 90 días |
+
+**Los diagramas del modelo de datos siguen en la 0001** para las tablas que cambiaron después. Se regeneran con `backend/db/gen_diagramas.py` contra una base con todas las migraciones (modelo de datos, sección 0).
 
 ---
 
