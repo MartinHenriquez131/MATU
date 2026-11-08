@@ -19,6 +19,8 @@
 
 **MATU-51 (07-11):** se ajustan las secciones 6 y 8 con «Compré» y «Me quedan», que anotan una compra o lo que queda en cualquier insumo, haya aviso o no, y las compras anotadas pasan a guardarse 90 días. No agregan usos, datos ni destinatarios, y un plazo más corto no cambia las declaraciones, así que no cambian la versión: `POLITICA_VERSION` sigue en `0.10` (criterio del 06-11). Aprobado por Jorge el 07-11.
 
+**MATU-68 (08-11):** se precisa la sección 5: al dar de alta a la persona, «eliges quién la da» en vez de «eliges en qué calidad la das». No es una declaración y no agrega usos, datos ni destinatarios, así que no cambia la versión: `POLITICA_VERSION` sigue en `0.10`. Aprobado por Jorge el 08-11.
+
 ---
 
 ## En un minuto
@@ -143,7 +145,7 @@ La persona que cuidas no tiene cuenta en MATU. Sus datos los ingresas tú.
 
 ## 5. La autorización para usar los datos de la persona que cuidas
 
-Para guardar la ficha necesitamos una autorización. Al dar de alta a la persona, eliges en qué calidad la das. Si después se retira, quien administra el grupo o quien cuida a la persona puede volver a darla desde «Grupo familiar», con la misma declaración y eligiendo de nuevo la calidad (sección 10).
+Para guardar la ficha necesitamos una autorización. Al dar de alta a la persona, eliges quién la da. Si después se retira, quien administra el grupo o quien cuida a la persona puede volver a darla desde «Grupo familiar», con la misma declaración y eligiendo de nuevo la calidad (sección 10).
 
 **La propia persona (titular).** La persona que cuidas decide por sí misma y tú registras su decisión. Al registrarla declaras:
 
