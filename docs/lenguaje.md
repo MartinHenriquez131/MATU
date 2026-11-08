@@ -4,7 +4,7 @@
 **Estado:** borrador. Lo revisa Martín en MATU-31 y lo aprueba Jorge. Los textos marcados **[PENDIENTE DE JORGE]** no se usan hasta que él los apruebe.
 **Decisiones de Jorge del 27-10 (MATU-09 y MATU-30):** aprobó el aviso al relevo (7.5), los dos nombres antes del PIN (7.1 y 7.4), la ayuda del teléfono (9) y las preguntas guía con el nombre de la persona (5.1 y 5.2). La sección 10 marca qué diferencias quedan resueltas.
 **MATU-68 (08-11):** entran los textos que la app ya mostraba sin estar aquí: las secciones nuevas 25 (alta) y 26 (marco de la app), la 6.6 y filas en 5.4, 7.1, 7.3, 7.4, 7.5, 8, 9.1, 13.3, 15 y 18. Los del alta los revisó el analista normativo, y donde propuso un cambio va el texto propuesto. El alta ya no pide la dirección. Aprobados por Jorge el 08-11. La sección 24 queda para MATU-72.
-**MATU-72 (08-11):** entra la sección 24, borrar los datos de la persona, con los ajustes A1 y A2 del diseñador. La 22 precisa que después de un borrado no vuelve nada. Aprobados por Jorge el 08-11.
+**MATU-72 (08-11):** entra la sección 24, borrar los datos de la persona, con los ajustes A1, A2 y A3 del diseñador (A3: textos sin pronombre, porque MATU no guarda el género). La 22 precisa que después de un borrado no vuelve nada. Aprobados por Jorge el 08-11.
 **Fuentes:** resultados de las entrevistas (`docs/resultados-entrevistas.md`), arquitectura sección 10, política de privacidad v0.9, la demo aprobada (`Demo/src/`, rama `demo-web-viernes-30`) y el contrato de MATU-09 (`docs/api/`, rama `matu-09-contrato-api`).
 
 ---
@@ -809,9 +809,9 @@ En la app se dice «borrar», nunca «suprimir» ni «eliminar». El número de 
 
 | Dónde | Texto |
 |---|---|
-| Grupo familiar, bloque al final, separado de los permisos | Borrar sus datos · Si {nombre_pila} o su representante legal lo pide, o si ya no la cuidan con MATU, puedes borrar todo lo guardado de ella. No se puede deshacer. · [botón] Borrar los datos de {nombre_pila} |
+| Grupo familiar, bloque al final, separado de los permisos | Borrar sus datos · Si {nombre_pila} o su representante legal lo pide, o si ya no usan MATU para cuidar a {nombre_pila}, puedes borrar todo lo guardado. No se puede deshacer. · [botón] Borrar los datos de {nombre_pila} |
 | Confirmación, título | ¿Borrar todo lo guardado de {nombre_pila}? |
-| Confirmación, texto | Esto no se puede deshacer. · Borramos ahora su ficha, con todas sus secciones, y los insumos y las compras anotadas. Nadie los podrá recuperar, tampoco el equipo de MATU. · Se cortan ahora todos sus enlaces de relevo. Hoy abren {n}. (1: «Hoy abre 1.» 0: «Hoy ningún enlace abre.») Quien tenga la ficha abierta deja de verla cuando vuelva a mirarla. No recibe aviso. · {nombre_pila} sale de MATU. Si después quieren volver a usar MATU para cuidarla, hay que registrarla de nuevo, y todo empieza en blanco. · Guardamos, sin nada de lo escrito, el registro de las autorizaciones, de los enlaces y de quién abrió la ficha, por los plazos de la política de privacidad. · Lo borrado sigue en las copias de respaldo hasta que vencen, y nadie las usa para ver datos. · Una lista que ya imprimiste o compartiste no se borra: quedó fuera de MATU. |
+| Confirmación, texto | Esto no se puede deshacer. · Borramos ahora su ficha, con todas sus secciones, y los insumos y las compras anotadas. Nadie los podrá recuperar, tampoco el equipo de MATU. · Se cortan ahora todos sus enlaces de relevo. Hoy abren {n}. (1: «Hoy abre 1.» 0: «Hoy ningún enlace abre.») Quien tenga la ficha abierta deja de verla cuando vuelva a mirarla. No recibe aviso. · {nombre_pila} sale de MATU. Si después quieren volver a usar MATU, hay que registrar a {nombre_pila} de nuevo, y todo empieza en blanco. · Guardamos, sin nada de lo escrito, el registro de las autorizaciones, de los enlaces y de quién abrió la ficha, por los plazos de la política de privacidad. · Lo borrado sigue en las copias de respaldo hasta que vencen, y nadie las usa para ver datos. · Una lista que ya imprimiste o compartiste no se borra: quedó fuera de MATU. |
 | Casilla obligatoria | Entiendo que esto no se puede deshacer. |
 | Botones | Borrar todo · No borrar |
 | En curso | Borrando… |
