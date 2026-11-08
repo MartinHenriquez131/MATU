@@ -43,7 +43,7 @@
 ## Consulta legal
 
 - **CL-6 ampliada:** si destruir la clave basta para la supresión, y qué plazo máximo corre para las copias de respaldo, que ahora también contienen los insumos y las compras anotadas de una persona borrada. Volver a borrar antes de usar una copia restaurada es la medida propuesta.
-- **CL-7:** cómo verificar la identidad de la persona sin cuenta, o de su representante legal, que pide el borrado por correo, y si una cuidadora o un cuidador de hecho puede pedirlo por su cuenta.
+- **CL-7:** cómo verificar la identidad de la persona sin cuenta, o de su representante legal, que pide el borrado por correo, si una cuidadora o un cuidador de hecho puede pedirlo por su cuenta, y si la familia puede volver a registrar y autorizar a la persona contra la voluntad de quien pidió el borrado.
 - **CL-8:** por cuánto tiempo se conservan, después de un borrado, el registro de autorizaciones, la auditoría y los accesos y las aperturas del relevo, sin texto, para demostrar cómo se usaron los datos.
 
 CL-1 a CL-5 siguen abiertas como en MATU-44. Las tres van a la tarjeta de consulta legal de Trello.
