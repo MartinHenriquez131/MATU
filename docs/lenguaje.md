@@ -5,6 +5,7 @@
 **Decisiones de Jorge del 27-10 (MATU-09 y MATU-30):** aprobó el aviso al relevo (7.5), los dos nombres antes del PIN (7.1 y 7.4), la ayuda del teléfono (9) y las preguntas guía con el nombre de la persona (5.1 y 5.2). La sección 10 marca qué diferencias quedan resueltas.
 **MATU-68 (08-11):** entran los textos que la app ya mostraba sin estar aquí: las secciones nuevas 25 (alta) y 26 (marco de la app), la 6.6 y filas en 5.4, 7.1, 7.3, 7.4, 7.5, 8, 9.1, 13.3, 15 y 18. Los del alta los revisó el analista normativo, y donde propuso un cambio va el texto propuesto. El alta ya no pide la dirección. Aprobados por Jorge el 08-11. La sección 24 queda para MATU-72.
 **MATU-72 (08-11):** entra la sección 24, borrar los datos de la persona, con los ajustes A1, A2 y A3 del diseñador (A3: textos sin pronombre, porque MATU no guarda el género). La 22 precisa que después de un borrado no vuelve nada. Aprobados por Jorge el 08-11.
+**MATU-59 (08-11):** entra la sección 27, el catálogo, y dos filas en 3.2 («escara» y «ostomía»). Los revisó el analista normativo. Aprobados por Jorge el 08-11.
 **Fuentes:** resultados de las entrevistas (`docs/resultados-entrevistas.md`), arquitectura sección 10, política de privacidad v0.9, la demo aprobada (`Demo/src/`, rama `demo-web-viernes-30`) y el contrato de MATU-09 (`docs/api/`, rama `matu-09-contrato-api`).
 
 ---
@@ -72,6 +73,8 @@ Salen del análisis de las entrevistas, de la arquitectura y del contrato de MAT
 | demencia, Alzheimer y cualquier nombre de enfermedad | Dato de salud. MATU no lo pide ni lo sugiere en un ejemplo | Nada. La ficha pregunta qué hacer, no qué tiene |
 | crisis, episodio, descompensación | Lenguaje clínico | "Si se altera", "cuando se angustia" |
 | manejo de situaciones difíciles | Era el nombre técnico del campo 2. Las entrevistadas usaron otra expresión (arquitectura 10.4) | "Si se altera" |
+| escara, úlcera, antiescaras | Lenguaje clínico, y describe una lesión de la persona | "Crema protectora de la piel" |
+| ostomía, ostomizado | Lenguaje clínico, y revela una condición de salud | "Bolsa colectora" |
 | stock, quiebre, stock proyectado | Jerga del equipo (arquitectura 10.3) | "Se acaban en 6 días", "Pronto se acaba" |
 | revocar, revocado | Jerga legal y técnica | "Cortar el enlace", "Enlace cortado", "Cortado" |
 | token, cookie, sesión, autenticar, credenciales, canje | Jerga técnica | "Enlace", "PIN", "entrar" |
@@ -917,3 +920,32 @@ En la app se dice «autorización» y «permiso», nunca «consentimiento». Est
 | Al abrir la app | Abriendo MATU… |
 | Cabecera, sobre el nombre de la persona cuidada | Cuidas a |
 | Cabecera, bajo el nombre | Le dicen `{nombre_pila}` |
+
+## 27. Catálogo (MATU-59) · Aprobados por Jorge el 08-11
+
+Es la tercera pestaña de Insumos, para todos los roles del grupo. No tiene botón «Pedir»: llega con MATU-61. La pantalla no dice «stock» (sección 3.2): dice «Hay en» y «No hay en».
+
+| Dónde | Texto |
+|---|---|
+| Título de la pantalla | Catálogo |
+| Bajada | Productos que usan las familias que cuidan. Mirar no te compromete a nada. |
+| Aviso del piloto, una vez arriba | **Precios de ejemplo.** MATU todavía no tiene convenio con comercios, y en esta demo no se cobra dinero real. |
+| Junto a cada precio | Precio de ejemplo |
+| Bajo el precio | IVA incluido |
+| Comercio, una vez por tarjeta de producto | `{nombre}` (comercio ficticio) |
+| Hay en ese comercio | Hay en `{nombre}` |
+| No hay en ese comercio | No hay en `{nombre}` por ahora |
+| Ningún comercio lo tiene | Por ahora no está disponible |
+| Nota de lo que hay | Lo que hay se confirma antes de pagar. |
+| Envío | El envío se suma al pedido, una sola vez por pedido. |
+| Retracto, si se pierde al abrir el sello (letra no menor que el precio) | Derecho a retracto: tienes 10 días desde que lo recibes. No aplica si abres el sello del producto. |
+| Retracto, el resto (letra no menor que el precio) | Derecho a retracto: tienes 10 días desde que lo recibes. |
+| Catálogo vacío | Todavía no hay productos en el catálogo. |
+| Error al cargar | No pudimos traer el catálogo. Revisa tu conexión e inténtalo de nuevo. |
+| Mientras carga y para reintentar | Los de la sección 26 |
+
+**Categorías:** Higiene y cuidado personal · Cuidado de la piel · Alimentación.
+
+**Nombres de los productos de ejemplo:** Pañal adulto M x30 · Toallitas húmedas x80 · Protectores diarios x20 · Crema protectora de la piel 100 g · Suplemento nutricional en polvo 400 g · Bolsa colectora x10. Sin marcas reales ni afirmaciones de salud («previene», «cura», «para diabéticos»).
+
+**Pendiente de la consulta legal:** si el suplemento y las bolsas colectoras pierden el retracto al abrir el sello. Mientras no responda, usan el texto sin la exclusión.

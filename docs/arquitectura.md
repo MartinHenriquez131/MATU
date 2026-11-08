@@ -571,7 +571,7 @@ Es aritmética de tercero básico, y esa es exactamente la gracia. **El valor no
 | Entidad | Campos relevantes | Notas de diseño |
 |---|---|---|
 | `producto` | id, categoria_id, nombre, marca, presentacion, unidad, **unidades_por_envase**, requiere_receta, activo | `unidades_por_envase` conecta el catálogo con el perfil de consumo: 30 pañales por paquete permite traducir tasa de uso a paquetes |
-| `oferta` | producto_id, comercio_id, precio_referencia, disponible, actualizado_en | Con el ADR-027 el precio de la oferta es el precio exacto con IVA del comercio en convenio. [PENDIENTE: la migración 0002 no tocó `oferta`; la columna sigue llamándose `precio_referencia` y el esquema la comenta como referencial (ADR-011, ya reemplazado)] |
+| `oferta` | producto_id, comercio_id, precio, stock, disponible, actualizado_en | Con el ADR-027 el precio de la oferta es el precio exacto con IVA del comercio en convenio. La migración 0019 (MATU-59) renombró `precio_referencia` a `precio` y agregó `stock` |
 | `convenio` | comercio_id, vigencia_desde, vigencia_hasta, **comision_pct**, **tarifa_despacho**, prepara_pedidos, cuenta_corriente, estado | `comision_pct` y `tarifa_despacho` son la regla de cálculo de la liquidación |
 | `pedido` | id, grupo_id, persona_cuidada_id, comercio_id, direccion_id, estado, modo_cumplimiento, origen (`manual`, `alerta_quiebre`), ventana_entrega, **subtotal_productos**, **costo_envio**, **total**, **total_confirmado_en**, **total_vence_en**, **pagado_en**, codigo_retiro_hash, creado_por | `origen` incorpora `alerta_quiebre`, que es el camino que conecta la capa 2 con la 3. **`total = subtotal_productos + costo_envio`** por `CHECK`, con un envío único por pedido. `total_vence_en` lo fija el dominio 15 minutos después de `total_confirmado_en`; la base exige que los dos existan juntos y que el vencimiento sea posterior. **`pagado_en` marca desde cuándo el precio queda fijo**: nulo en `borrador`, `total_confirmado` y `vencido`, obligatorio desde `pagado` en adelante, y solo con un total confirmado (`CHECK`). Los 17 estados están en 8.1 |
 | `pedido_linea` | id, pedido_id, oferta_id, producto_id, cantidad, **precio_unitario**, estado_linea, **monto_devuelto**, **devuelta_en**, **oferta_reasignada_id**, **precio_reasignado**, **reasignada_en** | **Con el pedido pagado la línea no se edita**: un trigger impide cambiar producto, oferta, cantidad o precio, y agregar o borrar líneas. Lo que no se entrega se devuelve: `monto_devuelto` nunca supera cantidad × `precio_unitario`, y la línea está en `devuelta` si y solo si tiene monto y fecha de devolución. **La reasignación es al mismo producto en otra oferta**, nunca otra marca (trigger), y `precio_reasignado` es lo que MATU paga, con la diferencia a su cargo. Estados: `pendiente`, `sin_stock`, `preparada`, `faltante`, `devuelta`, `eliminada` |
@@ -588,7 +588,7 @@ Es aritmética de tercero básico, y esa es exactamente la gracia. **El valor no
 
 - [PENDIENTE: `consumo_comercio.monto_autorizado`, "el tope que vio el comercio", sigue en el esquema aunque el ADR-027 ya no tiene tope autorizado. Se rediseña con la conciliación de 11.7 y el convenio.]
 - [PENDIENTE: los tipos `desviacion_monto` y `captura_rechazada` de `incidencia` siguen en su `CHECK`. Con precio exacto y sin captura pierden su sentido original; se revisan junto con la conciliación.]
-- [PENDIENTE: `oferta.precio_referencia` conserva el nombre y el comentario de precio referencial del ADR-011, aunque con el ADR-027 es el precio exacto.]
+- Resuelto en la migración 0019 (MATU-59): `oferta.precio_referencia` pasó a `oferta.precio`, sin el comentario de precio referencial del ADR-011.
 - [PENDIENTE: el RLS del comercio se resuelve por `pedido.comercio_id`. **El comercio que reemplaza a otro no ve la línea reasignada**, porque la línea hereda la visibilidad del pedido y no de `oferta_reasignada_id`. La reasignación es de la fase 2, y cómo se le da a ese comercio la proyección de 11.2 es una decisión de aislamiento pendiente.]
 - [PENDIENTE: por lo mismo, `pedido` conserva un solo `comercio_id`, y el comercio ve todas las líneas del pedido. Cómo se registra un pedido que al confirmar se abastece en dos comercios, con un solo cobro y un solo envío (ADR-027, ajuste del ADR-024), no está en la 0002.]
 
@@ -1027,9 +1027,7 @@ POST   /v1/pedidos/desde-alertas                    → borrador por comercio (A
 > **Ajustada al ADR-027.** Los precios son exactos, con IVA, y vienen del puerto `CatalogoComercio`. Mientras el adaptador sea simulado, la respuesta marca los precios como de ejemplo y la interfaz lo rotula.
 
 ```
-GET    /v1/catalogo/categorias
-GET    /v1/catalogo/productos?categoria=&q=&cursor=
-GET    /v1/catalogo/productos/{id}/ofertas?comuna=     → precio exacto con IVA y stock
+GET    /v1/catalogo                                 → categorías, productos y, por comercio, precio exacto con IVA y si hay (MATU-59)
 
 POST   /v1/pedidos                                  → crea borrador
 PUT    /v1/pedidos/{id}/lineas
@@ -1043,6 +1041,8 @@ GET    /v1/cargos/{id}
 POST   /v1/cargos/{id}/pagar                        → venta normal por el total confirmado; 410 si venció
 POST   /v1/pagos/retorno                            → commit, público con validación de token, idempotente por token
 ```
+
+**El catálogo es una sola ruta (MATU-59, decisión 158 de `api/README.md`, aprobada por Jorge el 08-11).** Reemplaza a las tres rutas que había aquí. No recibe parámetros: ni texto de búsqueda en la URL ni comuna, porque el catálogo es general y no se cruza con nada de la familia (revisión previa del analista). De cada comercio entrega solo `nombre_fantasia`, el precio con IVA y si hay (`disponible`), nunca la cantidad en stock. Pide la sesión de una cuenta, sin `X-Grupo-Id`, y el relevo no entra (401). Solo existe con la capa 3 encendida (`CAPA3_HABILITADA`).
 
 **Qué devuelve `confirmar`:** las líneas con cantidad, precio y subtotal, el comercio de cada una, las que salieron por no disponibles, las que cambiaron de precio o de comercio respecto de la lista, el envío único, el total con IVA y la hora en que vence.
 
