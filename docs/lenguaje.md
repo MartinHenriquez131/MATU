@@ -484,6 +484,8 @@ En la app se dice "entrar", nunca "sesión" (decisión de Jorge del 02-11). Los 
 
 Son las tres declaraciones de la política de privacidad, en la sección 5, "La autorización para calcular insumos", con sus identificadores `declaracion_consumo_<calidad>`. Se copian sin cambiar una palabra: cambiarlas es publicar una versión nueva de la política.
 
+Si no se elige quién da el permiso, el error dice: «Elige quién da el permiso.» (08-11, igual que en el alta, 25.4).
+
 ### 13.3 Entrar y dispositivos
 
 | Dónde | Texto |
