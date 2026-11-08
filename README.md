@@ -111,12 +111,11 @@ pagadores salió del alcance comprometido del semestre.
 ## Arquitectura de la solución
 
 Documento completo: [docs/arquitectura.md](docs/arquitectura.md) — versión 1.2,
-42 requisitos trazados a módulos, 13 diagramas y 27 decisiones de arquitectura
+42 requisitos trazados a módulos, 11 diagramas y 27 decisiones de arquitectura
 vigentes (ADR, numerados hasta el 31 porque la numeración no se reutiliza) con
 alternativas descartadas y consecuencias. GitHub lo renderiza con los diagramas incluidos. Existe también
 una [versión navegable](docs/arquitectura.html), con índice lateral, para leer
-fuera de GitHub o imprimir. **Esa versión es la 1.0, anterior a la validación con
-cuidadoras.** La vigente es la del `.md`.
+fuera de GitHub o imprimir. Se genera desde el `.md` con `docs/herramientas/generar_arquitectura_html.mjs`, así que dice lo mismo: si cambia el `.md`, se vuelve a generar.
 
 El sistema se diseñó en **tres capas con dependencia estrictamente
 descendente**:
@@ -177,7 +176,7 @@ MATU/
 │   └── Evidencias Individuales/
 └── docs/                          documentos que respaldan las evidencias
     ├── arquitectura.md            documento de arquitectura · se lee en GitHub
-    ├── arquitectura.html          versión 1.0, anterior a la validación, navegable y para imprimir
+    ├── arquitectura.html          versión 1.2 navegable y para imprimir, generada desde el .md
     ├── modelo-datos.md            modelo de datos completo, con diagramas
     ├── estrategia-pruebas.md      niveles, metas, puertas del pipeline y definición de terminado
     ├── backlog-sprints-1-3.md     historias, criterios y estimación del tramo
@@ -299,8 +298,8 @@ tareas se gestionan en Trello.
   hipótesis, las tres mediciones y el recálculo del punto de equilibrio.
 * [Cierre del ADR-023](docs/adr/ADR-023-cierre.md) — H1 refutada con 3 de 10:
   la capa 1 pasa a ser una ficha de relevo de tres campos.
-* [Arquitectura en versión navegable](docs/arquitectura.html) — versión 1.0,
-  anterior a la validación.
+* [Arquitectura en versión navegable](docs/arquitectura.html) — versión 1.2,
+  generada desde el `.md` (`docs/herramientas/`).
 
 GitHub no renderiza archivos `.html` ni `.docx`: hay que descargarlos y abrirlos.
 El documento de arquitectura en `.md` sí se lee directo en el navegador, con sus
