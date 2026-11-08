@@ -1,30 +1,28 @@
 # MATU — Documento de Arquitectura
 
 **Proyecto:** MATU · Sistema de continuidad del cuidado
-**Versión:** 1.1
-**Fecha:** septiembre 2026
+**Versión:** 1.2
+**Fecha:** 8 de noviembre de 2026
 **Equipo:** Jorge Espinoza · Martín Henríquez
-**Estado:** anteproyecto validado. Línea base de diseño, revisada, auditada y contrastada con diez entrevistas a cuidadoras. **El desarrollo no ha comenzado.**
+**Estado:** en construcción. Línea base de diseño validada con diez entrevistas a cuidadoras, y desde el sprint 0 contrastada con el código. Al cierre del sprint 3 del calendario v1.3 (5 de noviembre) están construidas la ficha de relevo con sus secciones complementarias, el acceso de relevo, el perfil de consumo con la predicción de quiebre, los avisos y la lista de insumos, sobre 17 migraciones. La capa 3 se construye en el sprint 4.
 
 ### Sobre esta versión
 
-Esta es la **versión 1.1** del documento de arquitectura de MATU. Incorpora los resultados de la validación con cuidadoras que la versión 1.0 comprometía en su sección 18, y con ellos modifica el alcance de la capa 1, los tres supuestos económicos de la sección 16, la ventana de construcción del semestre y el estado de dos de los cinco huecos declarados.
+Esta es la **versión 1.2** del documento de arquitectura de MATU. La v1.1 incorporó la validación con cuidadoras. **La v1.2 incorpora lo que cambió al construir**: el modelo de datos tal como se ejecuta, siete decisiones de arquitectura nuevas (ADR-026 a ADR-031, más el cierre del ADR-023), el calendario v1.3 y la estrategia de pruebas v1.2. Es la historia MATU-43 del backlog.
 
-**Qué significa que sea 1.1.** Que la línea base 1.0 se mantiene como diseño y que lo que cambió, cambió por evidencia y no por preferencia. Cada modificación de esta versión tiene su origen en un dato medido o en una restricción de calendario verificable, y ambos quedan citados en el punto donde se aplican.
+**Qué significa que sea 1.2.** Que la línea base se mantiene como diseño, y que cada cambio de esta versión tiene su origen en una decisión registrada (un ADR o una decisión del contrato de la API, con su fecha y quién la tomó) o en el esquema que ya corre. Ambos quedan citados en el punto donde se aplican.
 
-**Qué es y qué no es este documento.** Es el diseño que el equipo se compromete a construir, con sus decisiones fundamentadas y sus alternativas descartadas. No reporta avance de desarrollo. Cuando el documento dice que algo "se verifica" o "queda garantizado por una prueba", describe el criterio de aceptación comprometido, no un resultado ya obtenido. La sección 12 detalla cómo y en qué sprint se comprueba cada afirmación.
+**Qué es y qué no es este documento.** Es el diseño que el equipo se compromete a construir, con sus decisiones fundamentadas y sus alternativas descartadas. **Desde la v1.2 dice también qué parte ya está construida**, cuando el código lo permite verificar. Cuando el documento dice que algo "se verifica" o "queda garantizado por una prueba" en una parte todavía no construida, describe el criterio de aceptación comprometido, no un resultado ya obtenido. La sección 12 detalla cómo y en qué sprint se comprueba cada afirmación. **Si este documento contradice un ADR posterior o el esquema de las migraciones, mandan estos últimos** hasta la siguiente versión.
 
-> **Pendiente para la v1.2.** Desde esta versión el proyecto avanzó, y estos cambios todavía no están incorporados al texto. Se llevan a la v1.2 en el sprint 3, como indica el backlog:
->
-> - Los 16 cambios de la sección 10 y los hallazgos de la sección 5.4 del [modelo de datos](modelo-datos.md)
-> - El [calendario de sprints v1.3](sprints/calendario-sprints.md), que reemplaza las fechas y la agrupación de la tabla 15.4
-> - La prioridad de RF-03: el cierre del ADR-023 baja las ocho secciones a *Podría*, y la sección 3.1 todavía dice *Debe*
-> - El resultado de la [prueba de concepto de Transbank](pruebas-concepto/transbank.md): el débito no admite captura diferida. **Ya incorporado** con el ADR-027 (sección 14), que reemplazó al ADR-006 y al ADR-011, y propagado a las secciones 8, 9.4, 9.5, 10.4, 11.2, 11.7, 12, 17 y 18.1. La sección 7 (7.1, 7.4 y 7.6 b, c y f) y los estados de 8.1 y 12.3 se alinearon el 27 de octubre con la migración 0002 (`0002_precios_exactos_un_cobro`). Lo que esa migración dejó fuera a propósito está al final de 7.4
-> - El [ADR-026](adr/ADR-026-aplicacion-web.md): la aplicación de la familia es web, mobile first, y reemplaza a Flutter. El ADR ya está escrito y lista las secciones que cambian (1, 6.1, 12.2, 15, 17 y 19.1). Hasta la v1.2, donde este documento dice Flutter, manda el ADR-026
-> - El [ADR-029](adr/ADR-029-ficha-no-se-imprime.md) (03-11): la ficha de relevo no se imprime ni se exporta, y RF-09 pasa a la lista de reposición. **Ya incorporado** en 3.1, la ruta de la ficha y el alcance
-> - La separación en dos repositorios: la documentación en MATU y el código en MATU_PROYECTO (anexo 19.1)
-> - La suspensión de la regla de ejes en los sprints 1 a 3 y el traslado de la prueba de capa 3 desacoplable, declarados en el backlog
-> - Las decisiones de Jorge del 27 de octubre sobre el contrato de MATU-09 (decisiones 16, 23 a 28). **Ya incorporadas** en 2.1, 7.2, 7.5, 7.7 b, 9.1, 9.2, 10.1, 11.6 y 11.8, y en el [modelo de datos](modelo-datos.md): la IP no se guarda, la API no envía el PIN, la 9.2 sigue el contrato, la retención del acceso de relevo y de su teléfono, las columnas nuevas de `acceso_relevo` e `indice_token`, y edades sin valores exactos
+#### Registro de cambios
+
+| Versión | Fecha | Qué cambió |
+|---|---|---|
+| 1.0 | septiembre de 2026 | Línea base de diseño, revisada y auditada, anterior a la validación con cuidadoras |
+| 1.1 | septiembre de 2026 | Validación con diez cuidadoras: ficha de relevo de tres campos (ADR-023), llenado asistido, pago de un solo pagador, ventana de nueve semanas y segundo recorte de 160 horas. Después, entre el 26 y el 27 de octubre, el ADR-027 (precios exactos y un solo cobro) y las decisiones del contrato de MATU-09 se propagaron al texto |
+| **1.2** | **8 de noviembre de 2026** | **Sección 7** alineada con el modelo de datos: sus 16 diferencias y sus cinco hallazgos, los tipos de sección del ADR-028 y la nueva 7.8 con las migraciones 0001 a 0017. **ADR-026**: aplicación web mobile first en lugar de Flutter (secciones 1, 2.1, 6.1, 6.2, 10.3, 11.6, 12.2, 13.1, 15, 17 y anexo 19.1). **ADR-027** completo en el estado de los ADR-006, 011 y 024. **ADR-028**: RF-03 con seis secciones complementarias, *Debe* en el semestre, y las preguntas guía en 10.4 b. **ADR-029**: la ficha no se imprime y RF-09 pasa a la lista. **ADR-030**: Jorge desarrolla y Martín despliega, prueba y revisa (15.5). **ADR-031**: la lista sale del teléfono como texto, sin enlace (RF-15, 9.3 y 9.6). **Calendario v1.3** en 15.2 y 15.4, con los objetivos específicos 5, 6 y 7 en su redacción vigente. **Estrategia de pruebas v1.2** en 12.2, 12.6 y 12.7, con el CI tal como corre. La clave maestra en variable de entorno (11.4), la regla de ejes suspendida en los sprints 1 a 3, la prueba de capa 3 desacoplable en el sprint 3, el resultado de Transbank y los dos repositorios (19.1) |
+
+> **Pendiente para la v1.3.** Todo lo que la v1.1 dejaba para esta versión quedó incorporado. Lo que sigue abierto está marcado [PENDIENTE] en la sección que corresponde, y se revisa en cada cierre de sprint.
 
 ### Cómo se llegó a esta línea base
 
@@ -40,6 +38,7 @@ El diseño pasó por tres reestructuraciones y tres rondas de revisión crítica
 | **Revisión crítica, ronda 3** | La regla de prorrateo no quedaba fijada por ninguna afirmación comprobable: invertir el criterio del mayor resto habría pasado igual el plan de pruebas descrito |
 | **Validación con cuidadoras** | Se ejecutó la meta completa del protocolo, diez entrevistas, contra criterios fijados antes de entrevistar. H2, H3 y H4 validadas. **H1 refutada**, lo que activó el ADR-023 y redujo la versión mínima de la capa 1 a tres campos. H5, H6 y H7 quedaron en zona intermedia y disparan la regla de ampliación del propio protocolo. Las tres mediciones económicas de la sección 16 pasaron de supuesto a valor medido, y el recálculo expuso un error propio en el volumen transado |
 | **Cierre de Fase 1** | La ventana de construcción quedó en nueve semanas y no en trece. Segundo recorte de alcance, de 160 horas, decidido sobre el papel antes del primer sprint |
+| **Construcción, sprints 0 a 3** | Al escribir y probar el esquema aparecieron cinco hallazgos más en las políticas y 16 diferencias con la sección 7. El profesor sugirió una aplicación web en vez de Flutter (ADR-026), la prueba de concepto de Transbank llevó a un solo cobro (ADR-027) y ver el producto funcionando amplió la ficha (ADR-028). Ver el registro de cambios |
 
 **Y cinco defectos del modelo de aislamiento aparecieron al revisarlo política por política**, ninguno visible en una lectura lineal. Están en la sección 12.8, con la prueba que debe fijar cada corrección.
 
@@ -54,7 +53,7 @@ Está escrito para cuatro lectores:
 - **Quien evalúe el cumplimiento legal**, que necesita ver el tratamiento de datos sensibles.
 - **El equipo de dentro de seis meses**, que necesita entender por qué se decidió algo antes de cambiarlo.
 
-**Ruta rápida de lectura.** Secciones 1 y 2 para la vista general. Sección 3 para el alcance comprometido. Secciones 4 a 9 para el detalle constructivo. Sección 14 para las decisiones fundamentadas, que es la parte de mayor peso en una defensa de título. Secciones 15 y 16 para la factibilidad y la aritmética del piloto, que son las que más cambiaron en esta versión.
+**Ruta rápida de lectura.** Secciones 1 y 2 para la vista general. Sección 3 para el alcance comprometido. Secciones 4 a 9 para el detalle constructivo. Sección 14 para las decisiones fundamentadas, que es la parte de mayor peso en una defensa de título. Secciones 15 y 16 para la factibilidad y la aritmética del piloto. En la v1.2 cambiaron sobre todo las secciones 7, 9, 12 y 15.
 
 ---
 
@@ -761,7 +760,7 @@ El esquema solo cambia con migraciones de Alembic revisables y reversibles. **De
 | 0003 | `clave_datos_destruida_fija` | MATU-11 | 28 de octubre | Una clave de datos destruida no se borra ni se vuelve a llenar |
 | 0004 | `acceso_relevo_nombre_comparte` | MATU-18 | 28 de octubre | `nombre_pila_comparte` y `relevo_informado_en` en `acceso_relevo` |
 | 0005 | `auditoria_lectura_admin` | MATU-14 | 28 de octubre | Quién lee la auditoría |
-| 0006 | `consentimiento_inalterable` | MATU-07 | 28 de octubre | El consentimiento no se cambia ni se borra; solo se registra la revocación |
+| 0006 | `consentimiento_inalterable` | MATU-07 | 28 de octubre | El consentimiento no se cambia ni se borra, y solo se registra la revocación |
 | 0007 | `relevo_abrir` | MATU-19 | 29 de octubre | `indice_token.revocado_en`, políticas del relevo y la función que verifica la autorización vigente en el relevo |
 | 0008 | `sesion_dispositivos` | MATU-38 | 2 de noviembre | Refresh rotativo, dispositivos y su conservación, sin lectura de operación |
 | 0009 | `perfil_consumo` | MATU-36 | 3 de noviembre | Versión y autor del perfil, insumo del catálogo o libre, escritura solo de admin y cuidador, y conservación |
@@ -1025,7 +1024,7 @@ sequenceDiagram
 | Aspecto | Definición |
 |---|---|
 | Base | `/v1` |
-| Autenticación | `Authorization: Bearer <access_token>` JWT de 15 minutos, refresh rotativo de 30 días por dispositivo con detección de reutilización |
+| Autenticación | `Authorization: Bearer <access_token>` JWT de 15 minutos, que el cliente guarda solo en memoria. Refresh rotativo en una cookie `HttpOnly` (`__Secure-matu-refresh`), con una ventana deslizante de 30 días por dispositivo y detección de reutilización (MATU-38, decisión de Jorge del 31 de octubre) |
 | Contexto de tenant | Header `X-Grupo-Id`. La API verifica membresía en cada petición y nunca confía en el header |
 | Errores | RFC 7807 `application/problem+json` con `type`, `title`, `status`, `detail`, `errores[]` |
 | Idempotencia | Header `Idempotency-Key` obligatorio en POST de pedidos, pagos y evidencias |
@@ -2126,7 +2125,7 @@ Existía en el diseño anterior sobre la publicación exclusiva en Android. Se r
 
 **Por qué la holgura es tan alta a propósito, y no es sobra.** Nueve semanas no admiten recuperar un atraso: no hay sprint de colchón al final. La v1.1 agregaba que el equipo aprendería Flutter mientras construía, costo que el ADR-026 eliminó. Y la experiencia de la v1.0, que declaraba 4,4% de holgura sobre trece semanas, mostró que una holgura de un dígito es optimismo aritmético. **Un 21% sobre nueve semanas es aproximadamente dos sprints de reserva, que es lo mínimo defendible.**
 
-**Y el recorte se propaga.** RF-22 a RF-24 bajan a *Podría* en la sección 3.3, RF-16 a RF-19 bajan a *Debería* en la 3.2, la sección 8.1 pierde los estados de recaudación, la 8.3 se reescribe y la 12.4 pasa de doce casos obligatorios a siete. **Un recorte que no se propaga al catálogo de requisitos, a las máquinas de estado y al plan de pruebas no es un recorte, es una intención.**
+**Y el recorte se propaga.** RF-22 a RF-24 bajan a *Podría* en la sección 3.3, RF-16 a RF-19 bajan a *Debería* en la 3.2, la sección 8.1 pierde los estados de recaudación, la 8.3 se reescribe y la 12.4 pasa de doce casos obligatorios a siete, que el ADR-027 dejó después en nueve. **Un recorte que no se propaga al catálogo de requisitos, a las máquinas de estado y al plan de pruebas no es un recorte, es una intención.**
 
 **Lo que no se saca bajo ninguna circunstancia:** la ficha de relevo, el acceso de relevo, la predicción de quiebre y la exportación de lista. Son el producto.
 
@@ -2458,5 +2457,5 @@ modules/consumption/
 
 ---
 
-*Documento de arquitectura MATU · versión 1.1 · septiembre 2026 · Jorge Espinoza y Martín Henríquez*
-*Anteproyecto validado: línea base de diseño contrastada con diez entrevistas. El desarrollo comienza en el sprint 0, semana 7.*
+*Documento de arquitectura MATU · versión 1.2 · 8 de noviembre de 2026 · Jorge Espinoza y Martín Henríquez*
+*Línea base de diseño contrastada con diez entrevistas y, desde la v1.2, con el código de MATU_PROYECTO hasta la migración 0017.*
