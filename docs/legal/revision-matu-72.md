@@ -49,6 +49,6 @@
 CL-1 a CL-5 siguen abiertas como en MATU-44. Las tres van a la tarjeta de consulta legal de Trello.
 
 **Antes de operar con datos reales:**
-- el borrado a pedido por correo, sin pasar por el grupo (política, sección 13);
-- el plazo de las copias de respaldo (CL-6);
+- el borrado a pedido por correo, sin pasar por el grupo (política, sección 13)
+- el plazo de las copias de respaldo (CL-6)
 - el correo de contacto.
