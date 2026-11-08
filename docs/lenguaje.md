@@ -763,3 +763,97 @@ En la app se dice «Compré» y «Me quedan», nunca «reposición», «reponer�
 | Dejaron de seguirlo (409) | Alguien de tu familia dejó de seguir «{nombre}» mientras lo anotabas. No anotamos nada. Si quieres anotarlo, vuelve a marcar «Seguir». · Ver cómo quedó |
 | Otra persona lo cambió (412) | {autor} cambió «{nombre}» mientras lo anotabas. Revisa cómo quedó y vuelve a intentarlo. · Ver cómo quedó |
 | Errores generales | No pudimos guardar. Revisa tu conexión y vuelve a intentarlo. (sección 17) · No pudimos guardar. Revisa los datos y vuelve a intentarlo. (sección 18) |
+
+
+## 25. Alta: la cuenta, el grupo, la persona y la autorización (MATU-39) · Aprobados por Jorge el 08-11
+
+En la app se dice «autorización» y «permiso», nunca «consentimiento». Estos textos informan sobre datos personales: los revisó el analista normativo el 08-11 (sección 12) y, donde propuso un cambio, aquí va el texto aprobado. La pantalla se ajusta a esta sección.
+
+| Dónde | Texto |
+|---|---|
+| Pasos del alta | Tu cuenta · Tu grupo · A quién cuidas · La autorización |
+| Avance | Paso `{n}` de 4 |
+| Frase de marca, en las pantallas del alta | Que el cuidado no dependa de una sola persona. |
+
+### 25.1 Tu cuenta (`/crear-cuenta`)
+
+| Dónde | Texto |
+|---|---|
+| Título y bajada | Crea tu cuenta · Para empezar te pedimos solo esto. |
+| Nombre | Tu nombre · Ayuda: Así te verán en tu grupo. Quien te reemplace verá tu nombre de pila. |
+| Correo y celular | Tu correo · Tu celular (de la sección 19) · Ayuda del celular: Para ayudarte a recuperar tu cuenta si olvidas la contraseña. |
+| Contraseña | Una contraseña · Ayuda: Al menos 10 caracteres. (también en Recuperar) |
+| Ver la contraseña | Mostrar · Ocultar |
+| En curso y hecho | Creando la cuenta… · Cuenta creada. |
+| Validación en la pantalla | Escribe tu nombre. · Revisa cómo escribiste tu correo. · La contraseña necesita al menos 10 caracteres. (también en Recuperar) |
+| Validación de la API (422, por `errores[].campo`) | Escribe tu nombre, de hasta 100 caracteres. · La contraseña necesita entre 10 y 128 caracteres. (también en Recuperar) |
+| Correo ya registrado | Título: Ese correo ya tiene una cuenta · Texto: Entra con tu contraseña, o usa otro correo. · Botón: Entrar con ese correo |
+
+### 25.2 Tu grupo (`/empezar/grupo`)
+
+| Dónde | Texto |
+|---|---|
+| Título y bajada | Ponle nombre a tu grupo · Es el grupo de las personas que cuidan contigo. |
+| Campo | Nombre del grupo |
+| Ayuda del campo (de la política de privacidad, sección 4, «De tu grupo», tal cual) | Usa un nombre corto, como «Familia Soto». No incluyas el nombre completo de la persona que cuidas ni datos de salud. |
+| Botón y espera | Crear el grupo · Creando el grupo… |
+| Sin nombre | Escribe un nombre para el grupo. |
+
+### 25.3 A quién cuidas (`/empezar/persona`)
+
+| Dónde | Texto |
+|---|---|
+| Título | ¿A quién cuidas? |
+| Nombre | ¿Cómo se llama? |
+| Cómo le dicen | ¿Cómo le dicen? · Ayuda: Es el nombre que verá quien te reemplace. |
+| Apoyo | ¿Cuánto apoyo necesita en el día a día? · Las tres respuestas están en la sección 25.4 |
+| Lo que no se pide | No te preguntamos qué enfermedad tiene, porque para cuidar no hace falta. |
+| Validación | Escribe su nombre y cómo le dicen para seguir. · Elige cuánto apoyo necesita. |
+| Grupo sin persona registrada | Todavía no hay nadie registrado en `{grupo}`. Quien administra el grupo puede registrar a la persona que cuidan. |
+
+**Sin dirección (decisión de Jorge del 08-11, opción A del analista).** El alta no pide dónde vive la persona: la dirección se pide con el primer pedido (MATU-61). Salen de esta pantalla la pregunta, su ayuda, los campos y su mensaje de validación.
+
+«Enfermedad» informa lo que MATU no pide, como la ayuda de la sección 14.2. No nombra ninguna (sección 3.2).
+
+### 25.4 La autorización (`/empezar/autorizacion`)
+
+| Dónde | Texto |
+|---|---|
+| Título | Permiso para guardar su ficha (el mismo nombre de la sección 22) |
+| Bajada | Lo que anotes sobre el cuidado de `{nombre_pila}` puede decir algo de su salud. Por eso lo protegemos de forma especial y necesitamos una autorización. Puedes retirarla cuando quieras, desde Grupo familiar. |
+| Pregunta | ¿Quién da la autorización? |
+| Representante legal, referencia | Referencia del documento · Ayuda: Por ejemplo: número de resolución y fecha. Sin el RUT. |
+| Cuidadora o cuidador de hecho, casilla del aviso | Leí el aviso y lo acepto |
+| Sobre la declaración | Lo que declaras |
+| Botón y espera | Acepto y registro a `{nombre_pila}` · Registrando a `{nombre_pila}`… |
+| Hecho | Listo. Registramos a `{nombre_pila}` y la autorización. Ahora puedes completar su ficha. |
+| Para volver a la persona después de un error | Volver a corregir los datos de `{nombre_pila}` |
+| Validación | Elige quién da la autorización. · Escribe la referencia del documento que te nombra representante. · Marca que leíste el aviso para seguir. |
+
+**Las tres calidades.** Sus nombres y detalles no son declaraciones y se aprueban aquí.
+
+| Calidad | Nombre en pantalla | Detalle | Declaración que se muestra |
+|---|---|---|---|
+| `titular` | `{nombre_pila}` lo autoriza y yo lo registro | `{nombre_pila}` decide por su cuenta y tú registras su decisión. | `declaracion_titular` |
+| `representante_legal` | Soy su representante legal | Tienes un nombramiento legal para representar a esta persona. | `declaracion_representante_legal` |
+| `cuidador_de_hecho` | Cuido a esta persona, pero no soy su representante legal | Cuidas a esta persona en el día a día, sin un nombramiento legal. | `declaracion_cuidador_de_hecho`, con el aviso `aviso_cuidador_de_hecho` |
+
+**Las declaraciones y el aviso.** Son los de la política de privacidad, sección 5: las tres declaraciones (`declaracion_titular`, `declaracion_representante_legal` y `declaracion_cuidador_de_hecho`) y el aviso `aviso_cuidador_de_hecho`, versión 1.1, con su título «Aviso: tu autorización tiene un límite». Van bajo «Lo que declaras» y se copian sin cambiar una palabra: cambiarlas es publicar una versión nueva de la política. Este documento no las repite, igual que la sección 13.2 con las de insumos.
+
+**Los niveles de apoyo** (respuestas a «¿Cuánto apoyo necesita en el día a día?»):
+
+| Valor | Texto |
+|---|---|
+| `autovalente_con_supervision` | Se maneja con autonomía, con supervisión |
+| `apoyo_parcial` | Necesita apoyo en varias cosas |
+| `apoyo_total` | Necesita apoyo en todo |
+
+## 26. Marco de la app y esperas (MATU-68) · Aprobados por Jorge el 08-11
+
+| Dónde | Texto |
+|---|---|
+| Botón para reintentar después de un error | Volver a intentar |
+| Mientras carga una pantalla | Cargando… |
+| Al abrir la app | Abriendo MATU… |
+| Cabecera, sobre el nombre de la persona cuidada | Cuidas a |
+| Cabecera, bajo el nombre | Le dicen `{nombre_pila}` |
