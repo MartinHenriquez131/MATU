@@ -184,8 +184,14 @@ MATU/
     ├── protocolo-entrevistas.md   guion y criterios de falsación
     ├── resultados-entrevistas.md  veredicto por hipótesis y mediciones
     ├── ficha-proyecto.docx        ficha de una página, formato del curso
-    ├── adr/
-    │   └── ADR-023-cierre.md      se activa el modo ficha de relevo
+    ├── adr/                       ADR con archivo propio, y el resto vive en la sección 14 de la arquitectura
+    │   ├── ADR-023-cierre.md      se activa el modo ficha de relevo
+    │   ├── ADR-026-aplicacion-web.md          la aplicación de la familia es web, mobile first
+    │   ├── ADR-027-precios-exactos.md         precios exactos y un solo cobro del total confirmado
+    │   ├── ADR-028-ficha-ampliada.md          seis secciones complementarias de la ficha
+    │   ├── ADR-029-ficha-no-se-imprime.md     la ficha no se imprime ni se exporta
+    │   ├── ADR-030-roles-del-equipo.md        Jorge desarrolla, Martín despliega, prueba y revisa
+    │   └── ADR-031-lista-insumos-solo-texto.md  la lista de insumos se comparte como texto
     ├── diagramas/
     │   └── modelo-datos/          13 diagramas en .svg y .png, 12 con su fuente .mmd
     ├── entrevistas/               diez fichas anonimizadas
