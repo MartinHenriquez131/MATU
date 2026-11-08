@@ -942,6 +942,7 @@ Es la tercera pestaña de Insumos, para todos los roles del grupo. No tiene bot�
 | Retracto, el resto (letra no menor que el precio) | Derecho a retracto: tienes 10 días desde que lo recibes. |
 | Catálogo vacío | Todavía no hay productos en el catálogo. |
 | Error al cargar | No pudimos traer el catálogo. Revisa tu conexión e inténtalo de nuevo. |
+| El catálogo está apagado (capa 3 sin activar, la API responde 404) | El catálogo no está disponible por ahora. |
 | Mientras carga y para reintentar | Los de la sección 26 |
 
 **Categorías:** Higiene y cuidado personal · Cuidado de la piel · Alimentación.
