@@ -68,7 +68,7 @@ Las doce decisiones que determinan todo lo demás. Cada una se desarrolla en la 
 | 2 | **El despacho es desacoplable.** El sistema entrega valor completo sin ningún comercio en convenio | Elimina el único punto de falla externo del proyecto. Si no hay convenio, la familia exporta su lista de reposición y compra donde quiera |
 | 3 | **El perfil de consumo lo declara el cuidador, no lo infiere el sistema** | Al inicio no existe historial del cual inferir, y quien cuida sabe exactamente cuántos pañales al día se usan |
 | 4 | **Monolito modular en FastAPI**, con módulos de límite explícito, no microservicios | El volumen del piloto no justifica el costo operacional de servicios distribuidos |
-| 5 | **Un repositorio Flutter con dos aplicaciones** (familia y repartidor) sobre un núcleo compartido | Dos apps nativas separadas duplican el esfuerzo de un equipo de dos personas |
+| 5 | **Una aplicación web mobile first, en React con TypeScript**, que corre en el navegador del teléfono (ADR-026, reemplaza al ADR-005 en el semestre) | Un solo lenguaje para todo el frontend, accesibilidad heredada del navegador y nada que instalar. La app nativa se decide después del semestre |
 | 6 | **Precios exactos de comercios en convenio, y se cobra una sola vez el total confirmado** (ADR-027, reemplaza a la autorización con margen del ADR-006) | La captura diferida no opera con débito, que es el medio mayoritario del segmento, y una retención mayor que el pedido es difícil de explicar |
 | 7 | **El pago del MVP es de un solo pagador.** El reparto entre varios familiares queda diseñado y fuera del alcance comprometido | La hipótesis que lo justificaba quedó en zona intermedia, y sus 110 horas no caben en una ventana de nueve semanas. Ver ADR-007 y sección 15.3 |
 | 8 | **El repartidor nunca maneja dinero.** El comercio cobra a cuenta corriente de MATU | Los repartidores son multi-plataforma y sin vínculo fuerte. Una tarjeta prepago exigiría un control que el equipo no puede sostener |
@@ -113,7 +113,7 @@ Estas cifras establecen que el problema es grande, está mal cubierto y duele en
 
 | Restricción | Implicancia arquitectónica |
 |---|---|
-| **Equipo de dos personas, nueve semanas de construcción**, sin dedicación completa | Se prohíbe cualquier componente que exija operación continua. Nada de Kafka, nada de service mesh, nada de microservicios. Obliga a que backend, móvil y web avancen en paralelo, no en secuencia |
+| **Equipo de dos personas, nueve semanas de construcción**, sin dedicación completa | Se prohíbe cualquier componente que exija operación continua. Nada de Kafka, nada de service mesh, nada de microservicios. Obliga a que backend y web avancen en paralelo, no en secuencia |
 | Presupuesto de infraestructura cercano a cero | Un nodo de cómputo, base de datos gestionada de plan bajo, almacenamiento compatible con S3 |
 | Piloto en una comuna acotada | Decenas de pedidos diarios, no miles. Diseñar para corrección y trazabilidad, no para escala |
 | **Datos de salud y de personas con dependencia** | Cumplimiento de Ley 21.719 como requisito de diseño, no como mejora futura |
@@ -337,10 +337,10 @@ graph TB
 ```mermaid
 graph TB
     subgraph "Clientes"
-        AF["<b>App Familia</b><br/>Flutter · iOS y Android<br/>ficha de relevo, consumo,<br/>pedidos, pago, seguimiento"]
+        AF["<b>App Familia</b><br/>web mobile first · React + TypeScript<br/>en el navegador del teléfono<br/>ficha de relevo, consumo,<br/>pedidos, pago, seguimiento"]
         BO["<b>Backoffice</b><br/>React + TypeScript<br/>catálogo, convenios, operación,<br/>liquidación, indicadores"]
         VC["<b>Vista de Comercio</b><br/>una pantalla del backoffice<br/>pedidos del día, tope, código"]
-        VR["<b>Vista de Relevo</b><br/>página pública sin sesión<br/>solo secciones habilitadas"]
+        VR["<b>Vista de Relevo</b><br/>página /r del mismo cliente web<br/>sin cuenta · solo lo compartido"]
     end
 
     GW["<b>Reverse proxy</b><br/>Caddy · TLS · rate limiting"]
@@ -381,13 +381,15 @@ graph TB
     style PUB fill:#5598e7,color:#fff
 ```
 
-**La App Repartidor sale del diagrama de contenedores comprometido.** RF-27 a RF-30 quedaron en *Debería* desde el primer recorte, y en el piloto el retiro y la entrega se marcan desde la vista de comercio. El paquete Flutter compartido del ADR-005 se mantiene, porque la segunda aplicación sigue siendo el camino de evolución.
+**Los cuatro clientes son un solo cliente web** (`web/` de MATU_PROYECTO), con componentes, tokens y cliente HTTP compartidos (ADR-026). **La API sirve la aplicación desde el mismo origen**, sin CORS, y el cliente HTTP se tipa desde el contrato OpenAPI (`docs/api/openapi.json`). En el semestre están construidas la app de la familia y la vista de relevo. El backoffice y la vista de comercio son del sprint 4 en adelante.
+
+**La App Repartidor sale del diagrama de contenedores comprometido.** RF-27 a RF-30 quedaron en *Debería* desde el primer recorte, y en el piloto el retiro y la entrega se marcan desde la vista de comercio. **La app nativa, de familia o de repartidor, se decide después del semestre** con los datos del piloto (ADR-026). El paquete Flutter compartido del ADR-005 ya no se mantiene.
 
 ### 6.2 Responsabilidad de cada contenedor
 
 | Contenedor | Responsabilidad | Lo que explícitamente no hace |
 |---|---|---|
-| **App Familia** | Ficha de relevo, secciones opcionales, perfil de consumo, catálogo, pedido, seguimiento | No calcula totales finales. No decide sustituciones |
+| **App Familia** | Ficha de relevo, secciones complementarias, perfil de consumo, lista de insumos, catálogo, pedido, seguimiento. Aplicación web mobile first, diseñada primero para 360 px de ancho | No calcula totales finales. No decide sustituciones. No guarda nada de la ficha, del consentimiento ni de la persona cuidada en el navegador |
 | **Backoffice** | Catálogo, convenios, monitoreo, incidencias, conciliación, liquidación, indicadores | No accede al plan de cuidado. No es canal de soporte al cliente final |
 | **Vista de Comercio** | Stock apartado, sus líneas de los pedidos del día, preparación, validación de código, marcado de retiro y entrega | No ve la dirección de entrega ni ningún nombre: solo la referencia del pedido y el código de retiro (ADR-027) |
 | **Vista de Relevo** | Lectura de las secciones habilitadas del plan de cuidado | No permite edición. No expone otras secciones. No crea sesión persistente |
@@ -1170,13 +1172,13 @@ La clave está en `acciones`. **`exportar_lista` y `compartir_enlace` funcionan 
 
 | Criterio | Valor obligatorio | Cómo se verifica |
 |---|---|---|
-| Área táctil mínima | 48 × 48 dp, con 8 dp de separación | Inspección en el prototipo y prueba manual |
-| Tamaño de texto base | 17 sp, escalable hasta **200%** sin pérdida de contenido ni de función | Prueba manual con el ajuste del sistema al máximo |
+| Área táctil mínima | 48 × 48 px, con 8 px de separación | Revisión visual del diseñador y prueba manual en el teléfono |
+| Tamaño de texto base | 17 px en `rem`, escalable hasta **200%** sin pérdida de contenido ni de función, y sin desplazamiento horizontal a 320 px de ancho (WCAG 1.4.4 y 1.4.10) | Prueba manual con el ajuste del navegador al máximo |
 | Contraste de texto | 4,5:1 mínimo. 3:1 para texto grande y elementos gráficos | Verificación automática en el pipeline sobre los tokens de color |
 | Identidad por color | **Nunca solo color.** Todo estado lleva ícono o etiqueta | Revisión de checklist por pantalla |
 | Lenguaje | Sin jerga técnica ni clínica. "Se acaban en 6 días", no "stock proyectado" | Revisión por el equipo, con criterio explícito |
 | **Lenguaje sobre el cuerpo** | Ningún campo obliga a escribir sobre incontinencia con ese término. Se pregunta por apoyos, no por funciones | **Criterio nuevo.** Tres de diez entrevistadas lo pidieron por dignidad de la persona cuidada |
-| Etiquetado para lector de pantalla | Todo control con etiqueta semántica, incluidos íconos | Prueba con TalkBack en el flujo principal |
+| Etiquetado para lector de pantalla | Todo control con etiqueta semántica, incluidos íconos. Con HTML el árbol de accesibilidad lo da el navegador (ADR-026) | Pruebas de interfaz con Vitest y Testing Library, y prueba con TalkBack en el flujo principal |
 | **Entrada por dictado** | Disponible en todos los campos de texto del plan | Prueba manual |
 | **Llenado asistido** | Un tercero puede completar la ficha en nombre del cuidador, con autoría registrada | RF-42, prueba de integración |
 | Objetivo de tiempo | **Ficha de relevo completa en menos de 3 minutos** por una persona de 65+ sin ayuda | Prueba con 3 usuarios reales en la semana 13 |
@@ -1322,7 +1324,7 @@ Esta es la pregunta jurídica central del proyecto.
 | Archivos | Bucket privado, URL firmada de 5 minutos para lectura y 15 para subida, sin CDN público, hash SHA-256 de cada evidencia |
 | Acceso de relevo | Token de **uso múltiple hasta vencer** más **PIN de cuatro dígitos**, alcance por campo, revocación inmediata, cada apertura auditada. **La API no envía el PIN**: lo muestra una sola vez a quien comparte, que se lo dicta al relevo. El envío por SMS es *Debería* y está fuera del semestre. El enlace es `/r#<token>`, con el token en el fragmento, y se canjea con el PIN por una cookie de sesión efímera en un paso, para que el token no quede en el historial de un teléfono prestado. La página limpia el fragmento con `history.replaceState` después del canje |
 | Secretos | Variables inyectadas, nunca en el repositorio, escaneo de secretos en el pipeline |
-| Aplicación móvil | Sin datos sensibles en el dispositivo, tokens en el keystore del sistema, bloqueo de captura de pantalla en la vista del plan de cuidado |
+| Aplicación web | Nada de la ficha, del consentimiento ni de la persona cuidada en `localStorage`, `sessionStorage` ni en la URL. El access token vive solo en memoria y el refresh en una cookie `HttpOnly`, `Secure` y `SameSite=Strict`. Sin scripts de terceros ni analítica. En la página del relevo, el token viaja en el fragmento y se limpia después del canje. **El navegador no permite bloquear la captura de pantalla**, que la v1.1 preveía para la app nativa: se acepta y lo dice el aviso a quien comparte |
 | Registro | Logs estructurados en JSON, sin datos personales en el mensaje y sin IP, correlación por `request_id` |
 
 ### 11.7 Control de fraude sobre la cuenta del comercio
@@ -1382,7 +1384,7 @@ Toda dependencia externa entra por un **puerto** definido en `application/ports.
 | **Integración** | Repositorios, RLS, migraciones, transacciones | pytest + PostgreSQL en contenedor | Cada push, < 3 min | 70% en `application/` |
 | **Contrato de API** | Que el esquema generado por el código **no rompa** el contrato versionado en `docs/api/openapi.json` | comparación del generado contra el versionado, más schemathesis | Cada push | 100% de endpoints |
 | **Extremo a extremo** | Los seis recorridos críticos | pytest + cliente HTTP + dobles | Cada push | Los 6, siempre verdes |
-| **Interfaz** | Widgets críticos y accesibilidad básica | flutter test | Cada push de móvil | Los flujos del prototipo |
+| **Interfaz web** | Componentes críticos: semántica, foco, errores de campo y textos de `lenguaje.md` (ADR-026) | Vitest y Testing Library sobre jsdom, en `web/` | Cada push, en el trabajo `web` del CI | Cada corrección de pantalla deja una prueba que falla sin ella |
 | **Manual con pasarela real** | Venta normal con crédito y con débito, anulación parcial con los dos, retorno duplicado (ADR-027) | Guion escrito, ambiente de integración | Antes del sprint 4 y en el sprint 4 | 4 casos |
 | **Usabilidad** | 3 usuarios reales, de tres perfiles distintos | Guion de tareas | Semana 13 | 3 sesiones |
 
@@ -1519,8 +1521,7 @@ Los cinco están corregidos y cada uno queda comprometido como prueba de regresi
 ```mermaid
 graph TB
     subgraph "Clientes"
-        MOB["Aplicación móvil"]
-        WEB["Backoffice, vista de comercio<br/>y vista de relevo"]
+        WEB["Cliente web en el navegador<br/>familia, relevo, comercio<br/>y backoffice"]
     end
     subgraph "Nodo de aplicación"
         CAD["Caddy · TLS · rate limit"]
@@ -1539,7 +1540,6 @@ graph TB
         LOG["Logs estructurados"]
         UP["Healthcheck externo"]
     end
-    MOB --> CAD
     WEB --> CAD
     CAD --> C1
     C1 --> PG
@@ -1999,7 +1999,7 @@ Existía en el diseño anterior sobre la publicación exclusiva en Android. Se r
 
 **Equivalencia entre sprints y semanas:** el sprint 0 ocupa la semana 7, y desde ahí el sprint N corresponde a la semana N más 7. El semestre cierra con informe final y defensa entre las semanas 16 y 18.
 
-**No se aplica factor de foco.** Las tallas están estimadas en horas reales, no ideales, e incluyen el costo de aprender Flutter.
+**No se aplica factor de foco.** Las tallas están estimadas en horas reales, no ideales. La v1.1 incluía en ellas el costo de aprender Flutter. Con el ADR-026 ese costo desaparece, porque el frontend se construye en React con TypeScript, que el equipo ya usaba. Las tallas no se reestimaron: la diferencia queda como holgura.
 
 **Estimación por talla, contrastada contra la capacidad real.**
 
@@ -2038,7 +2038,7 @@ Existía en el diseño anterior sobre la publicación exclusiva en Android. Se r
 
 **Alcance resultante: 213 horas contra 270 de capacidad, con 57 horas de holgura, un 21%.**
 
-**Por qué la holgura es tan alta a propósito, y no es sobra.** Nueve semanas no admiten recuperar un atraso: no hay sprint de colchón al final. El equipo aprende Flutter mientras construye. Y la experiencia de la v1.0, que declaraba 4,4% de holgura sobre trece semanas, mostró que una holgura de un dígito es optimismo aritmético. **Un 21% sobre nueve semanas es aproximadamente dos sprints de reserva, que es lo mínimo defendible.**
+**Por qué la holgura es tan alta a propósito, y no es sobra.** Nueve semanas no admiten recuperar un atraso: no hay sprint de colchón al final. La v1.1 agregaba que el equipo aprendería Flutter mientras construía, costo que el ADR-026 eliminó. Y la experiencia de la v1.0, que declaraba 4,4% de holgura sobre trece semanas, mostró que una holgura de un dígito es optimismo aritmético. **Un 21% sobre nueve semanas es aproximadamente dos sprints de reserva, que es lo mínimo defendible.**
 
 **Y el recorte se propaga.** RF-22 a RF-24 bajan a *Podría* en la sección 3.3, RF-16 a RF-19 bajan a *Debería* en la 3.2, la sección 8.1 pierde los estados de recaudación, la 8.3 se reescribe y la 12.4 pasa de doce casos obligatorios a siete. **Un recorte que no se propaga al catálogo de requisitos, a las máquinas de estado y al plan de pruebas no es un recorte, es una intención.**
 
@@ -2184,7 +2184,8 @@ De los cuatro huecos que la v1.0 declaraba, **uno se cerró y tres siguen abiert
 | Filtración entre grupos familiares | Baja | **Crítico** | RLS forzado incluidos los workers, más diez pruebas de aislamiento en el pipeline |
 | Rendimiento en dispositivos de gama baja | Media | Medio | Probar en un dispositivo real de gama baja desde el sprint 4 |
 | Cambio regulatorio con la vigencia de la Ley 21.719 | Media | Medio | El diseño ya cumple lo exigible. Revisar guías de la Agencia cuando se publiquen |
-| El equipo no domina Dart | Alta | Medio | El costo de aprendizaje está dentro de las tallas. Flutter entra recién en el sprint 4 y el `core` se construye entre los dos |
+| ~~El equipo no domina Dart~~ **RETIRADO** | — | — | El ADR-026 reemplazó Flutter por una aplicación web en React con TypeScript |
+| **El push web en iPhone exige agregar MATU a la pantalla de inicio** | Alta | Medio | El correo es el canal garantizado de los avisos de quiebre (RF-39) y el push es complemento (ADR-026). En Android el push funciona desde el navegador |
 | **No existe persona jurídica** | Alta | Medio, ya no alto | Operar Webpay en producción exige RUT. **El objetivo del semestre se formuló sobre un entorno de demostración**, de modo que la ausencia de persona jurídica ya no bloquea el entregable comprometido |
 | **Pérdida o rotación fallida de la clave maestra** | Baja | **Crítico** | Deja ilegible todo el plan de cuidado de forma irreversible. `kek_version` registrada por clave de datos, retención de la versión anterior durante una rotación, y procedimiento documentado. **Y el borrado criptográfico se completa cuando expira el último respaldo que contiene la clave** |
 
@@ -2240,46 +2241,54 @@ De los cuatro huecos que la v1.0 declaraba, **uno se cerró y tres siguen abiert
 
 ## 19. Anexos
 
-### 19.1 Estructura prevista del repositorio
+### 19.1 Los dos repositorios
+
+**La documentación y el código viven en repositorios separados.** La v1.1 preveía uno solo. Al empezar el desarrollo se separaron, para que las entregas del curso y el código no compartan historial ni revisión:
+
+| Repositorio | Qué contiene | Quién lo mantiene |
+|---|---|---|
+| **MATU** | Este documento, el modelo de datos, la estrategia de pruebas, el backlog, los ADR, `lenguaje.md`, los documentos legales, las entrevistas, el prototipo, las evidencias de las fases del curso y los informes de revisión en `TESTER/` | Los dos. Fuente de verdad del diseño |
+| **[MATU_PROYECTO](https://github.com/MartinHenriquez131/MATU_PROYECTO)** | El código: `backend/`, `web/`, `infra/`, la demo del 30 de octubre (`Demo/`, con `DISENO.md`), los contratos de la API (`docs/api/`), las especificaciones de pantalla (`docs/diseno/`) y la prueba de concepto de Transbank (`spikes/`) | Jorge desarrolla y Martín revisa, prueba y despliega (ADR-030) |
+
+**Estructura de MATU_PROYECTO al 7 de noviembre:**
 
 ```
-MATU/
+MATU_PROYECTO/
 ├── backend/
 │   ├── app/
-│   │   ├── core/            configuración, seguridad, dependencias, errores
-│   │   ├── shared/          eventos, outbox, auditoría, tipos comunes
-│   │   ├── modules/         iam, care_circle, care_plan, consumption,
-│   │   │                    catalog, replenishment, ordering, payments,
-│   │   │                    fulfillment, settlement, rx, notifications,
-│   │   │                    backoffice
-│   │   └── main.py
-│   ├── alembic/
+│   │   ├── core/            configuración, sesión con tenant, errores, logs, límite por IP,
+│   │   │                    cabeceras y entrega del cliente web
+│   │   ├── shared/          outbox, auditoría, puertos y relojes comunes
+│   │   ├── modules/         iam, care_circle, care_plan, consumption, notifications
+│   │   │                    (los de la capa 3 se agregan desde el sprint 4)
+│   │   ├── main.py
+│   │   └── servidor.py
+│   ├── alembic/versions/    0001 a 0017 (sección 7.8)
+│   ├── db/                  roles, esquema, RLS y permisos de la 0001, y los generadores de diagramas
 │   ├── tests/
-│   │   ├── unit/                        reglas de dominio
-│   │   ├── integration/                 repositorios, RLS, migraciones
-│   │   ├── e2e/                         los 6 recorridos críticos
+│   │   ├── modules/                     pruebas por módulo: dominio, aplicación, API y contrato
 │   │   ├── dobles/                      implementaciones falsas de los puertos
+│   │   ├── fabricas/                    datos sintéticos
 │   │   ├── test_arquitectura.py         regla de dependencias entre módulos
-│   │   ├── test_aislamiento.py          RLS en API y en workers
-│   │   └── test_capa3_desacoplable.py   arranca sin la capa de despacho
-│   ├── pyproject.toml
-│   └── Dockerfile
-├── mobile/
-│   ├── packages/core/       modelos, cliente API, auth, diseño accesible
-│   └── apps/familia/
-├── web/                     backoffice, vista de comercio y vista de relevo
-├── infra/
+│   │   ├── test_aislamiento.py          RLS en API y en trabajos
+│   │   ├── test_capa3_desacoplable.py   arranca sin la capa de despacho
+│   │   ├── test_conexion_app.py         la API se conecta como matu_app
+│   │   ├── test_migraciones.py          cada migración sube y baja
+│   │   └── test_cadena_migraciones.py   una sola cabeza de Alembic
+│   └── pyproject.toml
+├── web/                     cliente web del ADR-026: familia, relevo y, después, comercio y backoffice
+│   ├── src/                 familia/, relevo/, compartido/ (cliente de la API, componentes base)
+│   └── pruebas/             Vitest y Testing Library
+├── infra/                   docker-compose, PostgreSQL, semillas y staging en Railway
+├── Demo/                    demo del 30 de octubre y DISENO.md, el sistema de diseño
 ├── docs/
-│   ├── arquitectura.md            este documento
-│   ├── adr/                       un archivo por decisión
-│   ├── prototipo/prototipo-v1.1.html  36 pantallas, 7 recorridos
-│   ├── protocolo-entrevistas.md   guion y criterios de falsación
-│   ├── resultados-entrevistas.md  veredicto por hipótesis y mediciones
-│   ├── entrevistas/               diez fichas anonimizadas
-│   ├── requisitos.md              catálogo RF trazado a módulos
-│   └── api/                       OpenAPI generado
-└── .github/workflows/
+│   ├── api/                 openapi.json, README con las decisiones y propuestos/
+│   └── diseno/              especificación de cada pantalla
+├── spikes/transbank/
+└── .github/workflows/ci.yml
 ```
+
+**Sin `mobile/`.** La v1.1 preveía `mobile/packages/core` y `mobile/apps/familia` para Flutter. El ADR-026 los reemplazó por `web/`. Las pruebas no se separan en `unit/`, `integration/` y `e2e/` como preveía la v1.1: se agrupan por módulo, y cada archivo dice en su nombre qué nivel prueba. [PENDIENTE: la carpeta de los recorridos de punta a punta, con los seis recorridos críticos de MATU-64.]
 
 Cada módulo interno sigue la misma estructura, de modo que agregar uno nuevo sea mecánico:
 
