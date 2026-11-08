@@ -73,7 +73,7 @@ Las doce decisiones que determinan todo lo demás. Cada una se desarrolla en la 
 | 7 | **El pago del MVP es de un solo pagador.** El reparto entre varios familiares queda diseñado y fuera del alcance comprometido | La hipótesis que lo justificaba quedó en zona intermedia, y sus 110 horas no caben en una ventana de nueve semanas. Ver ADR-007 y sección 15.3 |
 | 8 | **El repartidor nunca maneja dinero.** El comercio cobra a cuenta corriente de MATU | Los repartidores son multi-plataforma y sin vínculo fuerte. Una tarjeta prepago exigiría un control que el equipo no puede sostener |
 | 9 | **Aislamiento con Row Level Security sobre tres ejes** (familia, comercio, operación), con `FORCE` y rol de aplicación no propietario | Un olvido filtra datos de otra familia. Y un solo eje no alcanza: un comercio atiende pedidos de decenas de grupos distintos |
-| 10 | **El plan de cuidado se cifra por sección con sobre-cifrado**, y la clave maestra vive fuera del servidor de aplicación | Es el dato más sensible del sistema bajo la Ley 21.719, vigente desde el 1 de diciembre de 2026 |
+| 10 | **El plan de cuidado se cifra por sección con sobre-cifrado**, y la clave maestra vive fuera del servidor de aplicación. En el semestre, con solo datos sintéticos, vive en una variable de entorno (desvío del ADR-016, 28 de octubre) | Es el dato más sensible del sistema bajo la Ley 21.719, vigente desde el 1 de diciembre de 2026 |
 | 11 | **La testabilidad es un requisito de diseño**, no una actividad posterior. Toda dependencia externa entra por un puerto sustituible | Sin puerto de pasarela no se puede probar el pago, que es el atributo de calidad número uno del sistema |
 | 12 | **Retiro en CESFAM y medicamentos con receta quedan fuera del MVP**, diseñados y sin implementar | Es el diferenciador de mayor riesgo regulatorio y depende de convenios que no controla el equipo |
 
@@ -403,7 +403,7 @@ graph TB
 | **PostgreSQL** | Fuente única de verdad transaccional | No almacena archivos binarios |
 | **Redis** | Colas y caché de catálogo | No es fuente de verdad de nada. Se puede vaciar sin pérdida |
 | **Object storage** | Evidencias de entrega | Nunca sirve archivos públicos. Solo URLs firmadas de vida corta. **No guarda exportaciones**: la ficha no se exporta (ADR-029) y la lista sale del teléfono como texto, sin archivos en el servidor (ADR-031). En el semestre todavía no se usa |
-| **Custodia de KEK** | Guarda la clave maestra que cifra las claves de datos | No guarda datos. Ver ADR-016 |
+| **Custodia de KEK** | Guarda la clave maestra que cifra las claves de datos. En el semestre es el adaptador de variable de entorno, solo con datos sintéticos (11.4) | No guarda datos. Ver ADR-016 |
 
 ### 6.3 Módulos del backend (C4 nivel 3)
 
@@ -1193,7 +1193,7 @@ GET    /v1/backoffice/indicadores
 | Contraste de texto | 4,5:1 mínimo. 3:1 para texto grande y elementos gráficos | Verificación automática en el pipeline sobre los tokens de color |
 | Identidad por color | **Nunca solo color.** Todo estado lleva ícono o etiqueta | Revisión de checklist por pantalla |
 | Lenguaje | Sin jerga técnica ni clínica. "Se acaban en 6 días", no "stock proyectado" | Revisión por el equipo, con criterio explícito |
-| **Lenguaje sobre el cuerpo** | Ningún campo obliga a escribir sobre incontinencia con ese término. Se pregunta por apoyos, no por funciones | **Criterio nuevo.** Tres de diez entrevistadas lo pidieron por dignidad de la persona cuidada |
+| **Lenguaje sobre el cuerpo** | Ningún campo obliga a escribir sobre el aseo ni el cuidado del cuerpo con términos clínicos. Se pregunta por apoyos, no por funciones, y los términos que no se usan están en `lenguaje.md` | **Criterio nuevo.** Tres de diez entrevistadas lo pidieron por dignidad de la persona cuidada |
 | Etiquetado para lector de pantalla | Todo control con etiqueta semántica, incluidos íconos. Con HTML el árbol de accesibilidad lo da el navegador (ADR-026) | Pruebas de interfaz con Vitest y Testing Library, y prueba con TalkBack en el flujo principal |
 | **Entrada por dictado** | Disponible en todos los campos de texto del plan | Prueba manual |
 | **Llenado asistido** | Un tercero puede completar la ficha en nombre del cuidador, con autoría registrada | RF-42, prueba de integración |
@@ -1246,7 +1246,7 @@ El prototipo navegable de los flujos críticos está terminado y cubre:
 4. Vista de comercio
 5. Errores y casos borde
 
-En total **32 pantallas en siete recorridos**. Se usó como instrumento en las diez entrevistas de validación, lo que permitió medir conducta y no opinión: la prueba cronometrada del plan de cuidado se hizo sobre él.
+En total **32 pantallas en siete recorridos**. Se usó como instrumento en las diez entrevistas de validación, lo que permitió medir lo que las personas hacían y no su opinión: la prueba cronometrada del plan de cuidado se hizo sobre él.
 
 **Validación de usabilidad:** tres usuarios reales, de tres perfiles distintos, por ronda, en los sprints 3 y 4 del calendario v1.3 (estrategia de pruebas, sección 2). La dirige Martín (ADR-030). No es investigación de mercado, es prueba de usabilidad, y con tres personas se detecta la mayoría de los problemas graves.
 
@@ -1306,7 +1306,7 @@ Tres dimensiones, evaluadas siempre en este orden: **quién es** (JWT válido y 
 
 Guardar "demencia tipo Alzheimer, etapa moderada" no cambiaría ni un pañal del catálogo, pero convertiría la base de datos en un repositorio clínico con las obligaciones correspondientes. **El diagnóstico es del sistema de salud, no de una plataforma de continuidad del cuidado.**
 
-Lo mismo aplica al plan de cuidado: sus secciones describen **conducta y manejo**, no patología. "Se altera cuando hay ruido fuerte, ayuda bajar las persianas" es información de cuidado. "Demencia frontotemporal con desinhibición" es información clínica y no entra al sistema.
+Lo mismo aplica al plan de cuidado: sus secciones describen **cómo se cuida y qué ayuda**, no patología. "Se altera cuando hay ruido fuerte, ayuda bajar las persianas" es información de cuidado. "Demencia frontotemporal con desinhibición" es información clínica y no entra al sistema.
 
 **El mismo criterio gobernó el protocolo de entrevistas**, que prohibió anotar diagnósticos y datos identificatorios de la persona cuidada. Que la investigación y el producto compartan la regla de minimización no es casualidad: es la misma decisión aplicada dos veces.
 
@@ -1324,7 +1324,9 @@ graph LR
 
 **Por qué dos niveles.** Rotar la clave maestra no obliga a redescifrar y recifrar todo el contenido, solo las claves de datos, que son pocas y pequeñas. Y borrar los datos de una persona cuidada se reduce a destruir su clave de datos, lo cual es borrado criptográfico inmediato y verificable.
 
-**Dónde vive la clave maestra.** El ADR-016 lo cierra: en el servicio de custodia de secretos del proveedor de nube, no en el servidor de aplicación. Si el despliegue del piloto termina siendo un VPS único sin ese servicio disponible, **la limitación se declara explícitamente** en el informe: la clave estaría en variable de entorno en el mismo servidor, quien accede al servidor accede a todo, y el piloto no debe operar con datos reales de terceros hasta migrar.
+**Dónde vive la clave maestra.** El ADR-016 lo cierra: en el servicio de custodia de secretos del proveedor de nube, no en el servidor de aplicación. Si el despliegue del piloto termina siendo un servidor sin ese servicio disponible, **la limitación se declara explícitamente** en el informe: la clave estaría en variable de entorno en el mismo servidor, quien accede al servidor accede a todo, y el piloto no debe operar con datos reales de terceros hasta migrar.
+
+**Decisión del 28 de octubre (Jorge Espinoza, MATU-12): en el semestre se toma ese camino, declarado.** Mientras se usen solo datos sintéticos, la clave maestra se lee de una variable de entorno, con un adaptador del puerto `CustodiaClaves` que se enciende de forma explícita y solo se construye en los entornos `local` y `pruebas`. Con `produccion` la API no arranca, y sin la custodia configurada las rutas de la ficha responden 503 y fallan cerradas: nunca se genera una clave al arrancar. La clave no aparece en los errores, en los logs ni en el repositorio, y al arrancar la API registra un aviso fijo de que solo admite datos sintéticos. Las claves de datos se envuelven con AES Key Wrap (RFC 3394). **Antes de operar con datos reales se reemplaza por el servicio de custodia, sin tocar el cifrado**, porque está detrás del puerto. Las condiciones completas, que fijó el analista normativo, están en la decisión 32 de `docs/api/README.md` de MATU_PROYECTO.
 
 ### 11.5 Quién consiente por una persona con demencia
 
@@ -1361,7 +1363,7 @@ Esta es la pregunta jurídica central del proyecto.
 
 ### 11.7 Control de fraude sobre la cuenta del comercio
 
-> **Cambia de sentido con el ADR-027.** Antes, el monto de la boleta del comercio contra el precio pagado medía si el comercio se desviaba del tope autorizado. Con precio exacto y reasignación a otro comercio, esa comparación ya no mide al comercio: la familia pagó un precio fijo, y si MATU retiró en otro comercio a otro precio, la diferencia es un costo de MATU, no una desviación. [PENDIENTE: el tope y la conciliación se rediseñan junto con la migración 0002 y el convenio.]
+> **Cambia de sentido con el ADR-027.** Antes, el monto de la boleta del comercio contra el precio pagado medía si el comercio se desviaba del tope autorizado. Con precio exacto y reasignación a otro comercio, esa comparación ya no mide al comercio: la familia pagó un precio fijo, y si MATU retiró en otro comercio a otro precio, la diferencia es un costo de MATU, no una desviación. [PENDIENTE: el tope y la conciliación se rediseñan con el convenio. La migración 0002 no los tocó (7.4).]
 
 | Control | Implementación |
 |---|---|
@@ -1384,7 +1386,7 @@ Que la incidencia **no bloquee la entrega** es deliberado: la familia está espe
 | Perfil de consumo | Igual que el plan de cuidado | Deriva de él |
 | Auditoría de acceso | 3 años | Capacidad de acreditar cumplimiento |
 | Acceso de relevo: nombre del relevo, motivo y fechas | 3 años desde que el acceso vence o se revoca, igual que la auditoría | Identifica a quién se entregó la ficha (decisión 25 del contrato de MATU-09) |
-| Teléfono del relevo | 30 días desde que el acceso vence o se revoca | Solo sirve mientras el acceso está vigente (decisión 25). [PENDIENTE: una migración quita el `NOT NULL` de `acceso_relevo.otorgado_a_telefono`, y una tarea lo borra al cumplirse el plazo. Las hace la historia que implemente la conservación] |
+| Teléfono del relevo | 30 días desde que el acceso vence o se revoca | Solo sirve mientras el acceso está vigente (decisión 25). [PENDIENTE: una migración quita el `NOT NULL` de `acceso_relevo.otorgado_a_telefono`, y una tarea lo borra al cumplirse el plazo. Ninguna migración hasta la 0017 lo hace. Las hace la historia que implemente esa conservación] |
 
 **Si se borra a la persona cuidada**, su nombre de pila copiado en `acceso_relevo.nombre_pila_persona` se anonimiza (decisión 26). Lo hace la historia de borrado.
 
@@ -1903,6 +1905,8 @@ Existía en el diseño anterior sobre la publicación exclusiva en Android. Se r
 
 ### ADR-024 · Un pedido por comercio, y las alertas se consolidan
 
+> **Ajustado por el ADR-027** (26 de octubre): un pedido de la familia puede abastecerse en más de un comercio, con un solo cobro y un solo envío. El registro por comercio se mantiene para preparar y liquidar.
+
 **Contexto.** Con un costo de última milla de $3.500 por entrega, un pedido por producto destruye la unidad económica. Y `pedido` tiene un solo `comercio_id`, mientras la lista de reposición puede abarcar productos de dos comercios distintos.
 
 **Decisión.** El endpoint es `POST /v1/pedidos/desde-alertas` con una lista de alertas, no una por alerta. Si las alertas cruzan comercios, **se generan tantos borradores como comercios**, y la interfaz lo explica antes de confirmar.
@@ -1921,7 +1925,11 @@ Existía en el diseño anterior sobre la publicación exclusiva en Android. Se r
 
 ### ADR-026 · La aplicación de la familia es web, mobile first
 
-**Estado.** Aceptado el 14 de octubre de 2026, por sugerencia del profesor guía. **Reemplaza al ADR-005 durante el semestre.** El texto completo está en [`adr/ADR-026-aplicacion-web.md`](adr/ADR-026-aplicacion-web.md), con la lista de las secciones de este documento que cambian en la v1.2.
+**Estado.** Aceptado el 14 de octubre de 2026, por sugerencia del profesor guía. **Reemplaza al ADR-005 durante el semestre.** El texto completo está en [`adr/ADR-026-aplicacion-web.md`](adr/ADR-026-aplicacion-web.md). Su tabla de consecuencias se aplicó en la v1.2: secciones 1, 6.1, 6.2, 10.3, 11.6, 12.2, 13.1, 15, 17 y anexo 19.1.
+
+**Decisión.** En el semestre la aplicación de la familia se construye como aplicación web mobile first, en el mismo cliente web que la página del relevo: React 19 con TypeScript sobre Vite, Tailwind CSS v4 con los tokens del sistema de diseño, iconos de `lucide-react`, un cliente HTTP tipado desde el contrato OpenAPI y la API sirviendo la aplicación desde el mismo origen. **MATU sigue siendo una app móvil en su visión**: la web corre en el navegador del teléfono sin instalar nada, y la app nativa se decide después del semestre.
+
+**Consecuencias.** El push web en iPhone exige agregar MATU a la pantalla de inicio, así que el correo es el canal garantizado de los avisos. El dictado lo da el teclado del teléfono. No hay tiendas de aplicaciones ni cuentas de desarrollador.
 
 ---
 
@@ -2234,7 +2242,7 @@ Con 200 familias y **1,0 entregas mensuales** cada una son 200 entregas al mes, 
 
 Mis Tatas, la empresa chilena más cercana en el espacio, cobra entre $10.000 y $39.000 mensuales por hogar por teleasistencia, opera desde 2019 y supera los 2.500 usuarios.
 
-**Ese dato no valida el precio de MATU**, y ahora hay algo mejor que una comparación: **seis de diez entrevistadas ya pagan por algún servicio de cuidado**, desde $1.900 mensuales por una suscripción de despacho hasta $400.000 mensuales por una cuidadora, pasando por $25.000 mensuales en traslados y $20.000 diarios por relevo puntual. Eso es disposición a pagar demostrada por conducta y no declarada en una hipotética. El techo del segmento está muy por encima de $5.990.
+**Ese dato no valida el precio de MATU**, y ahora hay algo mejor que una comparación: **seis de diez entrevistadas ya pagan por algún servicio de cuidado**, desde $1.900 mensuales por una suscripción de despacho hasta $400.000 mensuales por una cuidadora, pasando por $25.000 mensuales en traslados y $20.000 diarios por relevo puntual. Eso es disposición a pagar demostrada con hechos y no declarada en una hipotética. El techo del segmento está muy por encima de $5.990.
 
 Lo que la validación **no** entrega es que esas mismas personas paguen por *esto*: ocho dijeron que sí a $5.990, pero cuatro condicionaron el sí a que el producto resuelva los insumos, no solo el plan. **El precio se sostiene sobre las capas 1 y 2 juntas, nunca sobre la capa 1 sola.**
 
@@ -2257,14 +2265,14 @@ Con costos fijos austeros de aproximadamente $600.000 mensuales, sin la pasarela
 |---|---|---|
 | **Cornershop, Rappi y despacho de supermercados** | Despachan lo que se les pide. No saben qué necesita la persona cuidada ni cuándo | **Tres de diez ya compran por aplicación y están conformes.** El sustituto está instalado. Una entrevistada rechaza el despacho por especificidad del producto, no por desconfianza, y otra por un requisito tributario: necesita la boleta a nombre de quien paga |
 | **Entrega pública de pañales** vía CESFAM y municipios | Cubre el insumo, no la continuidad del cuidado | **Cuatro de diez están en un padrón público y todas dicen que no alcanza.** Dos más no sabían que el beneficio existe. El canal institucional se confirma como oportunidad y no como competencia |
-| **Comercio electrónico especializado en incontinencia** | Vende producto, no gestión | Una entrevistada compra insumos especializados en una casa ortopédica del centro, con media jornada de costo por viaje, y declaró que pagaría el doble por no tener que ir. **Es el caso de mayor disposición a pagar del piloto y es logística especializada, no supermercado** |
+| **Comercio electrónico especializado en insumos de cuidado** | Vende producto, no gestión | Una entrevistada compra insumos especializados en una casa ortopédica del centro, con media jornada de costo por viaje, y declaró que pagaría el doble por no tener que ir. **Es el caso de mayor disposición a pagar del piloto y es logística especializada, no supermercado** |
 
 ### 16.6 Lo que esta sección sigue sin resolver
 
 De los cuatro huecos que la v1.0 declaraba, **uno se cerró y tres siguen abiertos**, y conviene decir cuál es cuál.
 
-1. **Cerrado: la disposición a pagar tiene evidencia.** Seis de diez pagan hoy por algún servicio de cuidado, con conducta demostrada y montos conocidos.
-2. **Abierto: no hay costo de adquisición ni tasa de abandono.** Con 84 familias como piso, el costo de conseguir cada una decide si el negocio existe. H7 quedó en zona intermedia porque **ninguna de las diez entrevistadas fue reclutada por un canal concentrado**. Las cuatro entrevistas de ampliación se reclutan solo por canal concentrado precisamente para probar H7 por conducta.
+1. **Cerrado: la disposición a pagar tiene evidencia.** Seis de diez pagan hoy por algún servicio de cuidado, con pagos demostrados y montos conocidos.
+2. **Abierto: no hay costo de adquisición ni tasa de abandono.** Con 84 familias como piso, el costo de conseguir cada una decide si el negocio existe. H7 quedó en zona intermedia porque **ninguna de las diez entrevistadas fue reclutada por un canal concentrado**. Las cuatro entrevistas de ampliación se reclutan solo por canal concentrado precisamente para probar H7 con hechos.
 3. **Abierto: no hay figura legal.** Operar Webpay en producción, cobrar a familias reales y abrir cuenta corriente exigen persona jurídica con RUT. **Esto implica que no habrá piloto con dinero real este semestre**, y el entregable es un entorno de demostración. El objetivo del proyecto se formuló en consecuencia.
 4. **Abierto: el cobro de la suscripción está fuera del MVP.** RF-41 es *Podría*. El punto de equilibrio es un **ejercicio de viabilidad y no un compromiso de alcance del semestre**.
 
@@ -2318,7 +2326,7 @@ De los cuatro huecos que la v1.0 declaraba, **uno se cerró y tres siguen abiert
 |---|---|---|
 | **Evidencia primaria del problema** | **CERRADO** | Diez entrevistas realizadas, con veredicto por hipótesis en `docs/resultados-entrevistas.md` |
 | **Disposición a pagar** | **CERRADO con reserva** | Seis de diez pagan hoy por algún servicio de cuidado. El sí a $5.990 es hipotético y cuatro lo condicionan a los insumos |
-| **Comportamiento real de Transbank** | Abierto, con otra pregunta | La captura diferida quedó verificada el 24 de octubre, pero el ADR-027 la reemplazó. Falta la venta normal con crédito y con débito, la anulación parcial con los dos y el retorno duplicado, antes del sprint 4. [PENDIENTE: plazos máximos de anulación] |
+| **Comportamiento real de Transbank** | Abierto, con otra pregunta | La [prueba de concepto](pruebas-concepto/transbank.md) del 24 de octubre verificó la captura diferida con crédito y mostró que el débito no la admite. Ese resultado llevó al ADR-027, que la reemplazó. Falta la venta normal con crédito y con débito, la anulación parcial con los dos y el retorno duplicado, antes de cobrar en el sprint 4. Al 8 de noviembre no hay registro de esos casos en la prueba de concepto. [PENDIENTE: plazos máximos de anulación] |
 | **Convenio comercial** | Abierto, con una pista concreta | La farmacia de barrio que ya opera con cuenta corriente y boleta a nombre de una familia entrevistada. Es el primer comercio a contactar. Con el ADR-027, el convenio además fija precios exactos con IVA, stock al día y cómo se aparta. Mientras no exista, el adaptador de `CatalogoComercio` es simulado |
 | **Quién paga y por qué canal se llega** | Abierto | Las cuatro entrevistas de ampliación, semana 9 |
 | **Consulta legal sobre representación** | Abierto, y con una pregunta nueva | Además de la zona gris del `cuidador_de_hecho`, la cuidadora remunerada planteó de quién es el registro cuando lo escribe una trabajadora. **No hay respuesta en la arquitectura** |
@@ -2434,7 +2442,7 @@ modules/consumption/
 2. Ministerio de Salud. *Plan Nacional de Demencia 2025-2035*. DIPRECE, marzo de 2026.
 3. Biblioteca del Congreso Nacional. *Ley 21.719 sobre protección de datos personales*. Publicada el 13 de diciembre de 2024, plena vigencia el 1 de diciembre de 2026.
 4. Ministerio de Salud. *Sistema Nacional de Receta Electrónica*. Lanzamiento, diciembre de 2025.
-5. Transbank Developers. *Documentación de Webpay Plus*. Modalidad diferida, captura y reversa.
+5. Transbank Developers. *Documentación de Webpay Plus*. Venta normal y anulación, y la modalidad diferida que verificó la prueba de concepto.
 
 **Fuentes de industria**
 
