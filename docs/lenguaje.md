@@ -6,6 +6,7 @@
 **MATU-68 (08-11):** entran los textos que la app ya mostraba sin estar aquí: las secciones nuevas 25 (alta) y 26 (marco de la app), la 6.6 y filas en 5.4, 7.1, 7.3, 7.4, 7.5, 8, 9.1, 13.3, 15 y 18. Los del alta los revisó el analista normativo, y donde propuso un cambio va el texto propuesto. El alta ya no pide la dirección. Aprobados por Jorge el 08-11. La sección 24 queda para MATU-72.
 **MATU-72 (08-11):** entra la sección 24, borrar los datos de la persona, con los ajustes A1, A2 y A3 del diseñador (A3: textos sin pronombre, porque MATU no guarda el género). La 22 precisa que después de un borrado no vuelve nada. Aprobados por Jorge el 08-11.
 **MATU-59 (08-11):** entra la sección 27, el catálogo, y dos filas en 3.2 («escara» y «ostomía»). Los revisó el analista normativo. Aprobados por Jorge el 08-11.
+**MATU-67 (09-11):** entra la sección 28, el aviso de versión nueva. Aprobados por Jorge el 09-11.
 **Fuentes:** resultados de las entrevistas (`docs/resultados-entrevistas.md`), arquitectura sección 10, política de privacidad v0.9, la demo aprobada (`Demo/src/`, rama `demo-web-viernes-30`) y el contrato de MATU-09 (`docs/api/`, rama `matu-09-contrato-api`).
 
 ---
@@ -950,3 +951,27 @@ Es la tercera pestaña de Insumos, para todos los roles del grupo. No tiene bot�
 **Nombres de los productos de ejemplo:** Pañal adulto M x30 · Toallitas húmedas x80 · Protectores diarios x20 · Crema protectora de la piel 100 g · Suplemento nutricional en polvo 400 g · Bolsa colectora x10. Sin marcas reales ni afirmaciones de salud («previene», «cura», «para diabéticos»).
 
 **Pendiente de la consulta legal:** si el suplemento y las bolsas colectoras pierden el retracto al abrir el sello. Mientras no responda, usan el texto sin la exclusión.
+
+## 28. Aviso de versión nueva (MATU-67) · Aprobados por Jorge el 09-11
+
+Aparece cuando hay una versión nueva de MATU y la pestaña estaba abierta. Nunca recarga sola. Va en la app de familia y en la página del relevo. No aparece mientras se escribe en un campo, en el alta, en recuperar acceso ni en la pantalla que muestra el PIN del relevo.
+
+| Dónde | Texto |
+|---|---|
+| Título | Hay una versión nueva de MATU. |
+| Bajada, app de familia | Recarga cuando termines lo que estás haciendo. |
+| Bajada, página del relevo | Recarga cuando termines de leer. |
+| Botón | Recargar |
+| Mientras recarga | Recargando… |
+| Para cerrarlo | Más tarde |
+| Si hay algo sin guardar, título | Lo que escribiste en «`{donde}`» no se guardó. |
+| Si hay algo sin guardar en Insumos, título | Lo que anotaste de «`{nombre}`» no se guardó. |
+| Si hay algo sin guardar y no se sabe dónde, título | Hay algo que escribiste y no se guardó. |
+| Si hay algo sin guardar, bajada | Si recargas ahora, se pierde. |
+| Si hay algo sin guardar, botones | Seguir escribiendo · Recargar igual |
+
+`{donde}` es el nombre de la sección de la ficha. En Insumos (Compré, Me quedan, Ya lo resolví y el editor) va el título con `{nombre}`, el nombre del insumo. El título sin lugar va cuando no se sabe dónde, por ejemplo en «Anotar un insumo» antes de escribir el nombre o en Compartir.
+
+El aviso tampoco aparece en la pantalla «Lo que escribiste no se guardó».
+
+En el relevo se mantiene «Actualizar» (sección 7.4), que es otra acción: trae la ficha de nuevo sin cambiar de versión.
