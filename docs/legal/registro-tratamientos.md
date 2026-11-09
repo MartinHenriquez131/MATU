@@ -355,7 +355,7 @@ Cada historia que empieza a tratar datos personales agrega aquí su entrada.
 - **Datos:** el correo y el nombre de quien escribe, el mensaje y la respuesta. Puede traer datos sensibles, aunque la política pide no incluirlos. **Es un tratamiento de datos reales durante el piloto.**
 - **Base de licitud:** atender los derechos del titular. [PENDIENTE: consulta legal, junto con CL-75-1]
 - **Quién accede:** Jorge y Martín, con una cuenta de la función, verificación en dos pasos y sin reenvío a correos personales.
-- **Conservación:** [PENDIENTE: decide Jorge]
+- **Conservación:** hasta 2 años después de cerrar la solicitud. Después queda solo una lista con la fecha, el tipo de solicitud y la fecha de respuesta, sin el contenido (decisión de Jorge del 09-11).
 - **Encargado:** [PROVEEDOR DEL CORREO], en [PAÍS]. [PENDIENTE: revisar sus condiciones]
 - **Transferencia internacional:** [PENDIENTE: según el país del proveedor]
 - **Medidas:**

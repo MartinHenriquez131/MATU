@@ -7,7 +7,7 @@
 **MATU-72 (08-11):** entra la sección 24, borrar los datos de la persona, con los ajustes A1, A2 y A3 del diseñador (A3: textos sin pronombre, porque MATU no guarda el género). La 22 precisa que después de un borrado no vuelve nada. Aprobados por Jorge el 08-11.
 **MATU-59 (08-11):** entra la sección 27, el catálogo, y dos filas en 3.2 («escara» y «ostomía»). Los revisó el analista normativo. Aprobados por Jorge el 08-11.
 **MATU-67 (09-11):** entra la sección 28, el aviso de versión nueva. Aprobados por Jorge el 09-11.
-**MATU-75 (09-11):** entra la sección 29, la política de privacidad en la app y su aceptación al crear la cuenta. La 7.5 activa la frase del correo de contacto con `{correo_privacidad}` y retira el párrafo «En la demo». Aprobados por Jorge el 09-11.
+**MATU-75 (09-11):** entra la sección 29, la política de privacidad en la app y su aceptación al crear la cuenta. La 7.5 activa la frase del correo de contacto con `{correo_privacidad}`, retira el párrafo «En la demo» y ya muestra el enlace a la política. La 3.1 permite «cookie» y «sesión» en la política. Aprobados por Jorge el 09-11.
 **Fuentes:** resultados de las entrevistas (`docs/resultados-entrevistas.md`), arquitectura sección 10, política de privacidad v0.9, la demo aprobada (`Demo/src/`, rama `demo-web-viernes-30`) y el contrato de MATU-09 (`docs/api/`, rama `matu-09-contrato-api`).
 
 ---
@@ -60,7 +60,7 @@ Ninguna pantalla, aviso, correo, mensaje de error ni ejemplo usa estos términos
 | deterioro | Describe a la persona por lo que perdió. Además es una inferencia de salud | "Cambios", "necesita más apoyo que antes" |
 | incontinencia | Nombrarla afecta la dignidad de la persona cuidada (arquitectura 10.3, "Lenguaje sobre el cuerpo") | Se pregunta por el apoyo: "apoyo para ir al baño", "cambio de pañal". En insumos, el nombre del producto: "pañal adulto", "protectores", "toallitas húmedas" |
 
-**Excepción, solo en textos legales.** La política de privacidad dice que MATU **no pide** diagnósticos. Ese uso informa un límite y no invita a escribir el dato, así que se mantiene en los textos legales que apruebe Jorge. Ninguna otra pantalla lo copia.
+**Excepción, solo en textos legales.** La política de privacidad dice que MATU **no pide** diagnósticos. Ese uso informa un límite y no invita a escribir el dato, así que se mantiene en los textos legales que apruebe Jorge. Ninguna otra pantalla lo copia. La política de privacidad también puede usar «cookie» y «sesión», porque tiene que informarlas. En la app se siguen evitando (3.2).
 
 ### 3.2 Otros que se evitan
 
@@ -302,7 +302,7 @@ Aviso para el relevo como titular de su nombre y su teléfono. Va en la pantalla
 
 El correo de contacto es el mismo de la política, sección 2, y se completa con la versión 0.11.
 
-**Título y enlace (MATU-68, aprobados por Jorge el 08-11).** Sobre el aviso va el título «Tus datos en MATU», y el enlace a la política dice «Política de privacidad (se abre en otra pestaña)». La página parte el aviso en tres párrafos sin cambiar una palabra: el texto del aviso se sigue copiando tal cual. El enlace no se muestra hasta que la política tenga su página en la app (MATU-75).
+**Título y enlace (MATU-68, aprobados por Jorge el 08-11).** Sobre el aviso va el título «Tus datos en MATU», y el enlace a la política dice «Política de privacidad (se abre en otra pestaña)». La página parte el aviso en tres párrafos sin cambiar una palabra: el texto del aviso se sigue copiando tal cual. Desde MATU-75 la política tiene su página en la app, en /privacidad, y el enlace se muestra.
 
 Fuentes: decisiones de Jorge del 27-10 (contrato de MATU-09), política v0.9, secciones 2, 4, 8 y 10, y figura legal del piloto, secciones 4.1 y 4.4.
 
@@ -994,3 +994,10 @@ La política se muestra en la app, en /privacidad, desde «En un minuto» hasta 
 | Tu cuenta, sin registro | No tenemos registro de qué versión aceptaste. |
 | Tu cuenta, cómo pedir | Para cambiar tu nombre o tu correo, pedir una copia de tus datos o eliminar tu cuenta, escribe a {correo_privacidad} desde el correo de tu cuenta. |
 | Enlace a otra pestaña | {texto} (se abre en otra pestaña) |
+| Rótulo del índice | Índice |
+| Al final de cada sección, en el teléfono | Volver al índice |
+| Crear cuenta, la política cambió mientras se creaba, título | Actualizamos la política de privacidad. |
+| Crear cuenta, la política cambió mientras se creaba, bajada | Cambió mientras creabas tu cuenta. Léela de nuevo y vuelve a marcar la casilla. |
+| Tu cuenta, enlace | Política de privacidad (se abre en otra pestaña) |
+
+«(se abre en otra pestaña)» se muestra en pantalla, no solo para el lector de pantalla. Cuando la política cambia mientras se crea la cuenta, la casilla se desmarca. El enlace de «Tu cuenta» usa el mismo texto de 7.5.

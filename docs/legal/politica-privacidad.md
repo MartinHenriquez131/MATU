@@ -247,7 +247,7 @@ Es aparte de la de la ficha y se da en la misma calidad. Se pide la primera vez 
 
 **El equipo de MATU:** para dar soporte ve los pedidos y los pagos. Sus herramientas no permiten leer la ficha ni el consumo de insumos.
 
-**Dictar en vez de escribir:** en la ficha puedes dictar con el botón del micrófono. El reconocimiento de voz lo hace el servicio de tu navegador, no MATU. Por ejemplo, en Chrome el audio se envía a Google para convertirlo en texto, y puede salir de Chile. MATU no guarda el audio, solo el texto que revisas y guardas tú. Si no quieres que el audio salga de tu teléfono, escribe o usa el dictado de tu teclado. Un abogado revisará este envío de audio antes de usar MATU con datos reales, y entonces diremos aquí qué servicios lo reciben y en qué país están. <!-- PENDIENTE: consulta legal sobre el envío de audio de un dato sensible a un tercero, y nombrar los servicios y sus países. Decisión de Jorge del 03-11 -->
+**Dictar en vez de escribir:** en la ficha puedes dictar con el botón del micrófono. El reconocimiento de voz lo hace el servicio de tu navegador, no MATU. Por ejemplo, en Chrome el audio se envía a Google para convertirlo en texto, y puede salir de Chile. MATU no guarda el audio, solo el texto que revisas y guardas tú. Si no quieres que el audio salga de tu teléfono, escribe o usa el dictado de tu teclado. Por ahora, el botón de dictar no aparece en «Sus remedios». Un abogado revisará este envío de audio antes de usar MATU con datos reales, y entonces diremos aquí qué servicios lo reciben y en qué país están. <!-- PENDIENTE: consulta legal sobre el envío de audio de un dato sensible a un tercero, y nombrar los servicios y sus países. Decisión de Jorge del 03-11 -->
 
 **Proveedores de tecnología** que guardan o procesan datos por encargo de MATU:
 - **Railway**, en California, Estados Unidos, aloja el ambiente de prueba, que tiene solo datos inventados (sección 7).
@@ -284,7 +284,7 @@ Antes de usar MATU con datos reales, diremos aquí los demás: dónde se guardan
 - **Registro de autorizaciones:** cada autorización, también las retiradas, con su fecha de retiro. Hoy no se borran. Todavía no definimos su plazo. Lo publicaremos antes de usar MATU con datos reales. <!-- PENDIENTE: plazo, en consulta legal -->
 - **Accesos de relevo:** el nombre del relevo, el motivo y las fechas, 3 años desde que vence o se corta el acceso, igual que el registro de quién abrió la ficha. El teléfono del relevo se borra 30 días después de que el acceso vence o se corta.
 - **Registros técnicos del sistema:** todavía no definimos su plazo. Lo publicaremos antes de usar MATU con datos reales. <!-- PENDIENTE -->
-- **Los correos que nos escribas sobre privacidad:** todavía no definimos cuánto tiempo los guardamos. Lo publicaremos antes de usar MATU con datos reales. <!-- PENDIENTE: plazo del buzón, decide Jorge -->
+- **Los correos que nos escribas sobre privacidad:** los guardamos hasta 2 años después de cerrar tu solicitud. Después queda solo una lista con la fecha, el tipo de solicitud y la fecha de respuesta, sin el contenido.
 
 ## 9. Cómo protegemos los datos
 
