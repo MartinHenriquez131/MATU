@@ -1,0 +1,83 @@
+<!DOCTYPE html><html lang="es-CL"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>{{TITULO}}</title>
+<!-- Generado por docs/herramientas/generar_arquitectura_html.mjs desde docs/arquitectura.md (versión {{VERSION}}). No se edita a mano: se corrige el .md y se vuelve a generar. -->
+<style>
+:root{--bg:#f9f9f7;--panel:#fcfcfb;--ink:#0b0b0b;--muted:#52514e;--line:#e1e0d9;
+--accent:#1c5cab;--accent-claro:#2a78d6;--soft:#eaf1fd;--crit:#d03b3b;
+--mono:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--bg);color:var(--ink);
+font:16px/1.65 system-ui,-apple-system,"Segoe UI",Inter,Roboto,sans-serif;-webkit-font-smoothing:antialiased}
+.layout{display:grid;grid-template-columns:305px minmax(0,1fr);max-width:1440px;margin:0 auto}
+nav{position:sticky;top:0;height:100vh;overflow-y:auto;padding:30px 16px 70px;
+border-right:1px solid var(--line);background:var(--panel)}
+.brand{font-weight:700;font-size:21px;letter-spacing:-.02em}
+.sub{font-size:11px;color:var(--muted);margin-bottom:22px;text-transform:uppercase;letter-spacing:.1em}
+nav a{display:block;color:var(--muted);text-decoration:none;font-size:13.5px;padding:5px 10px;
+border-radius:6px;line-height:1.35;border-left:2px solid transparent}
+nav a:hover{background:var(--soft);color:var(--ink)}
+nav a.lvl3{padding-left:24px;font-size:12.5px;opacity:.85}
+nav a.active{color:var(--accent);border-left-color:var(--accent);background:var(--soft);font-weight:600}
+main{padding:50px 60px 150px;min-width:0}
+h1{font-size:40px;line-height:1.12;letter-spacing:-.032em;margin:0 0 6px}
+h2{font-size:27px;letter-spacing:-.022em;margin:66px 0 14px;padding-top:16px;border-top:1px solid var(--line);scroll-margin-top:20px}
+h3{font-size:19.5px;letter-spacing:-.012em;margin:36px 0 10px;scroll-margin-top:20px}
+h4{font-size:16px;margin:24px 0 8px}
+p{margin:12px 0}
+hr{border:0;border-top:1px solid var(--line);margin:42px 0}
+a{color:var(--accent)}
+ul,ol{padding-left:22px}li{margin:5px 0}
+table{border-collapse:collapse;width:100%;margin:20px 0;font-size:14.5px;background:var(--panel);
+border:1px solid var(--line);border-radius:10px;overflow:hidden}
+th{background:var(--soft);text-align:left;font-weight:650;font-size:12.5px;text-transform:uppercase;letter-spacing:.05em}
+th,td{padding:10px 13px;border-bottom:1px solid var(--line);vertical-align:top}
+tr:last-child td{border-bottom:0}
+code{font-family:var(--mono);font-size:.87em;background:var(--soft);padding:2px 5px;border-radius:4px}
+pre{background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:16px 18px;
+overflow-x:auto;font-size:12.8px;line-height:1.55}
+pre code{background:none;padding:0}
+blockquote{margin:18px 0;padding:10px 18px;border-left:3px solid var(--accent);background:var(--soft);border-radius:0 8px 8px 0}
+strong{font-weight:650}
+em{color:var(--muted)}
+
+/* ---------- diagramas ---------- */
+figure.chart{background:var(--panel);border:1px solid var(--line);border-radius:12px;
+padding:28px 22px;margin:26px 0;text-align:center;overflow-x:auto}
+figure.chart svg{max-width:100%;height:auto;display:block;margin:0 auto}
+
+/* AISLAMIENTO TIPOGRÁFICO: sin esto, el line-height del documento se hereda
+   dentro del foreignObject del SVG, el texto queda más alto que la caja que
+   Mermaid calculó, y las etiquetas de tres líneas se recortan. */
+figure.chart svg,
+figure.chart svg *{
+  font-family:system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;
+  line-height:1.45;
+}
+figure.chart svg .nodeLabel,
+figure.chart svg .label,
+figure.chart svg foreignObject div,
+figure.chart svg foreignObject span{
+  line-height:1.45;
+  font-size:13.5px;
+  /* nowrap impide que la etiqueta se re-parta en el documento final y quede
+     más alta que la caja. Los saltos deliberados van con <br/> y se respetan. */
+  white-space:nowrap;
+}
+figure.chart svg foreignObject p{margin:0;line-height:1.45}
+figure.chart svg .edgeLabel{font-size:12.5px;line-height:1.45}
+
+@media (max-width:900px){.layout{grid-template-columns:1fr}
+nav{position:static;height:auto;border-right:0;border-bottom:1px solid var(--line)}
+main{padding:28px 20px 80px}h1{font-size:29px}h2{font-size:23px}}
+@media print{nav{display:none}.layout{grid-template-columns:1fr}main{padding:0}
+h2{page-break-after:avoid}figure.chart,table{page-break-inside:avoid}}
+</style></head><body><div class="layout"><nav><div class="brand">MATU</div><div class="sub">Arquitectura · versión {{VERSION}}</div>
+{{INDICE}}</nav><main>
+{{CONTENIDO}}</main></div><script>
+const heads=[...document.querySelectorAll('main h2, main h3')];
+const links=[...document.querySelectorAll('nav a')];
+const obs=new IntersectionObserver(es=>{es.forEach(e=>{if(e.isIntersecting){
+const i=heads.indexOf(e.target);links.forEach(l=>l.classList.remove('active'));
+if(links[i])links[i].classList.add('active');}})},{rootMargin:'-8% 0px -82% 0px'});
+heads.forEach(h=>obs.observe(h));
+</script></body></html>

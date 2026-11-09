@@ -47,6 +47,6 @@
 
 | ID | Respuesta | Commit o PR | Verificado (Martín) |
 |---|---|---|---|
-| H1 | | | |
-| H2 | | | |
-| H3 | | | |
+| H1 | Se anota: el docstring apunta a la 0008 | — | |
+| H2 | Se tiene presente si algún día se agrega xdist | — | |
+| H3 | No va en una tarjeta propia: es un ítem de MATU-79 (Endurecimiento), para que esas tres pruebas cuenten solo sus filas (08-11) | Trello MATU-79 | |

@@ -110,13 +110,12 @@ pagadores salió del alcance comprometido del semestre.
 
 ## Arquitectura de la solución
 
-Documento completo: [docs/arquitectura.md](docs/arquitectura.md) — versión 1.1,
-42 requisitos trazados a módulos, 13 diagramas y 24 decisiones de arquitectura
-vigentes (ADR, numerados hasta el 25 porque la numeración no se reutiliza) con
+Documento completo: [docs/arquitectura.md](docs/arquitectura.md) — versión 1.2,
+42 requisitos trazados a módulos, 11 diagramas y 27 decisiones de arquitectura
+vigentes (ADR, numerados hasta el 31 porque la numeración no se reutiliza) con
 alternativas descartadas y consecuencias. GitHub lo renderiza con los diagramas incluidos. Existe también
 una [versión navegable](docs/arquitectura.html), con índice lateral, para leer
-fuera de GitHub o imprimir. **Esa versión es la 1.0, anterior a la validación con
-cuidadoras.** La vigente es la del `.md`.
+fuera de GitHub o imprimir. Se genera desde el `.md` con `docs/herramientas/generar_arquitectura_html.mjs`, así que dice lo mismo: si cambia el `.md`, se vuelve a generar.
 
 El sistema se diseñó en **tres capas con dependencia estrictamente
 descendente**:
@@ -177,15 +176,21 @@ MATU/
 │   └── Evidencias Individuales/
 └── docs/                          documentos que respaldan las evidencias
     ├── arquitectura.md            documento de arquitectura · se lee en GitHub
-    ├── arquitectura.html          versión 1.0, anterior a la validación, navegable y para imprimir
+    ├── arquitectura.html          versión 1.2 navegable y para imprimir, generada desde el .md
     ├── modelo-datos.md            modelo de datos completo, con diagramas
     ├── estrategia-pruebas.md      niveles, metas, puertas del pipeline y definición de terminado
     ├── backlog-sprints-1-3.md     historias, criterios y estimación del tramo
     ├── protocolo-entrevistas.md   guion y criterios de falsación
     ├── resultados-entrevistas.md  veredicto por hipótesis y mediciones
     ├── ficha-proyecto.docx        ficha de una página, formato del curso
-    ├── adr/
-    │   └── ADR-023-cierre.md      se activa el modo ficha de relevo
+    ├── adr/                       ADR con archivo propio, y el resto vive en la sección 14 de la arquitectura
+    │   ├── ADR-023-cierre.md      se activa el modo ficha de relevo
+    │   ├── ADR-026-aplicacion-web.md          la aplicación de la familia es web, mobile first
+    │   ├── ADR-027-precios-exactos.md         precios exactos y un solo cobro del total confirmado
+    │   ├── ADR-028-ficha-ampliada.md          seis secciones complementarias de la ficha
+    │   ├── ADR-029-ficha-no-se-imprime.md     la ficha no se imprime ni se exporta
+    │   ├── ADR-030-roles-del-equipo.md        Jorge desarrolla, Martín despliega, prueba y revisa
+    │   └── ADR-031-lista-insumos-solo-texto.md  la lista de insumos se comparte como texto
     ├── diagramas/
     │   └── modelo-datos/          13 diagramas en .svg y .png, 12 con su fuente .mmd
     ├── entrevistas/               diez fichas anonimizadas
@@ -205,7 +210,7 @@ MATU/
 El código no está en este repositorio. Vive en
 [MATU_PROYECTO](https://github.com/MartinHenriquez131/MATU_PROYECTO), con la estructura
 comprometida en el anexo 19.1 del documento de arquitectura: `backend/`,
-`mobile/`, `web/` e `infra/`. El modelo de datos ejecutable, con sus 31 pruebas
+`web/` e `infra/` (sin `mobile/`, ADR-026). El modelo de datos ejecutable, con sus 31 pruebas
 de aislamiento, está ahí en `backend/db/`.
 
 ## Tecnologías previstas
@@ -214,11 +219,11 @@ de aislamiento, está ahí en `backend/db/`.
 |---|---|
 | Backend | Python 3.12, FastAPI, Pydantic v2 |
 | Base de datos | PostgreSQL 16 con Row Level Security |
-| Acceso a datos | SQLAlchemy 2 (async), asyncpg, Alembic |
-| Trabajos asíncronos | ARQ sobre Redis, patrón *transactional outbox* |
-| Aplicación móvil | Flutter |
+| Acceso a datos | SQLAlchemy 2 con psycopg 3, Alembic |
+| Trabajos asíncronos | Tareas de línea de comando por tenant, sin ARQ, con patrón *transactional outbox*. El programador de tareas llega con MATU-74 |
+| Aplicación de la familia | Aplicación web mobile first: React 19 con TypeScript, Vite y Tailwind CSS v4 (ADR-026, reemplaza a Flutter en el semestre) |
 | Panel web y consola de operación | React + TypeScript |
-| Pagos | Transbank — Webpay Plus diferido y OneClick |
+| Pagos | Transbank — Webpay Plus en venta normal: un solo cobro del total confirmado (ADR-027), sin OneClick ni captura diferida |
 | Infraestructura | Docker, Docker Compose |
 | Integración continua | GitHub Actions |
 | Control de versiones | Git, GitHub |
@@ -293,8 +298,8 @@ tareas se gestionan en Trello.
   hipótesis, las tres mediciones y el recálculo del punto de equilibrio.
 * [Cierre del ADR-023](docs/adr/ADR-023-cierre.md) — H1 refutada con 3 de 10:
   la capa 1 pasa a ser una ficha de relevo de tres campos.
-* [Arquitectura en versión navegable](docs/arquitectura.html) — versión 1.0,
-  anterior a la validación.
+* [Arquitectura en versión navegable](docs/arquitectura.html) — versión 1.2,
+  generada desde el `.md` (`docs/herramientas/`).
 
 GitHub no renderiza archivos `.html` ni `.docx`: hay que descargarlos y abrirlos.
 El documento de arquitectura en `.md` sí se lee directo en el navegador, con sus

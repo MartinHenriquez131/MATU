@@ -1,30 +1,28 @@
 # MATU — Documento de Arquitectura
 
 **Proyecto:** MATU · Sistema de continuidad del cuidado
-**Versión:** 1.1
-**Fecha:** septiembre 2026
+**Versión:** 1.2
+**Fecha:** 8 de noviembre de 2026
 **Equipo:** Jorge Espinoza · Martín Henríquez
-**Estado:** anteproyecto validado. Línea base de diseño, revisada, auditada y contrastada con diez entrevistas a cuidadoras. **El desarrollo no ha comenzado.**
+**Estado:** en construcción. Línea base de diseño validada con diez entrevistas a cuidadoras, y desde el sprint 0 contrastada con el código. Al cierre del sprint 3 del calendario v1.3 (5 de noviembre) están construidas la ficha de relevo con sus secciones complementarias, el acceso de relevo, el perfil de consumo con la predicción de quiebre, los avisos y la lista de insumos, sobre 17 migraciones. La capa 3 se construye en el sprint 4.
 
 ### Sobre esta versión
 
-Esta es la **versión 1.1** del documento de arquitectura de MATU. Incorpora los resultados de la validación con cuidadoras que la versión 1.0 comprometía en su sección 18, y con ellos modifica el alcance de la capa 1, los tres supuestos económicos de la sección 16, la ventana de construcción del semestre y el estado de dos de los cinco huecos declarados.
+Esta es la **versión 1.2** del documento de arquitectura de MATU. La v1.1 incorporó la validación con cuidadoras. **La v1.2 incorpora lo que cambió al construir**: el modelo de datos tal como se ejecuta, siete decisiones de arquitectura nuevas (ADR-026 a ADR-031, más el cierre del ADR-023), el calendario v1.3 y la estrategia de pruebas v1.2. Es la historia MATU-43 del backlog.
 
-**Qué significa que sea 1.1.** Que la línea base 1.0 se mantiene como diseño y que lo que cambió, cambió por evidencia y no por preferencia. Cada modificación de esta versión tiene su origen en un dato medido o en una restricción de calendario verificable, y ambos quedan citados en el punto donde se aplican.
+**Qué significa que sea 1.2.** Que la línea base se mantiene como diseño, y que cada cambio de esta versión tiene su origen en una decisión registrada (un ADR o una decisión del contrato de la API, con su fecha y quién la tomó) o en el esquema que ya corre. Ambos quedan citados en el punto donde se aplican.
 
-**Qué es y qué no es este documento.** Es el diseño que el equipo se compromete a construir, con sus decisiones fundamentadas y sus alternativas descartadas. No reporta avance de desarrollo. Cuando el documento dice que algo "se verifica" o "queda garantizado por una prueba", describe el criterio de aceptación comprometido, no un resultado ya obtenido. La sección 12 detalla cómo y en qué sprint se comprueba cada afirmación.
+**Qué es y qué no es este documento.** Es el diseño que el equipo se compromete a construir, con sus decisiones fundamentadas y sus alternativas descartadas. **Desde la v1.2 dice también qué parte ya está construida**, cuando el código lo permite verificar. Cuando el documento dice que algo "se verifica" o "queda garantizado por una prueba" en una parte todavía no construida, describe el criterio de aceptación comprometido, no un resultado ya obtenido. La sección 12 detalla cómo y en qué sprint se comprueba cada afirmación. **Si este documento contradice un ADR posterior o el esquema de las migraciones, mandan estos últimos** hasta la siguiente versión.
 
-> **Pendiente para la v1.2.** Desde esta versión el proyecto avanzó, y estos cambios todavía no están incorporados al texto. Se llevan a la v1.2 en el sprint 3, como indica el backlog:
->
-> - Los 16 cambios de la sección 10 y los hallazgos de la sección 5.4 del [modelo de datos](modelo-datos.md)
-> - El [calendario de sprints v1.3](sprints/calendario-sprints.md), que reemplaza las fechas y la agrupación de la tabla 15.4
-> - La prioridad de RF-03: el cierre del ADR-023 baja las ocho secciones a *Podría*, y la sección 3.1 todavía dice *Debe*
-> - El resultado de la [prueba de concepto de Transbank](pruebas-concepto/transbank.md): el débito no admite captura diferida. **Ya incorporado** con el ADR-027 (sección 14), que reemplazó al ADR-006 y al ADR-011, y propagado a las secciones 8, 9.4, 9.5, 10.4, 11.2, 11.7, 12, 17 y 18.1. La sección 7 (7.1, 7.4 y 7.6 b, c y f) y los estados de 8.1 y 12.3 se alinearon el 27 de octubre con la migración 0002 (`0002_precios_exactos_un_cobro`). Lo que esa migración dejó fuera a propósito está al final de 7.4
-> - El [ADR-026](adr/ADR-026-aplicacion-web.md): la aplicación de la familia es web, mobile first, y reemplaza a Flutter. El ADR ya está escrito y lista las secciones que cambian (1, 6.1, 12.2, 15, 17 y 19.1). Hasta la v1.2, donde este documento dice Flutter, manda el ADR-026
-> - El [ADR-029](adr/ADR-029-ficha-no-se-imprime.md) (03-11): la ficha de relevo no se imprime ni se exporta, y RF-09 pasa a la lista de reposición. **Ya incorporado** en 3.1, la ruta de la ficha y el alcance
-> - La separación en dos repositorios: la documentación en MATU y el código en MATU_PROYECTO (anexo 19.1)
-> - La suspensión de la regla de ejes en los sprints 1 a 3 y el traslado de la prueba de capa 3 desacoplable, declarados en el backlog
-> - Las decisiones de Jorge del 27 de octubre sobre el contrato de MATU-09 (decisiones 16, 23 a 28). **Ya incorporadas** en 2.1, 7.2, 7.5, 7.7 b, 9.1, 9.2, 10.1, 11.6 y 11.8, y en el [modelo de datos](modelo-datos.md): la IP no se guarda, la API no envía el PIN, la 9.2 sigue el contrato, la retención del acceso de relevo y de su teléfono, las columnas nuevas de `acceso_relevo` e `indice_token`, y edades sin valores exactos
+#### Registro de cambios
+
+| Versión | Fecha | Qué cambió |
+|---|---|---|
+| 1.0 | septiembre de 2026 | Línea base de diseño, revisada y auditada, anterior a la validación con cuidadoras |
+| 1.1 | septiembre de 2026 | Validación con diez cuidadoras: ficha de relevo de tres campos (ADR-023), llenado asistido, pago de un solo pagador, ventana de nueve semanas y segundo recorte de 160 horas. Después, entre el 26 y el 27 de octubre, el ADR-027 (precios exactos y un solo cobro) y las decisiones del contrato de MATU-09 se propagaron al texto |
+| **1.2** | **8 de noviembre de 2026** | **Sección 7** alineada con el modelo de datos: sus 16 diferencias y sus cinco hallazgos, los tipos de sección del ADR-028 y la nueva 7.8 con las migraciones 0001 a 0017. **ADR-026**: aplicación web mobile first en lugar de Flutter (secciones 1, 2.1, 6.1, 6.2, 10.3, 11.6, 12.2, 13.1, 15, 17 y anexo 19.1). **ADR-027** con archivo propio ([`adr/ADR-027-precios-exactos.md`](adr/ADR-027-precios-exactos.md)), movido sin cambios desde la sección 14, que lo resume, y completo en el estado de los ADR-006, 011 y 024. **ADR-028**: RF-03 con seis secciones complementarias, *Debe* en el semestre, y las preguntas guía en 10.4 b. **ADR-029**: la ficha no se imprime y RF-09 pasa a la lista. **ADR-030**: Jorge desarrolla y Martín despliega, prueba y revisa (15.5). **ADR-031**: la lista sale del teléfono como texto, sin enlace (RF-15, 9.3 y 9.6). **Calendario v1.3** en 15.2 y 15.4, con los objetivos específicos 5, 6 y 7 en su redacción vigente. **Estrategia de pruebas v1.2** en 12.2, 12.6 y 12.7, con el CI tal como corre. La clave maestra en variable de entorno (11.4), la regla de ejes suspendida en los sprints 1 a 3, la prueba de capa 3 desacoplable en el sprint 3, el resultado de Transbank y los dos repositorios (19.1) |
+
+> **Pendiente para la v1.3.** Todo lo que la v1.1 dejaba para esta versión quedó incorporado. Lo que sigue abierto está marcado [PENDIENTE] en la sección que corresponde, y se revisa en cada cierre de sprint.
 
 ### Cómo se llegó a esta línea base
 
@@ -40,6 +38,7 @@ El diseño pasó por tres reestructuraciones y tres rondas de revisión crítica
 | **Revisión crítica, ronda 3** | La regla de prorrateo no quedaba fijada por ninguna afirmación comprobable: invertir el criterio del mayor resto habría pasado igual el plan de pruebas descrito |
 | **Validación con cuidadoras** | Se ejecutó la meta completa del protocolo, diez entrevistas, contra criterios fijados antes de entrevistar. H2, H3 y H4 validadas. **H1 refutada**, lo que activó el ADR-023 y redujo la versión mínima de la capa 1 a tres campos. H5, H6 y H7 quedaron en zona intermedia y disparan la regla de ampliación del propio protocolo. Las tres mediciones económicas de la sección 16 pasaron de supuesto a valor medido, y el recálculo expuso un error propio en el volumen transado |
 | **Cierre de Fase 1** | La ventana de construcción quedó en nueve semanas y no en trece. Segundo recorte de alcance, de 160 horas, decidido sobre el papel antes del primer sprint |
+| **Construcción, sprints 0 a 3** | Al escribir y probar el esquema aparecieron cinco hallazgos más en las políticas y 16 diferencias con la sección 7. El profesor sugirió una aplicación web en vez de Flutter (ADR-026), la prueba de concepto de Transbank llevó a un solo cobro (ADR-027) y ver el producto funcionando amplió la ficha (ADR-028). Ver el registro de cambios |
 
 **Y cinco defectos del modelo de aislamiento aparecieron al revisarlo política por política**, ninguno visible en una lectura lineal. Están en la sección 12.8, con la prueba que debe fijar cada corrección.
 
@@ -49,12 +48,12 @@ Este documento define **cómo se construye MATU**. Asume el documento conceptual
 
 Está escrito para cuatro lectores:
 
-- **El equipo de desarrollo**, que necesita requisitos, módulos, modelo de datos, contratos y estados. Este documento es además el **contrato de trabajo entre Jorge y Martín**: define los límites por los que se puede avanzar en paralelo sin pisarse.
+- **El equipo de desarrollo**, que necesita requisitos, módulos, modelo de datos, contratos y estados. Este documento es además el **contrato de trabajo entre Jorge y Martín**: define qué se construye y con qué criterio se revisa. Desde el ADR-030, Jorge desarrolla y Martín despliega, prueba y revisa (sección 15.5).
 - **El profesor guía y la comisión**, que evalúan si las decisiones están fundamentadas.
 - **Quien evalúe el cumplimiento legal**, que necesita ver el tratamiento de datos sensibles.
 - **El equipo de dentro de seis meses**, que necesita entender por qué se decidió algo antes de cambiarlo.
 
-**Ruta rápida de lectura.** Secciones 1 y 2 para la vista general. Sección 3 para el alcance comprometido. Secciones 4 a 9 para el detalle constructivo. Sección 14 para las decisiones fundamentadas, que es la parte de mayor peso en una defensa de título. Secciones 15 y 16 para la factibilidad y la aritmética del piloto, que son las que más cambiaron en esta versión.
+**Ruta rápida de lectura.** Secciones 1 y 2 para la vista general. Sección 3 para el alcance comprometido. Secciones 4 a 9 para el detalle constructivo. Sección 14 para las decisiones fundamentadas, que es la parte de mayor peso en una defensa de título. Secciones 15 y 16 para la factibilidad y la aritmética del piloto. En la v1.2 cambiaron sobre todo las secciones 7, 9, 12 y 15.
 
 ---
 
@@ -68,12 +67,12 @@ Las doce decisiones que determinan todo lo demás. Cada una se desarrolla en la 
 | 2 | **El despacho es desacoplable.** El sistema entrega valor completo sin ningún comercio en convenio | Elimina el único punto de falla externo del proyecto. Si no hay convenio, la familia exporta su lista de reposición y compra donde quiera |
 | 3 | **El perfil de consumo lo declara el cuidador, no lo infiere el sistema** | Al inicio no existe historial del cual inferir, y quien cuida sabe exactamente cuántos pañales al día se usan |
 | 4 | **Monolito modular en FastAPI**, con módulos de límite explícito, no microservicios | El volumen del piloto no justifica el costo operacional de servicios distribuidos |
-| 5 | **Un repositorio Flutter con dos aplicaciones** (familia y repartidor) sobre un núcleo compartido | Dos apps nativas separadas duplican el esfuerzo de un equipo de dos personas |
+| 5 | **Una aplicación web mobile first, en React con TypeScript**, que corre en el navegador del teléfono (ADR-026, reemplaza al ADR-005 en el semestre) | Un solo lenguaje para todo el frontend, accesibilidad heredada del navegador y nada que instalar. La app nativa se decide después del semestre |
 | 6 | **Precios exactos de comercios en convenio, y se cobra una sola vez el total confirmado** (ADR-027, reemplaza a la autorización con margen del ADR-006) | La captura diferida no opera con débito, que es el medio mayoritario del segmento, y una retención mayor que el pedido es difícil de explicar |
 | 7 | **El pago del MVP es de un solo pagador.** El reparto entre varios familiares queda diseñado y fuera del alcance comprometido | La hipótesis que lo justificaba quedó en zona intermedia, y sus 110 horas no caben en una ventana de nueve semanas. Ver ADR-007 y sección 15.3 |
 | 8 | **El repartidor nunca maneja dinero.** El comercio cobra a cuenta corriente de MATU | Los repartidores son multi-plataforma y sin vínculo fuerte. Una tarjeta prepago exigiría un control que el equipo no puede sostener |
 | 9 | **Aislamiento con Row Level Security sobre tres ejes** (familia, comercio, operación), con `FORCE` y rol de aplicación no propietario | Un olvido filtra datos de otra familia. Y un solo eje no alcanza: un comercio atiende pedidos de decenas de grupos distintos |
-| 10 | **El plan de cuidado se cifra por sección con sobre-cifrado**, y la clave maestra vive fuera del servidor de aplicación | Es el dato más sensible del sistema bajo la Ley 21.719, vigente desde el 1 de diciembre de 2026 |
+| 10 | **El plan de cuidado se cifra por sección con sobre-cifrado**, y la clave maestra vive fuera del servidor de aplicación. En el semestre, con solo datos sintéticos, vive en una variable de entorno (desvío del ADR-016, 28 de octubre) | Es el dato más sensible del sistema bajo la Ley 21.719, vigente desde el 1 de diciembre de 2026 |
 | 11 | **La testabilidad es un requisito de diseño**, no una actividad posterior. Toda dependencia externa entra por un puerto sustituible | Sin puerto de pasarela no se puede probar el pago, que es el atributo de calidad número uno del sistema |
 | 12 | **Retiro en CESFAM y medicamentos con receta quedan fuera del MVP**, diseñados y sin implementar | Es el diferenciador de mayor riesgo regulatorio y depende de convenios que no controla el equipo |
 
@@ -113,7 +112,7 @@ Estas cifras establecen que el problema es grande, está mal cubierto y duele en
 
 | Restricción | Implicancia arquitectónica |
 |---|---|
-| **Equipo de dos personas, nueve semanas de construcción**, sin dedicación completa | Se prohíbe cualquier componente que exija operación continua. Nada de Kafka, nada de service mesh, nada de microservicios. Obliga a que backend, móvil y web avancen en paralelo, no en secuencia |
+| **Equipo de dos personas, nueve semanas de construcción**, sin dedicación completa | Se prohíbe cualquier componente que exija operación continua. Nada de Kafka, nada de service mesh, nada de microservicios. Obliga a que backend y web avancen en paralelo, no en secuencia |
 | Presupuesto de infraestructura cercano a cero | Un nodo de cómputo, base de datos gestionada de plan bajo, almacenamiento compatible con S3 |
 | Piloto en una comuna acotada | Decenas de pedidos diarios, no miles. Diseñar para corrección y trazabilidad, no para escala |
 | **Datos de salud y de personas con dependencia** | Cumplimiento de Ley 21.719 como requisito de diseño, no como mejora futura |
@@ -129,12 +128,12 @@ Cada atributo se expresa como escenario medible, porque un atributo sin métrica
 |---|---|---|---|
 | 1 | **Integridad transaccional del pago** | Ante caída del backend durante el retorno de la pasarela, ningún pedido queda pagado sin registrar ni registrado sin pagar | Prueba de reintento del retorno y del job de conciliación (sección 12.4) |
 | 2 | **Confidencialidad y trazabilidad** | Todo acceso al plan de cuidado queda registrado con actor, momento y motivo. Un repartidor nunca recibe datos clínicos en ninguna respuesta de la API | Prueba de aislamiento entre grupos y prueba de proyecciones por rol (sección 12.5) |
-| 3 | **Accesibilidad del flujo principal** | Una persona de 68 años completa la ficha de relevo sin ayuda en menos de 3 minutos, con el texto del sistema al 200% de escala | Prueba con 3 usuarios reales, de tres perfiles distintos, en la semana 13 (sección 10.5) |
+| 3 | **Accesibilidad del flujo principal** | Una persona de 68 años completa la ficha de relevo sin ayuda en menos de 3 minutos, con el texto del sistema al 200% de escala | Prueba con 3 usuarios reales, de tres perfiles distintos, en los sprints 3 y 4 del calendario v1.3 (sección 10.5) |
 | 4 | **Evolucionabilidad modular** | Agregar el módulo de retiro en CESFAM no obliga a modificar el módulo de pedidos | Prueba automática de dependencias (sección 6.4) |
-| 5 | **Disponibilidad del flujo de pedido** | Catálogo a pedido a pago bajo 800 ms en percentil 95 con 50 usuarios concurrentes. Disponibilidad objetivo 99% mensual | Prueba de carga básica en el sprint 8 |
-| 6 | **Observabilidad operacional** | Ante un pedido con incidencia, la operación reconstruye la línea de tiempo completa desde el backoffice sin tocar la base de datos | Revisión manual en el sprint 8 |
+| 5 | **Disponibilidad del flujo de pedido** | Catálogo a pedido a pago bajo 800 ms en percentil 95 con 50 usuarios concurrentes. Disponibilidad objetivo 99% mensual | Prueba de carga básica en el sprint 5 del calendario v1.3 |
+| 6 | **Observabilidad operacional** | Ante un pedido con incidencia, la operación reconstruye la línea de tiempo completa desde el backoffice sin tocar la base de datos | Revisión manual en el sprint 5 del calendario v1.3 |
 
-**El atributo 3 cambió de métrica en esta versión.** La v1.0 medía "primer pedido completo en menos de 6 minutos". La validación mostró que el cuello de botella no es el pedido sino el llenado del plan, y que ocho preguntas no se responden en cinco minutos. La métrica pasa a medir la ficha de relevo, que es la versión mínima obligatoria.
+**El atributo 3 cambió de métrica en la v1.1.** La v1.0 medía "primer pedido completo en menos de 6 minutos". La validación mostró que el cuello de botella no es el pedido sino el llenado del plan, y que ocho preguntas no se responden en cinco minutos. La métrica pasa a medir la ficha de relevo, que es la versión mínima obligatoria.
 
 Atributos deliberadamente **no** priorizados: escalabilidad horizontal, latencia sub-100 ms, multi-región y alta disponibilidad activo-activo. Declararlo es parte de la decisión.
 
@@ -150,7 +149,7 @@ Catálogo de requisitos trazados a módulo y priorizados con MoSCoW. **Debe** en
 |---|---|---|---|
 | RF-01 | El cuidador registra a la persona cuidada con nombre, nivel de apoyo y dirección de entrega | `care_circle` | Debe |
 | RF-02 | El cuidador completa una **ficha de relevo de tres campos**: la rutina en una línea, qué hacer si la persona se altera y a quién llamar. Es la versión mínima obligatoria del plan de cuidado | `care_plan` | Debe |
-| RF-03 | El cuidador amplía la ficha con hasta ocho secciones opcionales: rutina, horarios, manejo de situaciones difíciles, preferencias, actividades, red de apoyo, alimentación y movilidad. **Ningún flujo del sistema exige el plan completo** | `care_plan` | Debe |
+| RF-03 | El cuidador amplía la ficha con hasta seis **secciones complementarias**, opcionales: Quién es, Lo que le hace bien, Comer y beber, Moverse y descansar, Cómo hablarle y Sus remedios ([ADR-028](adr/ADR-028-ficha-ampliada.md)). Al compartir elige cuáles ve cada relevo. **Ningún flujo del sistema las exige**, y la ficha nunca aparece como incompleta sin ellas | `care_plan` | Debe |
 | RF-04 | El sistema impide la sobreescritura silenciosa cuando dos miembros editan la misma sección | `care_plan` | Debe |
 | RF-05 | El cuidador genera un acceso de relevo con alcance por sección, vencimiento y motivo | `care_plan` | Debe |
 | RF-06 | El relevo accede al plan sin crear cuenta, mediante un enlace con token expirable | `care_plan` | Debe |
@@ -159,7 +158,13 @@ Catálogo de requisitos trazados a módulo y priorizados con MoSCoW. **Debe** en
 | RF-09 | La lista de reposición se exporta y se imprime. La ficha de relevo no se imprime ni se exporta: se comparte solo con el acceso de relevo ([ADR-029](adr/ADR-029-ficha-no-se-imprime.md)) | `consumption` | Debe |
 | RF-42 | El plan de cuidado admite **llenado asistido**: un miembro del círculo familiar completa o corrige la ficha en nombre del cuidador principal, y la autoría queda registrada | `care_plan` | Debe |
 
-**RF-02, RF-03 y RF-42 son nuevos o reescritos en esta versión.** La v1.0 tenía un RF-02 que exigía ocho secciones y un RF-03 que pedía "una versión mínima utilizable en menos de 5 minutos". La validación refutó que eso fuera posible. RF-42 entra porque el único abandono del piloto fue por manejo del teléfono, y la entrevistada pidió ella misma que alguien escribiera por ella.
+**RF-02, RF-03 y RF-42 son nuevos o reescritos en la v1.1.** La v1.0 tenía un RF-02 que exigía ocho secciones y un RF-03 que pedía "una versión mínima utilizable en menos de 5 minutos". La validación refutó que eso fuera posible. RF-42 entra porque el único abandono del piloto fue por manejo del teléfono, y la entrevistada pidió ella misma que alguien escribiera por ella.
+
+**RF-03 cambió dos veces desde la v1.1.** El cierre del ADR-023 bajó las ocho secciones de entonces a *Podría*, fuera del semestre, aunque la v1.1 todavía decía *Debe*. Después, el ADR-028 (31 de octubre) lo reabrió como *Debe* con otra lista: seis secciones que no repiten lo que ya dicen los tres campos. Salen `horarios` (repetía Su día), `actividades` (se une con Lo que le hace bien) y `red_apoyo` como sección aparte (ya es A quién llamar), y entran `quien_es`, `comunicacion` y `remedios`. Se construyó en MATU-50 (migración 0013).
+
+**RF-09 se redefinió con el ADR-029** (3 de noviembre). La v1.1 decía que el plan de cuidado se exportaba como documento imprimible para el relevo sin conexión. Una hoja en papel no vence, no se corta y la lee cualquiera, así que la ficha se comparte solo con el acceso de relevo. Lo que se exporta y se imprime es la lista de reposición, que no lleva datos de la ficha (RF-15, ADR-031).
+
+**RF-42 sigue en *Debe*.** El cierre del ADR-023 lo había bajado a *Podría*. Jorge decidió el 8 de noviembre volverlo a *Debe* y cerrarlo con una prueba de llenado asistido en MATU-42: un miembro con permiso completa o corrige la ficha, y la autoría queda registrada.
 
 ### 3.2 Capa 2 · Consumo y predicción
 
@@ -170,7 +175,7 @@ Catálogo de requisitos trazados a módulo y priorizados con MoSCoW. **Debe** en
 | RF-12 | El sistema avisa a la familia antes del quiebre, con anticipación configurable | `consumption` | Debe |
 | RF-13 | El cuidador registra una reposición hecha fuera de MATU y el cálculo se ajusta | `consumption` | Debe |
 | RF-14 | El sistema genera una lista de reposición con los productos próximos a quiebre | `consumption` | Debe |
-| RF-15 | La familia exporta la lista de reposición como documento o enlace compartible | `consumption` | Debe |
+| RF-15 | La familia saca la lista de reposición del teléfono **como texto, sin enlace**: la imprime o la guarda como PDF desde el navegador, o la comparte con la hoja de compartir del teléfono o con «Copiar la lista». La lista no lleva el nombre de la persona cuidada ni nada de la ficha ([ADR-031](adr/ADR-031-lista-insumos-solo-texto.md)) | `consumption` | Debe |
 | RF-16 | Las líneas de un plan de reposición se proponen desde el perfil de consumo | `replenishment` | Debería |
 | RF-17 | La familia programa envíos periódicos con frecuencia definida | `replenishment` | Debería |
 | RF-18 | La familia adelanta, salta o cancela una ocurrencia programada | `replenishment` | Debería |
@@ -256,7 +261,7 @@ graph LR
     style C3 fill:#f5f1ea,stroke:#c3c2b7,stroke-dasharray: 5 5
 ```
 
-**La capa 1 es el producto.** El plan de cuidado convierte el conocimiento del cuidador en algo transferible, que es lo que permite el relevo. Sin ella, MATU es un despacho más. **Su versión mínima obligatoria es la ficha de relevo de tres campos**, y las ocho secciones son ampliación opcional. Ese cambio viene de la refutación de H1 y está en el ADR-023.
+**La capa 1 es el producto.** El plan de cuidado convierte el conocimiento del cuidador en algo transferible, que es lo que permite el relevo. Sin ella, MATU es un despacho más. **Su versión mínima obligatoria es la ficha de relevo de tres campos**, y las seis secciones complementarias son ampliación opcional. La ficha de tres campos viene de la refutación de H1 (ADR-023), y las secciones complementarias de ver el producto funcionando en la demo del 30 de octubre (ADR-028).
 
 **La capa 2 es el diferenciador computable.** Del perfil de consumo declarado en la capa 1 se deriva cuándo se acaba cada insumo. Ese cálculo es lo que MATU tiene y un delivery genérico no puede tener, porque requiere conocer a la persona cuidada.
 
@@ -337,17 +342,17 @@ graph TB
 ```mermaid
 graph TB
     subgraph "Clientes"
-        AF["<b>App Familia</b><br/>Flutter · iOS y Android<br/>ficha de relevo, consumo,<br/>pedidos, pago, seguimiento"]
+        AF["<b>App Familia</b><br/>web mobile first · React + TypeScript<br/>en el navegador del teléfono<br/>ficha de relevo, consumo,<br/>pedidos, pago, seguimiento"]
         BO["<b>Backoffice</b><br/>React + TypeScript<br/>catálogo, convenios, operación,<br/>liquidación, indicadores"]
         VC["<b>Vista de Comercio</b><br/>una pantalla del backoffice<br/>pedidos del día, tope, código"]
-        VR["<b>Vista de Relevo</b><br/>página pública sin sesión<br/>solo secciones habilitadas"]
+        VR["<b>Vista de Relevo</b><br/>página /r del mismo cliente web<br/>sin cuenta · solo lo compartido"]
     end
 
-    GW["<b>Reverse proxy</b><br/>Caddy · TLS · rate limiting"]
+    GW["<b>Borde HTTPS</b><br/>TLS de la plataforma<br/>en staging, Railway"]
 
     subgraph "Núcleo"
         API["<b>API MATU</b><br/>Python 3.12 · FastAPI<br/>monolito modular · REST /v1"]
-        WK["<b>Worker</b><br/>ARQ sobre Redis<br/>por tenant, respeta RLS"]
+        WK["<b>Trabajos</b><br/>tareas por tenant, respetan RLS<br/>en el semestre, sin ARQ"]
         PUB["<b>Publicador de outbox</b><br/>transversal · payload<br/>solo con identificadores"]
         SCH["<b>Scheduler</b><br/>enumera tenants<br/>y encola por grupo"]
     end
@@ -355,7 +360,7 @@ graph TB
     subgraph "Persistencia"
         PG[("<b>PostgreSQL 16</b><br/>RLS por grupo familiar")]
         RD[("<b>Redis</b><br/>colas, caché")]
-        S3[("<b>Object storage</b><br/>evidencias y exportaciones")]
+        S3[("<b>Object storage</b><br/>evidencias de entrega")]
         KM[("<b>Custodia de KEK</b><br/>clave maestra de cifrado")]
     end
 
@@ -381,13 +386,15 @@ graph TB
     style PUB fill:#5598e7,color:#fff
 ```
 
-**La App Repartidor sale del diagrama de contenedores comprometido.** RF-27 a RF-30 quedaron en *Debería* desde el primer recorte, y en el piloto el retiro y la entrega se marcan desde la vista de comercio. El paquete Flutter compartido del ADR-005 se mantiene, porque la segunda aplicación sigue siendo el camino de evolución.
+**Los cuatro clientes son un solo cliente web** (`web/` de MATU_PROYECTO), con componentes, tokens y cliente HTTP compartidos (ADR-026). **La API sirve la aplicación desde el mismo origen**, sin CORS, y el cliente HTTP se tipa desde el contrato OpenAPI (`docs/api/openapi.json`). En el semestre están construidas la app de la familia y la vista de relevo. El backoffice y la vista de comercio son del sprint 4 en adelante.
+
+**La App Repartidor sale del diagrama de contenedores comprometido.** RF-27 a RF-30 quedaron en *Debería* desde el primer recorte, y en el piloto el retiro y la entrega se marcan desde la vista de comercio. **La app nativa, de familia o de repartidor, se decide después del semestre** con los datos del piloto (ADR-026). El paquete Flutter compartido del ADR-005 ya no se mantiene.
 
 ### 6.2 Responsabilidad de cada contenedor
 
 | Contenedor | Responsabilidad | Lo que explícitamente no hace |
 |---|---|---|
-| **App Familia** | Ficha de relevo, secciones opcionales, perfil de consumo, catálogo, pedido, seguimiento | No calcula totales finales. No decide sustituciones |
+| **App Familia** | Ficha de relevo, secciones complementarias, perfil de consumo, lista de insumos, catálogo, pedido, seguimiento. Aplicación web mobile first, diseñada primero para 360 px de ancho | No calcula totales finales. No decide sustituciones. No guarda nada de la ficha, del consentimiento ni de la persona cuidada en el navegador |
 | **Backoffice** | Catálogo, convenios, monitoreo, incidencias, conciliación, liquidación, indicadores | No accede al plan de cuidado. No es canal de soporte al cliente final |
 | **Vista de Comercio** | Stock apartado, sus líneas de los pedidos del día, preparación, validación de código, marcado de retiro y entrega | No ve la dirección de entrega ni ningún nombre: solo la referencia del pedido y el código de retiro (ADR-027) |
 | **Vista de Relevo** | Lectura de las secciones habilitadas del plan de cuidado | No permite edición. No expone otras secciones. No crea sesión persistente |
@@ -396,8 +403,8 @@ graph TB
 | **Publicador de outbox** | Publicación de eventos de dominio hacia notificaciones | **Transversal a tenants, y por eso su payload contiene solo identificadores, nunca datos** |
 | **PostgreSQL** | Fuente única de verdad transaccional | No almacena archivos binarios |
 | **Redis** | Colas y caché de catálogo | No es fuente de verdad de nada. Se puede vaciar sin pérdida |
-| **Object storage** | Evidencias, exportaciones del plan de cuidado y de la lista de reposición | Nunca sirve archivos públicos. Solo URLs firmadas de vida corta |
-| **Custodia de KEK** | Guarda la clave maestra que cifra las claves de datos | No guarda datos. Ver ADR-016 |
+| **Object storage** | Evidencias de entrega | Nunca sirve archivos públicos. Solo URLs firmadas de vida corta. **No guarda exportaciones**: la ficha no se exporta (ADR-029) y la lista sale del teléfono como texto, sin archivos en el servidor (ADR-031). En el semestre todavía no se usa |
+| **Custodia de KEK** | Guarda la clave maestra que cifra las claves de datos. En el semestre es el adaptador de variable de entorno, solo con datos sintéticos (11.4) | No guarda datos. Ver ADR-016 |
 
 ### 6.3 Módulos del backend (C4 nivel 3)
 
@@ -494,7 +501,7 @@ erDiagram
     ACCESO_RELEVO ||--o| INDICE_TOKEN : "se resuelve por"
 
     PERSONA_CUIDADA ||--o{ PERFIL_CONSUMO : declara
-    PRODUCTO ||--o{ PERFIL_CONSUMO : referencia
+    PRODUCTO |o--o{ PERFIL_CONSUMO : "referencia (opcional)"
     PERFIL_CONSUMO ||--o{ REPOSICION : registra
     PERFIL_CONSUMO ||--o{ ALERTA_QUIEBRE : genera
 
@@ -506,6 +513,7 @@ erDiagram
     GRUPO_FAMILIAR ||--o{ PEDIDO : realiza
     PERSONA_CUIDADA ||--o{ PEDIDO : "destinado a"
     PEDIDO ||--|{ PEDIDO_LINEA : contiene
+    PEDIDO ||--o| PEDIDO_ENTREGA : "se entrega en"
     OFERTA ||--o{ PEDIDO_LINEA : referencia
     OFERTA ||--o{ PEDIDO_LINEA : "se reasigna a"
     PRODUCTO ||--o{ REGLA_SUSTITUCION : define
@@ -523,42 +531,52 @@ erDiagram
     USUARIO ||--o{ AUDITORIA : genera
 ```
 
-**El modelo no cambió en esta versión, y eso es deliberado.** La activación del ADR-023 reduce la versión mínima del plan de cuidado a tres campos, pero esos tres campos son tres de los ocho tipos de sección que `plan_seccion` ya contempla. Que el plan B no obligue a migrar el esquema es exactamente la razón por la que se escribió antes de entrevistar.
+**Desde la v1.2 esta sección describe el esquema que se ejecuta.** El [modelo de datos](modelo-datos.md) es la migración `0001_esquema_inicial` desde el sprint 0. Al escribirlo y probarlo contra PostgreSQL aparecieron 16 diferencias con esta sección (su sección 10) y cinco hallazgos en las políticas (su sección 5.4). La v1.2 los incorpora en 7.2 a 7.7, y la sección 7.8 lista las migraciones que vinieron después. El detalle de cada tabla, con sus restricciones e índices, está en el modelo de datos. **Donde los dos documentos difieran, manda el esquema de las migraciones.**
 
-**La migración 0002 (ADR-027) sí cambia la capa 3**, sin tablas nuevas: montos exactos en `pedido`, precio fijo y reasignación al mismo producto en `pedido_linea`, y monto cobrado y devuelto en `cargo` y `participacion`. El diagrama agrega la reasignación de una línea a otra oferta. `REGLA_SUSTITUCION` guarda la elección de RF-21 por producto: otro comercio o quitar (7.4).
+El diagrama es un resumen: muestra las entidades que esta sección discute. El modelo completo tiene 49 tablas, entre ellas `pedido_entrega`, `pedido_transicion`, `sesion_refresh`, `dispositivo`, `invitacion`, `usuario_comercio`, `medio_pago_inscrito`, `preferencia_notificacion`, `notificacion`, `incidencia` e `indice_credencial`, que esta sección no detallaba y que soportan requisitos que sí estaban (RF-37 a RF-40, ADR-007, sección 11.6 y atributo de calidad 6).
+
+**Las fichas del ADR-023 y del ADR-028 no agregaron tablas.** Los tres campos de la ficha son tres tipos de sección que `plan_seccion` ya tenía, y las seis secciones complementarias suman tres tipos nuevos al mismo `CHECK` (migración 0013). Que el plan B no obligara a migrar el esquema es exactamente la razón por la que se escribió antes de entrevistar.
+
+**La migración 0002 (ADR-027) cambia la capa 3**, sin tablas nuevas: montos exactos en `pedido`, precio fijo y reasignación al mismo producto en `pedido_linea`, y monto cobrado y devuelto en `cargo` y `participacion`. El diagrama agrega la reasignación de una línea a otra oferta. `REGLA_SUSTITUCION` guarda la elección de RF-21 por producto: otro comercio o quitar (7.4).
 
 ### 7.2 Capa 1 · Plan de cuidado
 
 | Entidad | Campos relevantes | Notas de diseño |
 |---|---|---|
-| `plan_cuidado` | id, grupo_id, persona_cuidada_id, modo, completitud_pct, actualizado_por, actualizado_en | `modo` es `ficha_relevo` mientras rija el ADR-023. `completitud_pct` se calcula sobre los tres campos de la ficha, pero **la interfaz nunca bloquea por completitud**. Ver ADR-018 |
-| `plan_seccion` | id, plan_id, tipo, **contenido_cifrado**, **nonce**, **tag_auth**, **version**, actualizado_por, actualizado_en | Cifrado por sección, no por documento, para compartir una parte sin descifrar el resto. **`nonce` de 96 bits aleatorio por cada escritura, nunca un contador**: repetir un nonce en AES-GCM permite recuperar la clave de autenticación y forjar texto cifrado. `version` implementa bloqueo optimista (RF-04) |
-| `acceso_relevo` | id, plan_id, otorgado_a_nombre, otorgado_a_telefono, **nombre_pila_persona**, **nombre_pila_comparte**, secciones_permitidas, token_hash, **pin_hash**, expira_en, revocado_en, **motivo**, usos | El relevo no crea cuenta. **Los dos nombres de pila se copian al crear el acceso**, para que el relevo nunca lea `persona_cuidada` ni `usuario`. Con ellos la pantalla del PIN dice quién compartió la ficha y de quién es (decisión 28 del contrato de MATU-09). [PENDIENTE: `nombre_pila_comparte` lo agrega una migración de MATU-18.] **`motivo` es un enumerado sin texto libre**: `salgo_unas_horas`, `fin_de_semana_fuera`, `turno_de_noche` u `otro` (decisión 16). Queda en la auditoría 3 años, y un texto libre podría guardar un dato de salud que no se puede borrar. Cabe en la columna `text` y lo valida la API. **Token de uso múltiple hasta vencer**, no de un solo uso: el relevo consulta el plan durante todo su turno. `pin_hash` es el segundo factor de cuatro dígitos, porque un enlace por WhatsApp es una credencial al portador sobre datos de salud. **La API no envía el PIN.** Lo muestra una sola vez a quien comparte, que se lo dicta al relevo. El envío por SMS es *Debería* y está fuera del semestre. El teléfono sirve para que quien comparte le envíe el enlace desde su propio teléfono, por WhatsApp o SMS, y para que la familia pueda contactar al relevo (decisión 24 del contrato de MATU-09). Ninguna respuesta de la API lo devuelve |
-| `clave_datos` | id, persona_cuidada_id, dek_cifrada_con_kek, kek_version, creada_en, rotada_en | Sobre-cifrado. Una clave de datos por persona cuidada, cifrada con la clave maestra. Ver ADR-016 |
+| `plan_cuidado` | id, grupo_id, persona_cuidada_id, modo, completitud_pct, actualizado_por, actualizado_en | `modo` lo agregó el cierre del ADR-023 (`ficha_relevo` o `completo`). **Con el ADR-028 deja de ser necesario**: no hay un "modo completo", solo secciones agregadas. La columna sigue en el esquema con su valor por omisión `ficha_relevo`. `completitud_pct` se calcula sobre los tres campos de la ficha, pero **la interfaz nunca bloquea por completitud** ni muestra la ficha como incompleta por no tener secciones. Ver ADR-018 |
+| `plan_seccion` | id, plan_id, tipo, **contenido_cifrado**, **nonce**, **tag_auth**, kek_version, **version**, actualizado_por, actualizado_en, **creado_en** | Cifrado por sección, no por documento, para compartir una parte sin descifrar el resto. **`nonce` de 96 bits aleatorio por cada escritura, nunca un contador**: repetir un nonce en AES-GCM permite recuperar la clave de autenticación y forjar texto cifrado. `version` implementa bloqueo optimista (RF-04) y viaja como `ETag`. `creado_en` (migración 0013) es cuándo nació la sección, fijo en los UPDATE: un relevo ve una sección complementaria solo si nació antes de su acceso. **No hereda por `EXISTS`** del plan (hallazgo 1 del modelo de datos, 5.4): declara su propia condición por eje, o el relevo vería todas las secciones y no solo las habilitadas |
+| `acceso_relevo` | id, **grupo_id**, plan_id, otorgado_por, otorgado_a_nombre, otorgado_a_telefono, **nombre_pila_persona**, **nombre_pila_comparte**, **relevo_informado_en**, secciones_permitidas, token_hash, **pin_hash**, pin_intentos_fallidos, creado_en, expira_en, revocado_en, **motivo**, usos, ultimo_uso_en | El relevo no crea cuenta. **Lleva `grupo_id` propio** en vez de heredarlo del plan, porque `plan_cuidado` y `acceso_relevo` se consultan mutuamente y PostgreSQL rechaza el ciclo de políticas (hallazgo 3). **Los dos nombres de pila se copian al crear el acceso**, para que el relevo nunca lea `persona_cuidada` ni `usuario`. Con ellos la pantalla del PIN dice quién compartió la ficha y de quién es (decisión 28 del contrato de MATU-09, migración 0004). `relevo_informado_en` es cuándo quien comparte declaró que le avisó al relevo que MATU guarda su nombre y su teléfono (decisión 34, migración 0004). **`motivo` es un enumerado sin texto libre**: `salgo_unas_horas`, `fin_de_semana_fuera`, `turno_de_noche` u `otro` (decisión 16). Queda en la auditoría 3 años, y un texto libre podría guardar un dato de salud que no se puede borrar. Cabe en la columna `text` y lo valida la API. **Token de uso múltiple hasta vencer**, no de un solo uso: el relevo consulta el plan durante todo su turno, y el acceso dura como máximo 30 días (`CHECK`). `pin_hash` es el segundo factor de cuatro dígitos, porque un enlace por WhatsApp es una credencial al portador sobre datos de salud, y `pin_intentos_fallidos` lo bloquea al quinto error. **La API no envía el PIN.** Lo muestra una sola vez a quien comparte, que se lo dicta al relevo. El envío por SMS es *Debería* y está fuera del semestre. El teléfono sirve para que quien comparte le envíe el enlace desde su propio teléfono, por WhatsApp o SMS, y para que la familia pueda contactar al relevo (decisión 24 del contrato de MATU-09). Ninguna respuesta de la API lo devuelve. El relevo solo puede actualizar `pin_intentos_fallidos`, `usos` y `ultimo_uso_en` (trigger de la migración 0007) |
+| `clave_datos` | id, grupo_id, persona_cuidada_id, dek_cifrada_con_kek, kek_version, creada_en, rotada_en, **destruida_en** | Sobre-cifrado. Una clave de datos por persona cuidada, cifrada con la clave maestra. Ver ADR-016. **El borrado criptográfico** deja `dek_cifrada_con_kek` en nulo y fija `destruida_en` en la misma sentencia (`CHECK`). Desde la migración 0003 una clave destruida no se borra ni se vuelve a llenar: no resucita (defecto 5 de la sección 12.8) |
 
-**Tipos de sección:** `rutina`, `manejo_situaciones`, `red_apoyo`, `horarios`, `preferencias`, `actividades`, `alimentacion`, `movilidad`.
+**Tipos de sección, desde el ADR-028 y la migración 0013:**
 
-**Los tres primeros constituyen la ficha de relevo y son los únicos obligatorios.** El orden de la lista cambió en esta versión para que refleje la prioridad real. La validación mostró que tres de diez entrevistadas pidieron por su cuenta un campo de «qué la calma», que es precisamente el contenido de `manejo_situaciones`, y que tres piden otro lenguaje para la incontinencia dentro de `alimentacion` y `movilidad`, lo que cambia la redacción de las preguntas y no el modelo.
+| Nivel | Tipos | En la interfaz |
+|---|---|---|
+| **Ficha inicial**, obligatoria | `rutina`, `manejo_situaciones`, `red_apoyo` | Su día · Si se altera · A quién llamar |
+| **Secciones complementarias**, opcionales | `quien_es`, `preferencias`, `alimentacion`, `movilidad`, `comunicacion`, `remedios` | Quién es · Lo que le hace bien · Comer y beber · Moverse y descansar · Cómo hablarle · Sus remedios |
+| En el `CHECK`, sin uso | `horarios`, `actividades` | La API ya no los escribe. `horarios` repetía Su día y `actividades` quedó dentro de Lo que le hace bien |
+
+**Los tres campos iniciales constituyen la ficha de relevo y son lo único obligatorio.** Al compartir, los tres van siempre y la cuidadora elige de cero a seis secciones complementarias. Sus remedios viene sin marcar y pide confirmación (ADR-028, actualización del 3 de noviembre). La validación mostró que tres de diez entrevistadas pidieron por su cuenta un campo de «qué la calma», que es precisamente el contenido de `manejo_situaciones`, y que tres prefieren no escribir sobre el aseo ni el cuidado del cuerpo con términos clínicos, por dignidad de la persona cuidada. Por eso no hay una sección de aseo: si la familia quiere decir algo, lo escribe con sus palabras en Moverse y descansar o en Si se altera. Las preguntas guía de cada tipo están en la sección 10.4 b.
 
 ### 7.3 Capa 2 · Perfil de consumo
 
 | Entidad | Campos relevantes | Notas de diseño |
 |---|---|---|
-| `perfil_consumo` | id, grupo_id, persona_cuidada_id, producto_id, **tasa_uso_diaria**, **stock_unidades**, **stock_medido_en**, **fecha_quiebre_estimada**, dias_aviso, activo | El corazón de la capa 2. **Todo en unidades base**, nunca en envases: la conversión vive en la presentación. **El ancla del cálculo es `stock_medido_en`, no la última reposición**, porque el cuidador declara stock en cualquier momento sin haber comprado nada, y anclar en la reposición produce fechas de quiebre en el pasado |
-| `reposicion` | id, perfil_id, **cantidad_unidades**, origen (`pedido_matu`, `declarada`), **pedido_ref**, ocurrida_en | Registrar una compra hecha fuera de MATU es obligatorio (RF-13): sin eso el cálculo se desalinea y las alertas pierden credibilidad. **`pedido_ref` es una referencia opaca sin clave foránea**, para que la capa 2 no dependa de la 3 |
-| `alerta_quiebre` | id, perfil_id, fecha_prevista, estado (`pendiente`, `notificada`, `resuelta`, `descartada`), notificada_en | Se materializa antes de dispararse, lo que hace idempotente el aviso |
+| `perfil_consumo` | id, grupo_id, persona_cuidada_id, producto_id, **nombre_libre**, unidad, **tasa_unidades**, **tasa_dias**, **stock_unidades**, **stock_medido_en**, **fecha_quiebre_estimada**, dias_aviso, **unidades_por_envase**, activo, **version**, actualizado_por | El corazón de la capa 2. **Todo en unidades base**, nunca en envases: la conversión vive en la presentación. **El ancla del cálculo es `stock_medido_en`, no la última reposición**, porque el cuidador declara stock en cualquier momento sin haber comprado nada, y anclar en la reposición produce fechas de quiebre en el pasado. **La tasa es una fracción entera** (`tasa_unidades` cada `tasa_dias`), igual que el dinero: "un suplemento cada cinco días" no necesita decimales. **Admite un insumo fuera del catálogo** con `nombre_libre`, exactamente uno de los dos (`CHECK`), porque la capa 2 funciona sin catálogo ni convenio (ADR-002). `version` es el `ETag` del PATCH y `actualizado_por` permite decir quién cambió el insumo en un 412 (migración 0009). `unidades_por_envase` es opcional y la anota la familia (migración 0015, ADR-031): sirve para sugerir envases enteros en la lista, y nunca se lee del catálogo de la capa 3. Solo admin y cuidador escriben, también en RLS |
+| `reposicion` | id, perfil_id, **cantidad_unidades**, origen (`pedido_matu`, `declarada`), **pedido_ref**, ocurrida_en, registrada_por, registrada_en | Registrar una compra hecha fuera de MATU es obligatorio (RF-13): sin eso el cálculo se desalinea y las alertas pierden credibilidad. **`pedido_ref` es una referencia opaca sin clave foránea**, para que la capa 2 no dependa de la 3. Las compras declaradas se borran a los 90 días de registradas (migración 0017) |
+| `alerta_quiebre` | id, perfil_id, fecha_prevista, estado (`pendiente`, `notificada`, `resuelta`, `descartada`), creada_en, notificada_en, cerrada_en | Se materializa antes de dispararse, con una restricción única por perfil y fecha, lo que hace idempotente el aviso. Solo el trabajo diario la crea abierta y la notifica, y un trigger fija las transiciones permitidas (migración 0011) |
 
 **El cálculo, completo:**
 
 ```
-dias_de_cobertura = piso(stock_unidades / tasa_uso_diaria)
+dias_de_cobertura = piso(stock_unidades × tasa_dias / tasa_unidades)   -- división entera
 fecha_quiebre     = stock_medido_en + dias_de_cobertura
 alerta_si         = (fecha_quiebre - hoy) <= dias_aviso
 ```
 
 Tres detalles que parecen menores y no lo son. **El piso es deliberado**: es preferible avisar un día antes que un día tarde. **El ancla es `stock_medido_en`**, no la reposición. Y **`unidades_a_envases` redondea hacia arriba**, porque nadie compra un tercio de paquete de pañales.
 
-Vive en `app/modules/consumption/domain/quiebre.py` y su criterio de aceptación son ocho pruebas de dominio, incluida una de regresión sobre el ancla. Entregable del sprint 5.
+Vive en `app/modules/consumption/domain/perfil.py` (MATU-36) y su criterio de aceptación eran ocho pruebas de dominio, incluida una de regresión sobre el ancla. Se entregó en el sprint 3 del calendario v1.3, con las alertas de MATU-37 (objetivo específico 4).
 
 Es aritmética de tercero básico, y esa es exactamente la gracia. **El valor no está en el algoritmo, está en tener el dato.** Ningún despacho genérico sabe que la persona usa cuatro pañales al día, porque nunca se lo preguntó a nadie.
 
@@ -574,6 +592,7 @@ Es aritmética de tercero básico, y esa es exactamente la gracia. **El valor no
 | `oferta` | producto_id, comercio_id, precio_referencia, disponible, actualizado_en | Con el ADR-027 el precio de la oferta es el precio exacto con IVA del comercio en convenio. [PENDIENTE: la migración 0002 no tocó `oferta`; la columna sigue llamándose `precio_referencia` y el esquema la comenta como referencial (ADR-011, ya reemplazado)] |
 | `convenio` | comercio_id, vigencia_desde, vigencia_hasta, **comision_pct**, **tarifa_despacho**, prepara_pedidos, cuenta_corriente, estado | `comision_pct` y `tarifa_despacho` son la regla de cálculo de la liquidación |
 | `pedido` | id, grupo_id, persona_cuidada_id, comercio_id, direccion_id, estado, modo_cumplimiento, origen (`manual`, `alerta_quiebre`), ventana_entrega, **subtotal_productos**, **costo_envio**, **total**, **total_confirmado_en**, **total_vence_en**, **pagado_en**, codigo_retiro_hash, creado_por | `origen` incorpora `alerta_quiebre`, que es el camino que conecta la capa 2 con la 3. **`total = subtotal_productos + costo_envio`** por `CHECK`, con un envío único por pedido. `total_vence_en` lo fija el dominio 15 minutos después de `total_confirmado_en`; la base exige que los dos existan juntos y que el vencimiento sea posterior. **`pagado_en` marca desde cuándo el precio queda fijo**: nulo en `borrador`, `total_confirmado` y `vencido`, obligatorio desde `pagado` en adelante, y solo con un total confirmado (`CHECK`). Los 17 estados están en 8.1 |
+| `pedido_entrega` | pedido_id, calle, numero, depto, comuna, referencia, lat, lng, telefono_contacto | **Separada de `pedido`** porque RLS filtra filas, no columnas: es la única forma de que el comercio vea el pedido sin la dirección de entrega (diferencia 9 del modelo de datos). El comercio no tiene política sobre esta tabla |
 | `pedido_linea` | id, pedido_id, oferta_id, producto_id, cantidad, **precio_unitario**, estado_linea, **monto_devuelto**, **devuelta_en**, **oferta_reasignada_id**, **precio_reasignado**, **reasignada_en** | **Con el pedido pagado la línea no se edita**: un trigger impide cambiar producto, oferta, cantidad o precio, y agregar o borrar líneas. Lo que no se entrega se devuelve: `monto_devuelto` nunca supera cantidad × `precio_unitario`, y la línea está en `devuelta` si y solo si tiene monto y fecha de devolución. **La reasignación es al mismo producto en otra oferta**, nunca otra marca (trigger), y `precio_reasignado` es lo que MATU paga, con la diferencia a su cargo. Estados: `pendiente`, `sin_stock`, `preparada`, `faltante`, `devuelta`, `eliminada` |
 | `regla_sustitucion` | id, pedido_id, producto_id, accion | **RF-21, redefinido el 27-10.** Qué hace MATU si un producto del pedido falta: `otro_comercio` (el mismo producto en otro comercio en convenio) o `quitar` (sale del pedido y se devuelve su precio). **Sin fila, se busca en otro comercio**: es la opción por omisión. Una regla por producto y pedido. Salieron `producto_sustituto_id` y `precio_maximo`: nunca otra marca ni otro producto. El backend propone renombrarla a `regla_faltante`; es una propuesta y no se renombró |
 | `cargo` | id, pedido_id, **monto_cobrado**, **monto_devuelto**, estado, respaldo_usuario_id | Uno por pedido. Sin margen, monto autorizado ni capturado. Estados `pendiente`, `pagado`, `rechazado`, `devuelto_parcial` y `anulado`, y un `CHECK` ata cada estado a sus montos: nada cobrado en `pendiente` y `rechazado`, nada devuelto en `pagado`, devolución menor que lo cobrado en `devuelto_parcial` e igual en `anulado`. **Lo devuelto nunca supera lo cobrado** (`CHECK`) |
@@ -596,10 +615,10 @@ Es aritmética de tercero básico, y esa es exactamente la gracia. **El valor no
 
 | Entidad | Campos relevantes | Notas |
 |---|---|---|
-| `consentimiento` | id, grupo_id, usuario_id, persona_cuidada_id, **calidad_otorgante** (`titular`, `representante_legal`, `cuidador_de_hecho`), finalidad, version_politica, evidencia, otorgado_en, revocado_en | Requisito directo de la Ley 21.719. **`calidad_otorgante` es la pieza clave**: el titular de los datos es muchas veces una persona sin capacidad para consentir, y quien opera la aplicación puede no ser su representante legal. Ver la sección 11.5 |
-| `auditoria` | id, grupo_id, actor_tipo, **actor_ref**, accion, entidad, entidad_id, **motivo**, ip (no se llena), request_id, ocurrido_en | Append-only, con una prueba comprometida que lo verifique. **`actor_ref` es polimórfico** porque el relevo no es usuario y es justamente el actor más sensible del sistema. **La IP no se guarda** (decisión 27 del contrato de MATU-09, 27-10). La columna `ip` viene de la migración 0001, queda siempre vacía y se elimina con una migración. [PENDIENTE: migración pendiente, MATU-25] |
+| `consentimiento` | id, grupo_id, usuario_id, persona_cuidada_id, **calidad_otorgante** (`titular`, `representante_legal`, `cuidador_de_hecho`), finalidad, version_politica, evidencia, otorgado_en, revocado_en, revocacion_motivo | Requisito directo de la Ley 21.719. **`calidad_otorgante` es la pieza clave**: el titular de los datos es muchas veces una persona sin capacidad para consentir, y quien opera la aplicación puede no ser su representante legal. Ver la sección 11.5. **Es inalterable** desde la migración 0006: no se actualiza ni se borra, y solo se registra la revocación, una vez. Desde la 0016 la revocación lleva su motivo (`retiro` o `renovacion`) y solo la registran admin o cuidador (MATU-44) |
+| `auditoria` | id, grupo_id, actor_tipo, **actor_ref**, accion, entidad, entidad_id, **motivo**, ip (no se llena), request_id, ocurrido_en | Append-only, con una prueba comprometida que lo verifique. **`actor_ref` es polimórfico** porque el relevo no es usuario y es justamente el actor más sensible del sistema. **La IP no se guarda** (decisión 27 del contrato de MATU-09, 27-10). La columna `ip` viene de la migración 0001 y queda siempre vacía. **Quién lee la auditoría** lo fija la migración 0005 (decisión 36): el administrador lee todas las filas de su grupo, cada miembro solo las suyas, y operación no tiene lectura amplia. La 0010 agrega que quien puede ver el plan lee las aperturas de los relevos (RF-08). [PENDIENTE: ninguna migración hasta la 0017 elimina la columna `ip`.] |
 | `evento_outbox` | id, grupo_id, tipo, **payload solo con identificadores**, agregado_id, disponible_en, intentos, publicado_en, fallido_en | Tabla de **infraestructura sin RLS**, acotada por permiso de rol. Contrato completo en 8.6 |
-| `idempotencia` | clave, **grupo_id**, endpoint, respuesta, creada_en | Soporta el header `Idempotency-Key`. **Lleva `grupo_id` y RLS como cualquier tabla de negocio**: guarda cuerpos de respuesta de pedidos y pagos, de modo que sin tenant sería una excepción no declarada al modelo de aislamiento (sección 12.8) |
+| `idempotencia` | clave, **grupo_id**, endpoint, usuario_id, hash_peticion, estado_http, respuesta, creada_en | Soporta el header `Idempotency-Key`. **Lleva `grupo_id` y RLS como cualquier tabla de negocio**: guarda cuerpos de respuesta de pedidos y pagos, de modo que sin tenant sería una excepción no declarada al modelo de aislamiento (sección 12.8) |
 | `evento_consumido` | evento_id, consumidor, consumido_en | Clave primaria compuesta. Es lo que hace idempotente al consumidor |
 
 ### 7.6 Nueve decisiones de modelado que conviene defender
@@ -651,12 +670,14 @@ CREATE POLICY pedido_operacion ON pedido FOR ALL
 
 **Y el eje de operación no está en todas partes.** `plan_cuidado` y `perfil_consumo` quedan deliberadamente **fuera** de él, porque la sección 11.2 declara que operación nunca los alcanza.
 
-**3. Las tablas hijas no llevan `grupo_id`: heredan del padre.**
+**3. Las tablas hijas no llevan `grupo_id`: heredan del padre, salvo las de varios ejes.**
 
 ```sql
 CREATE POLICY plan_seccion_hereda ON plan_seccion FOR ALL
   USING (EXISTS (SELECT 1 FROM plan_cuidado p WHERE p.id = plan_seccion.plan_id));
 ```
+
+**Este ejemplo es el de la v1.1, y el esquema lo corrigió.** Una hija que hereda por `EXISTS` hereda todas las políticas del padre, no solo la de familia: así el relevo habría visto todas las secciones y el comercio la dirección de entrega. Por eso las hijas de tablas con varios ejes (`plan_seccion`, `acceso_relevo`, `pedido_entrega`, `pedido_linea`) declaran su condición explícita por eje, y `acceso_relevo` y `asignacion` llevan `grupo_id` propio para no formar un ciclo de políticas (hallazgos 1 y 3 del [modelo de datos](modelo-datos.md), 5.4). **El rol de la membresía también se exige en RLS** para el plan de cuidado: un observador recibe cero filas aunque la API olvide revisar su rol.
 
 #### Contexto de sesión
 
@@ -665,7 +686,11 @@ CREATE POLICY plan_seccion_hereda ON plan_seccion FOR ALL
 | `app.usuario_id` | **Siempre y primero.** La política de `membresia` depende de él |
 | `app.grupo_id` | Cuando el actor es una familia |
 | `app.comercio_id` | Cuando el actor es un comercio en convenio |
-| `app.rol` | `operacion` habilita el eje transversal, auditado |
+| `app.repartidor_id` | Cuando el actor es un repartidor (fase 2) |
+| `app.acceso_relevo_id` | En la vista de relevo, después de resolver el token y validar el PIN |
+| `app.rol` | `operacion` habilita el eje transversal, auditado. `relevo` y `sistema` acotan al relevo y a los trabajos de un grupo. Sin valor, vale `ninguno` |
+
+**Son seis variables y no cuatro** (diferencia 1 del modelo de datos): el repartidor y el relevo no son tenants de familia ni de comercio. **El relevo nunca fija `app.grupo_id`**: si lo fijara, heredaría todas las políticas de la familia y vería pedidos, pagos y direcciones (hallazgo 2). Sus políticas se resuelven solo por `app.acceso_relevo_id`.
 
 ```python
 @asynccontextmanager
@@ -693,9 +718,11 @@ El `true` de `set_config(clave, valor, true)` hace el ajuste **local a la transa
 2. Cada job abre su transacción y fija `app.grupo_id` con el mismo helper que usa la API.
 3. **El worker corre con el mismo rol que la API.** No existe un rol de aplicación que evada RLS.
 
-#### Las dos excepciones, reconocidas y acotadas
+**Cómo quedó en el semestre.** No hay ARQ ni un worker en escucha todavía. Los trabajos son tareas de línea de comando que se invocan a mano o desde un cron, con la conexión de `matu_app` (MATU-37, MATU-41 y MATU-44): el trabajo diario de quiebres, el publicador de avisos y las conservaciones. Cumplen las tres reglas: el trabajo diario enumera los grupos con `app.rol = 'operacion'`, que solo devuelve identificadores, y por cada grupo abre su propia transacción con `app.grupo_id` y `app.rol = 'sistema'`. Si un grupo falla, se deshace solo ese grupo. **Las conservaciones borran con funciones `SECURITY DEFINER`** (dueño `matu_owner`, `search_path` fijo, `EXECUTE` solo para `matu_app`) que exigen `app.rol = 'operacion'`, solo borran filas vencidas y devuelven contadores, nunca columnas. [PENDIENTE: el programador de tareas del despliegue llega con MATU-74.]
 
-**a) El publicador de outbox.** Es transversal por definición. `evento_outbox` se declara **tabla de infraestructura sin RLS**, justificado porque su payload contiene solo identificadores. El publicador corre con un rol propio con permiso **únicamente** sobre esa tabla:
+#### Las excepciones, reconocidas y acotadas
+
+**a) El publicador de outbox.** Es transversal por definición. `evento_outbox` se declara **tabla de infraestructura sin RLS**, justificado porque su payload contiene solo identificadores (un `CHECK` solo admite UUID). El diseño le da un rol propio con permiso **únicamente** sobre esa tabla:
 
 ```sql
 REVOKE ALL ON ALL TABLES IN SCHEMA public FROM matu_publisher;
@@ -703,11 +730,17 @@ GRANT SELECT, UPDATE ON evento_outbox   TO matu_publisher;
 GRANT SELECT, INSERT ON evento_consumido TO matu_publisher;
 ```
 
-**b) Los endpoints públicos.** La vista de relevo y el retorno de pasarela deben resolver un token **antes** de saber a qué grupo pertenece. Se resuelve con `indice_token`, una tabla sin RLS y sin dato sensible que solo traduce `token_hash → grupo_id`. **`indice_token` guarda también `revocado_en`** (decisión 23 del contrato de MATU-09). Revocar un acceso la fija en la misma transacción que `acceso_relevo.revocado_en`. Así el canje y la sesión de relevo distinguen revocado de vencido con una sola lectura, sin el rol `sistema`. [PENDIENTE: migración en MATU-19 o MATU-20.]
+**En el semestre `matu_publisher` no tiene credenciales en la infraestructura.** El publicador de MATU-41 usa cuatro funciones `SECURITY DEFINER` de la migración 0014, con `EXECUTE` solo para `matu_app` y que exigen `app.rol = 'operacion'`. Así `matu_app` sigue sin leer ni actualizar `evento_outbox` directamente, y no aparece un rol que se salte RLS.
+
+**b) Los endpoints públicos.** La vista de relevo y el retorno de pasarela deben resolver un token **antes** de saber a qué grupo pertenece. Se resuelve con `indice_token`, una tabla sin RLS y sin dato sensible que solo traduce `token_hash → grupo_id`. **`indice_token` guarda también `revocado_en`** (decisión 23 del contrato de MATU-09, migración 0007). Revocar un acceso la fija en la misma transacción que `acceso_relevo.revocado_en`. Así el canje y la sesión de relevo distinguen revocado de vencido con una sola lectura, sin el rol `sistema`. `indice_token` cubre cuatro tipos de token y no dos: relevo, invitación, retorno de pago y refresh.
+
+**c) El login.** Buscar el email de quien entra ocurre antes de tener contexto, igual que la vista de relevo, y con RLS forzado devolvería cero filas. Es la **tercera excepción**, que la v1.1 no contemplaba: `indice_credencial`, sin RLS y sin dato personal en claro, porque guarda un HMAC del email con un secreto que vive fuera de la base (hallazgo 4). Con `evento_consumido` son cuatro tablas de infraestructura sin RLS, todas acotadas por permiso.
+
+**d) El scheduler.** Tiene su propio rol, `matu_scheduler`, con permiso por columna sobre `grupo_familiar`, y su propia política. Una política declarada para todos los roles se evaluaba también para él y le impedía listar grupos (hallazgo 5).
 
 #### Qué hay que demostrar, y no solo afirmar
 
-`tests/test_aislamiento.py` es entregable comprometido del sprint 1 y debe correr contra PostgreSQL real, no contra un doble.
+`tests/test_aislamiento.py` corre contra PostgreSQL real, no contra un doble. Cerró el sprint 0 con 31 pruebas en verde, y cada migración que toca RLS sumó las suyas: al 7 de noviembre, con la 0017, tiene 116 funciones de prueba.
 
 | Prueba | Qué debe demostrar |
 |---|---|
@@ -718,13 +751,39 @@ GRANT SELECT, INSERT ON evento_consumido TO matu_publisher;
 
 La revisión de este modelo descrita en la sección 12.8 encontró **cinco defectos que la lectura del diseño no dejaba ver**. Los cinco están corregidos en el modelo que esta sección describe.
 
+### 7.8 Migraciones
+
+El esquema solo cambia con migraciones de Alembic revisables y reversibles. **Decisión del 28 de octubre:** los scripts de `backend/db/` (roles, esquema, RLS y permisos) quedan como la migración 0001 y no se tocan. Cada cambio posterior va en una migración nueva, con el SQL de políticas, permisos, triggers y `CHECK` dentro de ella (`op.execute`), y su `downgrade()` deja el esquema exactamente como en la anterior. Lo verifican `tests/test_migraciones.py`, que sube y baja cada una, y `tests/test_cadena_migraciones.py` (MATU-70), que exige una sola cabeza: dos ramas con su migración sobre la misma cabeza se apilan en orden antes de fusionarse.
+
+| # | Migración | Historia | Fecha | Qué cambia |
+|---|---|---|---|---|
+| 0001 | `esquema_inicial` | Sprint 0 | 13 de octubre | 49 tablas, 94 políticas de RLS y los permisos por rol |
+| 0002 | `precios_exactos_un_cobro` | ADR-027 | 27 de octubre | Montos exactos y un solo cobro en `pedido`, `pedido_linea`, `cargo` y `participacion`, triggers del pedido pagado y RLS del comercio (7.4 y 8.1) |
+| 0003 | `clave_datos_destruida_fija` | MATU-11 | 28 de octubre | Una clave de datos destruida no se borra ni se vuelve a llenar |
+| 0004 | `acceso_relevo_nombre_comparte` | MATU-18 | 28 de octubre | `nombre_pila_comparte` y `relevo_informado_en` en `acceso_relevo` |
+| 0005 | `auditoria_lectura_admin` | MATU-14 | 28 de octubre | Quién lee la auditoría |
+| 0006 | `consentimiento_inalterable` | MATU-07 | 28 de octubre | El consentimiento no se cambia ni se borra, y solo se registra la revocación |
+| 0007 | `relevo_abrir` | MATU-19 | 29 de octubre | `indice_token.revocado_en`, políticas del relevo y la función que verifica la autorización vigente en el relevo |
+| 0008 | `sesion_dispositivos` | MATU-38 | 2 de noviembre | Refresh rotativo, dispositivos y su conservación, sin lectura de operación |
+| 0009 | `perfil_consumo` | MATU-36 | 3 de noviembre | Versión y autor del perfil, insumo del catálogo o libre, escritura solo de admin y cuidador, y conservación |
+| 0010 | `auditoria_aperturas_relevo` | MATU-45 | 3 de noviembre | Quien ve el plan lee las aperturas de los relevos |
+| 0011 | `alertas_quiebre` | MATU-37 | 3 de noviembre | Políticas y transiciones de las alertas y las reposiciones, y su conservación |
+| 0012 | `celular_verificado` | MATU-57 | 3 de noviembre | Celular verificado y su canal preferido |
+| 0013 | `ficha_ampliada` | MATU-50 | 3 de noviembre | Tres tipos de sección nuevos (ADR-028) y `plan_seccion.creado_en` para lo que ve cada relevo |
+| 0014 | `avisos_outbox` | MATU-41 | 4 de noviembre | Publicador del outbox con funciones acotadas, avisos por correo y push |
+| 0015 | `perfil_unidades_por_envase` | MATU-60 | 6 de noviembre | Unidades por envase, opcionales, para la lista de insumos (ADR-031) |
+| 0016 | `retiro_autorizacion` | MATU-44 | 6 de noviembre | Motivo del retiro de una autorización, barrera por rol y destrucción de la ficha a los 90 días |
+| 0017 | `conservar_compras` | MATU-51 | 7 de noviembre | Las compras declaradas se borran a los 90 días |
+
+**Los diagramas del modelo de datos siguen en la 0001** para las tablas que cambiaron después. Se regeneran con `backend/db/gen_diagramas.py` contra una base con todas las migraciones (modelo de datos, sección 0).
+
 ---
 
 ## 8. Máquinas de estado y flujos
 
 ### 8.1 Ciclo de vida del pedido
 
-> **Reescrita con el ADR-027.** Reemplaza el ciclo del ADR-006, que autorizaba con margen al confirmar y capturaba el monto real al entregar. Por qué se cambió está en la sección 14. **Alineada con la migración 0002** el 27 de octubre: los nombres son los del `CHECK` de `pedido`.
+> **Reescrita con el ADR-027.** Reemplaza el ciclo del ADR-006, que autorizaba con margen al confirmar y capturaba el monto real al entregar. Por qué se cambió está en el [ADR-027](adr/ADR-027-precios-exactos.md), resumido en la sección 14. **Alineada con la migración 0002** el 27 de octubre: los nombres son los del `CHECK` de `pedido`.
 
 ```mermaid
 stateDiagram-v2
@@ -799,7 +858,7 @@ Una prueba parametrizada recorre **todas las combinaciones** de estados y verifi
 
 **El precio queda fijo al pagar el total confirmado**, no al armar la lista. Si un precio o un comercio cambia respecto de lo que la familia vio en la lista, la pantalla lo marca antes de pagar (sección 10.4 a).
 
-**Obligación de interfaz.** Antes de pagar, la familia ve la lista del ADR-027, punto 4, más lo que agregó la investigación normativa del 27-10: productos con cantidad, precio y subtotal; los que salieron; los que cambiaron de precio o de comercio; qué hace MATU si falta cada producto (RF-21); el envío y el total con IVA; quién vende y emite la boleta, con sus datos de identificación; la ventana de entrega; qué pasa si falta un producto, con el medio y el plazo de la devolución; el aviso de derecho a retracto; un canal de reclamo; y un enlace a las condiciones del pedido. Acepta las condiciones y recibe una confirmación escrita (sección 18.1).
+**Obligación de interfaz.** Antes de pagar, la familia ve la lista del [ADR-027, punto 4](adr/ADR-027-precios-exactos.md), más lo que agregó la investigación normativa del 27-10: productos con cantidad, precio y subtotal; los que salieron; los que cambiaron de precio o de comercio; qué hace MATU si falta cada producto (RF-21); el envío y el total con IVA; quién vende y emite la boleta, con sus datos de identificación; la ventana de entrega; qué pasa si falta un producto, con el medio y el plazo de la devolución; el aviso de derecho a retracto; un canal de reclamo; y un enlace a las condiciones del pedido. Acepta las condiciones y recibe una confirmación escrita (sección 18.1).
 
 **Quién vende.** MATU vende y emite **una sola boleta por el total**, con el envío incluido. Los comercios le cobran a MATU por cuenta corriente (ADR-008). [PENDIENTE: consulta legal y tributaria sobre MATU como vendedor; requiere persona jurídica con inicio de actividades, después del semestre.]
 
@@ -967,7 +1026,7 @@ sequenceDiagram
 | Aspecto | Definición |
 |---|---|
 | Base | `/v1` |
-| Autenticación | `Authorization: Bearer <access_token>` JWT de 15 minutos, refresh rotativo de 30 días por dispositivo con detección de reutilización |
+| Autenticación | `Authorization: Bearer <access_token>` JWT de 15 minutos, que el cliente guarda solo en memoria. Refresh rotativo en una cookie `HttpOnly` (`__Secure-matu-refresh`), con una ventana deslizante de 30 días por dispositivo y detección de reutilización (MATU-38, decisión de Jorge del 31 de octubre) |
 | Contexto de tenant | Header `X-Grupo-Id`. La API verifica membresía en cada petición y nunca confía en el header |
 | Errores | RFC 7807 `application/problem+json` con `type`, `title`, `status`, `detail`, `errores[]` |
 | Idempotencia | Header `Idempotency-Key` obligatorio en POST de pedidos, pagos y evidencias |
@@ -985,8 +1044,11 @@ PUT    /v1/personas-cuidadas/{id}/plan/ficha/{campo}
        headers: If-Match: "v<version>"              → 412 si otro miembro editó
                 o If-None-Match: *                  → primera escritura del campo
        body: {texto}                                → 428 sin ninguna de las dos cabeceras
+PUT    /v1/personas-cuidadas/{id}/plan/secciones/{seccion}   → igual que un campo (ADR-028)
+DELETE /v1/personas-cuidadas/{id}/plan/secciones/{seccion}   → la sección deja de verse en el acto
 POST   /v1/personas-cuidadas/{id}/plan/accesos-relevo
-       body: {campos:[...], expira_en, motivo, nombre_relevo, telefono_relevo}
+       body: {secciones_adicionales:[...], expira_en, motivo, nombre_relevo,
+              telefono_relevo, relevo_informado}
                                                     → 201 con el enlace y el PIN, una sola vez
 GET    /v1/personas-cuidadas/{id}/plan/accesos-relevo → accesos y su estado
 DELETE /v1/accesos-relevo/{id}                      → revocación inmediata
@@ -998,10 +1060,11 @@ POST   /v1/relevo/canje         body: {token, pin}  → 204 y cookie de sesión 
 GET    /v1/relevo/ficha         con la cookie       → los campos compartidos, cada apertura auditada
 ```
 
-El contrato vigente es el de `docs/api/propuestos/` en MATU_PROYECTO (MATU-09). Esta lista lo resume. Cambios respecto de la v1.1:
+El contrato vigente es `docs/api/openapi.json` de MATU_PROYECTO, generado desde el código. La presentación y el canje del relevo siguen descritos en `docs/api/propuestos/relevo.openapi.yaml`. Esta lista lo resume. Cambios respecto de la v1.1:
 
 - **La ficha se escribe con un PUT por campo**, no con uno para los tres. El `ETag`, el 412 y el 428 son por campo (MATU-13): si dos personas editan campos distintos, ninguna pisa a la otra. El ADR-023 se sostiene igual, porque ningún campo exige el resto del plan.
-- **`PUT …/plan/secciones/{tipo}` no se expone en el semestre.** Las ocho secciones son *Podría* desde el ADR-023. El llenado asistido (`en_nombre_de`, RF-42) no entra en el contrato de MATU-09. La ficha no se exporta ([ADR-029](adr/ADR-029-ficha-no-se-imprime.md)).
+- **Las secciones complementarias se escriben y se quitan una por una** (ADR-028, MATU-50): `PUT …/plan/secciones/{seccion}` con el mismo `ETag`, 412 y 428 que los campos, y `DELETE …/plan/secciones/{seccion}`. La v1.1 no las exponía porque las ocho secciones eran *Podría*. El llenado asistido (`en_nombre_de`, RF-42) no entra en el contrato. **La ficha no se exporta** ([ADR-029](adr/ADR-029-ficha-no-se-imprime.md)): no hay `GET …/plan/exportar`.
+- **El acceso de relevo pide `secciones_adicionales`.** Los tres campos base van siempre, y `campos` queda deprecado. Cada sección adicional tiene que estar agregada, y el relevo no ve las que se agreguen después de crear su enlace.
 - **El acceso de relevo pide `campos`, no `secciones`.** La ficha solo admite `rutina`, `manejo_situaciones` y `red_apoyo`. `motivo` es un enumerado sin texto libre (7.2).
 - **El relevo ya no usa `GET /v1/relevo/{token}`.** El token nunca viaja en la URL de una petición. La página `/r#<token>` lo lee del fragmento, pide los nombres con `POST /v1/relevo/presentacion` y canjea token y PIN con `POST /v1/relevo/canje`. El canje deja una cookie `__Secure-matu-relevo` que dura 12 horas o hasta que vence el acceso, lo que ocurra primero. La ficha se lee siempre con `GET /v1/relevo/ficha`, que es lo que se audita como apertura.
 - **La API no envía el PIN.** Lo entrega una vez en el 201 y quien comparte se lo dicta al relevo (11.6).
@@ -1009,18 +1072,26 @@ El contrato vigente es el de `docs/api/propuestos/` en MATU_PROYECTO (MATU-09). 
 ### 9.3 Capa 2 · Perfil de consumo
 
 ```
-GET    /v1/personas-cuidadas/{id}/consumo           → perfiles con fecha de quiebre
+Todo cuelga de la persona cuidada, con X-Grupo-Id, igual que la ficha (contrato de MATU-32)
+GET    /v1/personas-cuidadas/{id}/consumo                       → insumos con fecha de quiebre
 POST   /v1/personas-cuidadas/{id}/consumo
-       body: {producto_id, tasa_uso, unidad_tasa, stock_estimado, dias_aviso}
-PATCH  /v1/consumo/{id}
-POST   /v1/consumo/{id}/reposiciones                → registrar compra hecha por fuera
-GET    /v1/personas-cuidadas/{id}/lista-reposicion  → productos próximos a quiebre
-POST   /v1/personas-cuidadas/{id}/lista-reposicion/exportar
-                                                     → PDF o enlace compartible
-GET    /v1/alertas?estado=pendiente
-POST   /v1/alertas/{id}/descartar
-POST   /v1/pedidos/desde-alertas                    → borrador por comercio (ADR-024)
+       body: {producto_id o nombre_libre, unidad, tasa_unidades, tasa_dias,
+              stock_unidades, dias_aviso, unidades_por_envase?}
+GET    /v1/personas-cuidadas/{id}/consumo/{perfil_id}
+PATCH  /v1/personas-cuidadas/{id}/consumo/{perfil_id}           → If-Match, 412 si otro lo cambió
+DELETE /v1/personas-cuidadas/{id}/consumo/{perfil_id}
+POST   /v1/personas-cuidadas/{id}/consumo/{perfil_id}/desactivar · /activar
+POST   /v1/personas-cuidadas/{id}/consumo/{perfil_id}/reponer   → «Compré», compra hecha por fuera (RF-13)
+POST   /v1/personas-cuidadas/{id}/consumo/{perfil_id}/recontar  → «Me quedan», stock medido hoy
+POST   /v1/personas-cuidadas/{id}/consumo/{perfil_id}/resolver  → «Ya lo resolví»
+GET    /v1/personas-cuidadas/{id}/consumo/por-acabarse          → qué se acaba pronto
+GET    /v1/personas-cuidadas/{id}/consumo/lista                 → lista de insumos, en texto (ADR-031)
+GET    /v1/personas-cuidadas/{id}/consumo/alertas
+POST   /v1/personas-cuidadas/{id}/consumo/alertas/{alerta_id}/descartar
+POST   /v1/pedidos/desde-alertas                    → borrador por comercio (ADR-024), sprint 4
 ```
+
+**Cambios respecto de la v1.1.** Las rutas cuelgan de la persona y no de `/v1/consumo/{id}` ni de `/v1/alertas` (decisión 54 del contrato de MATU-32). La tasa es una fracción entera (7.3). **No existe `POST …/lista-reposicion/exportar`** ni una ruta pública para la lista (ADR-031): la lista se lee con `GET …/consumo/lista` y el teléfono la imprime, la guarda como PDF o la comparte como texto. Leen la lista los cuatro roles de la familia, y solo admin, cuidador y pagador ven los botones para sacarla del teléfono.
 
 ### 9.4 Capa 3 · Catálogo, pedidos y pagos
 
@@ -1069,32 +1140,32 @@ GET    /v1/backoffice/indicadores
 
 ### 9.6 Ejemplo de respuesta con la capa 2 en acción
 
+`GET /v1/personas-cuidadas/{id}/consumo/lista`, con datos sintéticos:
+
 ```json
 {
-  "persona_cuidada": {"id": "3a...", "nombre": "María"},
-  "generada_en": "2026-09-15T09:00:00-03:00",
+  "fecha": "2026-11-08",
   "items": [
     {
-      "producto": "Pañal adulto talla M x30",
-      "tasa_uso": "4 por día",
-      "stock_estimado": 24,
+      "perfil_id": "3a...",
+      "nombre": "Pañal adulto talla M",
+      "unidad": "unidad",
       "dias_restantes": 6,
-      "fecha_quiebre_estimada": "2026-09-21",
-      "sugerido": {"cantidad": 2, "razon": "cubre 15 días"},
-      "estado_alerta": "notificada"
+      "unidades_sugeridas": 96,
+      "unidades_por_envase": 30,
+      "envases_sugeridos": 4
     }
-  ],
-  "acciones": ["armar_pedido", "exportar_lista", "compartir_enlace"]
+  ]
 }
 ```
 
-La clave está en `acciones`. **`exportar_lista` y `compartir_enlace` funcionan sin ningún comercio en convenio.** Es la decisión 2 de cabecera hecha contrato de API.
+**La lista no lleva el nombre de la persona cuidada, nada de la ficha ni acciones** (ADR-031). La v1.1 traía el nombre de la persona y una acción `compartir_enlace`, que salieron. La cantidad sugerida cubre 30 días y va en envases enteros cuando la familia anotó las unidades por envase. **La lista funciona sin ningún comercio en convenio**: es la decisión 2 de cabecera hecha contrato de API. El texto que sale del teléfono tampoco lleva los días que quedan, para que sea más difícil deducir el consumo diario.
 
 ---
 
 ## 10. Diseño de interacción y accesibilidad
 
-**Aquí la accesibilidad es un requisito funcional, no un acabado.** Y en esta versión, además, es la sección con más cambios de origen empírico: la validación con cuidadoras tocó directamente el diseño del flujo principal.
+**Aquí la accesibilidad es un requisito funcional, no un acabado.** Y en la v1.1, además, fue la sección con más cambios de origen empírico: la validación con cuidadoras tocó directamente el diseño del flujo principal.
 
 ### 10.1 Perfiles de usuario
 
@@ -1118,22 +1189,22 @@ La clave está en `acciones`. **`exportar_lista` y `compartir_enlace` funcionan 
 
 | Criterio | Valor obligatorio | Cómo se verifica |
 |---|---|---|
-| Área táctil mínima | 48 × 48 dp, con 8 dp de separación | Inspección en el prototipo y prueba manual |
-| Tamaño de texto base | 17 sp, escalable hasta **200%** sin pérdida de contenido ni de función | Prueba manual con el ajuste del sistema al máximo |
+| Área táctil mínima | 48 × 48 px, con 8 px de separación | Revisión visual del diseñador y prueba manual en el teléfono |
+| Tamaño de texto base | 17 px en `rem`, escalable hasta **200%** sin pérdida de contenido ni de función, y sin desplazamiento horizontal a 320 px de ancho (WCAG 1.4.4 y 1.4.10) | Prueba manual con el ajuste del navegador al máximo |
 | Contraste de texto | 4,5:1 mínimo. 3:1 para texto grande y elementos gráficos | Verificación automática en el pipeline sobre los tokens de color |
 | Identidad por color | **Nunca solo color.** Todo estado lleva ícono o etiqueta | Revisión de checklist por pantalla |
 | Lenguaje | Sin jerga técnica ni clínica. "Se acaban en 6 días", no "stock proyectado" | Revisión por el equipo, con criterio explícito |
-| **Lenguaje sobre el cuerpo** | Ningún campo obliga a escribir sobre incontinencia con ese término. Se pregunta por apoyos, no por funciones | **Criterio nuevo.** Tres de diez entrevistadas lo pidieron por dignidad de la persona cuidada |
-| Etiquetado para lector de pantalla | Todo control con etiqueta semántica, incluidos íconos | Prueba con TalkBack en el flujo principal |
+| **Lenguaje sobre el cuerpo** | Ningún campo obliga a escribir sobre el aseo ni el cuidado del cuerpo con términos clínicos. Se pregunta por apoyos, no por funciones, y los términos que no se usan están en `lenguaje.md` | **Criterio nuevo.** Tres de diez entrevistadas lo pidieron por dignidad de la persona cuidada |
+| Etiquetado para lector de pantalla | Todo control con etiqueta semántica, incluidos íconos. Con HTML el árbol de accesibilidad lo da el navegador (ADR-026) | Pruebas de interfaz con Vitest y Testing Library, y prueba con TalkBack en el flujo principal |
 | **Entrada por dictado** | Disponible en todos los campos de texto del plan | Prueba manual |
 | **Llenado asistido** | Un tercero puede completar la ficha en nombre del cuidador, con autoría registrada | RF-42, prueba de integración |
-| Objetivo de tiempo | **Ficha de relevo completa en menos de 3 minutos** por una persona de 65+ sin ayuda | Prueba con 3 usuarios reales en la semana 13 |
+| Objetivo de tiempo | **Ficha de relevo completa en menos de 3 minutos** por una persona de 65+ sin ayuda | Prueba con 3 usuarios reales en los sprints 3 y 4 |
 
 ### 10.4 Los tres momentos difíciles
 
 **a) Explicar qué se cobra y qué pasa si falta algo.** *Reescrito con el ADR-027.* Antes el problema era explicar una retención mayor que el pedido ($69.000 retenidos para cobrar $51.340). Con el cobro único del total confirmado esa retención desaparece. Lo difícil ahora es que la familia entienda, antes de pagar, que se cobra una sola vez, qué cambió respecto de su lista y qué pasa si al retirar falta un producto.
 
-> **Solución:** antes de pagar, una pantalla de resumen muestra la lista del ADR-027, punto 4, en este orden: productos con cantidad, precio y subtotal; los que salieron por no disponibles; los que cambiaron de precio o de comercio, marcados con texto y no solo con color; el envío en una línea aparte; el total con IVA; quién emite la boleta; la ventana de entrega; qué eligió la familia para cada producto si falta (RF-21); qué pasa si falta un producto; el aviso *"Derecho a retracto: tienes 10 días desde que lo recibes. No aplica si abres el sello del producto"*, con una letra no menor que la del precio; quién vende, con un canal de reclamo; y el enlace a las condiciones del pedido. Un bloque fijo dice *"Se cobra una sola vez este total, con crédito o con débito. No hay reserva ni cobros después."* y otro *"Si un producto no llega, te devolvemos su precio el mismo día, a la misma tarjeta. Cuándo lo ves en tu cuenta depende de tu banco."* El vencimiento se ve como hora: *"Este total vale hasta las 16:45. Si vence, lo volvemos a confirmar."* Hay una salida visible para no pagar, sin costo.
+> **Solución:** antes de pagar, una pantalla de resumen muestra la lista del [ADR-027, punto 4](adr/ADR-027-precios-exactos.md), en este orden: productos con cantidad, precio y subtotal; los que salieron por no disponibles; los que cambiaron de precio o de comercio, marcados con texto y no solo con color; el envío en una línea aparte; el total con IVA; quién emite la boleta; la ventana de entrega; qué eligió la familia para cada producto si falta (RF-21); qué pasa si falta un producto; el aviso *"Derecho a retracto: tienes 10 días desde que lo recibes. No aplica si abres el sello del producto"*, con una letra no menor que la del precio; quién vende, con un canal de reclamo; y el enlace a las condiciones del pedido. Un bloque fijo dice *"Se cobra una sola vez este total, con crédito o con débito. No hay reserva ni cobros después."* y otro *"Si un producto no llega, te devolvemos su precio el mismo día, a la misma tarjeta. Cuándo lo ves en tu cuenta depende de tu banco."* El vencimiento se ve como hora: *"Este total vale hasta las 16:45. Si vence, lo volvemos a confirmar."* Hay una salida visible para no pagar, sin costo.
 >
 > Si falta un producto después de pagar, la notificación dice qué faltó y cuánto se devolvió, por ejemplo *"No pudimos conseguir el producto X. Te devolvimos $8.990 a la misma tarjeta."* Si se consiguió en otro comercio, no se cobra nada más y no hace falta avisar de la diferencia.
 >
@@ -1141,9 +1212,25 @@ La clave está en `acciones`. **`exportar_lista` y `compartir_enlace` funcionan 
 
 **b) Llenar el plan de cuidado sin abandonar.** Era el riesgo de producto más grande del diseño y **la validación lo confirmó**: con ocho preguntas, solo tres de diez entrevistadas respondieron tres de ellas en menos de cinco minutos, cuando el criterio fijado exigía siete. Una rechazó responder y una abandonó en la segunda pregunta.
 
-> **Solución, tras el ADR-023:** la versión mínima obligatoria es una ficha de tres campos que se responde en menos de tres minutos. Las ocho secciones quedan como ampliación opcional, con dictado por voz en todos los campos y una barra de completitud que celebra el avance sin castigar lo que falta. El acceso de relevo se genera con la ficha sola. Y se agrega el **llenado asistido** (RF-42), porque la entrevistada que abandonó no lo hizo por falta de disposición sino por el teclado del teléfono, y pidió ella misma que se lo leyeran y alguien escribiera.
+> **Solución, tras el ADR-023:** la versión mínima obligatoria es una ficha de tres campos que se responde en menos de tres minutos. Las secciones complementarias del ADR-028 quedan como ampliación opcional, con dictado por voz en todos los campos y una barra de completitud que celebra el avance sin castigar lo que falta. El acceso de relevo se genera con la ficha sola. Y se agrega el **llenado asistido** (RF-42), porque la entrevistada que abandonó no lo hizo por falta de disposición sino por el teclado del teléfono, y pidió ella misma que se lo leyeran y alguien escribiera.
 >
 > Dos hallazgos entran directamente a la redacción: el segundo campo se llama **"Si se altera"** y su pregunta guía es **"¿qué la calma?"**, en vez de "manejo de situaciones difíciles", porque es la expresión que usaron tres entrevistadas por su cuenta, y la rutina admite responder por el día bueno o el día malo, porque una entrevistada se trabó exactamente ahí.
+>
+> **Las preguntas guía** (ADR-023 y ADR-028, actualización del 3 de noviembre). Los nombres y las preguntas no asumen el género de la persona cuidada. Los textos definitivos, con un ejemplo por sección, están en `lenguaje.md`:
+>
+> | Campo o sección | Pregunta guía |
+> |---|---|
+> | Su día | ¿Cómo es un día normal, en una o dos líneas? |
+> | Si se altera | ¿Qué la calma cuando se angustia o se desorienta? |
+> | A quién llamar | ¿A quién se llama si algo pasa? |
+> | Quién es | ¿Qué le gustaría que supiera de esta persona alguien que recién la conoce? |
+> | Lo que le hace bien | ¿Qué le alegra, le entretiene o le calma? |
+> | Comer y beber | ¿Qué le gusta comer y cómo se le sirve? |
+> | Moverse y descansar | ¿Cómo se le ayuda a moverse, levantarse y descansar? |
+> | Cómo hablarle | ¿Qué ayuda a que se entiendan? |
+> | Sus remedios | ¿Qué remedios toma y a qué hora, tal como se los da la familia? |
+>
+> Bajo cada sección va «No hace falta escribir diagnósticos ni enfermedades. Escribe lo que ayuda a cuidar». Sus remedios es solo texto libre, de hasta 800 caracteres (las demás, 500), con el aviso siempre visible «Esto lo escribe la familia. No reemplaza la indicación del médico». La página del relevo no muestra las preguntas guía ni los ejemplos.
 
 **c) Presentar la auditoría de accesos sin que parezca vigilancia.** Cinco de diez entrevistadas declararon que no mirarían nunca la pantalla de "quién ha visto el plan". Dos la valoran, y por razones opuestas: una como termómetro de involucramiento familiar, la cuidadora remunerada como respaldo laboral.
 
@@ -1154,15 +1241,15 @@ La clave está en `acciones`. **`exportar_lista` y `compartir_enlace` funcionan 
 El prototipo navegable de los flujos críticos está terminado y cubre:
 
 0. Alta de persona cuidada y consentimiento
-1. Ficha de relevo, secciones opcionales, acceso de relevo, vista del relevo, auditoría y revocación
+1. Ficha de relevo, secciones opcionales (las ocho de la v1.1, antes del ADR-028), acceso de relevo, vista del relevo, auditoría y revocación
 2. Declaración de consumo, alerta de quiebre y lista de reposición
 3. Pedido y pago
 4. Vista de comercio
 5. Errores y casos borde
 
-En total **32 pantallas en siete recorridos**. Se usó como instrumento en las diez entrevistas de validación, lo que permitió medir conducta y no opinión: la prueba cronometrada del plan de cuidado se hizo sobre él.
+En total **32 pantallas en siete recorridos**. Se usó como instrumento en las diez entrevistas de validación, lo que permitió medir lo que las personas hacían y no su opinión: la prueba cronometrada del plan de cuidado se hizo sobre él.
 
-**Validación de usabilidad pendiente:** tres usuarios reales, de tres perfiles distintos, en la semana 13. No es investigación de mercado, es prueba de usabilidad, y con tres personas se detecta la mayoría de los problemas graves.
+**Validación de usabilidad:** tres usuarios reales, de tres perfiles distintos, por ronda, en los sprints 3 y 4 del calendario v1.3 (estrategia de pruebas, sección 2). La dirige Martín (ADR-030). No es investigación de mercado, es prueba de usabilidad, y con tres personas se detecta la mayoría de los problemas graves.
 
 ### 10.6 Un perfil que la validación descubrió
 
@@ -1189,7 +1276,7 @@ MATU trata datos que la ley clasifica como sensibles: estado de salud y condici�
 | Finalidad limitada y minimización | Proyecciones por rol. El comercio recibe un DTO distinto, no el objeto completo con campos ocultos en la interfaz |
 | Medidas proporcionales al riesgo | Sobre-cifrado por sección, MFA para operación, URLs firmadas de vida corta, cifrado de volumen |
 | Notificación de brecha **sin dilación indebida** | La ley chilena exige notificar sin dilación indebida a la Agencia y a los titulares. **El plazo de 72 horas proviene del RGPD europeo**, y se adopta como objetivo interno, no como cifra legal chilena. Requiere **detectar**: registro de acceso a datos sensibles con alerta ante patrones anómalos |
-| Derechos de acceso, rectificación y supresión | Endpoints de exportación y borrado por titular, con borrado lógico que respeta obligaciones contables sobre pagos |
+| Derechos de acceso, rectificación y supresión | «Mis datos» (MATU-54, sprint 5) entrega a quien corresponde todo lo que MATU guarda de la persona, incluida la ficha, que no se exporta de otra forma (ADR-029). Retirar la autorización (MATU-44) corta los accesos de relevo y destruye la ficha a los 90 días. Borrado lógico que respeta obligaciones contables sobre pagos |
 | Encargados de tratamiento | Los proveedores de infraestructura y quien despacha son encargados de MATU, con contrato según el art. 15 bis. El comercio en convenio recibe solo productos, cantidades y una referencia aleatoria por pedido; se puede sostener que no trata datos personales, y aun así MATU lo trata como si fuera encargado y su convenio lleva siempre las cláusulas del art. 15 bis, sea o no la referencia un dato personal para él (decisión de Jorge, 27-10). |
 
 ### 11.2 Modelo de autorización
@@ -1220,7 +1307,7 @@ Tres dimensiones, evaluadas siempre en este orden: **quién es** (JWT válido y 
 
 Guardar "demencia tipo Alzheimer, etapa moderada" no cambiaría ni un pañal del catálogo, pero convertiría la base de datos en un repositorio clínico con las obligaciones correspondientes. **El diagnóstico es del sistema de salud, no de una plataforma de continuidad del cuidado.**
 
-Lo mismo aplica al plan de cuidado: sus secciones describen **conducta y manejo**, no patología. "Se altera cuando hay ruido fuerte, ayuda bajar las persianas" es información de cuidado. "Demencia frontotemporal con desinhibición" es información clínica y no entra al sistema.
+Lo mismo aplica al plan de cuidado: sus secciones describen **cómo se cuida y qué ayuda**, no patología. "Se altera cuando hay ruido fuerte, ayuda bajar las persianas" es información de cuidado. "Demencia frontotemporal con desinhibición" es información clínica y no entra al sistema.
 
 **El mismo criterio gobernó el protocolo de entrevistas**, que prohibió anotar diagnósticos y datos identificatorios de la persona cuidada. Que la investigación y el producto compartan la regla de minimización no es casualidad: es la misma decisión aplicada dos veces.
 
@@ -1238,7 +1325,9 @@ graph LR
 
 **Por qué dos niveles.** Rotar la clave maestra no obliga a redescifrar y recifrar todo el contenido, solo las claves de datos, que son pocas y pequeñas. Y borrar los datos de una persona cuidada se reduce a destruir su clave de datos, lo cual es borrado criptográfico inmediato y verificable.
 
-**Dónde vive la clave maestra.** El ADR-016 lo cierra: en el servicio de custodia de secretos del proveedor de nube, no en el servidor de aplicación. Si el despliegue del piloto termina siendo un VPS único sin ese servicio disponible, **la limitación se declara explícitamente** en el informe: la clave estaría en variable de entorno en el mismo servidor, quien accede al servidor accede a todo, y el piloto no debe operar con datos reales de terceros hasta migrar.
+**Dónde vive la clave maestra.** El ADR-016 lo cierra: en el servicio de custodia de secretos del proveedor de nube, no en el servidor de aplicación. Si el despliegue del piloto termina siendo un servidor sin ese servicio disponible, **la limitación se declara explícitamente** en el informe: la clave estaría en variable de entorno en el mismo servidor, quien accede al servidor accede a todo, y el piloto no debe operar con datos reales de terceros hasta migrar.
+
+**Decisión del 28 de octubre (Jorge Espinoza, MATU-12): en el semestre se toma ese camino, declarado.** Mientras se usen solo datos sintéticos, la clave maestra se lee de una variable de entorno, con un adaptador del puerto `CustodiaClaves` que se enciende de forma explícita y solo se construye en los entornos `local` y `pruebas`. Con `produccion` la API no arranca, y sin la custodia configurada las rutas de la ficha responden 503 y fallan cerradas: nunca se genera una clave al arrancar. La clave no aparece en los errores, en los logs ni en el repositorio, y al arrancar la API registra un aviso fijo de que solo admite datos sintéticos. Las claves de datos se envuelven con AES Key Wrap (RFC 3394). **Antes de operar con datos reales se reemplaza por el servicio de custodia, sin tocar el cifrado**, porque está detrás del puerto. Las condiciones completas, que fijó el analista normativo, están en la decisión 32 de `docs/api/README.md` de MATU_PROYECTO.
 
 ### 11.5 Quién consiente por una persona con demencia
 
@@ -1265,17 +1354,17 @@ Esta es la pregunta jurídica central del proyecto.
 | Transporte | TLS 1.3 y HSTS. **Sin certificate pinning en el piloto**: con renovación automática de certificados, fijar el certificado hoja inhabilita todas las instalaciones publicadas cada 60 días |
 | Autenticación | Argon2id, access token de 15 min, refresh rotativo con detección de reutilización, MFA obligatorio para operación. **La revocación de un access token es efectiva en 15 minutos por caducidad**, no de forma inmediata: un JWT autocontenido no se revoca. Se acepta y se declara |
 | API | Rate limiting por IP y por usuario, validación estricta con Pydantic, CORS restringido, proyecciones por rol. **La IP no se guarda.** El contador de intentos del relevo (MATU-25) vive en Redis. Su clave es una huella HMAC de la IP, con un secreto de `.env`, y vence a la hora. La IP en claro no llega a la base, a la auditoría ni a los logs |
-| Base de datos | RLS forzado en toda tabla de negocio, con las dos excepciones de la sección 7.7 acotadas por permiso, usuario de aplicación sin `SUPERUSER`, `auditoria` sin UPDATE ni DELETE, cifrado de volumen |
+| Base de datos | RLS forzado en toda tabla de negocio, con las excepciones de la sección 7.7 acotadas por permiso, usuario de aplicación sin `SUPERUSER`, `auditoria` sin UPDATE ni DELETE, cifrado de volumen |
 | Datos sensibles | Sobre-cifrado por sección, borrado criptográfico, sin plan de cuidado en ningún registro de log |
 | Archivos | Bucket privado, URL firmada de 5 minutos para lectura y 15 para subida, sin CDN público, hash SHA-256 de cada evidencia |
 | Acceso de relevo | Token de **uso múltiple hasta vencer** más **PIN de cuatro dígitos**, alcance por campo, revocación inmediata, cada apertura auditada. **La API no envía el PIN**: lo muestra una sola vez a quien comparte, que se lo dicta al relevo. El envío por SMS es *Debería* y está fuera del semestre. El enlace es `/r#<token>`, con el token en el fragmento, y se canjea con el PIN por una cookie de sesión efímera en un paso, para que el token no quede en el historial de un teléfono prestado. La página limpia el fragmento con `history.replaceState` después del canje |
 | Secretos | Variables inyectadas, nunca en el repositorio, escaneo de secretos en el pipeline |
-| Aplicación móvil | Sin datos sensibles en el dispositivo, tokens en el keystore del sistema, bloqueo de captura de pantalla en la vista del plan de cuidado |
+| Aplicación web | Nada de la ficha, del consentimiento ni de la persona cuidada en `localStorage`, `sessionStorage` ni en la URL. El access token vive solo en memoria y el refresh en una cookie `HttpOnly`, `Secure` y `SameSite=Strict`. Sin scripts de terceros ni analítica. En la página del relevo, el token viaja en el fragmento y se limpia después del canje. **El navegador no permite bloquear la captura de pantalla**, que la v1.1 preveía para la app nativa: se acepta y lo dice el aviso a quien comparte |
 | Registro | Logs estructurados en JSON, sin datos personales en el mensaje y sin IP, correlación por `request_id` |
 
 ### 11.7 Control de fraude sobre la cuenta del comercio
 
-> **Cambia de sentido con el ADR-027.** Antes, el monto de la boleta del comercio contra el precio pagado medía si el comercio se desviaba del tope autorizado. Con precio exacto y reasignación a otro comercio, esa comparación ya no mide al comercio: la familia pagó un precio fijo, y si MATU retiró en otro comercio a otro precio, la diferencia es un costo de MATU, no una desviación. [PENDIENTE: el tope y la conciliación se rediseñan junto con la migración 0002 y el convenio.]
+> **Cambia de sentido con el ADR-027.** Antes, el monto de la boleta del comercio contra el precio pagado medía si el comercio se desviaba del tope autorizado. Con precio exacto y reasignación a otro comercio, esa comparación ya no mide al comercio: la familia pagó un precio fijo, y si MATU retiró en otro comercio a otro precio, la diferencia es un costo de MATU, no una desviación. [PENDIENTE: el tope y la conciliación se rediseñan con el convenio. La migración 0002 no los tocó (7.4).]
 
 | Control | Implementación |
 |---|---|
@@ -1298,7 +1387,7 @@ Que la incidencia **no bloquee la entrega** es deliberado: la familia está espe
 | Perfil de consumo | Igual que el plan de cuidado | Deriva de él |
 | Auditoría de acceso | 3 años | Capacidad de acreditar cumplimiento |
 | Acceso de relevo: nombre del relevo, motivo y fechas | 3 años desde que el acceso vence o se revoca, igual que la auditoría | Identifica a quién se entregó la ficha (decisión 25 del contrato de MATU-09) |
-| Teléfono del relevo | 30 días desde que el acceso vence o se revoca | Solo sirve mientras el acceso está vigente (decisión 25). [PENDIENTE: una migración quita el `NOT NULL` de `acceso_relevo.otorgado_a_telefono`, y una tarea lo borra al cumplirse el plazo. Las hace la historia que implemente la conservación] |
+| Teléfono del relevo | 30 días desde que el acceso vence o se revoca | Solo sirve mientras el acceso está vigente (decisión 25). [PENDIENTE: una migración quita el `NOT NULL` de `acceso_relevo.otorgado_a_telefono`, y una tarea lo borra al cumplirse el plazo. Ninguna migración hasta la 0017 lo hace. Las hace la historia que implemente esa conservación] |
 
 **Si se borra a la persona cuidada**, su nombre de pila copiado en `acceso_relevo.nombre_pila_persona` se anonimiza (decisión 26). Lo hace la historia de borrado.
 
@@ -1329,10 +1418,12 @@ Toda dependencia externa entra por un **puerto** definido en `application/ports.
 | **Unitarias de dominio** | Reglas puras: cálculo de quiebre, prorrateo, transiciones de estado | pytest, sin base de datos | Cada push, < 10 s | **85% en `app/modules/*/domain` y `app/shared`** |
 | **Integración** | Repositorios, RLS, migraciones, transacciones | pytest + PostgreSQL en contenedor | Cada push, < 3 min | 70% en `application/` |
 | **Contrato de API** | Que el esquema generado por el código **no rompa** el contrato versionado en `docs/api/openapi.json` | comparación del generado contra el versionado, más schemathesis | Cada push | 100% de endpoints |
-| **Extremo a extremo** | Los seis recorridos críticos | pytest + cliente HTTP + dobles | Cada push | Los 6, siempre verdes |
-| **Interfaz** | Widgets críticos y accesibilidad básica | flutter test | Cada push de móvil | Los flujos del prototipo |
+| **Extremo a extremo** | Los seis recorridos críticos del objetivo específico 7, que se fijan en MATU-64 | pytest + cliente HTTP + dobles | Cada push | Los 6, siempre verdes |
+| **Interfaz web** | Componentes críticos: semántica, foco, errores de campo y textos de `lenguaje.md` (ADR-026) | Vitest y Testing Library sobre jsdom, en `web/` | Cada push, en el trabajo `web` del CI | Cada corrección de pantalla deja una prueba que falla sin ella |
 | **Manual con pasarela real** | Venta normal con crédito y con débito, anulación parcial con los dos, retorno duplicado (ADR-027) | Guion escrito, ambiente de integración | Antes del sprint 4 y en el sprint 4 | 4 casos |
-| **Usabilidad** | 3 usuarios reales, de tres perfiles distintos | Guion de tareas | Semana 13 | 3 sesiones |
+| **Usabilidad** | 3 usuarios reales, de tres perfiles distintos | Guion de tareas | Sprints 3 y 4 | 3 sesiones por ronda |
+
+**La estrategia de pruebas v1.2 manda en el detalle** ([`estrategia-pruebas.md`](estrategia-pruebas.md), 5 de noviembre). Esta tabla la resume, y desde la v1.2 coinciden en el nivel de interfaz: Vitest y Testing Library sobre la aplicación web, en vez de `flutter test`.
 
 **Sobre la cobertura.** La meta es 85% en `domain/` y 70% en `application/`, y **ninguna meta en `infrastructure/`**. Una meta global de 70% se cumple probando adaptadores triviales y dejando sin probar la regla de cálculo de quiebre.
 
@@ -1414,37 +1505,33 @@ Una historia está terminada cuando, y solo cuando:
 2. Tiene al menos una prueba de integración del camino feliz y una del principal camino de error.
 3. El pipeline pasa completo, incluidas las pruebas de arquitectura y de aislamiento.
 4. Si toca una pantalla, cumple los criterios de accesibilidad de la sección 10.3.
-5. Si toca dinero o datos sensibles, la revisa la otra persona del equipo. **Sin excepción.**
+5. Si toca dinero o datos sensibles, la revisa la otra persona del equipo. **Sin excepción.** Con el ADR-030, esa persona es Martín.
+6. Si corrige un defecto, deja una prueba que falla sin la corrección (estrategia de pruebas v1.2, sección 12).
 
 ### 12.7 Integración continua
 
 ```yaml
-# .github/workflows/ci.yml (esquema)
+# .github/workflows/ci.yml de MATU_PROYECTO, tal como corre al 7 de noviembre
 on: [push, pull_request]
 jobs:
-  calidad:
-    - ruff check + ruff format --check
-    - mypy app/
-    - pytest tests/unit --cov=app/modules --cov=app/shared --cov-fail-under=85
-    - pytest tests/integration --cov=app/modules --cov-fail-under=70
-    - openapi-diff docs/api/openapi.json <(python -m app.exportar_openapi)
-    - pytest tests/test_arquitectura.py       # regla de dependencias
-    - pytest tests/test_aislamiento.py        # RLS entre grupos y en workers
-    - pytest tests/test_capa3_desacoplable.py # arranca sin la capa 3
-    - schemathesis run openapi.json
-    - detect-secrets scan
-  migraciones:
-    - alembic upgrade head sobre base efímera
-    - alembic downgrade -1 y upgrade de vuelta   # reversibilidad
-  build:
-    - docker build api, worker
-  deploy:
-    - solo en main, tras aprobación
-    - migración antes del cambio de imagen
-    - healthcheck posterior, rollback automático si falla
+  backend:                      # con PostgreSQL 16 y Redis 7 como servicios
+    - ruff check .
+    - mypy .
+    - detect-secrets-hook --baseline .secrets.baseline
+    - roles y base con infra/postgres/init/10_matu.sh
+    - alembic upgrade head, downgrade -1 y upgrade head   # reversibilidad
+    - pytest      # incluye test_arquitectura, test_aislamiento, test_capa3_desacoplable,
+                  # test_conexion_app, test_migraciones y test_cadena_migraciones
+  web:
+    - npm run typecheck
+    - npm test                  # Vitest y Testing Library
+    - npm run build
+    - el contrato tipado de web/ coincide con docs/api/openapi.json
 ```
 
-La prueba `test_capa3_desacoplable.py` merece mención aparte: debe **arrancar la aplicación con los routers de la capa 3 desactivados y verificar que los flujos de las capas 1 y 2 responden.** Es la garantía ejecutable de la decisión 2 de cabecera. Es entregable del sprint 3.
+**Lo que el esquema de la v1.1 tenía y todavía no corre.** Las metas de cobertura con `--cov-fail-under`, la comparación del contrato con openapi-diff y schemathesis. Tampoco corre `pip-audit`, que pide la estrategia de pruebas. En su lugar, cada módulo tiene pruebas de contrato que fallan si una ruta cambia sin volver a exportar `openapi.json`. El despliegue no lo hace el CI: Railway construye la imagen y corre `alembic upgrade head` antes de cada despliegue, con la revisión de salud en `/v1/salud` (sección 13). [PENDIENTE: las puertas de cobertura, openapi-diff, schemathesis y pip-audit de la estrategia de pruebas, sección 8.]
+
+La prueba `test_capa3_desacoplable.py` merece mención aparte: debe **arrancar la aplicación con los routers de la capa 3 desactivados y verificar que los flujos de las capas 1 y 2 responden.** Es la garantía ejecutable de la decisión 2 de cabecera. El backlog la movió del sprint en que la pedía la v1.1 al sprint 3 del calendario v1.3, por capacidad, y se entregó ahí (MATU-40).
 
 ### 12.8 Cinco defectos que el modelo de aislamiento tenía y no se veían
 
@@ -1467,11 +1554,10 @@ Los cinco están corregidos y cada uno queda comprometido como prueba de regresi
 ```mermaid
 graph TB
     subgraph "Clientes"
-        MOB["Aplicación móvil"]
-        WEB["Backoffice, vista de comercio<br/>y vista de relevo"]
+        WEB["Cliente web en el navegador<br/>familia, relevo, comercio<br/>y backoffice"]
     end
     subgraph "Nodo de aplicación"
-        CAD["Caddy · TLS · rate limit"]
+        CAD["Borde HTTPS de la plataforma"]
         C1["contenedor api"]
         C2["contenedor worker"]
         C3["contenedor publicador + scheduler"]
@@ -1487,7 +1573,6 @@ graph TB
         LOG["Logs estructurados"]
         UP["Healthcheck externo"]
     end
-    MOB --> CAD
     WEB --> CAD
     CAD --> C1
     C1 --> PG
@@ -1516,7 +1601,7 @@ Kubernetes queda descartado: consume sprints y no agrega puntos en la defensa.
 | **Demostración** | **Entorno dedicado con catálogo semilla, comercio simulado y guion de recorrido** | Sintéticos verosímiles |
 | Producción | Fuera del alcance del semestre. Requiere persona jurídica. Ver 16.6 | — |
 
-**El entorno de demostración es entregable del sprint 6, en la semana 13, no del último.** En un proyecto cuyo mayor riesgo externo es no conseguir convenio, el entorno de demostración es también el plan de contingencia de la defensa.
+**El staging con HTTPS se construyó en el sprint 3 (MATU-25)** en Railway, la plataforma gestionada que eligió Martín (ADR-019), y es donde se hace la prueba en el teléfono. **El entorno de demostración es entregable del sprint 5 del calendario v1.3**, con el guion listo el 16 de noviembre. En un proyecto cuyo mayor riesgo externo es no conseguir convenio, el entorno de demostración es también el plan de contingencia de la defensa.
 
 **El catálogo semilla se arma con los productos que reportaron las entrevistadas**, y no con una lista inventada: pañales de adulto, toallitas húmedas, protectores diarios, crema para escaras, suplemento nutricional y bolsas de ostomía. Los seis salieron de quiebres reales relatados en el piloto.
 
@@ -1527,7 +1612,7 @@ Kubernetes queda descartado: consume sprints y no agrega puntos en la defensa.
 - `/health` que verifica base de datos, Redis, almacenamiento y custodia de claves, consultado por un monitor externo.
 - **Cuatro indicadores de negocio** en el backoffice, que son los que se muestran en la defensa: pedidos por estado, **alertas de quiebre generadas y convertidas en pedido**, tiempo medio de entrega y **completitud media de la ficha de relevo**.
 
-Los dos indicadores en negrita son los que miden si el producto funciona como producto y no solo como software. El segundo cambió de métrica en esta versión: mide la ficha, que es lo obligatorio, y no el plan completo.
+Los dos indicadores en negrita son los que miden si el producto funciona como producto y no solo como software. El segundo cambió de métrica en la v1.1: mide la ficha, que es lo obligatorio, y no el plan completo.
 
 ---
 
@@ -1540,7 +1625,7 @@ Los dos indicadores en negrita son los que miden si el producto funciona como pr
 **Decisión.** Reestructurar en tres capas con dependencia estrictamente descendente. Capa 1, el plan de cuidado, es el núcleo. Capa 2, el perfil de consumo y la predicción de quiebre, deriva de la capa 1. Capa 3, el despacho, deriva de la capa 2 y es desacoplable.
 
 **Consecuencias.**
-- El diferenciador se construye desde el sprint 2 y queda demostrable de punta a punta en el sprint 3.
+- El diferenciador se construye desde el sprint 2 y queda demostrable de punta a punta en el sprint 3 de la v1.1. Con el calendario v1.3, la ficha y el relevo quedaron de punta a punta en el sprint 2, al 29 de octubre (objetivo específico 3).
 - La pregunta "¿esto no lo hace Cornershop?" tiene respuesta estructural: un despacho genérico no sabe cuánto consume la persona cuidada.
 - El cumplimiento de la Ley 21.719 pasa de importante a estructural, porque el núcleo del producto es dato sensible.
 - El cuidador principal reemplaza al familiar pagador como usuario central.
@@ -1601,7 +1686,7 @@ Los dos indicadores en negrita son los que miden si el producto funciona como pr
 
 **Sobre accesibilidad, con corrección respecto del diseño anterior.** Renderizar canvas propio significa que la aplicación **no hereda** el árbol de accesibilidad nativo y debe reconstruirlo mediante una capa de semántica. Flutter lo resuelve bien, pero es trabajo explícito, no una ventaja gratuita. Los criterios de la sección 10.3 hay que implementarlos y probarlos a mano.
 
-**Nota de alcance.** Con la app de repartidor fuera del alcance comprometido, la razón principal de este ADR queda sin ejercitarse en el semestre. Se mantiene la decisión porque el `core` compartido ya está diseñado y porque cambiar de stack ahora costaría más que sostenerlo, pero se declara: **si el proyecto continuara sin app de repartidor, React Native sería la elección correcta.**
+**Nota de alcance (histórica, anterior al ADR-026).** Con la app de repartidor fuera del alcance comprometido, la razón principal de este ADR queda sin ejercitarse en el semestre. En ese momento se mantuvo la decisión porque el `core` compartido ya está diseñado y porque cambiar de stack ahora costaría más que sostenerlo, pero se declara: **si el proyecto continuara sin app de repartidor, React Native sería la elección correcta.**
 
 ---
 
@@ -1615,7 +1700,7 @@ Los dos indicadores en negrita son los que miden si el producto funciona como pr
 
 **Consecuencias.** El cliente ve una retención mayor durante algunas horas, lo que exige la comunicación de la sección 10.4. Se elimina el reembolso como operación rutinaria. Si el monto real excede lo autorizado, **se captura solo hasta el tope**.
 
-**Riesgo declarado.** Depende de que la captura parcial y la reversa se comporten como documenta el proveedor, y de que operen sobre el medio de pago del segmento. Se verifica en el **sprint 0, semana 7**. Si el débito no lo admite, el plan B es cobrar el estimado y emitir nota de crédito.
+**Riesgo declarado.** Depende de que la captura parcial y la reversa se comporten como documenta el proveedor, y de que operen sobre el medio de pago del segmento. Se verifica en el **sprint 0, semana 7**. Si el débito no lo admite, el plan B es cobrar el estimado y emitir nota de crédito. El riesgo se materializó: la captura diferida no admite débito (sección 18.1), y por eso el ADR-027 reemplaza a este ADR.
 
 ---
 
@@ -1623,7 +1708,7 @@ Los dos indicadores en negrita son los que miden si el producto funciona como pr
 
 **Contexto.** El documento conceptual pide dividir el gasto entre familiares. **Ninguna pasarela chilena divide un cobro entre pagadores distintos**, de modo que había que orquestarlo: autorizaciones independientes, plazo de recaudación, redistribución sobre un respaldo y captura prorrateada por resto mayor. El diseño completo está en la sección 8.3 y es correcto.
 
-**Decisión, revisada en esta versión: el reparto multi-pagador sale del alcance comprometido del semestre y pasa a la fase 2.** RF-22, RF-23 y RF-24 bajan a *Podría*. RF-25 se mantiene sin prorrateo.
+**Decisión, revisada en la v1.1: el reparto multi-pagador sale del alcance comprometido del semestre y pasa a la fase 2.** RF-22, RF-23 y RF-24 bajan a *Podría*. RF-25 se mantiene sin prorrateo.
 
 **Por qué cambió, y son dos razones que se refuerzan.**
 
@@ -1801,13 +1886,15 @@ Existía en el diseño anterior sobre la publicación exclusiva en Android. Se r
 
 ### ADR-023 · Modo ficha de relevo · **ACTIVADO**
 
+> **Cerrado** en [`adr/ADR-023-cierre.md`](adr/ADR-023-cierre.md), con la evidencia por entrevista. **Complementado por el ADR-028** (31 de octubre): la ficha de tres campos sigue siendo lo único obligatorio, y las secciones opcionales vuelven al semestre con otra lista.
+
 **Contexto.** El riesgo de mayor criticidad del proyecto era que un cuidador agotado no completara el plan de cuidado. Este ADR se escribió como plan B **antes** de entrevistar, para no tener que rediseñar bajo presión si la hipótesis caía.
 
 **Estado: activado en septiembre de 2026**, tras la refutación de H1. No es una decisión tomada bajo presión: es la ejecución de una decisión escrita con anticipación, que es exactamente para lo que se escribió.
 
 **Decisión.** La versión mínima obligatoria de la capa 1 es una **ficha de relevo de tres campos**: la rutina en una línea, qué hacer si la persona se altera y a quién llamar. Las ocho secciones pasan a ser ampliación opcional y ningún flujo del sistema exige el plan completo. El peso del producto se traslada a la capa 2, que no depende de texto largo porque el perfil de consumo son dos números por producto.
 
-**Qué NO cambia, y por eso el plan B funciona.** El modelo de datos casi no se toca: la ficha son tres de los ocho tipos de sección que `plan_seccion` ya contempla, y solo se agrega la columna `plan_cuidado.modo`. El cifrado por sección, el acceso de relevo con token, la auditoría y la exportación operan igual. El ADR-001 y el ADR-002 quedan intactos. **El costo de la activación es menor a un sprint.**
+**Qué NO cambia, y por eso el plan B funciona.** El modelo de datos casi no se toca: la ficha son tres de los ocho tipos de sección que `plan_seccion` ya contempla, y solo se agrega la columna `plan_cuidado.modo`. El cifrado por sección, el acceso de relevo con token y la auditoría operan igual. El ADR-001 y el ADR-002 quedan intactos. **El costo de la activación es menor a un sprint.**
 
 **Qué se agrega.** RF-42, llenado asistido por un tercero, porque el único abandono del piloto fue por manejo del teléfono y por no tener la información, no por falta de disposición. La entrevistada lo pidió ella misma: que se lo leyeran y alguien escribiera.
 
@@ -1818,6 +1905,8 @@ Existía en el diseño anterior sobre la publicación exclusiva en Android. Se r
 ---
 
 ### ADR-024 · Un pedido por comercio, y las alertas se consolidan
+
+> **Ajustado por el ADR-027** (26 de octubre): un pedido de la familia puede abastecerse en más de un comercio, con un solo cobro y un solo envío. El registro por comercio se mantiene para preparar y liquidar.
 
 **Contexto.** Con un costo de última milla de $3.500 por entrega, un pedido por producto destruye la unidad económica. Y `pedido` tiene un solo `comercio_id`, mientras la lista de reposición puede abarcar productos de dos comercios distintos.
 
@@ -1837,81 +1926,69 @@ Existía en el diseño anterior sobre la publicación exclusiva en Android. Se r
 
 ### ADR-026 · La aplicación de la familia es web, mobile first
 
-**Estado.** Aceptado el 14 de octubre de 2026, por sugerencia del profesor guía. **Reemplaza al ADR-005 durante el semestre.** El texto completo está en [`adr/ADR-026-aplicacion-web.md`](adr/ADR-026-aplicacion-web.md), con la lista de las secciones de este documento que cambian en la v1.2.
+**Estado.** Aceptado el 14 de octubre de 2026, por sugerencia del profesor guía. **Reemplaza al ADR-005 durante el semestre.** El texto completo está en [`adr/ADR-026-aplicacion-web.md`](adr/ADR-026-aplicacion-web.md). Su tabla de consecuencias se aplicó en la v1.2: secciones 1, 6.1, 6.2, 10.3, 11.6, 12.2, 13.1, 15, 17 y anexo 19.1.
+
+**Decisión.** En el semestre la aplicación de la familia se construye como aplicación web mobile first, en el mismo cliente web que la página del relevo: React 19 con TypeScript sobre Vite, Tailwind CSS v4 con los tokens del sistema de diseño, iconos de `lucide-react`, un cliente HTTP tipado desde el contrato OpenAPI y la API sirviendo la aplicación desde el mismo origen. **MATU sigue siendo una app móvil en su visión**: la web corre en el navegador del teléfono sin instalar nada, y la app nativa se decide después del semestre.
+
+**Consecuencias.** El push web en iPhone exige agregar MATU a la pantalla de inicio, así que el correo es el canal garantizado de los avisos. El dictado lo da el teclado del teléfono. No hay tiendas de aplicaciones ni cuentas de desarrollador.
 
 ---
 
 ### ADR-027 · Precios exactos de comercios en convenio, y se cobra el total confirmado
 
-**Estado.** **Aprobado** por Jorge Espinoza (Product Owner) el 26 de octubre de 2026, con las observaciones de la revisión previa del analista normativo (`legal/revision-previa-adr-027.md`). **Reemplaza al ADR-006 y al ADR-011.** Lo que queda marcado [PENDIENTE] o en consulta legal se resuelve antes de cobrar dinero real. El ADR-026 (aplicación web) está en `adr/ADR-026-aplicacion-web.md`.
+**Estado.** **Aprobado** por Jorge Espinoza (Product Owner) el 26 de octubre de 2026, con la revisión previa del analista normativo. **Reemplaza al ADR-006 y al ADR-011.** Texto completo, con sus seis puntos, en [`adr/ADR-027-precios-exactos.md`](adr/ADR-027-precios-exactos.md).
 
-**Contexto.** El ADR-006 resolvía un precio que no se conocía hasta que el comercio preparaba. Se autorizaba el estimado con un margen del 15% y se capturaba el monto real. La prueba de concepto (`pruebas-concepto/transbank.md`) mostró el costo de ese diseño:
-- la captura diferida opera solo con crédito, y el débito es el medio mayoritario del segmento;
-- el plan B del débito obligó a cobrar el estimado y a devolver diferencias, con un medio y un plazo que siguen sin definir;
-- explicar una retención mayor que el pedido (sección 10.4) es difícil para una familia cansada, y lo observó el análisis normativo de la Ley 19.496.
+**Decisión.** El catálogo muestra precios exactos con IVA de comercios en convenio, detrás del puerto `CatalogoComercio`, con un adaptador simulado en el semestre. Antes de cobrar se confirma el stock, y el total confirmado vale 15 minutos. Se cobra una sola vez el total exacto, productos más un envío único, en venta normal de Webpay Plus, con crédito y débito iguales. **Antes de pagar la familia ve la lista del punto 4** (productos, los que salieron, envío y total, quién emite la boleta, ventana de entrega y qué pasa si falta un producto). Si un producto apartado falta al retirar, se busca el mismo en otro comercio, con la diferencia a cargo de MATU, o se devuelve su precio por anulación a la misma tarjeta. Nunca otra marca.
 
-**Decisión.**
-1. **Precios exactos.** El catálogo muestra precios exactos de comercios preestablecidos en convenio, con IVA incluido y con su stock. El costo del envío se ve desde la lista de reposición. El precio queda fijo cuando la familia paga el total confirmado.
-2. **La lista de reposición tiene tres salidas:**
-   - exportarla y comprar libremente;
-   - enviarla a un miembro del grupo, o compartirla desde el teléfono de la familia;
-   - pedir desde MATU al precio exacto más el envío.
+**Por qué.** La prueba de concepto de Transbank mostró que la captura diferida del ADR-006 opera solo con crédito, y el débito es el medio mayoritario del segmento. Una retención mayor que el pedido además es difícil de explicar a una familia cansada.
 
-   Las dos primeras son gratuitas y no dependen de la capa 3 (ADR-002).
-3. **Antes de cobrar se confirma el stock.**
-   - MATU consulta el stock de los comercios en convenio. Si el comercio elegido no tiene un producto, lo busca en otro comercio en convenio. Si ninguno lo tiene, el producto sale del pedido.
-   - **La consulta de stock lleva solo productos y cantidades**, con una referencia opaca para apartar. No lleva datos de la familia, de la persona cuidada ni de la dirección. Una prueba sobre el objeto de la consulta lo verifica.
-   - Si un precio o un comercio cambia respecto de lo que la familia vio en la lista, la pantalla lo marca antes de pagar.
-   - El total confirmado vale por **15 minutos** (decisión de Jorge, 26 de octubre). Si vence, se vuelve a confirmar. La familia puede no pagar, sin costo.
-4. **Se cobra una sola vez el total exacto.** Son los productos más un **envío único por pedido**, aunque el retiro pase por más de un comercio, y MATU absorbe la parada extra. Es una venta normal de Webpay Plus, y **crédito y débito funcionan igual**. No hay reserva con margen, ni captura diferida, ni ajuste posterior.
+**Consecuencias.** Desaparecen la captura diferida, la reserva del 15% y el plan B del débito. El esquema cambió con la migración 0002 (7.4 y 8.1). La sección 11.7 cambia de sentido y el ADR-024 se ajusta. La reasignación del retiro después de pagar queda en la fase 2. Antes de cobrar dinero real faltan los casos de venta normal en el ambiente de integración y la consulta legal (18.1).
 
-   **Antes de pagar**, la familia ve:
-   - los productos con cantidad, precio y subtotal;
-   - los que salieron por no disponibles;
-   - el envío y el total con IVA;
-   - quién emite la boleta;
-   - la ventana de entrega;
-   - qué pasa si al retirar falta un producto (punto 5), con el medio y el plazo de la devolución.
+---
 
-   Acepta las condiciones del pedido y recibe un comprobante.
+### ADR-028 · La ficha de relevo crece con secciones complementarias
 
-   **Decisiones de producto del 26 de octubre** (Jorge, sujetas a validación en la consulta legal):
-   - **Quién vende.** MATU vende y emite **una sola boleta por el total**, con el envío incluido. Los comercios le cobran a MATU por cuenta corriente (ADR-008) y nunca ven a la familia. Para vender de verdad, MATU necesita existir como persona jurídica con inicio de actividades, y eso queda para después del semestre.
-   - **Devolución.** "Si un producto no llega, te devolvemos su precio el mismo día, a la misma tarjeta. Cuándo lo ves en tu cuenta depende de tu banco."
-   - **Cancelación.** Antes de pagar, no pedir no tiene costo. Después de pagar, se cancela sin costo mientras el comercio no empiece a preparar.
-   - **Sin equivalentes de otra marca.** Si falta un producto, se busca el mismo en otro comercio o sale del pedido.
-   - **El comercio no ve ningún nombre**, solo la referencia del pedido y el código de retiro.
-5. **El comercio que confirma el stock lo aparta.** Si al retirar el producto ya no está, que es el caso excepcional:
-   - el retiro se reasigna a otro comercio en convenio **con el mismo producto**, y MATU asume la diferencia de precio. La familia paga lo mismo que aceptó, y queda escrito como garantía en las condiciones del pedido;
-   - nunca se reemplaza por otra marca ni por otro producto (decisión del 26 de octubre);
-   - si la familia eligió quitarlo (RF-21), o ningún comercio lo tiene, se devuelve el precio de ese producto a la misma tarjeta, por anulación de Webpay Plus, y se avisa a la familia en el momento. Si no se entrega ningún producto, se devuelve también el envío. Es la única devolución por falta de producto; la del retracto se rige por la sección 18.1.
-6. **Los comercios, los precios y el stock entran por un puerto**, `CatalogoComercio`, en el módulo `catalog` (ADR-021). Hoy no hay convenio con distribuidores, así que el adaptador es simulado, con un catálogo semilla, y la interfaz rotula los precios como de ejemplo. Cuando exista un convenio, que posiblemente llegue después del semestre, se agrega un adaptador real sin tocar los módulos que lo usan.
+**Estado.** Aceptado el 31 de octubre de 2026, con la actualización del 3 de noviembre (MATU-49). **Complementa el ADR-023 y reabre RF-03.** Texto completo en [`adr/ADR-028-ficha-ampliada.md`](adr/ADR-028-ficha-ampliada.md).
 
-**Consecuencias.**
-- **Se simplifica el pago.** Desaparecen la captura diferida, la reserva del 15%, el plan B del débito y su nota de crédito. Si la devolución excepcional obliga a corregir un documento tributario, se resuelve con la consulta legal sobre quién emite la boleta.
-- **El cumplimiento ya no informa un monto real.** Desaparecen `precio_real` y el paso "monto real" del comercio. El comercio confirma el stock y prepara.
-- **La sección 11.7 cambia de sentido.** Con precio exacto, `monto_boleta` contra el precio pagado ya no mide una desviación del comercio cuando MATU retiró en otro comercio. El tope y la conciliación se rediseñan.
-- **ADR-024 se ajusta.** Un pedido de la familia puede abastecerse en más de un comercio, con un solo cobro y un solo envío. El registro por comercio se mantiene para preparar y liquidar (ADR-008). Cada comercio recibe solo sus líneas del pedido, y el que reemplaza a otro recibe la misma proyección que el original (sección 11.2).
-- **Cambia el esquema.** Hay que ajustar `pedido` (`total_estimado` y `total_autorizado`), `cargo` y `participacion` (`monto_autorizado` y `monto_capturado`) y sus estados (`autorizado`, `captura_pendiente`). Va en una migración reversible.
-- **Aparece una espera corta** entre pedir y pagar, mientras se confirma el stock. Con el adaptador simulado es inmediata.
+**Decisión.** La ficha tiene dos niveles. La ficha inicial de tres campos no cambia: es lo único obligatorio, se llena en menos de 3 minutos y basta para compartir. Encima, seis secciones complementarias y opcionales (sección 7.2), que la cuidadora agrega cuando quiere. Al compartir, los tres campos van siempre y elige de cero a seis secciones. Sus remedios viene sin marcar.
 
-**Alcance en el semestre.**
-- **Se construye:** el catálogo con precios exactos detrás del puerto con el adaptador simulado, la confirmación de stock entre comercios antes de pagar y el cobro del total exacto.
-- **Queda en la fase 2:** la reasignación del retiro a otro comercio después de pagar, porque requiere la aplicación de repartidor y la asignación en cascada (ADR-010 y ADR-025). En el semestre se muestra simulada en la demo y queda diseñada aquí.
+**Por qué.** Tres campos bastan para que un relevo no cometa errores graves, pero no para que conozca a la persona. La lista sigue el cuidado centrado en la persona y no repite lo que ya dicen los tres campos.
 
-**Riesgo declarado.**
-- **Devolución excepcional.** Hay que verificar en el ambiente de integración que se admita la anulación parcial de una venta normal con crédito y con débito, y los plazos máximos de anulación de Transbank. Si no se admite, se define otro medio antes del sprint 4, sin pedir datos bancarios a la familia salvo que se apruebe como tratamiento nuevo en la política de privacidad y en el registro de tratamientos.
-- **La prueba de concepto verificó la captura diferida, no la venta normal.** Faltan los casos de venta normal con crédito y con débito, la anulación parcial con los dos y el retorno duplicado en venta normal.
-- **Precios al día.** Los precios exactos dependen de que el comercio mantenga su catálogo al día, y el convenio debe obligarlo a hacerlo. Sin convenio, el piloto usa precios de ejemplo y lo declara en la interfaz.
-- **Consulta legal antes de cobrar dinero real.** Hay que validar las decisiones de producto del 26 de octubre (MATU como vendedor, devolución y cancelación) y resolver:
-  - el retracto;
-  - el plazo legal de la devolución, si existe;
-  - si los productos del pedido son datos sensibles;
-  - si los comercios son encargados o responsables.
+**Consecuencias.** Sin tablas nuevas: tres tipos de sección más en el `CHECK` (migración 0013), cifrados y auditados igual que los campos. `plan_cuidado.modo` deja de ser necesario. Construido en MATU-50.
 
-**Alternativas descartadas.**
-- **Cobrar primero y devolver lo que falte.** Es más rápido para la familia, pero convierte la devolución en una operación rutinaria y vuelve a depender de devoluciones con débito, que no están verificadas.
-- **Mantener el ADR-006 con el plan B del débito.** Funciona, pero deja dos experiencias de pago distintas según la tarjeta y textos con plazos por definir.
+---
+
+### ADR-029 · La ficha de relevo no se imprime ni se exporta
+
+**Estado.** Aceptado el 3 de noviembre de 2026. **Reemplaza a RF-09** tal como estaba en la v1.1 y a la historia de la ficha imprimible. Texto completo en [`adr/ADR-029-ficha-no-se-imprime.md`](adr/ADR-029-ficha-no-se-imprime.md).
+
+**Decisión.** Ni los tres campos ni las secciones se imprimen ni se exportan. La ficha se comparte solo con el acceso de relevo, que vence y se puede cortar. Lo que se exporta y se imprime es la lista de reposición.
+
+**Por qué.** Una hoja en papel no vence, no se corta y la lee cualquiera que entre a la casa, y retirar la autorización no alcanza a las hojas impresas.
+
+**Consecuencias.** Se pierde el plan B sin internet del relevo, y se acepta. No es una excepción a los derechos del titular: «Mis datos» (MATU-54) entrega todo lo que MATU guarda de la persona, incluida la ficha.
+
+---
+
+### ADR-030 · Roles del equipo: Jorge desarrolla, Martín despliega, prueba y revisa
+
+**Estado.** Aceptado el 5 de noviembre de 2026, en la revisión del sprint 3. **Reemplaza la nota del reparto en prueba** del 4 de noviembre y **ajusta el reparto por eje vertical** de la sección 15.5. Texto completo en [`adr/ADR-030-roles-del-equipo.md`](adr/ADR-030-roles-del-equipo.md).
+
+**Decisión.** Jorge es Product Owner y desarrolla todas las tarjetas con los seis agentes. Martín es Scrum Master, dueño del despliegue y de las pruebas en el teléfono y con usuarios, y revisa y fusiona los PR de Jorge. Las políticas innegociables, la definición de terminado y la regla de que nadie fusiona su propio trabajo no cambian.
+
+**Consecuencias.** La capacidad de desarrollo depende de una persona. Es el riesgo principal y se mide con el factor de vibecoding de cada retrospectiva.
+
+---
+
+### ADR-031 · La lista de insumos se comparte como texto, sin enlace
+
+**Estado.** Aceptado el 6 de noviembre de 2026. **Ajusta RF-15**, las secciones 9.3 y 9.6 y el almacenamiento de objetos. Texto completo en [`adr/ADR-031-lista-insumos-solo-texto.md`](adr/ADR-031-lista-insumos-solo-texto.md).
+
+**Decisión.** En el semestre la lista se comparte como texto, sin enlace: se imprime o se guarda como PDF desde el navegador, y se comparte con la hoja de compartir del teléfono o con «Copiar la lista». MATU no genera archivos, no guarda exportaciones y no crea un acceso público. La lista no lleva el nombre de la persona cuidada.
+
+**Por qué.** La lista muestra qué insumos usa la persona, y el diseño trata el consumo como un dato de salud. Un enlace abierto lo abre cualquiera que lo reciba, y un PDF hecho en el servidor obliga a guardar archivos con datos de consumo.
+
+**Consecuencias.** Si después hace falta un enlace, va con un ADR nuevo, una revisión normativa y su propio acceso con token, vencimiento y corte, como el del relevo. Construido en MATU-60 (migración 0015).
 
 ---
 
@@ -1921,8 +1998,8 @@ Existía en el diseño anterior sobre la publicación exclusiva en Android. Se r
 
 | Componente | MVP (8 sprints) | Fase 2 |
 |---|---|---|
-| **Plan de cuidado** | **Completo**: ficha de relevo de tres campos como mínimo obligatorio, ocho secciones opcionales, llenado asistido, cifrado, concurrencia, acceso de relevo, exportación | Plantillas por tipo de dependencia, adjuntos, historial de cambios |
-| **Perfil de consumo y predicción** | **Completo**: declaración, cálculo, alertas, lista, exportación | Corrección por historial real, sugerencia de cantidad óptima |
+| **Plan de cuidado** | **Completo**: ficha de relevo de tres campos como mínimo obligatorio, seis secciones complementarias (ADR-028), llenado asistido, cifrado, concurrencia, acceso de relevo y retiro de la autorización. **Sin versión imprimible** (ADR-029) | Plantillas por tipo de dependencia, adjuntos, historial de cambios, recordatorios de remedios |
+| **Perfil de consumo y predicción** | **Completo**: declaración, cálculo, alertas, lista y su salida como texto (ADR-031) | Corrección por historial real, sugerencia de cantidad óptima, enlace compartible con su propio acceso |
 | Registro, grupo familiar, persona cuidada | Completo | Invitaciones por enlace profundo |
 | Catálogo y convenios | Completo, con precios exactos y stock detrás del puerto `CatalogoComercio`, con adaptador simulado (ADR-027) | Adaptador real de un comercio en convenio |
 | Reposición programada | **Fuera del alcance comprometido** | Envíos periódicos con calendario |
@@ -1945,9 +2022,11 @@ Existía en el diseño anterior sobre la publicación exclusiva en Android. Se r
 | Horas semanales por persona | 15 | 15 |
 | **Capacidad total** | 390 h | **270 h** |
 
-**Equivalencia entre sprints y semanas:** el sprint 0 ocupa la semana 7, y desde ahí el sprint N corresponde a la semana N más 7. El semestre cierra con informe final y defensa entre las semanas 16 y 18.
+**Equivalencia entre sprints y semanas en la v1.1:** el sprint 0 ocupaba la semana 7, y desde ahí el sprint N correspondía a la semana N más 7. El semestre cierra con informe final y defensa entre las semanas 16 y 18.
 
-**No se aplica factor de foco.** Las tallas están estimadas en horas reales, no ideales, e incluyen el costo de aprender Flutter.
+**El calendario v1.3 reemplazó esa equivalencia** ([`sprints/calendario-sprints.md`](sprints/calendario-sprints.md), vigente desde el 13 de octubre). El sprint 0 se extendió hasta la semana 10, los sprints van de viernes a jueves, y el alcance de los ocho sprints de la v1.1 se agrupó en cinco, más dos de reserva. La capacidad real sigue en 23 horas por sprint, y el supuesto es que en ellas caben hasta 41 horas de las estimaciones originales, con un factor de vibecoding de 1,8 que se mide en cada retrospectiva. **El alcance comprometido de la 15.3 y el orden de sacrificio no cambian.** En este documento, un número de sprint sin otra indicación es del calendario v1.3, salvo en las tablas y los textos marcados como de la v1.1.
+
+**No se aplica factor de foco.** Las tallas están estimadas en horas reales, no ideales. La v1.1 incluía en ellas el costo de aprender Flutter. Con el ADR-026 ese costo desaparece, porque el frontend se construye en React con TypeScript, que el equipo ya usaba. Las tallas no se reestimaron: la diferencia queda como holgura.
 
 **Estimación por talla, contrastada contra la capacidad real.**
 
@@ -1986,13 +2065,33 @@ Existía en el diseño anterior sobre la publicación exclusiva en Android. Se r
 
 **Alcance resultante: 213 horas contra 270 de capacidad, con 57 horas de holgura, un 21%.**
 
-**Por qué la holgura es tan alta a propósito, y no es sobra.** Nueve semanas no admiten recuperar un atraso: no hay sprint de colchón al final. El equipo aprende Flutter mientras construye. Y la experiencia de la v1.0, que declaraba 4,4% de holgura sobre trece semanas, mostró que una holgura de un dígito es optimismo aritmético. **Un 21% sobre nueve semanas es aproximadamente dos sprints de reserva, que es lo mínimo defendible.**
+**Por qué la holgura es tan alta a propósito, y no es sobra.** Nueve semanas no admiten recuperar un atraso: no hay sprint de colchón al final. La v1.1 agregaba que el equipo aprendería Flutter mientras construía, costo que el ADR-026 eliminó. Y la experiencia de la v1.0, que declaraba 4,4% de holgura sobre trece semanas, mostró que una holgura de un dígito es optimismo aritmético. **Un 21% sobre nueve semanas es aproximadamente dos sprints de reserva, que es lo mínimo defendible.**
 
-**Y el recorte se propaga.** RF-22 a RF-24 bajan a *Podría* en la sección 3.3, RF-16 a RF-19 bajan a *Debería* en la 3.2, la sección 8.1 pierde los estados de recaudación, la 8.3 se reescribe y la 12.4 pasa de doce casos obligatorios a siete. **Un recorte que no se propaga al catálogo de requisitos, a las máquinas de estado y al plan de pruebas no es un recorte, es una intención.**
+**Y el recorte se propaga.** RF-22 a RF-24 bajan a *Podría* en la sección 3.3, RF-16 a RF-19 bajan a *Debería* en la 3.2, la sección 8.1 pierde los estados de recaudación, la 8.3 se reescribe y la 12.4 pasa de doce casos obligatorios a siete, que el ADR-027 dejó después en nueve. **Un recorte que no se propaga al catálogo de requisitos, a las máquinas de estado y al plan de pruebas no es un recorte, es una intención.**
 
 **Lo que no se saca bajo ninguna circunstancia:** la ficha de relevo, el acceso de relevo, la predicción de quiebre y la exportación de lista. Son el producto.
 
 ### 15.4 Plan de sprints
+
+> **Desde la v1.2 rige el [calendario de sprints v1.3](sprints/calendario-sprints.md).** Reemplaza las fechas y la agrupación de la tabla de la v1.1, que se conserva más abajo como antecedente.
+
+| Sprint | Fechas | Objetivo | Agrupa (v1.1) | Estado al 8 de noviembre |
+|---|---|---|---|---|
+| 0 | 21 sep – 15 oct | Preparación: repositorios, pipeline, esquema base y prueba de concepto de Transbank | 0 | Cerrado. 31 pruebas de aislamiento en verde (objetivo específico 2) |
+| 1 | 16 – 22 oct | Identidad y grupo, y cierre de la prueba de Transbank | 1 | Cerrado |
+| 2 | 23 – 29 oct | Ficha de relevo y acceso de relevo: **primer producto de punta a punta** | 2 y 3 | Cerrado (objetivo específico 3) |
+| 3 | 30 oct – 5 nov | App de familia, perfil de consumo con predicción, staging y avisos | 4 y 5 | Cerrado con 15 historias en `main` (objetivo específico 4) |
+| 4 | 6 – 12 nov | Catálogo, lista de reposición, pedido y pago con un solo pagador, y vista de comercio | 6 y 7 | En curso (objetivos específicos 5 y 6) |
+| 5 | 13 – 19 nov | Cierre: endurecimiento, retención, despliegue, backoffice mínimo y guion de demostración. Guion e informe listos el lunes 16 | 8 | Planificado (objetivo específico 7) |
+| 6 y 7 | 20 nov – 3 dic | **Reserva**, sin alcance comprometido: ajustes por la retroalimentación y la presentación final | — | — |
+
+**Los objetivos específicos 5, 6 y 7, en su redacción vigente:**
+
+- **5. La lista de reposición, operativa sin convenio comercial.** Se comparte como texto, sin enlace: se imprime o se guarda como PDF desde el navegador y se comparte desde el teléfono ([ADR-031](adr/ADR-031-lista-insumos-solo-texto.md)). La v1.1 y el informe de avance decían "exportable como documento y como enlace compartible".
+- **6. El flujo de pedido con un solo cobro del total exacto** (ADR-027), con los nueve casos obligatorios de la sección 12.4 en verde. Sin captura diferida ni autorización con margen.
+- **7. El sistema desplegado en un entorno de demostración, con los seis recorridos críticos operativos** y el pipeline en verde. Los seis recorridos se están fijando en MATU-64.
+
+**La tabla de la v1.1, como antecedente.** Sus sprints eran de una semana, desde la semana 7.
 
 | Sprint | Semana | Objetivo | Entregable verificable |
 |---|---|---|---|
@@ -2000,36 +2099,46 @@ Existía en el diseño anterior sobre la publicación exclusiva en Android. Se r
 | 1 | 8 | Identidad y grupo | Registro, login, grupo familiar, persona cuidada, RLS con **diez pruebas de aislamiento** en API y en worker |
 | 2 | 9 | **Ficha de relevo** | Los tres campos obligatorios, cifrado con sobre-cifrado, concurrencia optimista, consentimiento, auditoría de acceso, llenado asistido |
 | 3 | 10 | **Acceso de relevo** | Token expirable con PIN, vista de relevo y revocación. **Primer producto demostrable de punta a punta**, en la misma semana de la evaluación de avance |
-| 4 | 11 | App familia, núcleo | Navegación, autenticación, ficha de relevo en móvil, criterios de accesibilidad aplicados |
+| 4 | 11 | App familia, núcleo | Navegación, autenticación, ficha de relevo en la aplicación web, criterios de accesibilidad aplicados |
 | 5 | 12 | **Perfil de consumo y predicción** | Declaración, cálculo de quiebre con ocho pruebas de dominio, alertas materializadas, notificaciones |
-| 6 | 13 | Catálogo y lista | Catálogo semilla, lista de reposición, exportación y enlace compartible. **Entorno de demostración operativo.** Pruebas de usabilidad con tres usuarios |
+| 6 | 13 | Catálogo y lista | Catálogo semilla, lista de reposición y su salida como texto (ADR-031). **Entorno de demostración operativo.** Pruebas de usabilidad con tres usuarios |
 | 7 | 14 | Pedido y pago | Carrito, confirmación de stock, cobro único del total confirmado, devolución por anulación parcial, vista de comercio con código de retiro. Los nueve casos de la sección 12.4 (ADR-027) |
 | 8 | 15 | Cierre | Endurecimiento, retención, pruebas de carga, despliegue, backoffice mínimo, guion de demostración |
 
-**El cambio decisivo está en el sprint 3, en la semana 10.** Es exactamente la semana de la evaluación de avance de Fase 2, y el equipo llega a ella con producto demostrable de punta a punta en la capa que constituye el diferenciador. No es casualidad: el plan se ordenó para que coincidieran.
+**Con el calendario v1.3 el producto de punta a punta llegó antes.** La v1.1 lo ubicaba en el sprint 3, la semana de la evaluación de avance de la Fase 2. El sprint 0 se extendió hasta esa misma semana, y la ficha con el relevo quedó de punta a punta en el sprint 2, el 29 de octubre.
 
-**Qué se sacrifica ante atraso, en este orden:** primero los indicadores del backoffice, después la vista de comercio automatizada, que se puede operar a mano en la demostración, después el catálogo curado, que se reduce a diez productos. **Nunca la ficha de relevo, el acceso de relevo, la predicción de quiebre ni la exportación de lista.**
+**Qué se sacrifica ante atraso, en este orden:** primero los indicadores del backoffice, después la vista de comercio automatizada, que se puede operar a mano en la demostración, después el catálogo curado, que se reduce a diez productos. El calendario v1.3 agrega un cuarto: el staging se reemplaza por un túnel HTTPS temporal para la demostración. **Nunca la ficha de relevo, el acceso de relevo, la predicción de quiebre ni la salida de la lista.**
 
 ### 15.5 Reparto del trabajo entre dos personas
 
-Con dos desarrolladores el mayor riesgo de calendario no es la dificultad técnica sino el bloqueo mutuo. **El reparto es por eje vertical, no por capa.**
+> **Reescrita con el ADR-030** (5 de noviembre). La v1.1 repartía el trabajo por eje vertical entre dos desarrolladores. Ese reparto rigió hasta el sprint 3, con la regla de ejes suspendida en una parte. Desde el 5 de noviembre el reparto es por rol.
 
-| Eje | Módulos | Sprints |
+**El reparto vigente (ADR-030).**
+
+| Persona | Rol | Qué hace |
 |---|---|---|
-| **A · Cuidado y consumo** | `care_plan`, `consumption`, `catalog` | 2, 3, 5 y 6 |
-| **B · Identidad, dinero y operación** | `iam`, `care_circle`, `ordering`, `payments`, `settlement`, `backoffice` | 0, 1, 7 y 8 |
+| **Jorge Espinoza** | Product Owner y desarrollo | Todas las tarjetas de arquitectura, backend y frontend, con los seis agentes: el QA previo al PR, el analista normativo antes y al cierre, y el diseñador en la especificación y en la revisión visual. Como PO decide el alcance, las prioridades y los criterios |
+| **Martín Henríquez** | Scrum Master, despliegue y pruebas | Dueño del despliegue (staging, HTTPS y el entorno de demostración), de la prueba en el teléfono y de las pruebas con usuarios. Revisa y fusiona los PR de Jorge, con su informe en `TESTER/` (PASS o FAIL, con evidencia), y revisa la redacción de los documentos. No toca código de producto ni cambia decisiones: las evalúa |
 
-Ambos ejes tocan la app de familia, así que el paquete `core` de Flutter se construye **en conjunto** en el sprint 4.
+**Por qué.** Lo probó el equipo durante una semana, desde el 4 de noviembre: Martín revisó y fusionó toda la fila de PR del sprint 3 y probó en el teléfono seis historias, y el sprint 3 cerró con 15 historias en `main`. El motivo inicial fue de costo: el desarrollo con todos los agentes consume muchos tokens, y solo una de las dos cuentas lo sostiene.
 
-**Tres reglas de coordinación:**
+**Lo que no cambia:**
 
-1. **El contrato de API se acuerda y se mergea antes que la implementación.** A partir de ahí quien consume trabaja contra un doble sin esperar.
-2. **Nadie edita módulos del otro eje.** Si el eje A necesita algo del B, lo pide como cambio.
-3. **Las migraciones de Alembic se revisan de a dos, siempre.** Es el único punto del repositorio donde dos ramas paralelas producen un conflicto que no se resuelve solo.
+1. **El contrato de API se acuerda antes que la implementación.** Los contratos propuestos viven en `docs/api/propuestos/` hasta que el código los cumple, y desde ahí manda `openapi.json`.
+2. **Nadie fusiona su propio trabajo.** Martín fusiona los PR de Jorge, y cuando una historia toca datos sensibles o dinero, su revisión es obligatoria (sección 12.6, punto 5).
+3. **Las migraciones se apilan en orden.** Dos historias con migración no salen de la misma cabeza: la segunda se encadena a la primera, y `test_cadena_migraciones.py` exige una sola cabeza (sección 7.8). Los PR apilados se fusionan con merge commit, no con squash, para que el siguiente de la pila no quede en conflicto.
+4. **La revisión previa del analista normativo** va antes de implementar todo lo que toque datos personales, consentimiento o dinero.
 
-**Trabajo conjunto obligatorio:** sprint 0 completo, modelo de datos, `core` de Flutter, prueba de concepto de Transbank, y toda revisión que toque dinero o datos sensibles.
+**El reparto anterior, por eje vertical, hasta el 4 de noviembre.**
 
-**Riesgo de capacidad.** Con dos personas, la ausencia de una es el 50% de la capacidad, y una ventana de nueve semanas no permite absorberla. La mitigación es que cada eje tenga documentado su estado en el propio repositorio y que las revisiones cruzadas mantengan a ambos al tanto del otro eje. No elimina el riesgo, lo hace sobrevivible.
+| Eje | Módulos | Sprints de la v1.1 |
+|---|---|---|
+| **A · Cuidado y consumo** (Jorge) | `care_plan`, `consumption`, `catalog` | 2, 3, 5 y 6 |
+| **B · Identidad, dinero y operación** (Martín) | `iam`, `care_circle`, `ordering`, `payments`, `settlement`, `backoffice` | 0, 1, 7 y 8 |
+
+Su regla central era que nadie editaba módulos del otro eje. **En los sprints 1 a 3 esa regla se suspendió para `care_circle`, `care_plan` y `shared`**, porque el tramo concentraba el trabajo de la capa 1, y el dueño del módulo revisaba todo PR que lo tocara (backlog, sección "Regla de ejes en este tramo"). Con el ADR-030 la regla deja de aplicarse, porque una sola persona desarrolla. Las etiquetas de eje de Trello siguen diciendo quién lleva cada tarjeta, y cada ítem de sus checklists empieza con «Jorge ·» o «Martín ·».
+
+**Riesgo de capacidad.** Las 23 horas semanales de desarrollo dependen de las 11 horas de Jorge, con el factor de vibecoding del calendario v1.3. Es el riesgo principal del reparto y se mide en cada retrospectiva. Con una ventana de nueve semanas, una ausencia de Jorge obliga a aplicar el orden de sacrificio de inmediato, y una de Martín deja los PR sin fusionar.
 
 ---
 
@@ -2074,7 +2183,7 @@ Con 200 familias y **1,0 entregas mensuales** cada una son 200 entregas al mes, 
 
 Mis Tatas, la empresa chilena más cercana en el espacio, cobra entre $10.000 y $39.000 mensuales por hogar por teleasistencia, opera desde 2019 y supera los 2.500 usuarios.
 
-**Ese dato no valida el precio de MATU**, y ahora hay algo mejor que una comparación: **seis de diez entrevistadas ya pagan por algún servicio de cuidado**, desde $1.900 mensuales por una suscripción de despacho hasta $400.000 mensuales por una cuidadora, pasando por $25.000 mensuales en traslados y $20.000 diarios por relevo puntual. Eso es disposición a pagar demostrada por conducta y no declarada en una hipotética. El techo del segmento está muy por encima de $5.990.
+**Ese dato no valida el precio de MATU**, y ahora hay algo mejor que una comparación: **seis de diez entrevistadas ya pagan por algún servicio de cuidado**, desde $1.900 mensuales por una suscripción de despacho hasta $400.000 mensuales por una cuidadora, pasando por $25.000 mensuales en traslados y $20.000 diarios por relevo puntual. Eso es disposición a pagar demostrada con hechos y no declarada en una hipotética. El techo del segmento está muy por encima de $5.990.
 
 Lo que la validación **no** entrega es que esas mismas personas paguen por *esto*: ocho dijeron que sí a $5.990, pero cuatro condicionaron el sí a que el producto resuelva los insumos, no solo el plan. **El precio se sostiene sobre las capas 1 y 2 juntas, nunca sobre la capa 1 sola.**
 
@@ -2097,14 +2206,14 @@ Con costos fijos austeros de aproximadamente $600.000 mensuales, sin la pasarela
 |---|---|---|
 | **Cornershop, Rappi y despacho de supermercados** | Despachan lo que se les pide. No saben qué necesita la persona cuidada ni cuándo | **Tres de diez ya compran por aplicación y están conformes.** El sustituto está instalado. Una entrevistada rechaza el despacho por especificidad del producto, no por desconfianza, y otra por un requisito tributario: necesita la boleta a nombre de quien paga |
 | **Entrega pública de pañales** vía CESFAM y municipios | Cubre el insumo, no la continuidad del cuidado | **Cuatro de diez están en un padrón público y todas dicen que no alcanza.** Dos más no sabían que el beneficio existe. El canal institucional se confirma como oportunidad y no como competencia |
-| **Comercio electrónico especializado en incontinencia** | Vende producto, no gestión | Una entrevistada compra insumos especializados en una casa ortopédica del centro, con media jornada de costo por viaje, y declaró que pagaría el doble por no tener que ir. **Es el caso de mayor disposición a pagar del piloto y es logística especializada, no supermercado** |
+| **Comercio electrónico especializado en insumos de cuidado** | Vende producto, no gestión | Una entrevistada compra insumos especializados en una casa ortopédica del centro, con media jornada de costo por viaje, y declaró que pagaría el doble por no tener que ir. **Es el caso de mayor disposición a pagar del piloto y es logística especializada, no supermercado** |
 
 ### 16.6 Lo que esta sección sigue sin resolver
 
 De los cuatro huecos que la v1.0 declaraba, **uno se cerró y tres siguen abiertos**, y conviene decir cuál es cuál.
 
-1. **Cerrado: la disposición a pagar tiene evidencia.** Seis de diez pagan hoy por algún servicio de cuidado, con conducta demostrada y montos conocidos.
-2. **Abierto: no hay costo de adquisición ni tasa de abandono.** Con 84 familias como piso, el costo de conseguir cada una decide si el negocio existe. H7 quedó en zona intermedia porque **ninguna de las diez entrevistadas fue reclutada por un canal concentrado**. Las cuatro entrevistas de ampliación se reclutan solo por canal concentrado precisamente para probar H7 por conducta.
+1. **Cerrado: la disposición a pagar tiene evidencia.** Seis de diez pagan hoy por algún servicio de cuidado, con pagos demostrados y montos conocidos.
+2. **Abierto: no hay costo de adquisición ni tasa de abandono.** Con 84 familias como piso, el costo de conseguir cada una decide si el negocio existe. H7 quedó en zona intermedia porque **ninguna de las diez entrevistadas fue reclutada por un canal concentrado**. Las cuatro entrevistas de ampliación se reclutan solo por canal concentrado precisamente para probar H7 con hechos.
 3. **Abierto: no hay figura legal.** Operar Webpay en producción, cobrar a familias reales y abrir cuenta corriente exigen persona jurídica con RUT. **Esto implica que no habrá piloto con dinero real este semestre**, y el entregable es un entorno de demostración. El objetivo del proyecto se formuló en consecuencia.
 4. **Abierto: el cobro de la suscripción está fuera del MVP.** RF-41 es *Podría*. El punto de equilibrio es un **ejercicio de viabilidad y no un compromiso de alcance del semestre**.
 
@@ -2118,7 +2227,7 @@ De los cuatro huecos que la v1.0 declaraba, **uno se cerró y tres siguen abiert
 |---|---|---|---|
 | ~~El cuidador no completa el plan de cuidado~~ **MATERIALIZADO Y MITIGADO** | — | — | Era el riesgo número uno. Se validó antes del sprint 2, la hipótesis quedó refutada y **se activó el ADR-023**: ficha de relevo de tres campos, secciones opcionales y llenado asistido. Costo menor a un sprint, sin cambios en el modelo de datos |
 | ~~El reclutamiento de diez cuidadores no se logra~~ **CERRADO** | — | — | La meta del protocolo se cumplió íntegra: diez de diez |
-| **La ventana de construcción es de nueve semanas** | Alta | **Alto** | Es el riesgo dominante de la v1.1. Mitigación: segundo recorte de 160 h aplicado antes del primer sprint, 21% de holgura, orden de sacrificio declarado y producto demostrable en el sprint 3 |
+| **La ventana de construcción es de nueve semanas**, y el desarrollo empezó tres semanas tarde | Alta | **Alto** | Es el riesgo dominante. Mitigación: segundo recorte de 160 h aplicado antes del primer sprint, orden de sacrificio declarado, calendario v1.3 con cinco sprints y dos de reserva, y el factor de vibecoding medido en cada retrospectiva. El producto de punta a punta llegó en el sprint 2 |
 | **Tres hipótesis quedaron en zona intermedia** | Alta | Medio | H5, H6 y H7. Cuatro entrevistas adicionales por canal concentrado en la semana 9, según la regla del propio protocolo. Como el reparto multi-pagador ya salió del alcance, su resultado orienta la fase 2 y no condiciona el semestre |
 | ~~La captura diferida no se comporta como documenta el proveedor~~ **CERRADO, Y REEMPLAZADO** | — | — | La prueba de concepto del 24 de octubre la verificó con crédito. El ADR-027 dejó de usarla |
 | ~~**La captura diferida no aplica a débito ni prepago**~~ **MATERIALIZADO Y REEMPLAZADO** | — | — | Se confirmó en el sprint 0: el débito no admite captura diferida. Fue la razón principal del ADR-027, que cobra una sola vez el total exacto en venta normal, con crédito y débito iguales |
@@ -2126,13 +2235,14 @@ De los cuatro huecos que la v1.0 declaraba, **uno se cerró y tres siguen abiert
 | **Los precios del comercio no están al día** | Media | Medio | El convenio obliga al comercio a mantener precios y stock. Sin convenio, el piloto usa precios de ejemplo detrás del puerto `CatalogoComercio` y lo declara en la interfaz |
 | **Un producto apartado falta al retirar** | Baja | Medio | El comercio que confirma el stock lo aparta. Si falta, el mismo producto en otro comercio, con la diferencia a cargo de MATU, o devolución de su precio. La reasignación después de pagar es fase 2 y en el semestre se muestra simulada |
 | **La consulta legal del ADR-027 no llega antes de cobrar dinero real** | Media | Alto | En el semestre no se cobra dinero real. La investigación normativa del 27-10 resolvió con el texto de la ley que el retracto aplica y cómo se informa, y que no hay un plazo legal específico para devolver lo no entregado. El 27-10 Jorge resolvió por diseño P3 a P7 con la opción más protectora. Antes de cobrar dinero real quedan P1 y P2 para un abogado y P8 para un contador (sección 18.1). Mientras tanto, los productos se tratan como sensibles. |
-| Pérdida de capacidad de una persona | Media | **Crítico en nueve semanas** | 50% de la capacidad. Revisiones cruzadas y estado documentado en el repositorio. Con la ventana acortada, una ausencia de dos semanas ya no es recuperable y obliga a aplicar el orden de sacrificio de inmediato |
-| Curar el catálogo toma más de lo previsto | Media | Bajo | El catálogo semilla son los seis productos que reportaron las entrevistadas, no una lista inventada. Es trabajo humano acotado, en el sprint 6 |
+| Pérdida de capacidad de una persona | Media | **Crítico en nueve semanas** | Con el ADR-030 el desarrollo depende de Jorge, y la revisión y el despliegue de Martín. Estado documentado en los dos repositorios, informes de revisión en `TESTER/` y PR pequeños. Con la ventana acortada, una ausencia de dos semanas ya no es recuperable y obliga a aplicar el orden de sacrificio de inmediato |
+| Curar el catálogo toma más de lo previsto | Media | Bajo | El catálogo semilla son los seis productos que reportaron las entrevistadas, no una lista inventada. Es trabajo humano acotado, en el sprint 4 |
 | Ningún comercio acepta convenio | Media | **Medio**, ya no crítico | El ADR-002 lo degradó. Y la validación entregó un candidato concreto: la farmacia de barrio que ya opera con cuenta corriente para una familia entrevistada |
 | Filtración entre grupos familiares | Baja | **Crítico** | RLS forzado incluidos los workers, más diez pruebas de aislamiento en el pipeline |
-| Rendimiento en dispositivos de gama baja | Media | Medio | Probar en un dispositivo real de gama baja desde el sprint 4 |
+| Rendimiento en dispositivos de gama baja | Media | Medio | Probar en un teléfono real en staging desde el sprint 3, con la prueba en el teléfono de cada historia (ADR-030) |
 | Cambio regulatorio con la vigencia de la Ley 21.719 | Media | Medio | El diseño ya cumple lo exigible. Revisar guías de la Agencia cuando se publiquen |
-| El equipo no domina Dart | Alta | Medio | El costo de aprendizaje está dentro de las tallas. Flutter entra recién en el sprint 4 y el `core` se construye entre los dos |
+| ~~El equipo no domina Dart~~ **RETIRADO** | — | — | El ADR-026 reemplazó Flutter por una aplicación web en React con TypeScript |
+| **El push web en iPhone exige agregar MATU a la pantalla de inicio** | Alta | Medio | El correo es el canal garantizado de los avisos de quiebre (RF-39) y el push es complemento (ADR-026). En Android el push funciona desde el navegador |
 | **No existe persona jurídica** | Alta | Medio, ya no alto | Operar Webpay en producción exige RUT. **El objetivo del semestre se formuló sobre un entorno de demostración**, de modo que la ausencia de persona jurídica ya no bloquea el entregable comprometido |
 | **Pérdida o rotación fallida de la clave maestra** | Baja | **Crítico** | Deja ilegible todo el plan de cuidado de forma irreversible. `kek_version` registrada por clave de datos, retención de la versión anterior durante una rotación, y procedimiento documentado. **Y el borrado criptográfico se completa cuando expira el último respaldo que contiene la clave** |
 
@@ -2144,11 +2254,11 @@ De los cuatro huecos que la v1.0 declaraba, **uno se cerró y tres siguen abiert
 |---|---|---|
 | ~~¿Un cuidador agotado completa ocho preguntas?~~ **RESPONDIDA: no.** Tres de diez bajo cinco minutos | Refutó H1 y activó el ADR-023 | Cerrada en septiembre de 2026 |
 | ~~¿Cuánto está dispuesta a pagar una familia?~~ **RESPONDIDA con reserva.** Seis de diez ya pagan por algo del cuidado | El precio de la sección 16 se sostiene, condicionado a que el producto resuelva insumos y no solo el plan | Cerrada, con la condición anotada |
-| **¿El gasto se reparte y quién pagaría?** | Decide si RF-22 a RF-24 entran en la fase 2 | Semana 9 |
-| **¿Existe un canal concentrado de captación?** | Decide el costo de adquisición y con él la alcanzabilidad de las 84 familias | Semana 9 |
-| ¿Cuál es la comuna de partida? | Zonificación, catálogo inicial, volumen esperado | Sprint 6 |
+| **¿El gasto se reparte y quién pagaría?** | Decide si RF-22 a RF-24 entran en la fase 2 | Antes del sprint 4 del calendario v1.3 (cierre del ADR-023). [PENDIENTE: resultado de las entrevistas de ampliación] |
+| **¿Existe un canal concentrado de captación?** | Decide el costo de adquisición y con él la alcanzabilidad de las 84 familias | Antes del sprint 4 del calendario v1.3. [PENDIENTE: resultado de las entrevistas de ampliación] |
+| ¿Cuál es la comuna de partida? | Zonificación, catálogo inicial, volumen esperado | Sprint 4 |
 | ¿De quién es el registro cuando lo escribe una cuidadora con contrato? | Alcance del consentimiento y responsabilidad laboral. Pregunta nueva, planteada por una entrevistada | Antes de operar con datos reales |
-| ¿Hay un comercio dispuesto a convenio con preparación? | Si sí, la capa 3 se demuestra real. Si no, simulada | Sprint 7 |
+| ¿Hay un comercio dispuesto a convenio con preparación? | Si sí, la capa 3 se demuestra real. Si no, simulada con el adaptador de `CatalogoComercio` (ADR-027) | Sprint 4 |
 | ¿Existe un CESFAM dispuesto a un convenio piloto? | Revisaría el alcance de fase 2 | Sin plazo |
 
 ### 18.1 Lo que este documento no puede resolver por sí solo
@@ -2157,7 +2267,7 @@ De los cuatro huecos que la v1.0 declaraba, **uno se cerró y tres siguen abiert
 |---|---|---|
 | **Evidencia primaria del problema** | **CERRADO** | Diez entrevistas realizadas, con veredicto por hipótesis en `docs/resultados-entrevistas.md` |
 | **Disposición a pagar** | **CERRADO con reserva** | Seis de diez pagan hoy por algún servicio de cuidado. El sí a $5.990 es hipotético y cuatro lo condicionan a los insumos |
-| **Comportamiento real de Transbank** | Abierto, con otra pregunta | La captura diferida quedó verificada el 24 de octubre, pero el ADR-027 la reemplazó. Falta la venta normal con crédito y con débito, la anulación parcial con los dos y el retorno duplicado, antes del sprint 4. [PENDIENTE: plazos máximos de anulación] |
+| **Comportamiento real de Transbank** | Abierto, con otra pregunta | La [prueba de concepto](pruebas-concepto/transbank.md) del 24 de octubre verificó la captura diferida con crédito y mostró que el débito no la admite. Ese resultado llevó al ADR-027, que la reemplazó. Falta la venta normal con crédito y con débito, la anulación parcial con los dos y el retorno duplicado, antes de cobrar en el sprint 4. Al 8 de noviembre no hay registro de esos casos en la prueba de concepto. [PENDIENTE: plazos máximos de anulación] |
 | **Convenio comercial** | Abierto, con una pista concreta | La farmacia de barrio que ya opera con cuenta corriente y boleta a nombre de una familia entrevistada. Es el primer comercio a contactar. Con el ADR-027, el convenio además fija precios exactos con IVA, stock al día y cómo se aparta. Mientras no exista, el adaptador de `CatalogoComercio` es simulado |
 | **Quién paga y por qué canal se llega** | Abierto | Las cuatro entrevistas de ampliación, semana 9 |
 | **Consulta legal sobre representación** | Abierto, y con una pregunta nueva | Además de la zona gris del `cuidador_de_hecho`, la cuidadora remunerada planteó de quién es el registro cuando lo escribe una trabajadora. **No hay respuesta en la arquitectura** |
@@ -2188,46 +2298,54 @@ De los cuatro huecos que la v1.0 declaraba, **uno se cerró y tres siguen abiert
 
 ## 19. Anexos
 
-### 19.1 Estructura prevista del repositorio
+### 19.1 Los dos repositorios
+
+**La documentación y el código viven en repositorios separados.** La v1.1 preveía uno solo. Al empezar el desarrollo se separaron, para que las entregas del curso y el código no compartan historial ni revisión:
+
+| Repositorio | Qué contiene | Quién lo mantiene |
+|---|---|---|
+| **MATU** | Este documento, el modelo de datos, la estrategia de pruebas, el backlog, los ADR, `lenguaje.md`, los documentos legales, las entrevistas, el prototipo, las evidencias de las fases del curso y los informes de revisión en `TESTER/` | Los dos. Fuente de verdad del diseño |
+| **[MATU_PROYECTO](https://github.com/MartinHenriquez131/MATU_PROYECTO)** | El código: `backend/`, `web/`, `infra/`, la demo del 30 de octubre (`Demo/`, con `DISENO.md`), los contratos de la API (`docs/api/`), las especificaciones de pantalla (`docs/diseno/`) y la prueba de concepto de Transbank (`spikes/`) | Jorge desarrolla y Martín revisa, prueba y despliega (ADR-030) |
+
+**Estructura de MATU_PROYECTO al 7 de noviembre:**
 
 ```
-MATU/
+MATU_PROYECTO/
 ├── backend/
 │   ├── app/
-│   │   ├── core/            configuración, seguridad, dependencias, errores
-│   │   ├── shared/          eventos, outbox, auditoría, tipos comunes
-│   │   ├── modules/         iam, care_circle, care_plan, consumption,
-│   │   │                    catalog, replenishment, ordering, payments,
-│   │   │                    fulfillment, settlement, rx, notifications,
-│   │   │                    backoffice
-│   │   └── main.py
-│   ├── alembic/
+│   │   ├── core/            configuración, sesión con tenant, errores, logs, límite por IP,
+│   │   │                    cabeceras y entrega del cliente web
+│   │   ├── shared/          outbox, auditoría, puertos y relojes comunes
+│   │   ├── modules/         iam, care_circle, care_plan, consumption, notifications
+│   │   │                    (los de la capa 3 se agregan desde el sprint 4)
+│   │   ├── main.py
+│   │   └── servidor.py
+│   ├── alembic/versions/    0001 a 0017 (sección 7.8)
+│   ├── db/                  roles, esquema, RLS y permisos de la 0001, y los generadores de diagramas
 │   ├── tests/
-│   │   ├── unit/                        reglas de dominio
-│   │   ├── integration/                 repositorios, RLS, migraciones
-│   │   ├── e2e/                         los 6 recorridos críticos
+│   │   ├── modules/                     pruebas por módulo: dominio, aplicación, API y contrato
 │   │   ├── dobles/                      implementaciones falsas de los puertos
+│   │   ├── fabricas/                    datos sintéticos
 │   │   ├── test_arquitectura.py         regla de dependencias entre módulos
-│   │   ├── test_aislamiento.py          RLS en API y en workers
-│   │   └── test_capa3_desacoplable.py   arranca sin la capa de despacho
-│   ├── pyproject.toml
-│   └── Dockerfile
-├── mobile/
-│   ├── packages/core/       modelos, cliente API, auth, diseño accesible
-│   └── apps/familia/
-├── web/                     backoffice, vista de comercio y vista de relevo
-├── infra/
+│   │   ├── test_aislamiento.py          RLS en API y en trabajos
+│   │   ├── test_capa3_desacoplable.py   arranca sin la capa de despacho
+│   │   ├── test_conexion_app.py         la API se conecta como matu_app
+│   │   ├── test_migraciones.py          cada migración sube y baja
+│   │   └── test_cadena_migraciones.py   una sola cabeza de Alembic
+│   └── pyproject.toml
+├── web/                     cliente web del ADR-026: familia, relevo y, después, comercio y backoffice
+│   ├── src/                 familia/, relevo/, compartido/ (cliente de la API, componentes base)
+│   └── pruebas/             Vitest y Testing Library
+├── infra/                   docker-compose, PostgreSQL, semillas y staging en Railway
+├── Demo/                    demo del 30 de octubre y DISENO.md, el sistema de diseño
 ├── docs/
-│   ├── arquitectura.md            este documento
-│   ├── adr/                       un archivo por decisión
-│   ├── prototipo/prototipo-v1.1.html  36 pantallas, 7 recorridos
-│   ├── protocolo-entrevistas.md   guion y criterios de falsación
-│   ├── resultados-entrevistas.md  veredicto por hipótesis y mediciones
-│   ├── entrevistas/               diez fichas anonimizadas
-│   ├── requisitos.md              catálogo RF trazado a módulos
-│   └── api/                       OpenAPI generado
-└── .github/workflows/
+│   ├── api/                 openapi.json, README con las decisiones y propuestos/
+│   └── diseno/              especificación de cada pantalla
+├── spikes/transbank/
+└── .github/workflows/ci.yml
 ```
+
+**Sin `mobile/`.** La v1.1 preveía `mobile/packages/core` y `mobile/apps/familia` para Flutter. El ADR-026 los reemplazó por `web/`. Las pruebas no se separan en `unit/`, `integration/` y `e2e/` como preveía la v1.1: se agrupan por módulo, y cada archivo dice en su nombre qué nivel prueba. [PENDIENTE: la carpeta de los recorridos de punta a punta, con los seis recorridos críticos de MATU-64.]
 
 Cada módulo interno sigue la misma estructura, de modo que agregar uno nuevo sea mecánico:
 
@@ -2245,7 +2363,8 @@ modules/consumption/
 | Término | Significado en MATU |
 |---|---|
 | **Plan de cuidado** | Conjunto cifrado de secciones que describen cómo se cuida a una persona. Núcleo del producto |
-| **Ficha de relevo** | Versión mínima obligatoria del plan: su día en una línea, si se altera (qué la calma) y a quién llamar. Tres de los ocho tipos de sección |
+| **Ficha de relevo** | Versión mínima obligatoria del plan: su día en una línea, si se altera (qué la calma) y a quién llamar. Se comparte solo con el acceso de relevo y no se imprime (ADR-029) |
+| **Sección complementaria** | Una de las seis secciones opcionales que amplían la ficha: Quién es, Lo que le hace bien, Comer y beber, Moverse y descansar, Cómo hablarle y Sus remedios (ADR-028) |
 | **Llenado asistido** | Un miembro del círculo familiar completa la ficha en nombre del cuidador principal, con autoría registrada |
 | **Perfil de consumo** | Declaración de a qué ritmo se consume un insumo, base de la predicción de quiebre |
 | **Quiebre** | Momento en que se agota un insumo que no admite agotarse |
@@ -2264,7 +2383,7 @@ modules/consumption/
 2. Ministerio de Salud. *Plan Nacional de Demencia 2025-2035*. DIPRECE, marzo de 2026.
 3. Biblioteca del Congreso Nacional. *Ley 21.719 sobre protección de datos personales*. Publicada el 13 de diciembre de 2024, plena vigencia el 1 de diciembre de 2026.
 4. Ministerio de Salud. *Sistema Nacional de Receta Electrónica*. Lanzamiento, diciembre de 2025.
-5. Transbank Developers. *Documentación de Webpay Plus*. Modalidad diferida, captura y reversa.
+5. Transbank Developers. *Documentación de Webpay Plus*. Venta normal y anulación, y la modalidad diferida que verificó la prueba de concepto.
 
 **Fuentes de industria**
 
@@ -2280,5 +2399,5 @@ modules/consumption/
 
 ---
 
-*Documento de arquitectura MATU · versión 1.1 · septiembre 2026 · Jorge Espinoza y Martín Henríquez*
-*Anteproyecto validado: línea base de diseño contrastada con diez entrevistas. El desarrollo comienza en el sprint 0, semana 7.*
+*Documento de arquitectura MATU · versión 1.2 · 8 de noviembre de 2026 · Jorge Espinoza y Martín Henríquez*
+*Línea base de diseño contrastada con diez entrevistas y, desde la v1.2, con el código de MATU_PROYECTO hasta la migración 0017.*
