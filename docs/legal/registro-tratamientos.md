@@ -356,8 +356,8 @@ Cada historia que empieza a tratar datos personales agrega aquí su entrada.
 - **Base de licitud:** atender los derechos del titular. [PENDIENTE: consulta legal, junto con CL-75-1]
 - **Quién accede:** Jorge y Martín, con una cuenta de la función, verificación en dos pasos y sin reenvío a correos personales.
 - **Conservación:** hasta 2 años después de cerrar la solicitud. Después queda solo una lista con la fecha, el tipo de solicitud y la fecha de respuesta, sin el contenido (decisión de Jorge del 09-11).
-- **Encargado:** [PROVEEDOR DEL CORREO], en [PAÍS]. [PENDIENTE: revisar sus condiciones]
-- **Transferencia internacional:** [PENDIENTE: según el país del proveedor]
+- **Encargado:** Gmail, de Google LLC, en Estados Unidos. [PENDIENTE: revisar sus condiciones]
+- **Transferencia internacional:** Estados Unidos (Google LLC). [PENDIENTE: consulta legal sobre la transferencia internacional, junto con CL-35]
 - **Medidas:**
   - el contenido de una solicitud nunca se copia al repositorio, a Trello, al vault ni a una sesión con agentes
   - plazos: acuse dentro de 2 días hábiles y respuesta a más tardar en 30 días corridos (D4)

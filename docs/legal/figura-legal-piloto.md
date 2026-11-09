@@ -69,7 +69,7 @@ Aunque el producto use datos sintéticos, existen algunos datos personales reale
 
 Durante el semestre, el responsable es el equipo del proyecto, Jorge Espinoza y Martín Henríquez, como personas naturales.
 
-- Contacto: {correo_privacidad}, una dirección de la función, no personal, que leen Jorge y Martín con verificación en dos pasos y sin reenvío a correos personales. Proveedor: [PROVEEDOR DEL CORREO], en [PAÍS] (registro de tratamientos, entrada del buzón). Acuse en 2 días hábiles y respuesta en 30 días corridos (MATU-75, D4).
+- Contacto: cuidaconmatu@gmail.com, una dirección de la función, no personal, que leen Jorge y Martín con verificación en dos pasos y sin reenvío a correos personales. Proveedor: Gmail, de Google LLC, en Estados Unidos (registro de tratamientos, entrada del buzón). Acuse en 2 días hábiles y respuesta en 30 días corridos (MATU-75, D4).
 - Qué trata: cuentas de prueba, registros técnicos de la demostración y los correos que lleguen al buzón de privacidad, que pueden traer datos reales. Ningún dato real de salud ni de dependencia entra al sistema.
 - Rol de la institución: [PENDIENTE, confirmar con el ramo si la institución tiene algún rol respecto de los datos del piloto]
 - Las entrevistas de validación se rigen por su propio protocolo y no por este documento.
