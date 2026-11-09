@@ -339,10 +339,10 @@ Cada historia que empieza a tratar datos personales agrega aquí su entrada.
 
 - **Finalidad:** dejar constancia de qué versión y qué texto exacto vio y aceptó cada persona.
 - **Titulares:** las cuentas creadas desde la versión 0.11. Las anteriores quedan sin registro (D2).
-- **Datos:** `usuario_id`, `version`, `huella` (SHA-256 del texto mostrado, con el correo ya reemplazado) y `aceptada_en`. Sin IP ni navegador.
-- **Base de licitud:** ejecución del servicio que pide la persona. [PENDIENTE: CL-75-3, si «acepto» es un consentimiento o solo un acuse de lectura]
+- **Datos:** `usuario_id`, `version`, `huella` (SHA-256 del texto mostrado, con el correo de contacto escrito en el texto) y `aceptada_en`. Sin IP ni navegador.
+- **Base de licitud:** ejecución del servicio que pide la persona. [PENDIENTE: CL-50, si «acepto» es un consentimiento o solo un acuse de lectura]
 - **Quién accede:** la titular, en «Tu cuenta», y operación para soporte. Nadie lo modifica ni lo borra desde la aplicación.
-- **Conservación:** mientras exista la cuenta. [PENDIENTE: CL-75-2, plazo tras eliminar la cuenta]
+- **Conservación:** mientras exista la cuenta. [PENDIENTE: CL-49, plazo tras eliminar la cuenta]
 - **Medidas:**
   - tabla de solo agregar, con RLS forzado
   - el servidor estampa la versión y la huella, y rechaza una huella que no sea la vigente
@@ -357,11 +357,11 @@ Cada historia que empieza a tratar datos personales agrega aquí su entrada.
 - **Finalidad:** recibir y responder las solicitudes de derechos y las consultas de privacidad.
 - **Titulares:** cualquiera que escriba.
 - **Datos:** el correo y el nombre de quien escribe, el mensaje y la respuesta. Puede traer datos sensibles, aunque la política pide no incluirlos. **Es un tratamiento de datos reales durante el piloto.**
-- **Base de licitud:** atender los derechos del titular. [PENDIENTE: consulta legal, junto con CL-75-1]
+- **Base de licitud:** atender los derechos del titular. [PENDIENTE: consulta legal, junto con CL-48]
 - **Quién accede:** Jorge y Martín, con una cuenta de la función, verificación en dos pasos y sin reenvío a correos personales.
 - **Conservación:** hasta 2 años después de cerrar la solicitud. Después queda solo una lista con la fecha, el tipo de solicitud y la fecha de respuesta, sin el contenido (decisión de Jorge del 09-11).
 - **Encargado:** Gmail, de Google LLC, en Estados Unidos. [PENDIENTE: revisar sus condiciones]
-- **Transferencia internacional:** Estados Unidos (Google LLC). [PENDIENTE: consulta legal sobre la transferencia internacional, junto con CL-35]
+- **Transferencia internacional:** Estados Unidos (Google LLC). [PENDIENTE: consulta legal sobre la transferencia internacional, CL-51]
 - **Medidas:**
   - el contenido de una solicitud nunca se copia al repositorio, a Trello, al vault ni a una sesión con agentes
   - plazos: acuse dentro de 2 días hábiles y respuesta a más tardar en 30 días corridos (D4)

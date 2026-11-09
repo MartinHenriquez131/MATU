@@ -7,7 +7,7 @@
 - Es **la lista única de preguntas para el abogado y para el contador** que hay que responder antes de operar con datos reales o con dinero real.
 - **No es asesoría legal.** Las preguntas las formuló el analista normativo, que no es abogado, y sirven para preparar la consulta. Las respuestas las dan el abogado y el contador.
 - **El semestre opera solo con datos sintéticos**, en el ambiente de integración de Transbank y sin cobros reales (`figura-legal-piloto.md`). Por eso ninguna de estas preguntas bloquea el semestre.
-- **La regla de ahora en adelante:** cada pregunta nueva entra aquí con el número siguiente (la próxima es CL-48), dentro de su tema. La tarjeta de Trello «Antes de datos reales · Consulta legal sobre el cuidador de hecho» solo enlaza a este archivo.
+- **La regla de ahora en adelante:** cada pregunta nueva entra aquí con el número siguiente (la próxima es CL-52), dentro de su tema. La tarjeta de Trello «Antes de datos reales · Consulta legal sobre el cuidador de hecho» solo enlaza a este archivo.
 - **Las numeraciones antiguas dejan de usarse.** Las CL-1 a CL-4 de MATU-60, las CL-1 a CL-8 de MATU-44 y MATU-72, las 1 a 17 de MATU-26 y MATU-04, las del ADR-027 y las de cada revisión se traducen con la tabla de equivalencias del final.
 - **Cuando llega una respuesta,** se anota en su casilla con la fecha y quién respondió. Después se lleva a la política de privacidad, al registro de tratamientos o al ADR que corresponda, y se cierra el `[PENDIENTE]` que indica la pregunta.
 
@@ -263,16 +263,16 @@ En los orígenes, «Trello» es un comentario de la tarjeta de consulta legal, c
   - MATU-26, revisión previa, Trello del 21 de octubre de 2026, pregunta 14
   - MATU-04, revisión normativa de MATU-04, 05a y 06, Trello del 24 de octubre de 2026, pregunta 15
   - MATU-57, revisión de Martín (TESTER, P2-3), Trello del 5 de noviembre de 2026, pregunta 2.
-- **Mientras tanto:** el registro usa «ejecución del servicio que pide la persona». La evidencia mínima es guardar qué versión de la política aceptó cada usuario, que está por construir.
+- **Mientras tanto:** el registro usa «ejecución del servicio que pide la persona». Desde la política 0.11 (MATU-75) se guarda qué versión aceptó cada cuenta nueva, con la huella del texto. Si esa aceptación es un consentimiento está en CL-50.
 - **Bloquea:** datos reales.
-- **Se cierra en:** política, sección 12 («[PENDIENTE: guardar también qué versión aceptaste al crear tu cuenta y cuándo…]»). Registro, entradas 6 y 7, base de licitud.
+- **Se cierra en:** Registro, entradas 6, 7 y 10, base de licitud.
 - **Respuesta:** —
 
 ### CL-23 · El identificador de versión de la política
 
 - **Pregunta:** para que una autorización sirva como prueba, ¿basta guardar el número de versión de la política si el texto cambió dentro de la misma versión? Hoy `0.10` identifica varios textos (MATU-36, 41, 50, 25 y 60). ¿O cada texto publicado necesita su propio identificador o su huella?
 - **Origen:** MATU-60, CL-3, revisión previa, Trello del 6 de noviembre de 2026, y `revision-matu-60.md`.
-- **Mientras tanto:** `POLITICA_VERSION` sigue en `0.10` con el criterio del 6 de noviembre de 2026. Las declaraciones y el aviso tienen identificador y el aviso tiene su huella SHA-256.
+- **Mientras tanto:** `POLITICA_VERSION` sigue en `0.10` con el criterio del 6 de noviembre de 2026. Las declaraciones y el aviso tienen identificador y el aviso tiene su huella SHA-256. Desde la 0.11 cada texto de la política tiene su número y su huella (MATU-75).
 - **Bloquea:** datos reales.
 - **Se cierra en:** no tiene un `[PENDIENTE]` propio. Afecta la política, sección 12.
 - **Respuesta:** —
@@ -288,6 +288,15 @@ En los orígenes, «Trello» es un comentario de la tarjeta de consulta legal, c
 - **Mientras tanto:** un cambio que no agrega usos, datos ni destinatarios no cambia la versión (criterio del 6 de noviembre de 2026). Si un encargado no cuenta, igual se publica una versión nueva de la política con sus nombres y su país.
 - **Bloquea:** datos reales.
 - **Se cierra en:** no tiene un `[PENDIENTE]` propio. El texto está en la política, sección 12.
+- **Respuesta:** —
+
+### CL-50 · Si «Leí y acepto» es un consentimiento o un acuse de lectura
+
+- **Pregunta:** la casilla obligatoria de crear cuenta, ¿es un consentimiento según la Ley 21.719 o solo deja constancia de que se informó? Si es un consentimiento, ¿vale siendo obligatoria? Si es un acuse, ¿qué base cubre los datos de la cuenta (CL-22)? ¿Basta la huella del texto puesto a disposición como prueba? ¿Hay que cambiar la frase «una huella del texto exacto que viste»? ¿Hay que pedir la aceptación de nuevo cuando cambia la versión?
+- **Origen:** MATU-75 (CL-75-3). Se relaciona con CL-22, CL-23 y CL-24.
+- **Mientras tanto:** casilla obligatoria sin marcar, con base «ejecución del servicio». Desde la 0.11 cada texto tiene su número y su huella. No se pide aceptar de nuevo al cambiar la versión, salvo que se agreguen usos, datos o destinatarios (§12).
+- **Bloquea:** datos reales.
+- **Se cierra en:** política §12. Registro, entrada 10, base de licitud.
 - **Respuesta:** —
 
 ## 4. Conservación y borrado
@@ -370,7 +379,16 @@ En los orígenes, «Trello» es un comentario de la tarjeta de consulta legal, c
   - MATU-57, revisión de Martín (TESTER, P2-3), Trello del 5 de noviembre de 2026, pregunta 1.
 - **Mientras tanto:** se guardan mientras exista la cuenta.
 - **Bloquea:** datos reales.
-- **Se cierra en:** registro, entrada 7, conservación («[PENDIENTE: plazo tras eliminar la cuenta]»). Política, sección 8, «Tu cuenta» («[PENDIENTE]»).
+- **Se cierra en:** registro, entrada 7, conservación («[PENDIENTE: plazo tras eliminar la cuenta]»). Política, sección 8, «Tu cuenta y las versiones de esta política que aceptaste».
+- **Respuesta:** —
+
+### CL-49 · La aceptación de la política después de eliminar la cuenta
+
+- **Pregunta:** ¿cuánto tiempo se puede o se debe guardar el registro de la aceptación (versión, fecha y huella) después de que la persona elimina su cuenta? ¿Se guarda completo o sin el vínculo con la persona? ¿Es el mismo plazo de CL-32 y de CL-26?
+- **Origen:** MATU-75 (CL-75-2). Se relaciona con CL-32 y CL-26.
+- **Mientras tanto:** se guarda mientras exista la cuenta. La aceptación no se borra en cascada con la cuenta (migración 0021), y ninguna ruta borra cuentas.
+- **Bloquea:** datos reales.
+- **Se cierra en:** política §8. Registro, entrada 10, conservación.
 - **Respuesta:** —
 
 ## 5. El relevo y otras personas que anota la familia
@@ -447,6 +465,15 @@ En los orígenes, «Trello» es un comentario de la tarjeta de consulta legal, c
 - **Se cierra en:** política, sección 6, «Dictar en vez de escribir» («[PENDIENTE: consulta legal sobre el envío de audio de un dato sensible…]»). Registro, entrada 3, dictado.
 - **Respuesta:** —
 
+### CL-51 · El buzón de privacidad en una cuenta personal de Gmail
+
+- **Pregunta:** cuidaconmatu@gmail.com es una cuenta personal de Gmail, de Google LLC, en Estados Unidos, y ya recibe correos reales que pueden traer datos de salud. Sin un contrato de encargo, ¿Google es encargado de MATU o un tercero de otra calidad? ¿Qué exige la Ley 21.719 para esa transferencia internacional? ¿Basta informarla en la política (§2 y §6), o hace falta una cuenta con un acuerdo de tratamiento de datos? ¿Es aceptable que dos personas compartan una sola cuenta?
+- **Origen:** MATU-75, D5 y revisión de cierre, 9 de noviembre de 2026. Se relaciona con CL-35 y CL-36.
+- **Mientras tanto:** una dirección de la función, con verificación en dos pasos y sin reenvío. Se pide no incluir datos de salud. El contenido nunca se copia al repositorio, a Trello, al vault ni a una sesión con agentes. Los correos se guardan 2 años. Quien responde cada solicitud queda anotado en la lista de solicitudes.
+- **Bloquea:** datos reales. Conviene responderla antes, porque el buzón ya trata datos reales.
+- **Se cierra en:** registro, entrada 11, encargado y transferencia. Política §6.
+- **Respuesta:** —
+
 ## 7. Seguridad, huellas de IP y derechos
 
 ### CL-39 · La base de las huellas de IP y de email
@@ -467,9 +494,18 @@ En los orígenes, «Trello» es un comentario de la tarjeta de consulta legal, c
 
 - **Pregunta:** desde el 1 de diciembre de 2026, ¿qué plazo hay para responder las solicitudes de derechos? ¿Qué plazo y qué contenido debe tener la notificación de una filtración?
 - **Origen:** MATU-26, revisión previa, Trello del 21 de octubre de 2026, pregunta 13.
-- **Mientras tanto:** la meta interna es avisar dentro de 72 horas desde que se sabe de la filtración.
+- **Mientras tanto:** la meta interna es avisar dentro de 72 horas desde que se sabe de la filtración. Para los derechos, acuse dentro de 2 días hábiles y respuesta a más tardar en 30 días corridos (MATU-75, D4).
 - **Bloquea:** datos reales.
 - **Se cierra en:** política, sección 10, «Cómo» («Respondemos dentro de [PENDIENTE: plazo legal de respuesta]»), y sección 11 («[PENDIENTE: procedimiento escrito ante una filtración]»).
+- **Respuesta:** —
+
+### CL-48 · El plazo para responder los derechos antes y después del 1 de diciembre de 2026
+
+- **Pregunta:** MATU promete acusar recibo dentro de 2 días hábiles y responder a más tardar en 30 días corridos. ¿Cumple ese plazo con la Ley 19.628 mientras rija su texto actual, hasta el 30 de noviembre de 2026, y con la Ley 21.719 desde el 1 de diciembre de 2026? ¿Desde cuándo corre el plazo si pedimos confirmar la identidad? ¿Se puede prorrogar? ¿La respuesta debe informar el derecho a reclamar ante la Agencia? ¿Con qué base se tratan los datos que llegan al buzón?
+- **Origen:** MATU-75, revisión previa (D4) y de cierre, 9 de noviembre de 2026 (CL-75-1). Amplía CL-40.
+- **Mientras tanto:** acuse dentro de 2 días hábiles y respuesta a más tardar en 30 días corridos (D4).
+- **Bloquea:** datos reales. Conviene responderla antes del 1 de diciembre de 2026, porque el buzón ya está activo.
+- **Se cierra en:** política §10 «Cómo». Registro, entrada 11, base de licitud.
 - **Respuesta:** —
 
 ## 8. Consumidor y catálogo
@@ -555,7 +591,7 @@ En los orígenes, «Trello» es un comentario de la tarjeta de consulta legal, c
 Estas no son preguntas legales. Son trabajo del equipo que tiene que estar hecho antes de operar con datos reales o con dinero real.
 
 - **Enviar correo solo a emails verificados.** Hoy cualquiera puede registrar un email ajeno (MATU-41, revisión previa, Trello del 4 de noviembre de 2026, punto 3, y política, sección 13).
-- **El correo de contacto** de privacidad (política, secciones 2 y 10).
+- **El correo de contacto** de privacidad (política, secciones 2 y 10). **Hecho en MATU-75, 09-11.**
 - **Borrar los datos de la persona cuando lo pide por correo,** sin pasar por su grupo (MATU-72, política, sección 13).
 - **Ver o descargar los datos desde la aplicación,** incluidas las compras anotadas. Mientras tanto, por el correo (política, sección 13, y `revision-matu-51.md`).
 - **Borrar el teléfono del relevo a los 30 días** (MATU-46).
@@ -565,7 +601,7 @@ Estas no son preguntas legales. Son trabajo del equipo que tiene que estar hecho
 - **Nombrar los proveedores y su país** en la política: nube, push, WhatsApp, correo, SMS y registro de errores (política, secciones 6 y 7).
 - **Revisar las condiciones de servicio y el acuerdo de tratamiento de datos de Railway,** y el plazo de sus registros HTTP (registro, entrada 9).
 - **El procedimiento escrito ante una filtración** (política, sección 11).
-- **Guardar qué versión de la política aceptó cada usuario** al crear su cuenta (política, sección 12). Es la evidencia mínima mientras se responde CL-22.
+- **Guardar qué versión de la política aceptó cada usuario** al crear su cuenta (política, sección 12). Es la evidencia mínima mientras se responde CL-22. **Hecho en MATU-75, 09-11.**
 - **La proyección del comercio sin identificadores de la familia,** con una migración nueva antes de construir la vista del comercio (registro, entrada 2).
 - **Verificar en integración la anulación parcial de una venta normal** con crédito y con débito, y los plazos de anulación de Transbank, antes del sprint 4 (política, sección 6, y `figura-legal-piloto.md`, sección 5). Es una verificación técnica, no legal.
 - **La evaluación de impacto del art. 15 ter,** sea obligatoria o no (ADR-027, P7).
@@ -703,3 +739,12 @@ Cada fila traduce un número antiguo a su número nuevo. «Sin número» es una 
 | MATU-59, revisión previa | 3 (RUT de ejemplo) | CL-45 |
 | MATU-59, revisión de cierre | 4 (receta) | CL-43 |
 | Descripción de la tarjeta | Pregunta base (cuidador de hecho) | CL-01 |
+
+### MATU-75 (9 de noviembre de 2026)
+
+| Historia | Número antiguo | Número nuevo |
+|---|---|---|
+| MATU-75 | CL-75-1 | CL-48 |
+| MATU-75 | CL-75-2 | CL-49 |
+| MATU-75 | CL-75-3 | CL-50 |
+| MATU-75 | Sin número (buzón en Gmail) | CL-51 |

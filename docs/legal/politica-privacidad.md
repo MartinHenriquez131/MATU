@@ -5,7 +5,7 @@
 **Aprobación:** aprobada como borrador v0.9 por Jorge Espinoza (Product Owner) el 25/10/2026. La revisión la hizo el orquestador del equipo de agentes, por delegación. Se confirman los tres compromisos del texto: MATU no vende datos, borra de inmediato los datos reales que entren por error, y ejercer los derechos es gratis. Los pendientes que quedan (plazos, proveedores y procedimiento ante filtraciones) se resuelven en la versión 1.0, antes de tratar datos reales.
 **Identificador de versión en el sistema:** `0.11`
 **Versión 0.10 (03-11):** la redactó el analista normativo con las decisiones de Jorge del 31-10, del 02-11 y del 03-11 (contrato de MATU-32, MATU-36 y MATU-38). Aprobada por Jorge el 05-11 como borrador del piloto, que trabaja solo con datos sintéticos. Antes de tratar datos reales pasa por la consulta legal. `POLITICA_VERSION` pasa a `0.10` en el backend con MATU-36
-**ADR-027 (27-10):** las secciones que empiezan con esa nota adaptan el texto a los pedidos y pagos del ADR-027. Aprobado por Jorge el 27-10 como diseño. Las frases sobre lo que el comercio ve o no ve se publican solo cuando la migración del sprint 4 (requisitos R7 a R9, arquitectura 18.1) las haga ciertas. Siguen sin publicarse en la versión 0.10: se publican cuando el sprint 4 las haga ciertas, con una versión nueva.
+**ADR-027 (27-10):** las secciones que empiezan con esa nota adaptan el texto a los pedidos y pagos del ADR-027. Aprobado por Jorge el 27-10 como diseño. Las frases de §4 y §6 sobre lo que el comercio ve o no ve se publican en futuro («cuando existan los pedidos») y se cumplen con la capa 3 (MATU-61 a 63).
 **MATU-50 (03-11):** se precisan las secciones 4, 6, 8 y 9 con la ficha ampliada ya construida, y se agrega que la ficha no se imprime (ADR-029). No agregan usos, datos ni destinatarios, y no cambian las declaraciones. No cambian la versión: `POLITICA_VERSION` sigue en `0.10`. Aprobado por Jorge el 03-11.
 
 **MATU-09 (27-10):** se ajustan las secciones 4, 6, 8, 9, 10 y 13 con el acceso de relevo. Aprobado por Jorge el 27-10 como diseño. No cambian la versión: `POLITICA_VERSION` sigue en `0.9`.
@@ -25,7 +25,7 @@
 
 **MATU-72 (08-11):** se ajustan las secciones 4, 6, 8, 10 y 13 con el borrado sin espera de los datos de la persona. No agrega usos, datos ni destinatarios, y acorta plazos, así que no cambia la versión: `POLITICA_VERSION` sigue en `0.10` (criterio del 06-11). Aprobado por Jorge el 08-11.
 
-**MATU-75 (09-11) · versión 0.11 (opción B, decisión D1 de Jorge del 09-11):** la política se muestra en la aplicación, en /privacidad, desde «En un minuto» hasta el final, y al crear la cuenta se registra qué versión se aceptó, con la huella SHA-256 del texto exacto que se mostró. Cambios: §2 y §10 publican el correo de contacto `cuidaconmatu@gmail.com` y los plazos (acuse en 2 días hábiles, respuesta en 30 días corridos, D4); §4, §8, §12 y §13 informan la aceptación con huella; §6 nombra el proveedor del buzón; cada [PENDIENTE] visible pasa a una frase completa, y su nota queda en un comentario HTML; las referencias internas y los identificadores de §5 pasan a comentarios. Cambia la versión porque cada texto aceptado con huella necesita su propio número. **Las declaraciones de §5 y el aviso no cambian**, así que nadie vuelve a autorizar: las autorizaciones dadas con 0.10 siguen con 0.10. Las cuentas creadas antes de la 0.11 quedan sin registro de aceptación (D2). Desde ahora, cualquier cambio de texto desde «En un minuto» hasta el final es una versión nueva, porque cambia la huella. Pendiente para la consulta legal: CL-75-1, CL-75-2 y CL-75-3. Aprobado por Jorge el 09-11.
+**MATU-75 (09-11) · versión 0.11 (opción B, decisión D1 de Jorge del 09-11):** la política se muestra en la aplicación, en /privacidad, desde «En un minuto» hasta el final, y al crear la cuenta se registra qué versión se aceptó, con la huella SHA-256 del texto exacto que se mostró. Cambios: §2 y §10 publican el correo de contacto `cuidaconmatu@gmail.com` y los plazos (acuse en 2 días hábiles, respuesta en 30 días corridos, D4); §4, §8, §12 y §13 informan la aceptación con huella; §6 nombra el proveedor del buzón; cada [PENDIENTE] visible pasa a una frase completa, y su nota queda en un comentario HTML; las referencias internas y los identificadores de §5 pasan a comentarios. Cambia la versión porque cada texto aceptado con huella necesita su propio número. **Las declaraciones de §5 y el aviso no cambian**, así que nadie vuelve a autorizar: las autorizaciones dadas con 0.10 siguen con 0.10. Las cuentas creadas antes de la 0.11 quedan sin registro de aceptación (D2). Desde ahora, cualquier cambio de texto desde «En un minuto» hasta el final es una versión nueva, porque cambia la huella. Pendiente para la consulta legal: CL-48, CL-49 y CL-50. Aprobado por Jorge el 09-11.
 
 ---
 
@@ -280,7 +280,7 @@ Antes de usar MATU con datos reales, diremos aquí los demás: dónde se guardan
 - **Registro de quién abrió la ficha:** 3 años.
 - **Pedidos y comprobantes de entrega**, cuando existan: 2 años.
 - **Pagos y boletas**, cuando existan: 6 años, por obligación tributaria.
-- **Tu cuenta y las versiones de esta política que aceptaste:** mientras tengas tu cuenta. Todavía no definimos cuánto tiempo se guardan después de que la elimines. Lo publicaremos antes de usar MATU con datos reales. <!-- PENDIENTE: CL-75-2 -->
+- **Tu cuenta y las versiones de esta política que aceptaste:** mientras tengas tu cuenta. Todavía no definimos cuánto tiempo se guardan después de que la elimines. Lo publicaremos antes de usar MATU con datos reales. <!-- PENDIENTE: CL-49 -->
 - **Registro de autorizaciones:** cada autorización, también las retiradas, con su fecha de retiro. Hoy no se borran. Todavía no definimos su plazo. Lo publicaremos antes de usar MATU con datos reales. <!-- PENDIENTE: plazo, en consulta legal -->
 - **Accesos de relevo:** el nombre del relevo, el motivo y las fechas, 3 años desde que vence o se corta el acceso, igual que el registro de quién abrió la ficha. El teléfono del relevo se borra 30 días después de que el acceso vence o se corta.
 - **Registros técnicos del sistema:** todavía no definimos su plazo. Lo publicaremos antes de usar MATU con datos reales. <!-- PENDIENTE -->
@@ -350,7 +350,7 @@ Un abogado revisará, antes de usar MATU con datos reales, cómo confirmar la id
 - Sobre tus datos, tú.
 - Sobre los datos de la persona cuidada, ella misma o su representante legal. Todavía no definimos si quien la cuida sin ser su representante legal puede pedirlo en su nombre. Un abogado lo revisará antes de usar MATU con datos reales. <!-- PENDIENTE: si la cuidadora o el cuidador de hecho puede pedirlo en su nombre. Está en consulta legal -->
 
-**Cómo:** escribe a cuidaconmatu@gmail.com. Si tienes cuenta en MATU, escríbenos desde el correo de tu cuenta. Si lo pides por la persona que cuidas, cuéntanos en qué calidad lo pides. No incluyas en tu correo datos de salud ni el texto de la ficha: no los necesitamos para responderte. Puede que te pidamos confirmar tu identidad. Te avisamos que recibimos tu correo dentro de 2 días hábiles y te respondemos a más tardar en 30 días corridos. Es gratis. <!-- PENDIENTE: CL-75-1, plazo legal de respuesta antes y después del 01-12-2026 -->
+**Cómo:** escribe a cuidaconmatu@gmail.com. Si tienes cuenta en MATU, escríbenos desde el correo de tu cuenta. Si lo pides por la persona que cuidas, cuéntanos en qué calidad lo pides. No incluyas en tu correo datos de salud ni el texto de la ficha: no los necesitamos para responderte. Puede que te pidamos confirmar tu identidad. Te avisamos que recibimos tu correo dentro de 2 días hábiles y te respondemos a más tardar en 30 días corridos. Es gratis. <!-- PENDIENTE: CL-48, plazo legal de respuesta antes y después del 01-12-2026 -->
 
 En «Tu cuenta» puedes ver qué versión de esta política aceptaste y cuándo.
 
@@ -368,12 +368,12 @@ Si hay una filtración que afecte datos personales, avisaremos sin demora a la A
 - Con cada autorización guardamos el número de la versión vigente cuando la diste.
 - Si un cambio agrega usos, datos o personas que reciben datos, te pediremos una autorización nueva.
 - La versión 1.0 será la primera revisada por un abogado y la primera que permita usar datos reales.
-<!-- PENDIENTE: CL-75-3, si «acepto» es un consentimiento o solo un acuse de lectura -->
+<!-- PENDIENTE: CL-50, si «acepto» es un consentimiento o solo un acuse de lectura -->
 
 ## 13. Lo que todavía no funciona en el piloto
 
 - Borrar el teléfono del relevo 30 días después de que el acceso vence o se corta. Mientras no exista, MATU no trata datos reales.
-- Ver o descargar los datos desde la aplicación. Por ahora, en «Tu cuenta» solo ves qué versión de esta política aceptaste. Para lo demás, escribe a cuidaconmatu@gmail.com (sección 10).
+- Ver o descargar los datos desde la aplicación. Por ahora, en «Tu cuenta» ves tu email, parte de tu celular y qué versión de esta política aceptaste. Para lo demás, escribe a cuidaconmatu@gmail.com (sección 10).
 - Borrar los datos de la persona cuando lo pide por correo, sin pasar por su grupo. Mientras no exista, MATU no trata datos reales.
 - El recordatorio de los 12 meses.
 - Un aviso automático al equipo cuando una de las tareas diarias falla. Mientras no exista, el equipo revisa a mano el historial de corridas.
