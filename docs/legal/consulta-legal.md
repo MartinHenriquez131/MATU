@@ -272,7 +272,7 @@ En los orígenes, «Trello» es un comentario de la tarjeta de consulta legal, c
 
 - **Pregunta:** para que una autorización sirva como prueba, ¿basta guardar el número de versión de la política si el texto cambió dentro de la misma versión? Hoy `0.10` identifica varios textos (MATU-36, 41, 50, 25 y 60). ¿O cada texto publicado necesita su propio identificador o su huella?
 - **Origen:** MATU-60, CL-3, revisión previa, Trello del 6 de noviembre de 2026, y `revision-matu-60.md`.
-- **Mientras tanto:** `POLITICA_VERSION` sigue en `0.10` con el criterio del 6 de noviembre de 2026. Las declaraciones y el aviso tienen identificador y el aviso tiene su huella SHA-256. Desde la 0.11 cada texto de la política tiene su número y su huella (MATU-75).
+- **Mientras tanto:** desde la política 0.11 (MATU-75), `POLITICA_VERSION` es `0.11`. Antes, `0.10` identificó varios textos con el criterio del 6 de noviembre de 2026. Las declaraciones y el aviso tienen identificador y el aviso tiene su huella SHA-256. Desde la 0.11 cada texto de la política tiene su número y su huella (MATU-75).
 - **Bloquea:** datos reales.
 - **Se cierra en:** no tiene un `[PENDIENTE]` propio. Afecta la política, sección 12.
 - **Respuesta:** —
@@ -496,7 +496,7 @@ En los orígenes, «Trello» es un comentario de la tarjeta de consulta legal, c
 - **Origen:** MATU-26, revisión previa, Trello del 21 de octubre de 2026, pregunta 13.
 - **Mientras tanto:** la meta interna es avisar dentro de 72 horas desde que se sabe de la filtración. Para los derechos, acuse dentro de 2 días hábiles y respuesta a más tardar en 30 días corridos (MATU-75, D4).
 - **Bloquea:** datos reales.
-- **Se cierra en:** política, sección 10, «Cómo» («Respondemos dentro de [PENDIENTE: plazo legal de respuesta]»), y sección 11 («[PENDIENTE: procedimiento escrito ante una filtración]»).
+- **Se cierra en:** política, sección 10, «Cómo» (`<!-- PENDIENTE: CL-48, plazo legal de respuesta antes y después del 01-12-2026 -->`), y sección 11 (`<!-- PENDIENTE: procedimiento escrito ante una filtración -->`).
 - **Respuesta:** —
 
 ### CL-48 · El plazo para responder los derechos antes y después del 1 de diciembre de 2026
