@@ -3,6 +3,7 @@
 **Versión 1.0 · 26 de octubre de 2026 (26/10/2026)** · historia MATU-30
 **Estado:** borrador. Lo revisa Martín en MATU-31 y lo aprueba Jorge. Los textos marcados **[PENDIENTE DE JORGE]** no se usan hasta que él los apruebe.
 **Decisiones de Jorge del 27-10 (MATU-09 y MATU-30):** aprobó el aviso al relevo (7.5), los dos nombres antes del PIN (7.1 y 7.4), la ayuda del teléfono (9) y las preguntas guía con el nombre de la persona (5.1 y 5.2). La sección 10 marca qué diferencias quedan resueltas.
+**MATU-68 (08-11):** entran los textos que la app ya mostraba sin estar aquí: las secciones nuevas 25 (alta) y 26 (marco de la app), la 6.6 y filas en 5.4, 7.1, 7.3, 7.4, 7.5, 8, 9.1, 13.3, 15 y 18. Los del alta los revisó el analista normativo, y donde propuso un cambio va el texto propuesto. El alta ya no pide la dirección. Aprobados por Jorge el 08-11. La sección 24 queda para MATU-72.
 **Fuentes:** resultados de las entrevistas (`docs/resultados-entrevistas.md`), arquitectura sección 10, política de privacidad v0.9, la demo aprobada (`Demo/src/`, rama `demo-web-viernes-30`) y el contrato de MATU-09 (`docs/api/`, rama `matu-09-contrato-api`).
 
 ---
@@ -148,6 +149,8 @@ Los ejemplos son sintéticos: Carmen cuida a María, Rosa la reemplaza y Rodrigo
 | Contador | `{n}` de 500 caracteres |
 | Botones del editor | Guardar · Dictar en vez de escribir · Seguir después |
 | Mientras se dicta | Escuchando… |
+| Botón para dejar de dictar (MATU-68) | Detener |
+| Sin micrófono (MATU-68) | No pudimos usar el micrófono. Puedes escribir el texto. |
 | Mientras se guarda | Guardando… |
 | Vista previa | Así la ve quien te reemplaza · La hoja, mientras escribes |
 | **Campo vacío** (en la hoja, para el relevo y en la vista previa) | **Sin completar** |
@@ -219,6 +222,15 @@ Aparece cuando la autorización la registró quien la cuida sin ser su represent
 
 > Cada campo admite hasta 500 caracteres. Acorta un poco el texto para guardarlo.
 
+### 6.6 Salir sin guardar y entrada vencida (MATU-68) · Aprobados por Jorge el 08-11
+
+| Situación | Texto |
+|---|---|
+| Salir del editor con texto sin guardar | Lo que escribiste en «`{campo}`» no se guardó. ¿Salir igual? |
+| Botones | Salir sin guardar · Seguir escribiendo |
+| Bajo un error, con texto escrito | Lo que escribiste sigue aquí. Cópialo si lo quieres guardar en otra parte. |
+| Entrada vencida con texto sin guardar | Tienes que volver a entrar. Copia lo que escribiste antes de seguir: no se guardó. |
+
 ---
 
 ## 7. El relevo (MATU-23)
@@ -235,6 +247,8 @@ La página pública `/r#<token>`, sin cuenta. Antes de escribir el PIN, la pági
 | Etiqueta del campo | PIN |
 | Botón | Ver la ficha |
 | Pie | No necesitas cuenta ni instalar nada. Al entrar, el enlace se borra de la barra de direcciones. |
+| Título de la pestaña del navegador (MATU-68) | Ficha de cuidado compartida · MATU · En un estado que no abre: `{título del estado}` · MATU, sin el punto final del título |
+| Mientras abre (MATU-68) | Abriendo el enlace… · Abriendo la ficha… (también en el botón, mientras revisa el PIN) |
 
 ### 7.2 La acción común
 
@@ -257,6 +271,8 @@ Todos los estados en que el enlace ya no abre terminan con la misma acción, en 
 | Sin sesión | `/errores/sin-sesion-relevo` 401 | Vuelve a abrir el enlace | Por seguridad, la ficha se cierra después de un rato. Abre de nuevo el enlace que te enviaron y escribe el PIN. | — (el enlace sigue sirviendo) |
 | Demasiados intentos desde la conexión | `/errores/demasiadas-peticiones` 429 | Espera un momento | Hubo muchos intentos de entrar desde esta conexión. Vuelve a intentarlo en `{minutos}` minutos. | — |
 
+**Los minutos del 429 (MATU-68):** con 1 se escribe «Vuelve a intentarlo en 1 minuto.». Si la respuesta no trae `Retry-After`: «Vuelve a intentarlo en unos minutos.».
+
 El mensaje del PIN se anuncia con `role="alert"` y deja el foco en el campo. Los títulos de los estados que no abren se anuncian al cargar. Un estado nunca se distingue solo por color: lleva ícono y título.
 
 ### 7.4 La ficha abierta
@@ -268,6 +284,9 @@ El mensaje del PIN se anuncia con `role="alert"` y deja el foco en el campo. Los
 | Botón | Actualizar |
 | Nota | Solo `{nombre_comparte}` puede cambiar esta ficha. |
 | Campo compartido sin texto | Sin completar |
+| Mientras actualiza (MATU-68) | Actualizando… |
+| Después de actualizar (MATU-68) | Ficha actualizada a las `{hora}`. |
+| Nombre accesible de la columna lateral (MATU-68) | Sobre esta ficha |
 
 ### 7.5 Aviso al relevo · Aprobado por Jorge el 27-10, ajustado el 03-11 (MATU-45: la familia ve el registro)
 
@@ -278,6 +297,8 @@ Aviso para el relevo como titular de su nombre y su teléfono. Va en la pantalla
 El correo de contacto es el mismo de la política, sección 2, y se completa con la versión 1.0.
 
 **En la demo.** Como todavía no hay correo de contacto, la demo muestra el aviso sin esa frase. Termina en "Puedes pedir ver, corregir o borrar tus datos. [Política de privacidad]".
+
+**Título y enlace (MATU-68, aprobados por Jorge el 08-11).** Sobre el aviso va el título «Tus datos en MATU», y el enlace a la política dice «Política de privacidad (se abre en otra pestaña)». La página parte el aviso en tres párrafos sin cambiar una palabra: el texto del aviso se sigue copiando tal cual. El enlace no se muestra hasta que la política tenga su página en la app (MATU-75).
 
 Fuentes: decisiones de Jorge del 27-10 (contrato de MATU-09), política v0.9, secciones 2, 4, 8 y 10, y figura legal del piloto, secciones 4.1 y 4.4.
 
@@ -319,6 +340,10 @@ La pantalla elige el texto por `type` (y, en un 422, por `errores[].campo` y `er
 | Cualquier otro, o sin respuesta | 5xx o red | Toda la app | No pudimos completar esto. Revisa tu conexión y vuelve a intentarlo. Lo que escribiste sigue aquí. |
 
 El 404 de la familia no dice si el recurso existe en otro grupo: un recurso de otro grupo responde 404, nunca 403 (CLAUDE.md, agente 2).
+
+**En la página del relevo (MATU-68).** El texto de «Cualquier otro» se parte en título, «No pudimos completar esto.», y texto, «Revisa tu conexión y vuelve a intentarlo.». Va sin «Lo que escribiste sigue aquí.», porque quien abre el enlace no escribió nada. El botón dice «Volver a intentar» (sección 26).
+
+**Sin acceso a la ficha, en la app de la familia (MATU-68):** No tienes acceso a la ficha de `{nombre}`. Si la necesitas, pídeselo a quien administra el grupo.
 
 ---
 
@@ -382,6 +407,9 @@ Salen de la revisión previa del analista normativo y de la especificación `doc
 | Al cargar más enlaces | Se agregó 1 enlace. · Se agregaron `{n}` enlaces. |
 | Servicio no disponible (503) | MATU no está disponible en este momento. Vuelve a intentarlo en unos minutos. |
 | Nombre accesible de las pestañas | Vistas de Compartir |
+| Campos vacíos al compartir (MATU-68) | `{campo}` está vacío: `{nombre}` verá «Sin completar». · Con más de uno: `{campo}`, `{campo}` y `{campo}` están vacíos: `{nombre}` verá «Sin completar». |
+| Junto al campo de «¿Cuántos días?» (MATU-68) | días |
+| En Quién la vio, bloque «Quién puede verla ahora» (MATU-68) | vence en `{restante}` |
 | En Quién la vio | Nadie tiene un enlace activo ahora. · Si te preocupa, puedes cortarlo desde Enlaces. · Ver todo en Quién la vio |
 
 ---
@@ -456,6 +484,8 @@ En la app se dice "entrar", nunca "sesión" (decisión de Jorge del 02-11). Los 
 
 Son las tres declaraciones de la política de privacidad, en la sección 5, "La autorización para calcular insumos", con sus identificadores `declaracion_consumo_<calidad>`. Se copian sin cambiar una palabra: cambiarlas es publicar una versión nueva de la política.
 
+Si no se elige quién da el permiso, el error dice: «Elige quién da el permiso.» (08-11, igual que en el alta, 25.4).
+
 ### 13.3 Entrar y dispositivos
 
 | Dónde | Texto |
@@ -464,6 +494,9 @@ Son las tres declaraciones de la política de privacidad, en la sección 5, "La 
 | Varios intentos fallidos (429) | Hubo varios intentos de entrar. Espera {minutos} minutos. · enlace: Recupera tu cuenta (MATU-57, aprobado por Jorge el 03-11) |
 | Muchos intentos desde la conexión (429 del límite por IP de MATU-25), solo al crear la cuenta. Recuperar el acceso y verificar el celular conservan sus textos de la sección 19 (corregido el 05-11) | Título: Espera un momento · Texto: Hubo muchos intentos desde esta conexión. Vuelve a intentarlo en {minutos} minutos. Con 1: «en 1 minuto». Los minutos salen de `Retry-After` redondeados hacia arriba (aprobado por Jorge el 05-11, P2-1 de la prueba en el teléfono) |
 | Correo de un dominio no permitido, solo en staging (`errores[].tipo = dominio_no_permitido`, decisión 105) | Bajo el campo del correo: En este ambiente de prueba usa un correo terminado en @example.com. (aprobado por Jorge el 05-11, P3-1 de la prueba en el teléfono) |
+| Entrar sin correo o sin contraseña (MATU-68) | Escribe tu correo y tu contraseña. |
+| Después de salir (MATU-68) | Saliste de MATU. Para volver, entra con tu correo y tu contraseña. |
+| El correo o la contraseña no coinciden (MATU-68) | El correo o la contraseña no coinciden. Revísalos y vuelve a intentarlo. |
 | Título de la pantalla de dispositivos | Dónde entraste |
 | El dispositivo actual | Este teléfono |
 | Último uso | Última vez: {fecha} a las {hora} |
@@ -556,6 +589,7 @@ Revisados contra los términos prohibidos (diagnóstico, conducta, incidente, de
 | Paginación | Ver aperturas anteriores · Se agregaron {n} líneas. · No hay más. |
 | Nota final | La ficha se guarda cifrada. |
 | Fechas | Hoy · Ayer · El {día} (hasta 6 días) · El DD/MM/AAAA, con hora de 24 h de Chile |
+| En la ficha, bloque de aperturas (MATU-68) | Últimas aperturas · Ver todo en Quién la vio (de la sección 9.1) |
 
 ## 16. Insumos para quien solo lee (MATU-36) · Aprobado por Jorge el 03-11
 
@@ -596,6 +630,7 @@ Complementa la sección 13 (lo central ya aprobado: «Alcanza para {n} días», 
 |---|---|
 | Permiso | Antes de calcular, un permiso · Es un permiso aparte del de su ficha. · Permiso guardado. Ahora anota el primer insumo. · No pudimos guardar el permiso. Revisa lo que elegiste y vuelve a intentarlo. · Falta el permiso para calcular los insumos de {nombre}. · Sin él no podemos mostrar cuándo se acaban. Pídele a quien administra el grupo o a quien cuida a {nombre} que lo registre. · Hay que renovar la autorización de los insumos de {nombre}. · Se renueva una vez al año. Mientras tanto, no podemos calcular ni mostrar sus insumos, pero lo que anotaste sigue guardado. |
 | Lista | Cargando los insumos… · Ver más · Anotar un insumo · Cambiar · Cómo calculamos · Dividimos lo que quedaba por lo que se usa, y contamos los días desde que lo anotaste. Si compraste o cambió lo que queda, anótalo con «Compré» o «Me quedan». No sabe si cambió lo que usa {nombre}. (MATU-51) · hasta el {fecha} · Según lo anotado, se acababa el {fecha} · Usa {n} al día. · Usa {n} cada {d} días. · Quedaban {n} el {fecha} · Queda 1 hoy. / Quedan {n} hoy. · Todavía no hay insumos anotados · Cuando alguien de tu grupo anote uno, aparece aquí. |
+| Títulos y vacío (MATU-68, aprobados por Jorge el 08-11) | Títulos de los formularios: Anotar un insumo · Cambiar un insumo · Sin insumos, para admin y cuidador: Aún no sabemos qué usa {pila} · Cuéntanos de un solo producto, el que más te preocupa. Con eso ya te podemos avisar antes de que se acabe. |
 | Formulario | Cambiar lo anotado · Volver a los insumos · ¿Qué insumo es? · ¿Cómo se cuenta? · Se cuenta por unidad. / por sobre. · ¿Cada cuánto se usa? · ¿Cada cuántos días? · ¿Cuántos usa {nombre} al día? / cada {d} días? · ¿Cuántos quedan hoy, más o menos? · El {fecha} anotaste {n}. Escribe cuántos quedan hoy, o déjalo en blanco si no lo sabes. · ¿Con cuántos días de anticipación te avisamos? · Si pones 0, te avisamos el mismo día. · Así, alcanza para {n} días, hasta el… · Así, se acaba hoy. · No había cambios. · Guardamos «{nombre}». |
 | Validación y errores | Escribe el nombre del insumo. · Escribe cuántos usa, al menos 1. · Escribe un número hasta 10.000. · Escribe un número de 2 a 90. · Escribe cuántos quedan. Si no queda nada, escribe 0. · Escribe un número hasta 100.000. · Escribe un número de 0 a 60. · El nombre admite hasta 60 caracteres. Acórtalo un poco. · Escribe el nombre en una sola línea. · Con esos números alcanzaría para más de 10 años. Revisa cuánto queda y cuánto se usa. · Ese producto no se puede seguir en MATU. · Ese producto ya está anotado. Búscalo en la lista y cámbialo ahí. · No pudimos guardar. Revisa los datos y vuelve a intentarlo. · Ya no se está siguiendo este insumo. · Alguien desmarcó «Seguir» mientras lo cambiabas. Para cambiarlo, vuelve a marcar «Seguir» en la lista. · No pudimos guardar este insumo. · Vuelve a abrirlo y guarda de nuevo. Lo que escribiste sigue aquí. |
 | Conflicto | {autor} cambió «{nombre}» mientras lo cambiabas · No guardamos lo tuyo encima de lo suyo. Elige qué dejar. · Lo que guardó · Lo tuyo, sin guardar · (cambió) · Guardar lo mío · Dejar lo que guardó · Dejaste lo que guardó {autor}. |
@@ -763,3 +798,97 @@ En la app se dice «Compré» y «Me quedan», nunca «reposición», «reponer�
 | Dejaron de seguirlo (409) | Alguien de tu familia dejó de seguir «{nombre}» mientras lo anotabas. No anotamos nada. Si quieres anotarlo, vuelve a marcar «Seguir». · Ver cómo quedó |
 | Otra persona lo cambió (412) | {autor} cambió «{nombre}» mientras lo anotabas. Revisa cómo quedó y vuelve a intentarlo. · Ver cómo quedó |
 | Errores generales | No pudimos guardar. Revisa tu conexión y vuelve a intentarlo. (sección 17) · No pudimos guardar. Revisa los datos y vuelve a intentarlo. (sección 18) |
+
+
+## 25. Alta: la cuenta, el grupo, la persona y la autorización (MATU-39) · Aprobados por Jorge el 08-11
+
+En la app se dice «autorización» y «permiso», nunca «consentimiento». Estos textos informan sobre datos personales: los revisó el analista normativo el 08-11 (sección 12) y, donde propuso un cambio, aquí va el texto aprobado. La pantalla se ajusta a esta sección.
+
+| Dónde | Texto |
+|---|---|
+| Pasos del alta | Tu cuenta · Tu grupo · A quién cuidas · La autorización |
+| Avance | Paso `{n}` de 4 |
+| Frase de marca, en las pantallas del alta | Que el cuidado no dependa de una sola persona. |
+
+### 25.1 Tu cuenta (`/crear-cuenta`)
+
+| Dónde | Texto |
+|---|---|
+| Título y bajada | Crea tu cuenta · Para empezar te pedimos solo esto. |
+| Nombre | Tu nombre · Ayuda: Así te verán en tu grupo. Quien te reemplace verá tu nombre de pila. |
+| Correo y celular | Tu correo · Tu celular (de la sección 19) · Ayuda del celular: Para ayudarte a recuperar tu cuenta si olvidas la contraseña. |
+| Contraseña | Una contraseña · Ayuda: Al menos 10 caracteres. (también en Recuperar) |
+| Ver la contraseña | Mostrar · Ocultar |
+| En curso y hecho | Creando la cuenta… · Cuenta creada. |
+| Validación en la pantalla | Escribe tu nombre. · Revisa cómo escribiste tu correo. · La contraseña necesita al menos 10 caracteres. (también en Recuperar) |
+| Validación de la API (422, por `errores[].campo`) | Escribe tu nombre, de hasta 100 caracteres. · La contraseña necesita entre 10 y 128 caracteres. (también en Recuperar) |
+| Correo ya registrado | Título: Ese correo ya tiene una cuenta · Texto: Entra con tu contraseña, o usa otro correo. · Botón: Entrar con ese correo |
+
+### 25.2 Tu grupo (`/empezar/grupo`)
+
+| Dónde | Texto |
+|---|---|
+| Título y bajada | Ponle nombre a tu grupo · Es el grupo de las personas que cuidan contigo. |
+| Campo | Nombre del grupo |
+| Ayuda del campo (de la política de privacidad, sección 4, «De tu grupo», tal cual) | Usa un nombre corto, como «Familia Soto». No incluyas el nombre completo de la persona que cuidas ni datos de salud. |
+| Botón y espera | Crear el grupo · Creando el grupo… |
+| Sin nombre | Escribe un nombre para el grupo. |
+
+### 25.3 A quién cuidas (`/empezar/persona`)
+
+| Dónde | Texto |
+|---|---|
+| Título | ¿A quién cuidas? |
+| Nombre | ¿Cómo se llama? |
+| Cómo le dicen | ¿Cómo le dicen? · Ayuda: Es el nombre que verá quien te reemplace. |
+| Apoyo | ¿Cuánto apoyo necesita en el día a día? · Las tres respuestas están en la sección 25.4 |
+| Lo que no se pide | No te preguntamos qué enfermedad tiene, porque para cuidar no hace falta. |
+| Validación | Escribe su nombre y cómo le dicen para seguir. · Elige cuánto apoyo necesita. |
+| Grupo sin persona registrada | Todavía no hay nadie registrado en `{grupo}`. Quien administra el grupo puede registrar a la persona que cuidan. |
+
+**Sin dirección (decisión de Jorge del 08-11, opción A del analista).** El alta no pide dónde vive la persona: la dirección se pide con el primer pedido (MATU-61). Salen de esta pantalla la pregunta, su ayuda, los campos y su mensaje de validación.
+
+«Enfermedad» informa lo que MATU no pide, como la ayuda de la sección 14.2. No nombra ninguna (sección 3.2).
+
+### 25.4 La autorización (`/empezar/autorizacion`)
+
+| Dónde | Texto |
+|---|---|
+| Título | Permiso para guardar su ficha (el mismo nombre de la sección 22) |
+| Bajada | Lo que anotes sobre el cuidado de `{nombre_pila}` puede decir algo de su salud. Por eso lo protegemos de forma especial y necesitamos una autorización. Puedes retirarla cuando quieras, desde Grupo familiar. |
+| Pregunta | ¿Quién da la autorización? |
+| Representante legal, referencia | Referencia del documento · Ayuda: Por ejemplo: número de resolución y fecha. Sin el RUT. |
+| Cuidadora o cuidador de hecho, casilla del aviso | Leí el aviso y lo acepto |
+| Sobre la declaración | Lo que declaras |
+| Botón y espera | Acepto y registro a `{nombre_pila}` · Registrando a `{nombre_pila}`… |
+| Hecho | Listo. Registramos a `{nombre_pila}` y la autorización. Ahora puedes completar su ficha. |
+| Para volver a la persona después de un error | Volver a corregir los datos de `{nombre_pila}` |
+| Validación | Elige quién da la autorización. · Escribe la referencia del documento que te nombra representante. · Marca que leíste el aviso para seguir. |
+
+**Las tres calidades.** Sus nombres y detalles no son declaraciones y se aprueban aquí.
+
+| Calidad | Nombre en pantalla | Detalle | Declaración que se muestra |
+|---|---|---|---|
+| `titular` | `{nombre_pila}` lo autoriza y yo lo registro | `{nombre_pila}` decide por su cuenta y tú registras su decisión. | `declaracion_titular` |
+| `representante_legal` | Soy su representante legal | Tienes un nombramiento legal para representar a esta persona. | `declaracion_representante_legal` |
+| `cuidador_de_hecho` | Cuido a esta persona, pero no soy su representante legal | Cuidas a esta persona en el día a día, sin un nombramiento legal. | `declaracion_cuidador_de_hecho`, con el aviso `aviso_cuidador_de_hecho` |
+
+**Las declaraciones y el aviso.** Son los de la política de privacidad, sección 5: las tres declaraciones (`declaracion_titular`, `declaracion_representante_legal` y `declaracion_cuidador_de_hecho`) y el aviso `aviso_cuidador_de_hecho`, versión 1.1, con su título «Aviso: tu autorización tiene un límite». Van bajo «Lo que declaras» y se copian sin cambiar una palabra: cambiarlas es publicar una versión nueva de la política. Este documento no las repite, igual que la sección 13.2 con las de insumos.
+
+**Los niveles de apoyo** (respuestas a «¿Cuánto apoyo necesita en el día a día?»):
+
+| Valor | Texto |
+|---|---|
+| `autovalente_con_supervision` | Se maneja con autonomía, con supervisión |
+| `apoyo_parcial` | Necesita apoyo en varias cosas |
+| `apoyo_total` | Necesita apoyo en todo |
+
+## 26. Marco de la app y esperas (MATU-68) · Aprobados por Jorge el 08-11
+
+| Dónde | Texto |
+|---|---|
+| Botón para reintentar después de un error | Volver a intentar |
+| Mientras carga una pantalla | Cargando… |
+| Al abrir la app | Abriendo MATU… |
+| Cabecera, sobre el nombre de la persona cuidada | Cuidas a |
+| Cabecera, bajo el nombre | Le dicen `{nombre_pila}` |
