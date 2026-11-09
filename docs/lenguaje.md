@@ -142,6 +142,8 @@ La ficha tiene tres campos. Cada uno acepta **hasta 500 caracteres** y se guarda
 
 Las preguntas guía nombran a la persona por su nombre y no usan femenino ni masculino, porque el modelo no guarda su género (aprobado por Jorge el 27-10). La demo del viernes 30 no cambia.
 
+**Los ejemplos solo los ve quien escribe la ficha.** La página del relevo muestra la pregunta guía y nunca el ejemplo (decisión de Jorge del 09-11, que cambia la D2 del 28-10). En la demo, el «+56 9 5555 0102» aparecía justo debajo del teléfono real de «A quién llamar», y en un apuro el relevo podría llamar al número de ejemplo.
+
 Los ejemplos son sintéticos: Carmen cuida a María, Rosa la reemplaza y Rodrigo es su hijo. Los teléfonos usan la serie `5555`, que no se asigna. Un ejemplo nunca nombra una enfermedad, un remedio ni una dosis.
 
 ### 5.4 Textos de la pantalla de la ficha
