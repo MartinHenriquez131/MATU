@@ -24,7 +24,7 @@ Cada historia que empieza a tratar datos personales agrega aquí su entrada.
   - administrador y cuidador retiran cualquier autorización de la persona, sin importar quién la dio, y vuelven a darla. Pagador y observador reciben 404, y una política RLS por rol limita quién fija `revocado_en` (MATU-44, migración 0016)
   - administrador y cuidador borran los datos de la persona. Pagador, observador y otro grupo reciben 404. Una política RLS por rol lo limita (`app_retira_autorizacion()`) (MATU-72)
   - operación: [PENDIENTE: acotar a nombre y dirección en la historia de backoffice]
-- **Conservación:** [PENDIENTE: plazo del registro de autorizaciones, también de las retiradas, en consulta legal]. Hoy no se borra (trigger `consentimiento_sin_borrado`). Después de un borrado, la autorización se conserva con su motivo. [PENDIENTE: plazo, CL-8] La fila de una persona borrada queda solo con su id, el grupo, las fechas y el valor fijo `borrada`, sin nivel de apoyo ni dirección, mientras existan los registros que la referencian. [PENDIENTE: plazo, CL-8]
+- **Conservación:** [PENDIENTE: plazo del registro de autorizaciones, también de las retiradas, en consulta legal]. Hoy no se borra (trigger `consentimiento_sin_borrado`). Después de un borrado, la autorización se conserva con su motivo. [PENDIENTE: plazo, CL-27] La fila de una persona borrada queda solo con su id, el grupo, las fechas y el valor fijo `borrada`, sin nivel de apoyo ni dirección, mientras existan los registros que la referencian. [PENDIENTE: plazo, CL-27]
 - **Medidas:**
   - separación por familia con RLS forzado
   - la aplicación se conecta sin privilegios de dueño
@@ -103,7 +103,7 @@ Cada historia que empieza a tratar datos personales agrega aquí su entrada.
   - mientras la autorización esté vigente y hasta 90 días después de que se retire o termine. En ese plazo nadie la lee: la API responde 403 a todos los roles y el relevo, 410
   - el borrado se cumple destruyendo la clave de la persona (borrado criptográfico de MATU-11). Lo hace la tarea `tarea_destruccion` (función `plan_destruir_claves`, migración 0016) con las fichas cuya autorización se retiró hace 90 días o más: destruye la clave y, en la misma transacción, borra el texto cifrado y las filas de las secciones de esa persona, con `clave.destruir` en la auditoría. La corre el programador de tareas cada madrugada, en hora de Chile (MATU-74). Si una corrida falla, la siguiente destruye lo pendiente. Desde el día 90 nadie puede leer ni recuperar la ficha, aunque la tarea no haya corrido, porque una autorización nueva destruye primero la clave y borra lo cifrado con ella. La ficha empieza en blanco y la primera escritura crea una clave nueva, que solo puede existir después de esa autorización (índice `clave_datos_vigente_uq` y trigger `clave_datos_nueva_tras_autorizacion`).
   - una solicitud de borrado no espera los 90 días (decisión de Jorge del 07-11, MATU-72): en la misma transacción de la petición se destruye la clave, se borran las filas de `plan_seccion` y el plan queda en 0 de 3, con `clave.destruir` y `persona.borrar` en la auditoría
-  - copias de respaldo: [PENDIENTE: plazo, CL-6]. La auditoría `persona.borrar` sirve de lista para volver a borrar antes de usar una copia restaurada
+  - copias de respaldo: [PENDIENTE: plazo, CL-29]. La auditoría `persona.borrar` sirve de lista para volver a borrar antes de usar una copia restaurada
   - una sección adicional quitada: se borra en el acto. Queda en las copias de respaldo hasta que venzan
   - auditoría: 3 años, también la que guarda el tipo de una sección quitada
 - **Medidas:**
@@ -216,7 +216,7 @@ Cada historia que empieza a tratar datos personales agrega aquí su entrada.
   - eliminar un insumo lo borra en el acto;
   - el consumo se **borra**, porque no hay clave que destruir (decisiones de Jorge del 03-11);
   - borrado a pedido (MATU-72): en el acto, los perfiles y con ellos las alertas y las compras (`ON DELETE CASCADE`). El registro de avisos (`notificacion`) sigue su plazo de 90 días, sin destino ni contenido;
-  - copias de respaldo: [PENDIENTE: plazo, CL-6].
+  - copias de respaldo: [PENDIENTE: plazo, CL-29].
 - **Medidas:**
   - RLS forzado por grupo y escritura por rol en RLS;
   - `ETag`/`If-Match` (412/428);
