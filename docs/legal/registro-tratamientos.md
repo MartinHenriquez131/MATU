@@ -1,6 +1,6 @@
 # Registro de tratamientos de MATU
 
-**Estado:** borrador para el piloto académico, a la par de la política de privacidad v0.10. Lo redacta el analista normativo y lo aprueba Jorge Espinoza. Este documento no es asesoría legal.
+**Estado:** borrador para el piloto académico, a la par de la política de privacidad v0.11. Lo redacta el analista normativo y lo aprueba Jorge Espinoza. Este documento no es asesoría legal.
 
 Cada historia que empieza a tratar datos personales agrega aquí su entrada.
 
@@ -327,11 +327,44 @@ Cada historia que empieza a tratar datos personales agrega aquí su entrada.
   - la dirección IP de quien abre staging (el equipo y quien pruebe la demostración), que la API usa solo en memoria para su huella HMAC;
   - las huellas en Redis: 1 hora, y 24 horas como máximo en la recuperación del acceso;
   - los registros HTTP de la plataforma Railway, que guardan la IP de cada conexión (campo `srcIp`, confirmado por Martín el 05-11) [PENDIENTE: su plazo en el plan Hobby];
-  - las cuentas de Railway de Jorge y Martín.
+  - las cuentas de Railway de Jorge y Martín;
+  - el registro de la aceptación de la política de las cuentas del equipo (entrada 10).
 - **Medidas:** HTTPS terminado por Railway; KEK y secretos nuevos y propios de staging, rotados el 05-11 sin pasar por un chat, solo como variables secretas de Railway, con acceso solo de Jorge y Martín con autenticación en dos pasos (decisión 105, g y h); la API se conecta como `matu_app`; logs JSON sin IP, cuerpo, token ni PIN, verificado con grep tras el e2e (05-11); registro simulado de envíos en `/tmp` del contenedor; tareas programadas (MATU-74): tres servicios cron de Railway corren, con la conexión de `matu_app`, los borrados (destrucción de fichas, conservación del consumo y de las sesiones) y el trabajo diario de quiebres cada madrugada, y el publicador de avisos cada 15 minutos. El log de cada corrida guarda el nombre de la tarea, un identificador al azar de la corrida, la hora de inicio y de fin, la duración, el resultado, los contadores y el tipo de error. El publicador agrega, por cada aviso, los identificadores internos del aviso y del evento, el canal y el estado (MATU-41). Nunca guarda identificadores de personas ni de grupos, mensajes de error, trazas ni datos de las filas. Limitación declarada: la KEK y los respaldos con las claves envueltas quedan en el mismo proveedor.
 - **Diagnóstico temporal del proxy (MATU-25, decisión 114, punto 7):** mientras se verifica `PROXY_SALTOS`, una línea de log por petición con la cantidad de cabeceras y de elementos del X-Forwarded-For y la clase de cada uno (interna, privada, pública o inválida), con el `request_id` y sin IP, usuario ni grupo. Apagado por omisión, no carga en producción. Las fechas de encendido y apagado quedan en `infra/railway/README.md` del repositorio MATU_PROYECTO. Plazo: el de los registros de Railway [PENDIENTE].
 - **Conservación:** hasta el cierre del semestre. Al cerrar se borran la KEK, la base, los respaldos y Redis, y se anota la fecha (decisión 105, l). [PENDIENTE: fecha de cierre]
 - **Transferencia internacional:** staging está en Estados Unidos. Con datos sintéticos, solo salen de Chile la IP de quien lo usa y su huella. **Staging nunca se usa con datos reales.** Antes de datos reales se elige el proveedor y la región de producción (ADR-019), y si quedan fuera de Chile se aplican las reglas de transferencia internacional de la Ley 21.719, con contrato de encargo. [PENDIENTE: consulta legal]
+- **Decisiones automatizadas:** ninguna.
+
+## 10. Aceptación de la política de privacidad al crear la cuenta (MATU-75)
+
+- **Finalidad:** dejar constancia de qué versión y qué texto exacto vio y aceptó cada persona.
+- **Titulares:** las cuentas creadas desde la versión 0.11. Las anteriores quedan sin registro (D2).
+- **Datos:** `usuario_id`, `version`, `huella` (SHA-256 del texto mostrado, con el correo de contacto escrito en el texto) y `aceptada_en`. Sin IP ni navegador.
+- **Base de licitud:** ejecución del servicio que pide la persona. [PENDIENTE: CL-50, si «acepto» es un consentimiento o solo un acuse de lectura]
+- **Quién accede:** la titular, en «Tu cuenta», y operación para soporte. Nadie lo modifica ni lo borra desde la aplicación.
+- **Conservación:** mientras exista la cuenta. [PENDIENTE: CL-49, plazo tras eliminar la cuenta]
+- **Medidas:**
+  - tabla de solo agregar, con RLS forzado
+  - el servidor estampa la versión y la huella, y rechaza una huella que no sea la vigente
+  - pruebas de la huella y de la versión
+  - `/privacidad` es pública, sin sesión, cookies ni analítica
+- **Comunicaciones a terceros:** ninguna.
+- **Transferencia internacional:** staging en Railway, Estados Unidos, solo con datos sintéticos (entrada 9).
+- **Decisiones automatizadas:** ninguna.
+
+## 11. Buzón de privacidad (MATU-75, D5)
+
+- **Finalidad:** recibir y responder las solicitudes de derechos y las consultas de privacidad.
+- **Titulares:** cualquiera que escriba.
+- **Datos:** el correo y el nombre de quien escribe, el mensaje y la respuesta. Puede traer datos sensibles, aunque la política pide no incluirlos. **Es un tratamiento de datos reales durante el piloto.**
+- **Base de licitud:** atender los derechos del titular. [PENDIENTE: consulta legal, junto con CL-48]
+- **Quién accede:** Jorge y Martín, con una cuenta de la función, verificación en dos pasos y sin reenvío a correos personales.
+- **Conservación:** hasta 2 años después de cerrar la solicitud. Después queda solo una lista con la fecha, el tipo de solicitud y la fecha de respuesta, sin el contenido (decisión de Jorge del 09-11).
+- **Encargado:** Gmail, de Google LLC, en Estados Unidos. [PENDIENTE: revisar sus condiciones]
+- **Transferencia internacional:** Estados Unidos (Google LLC). [PENDIENTE: consulta legal sobre la transferencia internacional, CL-51]
+- **Medidas:**
+  - el contenido de una solicitud nunca se copia al repositorio, a Trello, al vault ni a una sesión con agentes
+  - plazos: acuse dentro de 2 días hábiles y respuesta a más tardar en 30 días corridos (D4)
 - **Decisiones automatizadas:** ninguna.
 
 ## Nota sobre la ficha ampliada (ADR-028)
