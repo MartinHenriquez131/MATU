@@ -60,7 +60,11 @@ Ninguna pantalla, aviso, correo, mensaje de error ni ejemplo usa estos términos
 | deterioro | Describe a la persona por lo que perdió. Además es una inferencia de salud | "Cambios", "necesita más apoyo que antes" |
 | incontinencia | Nombrarla afecta la dignidad de la persona cuidada (arquitectura 10.3, "Lenguaje sobre el cuerpo") | Se pregunta por el apoyo: "apoyo para ir al baño", "cambio de pañal". En insumos, el nombre del producto: "pañal adulto", "protectores", "toallitas húmedas" |
 
-**Excepción, solo en textos legales.** La política de privacidad dice que MATU **no pide** diagnósticos. Ese uso informa un límite y no invita a escribir el dato, así que se mantiene en los textos legales que apruebe Jorge. Ninguna otra pantalla lo copia. La política de privacidad también puede usar «cookie» y «sesión», porque tiene que informarlas. En la app se siguen evitando (3.2).
+**Excepción en los textos legales.** La política de privacidad dice que MATU **no pide** diagnósticos. Ese uso informa un límite y no invita a escribir el dato, así que se mantiene en los textos legales que apruebe Jorge. Ninguna otra pantalla lo copia.
+
+**Excepción en la ayuda de la ficha (sección 14).** La ayuda que va bajo cada sección dice «No hace falta escribir diagnósticos ni enfermedades.» Igual que la política, nombra el diagnóstico solo para decir que MATU **no** lo pide, y está aprobada por Jorge. Es el único texto de la app que lo usa. Ningún otro lo copia, y ninguno lo usa para preguntar.
+
+La política de privacidad también puede usar «cookie» y «sesión», porque tiene que informarlas. En la app se siguen evitando (3.2).
 
 ### 3.2 Otros que se evitan
 
@@ -137,6 +141,8 @@ La ficha tiene tres campos. Cada uno acepta **hasta 500 caracteres** y se guarda
 - **Ejemplo:** Por ejemplo: «Rodrigo, su hijo: +56 9 5555 0102».
 
 Las preguntas guía nombran a la persona por su nombre y no usan femenino ni masculino, porque el modelo no guarda su género (aprobado por Jorge el 27-10). La demo del viernes 30 no cambia.
+
+**Los ejemplos solo los ve quien escribe la ficha.** La página del relevo muestra la pregunta guía y nunca el ejemplo (decisión de Jorge del 09-11, que cambia la D2 del 28-10). En la demo, el «+56 9 5555 0102» aparecía justo debajo del teléfono real de «A quién llamar», y en un apuro el relevo podría llamar al número de ejemplo.
 
 Los ejemplos son sintéticos: Carmen cuida a María, Rosa la reemplaza y Rodrigo es su hijo. Los teléfonos usan la serie `5555`, que no se asigna. Un ejemplo nunca nombra una enfermedad, un remedio ni una dosis.
 
@@ -778,7 +784,7 @@ En la app se dice «autorización» y «retirar», nunca «consentimiento» ni �
 
 ## 23. Anotar una compra o lo que queda (MATU-51) · Aprobados por Jorge el 07-11
 
-En la app se dice «Compré» y «Me quedan», nunca «reposición», «reponer» ni «stock». «Compré» habla de lo que la familia ya hizo: la app nunca ofrece comprar. La fecha la pone MATU (hoy) y la familia no la elige. Los días y la fecha de la confirmación los da la API.
+En la app se dice «Compré» y «Me quedan», nunca «reposición», «reponer» ni «stock». Lo que se anota con «Compré» se llama **«compras anotadas»** en los textos, en las tarjetas y en el código. «Compré» habla de lo que la familia ya hizo: la app nunca ofrece comprar. La fecha la pone MATU (hoy) y la familia no la elige. Los días y la fecha de la confirmación los da la API.
 
 | Dónde | Texto |
 |---|---|
@@ -828,7 +834,9 @@ En la app se dice «borrar», nunca «suprimir» ni «eliminar». El número de 
 
 **Reglas de armado:** si no se pudieron contar los enlaces, se omite «Hoy abren {n}.».
 
-## 25. Alta: la cuenta, el grupo, la persona y la autorización (MATU-39) · Aprobados por Jorge el 08-11
+## 25. Alta: la cuenta, el grupo, la persona y la autorización (MATU-68) · Aprobados por Jorge el 08-11
+
+Esta sección es de **MATU-68**, que construyó la pantalla del alta. MATU-39 la originó, pero no la mantiene.
 
 En la app se dice «autorización» y «permiso», nunca «consentimiento». Estos textos informan sobre datos personales: los revisó el analista normativo el 08-11 (sección 12) y, donde propuso un cambio, aquí va el texto aprobado. La pantalla se ajusta a esta sección.
 
@@ -946,6 +954,8 @@ Es la tercera pestaña de Insumos, para todos los roles del grupo. No tiene bot�
 | Mientras carga y para reintentar | Los de la sección 26 |
 
 **Categorías:** Higiene y cuidado personal · Cuidado de la piel · Alimentación.
+
+**La bolsa colectora va en «Higiene y cuidado personal»** (decisión D3 de Jorge, 08-11). No se crea una categoría propia, porque nombraría una condición de salud (sección 3.1, «ostomía»).
 
 **Nombres de los productos de ejemplo:** Pañal adulto M x30 · Toallitas húmedas x80 · Protectores diarios x20 · Crema protectora de la piel 100 g · Suplemento nutricional en polvo 400 g · Bolsa colectora x10. Sin marcas reales ni afirmaciones de salud («previene», «cura», «para diabéticos»).
 

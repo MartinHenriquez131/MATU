@@ -1,5 +1,7 @@
 # Revisión normativa de MATU-44 · Retirar una autorización
 
+> **Nota del 9 de noviembre de 2026.** Las preguntas de esta revisión usan la numeración antigua. Su número actual está en la tabla de equivalencias de [`consulta-legal.md`](consulta-legal.md#tabla-de-equivalencias), que es la única lista vigente.
+
 **Analista normativo**, revisión previa del 6 de noviembre de 2026 y revisión de cierre del 7 de noviembre de 2026. No es asesoría legal: apoya las decisiones de Jorge Espinoza (Product Owner).
 
 ## Revisión previa (antes de implementar)

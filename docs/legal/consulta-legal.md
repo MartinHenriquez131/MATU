@@ -12,7 +12,7 @@
 - **Cuando llega una respuesta,** se anota en su casilla con la fecha y quién respondió. Después se lleva a la política de privacidad, al registro de tratamientos o al ADR que corresponda, y se cierra el `[PENDIENTE]` que indica la pregunta.
 
 **Fuentes que se juntaron aquí:**
-- la descripción y los 25 comentarios de la tarjeta de Trello, del 21 de octubre al 8 de noviembre de 2026
+- la descripción y los 26 comentarios de la tarjeta de Trello, del 21 de octubre al 8 de noviembre de 2026
 - `revision-matu-44.md`, `revision-matu-51.md`, `revision-matu-60.md`, `revision-previa-adr-027.md`, `investigacion-normativa-adr-027.md` y `figura-legal-piloto.md`
 - los `[PENDIENTE]` de `politica-privacidad.md` y `registro-tratamientos.md`
 - lo que al 8 de noviembre de 2026 todavía estaba en pull requests abiertos: `revision-matu-72.md` y los cambios de la política y del registro de MATU-72 y MATU-74, el cambio de la política de MATU-68 y la sección 27 de `lenguaje.md` de MATU-59.
@@ -169,7 +169,7 @@ En los orígenes, «Trello» es un comentario de la tarjeta de consulta legal, c
 
 ### CL-13 · El consumo declarado como dato de salud
 
-- **Pregunta:** el consumo de insumos que declara la familia (pañales, sondas y otros), ¿es un dato relativo a la salud bajo la Ley 21.719? Si lo es, ¿basta protegerlo con la separación entre familias de la base de datos (RLS), sin cifrado propio?
+- **Pregunta:** el consumo de insumos que declara la familia (pañales, sondas y otros), ¿es un dato relativo a la salud bajo la Ley 21.719? Si lo es, ¿basta protegerlo con la separación entre familias de la base de datos (RLS), sin cifrado propio? ¿Requiere una autorización aparte de la de la ficha, o la cubre la misma?
 - **Origen:**
   - MATU-26, revisión previa, Trello del 21 de octubre de 2026, pregunta 11, en lo que toca al consumo
   - MATU-32, decisión 9 de Jorge, Trello del 31 de octubre de 2026
@@ -449,7 +449,7 @@ En los orígenes, «Trello» es un comentario de la tarjeta de consulta legal, c
   - MATU-37, MATU-41 y MATU-57, Trello del 3 de noviembre de 2026, pregunta 2, en lo que toca al push
   - MATU-41, revisión previa, Trello del 4 de noviembre de 2026, pregunta 2
   - MATU-41, revisión de cierre, Trello del 4 de noviembre de 2026, pregunta 1.
-- **Mientras tanto:** push sin contenido (decisión 50). El texto fijo lo pone el teléfono. En el semestre el envío es simulado.
+- **Mientras tanto:** push sin contenido (decisión 50 del contrato, confirmada el 9 de noviembre de 2026). El texto fijo lo pone el teléfono. El comentario 16 de la tarjeta, que hablaba de un push cifrado, quedó reemplazado por esa decisión: con solo el endpoint no se puede cifrar, y cifrar exigiría las claves `p256dh` y `auth`, que MATU no pide. En el semestre el envío es simulado.
 - **Bloquea:** datos reales.
 - **Se cierra en:** registro, entrada 5, comunicaciones a terceros («[PENDIENTE: consulta legal sobre la calidad del servicio de push del navegador y la transferencia internacional]»), y entrada 6, comunicaciones a terceros.
 - **Respuesta:** —
