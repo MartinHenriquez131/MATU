@@ -24,13 +24,14 @@ Cada historia que empieza a tratar datos personales agrega aquí su entrada.
   - administrador y cuidador retiran cualquier autorización de la persona, sin importar quién la dio, y vuelven a darla. Pagador y observador reciben 404, y una política RLS por rol limita quién fija `revocado_en` (MATU-44, migración 0016)
   - administrador y cuidador borran los datos de la persona. Pagador, observador y otro grupo reciben 404. Una política RLS por rol lo limita (`app_retira_autorizacion()`) (MATU-72)
   - operación: [PENDIENTE: acotar a nombre y dirección en la historia de backoffice]
-- **Conservación:** [PENDIENTE: plazo del registro de autorizaciones, también de las retiradas, en consulta legal]. Hoy no se borra (trigger `consentimiento_sin_borrado`). Después de un borrado, la autorización se conserva con su motivo. [PENDIENTE: plazo, CL-8] La fila de una persona borrada queda solo con su id, el grupo, las fechas y el valor fijo `borrada`, sin nivel de apoyo ni dirección, mientras existan los registros que la referencian. [PENDIENTE: plazo, CL-8]
+- **Conservación:** [PENDIENTE: plazo del registro de autorizaciones, también de las retiradas, en consulta legal]. Hoy no se borra (trigger `consentimiento_sin_borrado`). Después de un borrado, la autorización se conserva con su motivo. [PENDIENTE: plazo, CL-27] La fila de una persona borrada queda solo con su id, el grupo, las fechas y el valor fijo `borrada`, sin nivel de apoyo ni dirección, mientras existan los registros que la referencian. [PENDIENTE: plazo, CL-27]
 - **Medidas:**
   - separación por familia con RLS forzado
   - la aplicación se conecta sin privilegios de dueño
   - registros técnicos sin datos de la persona
   - auditoría de solo inserción
   - consentimiento inalterable (migración 0006, ajustada en la 0016): solo se fijan `revocado_en` y `revocacion_motivo`, juntos y una vez, y nunca se borra
+  - dar una autorización y retirarla queda limitado en la base a administrador y cuidador: una política RLS por rol rechaza que el pagador o el observador la registren (MATU-66, migración 0020) o la retiren (MATU-44, migración 0016)
 - **Comunicaciones a terceros:** ninguna.
 - **Transferencia internacional:** [PENDIENTE: proveedor y país].
 - **Decisiones automatizadas:** ninguna.
@@ -103,7 +104,7 @@ Cada historia que empieza a tratar datos personales agrega aquí su entrada.
   - mientras la autorización esté vigente y hasta 90 días después de que se retire o termine. En ese plazo nadie la lee: la API responde 403 a todos los roles y el relevo, 410
   - el borrado se cumple destruyendo la clave de la persona (borrado criptográfico de MATU-11). Lo hace la tarea `tarea_destruccion` (función `plan_destruir_claves`, migración 0016) con las fichas cuya autorización se retiró hace 90 días o más: destruye la clave y, en la misma transacción, borra el texto cifrado y las filas de las secciones de esa persona, con `clave.destruir` en la auditoría. La corre el programador de tareas cada madrugada, en hora de Chile (MATU-74). Si una corrida falla, la siguiente destruye lo pendiente. Desde el día 90 nadie puede leer ni recuperar la ficha, aunque la tarea no haya corrido, porque una autorización nueva destruye primero la clave y borra lo cifrado con ella. La ficha empieza en blanco y la primera escritura crea una clave nueva, que solo puede existir después de esa autorización (índice `clave_datos_vigente_uq` y trigger `clave_datos_nueva_tras_autorizacion`).
   - una solicitud de borrado no espera los 90 días (decisión de Jorge del 07-11, MATU-72): en la misma transacción de la petición se destruye la clave, se borran las filas de `plan_seccion` y el plan queda en 0 de 3, con `clave.destruir` y `persona.borrar` en la auditoría
-  - copias de respaldo: [PENDIENTE: plazo, CL-6]. La auditoría `persona.borrar` sirve de lista para volver a borrar antes de usar una copia restaurada
+  - copias de respaldo: [PENDIENTE: plazo, CL-29]. La auditoría `persona.borrar` sirve de lista para volver a borrar antes de usar una copia restaurada
   - una sección adicional quitada: se borra en el acto. Queda en las copias de respaldo hasta que venzan
   - auditoría: 3 años, también la que guarda el tipo de una sección quitada
 - **Medidas:**
@@ -118,6 +119,7 @@ Cada historia que empieza a tratar datos personales agrega aquí su entrada.
   - el texto nunca aparece en logs, errores, URLs ni en el almacenamiento del navegador
   - el detalle de la auditoría solo admite tipos de sección, nunca texto (`CHECK` de la migración 0013)
   - la ficha y sus secciones no se imprimen ni se exportan: no hay ruta ni vista de impresión (ADR-029)
+  - desde la aplicación, la clave de la persona solo admite las dos escrituras del cifrado, y solo de administrador y cuidador: crearla y destruirla. La aplicación no la borra ni cambia la clave maestra que la protege. Ese cambio, cuando se pase al servicio de custodia, irá por una función propia de la base (MATU-66, migración 0020)
 - **Comunicaciones a terceros:**
   - solo al relevo, con lo que dice la entrada 4
   - dictado: si quien escribe usa el micrófono, el reconocimiento de voz lo hace el servicio del navegador (en Chrome, Google), que recibe el audio. MATU no lo recibe ni lo guarda. En Sus remedios el dictado está desactivado hasta la respuesta legal (decisión de Jorge del 03-11). [PENDIENTE: consulta legal sobre el envío de audio de un dato sensible, nombrar los servicios y sus países]
@@ -184,6 +186,7 @@ Cada historia que empieza a tratar datos personales agrega aquí su entrada.
   - la app de la familia guarda el PIN y el enlace solo en la memoria de la pantalla, los muestra una vez y nunca copia el PIN al portapapeles ni lo pone en el mensaje. El enlace se envía con la hoja de compartir del teléfono o copiándolo, nunca con el token en la dirección de un servicio de terceros (MATU-48)
   - nombre y teléfono del relevo sin autocompletado del navegador
   - sin impresión ni exportación de la ficha (ADR-029)
+  - la base limita por rol quién escribe los accesos (MATU-66, migración 0020): administrador y cuidador los crean, los cortan y anonimizan el nombre de pila de la persona; el pagador con permiso solo los lee; el relevo solo actualiza los contadores de su acceso vigente. La aplicación no puede cambiar el teléfono, el PIN, los campos habilitados ni el vencimiento de un acceso, ni borrar un acceso o su token. Un acceso o un token cortado no se reabre ni cambia la fecha de su corte, y ningún vencimiento se alarga: un trigger lo rechaza para todos los roles de la base, también el dueño (MATU-47, migración 0020)
 - **Comunicaciones a terceros:** ninguna desde MATU. Si un día MATU envía el PIN por SMS, se agrega aquí.
 - **Transferencia internacional:** [PENDIENTE: proveedor y país].
 - **Decisiones automatizadas:** ninguna con efectos sobre las personas. El bloqueo por PIN incorrecto es un control de seguridad.
@@ -216,7 +219,7 @@ Cada historia que empieza a tratar datos personales agrega aquí su entrada.
   - eliminar un insumo lo borra en el acto;
   - el consumo se **borra**, porque no hay clave que destruir (decisiones de Jorge del 03-11);
   - borrado a pedido (MATU-72): en el acto, los perfiles y con ellos las alertas y las compras (`ON DELETE CASCADE`). El registro de avisos (`notificacion`) sigue su plazo de 90 días, sin destino ni contenido;
-  - copias de respaldo: [PENDIENTE: plazo, CL-6].
+  - copias de respaldo: [PENDIENTE: plazo, CL-29].
 - **Medidas:**
   - RLS forzado por grupo y escritura por rol en RLS;
   - `ETag`/`If-Match` (412/428);
@@ -276,6 +279,7 @@ Cada historia que empieza a tratar datos personales agrega aquí su entrada.
   - rotación con detección de reutilización;
   - `no-store`;
   - push sin contenido (el texto fijo lo pone el service worker), sin datos de personas ni de insumos, y con una lista cerrada de hosts.
+  - la aplicación no puede leer la contraseña transformada ni el secreto del doble factor de ninguna cuenta. Al entrar, obtiene solo la contraseña transformada de la cuenta que está entrando, con una función de la base que nunca la entrega a operación ni a otra persona del grupo. Operación lee las cuentas solo para dar soporte (email y celular, entrada 7), y no las crea, no las cambia ni las borra. Una cuenta tampoco puede darse permisos de operación, cambiar su estado ni borrarse desde la aplicación (MATU-66, migración 0020)
 - **Comunicaciones a terceros:** el servicio de push del navegador recibirá solo el `push_token` y un push sin contenido (decisión 50). El texto fijo lo muestra el service worker de la aplicación. En el semestre el envío es simulado (MATU-41). [PENDIENTE: nombrarlos y su país]. **Decisiones automatizadas:** ninguna. La espera después de varios intentos es un control de seguridad.
 
 ## 7. Celular de la cuenta (MATU-39, MATU-57)
