@@ -31,6 +31,7 @@ Cada historia que empieza a tratar datos personales agrega aquí su entrada.
   - registros técnicos sin datos de la persona
   - auditoría de solo inserción
   - consentimiento inalterable (migración 0006, ajustada en la 0016): solo se fijan `revocado_en` y `revocacion_motivo`, juntos y una vez, y nunca se borra
+  - dar una autorización y retirarla queda limitado en la base a administrador y cuidador: una política RLS por rol rechaza que el pagador o el observador la registren (MATU-66, migración 0020) o la retiren (MATU-44, migración 0016)
 - **Comunicaciones a terceros:** ninguna.
 - **Transferencia internacional:** [PENDIENTE: proveedor y país].
 - **Decisiones automatizadas:** ninguna.
@@ -118,6 +119,7 @@ Cada historia que empieza a tratar datos personales agrega aquí su entrada.
   - el texto nunca aparece en logs, errores, URLs ni en el almacenamiento del navegador
   - el detalle de la auditoría solo admite tipos de sección, nunca texto (`CHECK` de la migración 0013)
   - la ficha y sus secciones no se imprimen ni se exportan: no hay ruta ni vista de impresión (ADR-029)
+  - desde la aplicación, la clave de la persona solo admite las dos escrituras del cifrado, y solo de administrador y cuidador: crearla y destruirla. La aplicación no la borra ni cambia la clave maestra que la protege. Ese cambio, cuando se pase al servicio de custodia, irá por una función propia de la base (MATU-66, migración 0020)
 - **Comunicaciones a terceros:**
   - solo al relevo, con lo que dice la entrada 4
   - dictado: si quien escribe usa el micrófono, el reconocimiento de voz lo hace el servicio del navegador (en Chrome, Google), que recibe el audio. MATU no lo recibe ni lo guarda. En Sus remedios el dictado está desactivado hasta la respuesta legal (decisión de Jorge del 03-11). [PENDIENTE: consulta legal sobre el envío de audio de un dato sensible, nombrar los servicios y sus países]
@@ -184,6 +186,7 @@ Cada historia que empieza a tratar datos personales agrega aquí su entrada.
   - la app de la familia guarda el PIN y el enlace solo en la memoria de la pantalla, los muestra una vez y nunca copia el PIN al portapapeles ni lo pone en el mensaje. El enlace se envía con la hoja de compartir del teléfono o copiándolo, nunca con el token en la dirección de un servicio de terceros (MATU-48)
   - nombre y teléfono del relevo sin autocompletado del navegador
   - sin impresión ni exportación de la ficha (ADR-029)
+  - la base limita por rol quién escribe los accesos (MATU-66, migración 0020): administrador y cuidador los crean, los cortan y anonimizan el nombre de pila de la persona; el pagador con permiso solo los lee; el relevo solo actualiza los contadores de su acceso vigente. La aplicación no puede cambiar el teléfono, el PIN, los campos habilitados ni el vencimiento de un acceso, ni borrar un acceso o su token. Un acceso o un token cortado no se reabre ni cambia la fecha de su corte, y ningún vencimiento se alarga: un trigger lo rechaza para todos los roles de la base, también el dueño (MATU-47, migración 0020)
 - **Comunicaciones a terceros:** ninguna desde MATU. Si un día MATU envía el PIN por SMS, se agrega aquí.
 - **Transferencia internacional:** [PENDIENTE: proveedor y país].
 - **Decisiones automatizadas:** ninguna con efectos sobre las personas. El bloqueo por PIN incorrecto es un control de seguridad.
@@ -276,6 +279,7 @@ Cada historia que empieza a tratar datos personales agrega aquí su entrada.
   - rotación con detección de reutilización;
   - `no-store`;
   - push sin contenido (el texto fijo lo pone el service worker), sin datos de personas ni de insumos, y con una lista cerrada de hosts.
+  - la aplicación no puede leer la contraseña transformada ni el secreto del doble factor de ninguna cuenta. Al entrar, obtiene solo la contraseña transformada de la cuenta que está entrando, con una función de la base que nunca la entrega a operación ni a otra persona del grupo. Operación lee las cuentas solo para dar soporte (email y celular, entrada 7), y no las crea, no las cambia ni las borra. Una cuenta tampoco puede darse permisos de operación, cambiar su estado ni borrarse desde la aplicación (MATU-66, migración 0020)
 - **Comunicaciones a terceros:** el servicio de push del navegador recibirá solo el `push_token` y un push sin contenido (decisión 50). El texto fijo lo muestra el service worker de la aplicación. En el semestre el envío es simulado (MATU-41). [PENDIENTE: nombrarlos y su país]. **Decisiones automatizadas:** ninguna. La espera después de varios intentos es un control de seguridad.
 
 ## 7. Celular de la cuenta (MATU-39, MATU-57)
