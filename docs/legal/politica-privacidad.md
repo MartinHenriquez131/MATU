@@ -20,6 +20,7 @@
 **MATU-51 (07-11):** se ajustan las secciones 6 y 8 con «Compré» y «Me quedan», que anotan una compra o lo que queda en cualquier insumo, haya aviso o no, y las compras anotadas pasan a guardarse 90 días. No agregan usos, datos ni destinatarios, y un plazo más corto no cambia las declaraciones, así que no cambian la versión: `POLITICA_VERSION` sigue en `0.10` (criterio del 06-11). Aprobado por Jorge el 07-11.
 
 **MATU-74 (08-11):** se ajustan las secciones 8 y 13 con el programador de tareas: los borrados por plazo corren solos cada madrugada. No agregan usos, datos ni destinatarios, así que no cambian la versión: `POLITICA_VERSION` sigue en `0.10` (criterio del 06-11). Aprobado por Jorge el 08-11.
+
 **MATU-68 (08-11):** se precisa la sección 5: al dar de alta a la persona, «eliges quién la da» en vez de «eliges en qué calidad la das». No es una declaración y no agrega usos, datos ni destinatarios, así que no cambia la versión: `POLITICA_VERSION` sigue en `0.10`. Aprobado por Jorge el 08-11.
 
 ---
