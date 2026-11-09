@@ -7,6 +7,7 @@
 **MATU-72 (08-11):** entra la sección 24, borrar los datos de la persona, con los ajustes A1, A2 y A3 del diseñador (A3: textos sin pronombre, porque MATU no guarda el género). La 22 precisa que después de un borrado no vuelve nada. Aprobados por Jorge el 08-11.
 **MATU-59 (08-11):** entra la sección 27, el catálogo, y dos filas en 3.2 («escara» y «ostomía»). Los revisó el analista normativo. Aprobados por Jorge el 08-11.
 **MATU-67 (09-11):** entra la sección 28, el aviso de versión nueva. Aprobados por Jorge el 09-11.
+**MATU-75 (09-11):** entra la sección 29, la política de privacidad en la app y su aceptación al crear la cuenta. La 7.5 activa la frase del correo de contacto con `{correo_privacidad}` y retira el párrafo «En la demo». Aprobados por Jorge el 09-11.
 **Fuentes:** resultados de las entrevistas (`docs/resultados-entrevistas.md`), arquitectura sección 10, política de privacidad v0.9, la demo aprobada (`Demo/src/`, rama `demo-web-viernes-30`) y el contrato de MATU-09 (`docs/api/`, rama `matu-09-contrato-api`).
 
 ---
@@ -297,11 +298,9 @@ El mensaje del PIN se anuncia con `role="alert"` y deja el foco en el campo. Los
 
 Aviso para el relevo como titular de su nombre y su teléfono. Va en la pantalla del PIN, antes del canje, bajo el botón, en texto secundario, con el enlace a la política. Es el texto final: se copia tal cual.
 
-> MATU guarda tu nombre y tu teléfono, que anotó quien te compartió la ficha, para enviarte el enlace y poder contactarte. Tu teléfono se borra 30 días después de que el enlace vence o se corta. También registra cada vez que abres el enlace o la ficha y cada PIN incorrecto, con la fecha y la hora. La familia que te compartió la ficha puede ver ese registro con tu nombre. Lo guardamos 3 años. Responsables de tus datos: Jorge Espinoza y Martín Henríquez. Puedes pedir ver, corregir o borrar tus datos escribiendo a [PENDIENTE: correo de contacto]. [Política de privacidad]
+> MATU guarda tu nombre y tu teléfono, que anotó quien te compartió la ficha, para enviarte el enlace y poder contactarte. Tu teléfono se borra 30 días después de que el enlace vence o se corta. También registra cada vez que abres el enlace o la ficha y cada PIN incorrecto, con la fecha y la hora. La familia que te compartió la ficha puede ver ese registro con tu nombre. Lo guardamos 3 años. Responsables de tus datos: Jorge Espinoza y Martín Henríquez. Puedes pedir ver, corregir o borrar tus datos escribiendo a {correo_privacidad}. [Política de privacidad]
 
-El correo de contacto es el mismo de la política, sección 2, y se completa con la versión 1.0.
-
-**En la demo.** Como todavía no hay correo de contacto, la demo muestra el aviso sin esa frase. Termina en "Puedes pedir ver, corregir o borrar tus datos. [Política de privacidad]".
+El correo de contacto es el mismo de la política, sección 2, y se completa con la versión 0.11.
 
 **Título y enlace (MATU-68, aprobados por Jorge el 08-11).** Sobre el aviso va el título «Tus datos en MATU», y el enlace a la política dice «Política de privacidad (se abre en otra pestaña)». La página parte el aviso en tres párrafos sin cambiar una palabra: el texto del aviso se sigue copiando tal cual. El enlace no se muestra hasta que la política tenga su página en la app (MATU-75).
 
@@ -975,3 +974,23 @@ Aparece cuando hay una versión nueva de MATU y la pestaña estaba abierta. Nunc
 El aviso tampoco aparece en la pantalla «Lo que escribiste no se guardó».
 
 En el relevo se mantiene «Actualizar» (sección 7.4), que es otra acción: trae la ficha de nuevo sin cambiar de versión.
+
+---
+
+## 29. Política de privacidad (MATU-75) · Aprobados por Jorge el 09-11
+
+La política se muestra en la app, en /privacidad, desde «En un minuto» hasta el final. `{version}` es el número de versión de la política, `{DD/MM/AAAA}` su fecha y `{correo_privacidad}` el correo de contacto de la política, sección 2. Lo que va entre corchetes es el enlace a la política.
+
+| Dónde | Texto |
+|---|---|
+| Título de la página | Política de privacidad |
+| Título del documento | Política de privacidad · MATU |
+| Bajo el título | Versión {version} · actualizada el {DD/MM/AAAA} |
+| Crear cuenta, casilla | Leí y acepto la [política de privacidad]. |
+| Crear cuenta, error | Para crear tu cuenta, marca que leíste la política de privacidad. |
+| Autorizaciones, bajo la declaración | Lee la [política de privacidad] antes de autorizar. |
+| Tu cuenta, fila | Política de privacidad |
+| Tu cuenta, dato | Aceptaste la versión {version} el {DD/MM/AAAA}. |
+| Tu cuenta, sin registro | No tenemos registro de qué versión aceptaste. |
+| Tu cuenta, cómo pedir | Para cambiar tu nombre o tu correo, pedir una copia de tus datos o eliminar tu cuenta, escribe a {correo_privacidad} desde el correo de tu cuenta. |
+| Enlace a otra pestaña | {texto} (se abre en otra pestaña) |

@@ -63,13 +63,14 @@ Aunque el producto use datos sintéticos, existen algunos datos personales reale
 - Si una persona fuera del equipo prueba la demostración, usa una cuenta de prueba que le entrega el equipo.
 - Si el ramo exige pruebas de usabilidad con personas: [PENDIENTE, definir cómo se hacen sin que ingresen datos reales]
 - Si entra un dato real por error, se borra de inmediato, como compromete la política v0.9.
+- El buzón de privacidad recibe correos reales. Su contenido no se copia al sistema, al repositorio ni a las herramientas del equipo (registro de tratamientos, entrada del buzón).
 
 ### 4.4 Responsable del tratamiento durante el piloto académico
 
 Durante el semestre, el responsable es el equipo del proyecto, Jorge Espinoza y Martín Henríquez, como personas naturales.
 
-- Contacto: [PENDIENTE, correo del proyecto]
-- Qué trata: cuentas de prueba y registros técnicos de la demostración. Ningún dato real de salud ni de dependencia.
+- Contacto: {correo_privacidad}, una dirección de la función, no personal, que leen Jorge y Martín con verificación en dos pasos y sin reenvío a correos personales. Proveedor: [PROVEEDOR DEL CORREO], en [PAÍS] (registro de tratamientos, entrada del buzón). Acuse en 2 días hábiles y respuesta en 30 días corridos (MATU-75, D4).
+- Qué trata: cuentas de prueba, registros técnicos de la demostración y los correos que lleguen al buzón de privacidad, que pueden traer datos reales. Ningún dato real de salud ni de dependencia entra al sistema.
 - Rol de la institución: [PENDIENTE, confirmar con el ramo si la institución tiene algún rol respecto de los datos del piloto]
 - Las entrevistas de validación se rigen por su propio protocolo y no por este documento.
 
