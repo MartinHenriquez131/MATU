@@ -466,6 +466,7 @@ erDiagram
         text unidad
         int unidades_por_envase
         bool requiere_receta
+        bool retracto_pierde_al_abrir
         bool activo
         timestamptz creado_en
     }
@@ -502,7 +503,8 @@ erDiagram
         uuid id PK
         uuid producto_id FK
         uuid comercio_id FK
-        bigint precio_referencia
+        bigint precio "con IVA"
+        int stock
         bool disponible
         timestamptz actualizado_en
     }
@@ -513,11 +515,11 @@ erDiagram
 
 | Tabla | Propósito | Reglas que conviene notar |
 |---|---|---|
-| `categoria_cuidado`, `producto` | El catálogo curado | Datos de referencia: todos los leen, solo operación los escribe. `producto.unidades_por_envase` es del catálogo (capa 3). La lista de insumos usa solo `perfil_consumo.unidades_por_envase` (decisión 121) |
+| `categoria_cuidado`, `producto` | El catálogo curado | Datos de referencia: todos los leen, solo operación los escribe. `producto.retracto_pierde_al_abrir` (MATU-59) dice si el derecho a retracto se pierde al abrir el sello; lo pone operación por producto, no se infiere de la categoría. `producto.unidades_por_envase` es del catálogo (capa 3). La lista de insumos usa solo `perfil_consumo.unidades_por_envase` (decisión 121) |
 | `comercio` | Comercios en convenio | Todos ven los activos (nombre para armar pedidos) |
 | `usuario_comercio` | Qué usuarios operan la vista de un comercio | Resuelve el `app.comercio_id` del encargado al iniciar sesión |
 | `convenio` | Condiciones comerciales | `comision_bp` en puntos base. **Un comercio no puede tener dos convenios vigentes que se traslapen** (`EXCLUDE` sobre el rango de vigencia) |
-| `oferta` | Precio de un producto en un comercio | El comercio actualiza solo las suyas. Con el ADR-027 es el precio exacto con IVA del comercio en convenio. [PENDIENTE: la migración 0002 no tocó `oferta`; la columna sigue llamándose `precio_referencia` y el esquema la comenta como referencial (ADR-011, ya reemplazado)] |
+| `oferta` | Precio de un producto en un comercio | El comercio actualiza solo las suyas. Con el ADR-027 es el precio exacto con IVA del comercio en convenio. La migración 0019 (MATU-59) renombró `precio_referencia` a `precio` (`CHECK > 0`) y agregó `stock` (entero, `CHECK >= 0`). La API entrega solo si hay, nunca la cantidad |
 
 ### 4.5 Capa 3 · Pedido, sustitución y reposición programada
 
