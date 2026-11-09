@@ -82,6 +82,6 @@ Staging, después de cerrar y volver a abrir la pestaña:
 | ID | Respuesta | Commit o PR | Verificado (Martín) |
 |---|---|---|---|
 | H1 | Sí: MATU-54 «Mis datos» descarga las compras anotadas de los últimos 90 días (está en su descripción y en su «Definición de Terminado») | Trello MATU-54 | |
-| H2 | Se corrige en MATU-68: «Ya lo resolví» a todo el ancho en `angosto` (ítem agregado el 08-11) | Trello MATU-68 | |
-| H3 | Se corrige en MATU-68, punto 1 (el diseñador decide el tamaño de las casillas) | Trello MATU-68 | |
+| H2 | Se corrige en MATU-68: «Ya lo resolví» a todo el ancho en `angosto` (ítem agregado el 08-11) | Trello MATU-68 | sí: #64 (01e6acc), diseñador APROBADA y teléfono PASS el 09-11 |
+| H3 | Se corrige en MATU-68, punto 1 (el diseñador decide el tamaño de las casillas) | Trello MATU-68 | sí: `size-6` dentro de una etiqueta de 48 px, medido por el diseñador y probado en el teléfono el 09-11 |
 | H4 | Se anota. El 412 dice quién guardó, igual que el PATCH, a propósito (decisiones de la ficha) | — | |
