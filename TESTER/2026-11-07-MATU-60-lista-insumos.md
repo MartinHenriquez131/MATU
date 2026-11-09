@@ -79,4 +79,4 @@ Staging, después de cerrar y volver a abrir la pestaña, con cuentas sintética
 | ID | Respuesta | Commit o PR | Verificado (Martín) |
 |---|---|---|---|
 | H1 | Agregó la lista a `FLUJOS` (07-11) | 639d06c | sí |
-| H2 | | | |
+| H2 | No se acepta la repetición: se resuelve. `web/pruebas/coloresRepetidos.test.ts` falla si la impresión se separa de `@theme` o si los dos bloques del tema oscuro difieren. Ningún color cambia (08-11) | MATU_PROYECTO #62 | |
