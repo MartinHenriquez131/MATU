@@ -965,10 +965,13 @@ Aparece cuando hay una versión nueva de MATU y la pestaña estaba abierta. Nunc
 | Mientras recarga | Recargando… |
 | Para cerrarlo | Más tarde |
 | Si hay algo sin guardar, título | Lo que escribiste en «`{donde}`» no se guardó. |
+| Si hay algo sin guardar en Insumos, título | Lo que anotaste de «`{nombre}`» no se guardó. |
 | Si hay algo sin guardar y no se sabe dónde, título | Hay algo que escribiste y no se guardó. |
 | Si hay algo sin guardar, bajada | Si recargas ahora, se pierde. |
 | Si hay algo sin guardar, botones | Seguir escribiendo · Recargar igual |
 
-`{donde}` es el nombre de la sección de la ficha, o «Compré: `{nombre}`» y «Me quedan: `{nombre}`» en Insumos.
+`{donde}` es el nombre de la sección de la ficha. En Insumos (Compré, Me quedan, Ya lo resolví y el editor) va el título con `{nombre}`, el nombre del insumo. El título sin lugar va cuando no se sabe dónde, por ejemplo en «Anotar un insumo» antes de escribir el nombre o en Compartir.
+
+El aviso tampoco aparece en la pantalla «Lo que escribiste no se guardó».
 
 En el relevo se mantiene «Actualizar» (sección 7.4), que es otra acción: trae la ficha de nuevo sin cambiar de versión.
