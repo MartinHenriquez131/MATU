@@ -60,13 +60,46 @@
 
 - H2, H3 y H6.
 
+## Segunda revisión: la 0022 y los cron con sus roles (10-11)
+
+**PR:** MartinHenriquez131/MATU_PROYECTO#76 (H2 a H5) y MartinHenriquez131/MATU#62 (registro de tratamientos y CL-27). QA PASS en los 6 puntos y el analista da CUMPLE. No hay P1.
+
+**Despliegue, el 10-11 en hora de Chile:**
+1. **23:58 a 00:03 del 09-11:** Martín carga `MATU_SCHEDULER_PASSWORD` (cron de borrados y de quiebres) y `MATU_PUBLISHER_PASSWORD` (cron de avisos). Las genera en su computador, nuevas y distintas por entorno, sin que pasen por el chat.
+2. **00:11:** se fusionan MATU #62 (ef20968) y, con su CI al día, el #76 (aa91f4e).
+3. **00:14:** Martín corre `preparar_base.sh` en staging y en la demo, con el TCP Proxy abierto solo para ese paso: «los roles ya existían», «BASE PREPARADA». Después se cierra el TCP Proxy.
+4. **00:16:**
+   - `SCHEDULER_DATABASE_URL` y `PUBLISHER_DATABASE_URL` se cargan como referencias;
+   - los horarios quedan en `0 6 * * *`, `0 8 * * *` y `*/5 * * * *`;
+   - la API y los tres cron se despliegan en los dos entornos, todos en SUCCESS;
+   - la API aplica `0021 -> 0022` antes de Uvicorn.
+
+**Primeras corridas (logs de Railway, hora de Chile):**
+
+| Cron | Staging | Demo |
+|---|---|---|
+| Avisos (00:20) | `ok` | `ok` |
+| Borrados (03:00) | `ok`: `destruccion_fichas`, `conservacion_consumo` y `conservacion_sesiones` | `ok` en las tres |
+| Quiebres (05:00) | `ok`: 7 grupos, 0 fallidos, 2 alertas creadas | `ok`: 3 grupos, 0 alertas |
+
+- Ningún `FaltaConexion` ni error de autenticación.
+- Los logs solo llevan contadores, sin URL ni contraseñas.
+
+**Un aviso de quiebre llega al enviador simulado:**
+- las 2 alertas de staging de las 05:00 quedaron pospuestas en la corrida de las 05:05;
+- a las 09:00 salieron (`outbox: 2 publicados, 0 fallidos`).
+
+**Resultado:** PASS. H2, H3, H4 y H5 quedan corregidos y verificados en Railway.
+
+**Pendiente menor:** `REGISTRO_AVISOS` sigue cargada en los cron de avisos, porque la herramienta no borra variables. El código nuevo ya no la usa. Se quita desde el panel de Railway.
+
 ## Respuesta de Jorge
 
 | ID | Respuesta | Commit o PR | Verificado (Martín) |
 |---|---|---|---|
-| H1 | | | |
-| H2 | | | |
-| H3 | | | |
-| H4 | | | |
-| H5 | | | |
-| H6 | | | |
+| H1 | Cron creados en la demo (09-11) | MATU-64 | sí, 10-11 |
+| H2 | Roles propios `matu_scheduler` y `matu_publisher` (0022) | #76 | sí, 10-11 |
+| H3 | Avisos cada 5 minutos | #76 | sí, 10-11 |
+| H4 | El registro es la tabla `notificacion` | #76 | sí, 10-11 |
+| H5 | Borrados 06:00 UTC y quiebres 08:00 UTC | #76 | sí, 10-11 |
+| H6 | La política 0.11 dice 90 días para el registro de avisos | MATU #59 | sí |
