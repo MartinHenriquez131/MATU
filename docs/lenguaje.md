@@ -457,7 +457,7 @@ La figura legal del piloto (sección 4.1) pide un aviso visible en todas las pan
 | Dónde | Texto | Regla |
 |---|---|---|
 | Distintivo, en todas las pantallas de las tres apps y en la página del relevo | **Piloto académico con datos de prueba** | Visible siempre, también en modo presentación y con texto al 200%. No se abrevia. En pantallas angostas se parte en dos líneas: "Piloto académico / con datos de prueba" |
-| Lista de reposición, pedido y boleta | **Precios de ejemplo.** MATU todavía no tiene convenio con comercios, y en esta demo no se cobra dinero real. | Una vez por pantalla, nunca junto al botón principal |
+| Lista de insumos, pedido y boleta | **Precios de ejemplo.** MATU todavía no tiene convenio con comercios, y en esta demo no se cobra dinero real. | Una vez por pantalla, nunca junto al botón principal |
 | Pasarela de pago simulada | Pasarela de pago simulada · Transbank, ambiente de prueba. **Pago de prueba. No se cobra dinero real.** | En la pasarela, que no usa la marca de MATU |
 | Primera mención de un comercio en una pantalla | `{nombre}` (comercio ficticio) | Por ejemplo, "Farmacia Los Aromos (comercio ficticio)" |
 
