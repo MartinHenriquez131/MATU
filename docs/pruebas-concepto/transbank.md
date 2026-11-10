@@ -98,7 +98,12 @@ Mientras dure el piloto académico, todo esto ocurre solo en el ambiente de inte
 
 **Observación:** en este comercio, la VISA de crédito de prueba (terminada en 6623, la del sprint 0) y la Mastercard de prueba (terminada en 0568) fueron rechazadas en el formulario con «Intenta pagar con otra tarjeta». La AMEX de prueba sí pasó. No afecta a MATU, que no elige la marca. Queda anotado para quien repita la prueba.
 
-**Sigue pendiente:** los plazos máximos de anulación con crédito y con débito (estrategia 10.2). No se pueden medir en integración en el mismo día: se confirman con la documentación o la mesa de ayuda de Transbank.
+**Plazo de anulación (supuesto de trabajo, decidido por Martín el 10-11):**
+- Se asume **hasta 90 días** con crédito y con débito, según fuentes de terceros (por ejemplo, la documentación de Kushki para Webpay Plus). No es una fuente oficial de Transbank, y está descrita para la captura diferida.
+- No se puede medir en integración. Hay que confirmarlo con Transbank antes de salir del ambiente de integración.
+- No bloquea a MATU, porque el ADR-027 anula el mismo día, cuando un producto no se puede entregar.
+
+Prueba: de 12:10 a 12:45, hora de Chile.
 
 **Qué significa para MATU-62:**
 - El cobro único del total confirmado funciona igual con crédito y con débito (ADR-027).

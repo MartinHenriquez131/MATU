@@ -235,7 +235,7 @@ Es la prueba manual más importante que queda: si la anulación parcial no funci
 | 3 | **Anulación parcial** de una línea, con crédito y con débito | `refund` por el precio de una línea, por ejemplo $8.990 | Se devuelve solo esa parte, y el estado de la transacción lo refleja | Se define otro medio de devolución antes del sprint 4, sin pedir datos bancarios a la familia salvo que se apruebe como tratamiento nuevo (ADR-027, riesgo declarado) |
 | 4 | Retorno de pasarela recibido dos veces en venta normal | Repetir el `commit` con el mismo token | Un solo cobro | Revisar la idempotencia propia |
 
-[PENDIENTE: plazos máximos de anulación de Transbank con crédito y con débito. Se registran junto con estos casos.]
+**Plazo de anulación:** supuesto de trabajo de hasta 90 días, según fuentes de terceros (10-11). [PENDIENTE: confirmarlo con Transbank para crédito y débito antes de salir de integración.]
 
 **Se registra** cada caso con fecha, monto, código de respuesta y captura de pantalla en [`docs/pruebas-concepto/transbank.md`](pruebas-concepto/transbank.md). El resultado real reemplaza a la afirmación del proveedor en la sección 18.1 de la arquitectura.
 
