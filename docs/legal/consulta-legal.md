@@ -323,13 +323,13 @@ En los orígenes, «Trello» es un comentario de la tarjeta de consulta legal, c
 
 ### CL-27 · Lo que se conserva después de un borrado pedido
 
-- **Pregunta:** después de un borrado pedido por la persona, ¿es proporcional conservar 3 años, sin texto, la auditoría, el registro de autorizaciones y los accesos y las aperturas del relevo, para demostrar cómo se usaron los datos? La auditoría guarda, por ejemplo, que existió una sección como «Sus remedios». ¿Cuánto puede quedar la fila de la persona borrada, solo con su número interno?
+- **Pregunta:** después de un borrado pedido por la persona, ¿es proporcional conservar 3 años, sin texto, la auditoría, el registro de autorizaciones y los accesos y las aperturas del relevo, para demostrar cómo se usaron los datos? La auditoría guarda, por ejemplo, que existió una sección como «Sus remedios». ¿Cuánto puede quedar la fila de la persona borrada, solo con su número interno? ¿Y conservar 90 días el registro de avisos (a qué cuenta iba cada aviso, por qué canal y si salió, sin texto, destino ni nombres), también los avisos que se registran como «omitidos» después del borrado?
 - **Origen:**
   - MATU-72, CL-8, en `revision-matu-72.md` (rama `docs/matu-72-borrar-al-tiro`, decisión D4)
   - Trello del 8 de noviembre de 2026.
 - **Mientras tanto:** se conservan por sus plazos, sin texto, y ya no se ven en la aplicación. Se piden por correo.
 - **Bloquea:** datos reales.
-- **Se cierra en:** en la rama de MATU-72, política, sección 8, «La persona que cuidas, si pides borrar sus datos» («[PENDIENTE: plazo, en consulta legal]»), y registro, entrada 1, conservación (dos veces «[PENDIENTE: plazo, CL-8]»).
+- **Se cierra en:** en la rama de MATU-72, política, sección 8, «La persona que cuidas, si pides borrar sus datos» («[PENDIENTE: plazo, en consulta legal]»), y registro, entrada 1, conservación (dos veces «[PENDIENTE: plazo, CL-27]»).
 - **Respuesta:** —
 
 ### CL-28 · El plazo de los pagos y los pedidos
