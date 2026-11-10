@@ -79,6 +79,33 @@ Mientras dure el piloto académico, todo esto ocurre solo en el ambiente de inte
   - anulación parcial con los dos, y sus plazos máximos;
   - retorno duplicado en venta normal.
 
+## Venta normal (ADR-027) · 10 de noviembre de 2026
+
+**Verifica:** la estrategia de pruebas, 10.2 (R11 de la arquitectura), antes de construir el pago de MATU-62. **Responsable:** Martín Henríquez.
+**Ambiente:** integración de Transbank, comercio de Webpay Plus en venta normal con credenciales públicas, `transbank-sdk` 6.1.0.
+**Código:** [MATU_PROYECTO · spikes/transbank-venta-normal](https://github.com/MartinHenriquez131/MATU_PROYECTO/tree/matu-62-spike-venta-normal/spikes/transbank-venta-normal).
+**Tarjetas de prueba:**
+- débito: Redcompra terminada en 7763;
+- crédito: AMEX terminada en 2032.
+
+| # | Caso | Resultado real (hora de Chile) | ¿Cumple? |
+|---|---|---|---|
+| 1 | Venta normal con **crédito** por $57.460 | `vn-102`, 12:42. Commit `AUTHORIZED` por $57.460, `payment_type_code` VN, autorización 1617, respuesta 0 | **Cumple** |
+| 2 | Venta normal con **débito** por $57.460 | `vn-101`, 12:32. El formulario ofrece «Crédito, Débito, Prepago». Commit `AUTHORIZED` por $57.460, `payment_type_code` VD, autorización 1415, respuesta 0 | **Cumple**: con débito cobra igual que con crédito |
+| 3a | **Anulación parcial** de $8.990 con crédito | `refund` → `NULLIFIED`, `nullified_amount` 8.990, saldo $48.470 (autorización 307162). Estado final `PARTIALLY_NULLIFIED` | **Cumple** |
+| 3b | **Anulación parcial** de $8.990 con débito | `refund` → `NULLIFIED`, `nullified_amount` 8.990, saldo $48.470 (autorización 168026). Estado final `PARTIALLY_NULLIFIED` | **Cumple**: se cierra el riesgo declarado del ADR-027 |
+| 4 | Retorno recibido dos veces | El segundo commit de `vn-102` **no falla**. Devuelve la misma transacción (`PARTIALLY_NULLIFIED`, autorización 1617, monto 57.460 y saldo 48.470). Un solo cobro | **Cumple**, igual que en el sprint 0: la idempotencia es de MATU (token y estado del cargo en la base) |
+
+**Observación:** en este comercio, la VISA de crédito de prueba (terminada en 6623, la del sprint 0) y la Mastercard de prueba (terminada en 0568) fueron rechazadas en el formulario con «Intenta pagar con otra tarjeta». La AMEX de prueba sí pasó. No afecta a MATU, que no elige la marca. Queda anotado para quien repita la prueba.
+
+**Sigue pendiente:** los plazos máximos de anulación con crédito y con débito (estrategia 10.2). No se pueden medir en integración en el mismo día: se confirman con la documentación o la mesa de ayuda de Transbank.
+
+**Qué significa para MATU-62:**
+- El cobro único del total confirmado funciona igual con crédito y con débito (ADR-027).
+- La única devolución, la anulación parcial a la misma tarjeta, funciona con los dos tipos de tarjeta, y el saldo queda en la transacción.
+- El estado de un cargo con devolución parcial es `PARTIALLY_NULLIFIED`. La `PasarelaFalsa` debe responder igual.
+- El retorno duplicado no da error, así que el módulo de pagos lo detecta con su propio registro del token.
+
 ## Intentos
 
 | Fecha | Quién | Qué pasó |
