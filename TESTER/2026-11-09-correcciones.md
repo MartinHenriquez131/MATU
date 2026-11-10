@@ -8,7 +8,7 @@
 - MartinHenriquez131/MATU_PROYECTO#75 · backend: MATU-64 H1, MATU-59 H1 y MATU-72 H3.
 
 **Revisó:** Martín Henríquez, con `qa-tester-revisor`, `analista-revisor`, `disenador-revisor` y `revisor-documental` · **Fecha:** 09/11/2026
-**Veredicto general:** PASS. No hay P1. Queda un P2 de diseño (H1) para un PR aparte. **Las pruebas en el teléfono de #72 y #73 quedan pendientes** y se agregan aquí
+**Veredicto general:** PASS, también en el teléfono. No hay P1. Queda un P2 de diseño (H1) para un PR aparte
 
 ## Fusiones y despliegue (hora de Chile)
 
@@ -43,14 +43,19 @@ Staging y la demo se desplegaron desde 47e2e0d a las 20:52, los dos en SUCCESS. 
 | «Tu cuenta» | APROBADA |
 | «Confirma tu celular» antes de enviar el código | APROBADA |
 | «Confirma tu celular» con el código enviado | CAMBIOS REQUERIDOS (H1) |
-| Pantalla de permiso con «María lo autoriza y yo lo registro» | Sin ver: va en el teléfono |
+| Pantalla de permiso con «María lo autoriza y yo lo registro» | PASS en el teléfono (D1 y D2) |
 | Hoja del relevo sin el ejemplo | APROBADA |
 
 ## Prueba en el teléfono
 
-**Pendiente.** Pasos:
-1. **En staging, con la letra al máximo:** «Tu cuenta», «Confirma tu celular» y una pantalla de permiso con «María lo autoriza y yo lo registro». Ninguna palabra puede quedar partida, salvo la del H1, que es conocida.
-2. **En la demo,** la hoja del relevo de Rosa sin ningún «Por ejemplo».
+Motorola Edge 50 con Edge, **con la letra del teléfono al máximo**, el 09-11 (informado por Martín):
+1. **B2 · «Tu cuenta»** (staging): ninguna palabra partida y nada se sale de la pantalla. **OK**
+2. **C1 · «Confirma tu celular»** (staging), antes de enviar el código: sin palabras partidas, «WhatsApp» entero. **OK**. El «En-viar» del botón de reenvío es el H1 conocido.
+3. **D1 · Pantalla de permiso** con «María lo autoriza y yo lo registro» (staging): el texto de la opción queda bajo el indicador, sin palabras partidas. **OK**
+4. **D2 · Nota «Lo que declaras»:** «representante» no se parte. **OK**
+5. **F1 · Hoja del relevo de Rosa** (demo): solo la pregunta guía y el contenido, sin ningún «Por ejemplo» ni el número 5555 0102. **OK**
+
+**Resultado:** PASS.
 
 ## Hallazgos nuevos
 

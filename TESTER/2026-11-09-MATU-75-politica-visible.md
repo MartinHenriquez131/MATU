@@ -3,7 +3,7 @@
 **Historia:** MATU-75 ([tarjeta](https://trello.com/c/LG4qPX65))
 **PR revisados:** MartinHenriquez131/MATU_PROYECTO#71 (head 92b5568 y, al día con `main`, 36fddaf) y MartinHenriquez131/MATU#59
 **Revisó:** Martín Henríquez, con `qa-tester-revisor`, `analista-revisor` y `disenador-revisor` · **Fecha:** 09/11/2026
-**Veredicto general:** PASS en el código y CUMPLE en lo normativo. No hay P1. **Falta la prueba en el teléfono**, que se agrega a este informe
+**Veredicto general:** PASS en el código, en el teléfono y CUMPLE en lo normativo. No hay P1
 
 ## Contexto
 
@@ -18,7 +18,7 @@
 | # | Criterio | Veredicto | Evidencia |
 |---|---|---|---|
 | 1 | `/privacidad` muestra la política vigente (0.11) y su versión, legible a 320 px con el texto al 200 % | PASS (código y diseñador) | `PaginaPrivacidad.tsx`, `politica-0.11.md`, `router_politica.py`; `paginaPrivacidad.test.tsx`. El diseñador: sin desplazamiento horizontal a 360 px y a 320 px con el texto al 200 % (`s4c-priv-*.png`) |
-| 2 | Enlace desde las tres autorizaciones, crear cuenta, Tu cuenta y el relevo | PASS (código) | `Alta.tsx:151` y `:704`, `Insumos.tsx:1169`, `Cuenta.tsx:113`, `relevo/PantallaPin.tsx:150`; `politicaEnLaApp.test.tsx`. **En el teléfono, pendiente** |
+| 2 | Enlace desde las tres autorizaciones, crear cuenta, Tu cuenta y el relevo | PASS | `Alta.tsx:151` y `:704`, `Insumos.tsx:1169`, `Cuenta.tsx:113`, `relevo/PantallaPin.tsx:150`; `politicaEnLaApp.test.tsx`; teléfono, pasos A1, B1, D3 y E1 |
 | 3 | Se guardan la versión, la fecha y la huella aceptadas al crear la cuenta, con migración reversible | PASS | 0021: tabla `aceptacion_politica`, de solo agregar, con FORCE RLS; `test_aceptar_estampa_la_version_y_la_huella_vigentes`, `test_aceptar_con_otra_huella_falla` |
 | 4 | El buzón `cuidaconmatu@gmail.com` en la política, en `lenguaje.md` y en el relevo | PASS | MATU #59: política §2, §10 y §13; `lenguaje.md:305`, `:990` y `:1003`; `relevo/textos.ts` |
 | 5 | `POLITICA_VERSION` y la huella coinciden con el texto | PASS | `test_cada_version_publicada_tiene_su_archivo_con_su_huella`, `test_un_texto_que_cambia_sin_cambiar_su_huella_no_se_sirve` |
@@ -31,11 +31,14 @@
 
 ## Prueba en el teléfono
 
-**Pendiente.** Pasos, en staging:
-1. **Crear cuenta:** el enlace a la política, versión 0.11, sin desplazamiento a los lados.
-2. **Tu cuenta:** el enlace a la política.
-3. **Una pantalla de permiso:** el enlace a la política.
-4. **La pantalla del PIN del relevo:** el enlace y `cuidaconmatu@gmail.com`.
+Staging, Motorola Edge 50 con Edge, **con la letra del teléfono al máximo**, el 09-11 (informado por Martín):
+1. **A1 · Crear cuenta:** el enlace a la política está junto a la casilla. **OK**
+2. **A2:** la política dice «Versión 0.11» y se lee hasta el final sin desplazamiento horizontal. **OK**
+3. **B1 · Tu cuenta:** el enlace a la política está. **OK**
+4. **D3 · Pantalla de permiso** («María lo autoriza y yo lo registro»): el enlace a la política está. **OK**
+5. **E1 · Pantalla del PIN del relevo** (abierta en el PC): el enlace a la política y `cuidaconmatu@gmail.com`. **OK**. El enlace de prueba se cortó al terminar.
+
+**Resultado:** PASS.
 
 ## Hallazgos
 
