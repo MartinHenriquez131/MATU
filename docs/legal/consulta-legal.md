@@ -329,7 +329,7 @@ En los orígenes, «Trello» es un comentario de la tarjeta de consulta legal, c
   - Trello del 8 de noviembre de 2026.
 - **Mientras tanto:** se conservan por sus plazos, sin texto, y ya no se ven en la aplicación. Se piden por correo.
 - **Bloquea:** datos reales.
-- **Se cierra en:** en la rama de MATU-72, política, sección 8, «La persona que cuidas, si pides borrar sus datos» («[PENDIENTE: plazo, en consulta legal]»), y registro, entrada 1, conservación (dos veces «[PENDIENTE: plazo, CL-8]»).
+- **Se cierra en:** en la rama de MATU-72, política, sección 8, «La persona que cuidas, si pides borrar sus datos» («[PENDIENTE: plazo, en consulta legal]»), y registro, entrada 1, conservación (dos veces «[PENDIENTE: plazo, CL-27]»).
 - **Respuesta:** —
 
 ### CL-28 · El plazo de los pagos y los pedidos
