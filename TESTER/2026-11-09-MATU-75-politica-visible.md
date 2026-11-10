@@ -40,6 +40,15 @@ Staging, Motorola Edge 50 con Edge, **con la letra del teléfono al máximo**, e
 
 **Resultado:** PASS.
 
+**Segunda parte, 09-11 de 23:40 a 23:51** (informado por Martín):
+6. **G1 · Autorización de la ficha** (retirar y volver a autorizar): el enlace abre `/privacidad` con la versión 0.11. **OK**
+7. **G2 · Autorización de insumos:** el enlace abre la política 0.11. **OK**
+8. **G3 · Autorización de pedidos:** el enlace a la política está. **OK**
+9. **H1 · El correo `cuidaconmatu@gmail.com`** abre la aplicación de correo con esa dirección. **OK**
+10. **H2 · Correo de prueba** «Prueba MATU-75», sin datos personales, enviado sin error. **OK**
+
+**Resultado de las dos partes:** PASS.
+
 ## Hallazgos
 
 | ID | Severidad | Hallazgo | Evidencia | Qué pido corregir |
