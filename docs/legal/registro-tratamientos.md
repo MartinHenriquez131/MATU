@@ -37,7 +37,7 @@ Cada historia que empieza a tratar datos personales agrega aquí su entrada.
 - **Transferencia internacional:** [PENDIENTE: proveedor y país].
 - **Decisiones automatizadas:** ninguna.
 
-## 2. Pedidos y pagos de insumos (ADR-027, MATU-61)
+## 2. Pedidos y pagos de insumos (ADR-027, MATU-61, MATU-62)
 
 > Aprobado por Jorge el 27-10 como diseño. Las frases sobre lo que el comercio ve o no ve se publican solo cuando la migración del sprint 4 (requisitos R7 a R9, arquitectura 18.1) las haga ciertas.
 
@@ -45,10 +45,12 @@ Cada historia que empieza a tratar datos personales agrega aquí su entrada.
 
 > MATU-61 (11-11): decisiones D1 a D12 de Jorge (`revision-previa-matu-61.md`, sección 7) y C1 a C9 del contrato (`docs/api/README.md` del repositorio MATU_PROYECTO, decisiones 188 a 219). MATU-61 llega hasta el total confirmado. El pago y el cargo son de MATU-62, y la preparación, la entrega y la vista del comercio, de MATU-63.
 
+> MATU-62 (11-11): decisiones D-62-1 a D-62-17 y P-62-1 a P-62-9 del orquestador por delegación de Jorge (`revision-previa-matu-62-segunda.md`, sección 7) y decisiones 223 a 248 del contrato. Migración 0024. Se cobra en Webpay Plus, en el ambiente de integración de Transbank.
+
 **Se trata solo con datos sintéticos.** Desde MATU-61 se arma el pedido y se confirma el total, con precios de ejemplo, comercios ficticios (`comercio.ficticio`, D9) y una consulta de stock simulada. Los pagos se harán solo en el ambiente de integración de Transbank (`figura-legal-piloto.md`, sección 5).
 
 - **Finalidad:** pedir insumos a comercios en convenio, a precio exacto con IVA incluido, y cobrar una sola vez el total confirmado. MATU vende. En el piloto no se emite boleta (condiciones del pedido v0.1, D8).
-- **Titulares:** el usuario que pide y paga, la persona cuidada a quien va el pedido, y la persona cuyo teléfono se anota como contacto si no es quien pide.
+- **Titulares:** el usuario que pide, quien paga (administrador o pagador, desde MATU-62), la persona cuidada a quien va el pedido, y la persona cuyo teléfono se anota como contacto si no es quien pide.
 - **Datos:**
   - productos, cantidades, precios, envío y total. Cada línea guarda el precio y la oferta del carrito (`precio_carrito`, `oferta_carrito_id`), para marcar contra ellos un cambio de precio o de comercio al confirmar (C15), y una copia de `producto.retracto_pierde_al_abrir` (C3). Todos los precios llevan el IVA incluido. El historial de pedidos y de consumo de la persona cuidada se trata como **dato sensible**, porque junto con un dato que identifica puede revelar salud o dependencia (`investigacion-normativa-adr-027.md`, sección 3) [PENDIENTE: consulta legal sobre si los productos de un pedido son un dato relativo a la salud, CL-11 y CL-12]
   - **sin el nombre de la persona cuidada:** `pedido.destinatario_nombre_pila` sale en la migración de MATU-61 (R7, C16). El pedido se une a la persona por `persona_cuidada_id`
@@ -58,23 +60,27 @@ Cada historia que empieza a tratar datos personales agrega aquí su entrada.
   - la línea de tiempo (`pedido_transicion`), con un motivo de una lista cerrada (C19): `total_vencio`, `familia_cancela`, `familia_cambia_carrito`, `autorizacion_retirada` y `persona_borrada`
   - las condiciones del pedido aceptadas (`condiciones_version`, `condiciones_aceptadas_en` y `condiciones_huella`, SHA-256, D6). Las columnas se crean en MATU-61 y se escriben al pagar, en MATU-62. Un `CHECK` impide `pagado_en` sin `condiciones_aceptadas_en`
   - la autorización de pedidos (`consentimiento.finalidad = despacho`, D1), con la calidad, la versión de la política, la declaración `declaracion_pedidos_<calidad>` y su huella, y la revisión de 12 meses
-  - el pago, desde MATU-62: monto cobrado, monto devuelto, código de autorización, tipo de tarjeta y últimos 4 dígitos. MATU nunca recibe ni guarda los datos de la tarjeta
+  - el pago, desde MATU-62 (`cargo`, `participacion` y `transaccion_pasarela`): monto cobrado, monto devuelto por línea, código de autorización, tipo de tarjeta (crédito, débito o prepago), cuotas, últimos 4 dígitos, el token y la orden de la venta, su `session_id`, el motivo de cierre y la referencia corta del pedido (4 a 6 cifras). La venta queda atada al total y a su `total_confirmado_en`. `payload_respuesta` queda siempre vacío, con un `CHECK`. MATU nunca recibe ni guarda los datos de la tarjeta
+  - quién aceptó las condiciones (`condiciones_aceptadas_por`, D-62-16), dentro del `CHECK` de las condiciones completas. No se guarda un correo para el comprobante: en el piloto no se envía (P-62-5)
   - `idempotencia` de `POST …/pedidos`, `…/confirmar` y `…/cancelar`: solo el estado HTTP y el id del pedido, nunca el cuerpo (D5)
+- **Base de licitud del pago (MATU-62):** ejecución de la compra que pide quien paga, que acepta las condiciones del pedido con su versión y su huella. [PENDIENTE: el artículo, en la consulta legal, CL-66]
 - **Base de licitud:** consentimiento expreso y **separado** del de la ficha y del de consumo, solo para los pedidos: la finalidad `despacho` (D1). Se pide la primera vez que se toca «Pedir», lo dan el admin y el cuidador en la calidad de MATU-07, con `declaracion_pedidos_<calidad>` y su huella, y se revisa a los 12 meses. Sin la autorización `VIGENTE` según el `Reloj`, crear, ajustar, elegir la regla, confirmar, cambiar el teléfono y «Cambiar el pedido» responden 403 (C21). Leer, cancelar y la dirección no la piden. Se retira en Grupo familiar, por un medio igual de fácil que el usado para darla. La titular es la persona cuidada, y quién consiente sigue la calidad de MATU-07.
   - [PENDIENTE: consulta legal sobre si el art. 16 bis, inciso 1, limita el tratamiento aunque haya consentimiento, y si sirve como base su letra e), CL-11]
   - quién consiente por la persona mayor dependiente (arts. 12 y 16 c) se resuelve con MATU-07: calidad del otorgante y revisión a los 12 meses. Lo que quede abierto se une a la consulta del cuidador de hecho (decisión de Jorge, 27-10)
   - el teléfono de contacto de alguien que no es usuario: [PENDIENTE: consulta legal, CL-33 ampliada]
   - la evaluación de impacto del art. 15 ter se hace antes de operar con datos reales, sea obligatoria o no (decisión de Jorge, 27-10)
 - **Quién accede:**
-  - en el grupo (arquitectura, sección 11.2, con C3 de Jorge): administrador y cuidador arman, ajustan, eligen la regla, confirman, cambian el teléfono, usan «Cambiar el pedido» y cancelan sin pagar. El pagador ve el pedido, la entrega y el resumen, no confirma y no cancela, y paga desde MATU-62. El observador ve el carrito sin la entrega ni el resumen (`PedidoVistaObservador`), y nunca la ficha. Otro grupo, 404
+  - en el grupo (arquitectura, sección 11.2, con C3 de Jorge): administrador y cuidador arman, ajustan, eligen la regla, confirman, cambian el teléfono, usan «Cambiar el pedido» y cancelan sin pagar. El pagador ve el pedido, la entrega y el resumen, no confirma y no cancela, y paga desde MATU-62. **Pagan** el administrador y el pagador (D-62-2). El pago y el comprobante los leen el administrador, el cuidador y el pagador, el detalle de la tarjeta solo quien pagó, y el observador ve solo «Pagado» (D-62-8). Con un pago en curso nadie cambia el pedido (409 `pago-en-curso`, D-62-4 regla 1). Después de pagar, cancela solo el administrador El observador ve el carrito sin la entrega ni el resumen (`PedidoVistaObservador`), y nunca la ficha. Otro grupo, 404
   - un solo pedido sin pagar por persona (C4)
   - el comercio, desde MATU-63, ve solo su parte (`pedido_comercio`): sus productos, su referencia del pedido y el código de retiro. **Ningún nombre**, ni la ficha, la dirección, el teléfono, las líneas de otro comercio ni el total de la familia (R8, D7). El comercio que reemplaza a otro ve lo mismo, solo con lo que le toca
   - operación ve pedidos y pagos para dar soporte, y devuelve por anulación. Nunca la ficha ni el consumo de insumos
+  - `sistema` (la vuelta de Transbank, sin grupo ni cuenta) y `matu_scheduler` (la conciliación) resuelven las ventas por funciones `SECURITY DEFINER` que devuelven solo ids
 - **La consulta de stock no trata datos personales:** se hace al confirmar, **una por comercio**, y lleva solo productos, cantidades y una referencia opaca para apartar, **aleatoria por pedido y por comercio, nunca por familia** (C22). No lleva datos de la familia, de la persona cuidada ni de la dirección, y una prueba sobre el objeto de la consulta lo verifica.
 - **Conservación:**
   - **lo que no se pagó** (`borrador`, total vencido y `cancelado` sin pago): se borra a los 30 días desde la última vez que cambió, desde que venció o desde que se canceló (C10), con una tarea del programador de MATU-74 que corre aunque los pedidos estén apagados, y con su línea de tiempo en cascada (D5). La copia de la entrega (`pedido_entrega`) se borra al cancelar. `idempotencia` se borra al vencer, a las 24 horas (D5). [PENDIENTE: CL-28 ampliada]
+  - **lo que se intentó pagar y no se cobró** (D-62-13 c): el cargo y sus transacciones se borran con el pedido a los 30 días. **Un cobro anulado completo** se conserva 6 años, con el pedido sin entrega, el cargo y sus transacciones, y se borran las líneas, las reglas, la línea de tiempo y las partes por comercio. [PENDIENTE: CL-64]
   - pedidos pagados y comprobantes de entrega, 2 años. Pagos y boletas, 6 años, por obligación tributaria (arquitectura, sección 11.8). [PENDIENTE: CL-28]
-  - **retiro de la autorización de pedidos** (D1): en la misma transacción, los pedidos sin pagar de la persona pasan a `cancelado` con motivo `autorizacion_retirada`, se borra su `pedido_entrega` y se registra un `pedido.cancelar` por pedido. Si cancelar falla, se deshace también el retiro. Los pagados siguen su plazo [PENDIENTE: CL-44]. La dirección de la persona se conserva (C6 de Jorge)
+  - **retiro de la autorización de pedidos** (D1): en la misma transacción, los pedidos sin pagar de la persona pasan a `cancelado` con motivo `autorizacion_retirada`, se borra su `pedido_entrega` y se registra un `pedido.cancelar` por pedido. Si cancelar falla, se deshace también el retiro. Los pagados siguen su plazo [PENDIENTE: CL-44]. Desde MATU-62, un pago en curso que se aprueba después del retiro se anula completo el mismo día (D-62-4, regla 3). La dirección de la persona se conserva (C6 de Jorge)
   - **borrado de la persona** (MATU-72, D2): retira también la autorización `despacho` y, en la misma transacción, cancela los pedidos sin pagar con motivo `persona_borrada` y borra su `pedido_entrega`. Desde MATU-62 y MATU-63: los pedidos cerrados quedan solo con la comuna, y los pagados en curso conservan la dirección hasta cerrarse. Productos y montos siguen su plazo, sin verse después del retracto. En MATU-61 aplica solo la regla de los sin pagar. [PENDIENTE: CL-52 y CL-44]
   - con la capa 3 apagada, el retiro y el borrado siguen funcionando y no tocan pedidos (C2 de Jorge)
 - **Medidas:**
@@ -82,7 +88,9 @@ Cada historia que empieza a tratar datos personales agrega aquí su entrada.
   - el comercio ve un pedido solo cuando está pagado y enviado, y nunca la dirección, que vive en una tabla aparte. Las políticas de `pedido_comercio` y `pedido_linea` por `pedido_comercio.comercio_id` van en la migración de MATU-61, con sus pruebas en `test_aislamiento.py` (D7)
   - el precio pagado queda fijo en la base desde el pago, y lo devuelto nunca supera lo cobrado
   - la regla si falta un producto queda fija al pagar, con un trigger, y solo el admin y el cuidador la escriben, con políticas por operación (C12 y C13)
-  - registro de transacciones de pasarela que nunca se borra
+  - registro de transacciones de pasarela que nunca se borra mientras tenga dinero (D-62-13). Solo `sistema` u `operacion` marcan un pedido `pagado`, con una venta aprobada y no anulada del mismo total. Una sola venta aprobada por cargo, el token es único y una línea se devuelve una sola vez. `matu_app` no puede borrar `cargo` ni `participacion`
+  - el token, la orden de la venta, el `session_id`, la respuesta de Transbank y el correo nunca en logs: la vuelta registra solo el caso (P-62-3)
+  - la política de contenido de la aplicación solo deja enviar el formulario a las dos direcciones de Webpay. El token de la vuelta se limpia de la URL con `history.replaceState` y vive solo en memoria
   - la proyección del comercio excluye `grupo_id`, `persona_cuidada_id`, `creado_por`, las transiciones y todo identificador de la familia y de la persona, con una prueba de contrato (C16). El nombre de pila sale del pedido en la migración de MATU-61. [PENDIENTE: la vista del comercio y su prueba de contrato se construyen en MATU-63. Hasta entonces, revisar que el comercio no pueda leer `grupo_id`, `persona_cuidada_id`, `creado_por`, el `total`, el `costo_envio` ni las transiciones, ni escribir `monto_devuelto`. Hoy `pedido_comercio_ver` le deja leer la fila completa de `pedido` una vez enviado: se acota por columnas en MATU-63 (cierre del analista de MATU-61)]
   - productos, cantidades, precios, dirección, referencia y teléfono nunca en logs, errores, eventos, auditoría ni URL, con `Cache-Control: no-store` en todas las respuestas del pedido y de la dirección (C17)
   - el carrito vive en el servidor como borrador, nunca en `localStorage`, `sessionStorage` ni la URL (C18)
@@ -92,10 +100,11 @@ Cada historia que empieza a tratar datos personales agrega aquí su entrada.
 - **Comunicaciones a terceros:**
   - comercios en convenio, con lo que dice "Quién accede". **La dirección nunca llega al comercio.** MATU trata al comercio como si fuera encargado, sea o no un dato personal para él la referencia del pedido, y el convenio lleva siempre las cláusulas del art. 15 bis (decisión de Jorge, 27-10). El primer convenio real debe autorizar a publicar el nombre de fantasía, los precios y el stock (D9)
   - quien despacha, que ve la dirección, el teléfono de contacto y el paquete: **encargado** de MATU, con contrato según el art. 15 bis (instrucciones, confidencialidad, seguridad, reporte de vulneraciones y supresión al terminar)
-  - Transbank, que procesa el pago en su propia página. La devolución vuelve a la misma tarjeta, por anulación de Webpay Plus, sin pedir datos nuevos
+  - Transbank, que procesa el pago en su propia página. Recibe de MATU solo el monto, una orden que no identifica a nadie y un `session_id` aleatorio. La devolución vuelve a la misma tarjeta, por anulación de Webpay Plus, sin pedir datos nuevos. Débito y anulación parcial verificados el 10-11 en integración (MATU_PROYECTO #77). [PENDIENTE: su rol, CL-56]
+  - el proveedor de correo, cuando el comprobante se envíe (después de MATU-91). [PENDIENTE]
   - los reclamos de un pedido llegan al buzón (entrada 11, D8)
 - **Transferencia internacional:** [PENDIENTE: proveedor y país].
-- **Decisiones automatizadas:** ninguna. Al confirmar, MATU mueve un producto que falta al comercio de menor precio solo si la familia eligió buscarlo en otro comercio (C5 de Jorge), y lo muestra antes de pagar.
+- **Decisiones automatizadas:** la anulación automática de un pago aprobado cuando el pedido ya cambió, se canceló o se retiró la autorización (D-62-4, regla 3). Siempre devuelve el total completo a la misma tarjeta, el mismo día, y se le muestra a quien pagó. [PENDIENTE: CL-65] Al confirmar, MATU mueve un producto que falta al comercio de menor precio solo si la familia eligió buscarlo en otro comercio (C5 de Jorge), y lo muestra antes de pagar.
 
 ## 3. Ficha de relevo (MATU-09, MATU-11 a MATU-14, MATU-50)
 
@@ -377,7 +386,7 @@ Cada historia que empieza a tratar datos personales agrega aquí su entrada.
 
 ## 11. Buzón de privacidad y de reclamos (MATU-75, D5, y MATU-61, D8)
 
-- **Finalidad:** recibir y responder las solicitudes de derechos y las consultas de privacidad. Desde MATU-61 (D8), también los reclamos de los pedidos: es el canal de reclamo de las condiciones del pedido (§8) y del resumen antes de pagar.
+- **Finalidad:** recibir y responder las solicitudes de derechos y las consultas de privacidad. Desde MATU-61 (D8), también los reclamos de los pedidos, y desde MATU-62, los de los pagos y las devoluciones: es el canal de reclamo de las condiciones del pedido (§8) y del resumen antes de pagar.
 - **Titulares:** cualquiera que escriba.
 - **Datos:** el correo y el nombre de quien escribe, el mensaje y la respuesta. Un reclamo puede traer además el pedido al que se refiere, sus productos o la dirección. Puede traer datos sensibles, aunque la política pide no incluirlos. **Es un tratamiento de datos reales durante el piloto.**
 - **Base de licitud:** atender los derechos del titular. Para los reclamos de un pedido, responder al reclamo de quien compra. [PENDIENTE: consulta legal, junto con CL-48, también para los reclamos]
