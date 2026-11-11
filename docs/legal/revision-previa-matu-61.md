@@ -2,7 +2,7 @@
 
 **10 de noviembre de 2026, noche** · Agente analista normativo, a pedido de Jorge · Estado: **decisiones D1 a D12 pendientes de Jorge (11-11)**
 
-Esto no es asesoría legal. El informe sirve para que Jorge decida. Lo que queda en REQUIERE CONSULTA LEGAL va a [`consulta-legal.md`](consulta-legal.md); la próxima pregunta es la CL-52.
+Esto no es asesoría legal. El informe sirve para que Jorge decida. Lo que queda en REQUIERE CONSULTA LEGAL va a [`consulta-legal.md`](consulta-legal.md); la próxima pregunta es la CL-52. Nota del orquestador: la revisión de MATU-55 del mismo día también propuso una CL-52 distinta; esa queda como CL-53.
 
 **Qué se revisó.** En `docs/`: el ADR-027, la arquitectura (8.1 a 8.4, 11, 11.8, 18 y 18.1), el modelo de datos 4.5, la política v0.11, el registro de tratamientos, `consulta-legal.md`, `investigacion-normativa-adr-027.md`, `revision-previa-adr-027.md`, `revision-matu-72.md`, `figura-legal-piloto.md` y `lenguaje.md` (11, 24 y 27). En el código, solo para saber qué existe: `0002_precios_exactos_un_cobro.py`, `backend/db/01_esquema.sql` y `care_circle` (borrado, autorizaciones y personas).
 
