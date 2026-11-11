@@ -32,7 +32,7 @@
 
 ## Prueba en el teléfono
 
-Staging, Motorola Edge 50 con Edge y la letra al máximo, el 11-11 de 12:19 a 12:32 (informado por Martín):
+Staging, Motorola Edge 50 con Edge y la letra al máximo, el 11-11 de 12:23 a 12:32 (despliegue en SUCCESS a las 12:23 y resultado informado a las 12:32):
 1. **C1 · «Me quedan» en envases**, con 3 envases de 20 y 5 sueltos: muestra y guarda 65. **OK**
 2. **C2 · Un insumo sin envase:** pide las unidades por envase, y si se deja vacío aparece el error. **OK**
 3. **C3 · Volver a «Contar sueltos»:** funciona como antes. **OK**
