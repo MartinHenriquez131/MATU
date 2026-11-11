@@ -279,8 +279,8 @@ Con esta autorización guardamos, además, una huella del texto exacto de la dec
 - **Administrador y cuidador:** arman el pedido, eligen qué hacer si falta cada producto, agregan, cambian o vacían la dirección de entrega, cambian el teléfono de contacto, confirman el total y cancelan un pedido sin pagar.
 - **Pagador:** ve el pedido, la dirección, el teléfono de contacto y el resumen antes de pagar, sin cambiar nada.
 - **Pagan** quien administra el grupo y quien paga. El pago y el comprobante los ven quien administra, quien cuida y quien paga, y el detalle de la tarjeta lo ve solo quien pagó. Mientras un pago está en curso, nadie puede cambiar el pedido. Después de pagar, solo quien administra puede cancelarlo. <!-- D-62-2 y D-62-8 de MATU-62 -->
-- **Observador:** ve los productos del pedido, sin la dirección, el teléfono de contacto ni el resumen.
-- Cada vez que alguien da o retira la autorización de los pedidos, crea, confirma o cancela un pedido, elige qué hacer si falta un producto, o cambia o vacía la dirección, MATU registra quién y cuándo, sin los productos, las cantidades, la dirección ni el teléfono. Mirar un pedido no se registra.
+- **Observador:** ve los productos del pedido y si está pagado, sin la dirección, el teléfono de contacto, el resumen ni el pago.
+- Cada vez que alguien da o retira la autorización de los pedidos, crea, confirma, paga o cancela un pedido, elige qué hacer si falta un producto, o cambia o vacía la dirección, MATU registra quién y cuándo, sin los productos, las cantidades, la dirección, el teléfono, los montos ni los datos del pago. Cuando Transbank aprueba un pago o MATU lo anula, queda registrado que lo hizo MATU, también sin montos. Mirar un pedido o un pago no se registra.
 
 **El relevo**, la persona que te reemplaza:
 - Ve solo el nombre con que llaman a la persona, tu nombre de pila, los tres campos de la ficha y las secciones adicionales que marcaste al compartir. Si agregas una sección después, no la ve hasta que le des un acceso nuevo.

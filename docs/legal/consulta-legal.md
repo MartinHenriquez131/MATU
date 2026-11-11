@@ -604,7 +604,7 @@ En los orígenes, «Trello» es un comentario de la tarjeta de consulta legal, c
 
 ### CL-54 · El contenido de la confirmación escrita
 
-- **Pregunta:** ¿cumple el art. 12 A de la Ley 19.496 un comprobante dentro de la aplicación, sin correo? ¿Basta un correo sin la lista de productos, que remite el detalle a la aplicación? **Ampliada en la segunda revisión:** si quien paga no es quien armó el pedido, ¿a quién se le debe la confirmación?
+- **Pregunta:** ¿cumple el art. 12 A de la Ley 19.496 un comprobante dentro de la aplicación, sin correo? ¿Basta un correo sin la lista de productos, que remite el detalle a la aplicación? **Ampliada en la segunda revisión:** si quien paga no es quien armó el pedido, ¿a quién se le debe la confirmación? **Ampliada en el cierre de MATU-62:** si quien paga elige en Webpay cuotas con interés de su banco, ¿debe la confirmación decir algo más que «Pagaste {total} una sola vez»? Mientras tanto, el comprobante muestra «en {n} cuotas» y MATU cobra una sola vez.
 - **Origen:** MATU-62, revisión previa, 10 de noviembre de 2026 (`revision-previa-matu-62.md`, sección 6); ampliada en la MATU-62, segunda revisión previa, 11 de noviembre de 2026 (`revision-previa-matu-62-segunda.md`, sección 6), con las decisiones del orquestador del 11-11 por delegación de Jorge.
 - **Mientras tanto:** el comprobante queda en MATU, con los productos, y en el piloto no se envía por correo (P-62-5; verificar el correo va en MATU-91). Si falta la confirmación, el retracto podría subir de 10 a 90 días.
 - **Bloquea:** dinero real.
@@ -649,7 +649,7 @@ En los orígenes, «Trello» es un comentario de la tarjeta de consulta legal, c
 
 ### CL-66 · Quién es el consumidor cuando paga una persona y arma otra
 
-- **Pregunta:** ¿quién ejerce el retracto, quién reclama y a quién se le devuelve?
+- **Pregunta:** ¿quién ejerce el retracto, quién reclama y a quién se le devuelve? **Ampliada en el cierre de MATU-62:** ¿cuál es la base de licitud de los datos del pago de quien paga sin haber armado el pedido: la ejecución de la compra que acepta, u otra?
 - **Origen:** MATU-62, segunda revisión previa, 11 de noviembre de 2026 (`revision-previa-matu-62-segunda.md`, sección 6), con las decisiones del orquestador del 11-11 por delegación de Jorge.
 - **Mientras tanto:** la aceptación de las condiciones queda con quien pagó (`condiciones_aceptadas_por`, D-62-16) y la devolución va siempre a la misma tarjeta.
 - **Bloquea:** dinero real.
