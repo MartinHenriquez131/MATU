@@ -138,6 +138,7 @@ La ficha tiene tres campos. Cada uno acepta **hasta 500 caracteres** y se guarda
 ### 5.3 A quién llamar (`red_apoyo`)
 
 - **Pregunta guía:** ¿A quién llamar si algo pasa y no te ubican?
+- **En el relevo:** ¿A quién llamar si algo pasa? Quien reemplaza no es quien escribió la ficha, así que la pregunta no le habla con «te» (decisión de Jorge del 09-11). En el editor de la familia queda la pregunta de arriba.
 - **Ejemplo:** Por ejemplo: «Rodrigo, su hijo: +56 9 5555 0102».
 
 Las preguntas guía nombran a la persona por su nombre y no usan femenino ni masculino, porque el modelo no guarda su género (aprobado por Jorge el 27-10). La demo del viernes 30 no cambia.
