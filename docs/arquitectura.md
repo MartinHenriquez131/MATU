@@ -795,6 +795,7 @@ stateDiagram-v2
     total_confirmado --> borrador: «Cambiar el pedido»
     vencido --> borrador: «Cambiar el pedido» con el total vencido
     total_confirmado --> pagado: cobro único aprobado
+    vencido --> pagado: pago iniciado con el total vigente, aprobado tarde por el mismo total
     pagado --> enviado_a_comercio: se publica en la vista del comercio
     enviado_a_comercio --> preparando: el comercio empieza a preparar
     preparando --> listo_retiro: preparado
@@ -822,6 +823,12 @@ stateDiagram-v2
 - `total_confirmado → borrador` y `vencido → borrador`: «Cambiar el pedido» (`POST /v1/pedidos/{id}/cambiar`). Descarta el total, las partes por comercio y la copia de la entrega, y cada línea vuelve al precio y al comercio del carrito. Las reglas si falta un producto se conservan. Motivo `familia_cambia_carrito`.
 
 Un pedido pagado nunca vuelve a `borrador`: lo impide el trigger `pedido_pagado_fijo`. El retiro de la autorización de pedidos y el borrado de la persona llevan a `cancelado` los pedidos sin pagar, con los motivos `autorizacion_retirada` y `persona_borrada` (D1 y D2 de la revisión previa de MATU-61). El vencimiento lo dice el `Reloj`: un total con `total_vence_en` ya pasado se informa como `vencido` aunque la fila diga `total_confirmado`, y la transición se guarda con actor `sistema` y motivo `total_vencio` en la siguiente escritura del pedido (decisión 204). `pedido_transicion.motivo` es una lista cerrada: `total_vencio`, `familia_cancela`, `familia_cambia_carrito`, `autorizacion_retirada` y `persona_borrada`, o vacío al confirmar (C19). **Un solo pedido sin pagar por persona** (C4).
+
+**El pago (MATU-62, D-62-4 y decisiones 223 a 248 de `api/README.md`).**
+- `vencido → pagado` solo para un pago **iniciado con el total vigente** y aprobado después por el mismo total y el mismo `total_confirmado_en` (regla 2). Lo marcan solo `sistema` u `operacion`, con un trigger que exige una venta aprobada y no anulada de ese total.
+- Un pago aprobado de un total que ya no es el del pedido (se cambió, se volvió a confirmar o se canceló) **se anula completo el mismo día** y el estado no se mueve (regla 3).
+- Mientras hay un pago en curso, `confirmar`, `cambiar`, las líneas, las reglas y el contacto responden 409 `pago-en-curso`. Cancelar, retirar la autorización y borrar a la persona siguen funcionando (regla 1), y si el pago se aprueba después, se anula.
+- Manda esta sección sobre la 12.4: con el total vencido, `pagar` no vuelve el pedido a `borrador` (D-62-15).
 
 **El cobro ocurre una sola vez, antes de preparar.** La familia paga el total confirmado y desde ahí el monto no cambia. No hay estado de captura pendiente ni de incobrable, porque no queda nada por cobrar después de pagar.
 
@@ -928,17 +935,17 @@ sequenceDiagram
     A->>API: POST /v1/pedidos/{id}/confirmar
     API->>CC: consulta stock (productos, cantidades, referencia opaca)
     CC-->>API: disponibles, por comercio, y apartados
-    API->>DB: total confirmado (vence en 15 min) + cargo por el total
+    API->>DB: total confirmado (vence en 15 min)
     API-->>A: líneas, salidas, envío, total y vencimiento
-    A->>API: POST /v1/cargos/{id}/pagar
-    API->>DB: verifica que el total sigue vigente
+    A->>API: POST /v1/pedidos/{id}/pagar (If-Match, Idempotency-Key, condiciones)
+    API->>DB: verifica el total vigente y la autorización, crea o reabre el cargo (D-62-11)
     API->>TB: create(buy_order, total, return_url) · venta normal
     TB-->>API: token + url
     API->>DB: transacción iniciada + token + idempotency_key
     API-->>A: {url, token}
     A->>TB: formulario de pago (crédito o débito)
     TB-->>A: retorno con token
-    A->>API: POST /v1/pagos/retorno {token}
+    A->>API: POST /v1/pagos/retorno {token} (o 303 desde POST /insumos/pedido/pago)
     API->>DB: ¿token ya procesado? si sí, responde el estado guardado
     API->>TB: commit(token)
     TB-->>API: AUTHORIZED: el monto quedó cobrado
@@ -955,7 +962,9 @@ sequenceDiagram
 1. **La idempotencia es de MATU, no de la pasarela.** La prueba de concepto del 24 de octubre mostró que un `commit` repetido no falla: Transbank devuelve la misma transacción ya aprobada. El módulo registra el token y el estado del cargo en su propia base, y si el token ya está procesado no paga el pedido otra vez ni crea un segundo cargo.
 2. Un job de conciliación consulta el estado de toda transacción iniciada con más de 10 minutos.
 3. El resultado se escribe en **una sola transacción** junto con el cambio de estado y el evento del outbox.
-4. **El total vencido no se cobra.** `pagar` verifica la vigencia contra el puerto `Reloj` antes de llamar a la pasarela. [PENDIENTE: tiempo máximo entre `create` y el retorno en Webpay Plus, para que el stock quede apartado al menos los 15 minutos más ese tiempo.]
+4. **El total vencido no se cobra.** `pagar` verifica la vigencia contra el puerto `Reloj` antes de llamar a la pasarela. La venta vive `VIDA_VENTA_WEBPAY_MINUTOS` (10 por omisión), y ese plazo fija cuánto dura `pago-en-curso`. [PENDIENTE: la vida real del token de Webpay Plus, que mide Martín en integración (P-62-6), para que el stock quede apartado al menos los 15 minutos más ese tiempo.]
+
+**El cargo se crea al tocar «Pagar»** (D-62-11), no al confirmar. La conciliación corre cada 5 minutos con `matu_scheduler`, también con la capa 3 apagada (D-62-17), y la vuelta de Transbank resuelve la venta como `sistema`, sin grupo ni cuenta, por funciones `SECURITY DEFINER` que devuelven solo ids. La anulación parcial queda como caso de uso probado, sin ruta, y la dispara MATU-63 (decisión 223).
 
 **La devolución sigue el mismo patrón.** La anulación (`refund`) se registra con su propia clave de idempotencia por línea antes de llamar a la pasarela, y el resultado se escribe junto con el estado de la línea y el evento del outbox.
 
@@ -1121,11 +1130,13 @@ PUT    /v1/pedidos/{id}/contacto                    → cambia el teléfono de c
 POST   /v1/pedidos/{id}/cambiar                     → «Cambiar el pedido»: vuelve a borrador desde el total confirmado o vencido
 POST   /v1/pedidos/{id}/cancelar                    → sin costo antes de pagar. Si ya se pagó, anulación total mientras no preparen (MATU-62)
 GET    /v1/condiciones-pedido                       → las condiciones del pedido vigentes, públicas, con versión y huella
-GET    /v1/pedidos/{id}/comprobante                 → comprobante del pago y condiciones aceptadas (MATU-62)
+GET    /v1/condiciones-pedido?version=              → una versión publicada de las condiciones, para el comprobante (MATU-62)
 
-GET    /v1/cargos/{id}
-POST   /v1/cargos/{id}/pagar                        → venta normal por el total confirmado; 410 si venció
-POST   /v1/pagos/retorno                            → commit, público con validación de token, idempotente por token
+POST   /v1/pedidos/{id}/pagar                       → crea o reabre el cargo y la venta normal por el total confirmado (If-Match e Idempotency-Key); 409 si venció o hay un pago en curso (MATU-62)
+GET    /v1/pedidos/{id}/pago                        → el estado del pago y el comprobante; el detalle de la tarjeta solo para quien pagó (MATU-62)
+GET    /v1/personas-cuidadas/{id}/pedido-pagado     → el último pedido pagado de la persona, para el bloque «Pedido pagado» (MATU-62)
+POST   /v1/pagos/retorno                            → commit, público, idempotente por token; con la capa 3 apagada también (MATU-62)
+POST   /insumos/pedido/pago                         → la vuelta de Transbank por POST: 303 a la misma ruta de la app, fuera del contrato (MATU-62)
 ```
 
 **El catálogo es una sola ruta (MATU-59, decisión 158 de `api/README.md`, aprobada por Jorge el 08-11).** Reemplaza a las tres rutas que había aquí. No recibe parámetros: ni texto de búsqueda en la URL ni comuna, porque el catálogo es general y no se cruza con nada de la familia (revisión previa del analista). De cada comercio entrega solo `nombre_fantasia`, el precio con IVA y si hay (`disponible`), nunca la cantidad en stock. Pide la sesión de una cuenta, sin `X-Grupo-Id`, y el relevo no entra (401). Solo existe con la capa 3 encendida (`CAPA3_HABILITADA`).
@@ -1401,6 +1412,7 @@ Que la incidencia **no bloquee la entrega** es deliberado: la familia está espe
 | Dato | Retención | Fundamento |
 |---|---|---|
 | Registro de pagos y boletas | 6 años | Obligación tributaria |
+| **Pagos sin dinero** (intentos rechazados, abandonados o vencidos en Webpay), con su cargo y sus transacciones | 30 días, con su pedido | Nada se cobró (D-62-13 c de MATU-62). Un cobro anulado completo, en cambio, se guarda 6 años con el pedido sin entrega, sin las líneas ni la dirección. [PENDIENTE: CL-64] |
 | Pedidos pagados y evidencias de entrega | 2 años | Resolución de disputas |
 | **Pedidos no pagados** (`borrador`, total vencido y `cancelado` sin pago), con su `pedido_transicion` | 30 días. La copia de la entrega (`pedido_entrega`) se borra al cancelar | Nada justifica guardar lo que nunca se pagó (D5 de la revisión previa de MATU-61). Lo borra una tarea del programador de MATU-74. [PENDIENTE: CL-28 ampliada] |
 | `idempotencia` de los POST del pedido | 24 horas, solo el estado HTTP y el id del pedido, sin el cuerpo | D5 de la revisión previa de MATU-61 |
@@ -1498,7 +1510,7 @@ Nueve casos que tienen que estar verdes antes de considerar terminado el módulo
 | 5 | Retorno de pasarela recibido dos veces | Un solo cobro y un solo cargo. **El segundo `commit` no falla en Transbank**, así que la idempotencia se verifica en la base de MATU, con la `PasarelaFalsa` respondiendo como Transbank |
 | 6 | Retorno nunca recibido | El job de conciliación cierra el estado en menos de 15 min |
 | 7 | Pasarela no responde durante 20 minutos | Reintentos con backoff, sin doble cobro, alerta a operación |
-| 8 | **Total vencido a los 15 minutos** | Con el `Reloj` adelantado, `pagar` responde que el total venció, no se llama a la pasarela y el pedido vuelve a `borrador` para confirmar de nuevo |
+| 8 | **Total vencido a los 15 minutos** | Con el `Reloj` adelantado, `pagar` responde 409 `estado-pedido` con `vencido`, no se llama a la pasarela, no se crea la venta y el pedido queda en `vencido`. Para seguir, quien armó el pedido vuelve a confirmar o usa «Cambiar el pedido» (manda la 8.1, D-62-15) |
 | 9 | Devolución repetida o mayor que lo cobrado | Una línea se devuelve una sola vez. La suma de lo devuelto nunca supera lo cobrado |
 
 **Los casos 1, 2, 3 y 5 se ejecutan además manualmente contra el ambiente de integración de Transbank antes del sprint 4** (en la estrategia de pruebas, sección 10.2, son los casos 1 a 4). La prueba de concepto del sprint 0 verificó la captura diferida, no la venta normal. **El 10 de noviembre se corrieron y cumplen:** el comercio de integración ofrece débito, crédito y débito cobran igual, la anulación parcial funciona con los dos y el retorno duplicado deja un solo cobro ([prueba de concepto](pruebas-concepto/transbank.md)). [PENDIENTE: plazos máximos de anulación con crédito y con débito, que no se miden en integración. Supuesto de trabajo: hasta 90 días, por confirmar con Transbank.]
