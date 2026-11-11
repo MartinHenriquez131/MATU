@@ -1,6 +1,6 @@
 # Revisión previa del analista normativo · MATU-61 · Pedido: carrito y qué hacer si falta un producto (RF-21)
 
-**10 de noviembre de 2026, noche** · Agente analista normativo, a pedido de Jorge · Estado: **decisiones de Jorge en curso el 11-11 (sección 7)**
+**10 de noviembre de 2026, noche** · Agente analista normativo, a pedido de Jorge · Estado: **decisiones D1 a D12 tomadas por Jorge el 11-11 (sección 7)**
 
 Esto no es asesoría legal. El informe sirve para que Jorge decida. Lo que queda en REQUIERE CONSULTA LEGAL va a [`consulta-legal.md`](consulta-legal.md); la próxima pregunta es la CL-52. Nota del orquestador: la revisión de MATU-55 del mismo día también propuso una CL-52 distinta; esa queda como CL-53.
 
@@ -217,3 +217,6 @@ Guardamos qué versión de estas condiciones aceptaste, cuándo, y una huella de
 - **D9 · «(comercio ficticio)»:** opción **A**. `comercio.ficticio boolean NOT NULL DEFAULT true`, entregado en la API, y la pantalla muestra «(comercio ficticio)» junto al nombre. Condición para el primer convenio real: que autorice a publicar el nombre de fantasía, los precios y el stock.
 - **D10 · «Pedir» en la lista:** se acepta. «Pedir estos productos» al final de la lista, visible solo con la autorización de pedidos vigente (D1). Sin ella, la lista se exporta y se comparte como hoy, y el botón lleva a pedir la autorización. Cambios en `lenguaje.md` (en la sección 31 de MATU-61): la sección del aviso mantiene «El aviso nunca ofrece comprar»; la de la lista cambia a «La lista nunca compra sola. Solo quien tiene la autorización de pedidos puede tocar "Pedir estos productos"»; la de «Compré» (agregado del orquestador, no estaba en el informe) cambia «la app nunca ofrece comprar» por «"Compré" anota lo que la familia ya compró, y nunca hace un pedido».
 - **D11 · La política:** opción **A, una versión por fusión**, numerada al fusionar, como las secciones de `lenguaje.md`. MATU-61 trae la **0.12** en el mismo PR que activa los pedidos. No se pide volver a aceptar la política, porque el uso nuevo tiene su propia autorización expresa (D1), con su declaración. Queda con la CL-24. **Resuelve la pregunta abierta para MATU-55, 62, 42, 46 y 54** (D-62, D-42, D-46-6 y D-54-12): cada una publica la versión que le toque al fusionarse.
+- **D12 · Qué se audita:** se acepta tal cual. `consentimiento.otorgar` y `consentimiento.revocar` de `despacho`, `direccion.cambiar`, `pedido.crear`, `pedido.confirmar`, `pedido.cancelar` y `pedido.regla_faltante`, todo sin contenido. Las lecturas no se auditan (decisión 52): la línea de tiempo la da `pedido_transicion`.
+
+**Las 12 decisiones quedaron tomadas el 11-11.**
