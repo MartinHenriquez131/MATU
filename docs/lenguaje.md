@@ -10,7 +10,7 @@
 **MATU-75 (09-11):** entra la sección 29, la política de privacidad en la app y su aceptación al crear la cuenta. La 7.5 activa la frase del correo de contacto con cuidaconmatu@gmail.com, retira el párrafo «En la demo» y ya muestra el enlace a la política. La 3.1 permite «cookie» y «sesión» en la política. Aprobados por Jorge el 09-11.
 **MATU-83 (11-11):** la 5.3 suma la pregunta del relevo, «¿A quién llamar si algo pasa?», sin «te», porque quien reemplaza no es quien escribió la ficha (decisión de Jorge del 09-11).
 **MATU-84 (11-11):** entra la sección 30, «Me quedan» y el alta del insumo en envases. Aprobados por Jorge el 10-11.
-**MATU-88 (11-11):** la 5.1 suma la pregunta del relevo, sin «Puedes contar un día bueno o uno difícil.», con el criterio de la 5.3. En los insumos en sobres, el campo y el error del envase dicen «sobres» en vez de «unidades» (H2 del TESTER de MATU-84). Decisiones del orquestador por delegación de Jorge del 11-11.
+**MATU-88 (11-11):** la 5.1 suma la pregunta del relevo, sin «Puedes contar un día bueno o uno difícil.», con el criterio de la 5.3. En los insumos en sobres, el campo y el error del envase dicen «sobres» en vez de «unidades» (H2 del TESTER de MATU-84). La 5.1 es decisión de Jorge del 11-11, y el envase en sobres es del orquestador, por delegación de Jorge del mismo día.
 **Fuentes:** resultados de las entrevistas (`docs/resultados-entrevistas.md`), arquitectura sección 10, política de privacidad v0.9, la demo aprobada (`Demo/src/`, rama `demo-web-viernes-30`) y el contrato de MATU-09 (`docs/api/`, rama `matu-09-contrato-api`).
 
 ---
