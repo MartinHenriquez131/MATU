@@ -4,6 +4,8 @@
 
 Esto no es asesoría legal. Es un borrador para que Jorge decida.
 
+**Decisión de Jorge (11-11):** esta revisión se repite cuando MATU-61 esté lista, con su informe, sus D1 a D12 y lo que construyó a la vista. Las D-62 se deciden recién después. Mientras tanto, la 0023 de MATU-61 no crea el cargo ni la transición `vencido → pagado`.
+
 **Limitación declarada por el analista:** no pudo leer `revision-previa-matu-61.md`, que estaba en una rama, y se apoyó en la nota del vault de MATU-61. **Antes de que Jorge decida, el orquestador cruza las D-62 con las D1 a D12 de MATU-61:** R5/D6, D11 (dónde nace el cargo), R12 y la 0023.
 
 **Fuentes que leyó:**
