@@ -1097,7 +1097,7 @@ GET    /v1/personas-cuidadas/{id}/consumo/por-acabarse          → qué se acab
 GET    /v1/personas-cuidadas/{id}/consumo/lista                 → lista de insumos, en texto (ADR-031)
 GET    /v1/personas-cuidadas/{id}/consumo/alertas
 POST   /v1/personas-cuidadas/{id}/consumo/alertas/{alerta_id}/descartar
-POST   /v1/pedidos/desde-alertas                    → borrador por comercio (ADR-024), sprint 4
+(reemplazada en MATU-61: el pedido se crea con POST /v1/personas-cuidadas/{persona_id}/pedidos, ver 9.4)
 ```
 
 **Cambios respecto de la v1.1.** Las rutas cuelgan de la persona y no de `/v1/consumo/{id}` ni de `/v1/alertas` (decisión 54 del contrato de MATU-32). La tasa es una fracción entera (7.3). **No existe `POST …/lista-reposicion/exportar`** ni una ruta pública para la lista (ADR-031): la lista se lee con `GET …/consumo/lista` y el teléfono la imprime, la guarda como PDF o la comparte como texto. Leen la lista los cuatro roles de la familia, y solo admin, cuidador y pagador ven los botones para sacarla del teléfono.
@@ -1936,6 +1936,8 @@ Existía en el diseño anterior sobre la publicación exclusiva en Android. Se r
 **Contexto.** Con un costo de última milla de $3.500 por entrega, un pedido por producto destruye la unidad económica. Y `pedido` tiene un solo `comercio_id`, mientras la lista de reposición puede abarcar productos de dos comercios distintos.
 
 **Decisión.** El endpoint es `POST /v1/pedidos/desde-alertas` con una lista de alertas, no una por alerta. Si las alertas cruzan comercios, **se generan tantos borradores como comercios**, y la interfaz lo explica antes de confirmar.
+
+**Reemplazada en MATU-61 (11-11, decisiones C4 y D7 de Jorge):** el pedido sale de la lista de insumos con «Pedir estos productos», hay un solo pedido sin pagar por persona, y adentro un registro por comercio. La ruta es `POST /v1/personas-cuidadas/{persona_id}/pedidos` (9.4).
 
 **Refuerzo de la validación.** La mediana medida es de **una salida a comprar al mes**, no 1,5. Consolidar no es una optimización, es la forma en que estas familias ya compran.
 
