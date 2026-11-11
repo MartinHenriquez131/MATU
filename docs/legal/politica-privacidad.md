@@ -47,6 +47,7 @@ Cambia la versión porque agrega usos, datos y destinatarios. **Nadie vuelve a a
 - §6: quién paga y quién ve el pago (D-62-2 y D-62-8); Transbank recibe solo el monto y un número de orden; débito y devolución verificados el 10-11; después de pagar cancela solo quien administra.
 - §8: lo que se intentó pagar y no se cobró se borra a los 30 días, y un cobro anulado completo se guarda 6 años, sin la dirección ni los productos (D-62-13, CL-64).
 - §10: un pago en curso que se aprueba después de un retiro o de un borrado se anula completo el mismo día (CL-44 ampliada).
+- §4: la dirección lista todos sus campos, también la región y su nombre (P3 de la revisión de Martín a MATU-61, MATU-94).
 - §12 y §13: la versión y lo que todavía no funciona.
 
 Cambia la versión porque agrega datos (el pago) y un destinatario (Transbank). **Nadie vuelve a aceptar la política** ni a dar las autorizaciones: quien paga acepta las condiciones del pedido, con su propia huella, y la autorización de pedidos ya cubre los productos (CL-24). Pendiente para la consulta legal: CL-54 a CL-56 y CL-64 a CL-66. **La redactó el orquestador por delegación de Jorge del 11-11, con los textos del analista. La aprueba Jorge al fusionar.**
@@ -129,7 +130,7 @@ La persona que cuidas no tiene cuenta en MATU. Sus datos los ingresas tú.
 
 - Su nombre y el nombre con que la llaman.
 - Su nivel de apoyo: autovalente con supervisión, apoyo parcial o apoyo total.
-- Su dirección de entrega: calle, número, depto, comuna y una referencia, si la escribes. No la pedimos al registrarla: la pedimos con el primer pedido y la guardamos para los próximos. La usamos solo para entregar sus pedidos. No guardamos su ubicación en el mapa. En la referencia no escribas datos de salud. Quien administra el grupo o quien la cuida puede cambiarla o vaciarla cuando quiera, aunque se haya retirado la autorización de los pedidos. <!-- D4, C8, C9 y C11 de MATU-61, y C6 y C8 de Jorge -->
+- Su dirección de entrega: calle, número, depto, comuna, región, un nombre para reconocerla (por ejemplo, «Casa») y una referencia, si la escribes. No la pedimos al registrarla: la pedimos con el primer pedido y la guardamos para los próximos. La usamos solo para entregar sus pedidos. No guardamos su ubicación en el mapa. En la referencia no escribas datos de salud. Quien administra el grupo o quien la cuida puede cambiarla o vaciarla cuando quiera, aunque se haya retirado la autorización de los pedidos. <!-- D4, C8, C9 y C11 de MATU-61, y C6 y C8 de Jorge -->
 - La autorización: quién la dio, en qué calidad y cuándo, y la referencia al documento si quien autoriza es su representante legal.
 - Si diste la autorización como cuidadora o cuidador de hecho, la fecha en que te pediremos confirmar que sigues a cargo, 12 meses después.
 - La ficha de relevo, con sus tres campos: **Su día**, **Si se altera** y **A quién llamar**. También guardamos quién escribió cada campo y cuándo.
