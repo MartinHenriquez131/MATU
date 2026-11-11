@@ -1053,9 +1053,9 @@ Cada celda de esta matriz está respaldada por una prueba de `test_aislamiento.p
 
 | Eje | Plan de cuidado | Perfil de consumo | Pedido | Líneas y precios | Dirección de entrega | Cargo y pagos | Liquidación | Auditoría |
 |---|---|---|---|---|---|---|---|---|
-| **Familia** | Según rol¹ | Sí | Sí | Sí | Sí | Sí | Nunca | Su grupo |
+| **Familia** | Según rol¹ | Sí | Ven todos; escriben admin y cuidador³ | Ven todos; escriben admin y cuidador³ | Admin y cuidador la cambian; el pagador la ve; el observador no ve la del pedido³ | Sí | Nunca | Su grupo |
 | **Relevo** | Solo secciones habilitadas y vigente | Nunca | Nunca | Nunca | Nunca | Nunca | Nunca | Inserta la suya |
-| **Comercio** | Nunca | Nunca | Pagados y enviados o posteriores² | Sí | **Nunca** | Nunca | Los suyos | Nunca |
+| **Comercio** | Nunca | Nunca | Pagados y enviados o posteriores² | Solo las suyas² | **Nunca** | Nunca | Los suyos | Nunca |
 | **Repartidor** | Nunca | Nunca | Su asignación activa | **Nunca** | Su asignación activa | Nunca | Nunca | Nunca |
 | **Operación** | **Nunca** | **Nunca** | Todos | Todos | Todos | Todos | Todos | Lee todo |
 | **Sistema (worker)** | Nunca | Su grupo | Su grupo | Su grupo | Su grupo | Su grupo | Nunca | Inserta |
@@ -1063,7 +1063,9 @@ Cada celda de esta matriz está respaldada por una prueba de `test_aislamiento.p
 
 ¹ admin y cuidador siempre, pagador solo con `puede_ver_plan`, observador nunca. **Esta regla vive en RLS**, no solo en la API: si la API olvida revisar el rol, la base igual devuelve cero filas.
 
-² Desde la migración 0002, `pedido_comercio_ver` y `pedido_comercio_actualizar` exigen `pedido.comercio_id` del comercio, `pagado_en` con valor y un estado posterior a `pagado`. Las líneas heredan esa visibilidad. [PENDIENTE: con esa regla, el comercio que reemplaza a otro en la fase 2 no ve la línea reasignada (sección 4.5).]
+³ Desde la 0023 (MATU-61, C3): `app_escribe_pedido()` exige admin o cuidador, y `app_ve_entrega()` deja fuera al observador. La dirección de la persona (`direccion`) sigue con `direccion_familia` `FOR ALL` por grupo hasta MATU-42; la regla de rol la aplica la API.
+
+² Desde la migración 0023 (MATU-61, D7), el comercio ve su parte en `pedido_comercio` y solo las líneas de sus ofertas, con `pagado_en` con valor y `enviado_en` fijado (MATU-63). No ve las reglas de faltante de la familia ni la entrega. [PENDIENTE para MATU-63: hoy `pedido_comercio_ver` le deja leer la fila completa de `pedido` (con `grupo_id`, `persona_cuidada_id`, `creado_por`, `total` y `costo_envio`); se acota por columnas en la vista del comercio.] Antes de la 0023, la visibilidad iba por `pedido.comercio_id` y las líneas la heredaban. [PENDIENTE: con esa regla, el comercio que reemplaza a otro en la fase 2 no ve la línea reasignada (sección 4.5).]
 
 ### 5.4 Cinco hallazgos al escribir las políticas
 

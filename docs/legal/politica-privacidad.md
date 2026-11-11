@@ -377,7 +377,7 @@ Puedes retirar cada autorización por separado, cuando quieras y sin dar un moti
 
 **Si retiras la autorización de los pedidos:** <!-- D1 de MATU-61, y C6 de Jorge -->
 - Ya no se pueden hacer pedidos para la persona desde MATU, desde ese momento.
-- Cancelamos sin costo sus pedidos sin pagar y borramos la dirección y el teléfono que se copiaron en ellos. Lo demás de esos pedidos se borra a los 30 días (sección 8).
+- Cancelamos sin costo sus pedidos sin pagar y borramos la dirección y el teléfono que se copiaron en ellos. Lo demás de esos pedidos se borra a los 30 días (sección 8). Si en ese momento los pedidos no están disponibles en MATU, todo lo de esos pedidos se borra a los 30 días.
 - Los pedidos ya pagados, cuando existan los pagos, siguen hasta que se entreguen y se guardan el plazo de la sección 8. <!-- PENDIENTE: CL-44 -->
 - La dirección de entrega de la persona queda guardada para cuando vuelvas a autorizar. Puedes vaciarla cuando quieras, también sin la autorización.
 - La lista de insumos se puede seguir imprimiendo y compartiendo.
@@ -391,7 +391,7 @@ Quien administra el grupo o quien cuida a la persona puede borrar todo lo guarda
 - En ese momento borramos su ficha, con todas sus secciones, destruyendo su clave, y borramos sus insumos, sus avisos y las compras anotadas.
 - Se cortan todos sus enlaces de relevo, y no vuelven a abrir. El relevo no ve el motivo.
 - Sus autorizaciones quedan retiradas, también la de los pedidos.
-- Cancelamos sin costo sus pedidos sin pagar y borramos la dirección y el teléfono que se copiaron en ellos. Lo demás de esos pedidos se borra a los 30 días (sección 8). Ningún pedido guarda su nombre.
+- Cancelamos sin costo sus pedidos sin pagar y borramos la dirección y el teléfono que se copiaron en ellos. Lo demás de esos pedidos se borra a los 30 días (sección 8). Si en ese momento los pedidos no están disponibles en MATU, todo lo de esos pedidos se borra a los 30 días. Ningún pedido guarda su nombre.
 - Cuando existan los pagos, un pedido ya cerrado queda solo con la comuna de entrega, y uno pagado que todavía no se entrega conserva la dirección hasta cerrarse. Los productos y los montos siguen el plazo de la sección 8. <!-- D2 de MATU-61. PENDIENTE: CL-52 y CL-44 -->
 - Borramos su nombre, el nombre con que la llaman, su nivel de apoyo y su dirección (salvo que sea la de otra persona que cuidan en el grupo), y deja de aparecer en MATU. Si quieren volver a usar MATU para cuidarla, hay que registrarla de nuevo y todo empieza en blanco.
 - Conservamos, sin nada de la ficha ni de los insumos, el registro de las autorizaciones, de los enlaces de relevo (el nombre del relevo, el motivo y las fechas; su teléfono, hasta 30 días) y de quién abrió la ficha, por los plazos de la sección 8, y el registro de los avisos (sin el texto ni tu correo), 90 días desde que se creó cada aviso, para poder demostrar cómo se usaron los datos. Esos registros ya no se ven en la aplicación: si los necesitas, pídelos por el correo de esta sección.
