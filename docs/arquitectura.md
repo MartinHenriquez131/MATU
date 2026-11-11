@@ -787,10 +787,13 @@ El esquema solo cambia con migraciones de Alembic revisables y reversibles. **De
 
 ```mermaid
 stateDiagram-v2
-    [*] --> borrador: la familia arma el pedido desde la lista
-    borrador --> total_confirmado: stock apartado, total con IVA y envío
+    [*] --> borrador: la familia arma el pedido desde el catálogo o la lista
+    borrador --> total_confirmado: stock apartado, total con IVA incluido y envío
     total_confirmado --> vencido: pasan los 15 minutos sin pagar
     vencido --> total_confirmado: se vuelven a confirmar stock y precio
+    total_confirmado --> total_confirmado: se vuelve a confirmar el total vigente, 15 minutos nuevos
+    total_confirmado --> borrador: «Cambiar el pedido»
+    vencido --> borrador: «Cambiar el pedido» con el total vencido
     total_confirmado --> pagado: cobro único aprobado
     pagado --> enviado_a_comercio: se publica en la vista del comercio
     enviado_a_comercio --> preparando: el comercio empieza a preparar
@@ -804,7 +807,7 @@ stateDiagram-v2
     no_entregado --> cancelado_con_devolucion: no hay segunda ventana
     reprogramado --> en_ruta
     borrador --> cancelado: la familia no sigue
-    total_confirmado --> cancelado: la familia no paga, sin costo
+    total_confirmado --> cancelado: la familia no paga, o se retira la autorización o se borra a la persona, sin costo
     vencido --> cancelado: la familia no sigue, sin costo
     pagado --> cancelado_con_devolucion: cancela antes de que preparen
     enviado_a_comercio --> cancelado_con_devolucion: cancela antes de que preparen
@@ -813,6 +816,12 @@ stateDiagram-v2
     cancelado_con_devolucion --> [*]
     cerrado --> [*]
 ```
+
+**Las vueltas antes de pagar (MATU-61, decisiones C1 y C9 de Jorge del 11-11, decisiones 201, 208 y 218 de `api/README.md`).** Se agregan tres transiciones, todas antes del pago:
+- `total_confirmado → total_confirmado`: `confirmar` acepta también un total **vigente** y lo reemplaza con 15 minutos nuevos. Sirve para «Volver a confirmar» antes de que venza y para llevar una dirección nueva al pedido, sin cancelar.
+- `total_confirmado → borrador` y `vencido → borrador`: «Cambiar el pedido» (`POST /v1/pedidos/{id}/cambiar`). Descarta el total, las partes por comercio y la copia de la entrega, y cada línea vuelve al precio y al comercio del carrito. Las reglas si falta un producto se conservan. Motivo `familia_cambia_carrito`.
+
+Un pedido pagado nunca vuelve a `borrador`: lo impide el trigger `pedido_pagado_fijo`. El retiro de la autorización de pedidos y el borrado de la persona llevan a `cancelado` los pedidos sin pagar, con los motivos `autorizacion_retirada` y `persona_borrada` (D1 y D2 de la revisión previa de MATU-61). El vencimiento lo dice el `Reloj`: un total con `total_vence_en` ya pasado se informa como `vencido` aunque la fila diga `total_confirmado`, y la transición se guarda con actor `sistema` y motivo `total_vencio` en la siguiente escritura del pedido (decisión 204). `pedido_transicion.motivo` es una lista cerrada: `total_vencio`, `familia_cancela`, `familia_cambia_carrito`, `autorizacion_retirada` y `persona_borrada`, o vacío al confirmar (C19). **Un solo pedido sin pagar por persona** (C4).
 
 **El cobro ocurre una sola vez, antes de preparar.** La familia paga el total confirmado y desde ahí el monto no cambia. No hay estado de captura pendiente ni de incobrable, porque no queda nada por cobrar después de pagar.
 
@@ -829,7 +838,7 @@ stateDiagram-v2
 | Estado | Por qué existe |
 |---|---|
 | `total_confirmado` | El precio y el stock quedan apartados por **15 minutos** (`total_vence_en`). Si vencen sin pago, el pedido pasa a `vencido` |
-| `vencido` | El total confirmado pasó sus 15 minutos. No se cobra: `pagar` verifica la vigencia contra el `Reloj`. Para seguir se vuelven a confirmar stock y precio, o la familia no sigue, sin costo |
+| `vencido` | El total confirmado pasó sus 15 minutos. No se cobra: `pagar` verifica la vigencia contra el `Reloj`. Para seguir se vuelven a confirmar stock y precio, se vuelve al carrito con «Cambiar el pedido», o la familia no sigue, sin costo |
 | `pagado` | El cobro único se aprobó y `pagado_en` fija el precio de las líneas. El comercio todavía no ve el pedido |
 | `cancelado_con_devolucion` | Cierra los casos en que ya se cobró y no se entrega nada: cancelación antes de preparar, ningún producto disponible al preparar, o nadie en el domicilio sin segunda ventana. Se devuelve el total, envío incluido |
 
@@ -841,7 +850,7 @@ stateDiagram-v2
 
 **Estados del cargo.** `pendiente`, `pagado`, `rechazado`, `devuelto_parcial` y `anulado`. La participación usa los mismos en femenino. Un `CHECK` ata cada estado a sus montos (sección 7.4).
 
-Una prueba parametrizada recorre **todas las combinaciones** de estados y verifica que toda transición no declarada lanza. Dos pruebas adicionales comprueban que ningún estado no terminal queda sin salida y que todos son alcanzables desde `borrador`.
+Una prueba parametrizada recorre **todas las combinaciones** de estados, los 289 pares de los 17 estados (sección 12.3), y verifica que toda transición no declarada lanza. Dos pruebas adicionales comprueban que ningún estado no terminal queda sin salida y que todos son alcanzables desde `borrador`.
 
 ### 8.2 Cobro único del total confirmado
 
@@ -1088,7 +1097,7 @@ GET    /v1/personas-cuidadas/{id}/consumo/por-acabarse          → qué se acab
 GET    /v1/personas-cuidadas/{id}/consumo/lista                 → lista de insumos, en texto (ADR-031)
 GET    /v1/personas-cuidadas/{id}/consumo/alertas
 POST   /v1/personas-cuidadas/{id}/consumo/alertas/{alerta_id}/descartar
-POST   /v1/pedidos/desde-alertas                    → borrador por comercio (ADR-024), sprint 4
+(reemplazada en MATU-61: el pedido se crea con POST /v1/personas-cuidadas/{persona_id}/pedidos, ver 9.4)
 ```
 
 **Cambios respecto de la v1.1.** Las rutas cuelgan de la persona y no de `/v1/consumo/{id}` ni de `/v1/alertas` (decisión 54 del contrato de MATU-32). La tasa es una fracción entera (7.3). **No existe `POST …/lista-reposicion/exportar`** ni una ruta pública para la lista (ADR-031): la lista se lee con `GET …/consumo/lista` y el teléfono la imprime, la guarda como PDF o la comparte como texto. Leen la lista los cuatro roles de la familia, y solo admin, cuidador y pagador ven los botones para sacarla del teléfono.
@@ -1098,15 +1107,21 @@ POST   /v1/pedidos/desde-alertas                    → borrador por comercio (A
 > **Ajustada al ADR-027.** Los precios son exactos, con IVA, y vienen del puerto `CatalogoComercio`. Mientras el adaptador sea simulado, la respuesta marca los precios como de ejemplo y la interfaz lo rotula.
 
 ```
-GET    /v1/catalogo                                 → categorías, productos y, por comercio, precio exacto con IVA y si hay (MATU-59)
+GET    /v1/catalogo                                 → categorías, productos y, por comercio, precio exacto con IVA incluido y si hay (MATU-59)
 
-POST   /v1/pedidos                                  → crea borrador
-PUT    /v1/pedidos/{id}/lineas
-PUT    /v1/pedidos/{id}/reglas-faltante             → PROPUESTA: si falta, otro_comercio (por omisión) o quitar, por producto; solo antes de pagar
-POST   /v1/pedidos/{id}/confirmar                   → consulta stock, aparta y arma el total confirmado (vale 15 min)
-GET    /v1/pedidos/{id}
-GET    /v1/pedidos/{id}/comprobante                 → comprobante del pago y condiciones aceptadas
-POST   /v1/pedidos/{id}/cancelar                    → sin costo; si ya se pagó, anulación total mientras no preparen
+PUT    /v1/personas-cuidadas/{persona_id}/direccion → guarda o cambia la dirección de entrega de la persona (MATU-61, D4)
+DELETE /v1/personas-cuidadas/{persona_id}/direccion → vacía la dirección de entrega (MATU-61, C6)
+POST   /v1/personas-cuidadas/{persona_id}/pedidos   → crea el borrador (el carrito)
+GET    /v1/personas-cuidadas/{persona_id}/pedido-en-curso → el pedido sin pagar de la persona, uno por persona
+GET    /v1/pedidos/{id}                             → el pedido, con el resumen antes de pagar si el total está confirmado
+PUT    /v1/pedidos/{id}/lineas                      → reemplaza las líneas, solo en borrador
+PUT    /v1/pedidos/{id}/reglas-faltante             → si falta, otro_comercio (por omisión) o quitar, por producto, solo antes de pagar
+POST   /v1/pedidos/{id}/confirmar                   → consulta stock, aparta y arma el total confirmado (vale 15 min), también desde un total vigente
+PUT    /v1/pedidos/{id}/contacto                    → cambia el teléfono de contacto con el total confirmado o vencido
+POST   /v1/pedidos/{id}/cambiar                     → «Cambiar el pedido»: vuelve a borrador desde el total confirmado o vencido
+POST   /v1/pedidos/{id}/cancelar                    → sin costo antes de pagar. Si ya se pagó, anulación total mientras no preparen (MATU-62)
+GET    /v1/condiciones-pedido                       → las condiciones del pedido vigentes, públicas, con versión y huella
+GET    /v1/pedidos/{id}/comprobante                 → comprobante del pago y condiciones aceptadas (MATU-62)
 
 GET    /v1/cargos/{id}
 POST   /v1/cargos/{id}/pagar                        → venta normal por el total confirmado; 410 si venció
@@ -1115,11 +1130,13 @@ POST   /v1/pagos/retorno                            → commit, público con val
 
 **El catálogo es una sola ruta (MATU-59, decisión 158 de `api/README.md`, aprobada por Jorge el 08-11).** Reemplaza a las tres rutas que había aquí. No recibe parámetros: ni texto de búsqueda en la URL ni comuna, porque el catálogo es general y no se cruza con nada de la familia (revisión previa del analista). De cada comercio entrega solo `nombre_fantasia`, el precio con IVA y si hay (`disponible`), nunca la cantidad en stock. Pide la sesión de una cuenta, sin `X-Grupo-Id`, y el relevo no entra (401). Solo existe con la capa 3 encendida (`CAPA3_HABILITADA`).
 
-**Qué devuelve `confirmar`:** las líneas con cantidad, precio y subtotal, el comercio de cada una, las que salieron por no disponibles, las que cambiaron de precio o de comercio respecto de la lista, el envío único, el total con IVA y la hora en que vence.
+**Las rutas del pedido (MATU-61, decisiones 189 a 219 de `api/README.md`, con C1 a C9 de Jorge del 11-11).** Crear y leer el pedido en curso cuelgan de la persona, `/v1/personas-cuidadas/{persona_id}/…`, como el consumo (decisión 54): la persona no viaja en el cuerpo y el 404 por persona se resuelve antes de leerlo. Operar un pedido ya creado va bajo `/v1/pedidos/{id}/…`. Reemplaza el `POST /v1/pedidos` que había aquí. Las rutas del pedido y de las condiciones son capa 3 (`CAPA3_HABILITADA`). La dirección vive en `care_circle`, existe siempre y no pide la autorización de pedidos (C8 de Jorge). Crear, ajustar, elegir la regla, confirmar, cambiar el teléfono y «Cambiar el pedido» piden la autorización `despacho` vigente (403). Leer y cancelar no la piden. `POST …/pedidos`, `…/confirmar`, `…/cancelar` y `…/cambiar` llevan `Idempotency-Key` (9.1). Todas las respuestas del pedido y de la dirección llevan `Cache-Control: no-store`. **MATU-61 llega hasta el total confirmado:** el cargo, el pago y el comprobante son de MATU-62.
+
+**Qué devuelve `confirmar`:** las líneas con cantidad, precio y subtotal, el comercio de cada una, las que salieron por no disponibles, las que cambiaron de precio o de comercio respecto del carrito, el envío único, el total con IVA incluido y la hora en que vence. Con la regla `otro_comercio`, un producto que falta pasa al comercio activo de menor precio que lo tenga. Con `quitar`, sale sin buscar (C5 de Jorge).
 
 **Salen del contrato:** `POST /v1/pedidos/{id}/reglas-sustitucion` y `POST /v1/pedidos/{id}/decisiones/{lid}`, porque el ADR-027 descarta los equivalentes de otra marca y el estado `requiere_decision` (sección 8.1).
 
-**Propuesta para RF-21, por aprobar:** `PUT /v1/pedidos/{id}/reglas-faltante` reemplaza todas las elecciones del pedido con una lista de `{producto_id, accion}`, donde `accion` es `otro_comercio` o `quitar`. Un producto que no está en la lista queda en `otro_comercio`. Se acepta solo antes de pagar; con el pedido pagado responde 409. El nombre sigue al de la tabla que propone el backend (`regla_faltante`). [PENDIENTE: la base no impide cambiar la regla con el pedido pagado, porque `pedido_pagado_fijo` no cubre `regla_sustitucion`; si hace falta, lo hace el dominio o una migración nueva.] `confirmar` devuelve la elección de cada línea, para mostrarla antes de pagar.
+**RF-21, aceptada con el contrato de MATU-61 (decisión 200):** `PUT /v1/pedidos/{id}/reglas-faltante` reemplaza todas las elecciones del pedido con una lista de `{producto_id, accion}`, donde `accion` es `otro_comercio` o `quitar`. Un producto que no está en la lista queda en `otro_comercio`. Se acepta solo antes de pagar. Con el pedido pagado responde 409. La tabla sigue llamándose `regla_sustitucion`. La migración de MATU-61 agrega el trigger que deja fija la regla con el pedido pagado (C12) y las políticas por operación para el admin y el cuidador (C13). `confirmar` devuelve la elección de cada línea, para mostrarla antes de pagar.
 
 ### 9.5 Comercio y operación
 
@@ -1285,13 +1302,15 @@ Tres dimensiones, evaluadas siempre en este orden: **quién es** (JWT válido y 
 
 | Rol | Plan de cuidado | Perfil de consumo | Catálogo | Pedidos | Pago | Datos de la persona cuidada |
 |---|---|---|---|---|---|---|
-| `admin` del grupo | ver, editar, compartir | ver, editar | ver | crear, cancelar | pagar | completo |
-| `cuidador` | ver, editar, compartir | ver, editar | ver | crear | no | completo |
-| `pagador` | según permiso explícito | ver | ver | ver | pagar | nombre, dirección |
-| `observador` | no | ver | ver | ver | no | nombre |
+| `admin` del grupo | ver, editar, compartir | ver, editar | ver | crear, confirmar, cancelar | pagar | completo |
+| `cuidador` | ver, editar, compartir | ver, editar | ver | crear, confirmar, cancelar sin pagar | no | completo |
+| `pagador` | según permiso explícito | ver | ver | ver, sin confirmar | pagar | nombre, dirección |
+| `observador` | no | ver | ver | ver el carrito, sin la entrega ni el resumen | no | nombre |
 | `relevo` (token) | **solo secciones habilitadas, solo lectura** | no | no | no | no | nombre de pila |
 | `comercio` | **nunca** | **nunca** | solo su propia oferta, con precio y stock | solo sus líneas de los pedidos del día | no | **ninguno**: solo la referencia del pedido y el código de retiro |
 | `operación` | **nunca** | **nunca** | administrar | ver todos, intervenir | ver, devolver por anulación, liquidar | nombre, dirección |
+
+**Los pedidos antes de pagar (MATU-61, decisión C3 de Jorge del 11-11, decisión 194 de `api/README.md`).** El admin y el cuidador arman el carrito, eligen qué hacer si falta, cambian la dirección y el teléfono, confirman el total, usan «Cambiar el pedido» y **cancelan sin pagar**: cancelar sin pagar no mueve dinero, y el cuidador ya puede retirar la autorización de pedidos, que cancela lo mismo. La cancelación con devolución, después de pagar (MATU-62 y MATU-63), sigue siendo solo del admin. El pagador ve el carrito, la entrega y el resumen, no confirma y no cancela: si el total vence, lo vuelve a confirmar quien armó el pedido. El observador ve el carrito sin la dirección, el teléfono ni el resumen (`PedidoVistaObservador`). Un rol que no alcanza recibe 404.
 
 **Las celdas "nunca" no se garantizan por permiso, se garantizan por arquitectura.** `fulfillment`, `settlement` y `backoffice` no importan `care_plan` ni `consumption`, y la regla se verifica con la prueba de dependencias de la sección 6.4. Un permiso se puede configurar mal. Una importación que no existe, no.
 
@@ -1382,7 +1401,10 @@ Que la incidencia **no bloquee la entrega** es deliberado: la familia está espe
 | Dato | Retención | Fundamento |
 |---|---|---|
 | Registro de pagos y boletas | 6 años | Obligación tributaria |
-| Pedidos y evidencias de entrega | 2 años | Resolución de disputas |
+| Pedidos pagados y evidencias de entrega | 2 años | Resolución de disputas |
+| **Pedidos no pagados** (`borrador`, total vencido y `cancelado` sin pago), con su `pedido_transicion` | 30 días. La copia de la entrega (`pedido_entrega`) se borra al cancelar | Nada justifica guardar lo que nunca se pagó (D5 de la revisión previa de MATU-61). Lo borra una tarea del programador de MATU-74. [PENDIENTE: CL-28 ampliada] |
+| `idempotencia` de los POST del pedido | 24 horas, solo el estado HTTP y el id del pedido, sin el cuerpo | D5 de la revisión previa de MATU-61 |
+| Dirección de entrega de la persona | Mientras la persona esté registrada, hasta que se vacía o se borra a la persona. Retirar la autorización de pedidos no la borra | Se pide con el primer pedido y se guarda para los próximos (D4 y C6 de Jorge) |
 | **Plan de cuidado** | Mientras exista consentimiento vigente, más 90 días | Dato sensible. Se minimiza |
 | Perfil de consumo | Igual que el plan de cuidado | Deriva de él |
 | Auditoría de acceso | 3 años | Capacidad de acreditar cumplimiento |
@@ -1438,6 +1460,9 @@ TRANSICIONES_VALIDAS = {
     ("total_confirmado", "pagado"),
     ("total_confirmado", "vencido"),             # pasan los 15 minutos
     ("vencido", "total_confirmado"),             # se vuelve a confirmar
+    ("total_confirmado", "total_confirmado"),    # se reemplaza un total vigente (C1)
+    ("total_confirmado", "borrador"),            # «Cambiar el pedido» (C1)
+    ("vencido", "borrador"),                     # «Cambiar el pedido» con el total vencido (C9)
     ("pagado", "cancelado_con_devolucion"),
     # ... el conjunto completo
 }
@@ -1454,7 +1479,7 @@ def test_transiciones(desde, hacia):
             pedido.transicionar_a(hacia)
 ```
 
-**Cuántas combinaciones son.** Con la migración 0002 el `CHECK` de `pedido` tiene 17 estados y el de `cargo` 5: 289 pares para el pedido y 25 para el cargo. [PENDIENTE: el número definitivo depende de si la máquina del MVP declara `asignado` y `sin_repartidor`, que siguen en el `CHECK` para la fase 2 pero el MVP no usa (sección 8.1). Sin ellos serían 15 estados y 225 pares. Lo fija la máquina de dominio del sprint 4.]
+**Cuántas combinaciones son.** Con la migración 0002 el `CHECK` de `pedido` tiene 17 estados y el de `cargo` 5: **289 pares para el pedido**, no 225, y 25 para el cargo. La máquina de dominio de MATU-61 declara los 17 estados, también `asignado` y `sin_repartidor`, que siguen en el `CHECK` para la fase 2 sin transiciones, y 24 transiciones válidas, con las tres vueltas antes de pagar de la sección 8.1 (decisión 208 de `api/README.md`). La prueba de que todo estado es alcanzable desde `borrador` excluye por nombre a `asignado` y `sin_repartidor`.
 
 **Es la mejor relación entre esfuerzo y confianza de todo el plan**, y cubre el error más frecuente en sistemas de estados, que es la transición que nadie previó.
 
@@ -1911,6 +1936,8 @@ Existía en el diseño anterior sobre la publicación exclusiva en Android. Se r
 **Contexto.** Con un costo de última milla de $3.500 por entrega, un pedido por producto destruye la unidad económica. Y `pedido` tiene un solo `comercio_id`, mientras la lista de reposición puede abarcar productos de dos comercios distintos.
 
 **Decisión.** El endpoint es `POST /v1/pedidos/desde-alertas` con una lista de alertas, no una por alerta. Si las alertas cruzan comercios, **se generan tantos borradores como comercios**, y la interfaz lo explica antes de confirmar.
+
+**Reemplazada en MATU-61 (11-11, decisiones C4 y D7 de Jorge):** el pedido sale de la lista de insumos con «Pedir estos productos», hay un solo pedido sin pagar por persona, y adentro un registro por comercio. La ruta es `POST /v1/personas-cuidadas/{persona_id}/pedidos` (9.4).
 
 **Refuerzo de la validación.** La mediana medida es de **una salida a comprar al mes**, no 1,5. Consolidar no es una optimización, es la forma en que estas familias ya compran.
 

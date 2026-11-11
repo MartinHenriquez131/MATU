@@ -1,6 +1,6 @@
 # Registro de tratamientos de MATU
 
-**Estado:** borrador para el piloto académico, a la par de la política de privacidad v0.11. Lo redacta el analista normativo y lo aprueba Jorge Espinoza. Este documento no es asesoría legal.
+**Estado:** borrador para el piloto académico, a la par de la política de privacidad v0.12 (MATU-61, pendiente de aprobación al fusionar). Lo redacta el analista normativo y lo aprueba Jorge Espinoza. Este documento no es asesoría legal.
 
 Cada historia que empieza a tratar datos personales agrega aquí su entrada.
 
@@ -11,7 +11,7 @@ Cada historia que empieza a tratar datos personales agrega aquí su entrada.
 - **Datos:**
   - nombre y nombre de pila
   - nivel de apoyo, que es un **dato sensible**
-  - dirección de entrega, opcional
+  - dirección de entrega, opcional (MATU-61, D4): en `direccion`, unida por `persona_cuidada.direccion_entrega_id`. No se pide en el alta: se pide con el primer pedido y se guarda para los próximos. Calle, número, depto, comuna, región, etiqueta y referencia (hasta 200 caracteres, con una ayuda contra los datos de salud, C9), y `direccion.version` para el `ETag`. **Sin ubicación:** `lat` y `lng` siempre nulas, con un `CHECK` (C8). Al confirmar un pedido se copia a `pedido_entrega` (entrada 2)
   - la autorización: calidad, versión de la política, evidencia mínima y la referencia al documento si es representante legal
   - el retiro (MATU-44): `revocado_en` con `revocacion_motivo = retiro`, y en la auditoría `consentimiento.revocar`, quién y cuándo, sin nombre ni IP
   - el borrado (MATU-72): `revocado_en` con `revocacion_motivo = borrado` en las autorizaciones vigentes, `persona_cuidada.datos_borrados_en` y `eliminado_en`, y en la auditoría `persona.borrar`, quién y cuándo, sin nombre ni IP. El nombre, el nombre de pila, el nivel de apoyo y la dirección se borran en la misma transacción
@@ -23,8 +23,9 @@ Cada historia que empieza a tratar datos personales agrega aquí su entrada.
   - el estado de cada autorización (vigente, por renovar, retirada o borrada) y sus fechas los ven los cuatro roles. La calidad del otorgante, solo administrador y cuidador (MATU-44, decisión de Jorge del 06-11)
   - administrador y cuidador retiran cualquier autorización de la persona, sin importar quién la dio, y vuelven a darla. Pagador y observador reciben 404, y una política RLS por rol limita quién fija `revocado_en` (MATU-44, migración 0016)
   - administrador y cuidador borran los datos de la persona. Pagador, observador y otro grupo reciben 404. Una política RLS por rol lo limita (`app_retira_autorizacion()`) (MATU-72)
+  - la dirección de entrega (MATU-61): administrador y cuidador la agregan, la cambian (`PUT …/personas-cuidadas/{persona_id}/direccion`, con `If-None-Match` o `If-Match`) y la vacían (`DELETE`, con `If-Match`). El pagador la ve en la persona y no la cambia (404). El observador no la recibe. Otro grupo, 404. No pide la autorización de pedidos, vigente, vencida, retirada o nunca dada (C8 de Jorge). Cada cambio y cada vaciado se audita como `direccion.cambiar`, sin el contenido (D12)
   - operación: [PENDIENTE: acotar a nombre y dirección en la historia de backoffice]
-- **Conservación:** [PENDIENTE: plazo del registro de autorizaciones, también de las retiradas, en consulta legal]. Hoy no se borra (trigger `consentimiento_sin_borrado`). Después de un borrado, la autorización se conserva con su motivo. [PENDIENTE: plazo, CL-27] La fila de una persona borrada queda solo con su id, el grupo, las fechas y el valor fijo `borrada`, sin nivel de apoyo ni dirección, mientras existan los registros que la referencian. [PENDIENTE: plazo, CL-27]
+- **Conservación:** [PENDIENTE: plazo del registro de autorizaciones, también de las retiradas, en consulta legal]. Hoy no se borra (trigger `consentimiento_sin_borrado`). Después de un borrado, la autorización se conserva con su motivo. [PENDIENTE: plazo, CL-27] La fila de una persona borrada queda solo con su id, el grupo, las fechas y el valor fijo `borrada`, sin nivel de apoyo ni dirección, mientras existan los registros que la referencian. [PENDIENTE: plazo, CL-27] La dirección de entrega se guarda mientras la persona esté registrada, hasta que se vacía o se borra a la persona. Retirar la autorización de pedidos no la borra (C6 de Jorge). Vaciarla deja `persona_cuidada.direccion_entrega_id` en `null` y borra la fila de `direccion` si nadie más del grupo la usa.
 - **Medidas:**
   - separación por familia con RLS forzado
   - la aplicación se conecta sin privilegios de dueño
@@ -36,44 +37,65 @@ Cada historia que empieza a tratar datos personales agrega aquí su entrada.
 - **Transferencia internacional:** [PENDIENTE: proveedor y país].
 - **Decisiones automatizadas:** ninguna.
 
-## 2. Pedidos y pagos de insumos (ADR-027)
+## 2. Pedidos y pagos de insumos (ADR-027, MATU-61)
 
 > Aprobado por Jorge el 27-10 como diseño. Las frases sobre lo que el comercio ve o no ve se publican solo cuando la migración del sprint 4 (requisitos R7 a R9, arquitectura 18.1) las haga ciertas.
 
 > ADR-027 (27-10), aprobado por Jorge.
 
-**Todavía no se trata.** Durante el semestre los pedidos y los pagos se hacen solo con datos sintéticos, precios de ejemplo y el ambiente de integración de Transbank (`figura-legal-piloto.md`, sección 5).
+> MATU-61 (11-11): decisiones D1 a D12 de Jorge (`revision-previa-matu-61.md`, sección 7) y C1 a C9 del contrato (`docs/api/README.md` del repositorio MATU_PROYECTO, decisiones 188 a 219). MATU-61 llega hasta el total confirmado. El pago y el cargo son de MATU-62, y la preparación, la entrega y la vista del comercio, de MATU-63.
 
-- **Finalidad:** pedir insumos a comercios en convenio, a precio exacto, y cobrar una sola vez el total confirmado. MATU vende y emite una sola boleta por el total, con el envío incluido.
-- **Titulares:** el usuario que pide y paga, y la persona cuidada a quien va el pedido.
+**Se trata solo con datos sintéticos.** Desde MATU-61 se arma el pedido y se confirma el total, con precios de ejemplo, comercios ficticios (`comercio.ficticio`, D9) y una consulta de stock simulada. Los pagos se harán solo en el ambiente de integración de Transbank (`figura-legal-piloto.md`, sección 5).
+
+- **Finalidad:** pedir insumos a comercios en convenio, a precio exacto con IVA incluido, y cobrar una sola vez el total confirmado. MATU vende. En el piloto no se emite boleta (condiciones del pedido v0.1, D8).
+- **Titulares:** el usuario que pide y paga, la persona cuidada a quien va el pedido, y la persona cuyo teléfono se anota como contacto si no es quien pide.
 - **Datos:**
-  - productos, cantidades, precios, envío y total. El historial de pedidos y de consumo de la persona cuidada se trata como **dato sensible**, porque junto con un dato que identifica puede revelar salud o dependencia (`investigacion-normativa-adr-027.md`, sección 3) [PENDIENTE: consulta legal sobre si los productos de un pedido son un dato relativo a la salud]
-  - dirección de entrega
-  - teléfono de contacto para la entrega
-  - la elección por producto si falta (RF-21), y la versión de las condiciones del pedido aceptadas, con su fecha
-  - el pago: monto cobrado, monto devuelto, código de autorización, tipo de tarjeta y últimos 4 dígitos. MATU nunca recibe ni guarda los datos de la tarjeta
-- **Base de licitud:** consentimiento expreso y **separado** del de la ficha, solo para los pedidos, que se revoca por un medio igual de fácil que el usado para darlo. La titular es la persona cuidada, y quién consiente sigue la calidad de MATU-07.
-  - [PENDIENTE: consulta legal sobre si el art. 16 bis, inciso 1, limita el tratamiento aunque haya consentimiento, y si sirve como base su letra e)]
+  - productos, cantidades, precios, envío y total. Cada línea guarda el precio y la oferta del carrito (`precio_carrito`, `oferta_carrito_id`), para marcar contra ellos un cambio de precio o de comercio al confirmar (C15), y una copia de `producto.retracto_pierde_al_abrir` (C3). Todos los precios llevan el IVA incluido. El historial de pedidos y de consumo de la persona cuidada se trata como **dato sensible**, porque junto con un dato que identifica puede revelar salud o dependencia (`investigacion-normativa-adr-027.md`, sección 3) [PENDIENTE: consulta legal sobre si los productos de un pedido son un dato relativo a la salud, CL-11 y CL-12]
+  - **sin el nombre de la persona cuidada:** `pedido.destinatario_nombre_pila` sale en la migración de MATU-61 (R7, C16). El pedido se une a la persona por `persona_cuidada_id`
+  - dirección de entrega y teléfono de contacto en `pedido_entrega`, copiados al confirmar el total desde la dirección de la persona (entrada 1) y desde el teléfono que se elige (D4). Sin `lat` ni `lng`, con un `CHECK` (C8). El teléfono es por omisión el celular verificado de quien confirma, editable, y si es el de otra persona la pantalla pide avisarle (CL-33)
+  - la elección por producto si falta (RF-21): `otro_comercio` o `quitar`, nunca otra marca
+  - la parte de cada comercio (`pedido_comercio`, D7): el comercio, su referencia opaca y sus líneas
+  - la línea de tiempo (`pedido_transicion`), con un motivo de una lista cerrada (C19): `total_vencio`, `familia_cancela`, `familia_cambia_carrito`, `autorizacion_retirada` y `persona_borrada`
+  - las condiciones del pedido aceptadas (`condiciones_version`, `condiciones_aceptadas_en` y `condiciones_huella`, SHA-256, D6). Las columnas se crean en MATU-61 y se escriben al pagar, en MATU-62. Un `CHECK` impide `pagado_en` sin `condiciones_aceptadas_en`
+  - la autorización de pedidos (`consentimiento.finalidad = despacho`, D1), con la calidad, la versión de la política, la declaración `declaracion_pedidos_<calidad>` y su huella, y la revisión de 12 meses
+  - el pago, desde MATU-62: monto cobrado, monto devuelto, código de autorización, tipo de tarjeta y últimos 4 dígitos. MATU nunca recibe ni guarda los datos de la tarjeta
+  - `idempotencia` de `POST …/pedidos`, `…/confirmar` y `…/cancelar`: solo el estado HTTP y el id del pedido, nunca el cuerpo (D5)
+- **Base de licitud:** consentimiento expreso y **separado** del de la ficha y del de consumo, solo para los pedidos: la finalidad `despacho` (D1). Se pide la primera vez que se toca «Pedir», lo dan el admin y el cuidador en la calidad de MATU-07, con `declaracion_pedidos_<calidad>` y su huella, y se revisa a los 12 meses. Sin la autorización `VIGENTE` según el `Reloj`, crear, ajustar, elegir la regla, confirmar, cambiar el teléfono y «Cambiar el pedido» responden 403 (C21). Leer, cancelar y la dirección no la piden. Se retira en Grupo familiar, por un medio igual de fácil que el usado para darla. La titular es la persona cuidada, y quién consiente sigue la calidad de MATU-07.
+  - [PENDIENTE: consulta legal sobre si el art. 16 bis, inciso 1, limita el tratamiento aunque haya consentimiento, y si sirve como base su letra e), CL-11]
   - quién consiente por la persona mayor dependiente (arts. 12 y 16 c) se resuelve con MATU-07: calidad del otorgante y revisión a los 12 meses. Lo que quede abierto se une a la consulta del cuidador de hecho (decisión de Jorge, 27-10)
+  - el teléfono de contacto de alguien que no es usuario: [PENDIENTE: consulta legal, CL-33 ampliada]
   - la evaluación de impacto del art. 15 ter se hace antes de operar con datos reales, sea obligatoria o no (decisión de Jorge, 27-10)
 - **Quién accede:**
-  - en el grupo, todos los roles ven los pedidos, incluido el observador, que nunca ve la ficha; administrador y cuidador los crean, y administrador y pagador pagan (arquitectura, sección 11.2)
-  - el comercio que prepara ve solo sus productos, la referencia del pedido y el código de retiro. **Ningún nombre**, ni la ficha ni la dirección. El comercio que reemplaza a otro ve lo mismo, solo con lo que le toca
+  - en el grupo (arquitectura, sección 11.2, con C3 de Jorge): administrador y cuidador arman, ajustan, eligen la regla, confirman, cambian el teléfono, usan «Cambiar el pedido» y cancelan sin pagar. El pagador ve el pedido, la entrega y el resumen, no confirma y no cancela, y paga desde MATU-62. El observador ve el carrito sin la entrega ni el resumen (`PedidoVistaObservador`), y nunca la ficha. Otro grupo, 404
+  - un solo pedido sin pagar por persona (C4)
+  - el comercio, desde MATU-63, ve solo su parte (`pedido_comercio`): sus productos, su referencia del pedido y el código de retiro. **Ningún nombre**, ni la ficha, la dirección, el teléfono, las líneas de otro comercio ni el total de la familia (R8, D7). El comercio que reemplaza a otro ve lo mismo, solo con lo que le toca
   - operación ve pedidos y pagos para dar soporte, y devuelve por anulación. Nunca la ficha ni el consumo de insumos
-- **La consulta de stock no trata datos personales:** lleva solo productos, cantidades y una referencia opaca para apartar, **aleatoria por pedido y nunca por familia**. No lleva datos de la familia, de la persona cuidada ni de la dirección, y una prueba sobre el objeto de la consulta lo verifica.
-- **Conservación:** pedidos y comprobantes de entrega, 2 años. Pagos y boletas, 6 años, por obligación tributaria (arquitectura, sección 11.8).
+- **La consulta de stock no trata datos personales:** se hace al confirmar, **una por comercio**, y lleva solo productos, cantidades y una referencia opaca para apartar, **aleatoria por pedido y por comercio, nunca por familia** (C22). No lleva datos de la familia, de la persona cuidada ni de la dirección, y una prueba sobre el objeto de la consulta lo verifica.
+- **Conservación:**
+  - **lo que no se pagó** (`borrador`, total vencido y `cancelado` sin pago): se borra a los 30 días desde la última vez que cambió, desde que venció o desde que se canceló (C10), con una tarea del programador de MATU-74 que corre aunque los pedidos estén apagados, y con su línea de tiempo en cascada (D5). La copia de la entrega (`pedido_entrega`) se borra al cancelar. `idempotencia` se borra al vencer, a las 24 horas (D5). [PENDIENTE: CL-28 ampliada]
+  - pedidos pagados y comprobantes de entrega, 2 años. Pagos y boletas, 6 años, por obligación tributaria (arquitectura, sección 11.8). [PENDIENTE: CL-28]
+  - **retiro de la autorización de pedidos** (D1): en la misma transacción, los pedidos sin pagar de la persona pasan a `cancelado` con motivo `autorizacion_retirada`, se borra su `pedido_entrega` y se registra un `pedido.cancelar` por pedido. Si cancelar falla, se deshace también el retiro. Los pagados siguen su plazo [PENDIENTE: CL-44]. La dirección de la persona se conserva (C6 de Jorge)
+  - **borrado de la persona** (MATU-72, D2): retira también la autorización `despacho` y, en la misma transacción, cancela los pedidos sin pagar con motivo `persona_borrada` y borra su `pedido_entrega`. Desde MATU-62 y MATU-63: los pedidos cerrados quedan solo con la comuna, y los pagados en curso conservan la dirección hasta cerrarse. Productos y montos siguen su plazo, sin verse después del retracto. En MATU-61 aplica solo la regla de los sin pagar. [PENDIENTE: CL-52 y CL-44]
+  - con la capa 3 apagada, el retiro y el borrado siguen funcionando y no tocan pedidos (C2 de Jorge)
 - **Medidas:**
-  - separación por familia con RLS forzado
-  - el comercio ve un pedido solo cuando está pagado y enviado, y nunca la dirección, que vive en una tabla aparte
+  - separación por familia con RLS forzado, también en `pedido_comercio`
+  - el comercio ve un pedido solo cuando está pagado y enviado, y nunca la dirección, que vive en una tabla aparte. Las políticas de `pedido_comercio` y `pedido_linea` por `pedido_comercio.comercio_id` van en la migración de MATU-61, con sus pruebas en `test_aislamiento.py` (D7)
   - el precio pagado queda fijo en la base desde el pago, y lo devuelto nunca supera lo cobrado
+  - la regla si falta un producto queda fija al pagar, con un trigger, y solo el admin y el cuidador la escriben, con políticas por operación (C12 y C13)
   - registro de transacciones de pasarela que nunca se borra
-  - la proyección del comercio excluye todo identificador de la familia y de la persona, con una prueba de contrato. [PENDIENTE: hoy la base deja al comercio leer `destinatario_nombre_pila`, `grupo_id`, `persona_cuidada_id`, `creado_por` y las transiciones de los pedidos que ve, y escribir la elección de RF-21 y `monto_devuelto`. Se corrige con una migración nueva antes de construir la vista del comercio]
+  - la proyección del comercio excluye `grupo_id`, `persona_cuidada_id`, `creado_por`, las transiciones y todo identificador de la familia y de la persona, con una prueba de contrato (C16). El nombre de pila sale del pedido en la migración de MATU-61. [PENDIENTE: la vista del comercio y su prueba de contrato se construyen en MATU-63. Hasta entonces, revisar que el comercio no pueda leer `grupo_id`, `persona_cuidada_id`, `creado_por`, el `total`, el `costo_envio` ni las transiciones, ni escribir `monto_devuelto`. Hoy `pedido_comercio_ver` le deja leer la fila completa de `pedido` una vez enviado: se acota por columnas en MATU-63 (cierre del analista de MATU-61)]
+  - productos, cantidades, precios, dirección, referencia y teléfono nunca en logs, errores, eventos, auditoría ni URL, con `Cache-Control: no-store` en todas las respuestas del pedido y de la dirección (C17)
+  - el carrito vive en el servidor como borrador, nunca en `localStorage`, `sessionStorage` ni la URL (C18)
+  - el servidor no lee `perfil_consumo` para crear el pedido, y el pedido no suma al consumo (C20, CL-17 no se activa)
+  - auditoría de solo inserción, sin contenido (D12): `consentimiento.otorgar` y `consentimiento.revocar` de `despacho`, `direccion.cambiar`, `pedido.crear`, `pedido.confirmar`, `pedido.cancelar` y `pedido.regla_faltante`. Las lecturas no se auditan (decisión 52): la línea de tiempo la da `pedido_transicion`
+  - el total confirmado vale 15 minutos según el `Reloj`, y la pantalla avisa 2 minutos antes y ofrece volver a confirmar sin perder el carrito (C23)
 - **Comunicaciones a terceros:**
-  - comercios en convenio, con lo que dice "Quién accede". **La dirección nunca llega al comercio.** MATU trata al comercio como si fuera encargado, sea o no un dato personal para él la referencia del pedido, y el convenio lleva siempre las cláusulas del art. 15 bis (decisión de Jorge, 27-10)
+  - comercios en convenio, con lo que dice "Quién accede". **La dirección nunca llega al comercio.** MATU trata al comercio como si fuera encargado, sea o no un dato personal para él la referencia del pedido, y el convenio lleva siempre las cláusulas del art. 15 bis (decisión de Jorge, 27-10). El primer convenio real debe autorizar a publicar el nombre de fantasía, los precios y el stock (D9)
   - quien despacha, que ve la dirección, el teléfono de contacto y el paquete: **encargado** de MATU, con contrato según el art. 15 bis (instrucciones, confidencialidad, seguridad, reporte de vulneraciones y supresión al terminar)
   - Transbank, que procesa el pago en su propia página. La devolución vuelve a la misma tarjeta, por anulación de Webpay Plus, sin pedir datos nuevos
+  - los reclamos de un pedido llegan al buzón (entrada 11, D8)
 - **Transferencia internacional:** [PENDIENTE: proveedor y país].
-- **Decisiones automatizadas:** ninguna.
+- **Decisiones automatizadas:** ninguna. Al confirmar, MATU mueve un producto que falta al comercio de menor precio solo si la familia eligió buscarlo en otro comercio (C5 de Jorge), y lo muestra antes de pagar.
 
 ## 3. Ficha de relevo (MATU-09, MATU-11 a MATU-14, MATU-50)
 
@@ -244,9 +266,10 @@ Cada historia que empieza a tratar datos personales agrega aquí su entrada.
   - Auditoría: no se registra que se imprimió o se compartió, porque el navegador no lo confirma y un registro de intención no prueba nada. Las lecturas del consumo tampoco se auditan (decisión 52).
   - Conservación: no aplica en el servidor. Las copias que salen del teléfono no las alcanzan ni el borrado del insumo ni el retiro de la autorización, y la política lo informa.
   - Decisiones automatizadas: ninguna. La cantidad es una sugerencia que la familia cambia.
+  - «Pedir estos productos» (MATU-61, D10): un botón al final de la lista, visible solo con la autorización de pedidos (`despacho`) vigente, para el admin y el cuidador. Pasa al pedido solo las líneas con producto del catálogo, con la cantidad que se ve en pantalla convertida a envases del catálogo, y nombra las demás. Para eso cada línea de la lista suma `producto_id`, o `null` si se anotó con `nombre_libre`: es una lectura del consumo de quien ya ve la lista. La pantalla arma el pedido con los `oferta_id` del catálogo, y **el servidor no lee `perfil_consumo` para crear el pedido** (C20), así no se mezclan las finalidades y la CL-17 no se activa. Sin la autorización, la lista se imprime y se comparte como antes, y el botón lleva a pedirla. La lista y el aviso nunca hacen un pedido solos (entrada 2).
 - **Alertas y compras declaradas (MATU-37, MATU-51):**
   - alertas: insumo (por su identificador), fecha estimada, estado y cuándo se avisó y se cerró. Sin nombre del insumo ni cantidades;
-  - compras declaradas con «Ya lo resolví» o con «Compré» (MATU-51), haya alerta o no: cantidad, fecha (la fija el servidor) y quién la anotó; se suman a lo que quedaba. «Me quedan N» corrige el stock como la edición del insumo y no crea una compra. Anotan solo admin y cuidador; pagador, observador y otro grupo reciben 404. Auditoría: `reposicion.declarar`, `consumo.editar`, `alerta.resolver` y `alerta.descartar`, sin cantidades. Un pedido entregado por MATU no suma el stock todavía: queda para MATU-61 a 63, con versión nueva de la política (decisión C de Jorge del 07-11);
+  - compras declaradas con «Ya lo resolví» o con «Compré» (MATU-51), haya alerta o no: cantidad, fecha (la fija el servidor) y quién la anotó; se suman a lo que quedaba. «Me quedan N» corrige el stock como la edición del insumo y no crea una compra. Anotan solo admin y cuidador; pagador, observador y otro grupo reciben 404. Auditoría: `reposicion.declarar`, `consumo.editar`, `alerta.resolver` y `alerta.descartar`, sin cantidades. Un pedido entregado por MATU no suma el stock todavía: queda para MATU-62 y MATU-63, con versión nueva de la política (decisión C de Jorge del 07-11). MATU-61 no lo hace: el pedido no lee ni escribe el consumo (C20);
   - el trabajo diario (rol sistema) crea las alertas solo para personas con la autorización de insumos vigente;
   - las tareas programadas se conectan con roles de base propios desde la migración 0022 (MATU-74), sin privilegios de dueño ni BYPASSRLS. `matu_scheduler` recorre los grupos (lee solo el identificador y el estado de cada grupo activo) y es el único que puede llamar a las funciones de borrado por plazo. `matu_publisher` es el único que puede tomar y cerrar los eventos de la cola de avisos. La API (`matu_app`) ya no puede llamar a ninguna de esas funciones. El trabajo grupo por grupo sigue con `matu_app` y el rol sistema, dentro del aislamiento por fila;
   - conservación: alertas cerradas 90 días desde que se cierran, eventos publicados 30 días, registro de avisos (`notificacion`, enviados, omitidos y fallidos) 90 días desde `creada_en`, compras declaradas 90 días desde que se anotan (decisión A de Jorge del 07-11, MATU-51, migración 0017; antes, mientras existiera el insumo). Eventos que no se pudieron procesar: 30 días desde `fallido_en` (decisión de Jorge del 04-11, MATU-41).
@@ -352,18 +375,18 @@ Cada historia que empieza a tratar datos personales agrega aquí su entrada.
 - **Transferencia internacional:** staging en Railway, Estados Unidos, solo con datos sintéticos (entrada 9).
 - **Decisiones automatizadas:** ninguna.
 
-## 11. Buzón de privacidad (MATU-75, D5)
+## 11. Buzón de privacidad y de reclamos (MATU-75, D5, y MATU-61, D8)
 
-- **Finalidad:** recibir y responder las solicitudes de derechos y las consultas de privacidad.
+- **Finalidad:** recibir y responder las solicitudes de derechos y las consultas de privacidad. Desde MATU-61 (D8), también los reclamos de los pedidos: es el canal de reclamo de las condiciones del pedido (§8) y del resumen antes de pagar.
 - **Titulares:** cualquiera que escriba.
-- **Datos:** el correo y el nombre de quien escribe, el mensaje y la respuesta. Puede traer datos sensibles, aunque la política pide no incluirlos. **Es un tratamiento de datos reales durante el piloto.**
-- **Base de licitud:** atender los derechos del titular. [PENDIENTE: consulta legal, junto con CL-48]
+- **Datos:** el correo y el nombre de quien escribe, el mensaje y la respuesta. Un reclamo puede traer además el pedido al que se refiere, sus productos o la dirección. Puede traer datos sensibles, aunque la política pide no incluirlos. **Es un tratamiento de datos reales durante el piloto.**
+- **Base de licitud:** atender los derechos del titular. Para los reclamos de un pedido, responder al reclamo de quien compra. [PENDIENTE: consulta legal, junto con CL-48, también para los reclamos]
 - **Quién accede:** Jorge y Martín, con una cuenta de la función, verificación en dos pasos y sin reenvío a correos personales.
-- **Conservación:** hasta 2 años después de cerrar la solicitud. Después queda solo una lista con la fecha, el tipo de solicitud y la fecha de respuesta, sin el contenido (decisión de Jorge del 09-11).
+- **Conservación:** hasta 2 años después de cerrar la solicitud, también un reclamo. Después queda solo una lista con la fecha, el tipo de solicitud y la fecha de respuesta, sin el contenido (decisión de Jorge del 09-11; para los reclamos, decisión de Jorge del 11-11, por confirmar en CL-48).
 - **Encargado:** Gmail, de Google LLC, en Estados Unidos. [PENDIENTE: revisar sus condiciones]
 - **Transferencia internacional:** Estados Unidos (Google LLC). [PENDIENTE: consulta legal sobre la transferencia internacional, CL-51]
 - **Medidas:**
-  - el contenido de una solicitud nunca se copia al repositorio, a Trello, al vault ni a una sesión con agentes
+  - el contenido de una solicitud o de un reclamo nunca se copia al repositorio, a Trello, al vault ni a una sesión con agentes
   - plazos: acuse dentro de 2 días hábiles y respuesta a más tardar en 30 días corridos (D4)
 - **Decisiones automatizadas:** ninguna.
 

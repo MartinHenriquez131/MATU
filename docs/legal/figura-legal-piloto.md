@@ -80,9 +80,27 @@ Durante el semestre, el responsable es el equipo del proyecto, Jorge Espinoza y 
 
 La aplicación no debe limitar las formas de pago (decisión del 24/10/2026, registrada en `docs/pruebas-concepto/transbank.md`). El ADR-027 lo cumple con un solo cobro que funciona igual con crédito y con débito, y reemplaza el plan B del ADR-006 que ocupaba esta sección.
 
-- **Un solo cobro del total confirmado.** Productos a precio exacto con IVA más un envío único por pedido, en venta normal de Webpay Plus. No hay reserva con margen, captura diferida ni cobros después.
+**Lo que acepta la familia está en las condiciones del pedido** ([`condiciones-pedido.md`](condiciones-pedido.md), versión 0.1 del piloto, aprobada por Jorge el 11-11, MATU-61). Esta sección explica por qué el pago funciona así. Si las dos dicen algo distinto, mandan las condiciones para lo que se le informa a la familia, y se corrige esta sección. Durante el piloto las condiciones dicen:
+- Vende MATU, piloto académico, sin persona jurídica, y en el piloto no se emite boleta (D8). La boleta única por el total que se describe abajo es la de después del semestre, con la persona jurídica de la sección 6. [PENDIENTE: CL-46 y CL-47]
+- La entrega llega entre 24 y 48 horas hábiles (D8).
+- Los reclamos se escriben a cuidaconmatu@gmail.com (D8).
+- Se guarda qué versión de las condiciones aceptó la familia, cuándo, y una huella del texto exacto que vio (D6). La aceptación se registra al tocar «Pagar», en MATU-62.
+
+**Cómo funciona el pago:**
+
+- **Un solo cobro del total confirmado.** Productos a precio exacto, con IVA incluido, más un envío único por pedido, en venta normal de Webpay Plus. No hay reserva con margen, captura diferida ni cobros después.
 - **El total confirmado vale 15 minutos.** Si vence, se vuelve a confirmar y la pantalla lo dice. No pagar no tiene costo.
-- **Antes de pagar, la familia ve:** los productos con cantidad, precio y subtotal; los que salieron por no disponibles; los que cambiaron de precio o de comercio respecto de la lista; qué eligió para cada producto si falta (RF-21); el envío y el total con IVA; quién emite la boleta; la ventana de entrega; y qué pasa si falta un producto, con el medio y el plazo de la devolución. Acepta las condiciones del pedido y recibe un comprobante.
+- **Antes de pagar, la familia ve** (C1 de la revisión previa de MATU-61):
+  - los productos con cantidad, precio y subtotal, y el retracto en cada línea
+  - los que salieron por no disponibles, y los que cambiaron de precio o de comercio respecto de su pedido
+  - qué eligió para cada producto si falta (RF-21)
+  - el envío aparte y el total, con IVA incluido, y hasta qué hora vale
+  - quién vende y si se emite boleta
+  - la ventana de entrega
+  - qué pasa si falta un producto, con el medio y el plazo de la devolución
+  - el canal de reclamo, el enlace a las condiciones del pedido y una salida sin costo
+
+  Acepta las condiciones del pedido y recibe un comprobante.
 - **Quién vende.** MATU vende y emite una sola boleta por el total, con el envío incluido. Los comercios le cobran a MATU por cuenta corriente y no ven el nombre de nadie, solo la referencia del pedido y el código de retiro. Vender de verdad exige la persona jurídica de la sección 6. [PENDIENTE: consulta tributaria sobre el documento tributario cuando hay devolución]
 - **Lo que el Decreto 6 de 2021 (Reglamento de Comercio Electrónico) pide a MATU como vendedor** (`investigacion-normativa-adr-027.md`, sección 1):
   - identificar al vendedor (art. 7);
