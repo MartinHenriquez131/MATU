@@ -71,8 +71,8 @@ Motorola Edge 50 con Edge, **con la letra del teléfono al máximo**, el 09-11 (
 
 | ID | Respuesta | Commit o PR | Verificado (Martín) |
 |---|---|---|---|
-| H1 | Opción A, en todos los botones: cortan por palabras (`max-w-full break-words`), sin guionado. Los títulos no se tocan. Diseñador APROBADA | MATU_PROYECTO #79 (5702dd5) | |
-| H2 | «Confirma tu celular» tiene su prueba en angosto | MATU_PROYECTO #79 (58ffd82) | |
-| H3 | Opción B: «+56 9» y «•••• ••37» van juntos, con espacios duros, y solo se corta entre los dos bloques. Solo en pantalla | MATU_PROYECTO #79 (25eee24) | |
-| H4 | `lenguaje.md` dice «Lista de insumos, pedido y boleta» | MATU #66 | |
-| H5 | La causa eran los temporizadores de foco de Insumos, que seguían vivos después del `cleanup`. `preparacion.ts` los espera después de cada prueba, con un tope de 2 s. Pasó 12 veces seguidas | MATU_PROYECTO #79 (0ad2c04) | |
+| H1 | Opción A, en todos los botones: cortan por palabras (`max-w-full break-words`), sin guionado. Los títulos no se tocan. Diseñador APROBADA | MATU_PROYECTO #79 (5702dd5) || sí, 11-11: QA PASS, diseñador APROBADA y teléfono (A2 y A3) |
+| H2 | «Confirma tu celular» tiene su prueba en angosto | MATU_PROYECTO #79 (58ffd82) || sí, 11-11: la prueba falla sin la corrección |
+| H3 | Opción B: «+56 9» y «•••• ••37» van juntos, con espacios duros, y solo se corta entre los dos bloques. Solo en pantalla | MATU_PROYECTO #79 (25eee24) || sí, 11-11: teléfono (A1) |
+| H4 | `lenguaje.md` dice «Lista de insumos, pedido y boleta» | MATU #66 || sí, 11-11: MATU #66 fusionado (f383dea) |
+| H5 | La causa eran los temporizadores de foco de Insumos, que seguían vivos después del `cleanup`. `preparacion.ts` los espera después de cada prueba, con un tope de 2 s. Pasó 12 veces seguidas | MATU_PROYECTO #79 (0ad2c04) || sí, 11-11: CI en verde dos veces seguidas (#79 y #80) |
