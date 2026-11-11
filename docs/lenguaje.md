@@ -8,6 +8,9 @@
 **MATU-59 (08-11):** entra la sección 27, el catálogo, y dos filas en 3.2 («escara» y «ostomía»). Los revisó el analista normativo. Aprobados por Jorge el 08-11.
 **MATU-67 (09-11):** entra la sección 28, el aviso de versión nueva. Aprobados por Jorge el 09-11.
 **MATU-75 (09-11):** entra la sección 29, la política de privacidad en la app y su aceptación al crear la cuenta. La 7.5 activa la frase del correo de contacto con cuidaconmatu@gmail.com, retira el párrafo «En la demo» y ya muestra el enlace a la política. La 3.1 permite «cookie» y «sesión» en la política. Aprobados por Jorge el 09-11.
+**MATU-83 (11-11):** la 5.3 suma la pregunta del relevo, «¿A quién llamar si algo pasa?», sin «te», porque quien reemplaza no es quien escribió la ficha (decisión de Jorge del 09-11).
+**MATU-84 (11-11):** entra la sección 30, «Me quedan» y el alta del insumo en envases. Aprobados por Jorge el 10-11.
+**MATU-88 (11-11):** la 5.1 suma la pregunta del relevo, sin «Puedes contar un día bueno o uno difícil.», con el criterio de la 5.3. En los insumos en sobres, el campo y el error del envase dicen «sobres» en vez de «unidades» (H2 del TESTER de MATU-84). La 5.1 es decisión de Jorge del 11-11, y el envase en sobres es del orquestador, por delegación de Jorge del mismo día.
 **Fuentes:** resultados de las entrevistas (`docs/resultados-entrevistas.md`), arquitectura sección 10, política de privacidad v0.9, la demo aprobada (`Demo/src/`, rama `demo-web-viernes-30`) y el contrato de MATU-09 (`docs/api/`, rama `matu-09-contrato-api`).
 
 ---
@@ -128,6 +131,7 @@ La ficha tiene tres campos. Cada uno acepta **hasta 500 caracteres** y se guarda
 ### 5.1 Su día (`rutina`)
 
 - **Pregunta guía:** ¿Cómo es un día normal para `{nombre_pila}`? Puedes contar un día bueno o uno difícil.
+- **En el relevo:** ¿Cómo es un día normal para `{nombre_pila}`? «Puedes contar un día bueno o uno difícil.» le habla a quien escribe la ficha, así que el relevo no lo muestra, con el mismo criterio de la 5.3 (decisión de Jorge del 11-11, MATU-88). En el editor de la familia queda la pregunta de arriba.
 - **Ejemplo:** Por ejemplo: «08:00 Despierta. Le gusta que abran la cortina primero». Si empiezas con la hora, lo mostramos como línea de tiempo.
 
 ### 5.2 Si se altera (`manejo_situaciones`)
@@ -138,7 +142,7 @@ La ficha tiene tres campos. Cada uno acepta **hasta 500 caracteres** y se guarda
 ### 5.3 A quién llamar (`red_apoyo`)
 
 - **Pregunta guía:** ¿A quién llamar si algo pasa y no te ubican?
-- **En el relevo:** ¿A quién llamar si algo pasa? Quien reemplaza no es quien escribió la ficha, así que la pregunta no le habla con «te» (decisión de Jorge del 09-11). En el editor de la familia queda la pregunta de arriba.
+- **En el relevo:** ¿A quién llamar si algo pasa? Quien reemplaza no es quien escribió la ficha, así que la pregunta no le habla con «te» (decisión de Jorge del 09-11, MATU-83). En el editor de la familia queda la pregunta de arriba.
 - **Ejemplo:** Por ejemplo: «Rodrigo, su hijo: +56 9 5555 0102».
 
 Las preguntas guía nombran a la persona por su nombre y no usan femenino ni masculino, porque el modelo no guarda su género (aprobado por Jorge el 27-10). La demo del viernes 30 no cambia.
@@ -727,7 +731,7 @@ En la app se dice «lista de insumos», nunca «lista de reposición» ni «quie
 | Sin autorización o revisión vencida | Los textos de «Permiso» de la sección 18 |
 | Pie del texto compartido y de la impresión | Piloto académico con datos de prueba |
 | Al imprimir cualquier otra pantalla de la app | Esta pantalla no se imprime. |
-| Campo nuevo en el formulario del insumo (opcional) | ¿Cuántas unidades trae cada envase? · Ayuda: Si lo anotas, la lista sugiere envases enteros. Puedes dejarlo en blanco. |
+| Campo nuevo en el formulario del insumo (opcional) | ¿Cuántas unidades trae cada envase? (En los insumos en sobres: «¿Cuántos sobres trae cada envase?», MATU-88) · Ayuda: Si lo anotas, la lista sugiere envases enteros. Puedes dejarlo en blanco. |
 | Campo del envase, fuera de rango | Escribe un número de 1 a 10.000, o déjalo en blanco. |
 | Campo del envase, en el conflicto (412) | Cada envase trae {u} {unidades / sobres / ml / g} (con 1: «1 unidad», «1 sobre»). · Sin unidades por envase. |
 
@@ -1027,7 +1031,7 @@ Solo para los insumos que se cuentan en unidades o en sobres. Los de ml y g sigu
 | Ayuda del campo del envase en modo envases | Lo guardamos para la próxima vez y para la lista. |
 | Total en vivo | En total, quedan unas {n} unidades. · En total, quedan unos {n} sobres. · En total, queda 1 unidad. · En total, queda 1 sobre. · En total, no queda nada. |
 | Final de la confirmación, si se anotó el envase | También anotamos que cada envase trae {u} unidades. (o «sobres») |
-| Falta el envase | Escribe cuántas unidades trae cada envase. |
+| Falta el envase | Escribe cuántas unidades trae cada envase. (En los insumos en sobres: «Escribe cuántos sobres trae cada envase.», MATU-88) |
 | Envase fuera de rango | Escribe un número de 1 a 10.000. |
 | El total pasa de 100.000 | Con eso quedarían más de 100.000 unidades. Revisa cuántos envases y sueltos anotaste. (o «sobres») |
 
