@@ -8,6 +8,7 @@
 **MATU-59 (08-11):** entra la sección 27, el catálogo, y dos filas en 3.2 («escara» y «ostomía»). Los revisó el analista normativo. Aprobados por Jorge el 08-11.
 **MATU-67 (09-11):** entra la sección 28, el aviso de versión nueva. Aprobados por Jorge el 09-11.
 **MATU-75 (09-11):** entra la sección 29, la política de privacidad en la app y su aceptación al crear la cuenta. La 7.5 activa la frase del correo de contacto con cuidaconmatu@gmail.com, retira el párrafo «En la demo» y ya muestra el enlace a la política. La 3.1 permite «cookie» y «sesión» en la política. Aprobados por Jorge el 09-11.
+**MATU-61 (11-11):** entra la sección 31, el pedido, con los textos de la especificación de pantallas v1.1 (sección 15). Con la decisión D10 de Jorge cambian la 21 (la lista nunca compra sola), la 23 («Compré» nunca hace un pedido) y la 27 («Agregar al pedido» en el catálogo). La 17 mantiene «El aviso nunca ofrece comprar.». La sección 30 es de MATU-84, en otra rama, y la 31 se renumera al fusionar si hace falta. Por aprobar por Jorge al fusionar.
 **Fuentes:** resultados de las entrevistas (`docs/resultados-entrevistas.md`), arquitectura sección 10, política de privacidad v0.9, la demo aprobada (`Demo/src/`, rama `demo-web-viernes-30`) y el contrato de MATU-09 (`docs/api/`, rama `matu-09-contrato-api`).
 
 ---
@@ -683,7 +684,7 @@ El correo y el push nunca dicen qué insumo ni de quién, no ofrecen comprar y s
 
 ## 21. Lista de insumos (MATU-60) · Aprobados por Jorge el 06-11
 
-En la app se dice «lista de insumos», nunca «lista de reposición» ni «quiebre». La cantidad es una sugerencia: lo que falta para cubrir 30 días, descontando lo que MATU calcula que queda. La lista nunca ofrece comprar. El texto que se imprime o se comparte no lleva los días que quedan ni el nombre de la persona (ADR-031).
+En la app se dice «lista de insumos», nunca «lista de reposición» ni «quiebre». La cantidad es una sugerencia: lo que falta para cubrir 30 días, descontando lo que MATU calcula que queda. La lista nunca compra sola. Solo quien tiene la autorización de pedidos puede tocar "Pedir estos productos". El texto que se imprime o se comparte no lleva los días que quedan ni el nombre de la persona (ADR-031).
 
 | Dónde | Texto |
 |---|---|
@@ -785,7 +786,7 @@ En la app se dice «autorización» y «retirar», nunca «consentimiento» ni �
 
 ## 23. Anotar una compra o lo que queda (MATU-51) · Aprobados por Jorge el 07-11
 
-En la app se dice «Compré» y «Me quedan», nunca «reposición», «reponer» ni «stock». Lo que se anota con «Compré» se llama **«compras anotadas»** en los textos, en las tarjetas y en el código. «Compré» habla de lo que la familia ya hizo: la app nunca ofrece comprar. La fecha la pone MATU (hoy) y la familia no la elige. Los días y la fecha de la confirmación los da la API.
+En la app se dice «Compré» y «Me quedan», nunca «reposición», «reponer» ni «stock». Lo que se anota con «Compré» se llama **«compras anotadas»** en los textos, en las tarjetas y en el código. «Compré» habla de lo que la familia ya hizo: "Compré" anota lo que la familia ya compró, y nunca hace un pedido. La fecha la pone MATU (hoy) y la familia no la elige. Los días y la fecha de la confirmación los da la API.
 
 | Dónde | Texto |
 |---|---|
@@ -932,7 +933,7 @@ En la app se dice «autorización» y «permiso», nunca «consentimiento». Est
 
 ## 27. Catálogo (MATU-59) · Aprobados por Jorge el 08-11
 
-Es la tercera pestaña de Insumos, para todos los roles del grupo. No tiene botón «Pedir»: llega con MATU-61. La pantalla no dice «stock» (sección 3.2): dice «Hay en» y «No hay en».
+Es la tercera pestaña de Insumos, para todos los roles del grupo. "Agregar al pedido" está en cada comercio que tiene el producto, para quien administra o cuida (MATU-61, sección 31). La pantalla no dice «stock» (sección 3.2): dice «Hay en» y «No hay en».
 
 | Dónde | Texto |
 |---|---|
@@ -1012,3 +1013,90 @@ La política se muestra en la app, en /privacidad, desde «En un minuto» hasta 
 | Tu cuenta, enlace | Política de privacidad (se abre en otra pestaña) |
 
 «(se abre en otra pestaña)» se muestra en pantalla, no solo para el lector de pantalla. Cuando la política cambia mientras se crea la cuenta, la casilla se desmarca. El enlace de «Tu cuenta» usa el mismo texto de 7.5.
+
+---
+
+## 31. Pedido (MATU-61) · Por aprobar por Jorge al fusionar
+
+> La sección 30 es de MATU-84, en otra rama. Si al fusionar el número ya está tomado, esta sección se renumera.
+
+Los textos salen de la especificación de pantallas de MATU-61, v1.1 del 11-11 (`docs/diseno/matu-61-pedido.md`, sección 15), que marca el origen de cada uno: los propuestos por el analista normativo (`legal/revision-previa-matu-61.md`, sección 4), los que fijó Jorge en sus decisiones D8 a D10 y los nuevos del diseñador. Las llaves son datos de la API: `{producto}` es el nombre del producto, `{comercio}` el nombre de fantasía del comercio, `{pila}` el nombre de pila de la persona cuidada, `{precio}` en pesos enteros con punto de miles (`$12.990`) y `{HH:MM}` en 24 horas, hora de Chile.
+
+**Regla de la sección.** En la app se dice «tu pedido», nunca «carro» ni «carrito». Se dice «lo que hay» y «que haya», nunca «stock». La cantidad es en envases del catálogo. **Todos los precios llevan el IVA incluido:** el total se llama «Total», nunca «Total con IVA», y ningún texto presenta el IVA como algo que se suma o que aparece después. «IVA» solo va en «Precio de ejemplo · IVA incluido» (sección 27). «Pedir» lo hace solo quien tiene la autorización de pedidos. La lista nunca compra sola, el aviso nunca ofrece comprar y «Compré» nunca hace un pedido (D10).
+
+| Dónde | Texto |
+|---|---|
+| Pestaña de Insumos | Pedido |
+| `<title>` | Tu pedido · MATU · ¿Dónde lo entregamos? · MATU · Antes de pagar · MATU · Condiciones del pedido · MATU |
+| **Autorización** | |
+| Título | Antes de pedir, un permiso |
+| Explicación | Para pedir desde MATU, primero autoriza los pedidos. Sin esta autorización igual puedes imprimir o compartir la lista. · Es un permiso aparte del de su ficha y del de sus insumos. |
+| Volver | Volver al catálogo · Volver a la lista de insumos |
+| Botón | Autorizar los pedidos · Autorizando… |
+| Hecho | Pedidos autorizados. Agregamos «{producto}» a tu pedido. · Pedidos autorizados. Agrega productos desde el catálogo o desde tu lista de insumos. |
+| Error | No pudimos guardar la autorización. Revisa lo que elegiste y vuelve a intentarlo. |
+| Pagador, sin autorización | Falta la autorización de pedidos para {pila}. Sin ella no se pueden hacer pedidos desde MATU. Pídele a quien administra el grupo o a quien cuida a {pila} que la dé. |
+| Por renovar | Hay que renovar la autorización de los pedidos de {pila}. Se renueva una vez al año. Mientras tanto no se pueden hacer pedidos, pero tu pedido sigue guardado. · Renovar la autorización · Pídele a quien administra el grupo o a quien cuida a {pila} que la renueve. |
+| Declaraciones | Las tres `declaracion_pedidos_<calidad>` de la política de privacidad 0.12, sección 5, tal cual |
+| **Catálogo** | |
+| Botón | Agregar al pedido · Agregando… · Para el lector: Agregar al pedido: {producto}, de {comercio} |
+| Ya agregado | En tu pedido · Ver tu pedido |
+| Anuncio | Agregamos «{producto}» a tu pedido. |
+| Error | No pudimos agregarlo. Revisa tu conexión y vuelve a intentarlo. |
+| **Lista de insumos** | |
+| Frase y botón | Los productos de esta lista que están en el catálogo se pueden pedir con MATU. Antes de pagar ves el total. · Pedir estos productos · Agregando a tu pedido… |
+| Al llegar al pedido | Agregamos {n} productos de tu lista a tu pedido. (con 1: «Agregamos 1 producto de tu lista a tu pedido.») · {producto} ya estaba en tu pedido: dejamos la cantidad de la lista. · No están en el catálogo y no van en el pedido: {nombres}. (con 1: «{nombre} no está en el catálogo y no va en el pedido.») |
+| **Tu pedido** | |
+| Título y bajada | Tu pedido · Revisa los productos y cuántos quieres. Antes de pagar confirmamos que haya. |
+| Comercio | De {comercio} (comercio ficticio) |
+| Precio | {precio} cada uno · Precio de ejemplo · IVA incluido |
+| Cantidad | Cantidad · el sufijo de la sección 21 · Para el lector: Quitar uno: {producto} · Agregar uno: {producto} |
+| De la lista | En tu lista: {cantidad} |
+| Cantidad fuera de rango | Escribe una cantidad de 1 a 99. |
+| Cantidad, error al guardar | No pudimos guardar la cantidad. Revisa tu conexión y vuelve a intentarlo. |
+| Subtotal | Subtotal: {precio} |
+| Si falta | Si falta este producto · Buscarlo en otro comercio · El mismo producto. Pagas lo mismo. · Sacarlo del pedido y devolverme su precio · Nunca lo cambiamos por otra marca ni por otro producto. (una vez, sobre las líneas) |
+| Si falta, error | No pudimos guardar qué hacer si falta. Revisa tu conexión y vuelve a intentarlo. |
+| Si falta, pagador y resumen | Si falta: lo buscamos en otro comercio. · Si falta: lo sacamos y te devolvemos su precio. |
+| Sacar | Sacar del pedido · Para el lector: Sacar del pedido: {producto} · Sacamos «{producto}» del pedido. · No pudimos sacarlo. Revisa tu conexión y vuelve a intentarlo. |
+| Entrega | Entrega · Dirección · Todavía no hay una dirección de entrega. · Agregar la dirección · Cambiar dirección · Teléfono de contacto · (tu celular) · Cambiar teléfono · Llega entre 24 y 48 horas hábiles. |
+| Teléfono | Para que quien entrega pueda avisarte. Si es el de otra persona, avísale. · Guardar el teléfono · Guardamos el teléfono. · Escribe un celular de Chile, por ejemplo +56 9 5555 0137. |
+| Pie | Productos: {precio} · El envío y el total los ves al confirmar que haya cada producto. · Ver el total · Confirmando… · Estamos confirmando que haya cada producto… |
+| Sin dirección | Agrega la dirección de entrega para ver el total. |
+| Total ya confirmado | Ya confirmaste el total. Para cambiar algo, toca «Cambiar el pedido». |
+| Vacío | Tu pedido está vacío. Agrega productos desde el catálogo o desde tu lista de insumos. · Ir al catálogo · Ir a la lista de insumos · Pagador y observador: Todavía no hay un pedido para {pila}. |
+| Pagador y observador | Quien administra el grupo o quien cuida a {pila} puede cambiar el pedido y ver el total. · Ver el resumen (solo el pagador) · Pasaron 15 minutos y el total venció. Pídele a quien armó el pedido que lo vuelva a confirmar. |
+| **Dirección** | |
+| Título y ayuda | ¿Dónde lo entregamos? · La usamos solo para entregar tus pedidos. Ningún comercio la ve. · La guardamos para los próximos pedidos de {pila}. |
+| Campos | Calle · Número · Depto (opcional) · Comuna · Referencia (opcional) · Por ejemplo: portón verde. No escribas datos de salud. |
+| Botón y hecho | Guardar la dirección · Guardando… · Guardamos la dirección. |
+| Vaciar | Si no quieres que MATU la guarde, puedes vaciarla. Para el próximo pedido habrá que escribirla de nuevo. · Vaciar la dirección · Para el lector: Vaciar la dirección de entrega de {pila} · ¿Vaciar la dirección de entrega de {pila}? · La borramos de MATU. Para el próximo pedido habrá que escribirla de nuevo. · Dejarla como está · Vaciando… · Vaciamos la dirección. · No pudimos vaciar la dirección. Revisa tu conexión y vuelve a intentarlo. Todo sigue como estaba. · Otra persona de tu grupo cambió la dirección mientras la revisabas. Revisa cómo quedó antes de vaciarla. |
+| Validación | Escribe la calle. · Escribe el número. Si no tiene, escribe S/N. · Escribe la comuna. · La referencia admite hasta 200 caracteres. Acórtala un poco. · No pudimos guardar la dirección. Revisa los datos y vuelve a intentarlo. |
+| Volver | Volver a tu pedido · Volver a antes de pagar |
+| Conflicto (412) | Otra persona de tu grupo cambió la dirección mientras la cambiabas. · No guardamos la tuya encima de la suya. Elige cuál dejar. · La que guardó · La tuya, sin guardar · Guardar la mía · Dejar la que guardó · Dejaste la dirección que guardó otra persona de tu grupo. |
+| **Antes de pagar** | |
+| Título y bajada | Antes de pagar · Confirmamos que hay cada producto. El total es {total}. |
+| Cambiar el pedido | Si cambias algo, antes de pagar confirmamos el total de nuevo. · Cambiar el pedido · Abriendo tu pedido… · Ya puedes cambiar tu pedido. Cuando termines, toca «Ver el total» para confirmarlo de nuevo. · No pudimos abrir tu pedido para cambiarlo. Revisa tu conexión y vuelve a intentarlo. El total sigue confirmado. |
+| Cambios | Cambió desde tu pedido · Ya no hay {producto}. Salió del pedido. · Ahora {producto} lo prepara {comercio} (comercio ficticio). · Cambió el precio de {producto}: antes {precio}, ahora {precio}. · Cambió el precio · Otro comercio |
+| Productos | Productos · {cantidad} × {precio} · Subtotal: {precio} |
+| Retracto | Los dos de la sección 27, en cada línea, con letra no menor que el precio |
+| Boleta | Tu pedido · Productos ({n}) · Envío (uno por pedido) · Total · Este total vale hasta las {HH:MM}. · Se cobra una sola vez este total, con crédito o con débito. No hay reserva ni cobros después. |
+| Plazo | Quedan 2 minutos para pagar este total. · Volver a confirmar · Confirmamos de nuevo. Este total vale hasta las {HH:MM}. · Revisa lo que cambió antes de pagar. |
+| Vencido | Venció · Este total venció a las {HH:MM}. · Pasaron 15 minutos y el total venció. Vuelve a confirmar para ver lo que hay y su precio. · Volver a confirmar |
+| Entrega | Entrega: {ventana} · Teléfono de contacto: {telefono} |
+| Si falta | Si falta un producto · Si al retirar falta un producto, lo buscamos en otro comercio y pagas lo mismo. Si nadie lo tiene, o elegiste sacarlo, anulamos su cobro el mismo día, a la misma tarjeta. Cuándo lo ves en tu cuenta depende de tu banco. |
+| Vendedor y reclamos | Quién vende · Vende: MATU, piloto académico, sin persona jurídica. En este piloto no se emite boleta. · Reclamos: escríbenos a {correo}. |
+| Condiciones | Condiciones del pedido (se abre en otra pestaña) · Leí y acepto las condiciones del pedido. · Marca que leíste y aceptas las condiciones para pagar. |
+| Pagar (MATU-62) | Pagar {total} · Pagando… |
+| Salida | No pagar no tiene costo. · Cancelar pedido |
+| **Cancelar** | ¿Cancelar este pedido? · No tiene costo. · Cancelar pedido · Seguir con el pedido · Cancelando… · Cancelamos el pedido. No se cobró nada. · No pudimos cancelar el pedido. Revisa tu conexión y vuelve a intentarlo. Todo sigue como estaba. · Otra persona de tu grupo ya canceló este pedido. |
+| **Errores** | No pudimos traer tu pedido. Revisa tu conexión e inténtalo de nuevo. · No pudimos confirmar el total. Revisa tu conexión y vuelve a intentarlo. Tu pedido sigue aquí. · Ahora ningún comercio tiene estos productos. No hay nada que pagar. Tu pedido sigue aquí para intentarlo más tarde. · Este pedido cambió mientras lo revisabas. Te mostramos cómo quedó. · No encontramos este pedido. · Ir a tu pedido · El pedido no está disponible por ahora. |
+| **Grupo familiar** | Permiso para pedir sus insumos · Autorizado el {fecha}. · Autorizado el {fecha}. Hay que renovarlo desde el {fecha}. · Autorización retirada el {fecha}. · Sin permiso todavía. Se pide la primera vez que haces un pedido. · Para el lector: Retirar la autorización de los pedidos de {pila} · Volver a autorizar los pedidos de {pila} |
+| Ver la dirección (propuesta O12 del diseñador) | Ver la dirección de entrega · Para el lector: Ver la dirección de entrega de {pila} |
+| Retirar | ¿Retirar la autorización de los pedidos de {pila}? · Ya no se pueden hacer pedidos para {pila} desde MATU, desde ahora. · Cancelamos sin costo los pedidos sin pagar y borramos la dirección y el teléfono que se copiaron en ellos. · Los pedidos ya pagados siguen hasta que se entreguen. · La dirección de entrega de {pila} queda guardada para cuando vuelvas a autorizar. Puedes vaciarla cuando quieras. · La lista de insumos se puede seguir imprimiendo y compartiendo. · Su ficha, sus insumos y los enlaces de relevo no cambian. · Autorización retirada. Ya no se pueden hacer pedidos para {pila}. |
+| Volver a autorizar, hecho | Pedidos autorizados. Ya puedes hacer pedidos para {pila}. |
+| Aviso del piloto | El de la sección 11, una vez por pantalla con precios: tu pedido y antes de pagar |
+
+`{correo}` es el canal de reclamo de las condiciones del pedido, cuidaconmatu@gmail.com (D8). `{ventana}` es la ventana fija del piloto, «Entre 24 y 48 horas hábiles» (D8). «Pagar {total}» es de MATU-62: aquí solo se fija el texto.
+
+**Ninguno usa** los términos de la sección 3, «stock», «carro», «carrito», «reserva» (salvo en «No hay reserva ni cobros después.», que la niega), «tope», «estimado», «aprox.» ni «monto real». «Boleta» aparece solo en «En este piloto no se emite boleta».
