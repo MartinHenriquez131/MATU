@@ -141,3 +141,23 @@ Todas mujeres, de entre 30 y 79 años. Mediana de meses en cuidado: 36.
 | RF-02 / RF-03 / RF-42 | RF-02 es la ficha de 3 campos, RF-03 las secciones opcionales, RF-42 el llenado asistido. RF-08 se mantiene Debe por cumplimiento | Hecho, v1.1 |
 | Protocolo de entrevistas | Ajustes de instrumento de la sección 5 para las 4 entrevistas adicionales | Pendiente |
 | README | Siete hipótesis, estado de la validación y calendario real | Hecho |
+
+## 8. Ampliación: E11 a E14 (MATU-35, 10 y 11 de noviembre de 2026)
+
+Fueron cuatro familiares aportantes que no viven con la persona cuidada, reclutados **por canal concentrado**: los grupos de adultos mayores del municipio. Las fichas están en [`entrevistas/ampliacion-E11-E14.md`](entrevistas/ampliacion-E11-E14.md). Se aplican los criterios de la sección 7 del protocolo, fijados antes de entrevistar, sobre E01 a E14.
+
+| Hipótesis | E01 a E10 | E11 a E14 | Total | Criterio | Veredicto |
+|---|---|---|---|---|---|
+| **H5** · el gasto se reparte con fricción | 4 reparten (E04, E06, E09, E10) | E11, E12 y E14 reparten y cuentan roces. E13 no reparte de forma formal | **7** | ≥ 5 | **Validada** |
+| **H6** · quien paga no es quien cuida | Otro pagador: E07 y E09 | Los cuatro aportantes dicen que lo pondrían ellos (E12, entre hermanos y gestionado por él) | **6**, y además los aportantes dicen que ellos lo pondrían | ≥ 5, o los aportantes lo ponen | **Validada** |
+| **H7** · canal concentrado | 4 en padrón público (E01, E05, E06, E10) | Los cuatro llegaron por los grupos de adultos mayores del municipio, y E12 además recibe pañales del consultorio | **8** | ≥ 7 | **Validada** |
+
+**Lo que cambia, para decidir (PO):**
+- **H5 y H6 validadas:** los cuatro aportantes quieren pagar su parte por separado y lo pagarían ellos. Eso respalda que el reparto del pago (RF-22 a RF-24 y el prorrateo de RF-25) vuelva a la **hoja de ruta de la fase 2** como una prioridad. No entra al semestre: el alcance comprometido no cambia sin una decisión de Jorge.
+- **H6:** el destinatario comercial **no es solo la cuidadora**: el familiar que aporta paga y gestiona. Se revisa el mensaje de venta y el flujo de alta, pago y uso, que ya admite tres personas distintas.
+- **H7:** el municipio, con sus grupos de adultos mayores, es un canal concreto para llegar a las familias del piloto (arquitectura, sección 16.4).
+- **Disposición a pagar:** los cuatro pagarían $5.990 y ninguno $9.990. E11 y E13 ya pagan algo del cuidado.
+- **La ficha (ADR-028):** los cuatro usarían «Sus remedios». Faltan un contacto de emergencia visible (E11) y las alergias (E12, que ya están en «Comer y beber» y en «Sus remedios»). E11 dice que sobra la información muy clínica, lo que es coherente con la ficha sin diagnósticos.
+- **Gasto mensual en insumos** (sección 4): de $50.000 a $90.000, estimado. Promedio de E11 a E14: $72.500.
+
+**Desviación declarada:** E13 no tiene la hora registrada.
