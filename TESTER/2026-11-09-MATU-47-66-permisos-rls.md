@@ -50,5 +50,5 @@
 
 | ID | Respuesta | Commit o PR | Verificado (Martín) |
 |---|---|---|---|
-| H1 | | | |
-| H2 | | | |
+| H1 | Confirmado (decisión de Jorge del 10-11): solo admin y cuidador crean una autorización. La API ya lo decía, y la base lo repite como segunda barrera | comentario en MATU-66, sin código | |
+| H2 | De acuerdo: las `FOR ALL` que quedan se separan en las historias que dice el informe. MATU-61 y MATU-62 ya tienen su ítem en el «Paso a paso» | ítems de MATU-61 y MATU-62 | |

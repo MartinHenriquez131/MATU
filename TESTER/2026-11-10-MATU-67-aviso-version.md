@@ -41,4 +41,4 @@ Staging, Motorola Edge 50 con Edge, el 10-11 de 00:29 a 00:37 (informado por Mar
 
 | ID | Respuesta | Commit o PR | Verificado (Martín) |
 |---|---|---|---|
-| H1 | | | |
+| H1 | La descripción de la tarjeta dice `no-store` (decisión 172). El código no cambia | descripción de MATU-67 en Trello (10-11) | |
