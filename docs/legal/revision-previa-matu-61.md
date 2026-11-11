@@ -1,6 +1,6 @@
 # Revisión previa del analista normativo · MATU-61 · Pedido: carrito y qué hacer si falta un producto (RF-21)
 
-**10 de noviembre de 2026, noche** · Agente analista normativo, a pedido de Jorge · Estado: **decisiones D1 a D12 pendientes de Jorge (11-11)**
+**10 de noviembre de 2026, noche** · Agente analista normativo, a pedido de Jorge · Estado: **decisiones de Jorge en curso el 11-11 (sección 7)**
 
 Esto no es asesoría legal. El informe sirve para que Jorge decida. Lo que queda en REQUIERE CONSULTA LEGAL va a [`consulta-legal.md`](consulta-legal.md); la próxima pregunta es la CL-52. Nota del orquestador: la revisión de MATU-55 del mismo día también propuso una CL-52 distinta; esa queda como CL-53.
 
@@ -202,3 +202,7 @@ Guardamos qué versión de estas condiciones aceptaste, cuándo, y una huella de
 - **Seguras:** Ley 19.496, arts. 3 b), 12 A y 30, y WCAG 2.2.1.
 - **Según la investigación del 27-10, sin releerlas:** el art. 3 bis b) de la Ley 19.496, y los Decretos 52 (art. 4 N° 4 y art. 6) y 6 (arts. 11 y 18).
 - **Sin citas propias:** la Ley 21.719. La Ley 20.422 no se cita por artículo.
+
+## 7. Decisiones de Jorge (11 de noviembre)
+
+- **D1 · Autorización de pedidos:** se acepta la recomendación completa. Finalidad `despacho`. Se pide la primera vez que se toca «Pedir». La dan el admin y el cuidador, en la calidad de MATU-07, con revisión a los 12 meses y `declaracion_pedidos_<calidad>` con su huella. Se retira en Grupo familiar (`FINALIDADES_RETIRABLES` y el borrado). Al retirarla, los pedidos sin pagar pasan a `cancelado` y se borra su `pedido_entrega`, y los pagados siguen su plazo (CL-44).
