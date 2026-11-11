@@ -797,7 +797,7 @@ En la app se dice «Compré» y «Me quedan», nunca «reposición», «reponer�
 | Compré, cantidad junto al campo | La de la sección 21 («envase de {u} unidades», «envases de {u} unidades»), y sin envase la de la sección 18 («unidades», «sobres», «ml», «g») |
 | Compré, botón | Anotar la compra |
 | Me quedan, pregunta | ¿Cuántos quedan hoy, más o menos? (de la sección 18) |
-| Me quedan, ayuda | Reemplaza lo que calculábamos. Si no queda nada, escribe 0. |
+| Me quedan, ayuda | Reemplaza lo que calculábamos. Si no queda nada, escribe 0. (En envases, ver la sección 30.) |
 | Me quedan, botón | Anotar lo que queda |
 | En curso y cerrar | Guardando… · Volver (de la sección 17) |
 | Compra anotada | Compra anotada para «{nombre}»: {cantidad}. Ahora alcanza para {n} días, hasta el {fecha}. (Con 1: «1 día». Con 0: «Compra anotada para «{nombre}»: {cantidad}. Así, se acaba hoy.» Negativo: «… Según lo anotado, puede que ya no quede.») |
@@ -1013,6 +1013,26 @@ La política se muestra en la app, en /privacidad, desde «En un minuto» hasta 
 | Tu cuenta, enlace | Política de privacidad (se abre en otra pestaña) |
 
 «(se abre en otra pestaña)» se muestra en pantalla, no solo para el lector de pantalla. Cuando la política cambia mientras se crea la cuenta, la casilla se desmarca. El enlace de «Tu cuenta» usa el mismo texto de 7.5.
+
+## 30. «Me quedan» y el alta del insumo en envases (MATU-84) · Aprobados por Jorge el 10-11
+
+Solo para los insumos que se cuentan en unidades o en sobres. Los de ml y g siguen como en las secciones 18 y 23. Envases y sueltos se cuentan con «+» y «−», y la API recibe el total en la unidad del insumo. Con un envase de 1 unidad no se ofrece el modo envases. Reemplaza, para estos insumos, la regla de la sección 23 de que «Me quedan» va siempre en la unidad del insumo.
+
+| Dónde | Texto |
+|---|---|
+| Enlaces para cambiar de modo | Contar en envases · Contar sueltos |
+| Me quedan, ayuda en modo envases | Cuenta los envases enteros y, a ojo, lo suelto. Reemplaza lo que calculábamos. |
+| Alta y edición, ayuda en modo envases | Cuenta los envases enteros y, a ojo, lo suelto. (En la edición se suma a la ayuda de la sección 18.) |
+| Contadores | Envases enteros · Unidades sueltas · Sobres sueltos |
+| Sufijo mientras falta el envase | envases |
+| Ayuda del campo del envase en modo envases | Lo guardamos para la próxima vez y para la lista. |
+| Total en vivo | En total, quedan unas {n} unidades. · En total, quedan unos {n} sobres. · En total, queda 1 unidad. · En total, queda 1 sobre. · En total, no queda nada. |
+| Final de la confirmación, si se anotó el envase | También anotamos que cada envase trae {u} unidades. (o «sobres») |
+| Falta el envase | Escribe cuántas unidades trae cada envase. |
+| Envase fuera de rango | Escribe un número de 1 a 10.000. |
+| El total pasa de 100.000 | Con eso quedarían más de 100.000 unidades. Revisa cuántos envases y sueltos anotaste. (o «sobres») |
+
+Se usan tal cual: la pregunta «¿Cuántos quedan hoy, más o menos?» (sección 18), el botón «Anotar lo que queda» y la confirmación de lo que queda (sección 23), con el total en la unidad del insumo, y los errores de las secciones 18 y 23.
 
 ---
 
