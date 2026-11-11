@@ -224,19 +224,19 @@ Es aparte de la de la ficha y de la de los insumos, y se da en la misma calidad.
 
 **La propia persona (titular):**
 
-> Declaro que la persona que cuido me dijo hoy, en persona, que autoriza a MATU a guardar los pedidos de sus insumos, con los productos, la dirección de entrega, el teléfono de contacto y el pago, para preparar, entregar y responder por cada pedido, según la política de privacidad vigente. Yo solo registro su decisión.
+> Declaro que la persona que cuido me dijo hoy, en persona, que autoriza a MATU a guardar los pedidos de sus insumos, con los productos, la dirección de entrega, el teléfono de contacto y lo que se pagó, para preparar, entregar y responder por cada pedido, y a enviar al comercio que lo prepara solo los productos y las cantidades, según la política de privacidad vigente. Yo solo registro su decisión.
 
 **Su representante legal:**
 
-> Declaro que soy representante legal de la persona que cuido y que la referencia que indico corresponde al documento que lo acredita. Como su representante, autorizo a MATU a guardar los pedidos de sus insumos, con los productos, la dirección de entrega, el teléfono de contacto y el pago, para preparar, entregar y responder por cada pedido, según la política de privacidad vigente.
+> Declaro que soy representante legal de la persona que cuido y que la referencia que indico corresponde al documento que lo acredita. Como su representante, autorizo a MATU a guardar los pedidos de sus insumos, con los productos, la dirección de entrega, el teléfono de contacto y lo que se pagó, para preparar, entregar y responder por cada pedido, y a enviar al comercio que lo prepara solo los productos y las cantidades, según la política de privacidad vigente.
 
 **Cuidadora o cuidador de hecho:**
 
-> Declaro que cuido a esta persona y que no soy su representante legal. Autorizo a MATU a guardar los pedidos de sus insumos, con los productos, la dirección de entrega, el teléfono de contacto y el pago, para preparar, entregar y responder por cada pedido, según la política de privacidad vigente. Leí el aviso sobre el límite de esta autorización.
+> Declaro que cuido a esta persona y que no soy su representante legal. Autorizo a MATU a guardar los pedidos de sus insumos, con los productos, la dirección de entrega, el teléfono de contacto y lo que se pagó, para preparar, entregar y responder por cada pedido, y a enviar al comercio que lo prepara solo los productos y las cantidades, según la política de privacidad vigente. Leí el aviso sobre el límite de esta autorización.
 
 Con esta autorización guardamos, además, una huella del texto exacto de la declaración que viste.
 
-<!-- identificadores: declaracion_pedidos_titular, declaracion_pedidos_representante_legal, declaracion_pedidos_cuidador_de_hecho. Finalidad `despacho` (D1 de MATU-61). Redactadas desde el texto de la sección 4 de revision-previa-matu-61.md, con el armado de las de consumo. Pendientes de aprobación de Jorge al fusionar -->
+<!-- identificadores: declaracion_pedidos_titular, declaracion_pedidos_representante_legal, declaracion_pedidos_cuidador_de_hecho. Finalidad `despacho` (D1 de MATU-61). Redactadas desde el texto de la sección 4 de revision-previa-matu-61.md, con el armado de las de consumo. Aprobadas por Jorge el 11-11, con dos ajustes: «lo que se pagó» en vez de «el pago» y a quién se envía -->
 
 ## 6. Quién ve los datos
 
