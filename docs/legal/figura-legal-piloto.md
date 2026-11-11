@@ -101,7 +101,7 @@ La aplicación no debe limitar las formas de pago (decisión del 24/10/2026, reg
   - el canal de reclamo, el enlace a las condiciones del pedido y una salida sin costo
 
   Acepta las condiciones del pedido y recibe un comprobante.
-- **Quién vende.** MATU vende y emite una sola boleta por el total, con el envío incluido. Los comercios le cobran a MATU por cuenta corriente y no ven el nombre de nadie, solo la referencia del pedido y el código de retiro. Vender de verdad exige la persona jurídica de la sección 6. [PENDIENTE: consulta tributaria sobre el documento tributario cuando hay devolución]
+- **Quién vende.** Después del semestre: MATU vende y emite una sola boleta por el total, con el envío incluido. Los comercios le cobran a MATU por cuenta corriente y no ven el nombre de nadie, solo la referencia del pedido y el código de retiro. Vender de verdad exige la persona jurídica de la sección 6. [PENDIENTE: consulta tributaria sobre el documento tributario cuando hay devolución]
 - **Lo que el Decreto 6 de 2021 (Reglamento de Comercio Electrónico) pide a MATU como vendedor** (`investigacion-normativa-adr-027.md`, sección 1):
   - identificar al vendedor (art. 7);
   - mostrar el despacho separado del precio (art. 11);

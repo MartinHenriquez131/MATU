@@ -30,7 +30,7 @@
 **MATU-61 (11-11) · versión 0.12 (decisión D11 de Jorge del 11-11: una versión por fusión, numerada al fusionar):** se activan los pedidos de insumos hasta el total confirmado. El pago llega con MATU-62. Cambios, según la sección 3 de `revision-previa-matu-61.md` y las decisiones D1 a D12:
 - §2 y §10: el correo de contacto recibe también los reclamos de los pedidos (D8).
 - §3.6 y §4 «De tus pedidos»: qué se guarda de un pedido, sin el nombre de la persona (R7).
-- §4: la dirección se pide con el primer pedido, sin ubicación en el mapa, y se puede vaciar (C8, C11, D4 y C6 de Jorge).
+- §4: la dirección se pide con el primer pedido, sin ubicación en el mapa, y se puede vaciar (C8, C11, D4 y CJ6 de Jorge).
 - §5: la autorización de pedidos, aparte, con sus tres declaraciones `declaracion_pedidos_<calidad>` (D1).
 - §6: quién ve el pedido según su rol, y cada comercio ve solo sus productos y su referencia (R8, D7).
 - §8: lo no pagado se borra a los 30 días (D5).
@@ -38,7 +38,7 @@
 - §10: el retiro de la autorización de pedidos y el borrado de la persona con sus pedidos sin pagar (D1 y D2).
 - §12 y §13: la versión y lo que todavía no funciona.
 
-Cambia la versión porque agrega usos, datos y destinatarios. **Nadie vuelve a aceptar la política** ni a dar las autorizaciones de la ficha y de los insumos: el uso nuevo tiene su propia autorización expresa, con su declaración (D1). Las declaraciones de la ficha, de los insumos y el aviso del cuidador de hecho no cambian. Queda con la CL-24. Pendiente para la consulta legal: CL-52, y las CL-28, CL-33 y CL-44 ampliadas. **Pendiente de aprobación: la aprueba Jorge al fusionar**, junto con el texto de las tres declaraciones nuevas.
+Cambia la versión porque agrega usos, datos y destinatarios. **Nadie vuelve a aceptar la política** ni a dar las autorizaciones de la ficha y de los insumos: el uso nuevo tiene su propia autorización expresa, con su declaración (D1). Las declaraciones de la ficha, de los insumos y el aviso del cuidador de hecho no cambian. Queda con la CL-24. Pendiente para la consulta legal: CL-52, y las CL-28, CL-33 y CL-44 ampliadas. **Aprobada por Jorge el 11-11**, junto con el texto de las tres declaraciones nuevas (MATU-94, 74-1).
 
 ---
 
@@ -118,7 +118,7 @@ La persona que cuidas no tiene cuenta en MATU. Sus datos los ingresas tú.
 
 - Su nombre y el nombre con que la llaman.
 - Su nivel de apoyo: autovalente con supervisión, apoyo parcial o apoyo total.
-- Su dirección de entrega: calle, número, depto, comuna y una referencia, si la escribes. No la pedimos al registrarla: la pedimos con el primer pedido y la guardamos para los próximos. La usamos solo para entregar sus pedidos. No guardamos su ubicación en el mapa. En la referencia no escribas datos de salud. Quien administra el grupo o quien la cuida puede cambiarla o vaciarla cuando quiera, aunque se haya retirado la autorización de los pedidos. <!-- D4, C8, C9 y C11 de MATU-61, y C6 y C8 de Jorge -->
+- Su dirección de entrega: calle, número, depto, comuna y una referencia, si la escribes. No la pedimos al registrarla: la pedimos con el primer pedido y la guardamos para los próximos. La usamos solo para entregar sus pedidos. No guardamos su ubicación en el mapa. En la referencia no escribas datos de salud. Quien administra el grupo o quien la cuida puede cambiarla o vaciarla cuando quiera, aunque se haya retirado la autorización de los pedidos. <!-- D4, C8, C9 y C11 de MATU-61, y CJ6 y CJ8 de Jorge -->
 - La autorización: quién la dio, en qué calidad y cuándo, y la referencia al documento si quien autoriza es su representante legal.
 - Si diste la autorización como cuidadora o cuidador de hecho, la fecha en que te pediremos confirmar que sigues a cargo, 12 meses después.
 - La ficha de relevo, con sus tres campos: **Su día**, **Si se altera** y **A quién llamar**. También guardamos quién escribió cada campo y cuándo.
@@ -263,7 +263,7 @@ Con esta autorización guardamos, además, una huella del texto exacto de la dec
 
 **La lista de insumos**. Con los insumos que se acaban pronto, MATU arma una lista con el nombre de cada insumo y una cantidad sugerida: lo que falta para cubrir 30 días, descontando lo que MATU calcula que queda, en envases si anotaste cuántas unidades trae cada uno. En la pantalla ves también cuántos días le quedan, pero eso no sale en lo que imprimes o compartes. La ven todas las personas del grupo. Quien administra, cuida o paga puede imprimirla, guardarla como PDF o compartirla como texto desde su teléfono, con la aplicación que elija. El observador la ve, sin esas opciones. Antes de imprimirla o compartirla puedes agregar otros insumos y cambiar las cantidades. Eso queda solo en tu pantalla y MATU no lo guarda. La lista no lleva el nombre de la persona que cuidas, ni nada de su ficha, ni precios, pero el nombre de un insumo puede decir algo de su salud. MATU no envía la lista, no crea un enlace para verla y no sabe si la imprimiste ni a quién se la mandaste. Lo que imprimas o compartas sale de MATU: queda en el papel, en tu teléfono o en la aplicación que usaste, y MATU no puede borrarlo, aunque después elimines el insumo o retires la autorización. Compártela solo con quien la necesita para comprar. <!-- MATU-60 -->
 
-**Los pedidos**, según el rol de cada persona del grupo: <!-- C3 de Jorge y D12 de MATU-61 -->
+**Los pedidos**, según el rol de cada persona del grupo: <!-- CJ3 de Jorge y D12 de MATU-61 -->
 - **Administrador y cuidador:** arman el pedido, eligen qué hacer si falta cada producto, agregan, cambian o vacían la dirección de entrega, cambian el teléfono de contacto, confirman el total y cancelan un pedido sin pagar.
 - **Pagador:** ve el pedido, la dirección, el teléfono de contacto y el resumen antes de pagar, sin cambiar nada.
 - **Observador:** ve los productos del pedido, sin la dirección, el teléfono de contacto ni el resumen.
@@ -375,7 +375,7 @@ Puedes retirar cada autorización por separado, cuando quieras y sin dar un moti
 - Una lista de insumos que ya imprimiste o compartiste no se borra, porque está fuera de MATU.
 - La ficha, los enlaces de relevo y los pedidos no cambian.
 
-**Si retiras la autorización de los pedidos:** <!-- D1 de MATU-61, y C6 de Jorge -->
+**Si retiras la autorización de los pedidos:** <!-- D1 de MATU-61, y CJ6 de Jorge -->
 - Ya no se pueden hacer pedidos para la persona desde MATU, desde ese momento.
 - Cancelamos sin costo sus pedidos sin pagar y borramos la dirección y el teléfono que se copiaron en ellos. Lo demás de esos pedidos se borra a los 30 días (sección 8). Si en ese momento los pedidos no están disponibles en MATU, todo lo de esos pedidos se borra a los 30 días.
 - Los pedidos ya pagados, cuando existan los pagos, siguen hasta que se entreguen y se guardan el plazo de la sección 8. <!-- PENDIENTE: CL-44 -->
