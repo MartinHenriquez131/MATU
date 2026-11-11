@@ -62,5 +62,5 @@ Staging, Motorola Edge 50 con Edge, **con la letra del teléfono al máximo**, e
 | ID | Respuesta | Commit o PR | Verificado (Martín) |
 |---|---|---|---|
 | H1 | «Para desplegar» en cada PR, desde el 09-11 | — | sí |
-| H2 | | | |
-| H3 | | | |
+| H2 | La 0021, su prueba y la decisión 178 citan CL-49 | MATU_PROYECTO #79 (c1512a9) | |
+| H3 | Decisión de Jorge del 10-11: se decide en MATU-81, cuando exista la consola de operación. Hoy ninguna ruta ni tarea usa ese permiso | ítem y comentario en MATU-81 | |
