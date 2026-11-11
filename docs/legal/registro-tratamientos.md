@@ -382,7 +382,7 @@ Cada historia que empieza a tratar datos personales agrega aquí su entrada.
 - **Datos:** el correo y el nombre de quien escribe, el mensaje y la respuesta. Un reclamo puede traer además el pedido al que se refiere, sus productos o la dirección. Puede traer datos sensibles, aunque la política pide no incluirlos. **Es un tratamiento de datos reales durante el piloto.**
 - **Base de licitud:** atender los derechos del titular. Para los reclamos de un pedido, responder al reclamo de quien compra. [PENDIENTE: consulta legal, junto con CL-48, también para los reclamos]
 - **Quién accede:** Jorge y Martín, con una cuenta de la función, verificación en dos pasos y sin reenvío a correos personales.
-- **Conservación:** hasta 2 años después de cerrar la solicitud, también un reclamo. Después queda solo una lista con la fecha, el tipo de solicitud y la fecha de respuesta, sin el contenido (decisión de Jorge del 09-11).
+- **Conservación:** hasta 2 años después de cerrar la solicitud, también un reclamo. Después queda solo una lista con la fecha, el tipo de solicitud y la fecha de respuesta, sin el contenido (decisión de Jorge del 09-11; para los reclamos, decisión de Jorge del 11-11, por confirmar en CL-48).
 - **Encargado:** Gmail, de Google LLC, en Estados Unidos. [PENDIENTE: revisar sus condiciones]
 - **Transferencia internacional:** Estados Unidos (Google LLC). [PENDIENTE: consulta legal sobre la transferencia internacional, CL-51]
 - **Medidas:**
