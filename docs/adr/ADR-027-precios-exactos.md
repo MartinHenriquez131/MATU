@@ -70,8 +70,8 @@ El ADR-006 resolvía un precio que no se conocía hasta que el comercio preparab
 
 ## Riesgo declarado
 
-- **Devolución excepcional.** Hay que verificar en el ambiente de integración que se admita la anulación parcial de una venta normal con crédito y con débito, y los plazos máximos de anulación de Transbank. Si no se admite, se define otro medio antes del sprint 4, sin pedir datos bancarios a la familia salvo que se apruebe como tratamiento nuevo en la política de privacidad y en el registro de tratamientos.
-- **La prueba de concepto verificó la captura diferida, no la venta normal.** Faltan los casos de venta normal con crédito y con débito, la anulación parcial con los dos y el retorno duplicado en venta normal.
+- **Devolución excepcional.** Hay que verificar en el ambiente de integración que se admita la anulación parcial de una venta normal con crédito y con débito, y los plazos máximos de anulación de Transbank. Si no se admite, se define otro medio antes del sprint 4, sin pedir datos bancarios a la familia salvo que se apruebe como tratamiento nuevo en la política de privacidad y en el registro de tratamientos. **Verificado el 10 de noviembre:** la anulación parcial funciona con crédito y con débito ([prueba de concepto](../pruebas-concepto/transbank.md)). Los plazos máximos de anulación no se miden en integración, y quedan como supuesto de hasta 90 días, por confirmar con Transbank.
+- **La prueba de concepto verificó la captura diferida, no la venta normal.** Faltan los casos de venta normal con crédito y con débito, la anulación parcial con los dos y el retorno duplicado en venta normal. **Se corrieron el 10 de noviembre y cumplen** (estrategia de pruebas, sección 10.2).
 - **Precios al día.** Los precios exactos dependen de que el comercio mantenga su catálogo al día, y el convenio debe obligarlo a hacerlo. Sin convenio, el piloto usa precios de ejemplo y lo declara en la interfaz.
 - **Consulta legal antes de cobrar dinero real.** Hay que validar las decisiones de producto del 26 de octubre (MATU como vendedor, devolución y cancelación) y resolver:
   - el retracto;
