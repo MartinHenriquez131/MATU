@@ -12,7 +12,7 @@
 **MATU-84 (11-11):** entra la sección 30, «Me quedan» y el alta del insumo en envases. Aprobados por Jorge el 10-11.
 **MATU-88 (11-11):** la 5.1 suma la pregunta del relevo, sin «Puedes contar un día bueno o uno difícil.», con el criterio de la 5.3. En los insumos en sobres, el campo y el error del envase dicen «sobres» en vez de «unidades» (H2 del TESTER de MATU-84). La 5.1 es decisión de Jorge del 11-11, y el envase en sobres es del orquestador, por delegación de Jorge del mismo día.
 **MATU-61 (11-11):** entra la sección 31, el pedido, con los textos de la especificación de pantallas v1.1 (sección 15). Con la decisión D10 de Jorge cambian la 21 (la lista nunca compra sola), la 23 («Compré» nunca hace un pedido) y la 27 («Agregar al pedido» en el catálogo). La 17 mantiene «El aviso nunca ofrece comprar.». Por aprobar por Jorge al fusionar.
-**MATU-62 (11-11):** entra la sección 32, el pago, con los textos de la especificación de pantallas v1.1 (sección 12). La 31 admite «Este comprobante no es una boleta.» (D-62-7), el aviso de los 2 minutos también para el pagador (D-62-14) y un punto nuevo en «Retirar». Decisiones del orquestador por delegación de Jorge del 11-11. Los textos **[NUEVO]** los aprueba Jorge al fusionar.
+**MATU-62 (11-11):** entra la sección 32, el pago, con los textos de la especificación de pantallas v1.1 (sección 12). La 31 admite «Este comprobante no es una boleta.» (D-62-7), el aviso de los 2 minutos también para el pagador (D-62-14) y un punto nuevo en «Retirar». Decisiones del orquestador por delegación de Jorge del 11-11. Los textos **[NUEVO]** los aprobó Jorge el 12-11.
 **Fuentes:** resultados de las entrevistas (`docs/resultados-entrevistas.md`), arquitectura sección 10, política de privacidad v0.9, la demo aprobada (`Demo/src/`, rama `demo-web-viernes-30`) y el contrato de MATU-09 (`docs/api/`, rama `matu-09-contrato-api`).
 
 ---
@@ -1126,7 +1126,7 @@ Los textos salen de la especificación de pantallas de MATU-61, v1.1 del 11-11 (
 
 **Ninguno usa** los términos de la sección 3, «stock», «carro», «carrito», «reserva» (salvo en «No hay reserva ni cobros después.», que la niega), «tope», «estimado», «aprox.» ni «monto real». «Boleta» aparece solo en «En este piloto no se emite boleta» y en «Este comprobante no es una boleta.» (sección 32, D-62-7).
 
-## 32. Pago (MATU-62) · Por aprobar por Jorge al fusionar
+## 32. Pago (MATU-62) · Aprobados por Jorge el 12-11
 
 Los textos salen de la especificación de pantallas de MATU-62, v1.1 del 11-11 (`docs/diseno/matu-62-pago.md`, sección 12), que marca el origen de cada uno: [A5.4] los propuestos por el analista normativo en la segunda revisión previa (`legal/revision-previa-matu-62-segunda.md`), [L 31] los que ya están en la sección 31, [D-62-x] las decisiones del orquestador por delegación de Jorge y **[NUEVO]** o **[AJUSTE]** los del diseñador. Las llaves son datos de la API, con el formato de la sección 31. `{referencia}` es el número corto del pedido, de 4 a 6 cifras, `{ultimos4}` las cuatro últimas cifras de la tarjeta y `{codigo}` el código de autorización de Transbank.
 

@@ -50,7 +50,7 @@ Cambia la versión porque agrega usos, datos y destinatarios. **Nadie vuelve a a
 - §4: la dirección lista todos sus campos, también la región y su nombre (P3 de la revisión de Martín a MATU-61, MATU-94).
 - §12 y §13: la versión y lo que todavía no funciona.
 
-Cambia la versión porque agrega datos (el pago) y un destinatario (Transbank). **Nadie vuelve a aceptar la política** ni a dar las autorizaciones: quien paga acepta las condiciones del pedido, con su propia huella, y la autorización de pedidos ya cubre los productos (CL-24). Pendiente para la consulta legal: CL-54 a CL-56 y CL-64 a CL-66. **La redactó el orquestador por delegación de Jorge del 11-11, con los textos del analista. La aprueba Jorge al fusionar.**
+Cambia la versión porque agrega datos (el pago) y un destinatario (Transbank). **Nadie vuelve a aceptar la política** ni a dar las autorizaciones: quien paga acepta las condiciones del pedido, con su propia huella, y la autorización de pedidos ya cubre los productos (CL-24). Pendiente para la consulta legal: CL-54 a CL-56 y CL-64 a CL-66. **La redactó el orquestador por delegación de Jorge del 11-11, con los textos del analista. Aprobada por Jorge el 12-11.**
 
 ---
 
