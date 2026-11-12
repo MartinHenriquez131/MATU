@@ -656,7 +656,7 @@ En los orígenes, «Trello» es un comentario de la tarjeta de consulta legal, c
 - **Se cierra en:** condiciones del pedido 0.2, §3 y §9.
 - **Respuesta:** —
 
-**Se amplían con MATU-62:** CL-44 (el retiro o el borrado con un pago en curso: si se aprueba, se anula completo el mismo día) y CL-28 (apunta a la CL-64). La próxima libre es la **CL-67**. La CL-53 es de MATU-55 y entra con su rama.
+**Se amplían con MATU-62:** CL-44 (el retiro o el borrado con un pago en curso: si se aprueba, se anula completo el mismo día) y CL-28 (apunta a la CL-64). La CL-67 es de MATU-94 y la CL-53 de MATU-55, que entran con sus ramas. La próxima libre es la **CL-68**.
 
 ## Condiciones antes de datos reales
 
