@@ -273,3 +273,30 @@ Ninguna bloquea el semestre, que trabaja solo con datos sintéticos.
   - `app/modules/care_plan/infrastructure/auditoria_ficha.py`;
   - `app/main.py`, líneas 98 a 106.
 - **Contrato:** `docs/api/README.md` (P2-2, línea 396) y `docs/api/openapi.json` (lista de rutas).
+
+## Decisiones de Jorge (12 de noviembre de 2026)
+
+Jorge decidió las primeras cinco de MATU-55 una por una y delegó el resto con «todas de acuerdo a tus recomendaciones». Se aplican las recomendaciones actualizadas del analista, que tienen en cuenta MATU-61, 62 y 94. Versión de la política según la D11, una por fusión. Fila de migraciones: 0024 MATU-62, 0025 MATU-55, 0026 MATU-42, 0027 MATU-46 y 0028 MATU-54. La próxima CL libre es la CL-68.
+
+| Id | Decisión |
+|---|---|
+| D-54-1 | **a)** la copia de la persona la piden el admin y el cuidador |
+| D-54-2 | **a)** dos copias: «Datos de {nombre}» y «Tus datos» |
+| D-54-3 | **a)** la pantalla y un JSON |
+| D-54-4 | **a)** nombres sí; teléfonos, correos y la referencia al documento no. Tampoco el teléfono de contacto del pedido ni los datos de la venta (token, orden, sesión, código de autorización). El nombre de quien pagó sí |
+| D-54-5 | **a)** con una autorización retirada o en pausa, solo el estado y la fecha de borrado |
+| D-54-6 | **a)** la auditoría como hoy, por RLS |
+| D-54-7 | **a)** la **0028** agrega `persona_cuidada_id` a la auditoría; también la llenan `pedido.*`, `pago.*`, `direccion.cambiar` y la autorización de pedidos. Se verifica que las filas del sistema lleven `grupo_id` |
+| D-54-8 | **a)** la descarga sin detalle |
+| D-54-9 | **a)** 90 días en pantalla y todo en el archivo |
+| D-54-10 | **a)** 10 copias por hora, con la CL-63 |
+| D-54-11 | **a)** «En el piloto no salió» para los avisos simulados |
+| D-54-12 | Ya no hace falta: la resolvió la D11 |
+| D-54-13 | **a)** «Datos de {nombre}» y «Tus datos» |
+| D-54-14 | Sí: la copia de la persona trae sus pedidos y pagos (productos, precios con IVA incluido, envío, total, estados, la dirección copiada, si se pagó y quién pagó, lo cobrado y lo devuelto, y la autorización de pedidos), sin el teléfono de contacto ni datos de la tarjeta |
+| D-54-15 | **a)** se incluye igual con la autorización de pedidos retirada o la capa 3 apagada; con la capa quitada, el bloque se omite sin fallar |
+| D-54-16 | **a)** «Tus datos» de quien pagó trae sus pagos (tipo de tarjeta, cuotas y últimos 4 dígitos) y las condiciones que aceptó; nunca el token, la orden ni la sesión |
+
+**CL-68 nueva (Pedidos y pagos en la copia):** ¿se puede entregar al admin y al cuidador el historial de pedidos de la persona con el nombre de quien pagó? ¿Conserva quien pagó y salió del grupo el acceso a sus pagos? Se relaciona con CL-11, 12, 61 y 66. Bloquea los datos reales.
+
+**Ajustes:** la migración es la 0028 (después de la 0025 de MATU-55, que hace la política de lectura de la auditoría si va primero); el JSON lleva los precios con IVA incluido, sin un campo `iva`; el módulo lee los pedidos por un puerto que devuelve vacío sin la capa 3; se borra «la próxima es CL-64».
