@@ -160,4 +160,11 @@ Fueron cuatro familiares aportantes que no viven con la persona cuidada, recluta
 - **La ficha (ADR-028):** los cuatro usarían «Sus remedios». Faltan un contacto de emergencia visible (E11) y las alergias (E12, que ya están en «Comer y beber» y en «Sus remedios»). E11 dice que sobra la información muy clínica, lo que es coherente con la ficha sin diagnósticos.
 - **Gasto mensual en insumos** (sección 4): de $50.000 a $90.000, estimado. Promedio de E11 a E14: $72.500.
 
+**Decisiones de Jorge (11-11, revisión cruzada de MATU #72):**
+- **Pago dividido:** el reparto del pago (RF-22 a RF-24) y el prorrateo (RF-25) vuelven a la hoja de ruta como **fase 2, prioridad 1**. El semestre no cambia: el ADR-027 sigue con un solo pagador.
+- **Mensaje comercial:** MATU habla a dos destinatarios, quien cuida y quien aporta. La presentación final no cambia. La ronda 2 de usabilidad (MATU-65) suma una tarea con el rol pagador. El mensaje de venta se rehace en la fase 2.
+- **La ficha:** ningún campo nuevo. «A quién llamar» ya es el contacto de emergencia y se revisa que se vea a primera vista en el relevo. Las alergias entran como recordatorio en las preguntas guía de «Sus remedios» y «Comer y beber», sin un campo clínico (MATU-95, sprint 5).
+- **Disposición a pagar y canal:** los $5.990 y el canal municipal quedan como datos para el modelo de negocio de la fase 2.
+- **La desviación de E13 y el día de atraso** (E13 y E14 el 11-11, por el máximo de 2 por día del protocolo §8) se aceptan: no cambian ningún veredicto.
+
 **Desviación declarada:** E13 no tiene la hora registrada.
