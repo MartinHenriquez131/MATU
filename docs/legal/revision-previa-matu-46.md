@@ -200,3 +200,19 @@ Ninguna bloquea el semestre, que usa datos sintéticos.
 ## Certeza de las citas
 
 No cita artículos: ninguna conclusión depende de uno. La WCAG y la Ley 20.422 no aplican, porque no hay pantallas nuevas.
+
+## Decisiones de Jorge (12 de noviembre de 2026)
+
+Jorge decidió las primeras cinco de MATU-55 una por una y delegó el resto con «todas de acuerdo a tus recomendaciones». Se aplican las recomendaciones actualizadas del analista, que tienen en cuenta MATU-61, 62 y 94. Versión de la política según la D11, una por fusión. Fila de migraciones: 0024 MATU-62, 0025 MATU-55, 0026 MATU-42, 0027 MATU-46 y 0028 MATU-54. La próxima CL libre es la CL-68.
+
+| Id | Decisión |
+|---|---|
+| D-46-1 | Ya no hace falta: la migración es la **0027** (`down_revision = "0026"`) |
+| D-46-2 | **a)** una prueba enfocada de que el borrado no toca los accesos de otra persona del grupo |
+| D-46-3 | **a)** al borrar a la persona, el teléfono del relevo se borra al tiro |
+| D-46-4 | **c)** `telefono_borrado_en` y un contador |
+| D-46-5 | Ya no hace falta: el borrado a los 3 años va en MATU-89 |
+| D-46-6 | Ya no hace falta: la resolvió la D11 |
+| D-46-7 | Sí: se anota en MATU-42 y en la tarjeta de eliminar la cuenta que `nombre_pila_comparte` debe anonimizarse |
+
+**Ajustes:** `conservacion_relevo` va en `BORRADOS_DIARIOS` y corre siempre; las pruebas corren solo contra una base de pruebas (MATU-94); se borra «la próxima pregunta pasa a ser la CL-61».
