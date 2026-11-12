@@ -38,7 +38,7 @@
 - §10: el retiro de la autorización de pedidos y el borrado de la persona con sus pedidos sin pagar (D1 y D2).
 - §12 y §13: la versión y lo que todavía no funciona.
 
-Cambia la versión porque agrega usos, datos y destinatarios. **Nadie vuelve a aceptar la política** ni a dar las autorizaciones de la ficha y de los insumos: el uso nuevo tiene su propia autorización expresa, con su declaración (D1). Las declaraciones de la ficha, de los insumos y el aviso del cuidador de hecho no cambian. Queda con la CL-24. Pendiente para la consulta legal: CL-52, y las CL-28, CL-33 y CL-44 ampliadas. **Pendiente de aprobación: la aprueba Jorge al fusionar**, junto con el texto de las tres declaraciones nuevas.
+Cambia la versión porque agrega usos, datos y destinatarios. **Nadie vuelve a aceptar la política** ni a dar las autorizaciones de la ficha y de los insumos: el uso nuevo tiene su propia autorización expresa, con su declaración (D1). Las declaraciones de la ficha, de los insumos y el aviso del cuidador de hecho no cambian. Queda con la CL-24. Pendiente para la consulta legal: CL-52, y las CL-28, CL-33 y CL-44 ampliadas. **Aprobada por Jorge el 11-11**, junto con el texto de las tres declaraciones nuevas (MATU-94, 74-1).
 
 
 **MATU-62 (11-11) · versión 0.13 (D11: una versión por fusión):** se activa el pago del total confirmado en Webpay Plus, en el ambiente de prueba de Transbank. Cambios, según la sección 5.1 de `revision-previa-matu-62-segunda.md` y las decisiones D-62-1 a D-62-17 y P-62-1 a P-62-9:
