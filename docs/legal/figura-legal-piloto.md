@@ -36,7 +36,7 @@ La constitución de una persona jurídica y el alta comercial en Transbank queda
 
 > ADR-027 (27-10), aprobado por Jorge.
 
-- Demostrar el flujo de pago completo con las credenciales de integración de Transbank y sus tarjetas de prueba, en venta normal de Webpay Plus, con crédito y con débito. [PENDIENTE: verificar que el comercio de integración de venta normal ofrece débito]
+- Demostrar el flujo de pago completo con las credenciales de integración de Transbank y sus tarjetas de prueba, en venta normal de Webpay Plus, con crédito y con débito. Verificado el 10-11 en integración: el comercio de venta normal ofrece débito (MATU_PROYECTO #77 y #78, MATU-62).
 - Mostrar un catálogo con precios de ejemplo, rotulados como tales junto a cada precio. Texto propuesto por el analista normativo: "Precios de ejemplo. MATU todavía no tiene convenio con comercios, y en esta demo no se cobra dinero real." [PENDIENTE: texto definitivo del diseñador y de docs/lenguaje.md]
 - Usar datos sintéticos generados por las fábricas de prueba o escritos por el equipo.
 - Mostrar la aplicación al profesor, a la comisión y a quienes evalúan el proyecto.
@@ -80,9 +80,27 @@ Durante el semestre, el responsable es el equipo del proyecto, Jorge Espinoza y 
 
 La aplicación no debe limitar las formas de pago (decisión del 24/10/2026, registrada en `docs/pruebas-concepto/transbank.md`). El ADR-027 lo cumple con un solo cobro que funciona igual con crédito y con débito, y reemplaza el plan B del ADR-006 que ocupaba esta sección.
 
-- **Un solo cobro del total confirmado.** Productos a precio exacto con IVA más un envío único por pedido, en venta normal de Webpay Plus. No hay reserva con margen, captura diferida ni cobros después.
+**Lo que acepta la familia está en las condiciones del pedido** ([`condiciones-pedido.md`](condiciones-pedido.md), versión 0.1 del piloto, aprobada por Jorge el 11-11, MATU-61). Esta sección explica por qué el pago funciona así. Si las dos dicen algo distinto, mandan las condiciones para lo que se le informa a la familia, y se corrige esta sección. Durante el piloto las condiciones dicen:
+- Vende MATU, piloto académico, sin persona jurídica, y en el piloto no se emite boleta (D8). La boleta única por el total que se describe abajo es la de después del semestre, con la persona jurídica de la sección 6. [PENDIENTE: CL-46 y CL-47]
+- La entrega llega entre 24 y 48 horas hábiles (D8).
+- Los reclamos se escriben a cuidaconmatu@gmail.com (D8).
+- Se guarda qué versión de las condiciones aceptó la familia, cuándo, y una huella del texto exacto que vio (D6). La aceptación se registra al tocar «Pagar», en MATU-62.
+
+**Cómo funciona el pago:**
+
+- **Un solo cobro del total confirmado.** Productos a precio exacto, con IVA incluido, más un envío único por pedido, en venta normal de Webpay Plus. No hay reserva con margen, captura diferida ni cobros después.
 - **El total confirmado vale 15 minutos.** Si vence, se vuelve a confirmar y la pantalla lo dice. No pagar no tiene costo.
-- **Antes de pagar, la familia ve:** los productos con cantidad, precio y subtotal; los que salieron por no disponibles; los que cambiaron de precio o de comercio respecto de la lista; qué eligió para cada producto si falta (RF-21); el envío y el total con IVA; quién emite la boleta; la ventana de entrega; y qué pasa si falta un producto, con el medio y el plazo de la devolución. Acepta las condiciones del pedido y recibe un comprobante.
+- **Antes de pagar, la familia ve** (C1 de la revisión previa de MATU-61):
+  - los productos con cantidad, precio y subtotal, y el retracto en cada línea
+  - los que salieron por no disponibles, y los que cambiaron de precio o de comercio respecto de su pedido
+  - qué eligió para cada producto si falta (RF-21)
+  - el envío aparte y el total, con IVA incluido, y hasta qué hora vale
+  - quién vende y si se emite boleta
+  - la ventana de entrega
+  - qué pasa si falta un producto, con el medio y el plazo de la devolución
+  - el canal de reclamo, el enlace a las condiciones del pedido y una salida sin costo
+
+  Acepta las condiciones del pedido y recibe un comprobante.
 - **Quién vende.** MATU vende y emite una sola boleta por el total, con el envío incluido. Los comercios le cobran a MATU por cuenta corriente y no ven el nombre de nadie, solo la referencia del pedido y el código de retiro. Vender de verdad exige la persona jurídica de la sección 6. [PENDIENTE: consulta tributaria sobre el documento tributario cuando hay devolución]
 - **Lo que el Decreto 6 de 2021 (Reglamento de Comercio Electrónico) pide a MATU como vendedor** (`investigacion-normativa-adr-027.md`, sección 1):
   - identificar al vendedor (art. 7);
@@ -95,7 +113,7 @@ La aplicación no debe limitar las formas de pago (decisión del 24/10/2026, reg
 - **La devolución por falta de un producto.** Antes de pagar, la familia elige por cada producto qué hace MATU si falta (RF-21): buscar el mismo producto en otro comercio en convenio, que es lo que pasa si no elige, o quitarlo y devolver su precio. Si se busca en otro comercio, MATU asume la diferencia de precio. Nunca se cambia por otra marca ni por otro producto. Si la familia eligió quitarlo, o ningún comercio lo tiene, se devuelve su precio a la misma tarjeta, por anulación de Webpay Plus, y se avisa a la familia en el momento. Si no se entrega ningún producto, se devuelve también el envío.
 - **El plazo de esa devolución lo fijan los términos del pedido.** No se encontró un plazo legal específico; la Ley 19.496 (arts. 3 e) y 12) y el Decreto 6 (arts. 12 y 13) piden cumplir lo ofrecido de forma oportuna (`investigacion-normativa-adr-027.md`, sección 2). Texto de los términos: "Si un producto no se puede entregar, anulamos su cobro el mismo día". La pantalla no promete cuándo se ve el dinero: "Cuándo lo ves en tu cuenta depende de tu banco." Si la entrega pasa del plazo informado, se avisa y la familia elige entre esperar o recibir la devolución.
 - **Si falta la entrega** (decisión de Jorge, 27-10, la opción más protectora): MATU devuelve el mismo día, responde ante la familia y después repite contra el comercio según el convenio. Los términos del pedido no limitan ninguna indemnización que corresponda.
-- [PENDIENTE: verificar en integración, antes del sprint 4, que se admite la anulación parcial de una venta normal con crédito y con débito, y los plazos máximos de anulación de Transbank. Si no se admite, se define otro medio sin pedir datos bancarios a la familia, salvo que se apruebe como tratamiento nuevo]
+- Verificado el 10-11 en integración (MATU_PROYECTO #77 y #78): la anulación parcial de una venta normal se admite con crédito y con débito. Quedan por verificar los plazos máximos de anulación con débito antes del dinero real. Si la anulación no es posible, se reintenta y se le escribe a la familia, sin pedir datos bancarios (D-62-6 a). [PENDIENTE: CL-55 y los plazos de Transbank]
 - **Derecho a retracto.** Aplica: son compras a distancia, con 10 días desde que se recibe el producto (Ley 19.496, art. 3 bis b). En los productos de uso personal o de higiene sellados, se pierde solo si se abre el sello después de recibirlos (Decreto 52 de 2024, art. 4 N° 4) (`investigacion-normativa-adr-027.md`, sección 1). Cómo se informa:
   - junto al precio y en el resumen antes de pagar, con una advertencia no menor que el precio y con las palabras "derecho a retracto" (Decreto 52, art. 6): "Derecho a retracto: tienes 10 días desde que lo recibes. No aplica si abres el sello del producto";
   - en el pedido entregado, la acción "Arrepentirme de la compra" durante 10 días;

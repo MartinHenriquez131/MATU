@@ -7,7 +7,7 @@
 - Es **la lista única de preguntas para el abogado y para el contador** que hay que responder antes de operar con datos reales o con dinero real.
 - **No es asesoría legal.** Las preguntas las formuló el analista normativo, que no es abogado, y sirven para preparar la consulta. Las respuestas las dan el abogado y el contador.
 - **El semestre opera solo con datos sintéticos**, en el ambiente de integración de Transbank y sin cobros reales (`figura-legal-piloto.md`). Por eso ninguna de estas preguntas bloquea el semestre.
-- **La regla de ahora en adelante:** cada pregunta nueva entra aquí con el número siguiente (la próxima es CL-52), dentro de su tema. La tarjeta de Trello «Antes de datos reales · Consulta legal sobre el cuidador de hecho» solo enlaza a este archivo.
+- **La regla de ahora en adelante:** cada pregunta nueva entra aquí con el número siguiente, dentro de su tema. La última de MATU-61 es la CL-52. La CL-53 es de MATU-55, en otra rama, y puede haber otros números tomados en ramas abiertas: el número se confirma al fusionar. La tarjeta de Trello «Antes de datos reales · Consulta legal sobre el cuidador de hecho» solo enlaza a este archivo.
 - **Las numeraciones antiguas dejan de usarse.** Las CL-1 a CL-4 de MATU-60, las CL-1 a CL-8 de MATU-44 y MATU-72, las 1 a 17 de MATU-26 y MATU-04, las del ADR-027 y las de cada revisión se traducen con la tabla de equivalencias del final.
 - **Cuando llega una respuesta,** se anota en su casilla con la fecha y quién respondió. Después se lleva a la política de privacidad, al registro de tratamientos o al ADR que corresponda, y se cierra el `[PENDIENTE]` que indica la pregunta.
 
@@ -334,11 +334,13 @@ En los orígenes, «Trello» es un comentario de la tarjeta de consulta legal, c
 
 ### CL-28 · El plazo de los pagos y los pedidos
 
-- **Pregunta:** ¿corresponde guardar 6 años los pagos y las boletas, y 2 años los pedidos y los comprobantes de entrega?
-- **Origen:** MATU-26, revisión previa, Trello del 21 de octubre de 2026, pregunta 12, primera parte.
-- **Mientras tanto:** el registro declara 2 años para pedidos y 6 años para pagos y boletas (arquitectura, sección 11.8).
-- **Bloquea:** dinero real.
-- **Se cierra en:** política, sección 4, «De tus pedidos» («[PENDIENTE: confirmar en la versión 1.0]»). Registro, entrada 2, conservación.
+- **Pregunta:** ¿corresponde guardar 6 años los pagos y las boletas, y 2 años los pedidos y los comprobantes de entrega? **Ampliada con MATU-61:** ¿basta con borrar a los 30 días lo que nunca se pagó (el pedido en armado, el de total vencido y el cancelado sin pago), con su línea de tiempo, en vez de guardarlo 2 años? ¿Se puede guardar 24 horas, para no repetir un pedido, solo el estado y el número del pedido?
+- **Origen:**
+  - MATU-26, revisión previa, Trello del 21 de octubre de 2026, pregunta 12, primera parte
+  - MATU-61, revisión previa, 10 de noviembre de 2026 (`revision-previa-matu-61.md`, punto 12 y sección 5), con la decisión D5 de Jorge del 11 de noviembre de 2026.
+- **Mientras tanto:** el registro declara 2 años para los pedidos pagados y 6 años para pagos y boletas (arquitectura, sección 11.8). Lo no pagado se borra a los 30 días con una tarea del programador de MATU-74, y `idempotencia` guarda solo el estado y el id del pedido y se borra a las 24 horas (D5).
+- **Bloquea:** dinero real. Lo no pagado, también datos reales.
+- **Se cierra en:** política, sección 4, «De tus pedidos» («PENDIENTE: confirmar en la versión 1.0. CL-28 y CL-44»), y sección 8, «Pedidos que no se pagaron» («PENDIENTE: CL-28 ampliada»). Registro, entrada 2, conservación.
 - **Respuesta:** —
 
 ### CL-29 · Destruir la clave y las copias de respaldo
@@ -391,18 +393,28 @@ En los orígenes, «Trello» es un comentario de la tarjeta de consulta legal, c
 - **Se cierra en:** política §8. Registro, entrada 10, conservación.
 - **Respuesta:** —
 
+### CL-52 · La dirección de entrega después de un borrado pedido
+
+- **Pregunta:** después de un borrado pedido por la persona, ¿se puede conservar la dirección y el teléfono de entrega de sus pedidos durante el plazo de los pedidos, o basta la comuna una vez cerrado el pedido? ¿Cuánto tiempo después de la entrega se justifica guardar la dirección completa para responder reclamos? **Ampliada en el cierre de MATU-61 (11-11):** si se retira la autorización de pedidos, ¿se puede conservar sin plazo la dirección de la persona, cuya única finalidad declarada es entregar sus pedidos, para cuando se vuelva a autorizar? ¿O corresponde un plazo, como los 90 días de la ficha y los insumos?
+- **Origen:** MATU-61, revisión previa, 10 de noviembre de 2026 (`revision-previa-matu-61.md`, punto 10 y sección 5), con la decisión D2 de Jorge del 11 de noviembre de 2026. Se relaciona con CL-27, CL-28 y CL-44.
+- **Mientras tanto:** en la misma transacción del borrado, los pedidos sin pagar se cancelan y se borran su dirección y su teléfono. Cuando existan los pagos, los pedidos cerrados quedarán solo con la comuna, y los pagados en curso conservarán la dirección hasta cerrarse (D2). El pedido no guarda el nombre de la persona (C16). En MATU-61 aplica solo la regla de los sin pagar. Al retirar la autorización, la dirección de la persona se conserva y la familia la puede vaciar cuando quiera, sin la autorización (C6 y C8). El plazo después del retiro queda para MATU-89.
+- **Bloquea:** datos reales y dinero real.
+- **Se cierra en:** política, sección 10, «Borrar los datos de la persona que cuidas» («PENDIENTE: CL-52 y CL-44»). Registro, entrada 2, conservación («[PENDIENTE: CL-52 y CL-44]»).
+- **Respuesta:** —
+
 ## 5. El relevo y otras personas que anota la familia
 
 ### CL-33 · La base de licitud de los datos del relevo y de «A quién llamar»
 
-- **Pregunta:** el relevo no tiene cuenta. MATU recibe su nombre y su teléfono de quien comparte, no de él, y guarda sus aperturas. Lo mismo pasa con los nombres y teléfonos de «A quién llamar». ¿Qué base de licitud aplica a esos datos? ¿Cómo se cumple el deber de informar a quien no entregó sus propios datos, si se guardan antes de que el relevo vea el aviso? ¿Basta con que la familia declare que le avisó?
+- **Pregunta:** el relevo no tiene cuenta. MATU recibe su nombre y su teléfono de quien comparte, no de él, y guarda sus aperturas. Lo mismo pasa con los nombres y teléfonos de «A quién llamar». ¿Qué base de licitud aplica a esos datos? ¿Cómo se cumple el deber de informar a quien no entregó sus propios datos, si se guardan antes de que el relevo vea el aviso? ¿Basta con que la familia declare que le avisó? **Ampliada con MATU-61:** el teléfono de contacto de un pedido es por omisión el celular de quien pide, pero se puede cambiar por el de otra persona que no es usuaria, por ejemplo quien recibe el pedido. ¿Qué base de licitud aplica a ese teléfono? ¿Basta la ayuda «Si es el de otra persona, avísale.»?
 - **Origen:**
   - MATU-26, revisión previa, Trello del 21 de octubre de 2026, pregunta 8
   - MATU-09, Trello del 27 de octubre de 2026, pregunta 4
-  - MATU-48, revisión de cierre, Trello del 4 de noviembre de 2026, preguntas 1 y 2.
-- **Mientras tanto:** interés legítimo de la familia, informado. Quien comparte marca la casilla «Le avisé a {nombre}…» (decisión 34) y el relevo ve el aviso de `lenguaje.md`, sección 7.5, antes del PIN. La política pide avisar a quienes se anotan en «A quién llamar».
+  - MATU-48, revisión de cierre, Trello del 4 de noviembre de 2026, preguntas 1 y 2
+  - MATU-61, revisión previa, 10 de noviembre de 2026 (`revision-previa-matu-61.md`, sección 5), con la decisión D4 de Jorge del 11 de noviembre de 2026.
+- **Mientras tanto:** interés legítimo de la familia, informado. Quien comparte marca la casilla «Le avisé a {nombre}…» (decisión 34) y el relevo ve el aviso de `lenguaje.md`, sección 7.5, antes del PIN. La política pide avisar a quienes se anotan en «A quién llamar». En el pedido, la pantalla pide avisar a la persona cuyo teléfono se anota, y el teléfono se borra al cancelar el pedido.
 - **Bloquea:** datos reales.
-- **Se cierra en:** registro, entrada 4, base de licitud de los datos del relevo («[PENDIENTE: consulta legal]»). Registro, entrada 3, «personas anotadas en "A quién llamar"» («[PENDIENTE: consulta legal sobre su base de licitud]»).
+- **Se cierra en:** registro, entrada 4, base de licitud de los datos del relevo («[PENDIENTE: consulta legal]»). Registro, entrada 3, «personas anotadas en "A quién llamar"» («[PENDIENTE: consulta legal sobre su base de licitud]»). Registro, entrada 2, el teléfono de contacto («[PENDIENTE: consulta legal, CL-33 ampliada]»).
 - **Respuesta:** —
 
 ### CL-34 · Los 3 años del registro de aperturas del relevo
@@ -541,11 +553,13 @@ En los orígenes, «Trello» es un comentario de la tarjeta de consulta legal, c
 
 ### CL-44 · Un pedido pagado cuando se retira la autorización de pedidos
 
-- **Pregunta:** ¿qué pasa con un pedido pagado y en curso si se retira la autorización de pedidos?
-- **Origen:** MATU-44, CL-5 (capa 3, R12), revisión previa (Trello del 6 de noviembre de 2026, pregunta 5) y revisión de cierre (Trello del 7 de noviembre de 2026, y `revision-matu-44.md`).
-- **Mientras tanto:** la política dice que los pedidos ya pagados se guardan el plazo de la sección 8, para responder reclamos y por obligación tributaria.
+- **Pregunta:** ¿qué pasa con un pedido pagado y en curso si se retira la autorización de pedidos? **Ampliada con MATU-61:** ¿y si se piden borrar los datos de la persona cuidada con un pedido pagado en curso? ¿Se puede terminar de entregar el pedido, con su dirección, aunque se haya pedido el borrado?
+- **Origen:**
+  - MATU-44, CL-5 (capa 3, R12), revisión previa (Trello del 6 de noviembre de 2026, pregunta 5) y revisión de cierre (Trello del 7 de noviembre de 2026, y `revision-matu-44.md`)
+  - MATU-61, revisión previa, 10 de noviembre de 2026 (`revision-previa-matu-61.md`, punto 10 y sección 5), con las decisiones D1 y D2 de Jorge del 11 de noviembre de 2026.
+- **Mientras tanto:** al retirar la autorización o borrar a la persona, los pedidos sin pagar se cancelan sin costo y se borran su dirección y su teléfono (D1 y D2). Los pagados siguen hasta entregarse, conservan la dirección hasta cerrarse y después quedan solo con la comuna, y se guardan el plazo de la sección 8, para responder reclamos y por obligación tributaria. En MATU-61 no hay pedidos pagados.
 - **Bloquea:** datos reales y dinero real.
-- **Se cierra en:** política, sección 4, «De tus pedidos» («[PENDIENTE: confirmar en la versión 1.0]»).
+- **Se cierra en:** política, sección 4, «De tus pedidos» («PENDIENTE: confirmar en la versión 1.0. CL-28 y CL-44»), y sección 10, en el retiro de la autorización de los pedidos («PENDIENTE: CL-44») y en el borrado («PENDIENTE: CL-52 y CL-44»). Registro, entrada 2, conservación.
 - **Respuesta:** —
 
 ### CL-45 · Un RUT reservado para ejemplos
@@ -585,6 +599,64 @@ En los orígenes, «Trello» es un comentario de la tarjeta de consulta legal, c
 - **Respuesta:** —
 
 ---
+
+## 10. Pago (MATU-62)
+
+### CL-54 · El contenido de la confirmación escrita
+
+- **Pregunta:** ¿cumple el art. 12 A de la Ley 19.496 un comprobante dentro de la aplicación, sin correo? ¿Basta un correo sin la lista de productos, que remite el detalle a la aplicación? **Ampliada en la segunda revisión:** si quien paga no es quien armó el pedido, ¿a quién se le debe la confirmación? **Ampliada en el cierre de MATU-62:** si quien paga elige en Webpay cuotas con interés de su banco, ¿debe la confirmación decir algo más que «Pagaste {total} una sola vez»? Mientras tanto, el comprobante muestra «en {n} cuotas» y MATU cobra una sola vez.
+- **Origen:** MATU-62, revisión previa, 10 de noviembre de 2026 (`revision-previa-matu-62.md`, sección 6); ampliada en la MATU-62, segunda revisión previa, 11 de noviembre de 2026 (`revision-previa-matu-62-segunda.md`, sección 6), con las decisiones del orquestador del 11-11 por delegación de Jorge.
+- **Mientras tanto:** el comprobante queda en MATU, con los productos, y en el piloto no se envía por correo (P-62-5; verificar el correo va en MATU-91). Si falta la confirmación, el retracto podría subir de 10 a 90 días.
+- **Bloquea:** dinero real.
+- **Se cierra en:** condiciones del pedido 0.2, §4 («[PENDIENTE: CL-54]»).
+- **Respuesta:** —
+
+### CL-55 · La devolución si la anulación no es posible
+
+- **Pregunta:** ¿qué medio cumple el art. 3 bis (45 días, sin retención) si Transbank no permite anular? ¿Pedir datos bancarios exige una base de licitud nueva?
+- **Origen:** MATU-62, revisión previa, 10 de noviembre de 2026 (`revision-previa-matu-62.md`, sección 6).
+- **Mientras tanto:** se reintenta la anulación, se avisa a operación y se le escribe a la familia, sin pedir datos bancarios (D-62-6 a).
+- **Bloquea:** dinero real.
+- **Se cierra en:** condiciones del pedido 0.2, §7 («[PENDIENTE: CL-55]»).
+- **Respuesta:** —
+
+### CL-56 · El rol de Transbank respecto de los datos de quien paga
+
+- **Pregunta:** ¿Transbank es responsable por su cuenta de los datos de la tarjeta y de quien paga, o es encargado de MATU?
+- **Origen:** MATU-62, revisión previa, 10 de noviembre de 2026 (`revision-previa-matu-62.md`, sección 6).
+- **Mientras tanto:** MATU solo le envía el monto y un número de orden que no identifica a nadie, y nunca recibe ni guarda los datos de la tarjeta.
+- **Bloquea:** datos reales.
+- **Se cierra en:** política, sección 6, y registro, entrada 2, comunicaciones.
+- **Respuesta:** —
+
+### CL-64 · Qué se guarda de un pago que no se cobró o que se anuló completo
+
+- **Pregunta:** ¿se puede borrar a los 30 días un intento rechazado o abandonado? ¿Un cobro anulado completo el mismo día cuenta como registro de pagos, con 6 años?
+- **Origen:** MATU-62, segunda revisión previa, 11 de noviembre de 2026 (`revision-previa-matu-62-segunda.md`, sección 6), con las decisiones del orquestador del 11-11 por delegación de Jorge. Amplía la CL-28.
+- **Mientras tanto:** la tarea de los 30 días separa por dinero (D-62-13 c): sin dinero, el pedido se borra con su cargo; con dinero, se guarda el cobro y su anulación, sin la dirección ni los productos.
+- **Bloquea:** dinero real.
+- **Se cierra en:** política, sección 8, y registro, entrada 2, conservación.
+- **Respuesta:** —
+
+### CL-65 · El pago aprobado de un total que ya no estaba vigente
+
+- **Pregunta:** ¿basta con anular completo y avisar, o el pago aprobado obliga a entregar ese total (art. 12)? ¿Se debe respetar un pago del mismo total que llega después de los 15 minutos?
+- **Origen:** MATU-62, segunda revisión previa, 11 de noviembre de 2026 (`revision-previa-matu-62-segunda.md`, sección 6), con las decisiones del orquestador del 11-11 por delegación de Jorge.
+- **Mientras tanto:** un pago tardío del mismo total se respeta, y uno de un total reemplazado o cancelado se anula completo el mismo día (D-62-4, reglas 2 y 3).
+- **Bloquea:** dinero real.
+- **Se cierra en:** condiciones del pedido 0.2, §3.
+- **Respuesta:** —
+
+### CL-66 · Quién es el consumidor cuando paga una persona y arma otra
+
+- **Pregunta:** ¿quién ejerce el retracto, quién reclama y a quién se le devuelve? **Ampliada en el cierre de MATU-62:** ¿cuál es la base de licitud de los datos del pago de quien paga sin haber armado el pedido: la ejecución de la compra que acepta, u otra?
+- **Origen:** MATU-62, segunda revisión previa, 11 de noviembre de 2026 (`revision-previa-matu-62-segunda.md`, sección 6), con las decisiones del orquestador del 11-11 por delegación de Jorge.
+- **Mientras tanto:** la aceptación de las condiciones queda con quien pagó (`condiciones_aceptadas_por`, D-62-16) y la devolución va siempre a la misma tarjeta.
+- **Bloquea:** dinero real.
+- **Se cierra en:** condiciones del pedido 0.2, §3 y §9.
+- **Respuesta:** —
+
+**Se amplían con MATU-62:** CL-44 (el retiro o el borrado con un pago en curso: si se aprueba, se anula completo el mismo día) y CL-28 (apunta a la CL-64). Reservadas en otras ramas: la CL-53 (MATU-55), las CL-57 a 59 (MATU-42 y 53), la CL-60 (MATU-46), las CL-61 a 63 (MATU-54) y la CL-67 (MATU-94). La próxima libre es la **CL-68**.
 
 ## Condiciones antes de datos reales
 
@@ -748,3 +820,20 @@ Cada fila traduce un número antiguo a su número nuevo. «Sin número» es una 
 | MATU-75 | CL-75-2 | CL-49 |
 | MATU-75 | CL-75-3 | CL-50 |
 | MATU-75 | Sin número (buzón en Gmail) | CL-51 |
+
+### MATU-61 (10 y 11 de noviembre de 2026)
+
+| Historia | Número antiguo | Número nuevo |
+|---|---|---|
+| MATU-61 | Sección 5, pregunta nueva (la dirección después de un borrado) | CL-52 |
+| MATU-61 | Sección 5, ampliar CL-44 (borrado con un pedido pagado en curso) | CL-44 |
+| MATU-61 | Sección 5, ampliar CL-33 (teléfono de contacto de quien no es usuario) | CL-33 |
+| MATU-61 | Sección 5, ampliar CL-28 (lo nunca pagado no se guarda 2 años) | CL-28 |
+
+### MATU-62 (10 y 11 de noviembre de 2026)
+
+| Historia | Número antiguo | Número nuevo |
+|---|---|---|
+| MATU-62 | Revisión previa, sección 6 | CL-54, CL-55 y CL-56 |
+| MATU-62 | Segunda revisión previa, sección 6 | CL-64, CL-65 y CL-66 |
+| MATU-62 | Segunda revisión previa, ampliar CL-44 y CL-28 | CL-44 y CL-28 |
