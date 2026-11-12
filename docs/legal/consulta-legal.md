@@ -648,6 +648,36 @@ En los orígenes, «Trello» es un comentario de la tarjeta de consulta legal, c
 - **Se cierra en:** política, sección 6, y registro, entrada 2, comunicaciones.
 - **Respuesta:** —
 
+### CL-57 · Las personas nuevas con acceso a los datos de la persona cuidada
+
+- **Pregunta:** ¿basta la autorización registrada (MATU-07), o la persona cuidada o su representante deben ser informados o autorizar a cada persona nueva del grupo? ¿Puede una cuidadora o un cuidador de hecho ampliar ese acceso invitando a otras personas?
+- **Origen:** MATU-42, revisión previa (11-11-2026) y de cierre (12-11-2026), `revision-previa-matu-42-53.md`, punto 3.
+- **Mientras tanto:** las declaraciones no cambian (C4). Al invitar, la pantalla le recuerda a quien administra que se lo cuente a la persona cuidada si puede comprenderlo (C5). Todo el grupo ve quiénes lo forman (C6).
+- **Se relaciona con:** CL-01 y CL-05.
+- **Bloquea:** datos reales.
+- **Se cierra en:** política, secciones 5 y 6. Registro, entrada 12, base de licitud.
+- **Respuesta:** —
+
+### CL-58 · La autorización cuando quien la dio sale del grupo
+
+- **Pregunta:** si quien dio la autorización (en especial como cuidadora o cuidador de hecho) sale del grupo o lo sacan, ¿sigue valiendo su declaración, en la ficha, en los insumos y en los pedidos? ¿Corresponde pedir una autorización nueva, y en qué plazo?
+- **Origen:** MATU-42, revisión previa y de cierre, punto 4 (D-42-9).
+- **Mientras tanto:** la autorización sigue vigente. Admin y cuidador ven `autorizo_alguien_que_ya_no_esta` y el aviso «La autorización la dio alguien que ya no está en el grupo. Sigue vigente.», sin saber quién fue. Renovar desde la aplicación va en MATU-69.
+- **Se relaciona con:** CL-01, CL-06 y la autorización de pedidos (MATU-61, D1).
+- **Bloquea:** datos reales.
+- **Se cierra en:** política, sección 6. Registro, entradas 1 y 12.
+- **Respuesta:** —
+
+### CL-59 · Cuánto se guarda la membresía de quien salió
+
+- **Pregunta:** ¿cuánto se pueden guardar el rol y las fechas de quien salió del grupo, si sirven para interpretar la auditoría de 3 años? ¿Puede esa persona pedir que se supriman antes?
+- **Origen:** MATU-42, revisión previa y de cierre, punto 9 (C14).
+- **Mientras tanto:** la fila queda `retirada`, con `retirado_en`, sin permiso de ficha, y no se borra. Nadie del grupo la ve. La persona la pide por correo.
+- **Se relaciona con:** CL-26, CL-34 y CL-53.
+- **Bloquea:** datos reales.
+- **Se cierra en:** política, sección 8. Registro, entrada 12, conservación. Arquitectura, 11.8.
+- **Respuesta:** —
+
 ### CL-64 · Qué se guarda de un pago que no se cobró o que se anuló completo
 
 - **Pregunta:** ¿se puede borrar a los 30 días un intento rechazado o abandonado? ¿Un cobro anulado completo el mismo día cuenta como registro de pagos, con 6 años?
@@ -668,14 +698,14 @@ En los orígenes, «Trello» es un comentario de la tarjeta de consulta legal, c
 
 ### CL-66 · Quién es el consumidor cuando paga una persona y arma otra
 
-- **Pregunta:** ¿quién ejerce el retracto, quién reclama y a quién se le devuelve? **Ampliada en el cierre de MATU-62:** ¿cuál es la base de licitud de los datos del pago de quien paga sin haber armado el pedido: la ejecución de la compra que acepta, u otra?
+- **Pregunta:** ¿quién ejerce el retracto, quién reclama y a quién se le devuelve? **Ampliada en el cierre de MATU-62:** ¿cuál es la base de licitud de los datos del pago de quien paga sin haber armado el pedido: la ejecución de la compra que acepta, u otra? **Ampliada en el cierre de MATU-42:** si quien pagó sale del grupo o lo sacan, deja de ver en la aplicación el pedido, el pago y el comprobante. ¿Basta con entregarlos por correo, o MATU debe mantenerle el acceso a su comprobante?
 - **Origen:** MATU-62, segunda revisión previa, 11 de noviembre de 2026 (`revision-previa-matu-62-segunda.md`, sección 6), con las decisiones del orquestador del 11-11 por delegación de Jorge.
-- **Mientras tanto:** la aceptación de las condiciones queda con quien pagó (`condiciones_aceptadas_por`, D-62-16) y la devolución va siempre a la misma tarjeta.
+- **Mientras tanto:** la aceptación de las condiciones queda con quien pagó (`condiciones_aceptadas_por`, D-62-16) y la devolución va siempre a la misma tarjeta. Quien salió pide su comprobante por el correo de la sección 10 de la política (MATU-42).
 - **Bloquea:** dinero real.
 - **Se cierra en:** condiciones del pedido 0.2, §3 y §9.
 - **Respuesta:** —
 
-**Se amplían con MATU-62:** CL-44 (el retiro o el borrado con un pago en curso: si se aprueba, se anula completo el mismo día) y CL-28 (apunta a la CL-64). Reservadas en otras ramas: las CL-57 a 59 (MATU-42 y 53), la CL-60 (MATU-46), las CL-61 a 63 y la CL-68 (MATU-54) y la CL-67 (MATU-94). La CL-53 y la CL-69 quedan usadas por MATU-55. La próxima libre es la **CL-70**.
+**Se amplían con MATU-62:** CL-44 (el retiro o el borrado con un pago en curso: si se aprueba, se anula completo el mismo día) y CL-28 (apunta a la CL-64). Las CL-57 a 59 quedan usadas por MATU-42 y 53, que amplía la CL-66. Reservadas en otras ramas: la CL-60 (MATU-46), las CL-61 a 63 y la CL-68 (MATU-54) y la CL-67 (MATU-94). La CL-53 y la CL-69 quedan usadas por MATU-55. La próxima libre es la **CL-70**.
 
 ## Condiciones antes de datos reales
 
@@ -864,3 +894,10 @@ Cada fila traduce un número antiguo a su número nuevo. «Sin número» es una 
 | MATU-55, revisión previa, 10-11-2026 | P3 | CL-53 |
 | MATU-55, revisión previa, 10-11-2026 | P8 | CL-37 |
 | MATU-55, revisión de cierre, 12-11-2026 | Sin número | CL-37, CL-53 y CL-69 |
+
+### MATU-42 y MATU-53 (11 y 12 de noviembre de 2026)
+
+| Historia | Número antiguo | Número nuevo |
+|---|---|---|
+| MATU-42 | Revisión previa, sección 7 | CL-57, CL-58 y CL-59 |
+| MATU-42 | Revisión de cierre, quien pagó y salió | CL-66 |
