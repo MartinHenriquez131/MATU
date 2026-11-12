@@ -1,9 +1,9 @@
 # Política de privacidad de MATU
 
-**Versión 0.12 · 11 de noviembre de 2026 (11/11/2026)** · agrega los pedidos de insumos hasta el total confirmado, con su autorización aparte, la dirección de entrega de la persona cuidada y el canal de reclamo (MATU-61). La versión 0.11 era del 09/11/2026
+**Versión 0.13 · 11 de noviembre de 2026 (11/11/2026)** · agrega el pago de los pedidos en Webpay, con su comprobante (MATU-62). La versión 0.12 era del 11/11/2026 (MATU-61)
 **Estado:** borrador para el piloto académico. Todavía no sirve para tratar datos reales.
 **Aprobación:** aprobada como borrador v0.9 por Jorge Espinoza (Product Owner) el 25/10/2026. La revisión la hizo el orquestador del equipo de agentes, por delegación. Se confirman los tres compromisos del texto: MATU no vende datos, borra de inmediato los datos reales que entren por error, y ejercer los derechos es gratis. Los pendientes que quedan (plazos, proveedores y procedimiento ante filtraciones) se resuelven en la versión 1.0, antes de tratar datos reales.
-**Identificador de versión en el sistema:** `0.12`
+**Identificador de versión en el sistema:** `0.13`
 **Versión 0.10 (03-11):** la redactó el analista normativo con las decisiones de Jorge del 31-10, del 02-11 y del 03-11 (contrato de MATU-32, MATU-36 y MATU-38). Aprobada por Jorge el 05-11 como borrador del piloto, que trabaja solo con datos sintéticos. Antes de tratar datos reales pasa por la consulta legal. `POLITICA_VERSION` pasa a `0.10` en el backend con MATU-36
 **ADR-027 (27-10):** las secciones que empiezan con esa nota adaptan el texto a los pedidos y pagos del ADR-027. Aprobado por Jorge el 27-10 como diseño. Las frases de §4 y §6 sobre lo que el comercio ve o no ve se publican en futuro («cuando existan los pedidos») y se cumplen con la capa 3 (MATU-61 a 63).
 **MATU-50 (03-11):** se precisan las secciones 4, 6, 8 y 9 con la ficha ampliada ya construida, y se agrega que la ficha no se imprime (ADR-029). No agregan usos, datos ni destinatarios, y no cambian las declaraciones. No cambian la versión: `POLITICA_VERSION` sigue en `0.10`. Aprobado por Jorge el 03-11.
@@ -30,7 +30,7 @@
 **MATU-61 (11-11) · versión 0.12 (decisión D11 de Jorge del 11-11: una versión por fusión, numerada al fusionar):** se activan los pedidos de insumos hasta el total confirmado. El pago llega con MATU-62. Cambios, según la sección 3 de `revision-previa-matu-61.md` y las decisiones D1 a D12:
 - §2 y §10: el correo de contacto recibe también los reclamos de los pedidos (D8).
 - §3.6 y §4 «De tus pedidos»: qué se guarda de un pedido, sin el nombre de la persona (R7).
-- §4: la dirección se pide con el primer pedido, sin ubicación en el mapa, y se puede vaciar (C8, C11, D4 y C6 de Jorge).
+- §4: la dirección se pide con el primer pedido, sin ubicación en el mapa, y se puede vaciar (C8, C11, D4 y CJ6 de Jorge).
 - §5: la autorización de pedidos, aparte, con sus tres declaraciones `declaracion_pedidos_<calidad>` (D1).
 - §6: quién ve el pedido según su rol, y cada comercio ve solo sus productos y su referencia (R8, D7).
 - §8: lo no pagado se borra a los 30 días (D5).
@@ -39,6 +39,18 @@
 - §12 y §13: la versión y lo que todavía no funciona.
 
 Cambia la versión porque agrega usos, datos y destinatarios. **Nadie vuelve a aceptar la política** ni a dar las autorizaciones de la ficha y de los insumos: el uso nuevo tiene su propia autorización expresa, con su declaración (D1). Las declaraciones de la ficha, de los insumos y el aviso del cuidador de hecho no cambian. Queda con la CL-24. Pendiente para la consulta legal: CL-52, y las CL-28, CL-33 y CL-44 ampliadas. **Pendiente de aprobación: la aprueba Jorge al fusionar**, junto con el texto de las tres declaraciones nuevas.
+
+
+**MATU-62 (11-11) · versión 0.13 (D11: una versión por fusión):** se activa el pago del total confirmado en Webpay Plus, en el ambiente de prueba de Transbank. Cambios, según la sección 5.1 de `revision-previa-matu-62-segunda.md` y las decisiones D-62-1 a D-62-17 y P-62-1 a P-62-9:
+- §3.6: pagar en la página de Transbank, con un comprobante que queda en MATU. En el piloto no se envía por correo (P-62-5), así que no se guarda un correo para el comprobante.
+- §4 «De tus pedidos»: las condiciones que aceptó quien pagó, el pago y su anulación.
+- §6: quién paga y quién ve el pago (D-62-2 y D-62-8); Transbank recibe solo el monto y un número de orden; débito y devolución verificados el 10-11; después de pagar cancela solo quien administra.
+- §8: lo que se intentó pagar y no se cobró se borra a los 30 días, y un cobro anulado completo se guarda 6 años, sin la dirección ni los productos (D-62-13, CL-64).
+- §10: un pago en curso que se aprueba después de un retiro o de un borrado se anula completo el mismo día (CL-44 ampliada).
+- §4: la dirección lista todos sus campos, también la región y su nombre (P3 de la revisión de Martín a MATU-61, MATU-94).
+- §12 y §13: la versión y lo que todavía no funciona.
+
+Cambia la versión porque agrega datos (el pago) y un destinatario (Transbank). **Nadie vuelve a aceptar la política** ni a dar las autorizaciones: quien paga acepta las condiciones del pedido, con su propia huella, y la autorización de pedidos ya cubre los productos (CL-24). Pendiente para la consulta legal: CL-54 a CL-56 y CL-64 a CL-66. **La redactó el orquestador por delegación de Jorge del 11-11, con los textos del analista. Aprobada por Jorge el 12-11.**
 
 ---
 
@@ -76,7 +88,7 @@ Cambia la versión porque agrega usos, datos y destinatarios. **Nadie vuelve a a
 3. Registrar a la persona que cuidas y la autorización para usar sus datos.
 4. Guardar la ficha de relevo y compartirla con quien tú elijas.
 5. Calcular cuándo se acaba cada insumo de la persona que cuidas, mostrarte cuáles se acaban pronto y avisarte. Con los que se acaban pronto, MATU arma una lista de insumos con una cantidad sugerida, que puedes imprimir o compartir desde tu teléfono. Los avisos dentro de la aplicación ya funcionan. En el piloto, los avisos por notificación y por correo se prueban sin enviarse: no salen de los equipos de MATU.
-6. Hacer pedidos de insumos para la persona que cuidas: armar el pedido, elegir qué hacer si falta un producto, confirmar que haya cada producto y mostrarte el total antes de pagar, y entregarlo en la dirección que nos des. Pagar un pedido todavía no está disponible (sección 13).
+6. Hacer pedidos de insumos para la persona que cuidas: armar el pedido, elegir qué hacer si falta un producto, confirmar que haya cada producto y mostrarte el total antes de pagar, pagarlo en la página de Transbank, y entregarlo en la dirección que nos des. Al pagar te mostramos un comprobante, que queda guardado en MATU.
 7. Cuidar la seguridad: registrar quién abrió la ficha, detectar accesos extraños y responder si hay una filtración.
 
 **Cada uso se autoriza por separado.** MATU pide una autorización para la ficha de relevo, otra para el cálculo de insumos y otra para los pedidos. La del cálculo se pide la primera vez que anotas un insumo. Los avisos de insumos van dentro de esa misma autorización: no se pide otra. La de los pedidos se pide la primera vez que haces un pedido (sección 5). Sin ella igual puedes imprimir o compartir la lista de insumos.
@@ -118,7 +130,7 @@ La persona que cuidas no tiene cuenta en MATU. Sus datos los ingresas tú.
 
 - Su nombre y el nombre con que la llaman.
 - Su nivel de apoyo: autovalente con supervisión, apoyo parcial o apoyo total.
-- Su dirección de entrega: calle, número, depto, comuna y una referencia, si la escribes. No la pedimos al registrarla: la pedimos con el primer pedido y la guardamos para los próximos. La usamos solo para entregar sus pedidos. No guardamos su ubicación en el mapa. En la referencia no escribas datos de salud. Quien administra el grupo o quien la cuida puede cambiarla o vaciarla cuando quiera, aunque se haya retirado la autorización de los pedidos. <!-- D4, C8, C9 y C11 de MATU-61, y C6 y C8 de Jorge -->
+- Su dirección de entrega: calle, número, depto, comuna, región, un nombre para reconocerla (por ejemplo, «Casa») y una referencia, si la escribes. No la pedimos al registrarla: la pedimos con el primer pedido y la guardamos para los próximos. La usamos solo para entregar sus pedidos. No guardamos su ubicación en el mapa. En la referencia no escribas datos de salud. Quien administra el grupo o quien la cuida puede cambiarla o vaciarla cuando quiera, aunque se haya retirado la autorización de los pedidos. <!-- D4, C8, C9 y C11 de MATU-61, y CJ6 y CJ8 de Jorge -->
 - La autorización: quién la dio, en qué calidad y cuándo, y la referencia al documento si quien autoriza es su representante legal.
 - Si diste la autorización como cuidadora o cuidador de hecho, la fecha en que te pediremos confirmar que sigues a cargo, 12 meses después.
 - La ficha de relevo, con sus tres campos: **Su día**, **Si se altera** y **A quién llamar**. También guardamos quién escribió cada campo y cuándo.
@@ -139,7 +151,7 @@ La persona que cuidas no tiene cuenta en MATU. Sus datos los ingresas tú.
 
 <!-- ADR-027 (27-10), aprobado por Jorge. MATU-61 (11-11): los pedidos existen hasta el total confirmado, y el pago llega con MATU-62. -->
 
-Desde esta versión puedes armar un pedido para la persona que cuidas y ver su total antes de pagar. Pagarlo todavía no está disponible (sección 13). De cada pedido guardamos:
+Puedes armar un pedido para la persona que cuidas, ver su total y pagarlo. De cada pedido guardamos:
 
 - Los productos, con su cantidad, el comercio que prepara cada uno y su precio. Guardamos el precio que viste al agregarlo y el precio que confirmamos antes de pagar, para mostrarte si cambió. Todos los precios llevan el IVA incluido.
 - Qué elegiste hacer si falta cada producto: buscarlo en otro comercio o sacarlo del pedido.
@@ -147,13 +159,14 @@ Desde esta versión puedes armar un pedido para la persona que cuidas y ver su t
 - El envío, que es uno por pedido, y el total confirmado, con la hora hasta la que vale.
 - La dirección de entrega y el teléfono de contacto, copiados al pedido cuando confirmas el total. El teléfono es por omisión tu celular, y puedes cambiarlo. Si pones el de otra persona, avísale.
 - La línea de tiempo del pedido: cuándo se creó, se confirmó, venció o se canceló, y si lo hizo una persona del grupo o MATU, con un motivo de una lista cerrada. No guarda productos, cantidades ni la dirección.
-- **Cuando existan los pagos:** las condiciones del pedido que aceptaste, su versión, cuándo las aceptaste y una huella del texto exacto que viste, y el pago: el monto cobrado y, si hubo, la devolución.
+- Las condiciones del pedido que aceptó quien pagó, su versión, cuándo las aceptó y una huella del texto exacto que vio.
+- El pago: el monto, la fecha, el código de autorización, si fue con crédito, débito o prepago, las cuotas, los últimos 4 dígitos de la tarjeta y, si hubo, lo devuelto. Si un pago llega cuando el pedido ya cambió o se canceló, lo anulamos completo el mismo día y guardamos el cobro y su anulación. <!-- MATU-62, sección 5.1 de la segunda revisión previa -->
 
 **El pedido no guarda el nombre de la persona que cuidas.** Se une a ella por un número interno. <!-- R7 y C16 de MATU-61 -->
 
 **Tus pedidos y el consumo de insumos de la persona que cuidas se tratan como datos sensibles**, porque pueden revelar algo de su salud o de su dependencia. Tus pedidos los ven las personas de tu grupo, según su rol (sección 6), y el equipo de MATU para dar soporte. El consumo de insumos lo ven solo las personas de tu grupo. Ningún comercio los ve junto a un nombre. A diferencia de la ficha, no se cifran con una clave propia de cada persona. MATU no usa tus pedidos para calcular el consumo de insumos, ni el consumo para armar un pedido: el pedido lleva solo los productos que tú agregas. <!-- C20 de MATU-61 -->
 
-**Para los pedidos pedimos una autorización expresa y aparte**, distinta de la de la ficha y de la de los insumos (sección 5). Puedes retirarla igual de fácil que la diste (sección 10). Si la retiras, ya no podrás pedir desde MATU, pero sí imprimir o compartir la lista. Los pedidos sin pagar se cancelan sin costo. Los pedidos ya pagados, cuando existan los pagos, se guardan el plazo de la sección 8, para responder reclamos y por obligación tributaria. Confirmaremos estos plazos antes de usar MATU con datos reales. <!-- PENDIENTE: confirmar en la versión 1.0. CL-28 y CL-44 -->
+**Para los pedidos pedimos una autorización expresa y aparte**, distinta de la de la ficha y de la de los insumos (sección 5). Puedes retirarla igual de fácil que la diste (sección 10). Si la retiras, ya no podrás pedir desde MATU, pero sí imprimir o compartir la lista. Los pedidos sin pagar se cancelan sin costo. Los pedidos ya pagados se guardan el plazo de la sección 8, para responder reclamos y por obligación tributaria. Confirmaremos estos plazos antes de usar MATU con datos reales. <!-- PENDIENTE: confirmar en la versión 1.0. CL-28 y CL-44 -->
 
 Antes de usar MATU con datos reales, un abogado revisará si los productos de un pedido son un dato de salud y qué límites pone la ley a su uso. <!-- PENDIENTE: consulta legal sobre si los productos de un pedido son un dato relativo a la salud, y si el art. 16 bis, inciso 1, de la ley limita su tratamiento aunque haya autorización -->
 
@@ -263,11 +276,12 @@ Con esta autorización guardamos, además, una huella del texto exacto de la dec
 
 **La lista de insumos**. Con los insumos que se acaban pronto, MATU arma una lista con el nombre de cada insumo y una cantidad sugerida: lo que falta para cubrir 30 días, descontando lo que MATU calcula que queda, en envases si anotaste cuántas unidades trae cada uno. En la pantalla ves también cuántos días le quedan, pero eso no sale en lo que imprimes o compartes. La ven todas las personas del grupo. Quien administra, cuida o paga puede imprimirla, guardarla como PDF o compartirla como texto desde su teléfono, con la aplicación que elija. El observador la ve, sin esas opciones. Antes de imprimirla o compartirla puedes agregar otros insumos y cambiar las cantidades. Eso queda solo en tu pantalla y MATU no lo guarda. La lista no lleva el nombre de la persona que cuidas, ni nada de su ficha, ni precios, pero el nombre de un insumo puede decir algo de su salud. MATU no envía la lista, no crea un enlace para verla y no sabe si la imprimiste ni a quién se la mandaste. Lo que imprimas o compartas sale de MATU: queda en el papel, en tu teléfono o en la aplicación que usaste, y MATU no puede borrarlo, aunque después elimines el insumo o retires la autorización. Compártela solo con quien la necesita para comprar. <!-- MATU-60 -->
 
-**Los pedidos**, según el rol de cada persona del grupo: <!-- C3 de Jorge y D12 de MATU-61 -->
+**Los pedidos**, según el rol de cada persona del grupo: <!-- CJ3 de Jorge y D12 de MATU-61 -->
 - **Administrador y cuidador:** arman el pedido, eligen qué hacer si falta cada producto, agregan, cambian o vacían la dirección de entrega, cambian el teléfono de contacto, confirman el total y cancelan un pedido sin pagar.
 - **Pagador:** ve el pedido, la dirección, el teléfono de contacto y el resumen antes de pagar, sin cambiar nada.
-- **Observador:** ve los productos del pedido, sin la dirección, el teléfono de contacto ni el resumen.
-- Cada vez que alguien da o retira la autorización de los pedidos, crea, confirma o cancela un pedido, elige qué hacer si falta un producto, o cambia o vacía la dirección, MATU registra quién y cuándo, sin los productos, las cantidades, la dirección ni el teléfono. Mirar un pedido no se registra.
+- **Pagan** quien administra el grupo y quien paga. El pago y el comprobante los ven quien administra, quien cuida y quien paga, y el detalle de la tarjeta lo ve solo quien pagó. Mientras un pago está en curso, nadie puede cambiar el pedido. Después de pagar, solo quien administra puede cancelarlo. <!-- D-62-2 y D-62-8 de MATU-62 -->
+- **Observador:** ve los productos del pedido y si está pagado, sin la dirección, el teléfono de contacto, el resumen ni el pago.
+- Cada vez que alguien da o retira la autorización de los pedidos, crea, confirma, paga o cancela un pedido, elige qué hacer si falta un producto, o cambia o vacía la dirección, MATU registra quién y cuándo, sin los productos, las cantidades, la dirección, el teléfono, los montos ni los datos del pago. Cuando Transbank aprueba un pago o MATU lo anula, queda registrado que lo hizo MATU, también sin montos. Mirar un pedido o un pago no se registra.
 
 **El relevo**, la persona que te reemplaza:
 - Ve solo el nombre con que llaman a la persona, tu nombre de pila, los tres campos de la ficha y las secciones adicionales que marcaste al compartir. Si agregas una sección después, no la ve hasta que le des un acceso nuevo.
@@ -279,13 +293,13 @@ Con esta autorización guardamos, además, una huella del texto exacto de la dec
 
 **Comercios en convenio**:
 - Para saber si tienen los productos, al confirmar el total MATU les pregunta solo por los productos y las cantidades, con una referencia que se crea al azar para cada pedido y cada comercio y no permite saber de quién es. Esa consulta no lleva tus datos, ni los de la persona que cuidas, ni la dirección. En el piloto los comercios son ficticios y la consulta es simulada.
-- Cuando existan los pagos, el comercio que prepara tu pedido verá solo sus productos, su referencia del pedido y el código de retiro. **Si un pedido lo preparan varios comercios, cada uno ve solo sus productos y su referencia**, nunca los de otro comercio ni el total. Si falta un producto y otro comercio lo reemplaza, ese comercio ve lo mismo, solo con lo que le toca preparar. <!-- R8 y D7 de MATU-61 -->
+- Cuando los comercios empiecen a recibir los pedidos pagados, el comercio que prepara tu pedido verá solo sus productos, su referencia del pedido y el código de retiro. **Si un pedido lo preparan varios comercios, cada uno ve solo sus productos y su referencia**, nunca los de otro comercio ni el total. Si falta un producto y otro comercio lo reemplaza, ese comercio ve lo mismo, solo con lo que le toca preparar. <!-- R8 y D7 de MATU-61 -->
 - **Ningún comercio ve un nombre**, ni el tuyo ni el de la persona que cuidas. Tampoco ven la ficha. **La dirección nunca llega al comercio.** MATU vende, así que el comercio no necesita saber quién paga. En el piloto no se emite boleta (condiciones del pedido).
 - Aun así, MATU trata a cada comercio como si tratara datos por encargo: su convenio le exige siempre confidencialidad y seguridad.
 
 **Quien reparte**, si en el futuro hay despacho: ve la dirección de entrega y el teléfono de contacto solo mientras lleva el pedido. Lo hace por encargo de MATU y con un contrato que le exige confidencialidad, seguridad y borrar los datos al terminar.
 
-**Transbank**, cuando existan los pagos: el pago se hace en su página. MATU no ve el número de tu tarjeta ni su código. Solo guarda el resultado: el monto, el código de autorización, el tipo de tarjeta y sus últimos 4 dígitos. Puedes pagar con crédito o con débito, y funcionan igual: se cobra una sola vez el total que viste antes de pagar. Si hay una devolución, va a la misma tarjeta, y no te pedimos datos nuevos para hacerla. Durante el piloto los pagos ocurren solo en el ambiente de prueba de Transbank, sin cobros reales. Antes de activar los pagos, confirmaremos en ese ambiente de prueba que el débito y la devolución funcionan así. <!-- PENDIENTE: que el débito y la devolución parcial funcionen así se confirma con la prueba en el ambiente de integración de Transbank, antes del sprint 4 -->
+**Transbank:** el pago se hace en su página. Transbank recibe de MATU solo el monto y un número de orden que no identifica a nadie, y los datos de tu tarjeta los escribes en su página. MATU no ve el número de tu tarjeta ni su código. Solo guarda el resultado: el monto, el código de autorización, el tipo de tarjeta, las cuotas y sus últimos 4 dígitos. Puedes pagar con crédito o con débito, y funcionan igual: se cobra una sola vez el total que viste antes de pagar. Si hay una devolución, va a la misma tarjeta, y no te pedimos datos nuevos para hacerla. Durante el piloto los pagos ocurren solo en el ambiente de prueba de Transbank, sin cobros reales. En ese ambiente de prueba se verificó el 10/11/2026 que el débito y la devolución funcionan así. <!-- MATU-62: prueba de Martín en integración (MATU_PROYECTO #77 y #78). PENDIENTE: CL-56, el rol de Transbank -->
 
 **El equipo de MATU:** para dar soporte ve los pedidos y los pagos. Sus herramientas no permiten leer la ficha ni el consumo de insumos.
 
@@ -321,9 +335,10 @@ Antes de usar MATU con datos reales, diremos aquí los demás: dónde se guardan
 - **Copias de respaldo:** guardamos copias de la base, que se borran solas al vencer su plazo. Todavía no definimos su plazo. Lo publicaremos antes de usar MATU con datos reales. <!-- PENDIENTE: plazo --> No se pueden cambiar una por una. Lo que borras, o pides borrar, sigue en las copias hechas antes, hasta que vencen: la ficha, cifrada, y los insumos y las compras anotadas, protegidos igual que en la base. Nadie usa esas copias para ver datos. Si alguna vez tenemos que recuperar la base desde una copia, antes de volver a usarla borramos otra vez todo lo que se pidió borrar. El borrado queda completo cuando vence la última copia.
 - **Registro de quién abrió la ficha:** 3 años.
 - **Pedidos que no se pagaron:** el pedido que quedó armado, el que tiene el total vencido y el cancelado sin pagar se borran a los 30 días, contados desde la última vez que cambió, desde que venció o desde que se canceló, con sus productos y su línea de tiempo. La dirección y el teléfono copiados a un pedido cancelado se borran al cancelarlo. Para no repetir un pedido si tocas dos veces el mismo botón, MATU guarda 24 horas solo el número del pedido y el resultado, sin su contenido. <!-- D5 de MATU-61. PENDIENTE: CL-28 ampliada -->
+- **Pagos que no se cobraron o que se anularon:** un pago que se intentó y no se cobró se borra con su pedido a los 30 días. Un cobro que se anuló completo se guarda 6 años, sin la dirección ni los productos. <!-- D-62-13 de MATU-62. PENDIENTE: CL-64 -->
 - **La dirección de entrega de la persona que cuidas:** mientras esté registrada, hasta que la vacíes o pidas borrar sus datos. Retirar la autorización de los pedidos no la borra.
-- **Pedidos pagados y comprobantes de entrega**, cuando existan los pagos: 2 años.
-- **Pagos y boletas**, cuando existan: 6 años, por obligación tributaria.
+- **Pedidos pagados y comprobantes de entrega:** 2 años.
+- **Pagos:** 6 años, por obligación tributaria. En el piloto no se emiten boletas.
 - **Tu cuenta y las versiones de esta política que aceptaste:** mientras tengas tu cuenta. Todavía no definimos cuánto tiempo se guardan después de que la elimines. Lo publicaremos antes de usar MATU con datos reales. <!-- PENDIENTE: CL-49 -->
 - **Registro de autorizaciones:** cada autorización, también las retiradas, con su fecha de retiro. Hoy no se borran. Todavía no definimos su plazo. Lo publicaremos antes de usar MATU con datos reales. <!-- PENDIENTE: plazo, en consulta legal -->
 - **Accesos de relevo:** el nombre del relevo, el motivo y las fechas, 3 años desde que vence o se corta el acceso, igual que el registro de quién abrió la ficha. El teléfono del relevo se borra 30 días después de que el acceso vence o se corta.
@@ -375,10 +390,10 @@ Puedes retirar cada autorización por separado, cuando quieras y sin dar un moti
 - Una lista de insumos que ya imprimiste o compartiste no se borra, porque está fuera de MATU.
 - La ficha, los enlaces de relevo y los pedidos no cambian.
 
-**Si retiras la autorización de los pedidos:** <!-- D1 de MATU-61, y C6 de Jorge -->
+**Si retiras la autorización de los pedidos:** <!-- D1 de MATU-61, y CJ6 de Jorge -->
 - Ya no se pueden hacer pedidos para la persona desde MATU, desde ese momento.
-- Cancelamos sin costo sus pedidos sin pagar y borramos la dirección y el teléfono que se copiaron en ellos. Lo demás de esos pedidos se borra a los 30 días (sección 8). Si en ese momento los pedidos no están disponibles en MATU, todo lo de esos pedidos se borra a los 30 días.
-- Los pedidos ya pagados, cuando existan los pagos, siguen hasta que se entreguen y se guardan el plazo de la sección 8. <!-- PENDIENTE: CL-44 -->
+- Cancelamos sin costo sus pedidos sin pagar y borramos la dirección y el teléfono que se copiaron en ellos. Lo demás de esos pedidos se borra a los 30 días (sección 8). Si en ese momento los pedidos no están disponibles en MATU, todo lo de esos pedidos se borra a los 30 días. Si en ese momento hay un pago en curso y Transbank lo aprueba, lo anulamos completo el mismo día.
+- Los pedidos ya pagados siguen hasta que se entreguen y se guardan el plazo de la sección 8. <!-- PENDIENTE: CL-44 -->
 - La dirección de entrega de la persona queda guardada para cuando vuelvas a autorizar. Puedes vaciarla cuando quieras, también sin la autorización.
 - La lista de insumos se puede seguir imprimiendo y compartiendo.
 - La ficha, los insumos y los enlaces de relevo no cambian.
@@ -391,8 +406,8 @@ Quien administra el grupo o quien cuida a la persona puede borrar todo lo guarda
 - En ese momento borramos su ficha, con todas sus secciones, destruyendo su clave, y borramos sus insumos, sus avisos y las compras anotadas.
 - Se cortan todos sus enlaces de relevo, y no vuelven a abrir. El relevo no ve el motivo.
 - Sus autorizaciones quedan retiradas, también la de los pedidos.
-- Cancelamos sin costo sus pedidos sin pagar y borramos la dirección y el teléfono que se copiaron en ellos. Lo demás de esos pedidos se borra a los 30 días (sección 8). Si en ese momento los pedidos no están disponibles en MATU, todo lo de esos pedidos se borra a los 30 días. Ningún pedido guarda su nombre.
-- Cuando existan los pagos, un pedido ya cerrado queda solo con la comuna de entrega, y uno pagado que todavía no se entrega conserva la dirección hasta cerrarse. Los productos y los montos siguen el plazo de la sección 8. <!-- D2 de MATU-61. PENDIENTE: CL-52 y CL-44 -->
+- Cancelamos sin costo sus pedidos sin pagar y borramos la dirección y el teléfono que se copiaron en ellos. Lo demás de esos pedidos se borra a los 30 días (sección 8). Si en ese momento los pedidos no están disponibles en MATU, todo lo de esos pedidos se borra a los 30 días. Si en ese momento hay un pago en curso y Transbank lo aprueba, lo anulamos completo el mismo día. Ningún pedido guarda su nombre.
+- Un pedido ya cerrado queda solo con la comuna de entrega, y uno pagado que todavía no se entrega conserva la dirección hasta cerrarse. Los productos y los montos siguen el plazo de la sección 8. <!-- D2 de MATU-61. PENDIENTE: CL-52 y CL-44 -->
 - Borramos su nombre, el nombre con que la llaman, su nivel de apoyo y su dirección (salvo que sea la de otra persona que cuidan en el grupo), y deja de aparecer en MATU. Si quieren volver a usar MATU para cuidarla, hay que registrarla de nuevo y todo empieza en blanco.
 - Conservamos, sin nada de la ficha ni de los insumos, el registro de las autorizaciones, de los enlaces de relevo (el nombre del relevo, el motivo y las fechas; su teléfono, hasta 30 días) y de quién abrió la ficha, por los plazos de la sección 8, y el registro de los avisos (sin el texto ni tu correo), 90 días desde que se creó cada aviso, para poder demostrar cómo se usaron los datos. Esos registros ya no se ven en la aplicación: si los necesitas, pídelos por el correo de esta sección.
 - Lo borrado sigue en las copias de respaldo hasta que vencen (sección 8).
@@ -423,6 +438,7 @@ Si hay una filtración que afecte datos personales, avisaremos sin demora a la A
 - Con cada autorización guardamos el número de la versión vigente cuando la diste.
 - Si un cambio agrega usos, datos o personas que reciben datos, te pediremos una autorización nueva.
 - La versión 0.12 agrega los pedidos. No te pedimos aceptar de nuevo esta política ni volver a dar las autorizaciones de la ficha y de los insumos: los pedidos tienen su propia autorización, que se pide la primera vez que haces un pedido (sección 5). <!-- D11 de MATU-61. PENDIENTE: CL-24 -->
+- La versión 0.13 agrega el pago. No te pedimos aceptar de nuevo esta política ni volver a dar las autorizaciones: quien paga acepta las condiciones del pedido, y la autorización de los pedidos ya cubre sus productos. <!-- MATU-62. PENDIENTE: CL-24 -->
 - La versión 1.0 será la primera revisada por un abogado y la primera que permita usar datos reales.
 <!-- PENDIENTE: CL-50, si «acepto» es un consentimiento o solo un acuse de lectura -->
 
@@ -436,7 +452,8 @@ Si hay una filtración que afecte datos personales, avisaremos sin demora a la A
 - Renovar desde la aplicación la autorización cuando vence su revisión de los 12 meses.
 - Avisos de insumos por notificación o por correo: en el piloto se prueban sin enviarse (los de la aplicación ya funcionan). Elegir desde la aplicación, en «Tu cuenta», si los recibes por correo o en un teléfono.
 - Enviar correos solo a direcciones verificadas.
-- Invitaciones y pagos. Los pedidos se arman y se confirman hasta ver el total, pero todavía no se pagan ni se entregan.
+- Invitaciones, y la entrega de los pedidos. Los pedidos se pagan, pero todavía no se entregan.
+- Pagos con dinero real. En el piloto los pagos son de prueba, en el ambiente de prueba de Transbank, y no se cobra dinero real. El comprobante no es una boleta, y no se envía por correo: queda en MATU y lo puedes imprimir o guardar en PDF.
 - Verificar tu email al crear la cuenta. Mientras no exista, si intentas registrarte con un email que ya tiene cuenta, MATU te lo dirá, y alguien podría registrar un email que no es suyo.
 - Eliminar tu cuenta o cambiar tu nombre o tu correo desde la aplicación. Mientras tanto, pídelo a cuidaconmatu@gmail.com desde el correo de tu cuenta.
 

@@ -600,6 +600,64 @@ En los orígenes, «Trello» es un comentario de la tarjeta de consulta legal, c
 
 ---
 
+## 10. Pago (MATU-62)
+
+### CL-54 · El contenido de la confirmación escrita
+
+- **Pregunta:** ¿cumple el art. 12 A de la Ley 19.496 un comprobante dentro de la aplicación, sin correo? ¿Basta un correo sin la lista de productos, que remite el detalle a la aplicación? **Ampliada en la segunda revisión:** si quien paga no es quien armó el pedido, ¿a quién se le debe la confirmación? **Ampliada en el cierre de MATU-62:** si quien paga elige en Webpay cuotas con interés de su banco, ¿debe la confirmación decir algo más que «Pagaste {total} una sola vez»? Mientras tanto, el comprobante muestra «en {n} cuotas» y MATU cobra una sola vez.
+- **Origen:** MATU-62, revisión previa, 10 de noviembre de 2026 (`revision-previa-matu-62.md`, sección 6); ampliada en la MATU-62, segunda revisión previa, 11 de noviembre de 2026 (`revision-previa-matu-62-segunda.md`, sección 6), con las decisiones del orquestador del 11-11 por delegación de Jorge.
+- **Mientras tanto:** el comprobante queda en MATU, con los productos, y en el piloto no se envía por correo (P-62-5; verificar el correo va en MATU-91). Si falta la confirmación, el retracto podría subir de 10 a 90 días.
+- **Bloquea:** dinero real.
+- **Se cierra en:** condiciones del pedido 0.2, §4 («[PENDIENTE: CL-54]»).
+- **Respuesta:** —
+
+### CL-55 · La devolución si la anulación no es posible
+
+- **Pregunta:** ¿qué medio cumple el art. 3 bis (45 días, sin retención) si Transbank no permite anular? ¿Pedir datos bancarios exige una base de licitud nueva?
+- **Origen:** MATU-62, revisión previa, 10 de noviembre de 2026 (`revision-previa-matu-62.md`, sección 6).
+- **Mientras tanto:** se reintenta la anulación, se avisa a operación y se le escribe a la familia, sin pedir datos bancarios (D-62-6 a).
+- **Bloquea:** dinero real.
+- **Se cierra en:** condiciones del pedido 0.2, §7 («[PENDIENTE: CL-55]»).
+- **Respuesta:** —
+
+### CL-56 · El rol de Transbank respecto de los datos de quien paga
+
+- **Pregunta:** ¿Transbank es responsable por su cuenta de los datos de la tarjeta y de quien paga, o es encargado de MATU?
+- **Origen:** MATU-62, revisión previa, 10 de noviembre de 2026 (`revision-previa-matu-62.md`, sección 6).
+- **Mientras tanto:** MATU solo le envía el monto y un número de orden que no identifica a nadie, y nunca recibe ni guarda los datos de la tarjeta.
+- **Bloquea:** datos reales.
+- **Se cierra en:** política, sección 6, y registro, entrada 2, comunicaciones.
+- **Respuesta:** —
+
+### CL-64 · Qué se guarda de un pago que no se cobró o que se anuló completo
+
+- **Pregunta:** ¿se puede borrar a los 30 días un intento rechazado o abandonado? ¿Un cobro anulado completo el mismo día cuenta como registro de pagos, con 6 años?
+- **Origen:** MATU-62, segunda revisión previa, 11 de noviembre de 2026 (`revision-previa-matu-62-segunda.md`, sección 6), con las decisiones del orquestador del 11-11 por delegación de Jorge. Amplía la CL-28.
+- **Mientras tanto:** la tarea de los 30 días separa por dinero (D-62-13 c): sin dinero, el pedido se borra con su cargo; con dinero, se guarda el cobro y su anulación, sin la dirección ni los productos.
+- **Bloquea:** dinero real.
+- **Se cierra en:** política, sección 8, y registro, entrada 2, conservación.
+- **Respuesta:** —
+
+### CL-65 · El pago aprobado de un total que ya no estaba vigente
+
+- **Pregunta:** ¿basta con anular completo y avisar, o el pago aprobado obliga a entregar ese total (art. 12)? ¿Se debe respetar un pago del mismo total que llega después de los 15 minutos?
+- **Origen:** MATU-62, segunda revisión previa, 11 de noviembre de 2026 (`revision-previa-matu-62-segunda.md`, sección 6), con las decisiones del orquestador del 11-11 por delegación de Jorge.
+- **Mientras tanto:** un pago tardío del mismo total se respeta, y uno de un total reemplazado o cancelado se anula completo el mismo día (D-62-4, reglas 2 y 3).
+- **Bloquea:** dinero real.
+- **Se cierra en:** condiciones del pedido 0.2, §3.
+- **Respuesta:** —
+
+### CL-66 · Quién es el consumidor cuando paga una persona y arma otra
+
+- **Pregunta:** ¿quién ejerce el retracto, quién reclama y a quién se le devuelve? **Ampliada en el cierre de MATU-62:** ¿cuál es la base de licitud de los datos del pago de quien paga sin haber armado el pedido: la ejecución de la compra que acepta, u otra?
+- **Origen:** MATU-62, segunda revisión previa, 11 de noviembre de 2026 (`revision-previa-matu-62-segunda.md`, sección 6), con las decisiones del orquestador del 11-11 por delegación de Jorge.
+- **Mientras tanto:** la aceptación de las condiciones queda con quien pagó (`condiciones_aceptadas_por`, D-62-16) y la devolución va siempre a la misma tarjeta.
+- **Bloquea:** dinero real.
+- **Se cierra en:** condiciones del pedido 0.2, §3 y §9.
+- **Respuesta:** —
+
+**Se amplían con MATU-62:** CL-44 (el retiro o el borrado con un pago en curso: si se aprueba, se anula completo el mismo día) y CL-28 (apunta a la CL-64). Reservadas en otras ramas: la CL-53 (MATU-55), las CL-57 a 59 (MATU-42 y 53), la CL-60 (MATU-46), las CL-61 a 63 (MATU-54) y la CL-67 (MATU-94). La próxima libre es la **CL-68**.
+
 ## Condiciones antes de datos reales
 
 Estas no son preguntas legales. Son trabajo del equipo que tiene que estar hecho antes de operar con datos reales o con dinero real.
@@ -771,3 +829,11 @@ Cada fila traduce un número antiguo a su número nuevo. «Sin número» es una 
 | MATU-61 | Sección 5, ampliar CL-44 (borrado con un pedido pagado en curso) | CL-44 |
 | MATU-61 | Sección 5, ampliar CL-33 (teléfono de contacto de quien no es usuario) | CL-33 |
 | MATU-61 | Sección 5, ampliar CL-28 (lo nunca pagado no se guarda 2 años) | CL-28 |
+
+### MATU-62 (10 y 11 de noviembre de 2026)
+
+| Historia | Número antiguo | Número nuevo |
+|---|---|---|
+| MATU-62 | Revisión previa, sección 6 | CL-54, CL-55 y CL-56 |
+| MATU-62 | Segunda revisión previa, sección 6 | CL-64, CL-65 y CL-66 |
+| MATU-62 | Segunda revisión previa, ampliar CL-44 y CL-28 | CL-44 y CL-28 |

@@ -12,6 +12,7 @@
 **MATU-84 (11-11):** entra la sección 30, «Me quedan» y el alta del insumo en envases. Aprobados por Jorge el 10-11.
 **MATU-88 (11-11):** la 5.1 suma la pregunta del relevo, sin «Puedes contar un día bueno o uno difícil.», con el criterio de la 5.3. En los insumos en sobres, el campo y el error del envase dicen «sobres» en vez de «unidades» (H2 del TESTER de MATU-84). La 5.1 es decisión de Jorge del 11-11, y el envase en sobres es del orquestador, por delegación de Jorge del mismo día.
 **MATU-61 (11-11):** entra la sección 31, el pedido, con los textos de la especificación de pantallas v1.1 (sección 15). Con la decisión D10 de Jorge cambian la 21 (la lista nunca compra sola), la 23 («Compré» nunca hace un pedido) y la 27 («Agregar al pedido» en el catálogo). La 17 mantiene «El aviso nunca ofrece comprar.». Por aprobar por Jorge al fusionar.
+**MATU-62 (11-11):** entra la sección 32, el pago, con los textos de la especificación de pantallas v1.1 (sección 12). La 31 admite «Este comprobante no es una boleta.» (D-62-7), el aviso de los 2 minutos también para el pagador (D-62-14) y un punto nuevo en «Retirar». Decisiones del orquestador por delegación de Jorge del 11-11. Los textos **[NUEVO]** los aprobó Jorge el 12-11.
 **Fuentes:** resultados de las entrevistas (`docs/resultados-entrevistas.md`), arquitectura sección 10, política de privacidad v0.9, la demo aprobada (`Demo/src/`, rama `demo-web-viernes-30`) y el contrato de MATU-09 (`docs/api/`, rama `matu-09-contrato-api`).
 
 ---
@@ -1105,7 +1106,7 @@ Los textos salen de la especificación de pantallas de MATU-61, v1.1 del 11-11 (
 | Productos | Productos · {cantidad} × {precio} · Subtotal: {precio} |
 | Retracto | Los dos de la sección 27, en cada línea, con letra no menor que el precio |
 | Boleta | Tu pedido · Productos ({n}) · Envío (uno por pedido) · Total · Este total vale hasta las {HH:MM}. · Se cobra una sola vez este total, con crédito o con débito. No hay reserva ni cobros después. |
-| Plazo | Quedan 2 minutos para pagar este total. · Volver a confirmar · Confirmamos de nuevo. Este total vale hasta las {HH:MM}. · Revisa lo que cambió antes de pagar. |
+| Plazo | Quedan 2 minutos para pagar este total. (también el pagador, sin «Volver a confirmar», D-62-14) · Volver a confirmar · Confirmamos de nuevo. Este total vale hasta las {HH:MM}. · Revisa lo que cambió antes de pagar. |
 | Vencido | Venció · Este total venció a las {HH:MM}. · Pasaron 15 minutos y el total venció. Vuelve a confirmar para ver lo que hay y su precio. · Volver a confirmar |
 | Entrega | Entrega: {ventana} · Teléfono de contacto: {telefono} |
 | Si falta | Si falta un producto · Si al retirar falta un producto, lo buscamos en otro comercio y pagas lo mismo. Si nadie lo tiene, o elegiste sacarlo, anulamos su cobro el mismo día, a la misma tarjeta. Cuándo lo ves en tu cuenta depende de tu banco. |
@@ -1117,10 +1118,58 @@ Los textos salen de la especificación de pantallas de MATU-61, v1.1 del 11-11 (
 | **Errores** | No pudimos traer tu pedido. Revisa tu conexión e inténtalo de nuevo. · No pudimos confirmar el total. Revisa tu conexión y vuelve a intentarlo. Tu pedido sigue aquí. · Ahora ningún comercio tiene estos productos. No hay nada que pagar. Tu pedido sigue aquí para intentarlo más tarde. · Este pedido cambió mientras lo revisabas. Te mostramos cómo quedó. · No encontramos este pedido. · Ir a tu pedido · El pedido no está disponible por ahora. |
 | **Grupo familiar** | Permiso para pedir sus insumos · Autorizado el {fecha}. · Autorizado el {fecha}. Hay que renovarlo desde el {fecha}. · Autorización retirada el {fecha}. · Sin permiso todavía. Se pide la primera vez que haces un pedido. · Para el lector: Retirar la autorización de los pedidos de {pila} · Volver a autorizar los pedidos de {pila} |
 | Ver la dirección (propuesta O12 del diseñador) | Ver la dirección de entrega · Para el lector: Ver la dirección de entrega de {pila} |
-| Retirar | ¿Retirar la autorización de los pedidos de {pila}? · Ya no se pueden hacer pedidos para {pila} desde MATU, desde ahora. · Cancelamos sin costo los pedidos sin pagar y borramos la dirección y el teléfono que se copiaron en ellos. · Los pedidos ya pagados siguen hasta que se entreguen. · La dirección de entrega de {pila} queda guardada para cuando vuelvas a autorizar. Puedes vaciarla cuando quieras. · La lista de insumos se puede seguir imprimiendo y compartiendo. · Su ficha, sus insumos y los enlaces de relevo no cambian. · Autorización retirada. Ya no se pueden hacer pedidos para {pila}. |
+| Retirar | ¿Retirar la autorización de los pedidos de {pila}? · Ya no se pueden hacer pedidos para {pila} desde MATU, desde ahora. · Cancelamos sin costo los pedidos sin pagar y borramos la dirección y el teléfono que se copiaron en ellos. · Si hay un pago en curso y se aprueba, lo anulamos completo el mismo día. (MATU-62) · Los pedidos ya pagados siguen hasta que se entreguen. · La dirección de entrega de {pila} queda guardada para cuando vuelvas a autorizar. Puedes vaciarla cuando quieras. · La lista de insumos se puede seguir imprimiendo y compartiendo. · Su ficha, sus insumos y los enlaces de relevo no cambian. · Autorización retirada. Ya no se pueden hacer pedidos para {pila}. |
 | Volver a autorizar, hecho | Pedidos autorizados. Ya puedes hacer pedidos para {pila}. |
 | Aviso del piloto | El de la sección 11, una vez por pantalla con precios: tu pedido y antes de pagar |
 
 `{correo}` es el canal de reclamo de las condiciones del pedido, cuidaconmatu@gmail.com (D8). `{ventana}` es la ventana fija del piloto, «Entre 24 y 48 horas hábiles» (D8). «Pagar {total}» es de MATU-62: aquí solo se fija el texto.
 
-**Ninguno usa** los términos de la sección 3, «stock», «carro», «carrito», «reserva» (salvo en «No hay reserva ni cobros después.», que la niega), «tope», «estimado», «aprox.» ni «monto real». «Boleta» aparece solo en «En este piloto no se emite boleta».
+**Ninguno usa** los términos de la sección 3, «stock», «carro», «carrito», «reserva» (salvo en «No hay reserva ni cobros después.», que la niega), «tope», «estimado», «aprox.» ni «monto real». «Boleta» aparece solo en «En este piloto no se emite boleta» y en «Este comprobante no es una boleta.» (sección 32, D-62-7).
+
+## 32. Pago (MATU-62) · Aprobados por Jorge el 12-11
+
+Los textos salen de la especificación de pantallas de MATU-62, v1.1 del 11-11 (`docs/diseno/matu-62-pago.md`, sección 12), que marca el origen de cada uno: [A5.4] los propuestos por el analista normativo en la segunda revisión previa (`legal/revision-previa-matu-62-segunda.md`), [L 31] los que ya están en la sección 31, [D-62-x] las decisiones del orquestador por delegación de Jorge y **[NUEVO]** o **[AJUSTE]** los del diseñador. Las llaves son datos de la API, con el formato de la sección 31. `{referencia}` es el número corto del pedido, de 4 a 6 cifras, `{ultimos4}` las cuatro últimas cifras de la tarjeta y `{codigo}` el código de autorización de Transbank.
+
+**Regla de la sección.** Se paga en Webpay, la página de Transbank, y MATU no ve la tarjeta. Se dice «no se hizo», «saliste sin pagar» y «no se cobró nada», nunca «rechazado» ni «fallido». El documento se llama «Comprobante», nunca «Boleta», y lleva el sello «Pago de prueba. No se cobró dinero real. Este comprobante no es una boleta.» mientras dure el piloto (solo si el pago es de prueba, decisión 248). **Todos los precios llevan el IVA incluido:** «Total» y «Total pagado», nunca «con IVA». El detalle de la tarjeta lo ve solo quien pagó. En el piloto el comprobante no se envía por correo (P-62-5): queda en MATU.
+
+| Dónde | Texto | Origen |
+|---|---|---|
+| `<title>` | El título de cada estado más « · MATU» | **[NUEVO]** |
+| **Antes de pagar** | | |
+| Antes de Webpay | Te llevamos a Webpay, la página de pago de Transbank. MATU no ve los datos de tu tarjeta. | [A5.4] |
+| Pagar | Pagar {total} · Pagando… · Abriendo Webpay… | [L 31] · **[NUEVO]** |
+| Cuidador | Pagan quien administra el grupo y quien paga. | [A5.4] |
+| Webpay no responde | Webpay no responde ahora. No se cobró nada. Inténtalo en unos minutos. | [A5.4] |
+| Sin conexión | No pudimos abrir Webpay. Revisa tu conexión y vuelve a intentarlo. No se cobró nada. | **[NUEVO]** |
+| Condiciones cambiaron | Las condiciones del pedido cambiaron. Léelas de nuevo y marca la casilla para pagar. | **[NUEVO]** |
+| **Pago en curso** | | |
+| Quien quiere cambiar | Hay un pago en curso para este pedido. Espera su resultado antes de cambiarlo. · Si alguien salió de Webpay sin terminar, se cierra solo en menos de 15 minutos. | [A5.4] · **[NUEVO]** |
+| Quien quiere pagar | Ya hay un pago en curso para este pedido. Espera su resultado antes de intentar de nuevo. · Si saliste de Webpay sin terminar, se cierra solo en menos de 15 minutos. | [A5.4] · **[NUEVO]** |
+| Revisar | Revisar de nuevo · Revisando… · Todavía hay un pago en curso. · El pago terminó. Te mostramos cómo quedó el pedido. | **[NUEVO]** |
+| Cancelar con pago en curso | Hay un pago en curso. Si Transbank lo aprueba, lo anulamos completo el mismo día, a la misma tarjeta. · Cancelamos el pedido. Si el pago en curso se aprueba, lo anulamos completo el mismo día. | **[NUEVO]** |
+| **La vuelta** | | |
+| Al volver | Estamos confirmando tu pago · No cierres esta pantalla. | [A5.4] |
+| La respuesta tarda | Todavía no tenemos la respuesta de Transbank. Si pagaste, no pagues de nuevo: te avisamos aquí apenas la tengamos, en menos de 15 minutos. · Revisar ahora · Revisando… · Todavía no tenemos la respuesta. · Ir a tu pedido | [A5.4] · **[NUEVO]** · [L 31] |
+| No se aprobó | El pago no se hizo · Transbank no lo aprobó y no se cobró nada. Puedes intentarlo con otra tarjeta mientras el total siga vigente. · Intentar de nuevo | [A5.4] |
+| Salió sin pagar | Saliste de Webpay sin pagar · No se cobró nada. | [A5.4] |
+| Se acabó el tiempo | Se acabó el tiempo para pagar en Webpay · No se cobró nada. | **[NUEVO]** |
+| Retorno repetido | Este pago ya está registrado. No se cobró dos veces. | [A5.4] |
+| Sin sesión | Para ver el comprobante y tu pedido, entra a MATU. · Entrar | **[NUEVO]** |
+| **Pagaste** | | |
+| Título y bajada | Pagaste tu pedido · Pagaste {total} una sola vez. Es el total que viste antes de pagar. | [A5.4] · **[NUEVO]** |
+| Comprobante | Comprobante · Pedido {referencia} · {DD/MM/AAAA} a las {HH:MM} · {cantidad} × {precio} · Envío (uno por pedido) · Total pagado · Pagado · Tarjeta de débito terminada en {ultimos4} · Tarjeta de crédito terminada en {ultimos4} · Tarjeta de crédito terminada en {ultimos4}, en {n} cuotas · Tarjeta de prepago terminada en {ultimos4} · Código de autorización {codigo} · Lo pagó otra persona de tu grupo. | **[NUEVO]** · [A5.4] · **[AJUSTE]** la tarjeta |
+| Sello del piloto | Pago de prueba. No se cobró dinero real. Este comprobante no es una boleta. | [D-62-7] |
+| Datos del pedido | Datos del pedido · Vende: MATU, piloto académico, sin persona jurídica. · Entrega: {ventana} · Condiciones aceptadas: versión {v}, el {DD/MM/AAAA} · Condiciones del pedido, versión {v} (se abre en otra pestaña) | **[NUEVO]** · [A5.4] |
+| Garantías | Lo que te garantizamos · Derecho a retracto: tienes 10 días desde que lo recibes. · Si un producto no llega, te devolvemos su precio el mismo día, a la misma tarjeta. Cuándo lo ves en tu cuenta depende de tu banco. · Quien administra el grupo puede cancelar sin costo mientras el comercio no empiece a preparar. · ¿Algo no está bien? Escríbenos a {correo}. | **[NUEVO]** el título · [A5.4] |
+| Correo | Te enviamos este comprobante a {correo}. (solo cuando el correo se envíe, después de MATU-91) · En el piloto, el comprobante no se envía por correo. Imprímelo o guárdalo en PDF si lo necesitas. | [A5.4] · **[AJUSTE]** |
+| Acciones | Imprimir o guardar en PDF · Ir a tu pedido | [L 21] · [L 31] |
+| Pago tardío respetado | Tu pago llegó después de que venció el total, y lo respetamos: pagaste {total}, el precio que aceptaste. | [A5.4] |
+| **Anulado y devoluciones** | | |
+| Pago tardío anulado | Anulamos tu pago · El pedido cambió o se canceló mientras pagabas. Anulamos tu pago de {total} completo, a tu tarjeta terminada en {ultimos4}. Cuándo lo ves en tu cuenta depende de tu banco. · Pago de prueba. No se cobró dinero real. | **[NUEVO]** · [A5.4] · [D-62-7] |
+| Anulación en curso | Estamos anulando tu pago · El pedido cambió o se canceló mientras pagabas. Estamos devolviendo {total} a tu tarjeta terminada en {ultimos4}. Si no se completa hoy, te escribimos. MATU nunca te pide los datos de tu banco por mensaje. | **[NUEVO]** |
+| Devolución hecha | Devolvimos {monto} a tu tarjeta terminada en {ultimos4}, por {producto}. Cuándo lo ves en tu cuenta depende de tu banco. · Quien no pagó: Devolvimos {monto} a la tarjeta con que se pagó, por {producto}. Cuándo se ve en la cuenta depende del banco. | [A5.4] · **[AJUSTE]** |
+| Devolución en curso | Estamos devolviendo {monto} a tu tarjeta. Si no se completa hoy, te escribimos. MATU nunca te pide los datos de tu banco por mensaje. · Quien no pagó: Estamos devolviendo {monto} a la tarjeta con que se pagó. Si no se completa hoy, le escribimos a quien pagó. MATU nunca pide los datos de un banco por mensaje. | [A5.4] · **[AJUSTE]** |
+| Renglones | Devolvimos: {producto} · Pagaste en total · por tu pedido completo | **[NUEVO]** |
+| **Pedido pagado** | Pedido pagado · Pagado · Pedido {referencia} · {DD/MM/AAAA} a las {HH:MM} · Total pagado: {total} · Ver el comprobante | **[NUEVO]** · [A5.4] |
+
+**Ninguno usa** los términos de la sección 3, «rechazado», «fallido», «inválido», «token», «stock», «reserva», «monto real», «estimado» ni «con IVA». «Boleta» aparece solo en «Este comprobante no es una boleta.», que la niega.
