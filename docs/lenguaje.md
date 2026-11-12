@@ -1269,6 +1269,7 @@ Los textos salen de `web/src/familia/textosInvitar.ts` (rama `matu-42-invitar-fa
 | Sin persona registrada | la persona que cuidan (en «Se informa», en la confidencialidad de confirmar y al dar la ficha) | **[NUEVO v1.2]** |
 | **Grupo familiar: quiénes lo forman** | | |
 | Bajada | Quiénes forman `{grupo}`, a quién cuidan y qué permisos dieron. | **[NUEVO]** |
+| Bajada sin persona registrada | Quiénes forman `{grupo}`. Todavía no registran a la persona que cuidan. | **[NUEVO v1.3]** |
 | Título | Quiénes forman el grupo | [ANALISTA] |
 | La fila propia | (tú) | [ANALISTA] |
 | Desde cuándo | Se unió el `{fecha}`. | **[NUEVO]** |
@@ -1359,6 +1360,7 @@ Los textos salen de `web/src/familia/textosInvitar.ts` (rama `matu-42-invitar-fa
 | A «Paga» | Como paga, no verá la ficha hasta que le des permiso. | **[NUEVO]** |
 | Otra persona deja de administrar | `{nombre}` dejará de administrar el grupo. | **[NUEVO v1.3]** |
 | Tú dejas de administrar | Dejarás de administrar el grupo. Para volver a hacerlo, otra persona que administra tendrá que dártelo. | **[NUEVO]** |
+| Tú dejas de administrar y pasas a «Paga» o «Se informa» | También dejarás de ver la ficha. (va después de «…tendrá que dártelo.») | **[NUEVO v1.3]** |
 | Botones | Guardar el cambio · No cambiar · Guardando el cambio… | [ANALISTA] · **[NUEVO]** |
 | Hecho | Ahora `{nombre}` `{rol en minúscula}`. · Cortamos 1 enlace. · Cortamos `{n}` enlaces. | [ANALISTA] · **[NUEVO]** |
 | Hecho, el rol propio | Ahora cuidas. · Ahora pagas. · Ahora te informas. | **[NUEVO v1.2]** |
@@ -1395,6 +1397,8 @@ Los textos salen de `web/src/familia/textosInvitar.ts` (rama `matu-42-invitar-fa
 | Sin red | No pudimos sacarte del grupo. Revisa tu conexión y vuelve a intentarlo. Sigues en el grupo. | **[NUEVO]** |
 | Única persona que administra | Eres la única persona que administra `{grupo}`. Para salir, primero da ese rol a otra persona. | **[NUEVO]** |
 | Única persona del grupo (`unica-persona`) | Eres la única persona de `{grupo}`, así que no puedes salir. Si ya no usan MATU para cuidar a `{nombres_pila}`, puedes borrar sus datos en «Borrar sus datos», más arriba. · Sin persona registrada, solo la primera oración. | **[NUEVO]** · **[NUEVO v1.2]** |
+
+**Sin persona registrada**, `/grupo` se abre igual para todos los roles (decisión del orquestador del 12-11). La bajada es la de «sin persona registrada», y no se muestran las autorizaciones ni «Borrar sus datos».
 
 **El aviso O4 va sin negrita**, siempre después de lo que cambia y antes de «Para volver…», en cambiar el rol, sacar y salir (especificación, 0.6). Es genérico, porque la API no dice cuántas invitaciones se anulan, y es cierto también si no había ninguna. La nota de hecho no las nombra.
 
