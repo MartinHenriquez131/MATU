@@ -182,7 +182,7 @@ Jorge decidió las primeras cinco de MATU-55 una por una y delegó el resto con 
 | D3 | **a)** 3 años, con la CL-53. El borrado lo construye MATU-89 |
 | D4 | Ya no hace falta: la resolvió la D11 (la versión que toque al fusionar, sin volver a aceptar) |
 | D5 | **b)** «En tus teléfonos» |
-| D6 | **b)** la opción de push se oculta en el piloto, hasta activar el envío real con su versión de la política y la CL-37 |
+| D6 | **a)** suscripción real del navegador (service worker, `manifest` y clave VAPID), con el envío simulado, como decidió Jorge el 08-11 (M9). **Corregida por Jorge el 12-11:** la recomendación inicial (ocultar el push) chocaba con los ítems 5.5 y 5.6 y la DdT 3 y 3.5 de la tarjeta. La política que trae MATU-55 (0.14) suma una línea: al activar «Recibir avisos», el navegador registra una dirección de avisos en el servicio de su fabricante; MATU no le envía ningún texto en el piloto. Sigue abierta la CL-37 |
 | D7 | **a)** se borra la columna `auditoria.ip` en la **0025** (`down_revision = "0024"`). Antes se verifica que MATU-62 no la escribe |
 | D8 | **a)** cerrar en otro teléfono con un diálogo, sin pedir la contraseña |
 
