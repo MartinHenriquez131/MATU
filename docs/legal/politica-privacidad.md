@@ -1,9 +1,9 @@
 # Política de privacidad de MATU
 
-**Versión 0.15 · 12 de noviembre de 2026 (12/11/2026)** · agrega las invitaciones a tu grupo, quiénes lo forman, el cambio de rol y salir de un grupo (MATU-42 y MATU-53). La versión 0.14 era del 12/11/2026 (MATU-55)
+**Versión 0.16 · 12 de noviembre de 2026 (12/11/2026)** · el teléfono del relevo se borra solo a los 30 días, y en ese mismo momento si pides borrar los datos de la persona (MATU-46). La versión 0.15 era del 12/11/2026 (MATU-42)
 **Estado:** borrador para el piloto académico. Todavía no sirve para tratar datos reales.
 **Aprobación:** aprobada como borrador v0.9 por Jorge Espinoza (Product Owner) el 25/10/2026. La revisión la hizo el orquestador del equipo de agentes, por delegación. Se confirman los tres compromisos del texto: MATU no vende datos, borra de inmediato los datos reales que entren por error, y ejercer los derechos es gratis. Los pendientes que quedan (plazos, proveedores y procedimiento ante filtraciones) se resuelven en la versión 1.0, antes de tratar datos reales.
-**Identificador de versión en el sistema:** `0.15`
+**Identificador de versión en el sistema:** `0.16`
 **Versión 0.10 (03-11):** la redactó el analista normativo con las decisiones de Jorge del 31-10, del 02-11 y del 03-11 (contrato de MATU-32, MATU-36 y MATU-38). Aprobada por Jorge el 05-11 como borrador del piloto, que trabaja solo con datos sintéticos. Antes de tratar datos reales pasa por la consulta legal. `POLITICA_VERSION` pasa a `0.10` en el backend con MATU-36
 **ADR-027 (27-10):** las secciones que empiezan con esa nota adaptan el texto a los pedidos y pagos del ADR-027. Aprobado por Jorge el 27-10 como diseño. Las frases de §4 y §6 sobre lo que el comercio ve o no ve se publican en futuro («cuando existan los pedidos») y se cumplen con la capa 3 (MATU-61 a 63).
 **MATU-50 (03-11):** se precisan las secciones 4, 6, 8 y 9 con la ficha ampliada ya construida, y se agrega que la ficha no se imprime (ADR-029). No agregan usos, datos ni destinatarios, y no cambian las declaraciones. No cambian la versión: `POLITICA_VERSION` sigue en `0.10`. Aprobado por Jorge el 03-11.
@@ -63,6 +63,8 @@ Cambia la versión porque agrega datos (el pago) y un destinatario (Transbank). 
 - §12 y §13: la versión, y las invitaciones dejan la lista de lo que todavía no funciona.
 
 La política no promete que quien administra vea en la aplicación quién invitó, se unió, cambió un rol o salió: MATU lo registra, y verlo queda para más adelante (decisión 320, MATU-98). **Nadie vuelve a aceptar la política** ni a dar las autorizaciones: la sección 3, punto 2, ya cubre formar el grupo y dar los permisos, no se agregan usos ni destinatarios, y las declaraciones de §5 no cambian (C4). Pendiente para la consulta legal: CL-57, CL-58, CL-59 y la CL-66 ampliada. **Pendiente de aprobación: la aprueba Jorge al fusionar.**
+
+**MATU-46 (12-11) · versión 0.16 (D11: una versión por fusión):** cambian §8, §10, §12 y §13. El teléfono del relevo se borra solo, con la tarea diaria de borrados, 30 días después de que el acceso vence o se corta, lo que ocurra primero. Si se piden borrar los datos de la persona, se borra en ese mismo momento (D-46-3 a). Se informa también que todavía no existe el borrado a los 3 años de los accesos de relevo y del registro de quién abrió la ficha (MATU-89). **Nadie vuelve a aceptar la política:** acorta plazos y no agrega usos, datos, destinatarios ni declaraciones. Las autorizaciones dadas siguen con su versión. Pendiente para la consulta legal: CL-60, y las CL-29 y CL-34 ampliadas. **Pendiente de aprobación: la aprueba Jorge al fusionar.**
 
 ---
 
@@ -351,8 +353,8 @@ Antes de usar MATU con datos reales, diremos aquí los demás: dónde se guardan
 - **Huellas para limitar intentos** al crear una cuenta, al entrar, al abrir un enlace de relevo y al abrir una invitación o escribir su código: 1 hora desde el primer intento. La que cuenta las invitaciones que crea quien administra: 24 horas.
 - **Avisos de insumos:** los avisos cerrados, 90 días. El registro de avisos, que dice a quién, por qué canal y si salió o por qué no salió, sin el texto ni tu correo: 90 días desde que se crea. Los eventos internos ya procesados, y los que no se pudieron procesar, 30 días. Las compras anotadas, 90 días desde que se anotan.
 - **Código para recuperar el acceso:** hasta que se usa o 10 minutos. Los contadores de envíos, 24 horas como máximo. <!-- MATU-57 -->
-- **Copias de respaldo:** guardamos copias de la base, que se borran solas al vencer su plazo. Todavía no definimos su plazo. Lo publicaremos antes de usar MATU con datos reales. <!-- PENDIENTE: plazo --> No se pueden cambiar una por una. Lo que borras, o pides borrar, sigue en las copias hechas antes, hasta que vencen: la ficha, cifrada, y los insumos y las compras anotadas, protegidos igual que en la base. Nadie usa esas copias para ver datos. Si alguna vez tenemos que recuperar la base desde una copia, antes de volver a usarla borramos otra vez todo lo que se pidió borrar. El borrado queda completo cuando vence la última copia.
-- **Registro de quién abrió la ficha:** 3 años.
+- **Copias de respaldo:** guardamos copias de la base, que se borran solas al vencer su plazo. Todavía no definimos su plazo. Lo publicaremos antes de usar MATU con datos reales. <!-- PENDIENTE: plazo --> No se pueden cambiar una por una. Lo que borras, o pides borrar, sigue en las copias hechas antes, hasta que vencen: la ficha, cifrada, los insumos, las compras anotadas y el teléfono del relevo, protegidos igual que en la base. Nadie usa esas copias para ver datos. Si alguna vez tenemos que recuperar la base desde una copia, antes de volver a usarla borramos otra vez todo lo que se pidió borrar. El borrado queda completo cuando vence la última copia.
+- **Registro de quién abrió la ficha:** 3 años. Todavía no se borra solo a los 3 años. Lo hará antes de usar MATU con datos reales (sección 13). <!-- PENDIENTE: CL-34. Borrado en MATU-89 -->
 - **Registro de tu cuenta** (sección 4): 3 años. En «Dónde entraste» se ven solo los últimos 90 días. Todavía no se borra solo a los 3 años. Lo hará antes de usar MATU con datos reales (sección 13). Un abogado revisará si este plazo es proporcional. <!-- PENDIENTE: CL-53. Borrado en MATU-89 -->
 - **Pedidos que no se pagaron:** el pedido que quedó armado, el que tiene el total vencido y el cancelado sin pagar se borran a los 30 días, contados desde la última vez que cambió, desde que venció o desde que se canceló, con sus productos y su línea de tiempo. La dirección y el teléfono copiados a un pedido cancelado se borran al cancelarlo. Para no repetir un pedido si tocas dos veces el mismo botón, MATU guarda 24 horas solo el número del pedido y el resultado, sin su contenido. <!-- D5 de MATU-61. PENDIENTE: CL-28 ampliada -->
 - **Pagos que no se cobraron o que se anularon:** un pago que se intentó y no se cobró se borra con su pedido a los 30 días. Un cobro que se anuló completo se guarda 6 años, sin la dirección ni los productos. <!-- D-62-13 de MATU-62. PENDIENTE: CL-64 -->
@@ -361,7 +363,7 @@ Antes de usar MATU con datos reales, diremos aquí los demás: dónde se guardan
 - **Pagos:** 6 años, por obligación tributaria. En el piloto no se emiten boletas.
 - **Tu cuenta y las versiones de esta política que aceptaste:** mientras tengas tu cuenta. Todavía no definimos cuánto tiempo se guardan después de que la elimines. Lo publicaremos antes de usar MATU con datos reales. <!-- PENDIENTE: CL-49 -->
 - **Registro de autorizaciones:** cada autorización, también las retiradas, con su fecha de retiro. Hoy no se borran. Todavía no definimos su plazo. Lo publicaremos antes de usar MATU con datos reales. <!-- PENDIENTE: plazo, en consulta legal -->
-- **Accesos de relevo:** el nombre del relevo, el motivo y las fechas, 3 años desde que vence o se corta el acceso, igual que el registro de quién abrió la ficha. El teléfono del relevo se borra 30 días después de que el acceso vence o se corta.
+- **Accesos de relevo:** el nombre del relevo, el motivo y las fechas, 3 años desde que vence o se corta el acceso, igual que el registro de quién abrió la ficha. Todavía no se borran solos a los 3 años (sección 13). El teléfono del relevo se borra 30 días después de que el acceso vence o se corta, lo que ocurra primero, y en ese mismo momento si pides borrar los datos de la persona (sección 10). <!-- MATU-46. PENDIENTE: CL-34. Borrado a los 3 años en MATU-89 -->
 - **Invitaciones a un grupo:** 30 días desde que se aceptan, se anulan, se bloquean o vencen, lo que pase primero, con las huellas de su enlace y de su código. <!-- D-42-6 -->
 - **Tu paso por un grupo**, si sales o te sacan: tu rol y las fechas en que te uniste y saliste, mientras existan los registros que te nombran. Todavía no definimos ese plazo. Lo publicaremos antes de usar MATU con datos reales. <!-- PENDIENTE: CL-59 -->
 - **Registro de los cambios del grupo** (invitaciones, roles, permisos y salidas): 3 años, como el registro de quién abrió la ficha.
@@ -428,12 +430,12 @@ Un abogado revisará, antes de usar MATU con datos reales, si se pueden guardar 
 
 Quien administra el grupo o quien cuida a la persona puede borrar todo lo guardado de ella, en «Grupo familiar», con una confirmación. Si la persona que cuidas o su representante legal te lo pide, hazlo desde ahí. También pueden pedirlo por el correo de esta sección. No esperamos ningún plazo:
 - En ese momento borramos su ficha, con todas sus secciones, destruyendo su clave, y borramos sus insumos, sus avisos y las compras anotadas.
-- Se cortan todos sus enlaces de relevo, y no vuelven a abrir. El relevo no ve el motivo.
+- Se cortan todos sus enlaces de relevo, y no vuelven a abrir, y borramos el teléfono de cada relevo. El relevo no ve el motivo.
 - Sus autorizaciones quedan retiradas, también la de los pedidos.
 - Cancelamos sin costo sus pedidos sin pagar y borramos la dirección y el teléfono que se copiaron en ellos. Lo demás de esos pedidos se borra a los 30 días (sección 8). Si en ese momento los pedidos no están disponibles en MATU, todo lo de esos pedidos se borra a los 30 días. Si en ese momento hay un pago en curso y Transbank lo aprueba, lo anulamos completo el mismo día. Ningún pedido guarda su nombre.
 - Un pedido ya cerrado queda solo con la comuna de entrega, y uno pagado que todavía no se entrega conserva la dirección hasta cerrarse. Los productos y los montos siguen el plazo de la sección 8. <!-- D2 de MATU-61. PENDIENTE: CL-52 y CL-44 -->
 - Borramos su nombre, el nombre con que la llaman, su nivel de apoyo y su dirección (salvo que sea la de otra persona que cuidan en el grupo), y deja de aparecer en MATU. Si quieren volver a usar MATU para cuidarla, hay que registrarla de nuevo y todo empieza en blanco.
-- Conservamos, sin nada de la ficha ni de los insumos, el registro de las autorizaciones, de los enlaces de relevo (el nombre del relevo, el motivo y las fechas; su teléfono, hasta 30 días) y de quién abrió la ficha, por los plazos de la sección 8, y el registro de los avisos (sin el texto ni tu correo), 90 días desde que se creó cada aviso, para poder demostrar cómo se usaron los datos. Esos registros ya no se ven en la aplicación: si los necesitas, pídelos por el correo de esta sección.
+- Conservamos, sin nada de la ficha ni de los insumos, el registro de las autorizaciones, de los enlaces de relevo (el nombre del relevo, el motivo y las fechas, sin su teléfono ni el nombre de la persona) y de quién abrió la ficha, por los plazos de la sección 8, y el registro de los avisos (sin el texto ni tu correo), 90 días desde que se creó cada aviso, para poder demostrar cómo se usaron los datos. Esos registros ya no se ven en la aplicación: si los necesitas, pídelos por el correo de esta sección. <!-- MATU-46, D-46-3 a. PENDIENTE: CL-60 -->
 - Lo borrado sigue en las copias de respaldo hasta que vencen (sección 8).
 - Una lista de insumos que ya imprimiste o compartiste no se borra, porque está fuera de MATU.
 - No se puede deshacer.
@@ -469,13 +471,13 @@ Si hay una filtración que afecte datos personales, avisaremos sin demora a la A
 - La versión 0.13 agrega el pago. No te pedimos aceptar de nuevo esta política ni volver a dar las autorizaciones: quien paga acepta las condiciones del pedido, y la autorización de los pedidos ya cubre sus productos. <!-- MATU-62. PENDIENTE: CL-24 -->
 - La versión 0.14 agrega «Dónde entraste» y los avisos en tus teléfonos. No te pedimos aceptar de nuevo esta política ni volver a dar las autorizaciones: el registro de tu cuenta ya existía, y la dirección de avisos solo se crea si tú tocas «Activar». <!-- MATU-55, D11 -->
 - La versión 0.15 agrega las invitaciones a tu grupo, quiénes lo forman, el cambio de rol y salir de un grupo. No te pedimos aceptar de nuevo esta política ni volver a dar las autorizaciones: formar el grupo y dar los permisos ya estaba en la sección 3, y las autorizaciones no cambian. <!-- MATU-42, D11 -->
+- La versión 0.16 borra solo el teléfono del relevo a los 30 días, y en ese mismo momento si pides borrar los datos de la persona. No te pedimos aceptar de nuevo esta política ni volver a dar las autorizaciones: solo acorta plazos. <!-- MATU-46, D11 -->
 - La versión 1.0 será la primera revisada por un abogado y la primera que permita usar datos reales.
 <!-- PENDIENTE: CL-50, si «acepto» es un consentimiento o solo un acuse de lectura -->
 
 ## 13. Lo que todavía no funciona en el piloto
 
-- Borrar el teléfono del relevo 30 días después de que el acceso vence o se corta. Mientras no exista, MATU no trata datos reales.
-- Borrar solo el registro de tu cuenta a los 3 años. Mientras no exista, MATU no trata datos reales.
+- Borrar solos, a los 3 años, el registro de tu cuenta, los enlaces de relevo (el nombre del relevo, el motivo y las fechas) y el registro de quién abrió la ficha. Mientras no exista, MATU no trata datos reales. <!-- MATU-89 -->
 - Ver o descargar todos los datos desde la aplicación. Por ahora, en «Tu cuenta» ves tu email, parte de tu celular, qué versión de esta política aceptaste y dónde entraste en los últimos 90 días. Para lo demás, escribe a cuidaconmatu@gmail.com (sección 10).
 - Borrar los datos de la persona cuando lo pide por correo, sin pasar por su grupo. Mientras no exista, MATU no trata datos reales.
 - El recordatorio de los 12 meses.
