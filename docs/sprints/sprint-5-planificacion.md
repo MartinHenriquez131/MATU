@@ -27,7 +27,7 @@ La razón es que las estimaciones del semestre resultaron muy por encima de lo r
 | | Jorge | Martín |
 |---|---|---|
 | Qué hace | Desarrolla todo con los seis agentes, redacta lo técnico del informe y prepara las láminas | Revisa y fusiona la cola, despliega la demo, hace la usabilidad, escribe el guion y prueba en el teléfono |
-| Estimaciones de las tarjetas (las que la tienen) | MATU-63 (6 h), MATU-76 (4 h), MATU-95 (1,5 h), MATU-81 (8 h), MATU-79 (8 h), MATU-96 (1,5 h), y su parte de MATU-78 (3 h), MATU-77 (2 h), MATU-80 (7 h) y MATU-104 (4 h) | MATU-64 (4 h), MATU-65 (5 h), y su parte de MATU-78 (5 h, lidera la redacción), MATU-77 (2 h), MATU-80 (2 h) y MATU-104 (2 h) |
+| Estimaciones de las tarjetas (las que la tienen) | MATU-63 (6 h), MATU-76 (4 h), MATU-95 (1,5 h), MATU-81 (8 h), MATU-79 (8 h), MATU-96 (1,5 h), MATU-106 (1 h), y su parte de MATU-78 (3 h), MATU-77 (2 h), MATU-80 (7 h) y MATU-104 (4 h) | MATU-64 (4 h), MATU-65 (5 h), y su parte de MATU-78 (5 h, lidera la redacción), MATU-77 (2 h), MATU-80 (2 h) y MATU-104 (2 h) |
 | Sin estimación todavía | MATU-92 y MATU-103, que se estiman en su plan | MATU-100 y la cola de revisión del sprint 4 |
 
 **Carga real.** Con los agentes, las cerca de 45 h estimadas de Jorge son unas 15 h reales. Martín carga cerca de 27 h de persona: la demo, la usabilidad, su parte de MATU-77, 78, 80 y 104, y la revisión de 9 PR con su informe en `TESTER/` y la prueba en el teléfono. Por eso se le pasaron solo MATU-100 y el liderazgo de la redacción de MATU-78 (decisión de Jorge del 12 de noviembre). Lo que más equilibra la carga es que Martín fusione la cola por la fila de migraciones el viernes 13 y el sábado 14: #85, #84, #87, #88, #89, #90 y MATU-54.
@@ -88,6 +88,8 @@ El orden es el orden de ejecución.
 | 15 | MATU-100 · Coherencia de documentos | mié 18 | 18 de noviembre | Martín | — |
 | 16 | MATU-104 · Presentación final | jue 19, y se pule en la reserva | 19 de noviembre | Jorge y Martín | MATU-77, 78 |
 | 17 | Ceremonia · Revisión final y retrospectiva del semestre | jue 19 | 19 de noviembre | Jorge y Martín | — |
+
+**Agregada el 12 de noviembre:** MATU-106 · Exportar la presentación y el canje del relevo al contrato oficial (Jorge, 1 h, sin migración). Es un hallazgo de la QA final de MATU-54: esas dos rutas son las únicas que no están en `openapi.json` y no tienen prueba de contrato. Va el miércoles 18 junto con MATU-96, sin cambiar la numeración.
 
 **Cambios de responsable del 12 de noviembre (decisión de Jorge):**
 - **MATU-100 pasa a Martín (Eje B).** Martín verifica y corrige los documentos con su agente `revisor-documental` y abre el PR. Jorge confirma contra las migraciones 0005 y 0025 quién lee la auditoría, y revisa y fusiona.
