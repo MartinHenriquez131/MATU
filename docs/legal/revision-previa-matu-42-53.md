@@ -308,3 +308,27 @@ Ninguna bloquea el semestre, que usa datos sintéticos.
 - **Ley 19.628:** el art. 12 (acceso), como en la revisión de MATU-55.
 - **Ley 21.719:** sin artículos.
 - **Ley 20.422:** como marco.
+
+## Decisiones de Jorge (12 de noviembre de 2026)
+
+Jorge decidió las primeras cinco de MATU-55 una por una y delegó el resto con «todas de acuerdo a tus recomendaciones». Se aplican las recomendaciones actualizadas del analista, que tienen en cuenta MATU-61, 62 y 94. Versión de la política según la D11, una por fusión. Fila de migraciones: 0024 MATU-62, 0025 MATU-55, 0026 MATU-42, 0027 MATU-46 y 0028 MATU-54. La próxima CL libre es la CL-68.
+
+| Id | Decisión |
+|---|---|
+| D-42-1 | **a)** la invitación la manda quien administra, sin que MATU guarde el contacto |
+| D-42-2 | **a)** un código de 4 dígitos que se dicta aparte |
+| D-42-3 | 7 días con código, 48 horas sin código |
+| D-42-4 | **a)** antes del código se ve quién invita y el rol |
+| D-42-5 | Se pueden dar los cuatro roles, con advertencia para admin, incluido el permiso del pagador para ver la ficha |
+| D-42-6 | Las invitaciones cerradas se borran a los 30 días con la tarea de MATU-74, que corre siempre |
+| D-42-7 | **a)** al sacar a alguien, sus enlaces de relevo se cortan al tiro |
+| D-42-8 | **b)** la auditoría lleva el rol, sin otros datos. Antes se verifica que la 0024 no cambió `auditoria_detalle_acotado` |
+| D-42-9 | **a)** si quien autorizó sale del grupo, la autorización sigue, con aviso (CL-58). El aviso cubre también la autorización de pedidos |
+| D-42-10 | **a)** solo los miembros activos; quien salió se ve como «Alguien que ya no está», también en los pedidos que armó, confirmó o pagó |
+| D-42-11 | **a)** volver a invitar crea una fila nueva, con un índice parcial |
+| D-42-12 | **a)** aceptar la invitación con funciones `SECURITY DEFINER` |
+| D-42-13 | Salir del grupo por cuenta propia se incluye en esta historia |
+| D-42-C20 | Un cambio de rol con un pago en curso vale desde la petición siguiente, y el pago no se anula |
+| D-42-14 | Ya no hace falta: la migración es la **0026** |
+
+**Ajustes:** si la 0024 no divide `direccion_familia` y `direccion_operacion`, las divide la 0026; el texto sobre pedidos del rol «Paga» se muestra solo con la capa 3 encendida; se borra «la próxima es CL-60».
