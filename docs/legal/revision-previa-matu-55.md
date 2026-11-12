@@ -10,7 +10,7 @@ Esto no es asesoría legal: sirve para que Jorge decida. La fuente de verdad es 
 
 ## 0. Resumen para la planificación
 
-**Sí hace falta una migración: la 0024, que va después de la 0023 de MATU-61.**
+**Sí hace falta una migración: la 0025, que va después de la 0024 de MATU-62.**
 
 **Por qué:** hoy nadie puede leer las filas de auditoría de la cuenta, que son las que tienen `grupo_id` NULL.
 - La política `auditoria_familia` (0005) exige `grupo_id = app_grupo()`, y con NULL esa condición nunca se cumple.
@@ -24,7 +24,7 @@ El resultado es que las filas `sesion.*`, `dispositivo.*` y `cuenta.*` que se es
 - `auditoria.accion` y `auditoria.entidad` son texto sin `CHECK`. Agregar `avisos.preferencia` es un cambio de código en `backend/app/shared/auditoria.py`.
 - El `CHECK auditoria_detalle_acotado` no cambia, porque la preferencia se audita sin sus valores.
 
-**Borrador de la 0024** (para quien implemente):
+**Borrador de la 0025** (para quien implemente):
 
 ```sql
 -- upgrade
@@ -55,7 +55,7 @@ DROP POLICY auditoria_cuenta_propia ON auditoria;
 
 | # | Punto | Veredicto | Condiciones |
 |---|---|---|---|
-| P1 | **Derecho de acceso a la auditoría de la cuenta** | Hoy **NO CUMPLE** en la app. Con MATU-55, la 0024 y la política 0.12: **CUMPLE** con condiciones | La política (§10) promete «Ver qué datos tenemos», y la Ley 19.628 lo reconoce en su art. 12. La Ley 21.719 mantiene el derecho, sin artículo citado. Lo que no salga en pantalla se sigue pidiendo por correo (§10). **C1:** se lee con `sesion_de_usuario`, solo `app.usuario_id`, y filtra RLS, no un `WHERE`. **C2:** sin parámetro de usuario |
+| P1 | **Derecho de acceso a la auditoría de la cuenta** | Hoy **NO CUMPLE** en la app. Con MATU-55, la 0025 y la política 0.12: **CUMPLE** con condiciones | La política (§10) promete «Ver qué datos tenemos», y la Ley 19.628 lo reconoce en su art. 12. La Ley 21.719 mantiene el derecho, sin artículo citado. Lo que no salga en pantalla se sigue pidiendo por correo (§10). **C1:** se lee con `sesion_de_usuario`, solo `app.usuario_id`, y filtra RLS, no un `WHERE`. **C2:** sin parámetro de usuario |
 | P2 | **Minimización: dispositivo, ingreso y nada de IP** | **CUMPLE** con condiciones | Hoy `RegistroAuditoriaSql` nunca escribe `ip`, y `DispositivoVista` no trae `push_token`, hashes, IP ni agente. **C3:** la respuesta lleva solo el tipo, el instante, el nombre del dispositivo y si es el actual. Nunca `ip`, `request_id`, `actor_ref`, `entidad_id`, `detalle` ni `familia_id`, con `extra="forbid"` y una prueba que falle si aparecen. **C4:** columnas nombradas, sin `SELECT *`. **C5:** sin ubicación, y la bajada lo aclara. **C6:** `Cache-Control: no-store` y nada en el almacenamiento del navegador |
 | P3 | **Conservación de los ingresos** | **REQUIERE CONSULTA LEGAL** (CL-53). En transparencia hoy **NO CUMPLE** | La política no declara el registro de la cuenta ni su plazo: §8 solo trae «quién abrió la ficha: 3 años», y la arquitectura 11.8 dice «Auditoría de acceso: 3 años». No existe la tarea que la borre. Mientras tanto: D2 y D3 |
 | P4 | **Auditoría de la preferencia de avisos** | **CUMPLE** con condiciones | **C7:** `avisos.preferencia`, con `grupo_id` NULL y sin detalle ni valores. **C8:** en la misma transacción, y solo si hubo cambios. **C9:** `notifications` usa el puerto `RegistroAuditoria` de `shared`, verificado por `test_arquitectura.py`. **C10:** las lecturas no se auditan |
@@ -67,7 +67,7 @@ DROP POLICY auditoria_cuenta_propia ON auditoria;
 
 ## 2. ¿Migración?
 
-**Sí: la 0024 (`down_revision = "0023"`).**
+**Sí: la 0025 (`down_revision = "0024"`).**
 - **Siempre:** la política `auditoria_cuenta_propia` y el índice `auditoria_cuenta_ix`.
 - **Según lo que decida Jorge:** la segunda condición de la política (D1-c) y `DROP COLUMN ip` (D7).
 
@@ -89,14 +89,14 @@ No lleva columnas nuevas ni toca los `CHECK`.
   - (b) Ocultar el interruptor hasta que haya un proveedor.
   - (c) Solo en local.
   - **Se recomienda a**, con datos sintéticos en los teléfonos del equipo. Si Jorge prefiere no tener un flujo real hacia terceros antes de la consulta legal, b.
-- **D7 · Borrar la columna `auditoria.ip` en la 0024.** (a) Sí o (b) no. **Se recomienda a**: nunca tuvo datos. Está fuera del alcance de la tarjeta y necesita la aprobación de Jorge.
+- **D7 · Borrar la columna `auditoria.ip` en la 0025.** (a) Sí o (b) no. **Se recomienda a**: nunca tuvo datos. Está fuera del alcance de la tarjeta y necesita la aprobación de Jorge.
 - **D8 · Cerrar en otro teléfono.** (a) Con un diálogo y sin contraseña, (b) pidiendo la contraseña o (c) sin confirmación. **Se recomienda a.**
 
 ## 4. Documentos que hay que actualizar (borradores)
 
 - **`registro-tratamientos.md`, entrada 6:**
   - **Datos:** la auditoría de la cuenta (`sesion.*`, `dispositivo.*`, `cuenta.*` y `avisos.preferencia`), sin grupo, sin IP, sin la huella del email y sin los valores.
-  - **Quién accede:** la titular, en «Dónde entraste», con la RLS `auditoria_cuenta_propia` (0024): los últimos 90 días, con fecha, hora y nombre del dispositivo. Lo anterior se pide por correo. Nadie más lo ve.
+  - **Quién accede:** la titular, en «Dónde entraste», con la RLS `auditoria_cuenta_propia` (0025): los últimos 90 días, con fecha, hora y nombre del dispositivo. Lo anterior se pide por correo. Nadie más lo ve.
   - **Conservación:** 3 años [PENDIENTE: CL-53 y la tarea que lo borre].
   - **Comunicaciones a terceros:** la inscripción del navegador en push [PENDIENTE: CL-37 ampliada].
 - **`registro-tratamientos.md`, entrada 8, «Quién accede»:** «Nadie ve el código. Los eventos de recuperación van sin contacto, código ni IP. Operación no los lee (0005). La titular ve en "Dónde entraste" el pedido de código y el cambio de contraseña (MATU-55)». La última parte depende de D1.
@@ -113,7 +113,7 @@ No lleva columnas nuevas ni toca los `CHECK`.
   - **CL-37 (ampliada):** la inscripción del navegador en push sin envíos.
 - **Fuera de `docs/legal/`:**
   - `docs/modelo-datos.md`: la fila de `auditoria`, los índices y, con D7, la IP.
-  - `docs/api/README.md`: una decisión nueva con la ruta y la 0024.
+  - `docs/api/README.md`: una decisión nueva con la ruta y la 0025.
 
 ## 5. Textos que faltan en `lenguaje.md` (propuestos)
 
@@ -187,3 +187,19 @@ Jorge decidió las primeras cinco de MATU-55 una por una y delegó el resto con 
 | D8 | **a)** cerrar en otro teléfono con un diálogo, sin pedir la contraseña |
 
 **Ajustes:** la migración es la 0025, no la 0024; la «0.12» de las secciones 3 y 4 pasa a «la versión que toque al fusionar».
+
+**Corrección del 12-11:** donde este documento decía que la migración de MATU-55 era la 0024, ahora dice la 0025, porque la 0024 fue de MATU-62.
+
+## Revisión de cierre (12-11)
+
+El analista normativo revisó lo construido en MATU-55 contra las condiciones de esta revisión previa.
+
+- **C1 a C13: CUMPLE.**
+- **P7, la política 0.14 en la app:** se corrige en el PR de código de MATU-55.
+- **C14 (nueva):** los avisos en el teléfono se activan solo en teléfonos del equipo de MATU. La política 0.14 lo dice en §1, y la CL-69 pregunta qué pasa si se activan en el teléfono de otra persona.
+- **C15 (nueva):** el procedimiento para responder un pedido de acceso fuera de la app (rol, columnas y registro de la respuesta) va en la tarjeta MATU-99, antes de datos reales.
+- **La recomendación P3**, que al salir de MATU en un teléfono se borre también la inscripción del navegador, se aplica en MATU-55.
+- **La 0025** suma además el `CHECK auditoria_cuenta_acotada` (decisión 258), que esta revisión previa no tenía: toda fila sin grupo es una de las 14 acciones de la cuenta.
+- **Quedan para antes de datos reales:** la CL-37 (ampliada), la CL-53 y la CL-69.
+
+Los documentos se actualizan en el PR de documentos de MATU-55: política 0.14, registro de tratamientos (entradas 5, 6, 8 y 9), consulta legal y `lenguaje.md` (sección 33).
