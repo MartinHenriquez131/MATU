@@ -209,12 +209,15 @@ erDiagram
         uuid invitado_por FK "opcional"
         timestamptz unido_en
         timestamptz retirado_en "opcional"
+        int version
     }
     invitacion {
         uuid id PK
         uuid grupo_id FK
-        text destino_email "opcional"
-        text destino_telefono "opcional"
+        text nombre_pila_invita
+        bytea codigo_hash
+        smallint codigo_intentos_fallidos
+        timestamptz bloqueada_en "opcional"
         text rol
         bytea token_hash UK
         uuid invitado_por FK
@@ -275,8 +278,8 @@ erDiagram
 | `dispositivo` | Dispositivos para notificaciones push y para atar sesiones | Se revoca, no se borra |
 | `sesion_refresh` | Refresh token rotativo con detección de reutilización (11.6) | Todos los tokens de una cadena comparten `familia_id`. Si se presenta uno ya usado, se revoca la familia entera. Vigencia máxima de 30 días por `CHECK` |
 | `grupo_familiar` | El tenant del sistema | — |
-| `membresia` | Quién pertenece a qué grupo y con qué rol | Un usuario, una membresía por grupo. `puede_ver_plan` solo tiene sentido para `pagador` (`CHECK`) |
-| `invitacion` | Invitar a un familiar por email o teléfono (RF-38) | Token con hash, vence en máximo 7 días |
+| `membresia` | Quién pertenece a qué grupo y con qué rol | Una membresía no retirada por usuario y grupo (índice único parcial `WHERE estado <> 'retirada'`, 0026): volver a invitar crea una fila nueva. `puede_ver_plan` solo para `pagador` (`CHECK`). `version` para `If-Match`. El trigger `membresia_nunca_sin_admin` impide dejar el grupo sin admin. Sacar y salir pasan por `membresia_retirar` (`SECURITY DEFINER`). La retirada se conserva [PENDIENTE: CL-59] |
+| `invitacion` | Invitar a un familiar con un enlace y un código (RF-38, MATU-42) | **Sin correo ni teléfono** (D-42-1 a). SHA-256 del token y HMAC del código de 4 dígitos con `PEPPER_PIN`. 5 intentos y `bloqueada_en`. Un solo uso. Vence en 7 días. `nombre_pila_invita` copiado. Se borra 30 días después de cerrarse, con su `indice_token` (`invitacion_conservar`, D-42-6). La persona invitada la canjea con `invitacion_presentar`, `_verificar` y `_aceptar` (`SECURITY DEFINER`) |
 | `direccion` | Direcciones del grupo | Desde la migración de MATU-61, **`lat` y `lng` siempre nulas**, con un `CHECK` (C8): MATU no guarda la ubicación en el mapa. `version` da el `ETag` de `PUT …/personas-cuidadas/{persona_id}/direccion` (D4). La dirección se pide con el primer pedido, se copia a `pedido_entrega` al confirmar, se conserva al retirar la autorización de pedidos y se puede vaciar (CJ6 de Jorge). `referencia` hasta 200 caracteres (C9) |
 | `persona_cuidada` | La persona que recibe el cuidado. Es sujeto de datos, no usuario | **Sin diagnóstico** (11.3). `nivel_apoyo` es operacional |
 | `consentimiento` | Consentimiento por persona y finalidad (Ley 21.719, sección 11.5) | Un solo consentimiento vigente por persona y finalidad. `representante_legal` exige referencia al documento. `cuidador_de_hecho` exige fecha de revisión anual. **Inalterable** (migración 0006, 28-10, ajustada en la 0016 de MATU-44): solo se registra su revocación, una vez, y nunca se borra. `revocacion_motivo` (`retiro` o `renovacion`) se fija junto con `revocado_en`, con un `CHECK` que exige los dos juntos: el retiro corta los accesos de relevo en el caso de uso, y la renovación no. Solo administrador y cuidador fijan `revocado_en` (política RLS `consentimiento_familia_revocar`). A los 90 días de un retiro sin autorización nueva, la tarea `tarea_destruccion`, que hoy se corre a mano, llama a `plan_destruir_claves`, que destruye la clave de la persona y borra lo cifrado con ella; si después se autoriza de nuevo, la ficha empieza en blanco con una clave nueva. La confirmación anual del cuidador de hecho crea una fila nueva con su propia evidencia y no edita la anterior; ese historial es la prueba de licitud. Que DELETE se rechace siempre es provisional hasta la consulta legal sobre conservación y anonimización |
@@ -338,7 +341,7 @@ erDiagram
         uuid plan_id FK
         uuid otorgado_por FK
         text otorgado_a_nombre
-        text otorgado_a_telefono
+        text otorgado_a_telefono "opcional, se vacía (MATU-46)"
         text nombre_pila_persona
         text nombre_pila_comparte "migración pendiente, MATU-18"
         text_array secciones_permitidas
@@ -351,6 +354,7 @@ erDiagram
         timestamptz revocado_en "opcional"
         int usos
         timestamptz ultimo_uso_en "opcional"
+        timestamptz telefono_borrado_en "opcional, MATU-46"
     }
     persona_cuidada {
         uuid id PK
@@ -368,7 +372,7 @@ erDiagram
 | `clave_datos` | Una clave de datos (DEK) por persona cuidada, cifrada con la clave maestra (KEK) | `dek_cifrada_con_kek` nula **si y solo si** `destruida_en` tiene valor. El borrado criptográfico no deja estados ambiguos ni se regenera en silencio (defecto 5 de la sección 12.8). Desde la migración 0016 (MATU-44), el `UNIQUE (persona_cuidada_id)` es el índice parcial `clave_datos_vigente_uq`: una sola clave no destruida por persona. Una clave nueva solo se crea después de una autorización nueva para `plan_cuidado`, otorgada en el instante de la última destrucción o después (trigger `clave_datos_nueva_tras_autorizacion`) |
 | `plan_cuidado` | Un plan por persona cuidada | `modo` = `ficha_relevo` por defecto, tras el cierre del ADR-023. `completo` queda disponible sin migración |
 | `plan_seccion` | El contenido, cifrado sección por sección | Nonce de exactamente 12 bytes, tag de 16. **El nonce es único en toda la tabla**: repetirlo rompe AES-GCM. `version` implementa el bloqueo optimista (RF-04) |
-| `acceso_relevo` | El enlace temporal para el relevo (RF-05 a RF-07) | Solo secciones válidas y al menos una. Vigencia máxima de 30 días. PIN con máximo 5 intentos fallidos. Guarda `nombre_pila_persona` para que el relevo nunca lea `persona_cuidada`, y `nombre_pila_comparte` para que nunca lea `usuario` (decisión 28 del contrato de MATU-09). [PENDIENTE: `nombre_pila_comparte` lo agrega una migración de MATU-18.] **`motivo` es un enumerado sin texto libre**: `salgo_unas_horas`, `fin_de_semana_fuera`, `turno_de_noche` u `otro` (decisión 16). Cabe en la columna `text` y lo valida la API. La retención del teléfono y del resto del acceso está en la sección 11.8 de la arquitectura |
+| `acceso_relevo` | El enlace temporal para el relevo (RF-05 a RF-07) | Solo secciones válidas y al menos una. Vigencia máxima de 30 días. PIN con máximo 5 intentos fallidos. Guarda `nombre_pila_persona` para que el relevo nunca lea `persona_cuidada`, y `nombre_pila_comparte` para que nunca lea `usuario` (decisión 28 del contrato de MATU-09). [PENDIENTE: `nombre_pila_comparte` lo agrega una migración de MATU-18.] **`motivo` es un enumerado sin texto libre**: `salgo_unas_horas`, `fin_de_semana_fuera`, `turno_de_noche` u `otro` (decisión 16). Cabe en la columna `text` y lo valida la API. Desde la 0027 (MATU-46), `otorgado_a_telefono` admite nulo y `telefono_borrado_en` guarda cuándo se vació, con el `CHECK` `acceso_relevo_telefono_borrado`: el teléfono está vacío si y solo si hay instante. Un trigger impide, para todos los roles, que el teléfono vuelva, cambie por otro o cambie su instante. La retención del teléfono y del resto del acceso está en la sección 11.8 de la arquitectura |
 
 **La ficha de relevo no necesita tablas nuevas.** Sus tres campos (rutina en una línea, qué hacer si se altera, a quién llamar) son tres tipos de sección que ya existían: `rutina`, `manejo_situaciones` y `red_apoyo`. El ADR-023 decía que el plan B "no toca el modelo de datos", y este diseño lo confirma.
 
@@ -1260,7 +1264,7 @@ Cuando entre, `receta` será dato de salud: llevará la misma política que el p
 | Plantillas de notificación | Código | Se versionan con el código |
 | KEK | Custodia de secretos del proveedor | ADR-016 |
 
-**Jobs de retención** (sección 11.8) que el modelo deja preparados: limpiar `indice_token` e `idempotencia` vencidos (diario), purgar pedidos y evidencias de más de 2 años, auditoría de más de 3 y pagos de más de 6. Para el acceso de relevo (decisiones 25 y 26 del contrato de MATU-09): borrar el teléfono del relevo 30 días después de que el acceso vence o se revoca, purgar el resto del acceso a los 3 años, y anonimizar `nombre_pila_persona` si se borra a la persona cuidada. [PENDIENTE: borrar el teléfono exige quitar el `NOT NULL` de `otorgado_a_telefono` con una migración de la historia de conservación]
+**Jobs de retención** (sección 11.8) que el modelo deja preparados: limpiar `indice_token` e `idempotencia` vencidos (diario), purgar pedidos y evidencias de más de 2 años, auditoría de más de 3 y pagos de más de 6. Para el acceso de relevo (decisiones 25 y 26 del contrato de MATU-09): borrar el teléfono del relevo 30 días después de que el acceso vence o se revoca, purgar el resto del acceso a los 3 años, y anonimizar `nombre_pila_persona` si se borra a la persona cuidada. El teléfono lo borra la tarea `conservacion_relevo` (migración 0027, MATU-46), y al borrar a la persona, el mismo borrado. El nombre de pila lo anonimiza el borrado de la persona (MATU-72). Purgar el resto del acceso a los 3 años queda para MATU-89.
 
 ---
 
@@ -1291,7 +1295,7 @@ python db/gen_diagramas.py && python db/gen_matriz.py
 El esquema ya está migrado. Estas decisiones siguen abiertas y se confirman entre los dos en la planificación del sprint que las usa:
 
 - Vigencia máxima del acceso de relevo: **30 días**, o más corta (sprint 2)
-- Vigencia de la invitación: **7 días** (sprint 3)
+- ~~Vigencia de la invitación~~: **7 días**, decidido (D-42-3 de Jorge, 12-11. MATU-42)
 - Frecuencias permitidas de reposición: 7, 14, 21, 28 y 30 días (fuera del semestre: la reposición programada salió con el segundo recorte)
 - Período de liquidación por defecto: **quincenal** (sprint 4)
 - Los hallazgos 1 a 5 de la sección 5.4 y los 16 cambios de la sección 10 se llevan a la arquitectura v1.2

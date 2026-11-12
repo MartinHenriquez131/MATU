@@ -1,6 +1,6 @@
 # Registro de tratamientos de MATU
 
-**Estado:** borrador para el piloto académico, a la par de la política de privacidad v0.14 (MATU-55, pendiente de aprobación al fusionar). Lo redacta el analista normativo y lo aprueba Jorge Espinoza. Este documento no es asesoría legal.
+**Estado:** borrador para el piloto académico, a la par de la política de privacidad v0.16 (MATU-46, pendiente de aprobación al fusionar). Lo redacta el analista normativo y lo aprueba Jorge Espinoza. Este documento no es asesoría legal.
 
 Cada historia que empieza a tratar datos personales agrega aquí su entrada.
 
@@ -25,6 +25,7 @@ Cada historia que empieza a tratar datos personales agrega aquí su entrada.
   - administrador y cuidador borran los datos de la persona. Pagador, observador y otro grupo reciben 404. Una política RLS por rol lo limita (`app_retira_autorizacion()`) (MATU-72)
   - la dirección de entrega (MATU-61): administrador y cuidador la agregan, la cambian (`PUT …/personas-cuidadas/{persona_id}/direccion`, con `If-None-Match` o `If-Match`) y la vacían (`DELETE`, con `If-Match`). El pagador la ve en la persona y no la cambia (404). El observador no la recibe. Otro grupo, 404. No pide la autorización de pedidos, vigente, vencida, retirada o nunca dada (CJ8 de Jorge). Cada cambio y cada vaciado se audita como `direccion.cambiar`, sin el contenido (D12)
   - operación: [PENDIENTE: acotar a nombre y dirección en la historia de backoffice]
+  - quién tiene cada rol lo decide quien administra el grupo (entrada 12). Desde la 0026, la dirección la escriben solo administrador y cuidador también en la base (`direccion_familia_crear`, `_editar` y `_borrar` con `app_retira_autorizacion()`), y la leen los miembros del grupo
 - **Conservación:** [PENDIENTE: plazo del registro de autorizaciones, también de las retiradas, en consulta legal]. Hoy no se borra (trigger `consentimiento_sin_borrado`). Después de un borrado, la autorización se conserva con su motivo. [PENDIENTE: plazo, CL-27] La fila de una persona borrada queda solo con su id, el grupo, las fechas y el valor fijo `borrada`, sin nivel de apoyo ni dirección, mientras existan los registros que la referencian. [PENDIENTE: plazo, CL-27] La dirección de entrega se guarda mientras la persona esté registrada, hasta que se vacía o se borra a la persona. Retirar la autorización de pedidos no la borra (CJ6 de Jorge). Vaciarla deja `persona_cuidada.direccion_entrega_id` en `null` y borra la fila de `direccion` si nadie más del grupo la usa.
 - **Medidas:**
   - separación por familia con RLS forzado
@@ -159,7 +160,7 @@ Cada historia que empieza a tratar datos personales agrega aquí su entrada.
 - **Transferencia internacional:** [PENDIENTE: proveedor y país].
 - **Decisiones automatizadas:** ninguna.
 
-## 4. Acceso de relevo (MATU-09, MATU-18 a MATU-20, MATU-23, MATU-25)
+## 4. Acceso de relevo (MATU-09, MATU-18 a MATU-20, MATU-23, MATU-25, MATU-46)
 
 > Aprobado por Jorge el 27-10 como diseño. Desde MATU-44, retirar la autorización de la ficha corta en la misma transacción los accesos de relevo que todavía abrían.
 
@@ -174,9 +175,9 @@ Cada historia que empieza a tratar datos personales agrega aquí su entrada.
   - la persona cuidada: su nombre de pila, y los campos y secciones adicionales compartidos
   - quien otorga el acceso. También por su nombre de pila, que el relevo ve (decisión de Jorge del 27-10)
 - **Datos:**
-  - nombre y teléfono del relevo, obligatorios
-  - el nombre de pila de la persona cuidada, copiado al crear el acceso. Se anonimiza si se borra a la persona
-  - el nombre de pila de quien comparte
+  - nombre y teléfono del relevo, obligatorios al crear el acceso. Cuando el teléfono se borra queda vacío, y `telefono_borrado_en` guarda cuándo (MATU-46, migración 0027)
+  - el nombre de pila de la persona cuidada, copiado al crear el acceso. Si se borra a la persona, se reemplaza por un valor fijo, sin datos, en todos los accesos de su plan, también en los vencidos y los cortados (MATU-72). Los accesos de otra persona del grupo no cambian [PENDIENTE: si es anonimización o seudonimización, CL-60]
+  - el nombre de pila de quien comparte. Si esa persona sale del grupo, la familia ya no lo ve (`autor_activo: false`, MATU-42) y el relevo tampoco, porque su acceso se cortó. La copia queda en la base mientras exista el acceso. [PENDIENTE: anonimizarla al eliminar la cuenta (CL-49) y en la purga de MATU-89 (D-46-7)]
   - los campos base y las secciones adicionales habilitadas (`secciones_permitidas`). Los accesos nuevos llevan siempre los tres campos base y las secciones adicionales marcadas; `remedios` solo si quien comparte la marca y confirma. Los anteriores a MATU-50 conservan los que se eligieron
   - el motivo, elegido de una lista cerrada (`salgo_unas_horas`, `fin_de_semana_fuera`, `turno_de_noche`, `otro`), sin texto libre
   - las fechas de creación, vencimiento y corte, y quién otorgó el acceso
@@ -194,12 +195,13 @@ Cada historia que empieza a tratar datos personales agrega aquí su entrada.
   - el pagador con permiso de ver la ficha lista los accesos y las aperturas, sin crear ni cortar (contrato de MATU-09). No ve el teléfono del relevo
   - el observador nunca
   - el relevo ve el nombre de pila de la persona cuidada y el de quien comparte, también antes de escribir el PIN (decisión de Jorge del 27-10). Los campos y las secciones los ve solo después del PIN
-  - operación nunca
+  - operación nunca. La tarea de los 30 días vacía el teléfono sin leerlo: solo recibe cuántos vació (MATU-46)
 - **Conservación:**
-  - nombre del relevo, motivo y fechas: 3 años desde que el acceso vence o se corta, igual que la auditoría (arquitectura, sección 11.8)
-  - teléfono del relevo: se borra 30 días después de que el acceso vence o se corta
+  - nombre del relevo, motivo y fechas: 3 años desde que el acceso vence o se corta, igual que la auditoría (arquitectura, sección 11.8) [PENDIENTE: la tarea que los borra a los 3 años, MATU-89. El plazo en CL-34 y, después de un borrado, CL-27]
+  - teléfono del relevo: se borra 30 días después de que el acceso vence o se corta, lo que ocurra primero, a más tardar la madrugada siguiente. Un acceso bloqueado por el PIN o en pausa cuenta desde su vencimiento. Lo hace la tarea diaria `conservacion_relevo` (MATU-46). Si se borra a la persona, se borra en ese momento (D-46-3 a)
   - sesión del relevo: 12 horas como máximo, y nunca más allá del vencimiento del acceso
   - contadores por IP: 1 hora
+  - copias de respaldo: el teléfono sigue en las copias hechas antes de borrarlo, hasta que vencen [PENDIENTE: CL-29]
 - **Medidas:**
   - token de 256 bits en el fragmento del enlace (`/r#<token>`). Se canjea por POST junto con el PIN, y la página lo limpia con `history.replaceState`
   - con solo el token, la presentación (`POST /v1/relevo/presentacion`) devuelve únicamente los dos nombres de pila. No crea sesión ni cuenta como intento de PIN. Queda en la auditoría como `relevo.presentar`, sin IP, y la familia la ve en "Quién la vio" como "abrió el enlace", para detectar un enlace reenviado (decisión 30)
@@ -210,7 +212,8 @@ Cada historia que empieza a tratar datos personales agrega aquí su entrada.
   - un acceso vencido o cortado responde 410, aunque la cookie siga vigente
   - si la autorización de la persona está en pausa porque venció la revisión anual, la presentación, el canje y la ficha responden 410 `relevo-pausado` sin decir el motivo, y el canje no cuenta como intento (decisión 33). Vuelve a abrir al renovarse, si el acceso no venció
   - si la autorización se retira (MATU-44), en la misma transacción se cortan todos los accesos que no vencieron ni se cortaron, incluidos los bloqueados y los en pausa (`acceso_relevo.revocado_en` e `indice_token.revocado_en`), con un `relevo.revocar` por acceso y el mismo `request_id`. Responden 410 `relevo-revocado` y no vuelven a abrir, aunque se autorice de nuevo. Los plazos de 3 años y de 30 días corren desde el corte
-  - al borrar los datos de la persona (MATU-72) se cortan los accesos como en el retiro, con un `relevo.revocar` por acceso, y se anonimiza `nombre_pila_persona`. Los plazos de 3 años y 30 días corren desde el corte
+  - al borrar los datos de la persona (MATU-72) se cortan los accesos como en el retiro, con un `relevo.revocar` por acceso, y en la misma sentencia se anonimiza `nombre_pila_persona` y se vacía el teléfono del relevo con el instante del borrado (MATU-46, D-46-3 a), en todos los accesos del plan de esa persona. El plazo de 3 años corre desde el corte
+  - al sacar del grupo a quien compartió un acceso, cuando sale o cuando pasa de admin o cuidador a pagador u observador (MATU-42, decisiones 305 y 319), en la misma transacción se cortan los accesos que compartió y que no vencieron ni se cortaron, con un `relevo.revocar` por acceso. El corte no depende de la autorización (`app_puede_ver_plan` mira solo el rol), así que un acceso en pausa tampoco se reabre al renovarla
   - cortar un acceso no exige autorización vigente (204 idempotente)
   - la sesión del relevo no fija el grupo
   - vigencia de 24 horas por omisión y de 30 días como máximo
@@ -219,7 +222,9 @@ Cada historia que empieza a tratar datos personales agrega aquí su entrada.
   - la app de la familia guarda el PIN y el enlace solo en la memoria de la pantalla, los muestra una vez y nunca copia el PIN al portapapeles ni lo pone en el mensaje. El enlace se envía con la hoja de compartir del teléfono o copiándolo, nunca con el token en la dirección de un servicio de terceros (MATU-48)
   - nombre y teléfono del relevo sin autocompletado del navegador
   - sin impresión ni exportación de la ficha (ADR-029)
-  - la base limita por rol quién escribe los accesos (MATU-66, migración 0020): administrador y cuidador los crean, los cortan y anonimizan el nombre de pila de la persona; el pagador con permiso solo los lee; el relevo solo actualiza los contadores de su acceso vigente. La aplicación no puede cambiar el teléfono, el PIN, los campos habilitados ni el vencimiento de un acceso, ni borrar un acceso o su token. Un acceso o un token cortado no se reabre ni cambia la fecha de su corte, y ningún vencimiento se alarga: un trigger lo rechaza para todos los roles de la base, también el dueño (MATU-47, migración 0020)
+  - la base limita por rol quién escribe los accesos (MATU-66, migración 0020): administrador y cuidador los crean, los cortan y anonimizan el nombre de pila de la persona; el pagador con permiso solo los lee; el relevo solo actualiza los contadores de su acceso vigente. La aplicación no puede cambiar el teléfono (solo vaciarlo, al borrar a la persona, MATU-46), el PIN, los campos habilitados ni el vencimiento de un acceso, ni borrar un acceso o su token. Un acceso o un token cortado no se reabre ni cambia la fecha de su corte, y ningún vencimiento se alarga: un trigger lo rechaza para todos los roles de la base, también el dueño (MATU-47, migración 0020). Un teléfono vaciado no vuelve ni cambia por otro, y su instante de borrado no cambia: un trigger lo rechaza para todos los roles de la base, también el dueño (MATU-46, migración 0027)
+  - la tarea diaria `conservacion_relevo` (MATU-46) llama a `relevo_conservar`, `SECURITY DEFINER`, dueño `matu_owner`, `search_path` fijo, que solo ejecuta `matu_scheduler` con `app.rol = 'operacion'`. Exige un `ahora` que no esté en el futuro y un límite de al menos 30 días, vacía solo el teléfono, no deja leer la tabla al programador y devuelve solo un contador. Su línea del log lleva solo ese contador
+  - si se restaura una copia de respaldo, antes de reabrir la base se corre `python -m app.tareas borrados` (`infra/railway/README.md`) [PENDIENTE: CL-29]
 - **Comunicaciones a terceros:** ninguna desde MATU. Si un día MATU envía el PIN por SMS, se agrega aquí.
 - **Transferencia internacional:** [PENDIENTE: proveedor y país].
 - **Decisiones automatizadas:** ninguna con efectos sobre las personas. El bloqueo por PIN incorrecto es un control de seguridad.
@@ -403,6 +408,45 @@ Cada historia que empieza a tratar datos personales agrega aquí su entrada.
   - el contenido de una solicitud o de un reclamo nunca se copia al repositorio, a Trello, al vault ni a una sesión con agentes
   - plazos: acuse dentro de 2 días hábiles y respuesta a más tardar en 30 días corridos (D4)
 - **Decisiones automatizadas:** ninguna.
+
+## 12. Grupo familiar: invitaciones, membresías y roles (MATU-42, MATU-53)
+
+**Todavía no se trata con datos reales.** Solo con datos sintéticos (`figura-legal-piloto.md`).
+
+- **Finalidad:** formar el grupo, dar a cada persona su rol y saber quién tiene acceso a los datos de la persona cuidada (política, sección 3, punto 2).
+- **Titulares:** quienes invitan, se unen, cambian de rol, salen o son sacados. La persona invitada antes de aceptar, de quien no se guarda ningún dato. La persona cuidada, cuyo círculo de acceso cambia.
+- **Datos:**
+  - `invitacion`: grupo, rol, `invitado_por`, `nombre_pila_invita` (copia, 1 a 100 caracteres), creación, vencimiento (7 días, `CHECK invitacion_vigencia`), aceptación (`aceptada_en` y `aceptada_por`, juntos), anulación, `bloqueada_en`, `codigo_intentos_fallidos` (0 a 5), SHA-256 del token (32 bytes) y HMAC-SHA-256 del código con `PEPPER_PIN` y el id de la invitación. **Sin correo ni teléfono** (la 0026 borra `destino_email`, `destino_telefono` e `invitacion_destino`)
+  - `indice_token` (`tipo='invitacion'`): la huella, el grupo, la invitación, el vencimiento y el corte
+  - `membresia`: grupo, usuario, rol, `puede_ver_plan`, estado, `invitado_por`, `unido_en`, `retirado_en` y `version`
+  - auditoría: `invitacion.crear`, `.anular`, `.aceptar`, `.codigo_incorrecto` y `.bloqueo`, y `membresia.cambiar_rol`, `.permiso_ficha`, `.sacar` y `.salir`, con `{"rol": …}` como único detalle (`auditoria_detalle_acotado`, 0026). El código incorrecto sin sesión se registra con actor `sistema`
+  - la IP, solo como huella HMAC con `PEPPER_LIMITES` en Redis (`presentacion-invitacion-ip`, 30 por hora, y `canje-invitacion-ip`, 20 por hora, 1 hora). El tope de creación, con una huella HMAC de la cuenta y el grupo (20 en 24 horas)
+- **Base de licitud:** la ejecución del servicio que pide la persona. El acceso de una persona nueva a los datos de la persona cuidada se apoya en la autorización de MATU-07, sin cambios: aceptar una invitación nunca registra ni copia una autorización (C7). [PENDIENTE: CL-57]. Cuando quien autorizó ya no es miembro activo, la autorización sigue y se avisa con `autorizo_alguien_que_ya_no_esta` (D-42-9 a). [PENDIENTE: CL-58]
+- **Quién accede:**
+  - los miembros activos ven a los miembros activos: nombre, rol, `unido_en` y, solo del pagador, `puede_ver_plan`. Nunca el email, el celular ni `usuario_id` (`MiembroVista` con `extra="forbid"`. `membresia_familia_leer` y `usuario_comiembro` solo con la membresía activa, 0026). [PENDIENTE: a nivel de SQL, un miembro activo todavía puede leer `email` y `telefono` de otro miembro activo. Quitarlo antes de datos reales, tarjeta MATU-102]
+  - `enlaces_vigentes` (un número): quien administra, en todas las filas. Cada persona, en la propia
+  - solo admin crea, ve y anula invitaciones, cambia roles y permisos y saca a alguien, y los demás reciben 404 (RLS por operación, 0026). Sacar y salir pasan por `membresia_retirar` (`SECURITY DEFINER`, decisión 327)
+  - la persona invitada ve lo que dicen C1 y C2, por `invitacion_presentar` e `invitacion_verificar`, y se une con `invitacion_aceptar`
+  - quien salió deja de ver el grupo y a sus miembros, y ve su propia membresía (`membresia_propia`)
+  - operación lee las membresías y las invitaciones para dar soporte, sin cambiarlas (`membresia_operacion` e `invitacion_operacion`, solo SELECT)
+- **Conservación:**
+  - invitaciones cerradas (aceptadas, anuladas, bloqueadas o vencidas): 30 días desde la primera de esas fechas, con su `indice_token`. Lo hace `invitacion_conservar` (solo `matu_scheduler`), en la tarea `conservacion_invitaciones` dentro de `borrados`
+  - membresías retiradas: mientras la auditoría las nombre. Hoy no se borran. [PENDIENTE: CL-59]
+  - auditoría: 3 años. [PENDIENTE: el borrado lo construye MATU-89]
+  - contadores: 1 hora. Tope de creación: 24 horas
+- **Medidas:**
+  - token de 256 bits en el fragmento (`/invitacion#<token>`), canje por POST, `history.replaceState`, y nunca en el almacenamiento del navegador, `history.state`, la URL ni el título. La `url` y el código salen una sola vez, en la respuesta de crear
+  - código de 4 dígitos dictado aparte, con 5 intentos y luego 423. Uno correcto antes del bloqueo vuelve el contador a 0. La transacción confirma el intento antes de responder 422 o 423
+  - un solo uso, con `FOR UPDATE`, `indice_token.revocado_en` y el trigger `invitacion_vida_fija`: una invitación cerrada no se reabre y no se alarga
+  - crear responde igual sin buscar a nadie entre las cuentas. Un token inexistente y uno anulado dan el mismo 410
+  - el grupo nunca queda sin admin (trigger `membresia_nunca_sin_admin` con bloqueo consultivo, y 409)
+  - al sacar, salir o dejar de compartir, se cortan los enlaces de relevo que la persona compartió, en la misma transacción y antes de retirar o degradar. Al dejar de administrar, se anulan sus invitaciones sin usar (decisiones 305, 307 y 322)
+  - `no-store`, `no-referrer` y `noindex`
+  - nunca el token, el código, sus huellas ni la IP en logs, errores, auditoría ni eventos
+  - sin `PEPPER_PIN`, sin `PEPPER_LIMITES` o sin Redis, 503 sin cambiar nada
+- **Comunicaciones a terceros:** ninguna desde MATU. Quien administra manda el enlace con la aplicación de su teléfono.
+- **Transferencia internacional:** [PENDIENTE: CL-35].
+- **Decisiones automatizadas:** ninguna. El bloqueo es un control de seguridad.
 
 ## Nota sobre la ficha ampliada (ADR-028)
 
