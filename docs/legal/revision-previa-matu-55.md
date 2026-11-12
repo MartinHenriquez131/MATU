@@ -170,3 +170,20 @@ Ninguna bloquea el semestre, que usa datos sintéticos. Las dos bloquean el paso
   - la auditoría: `shared/auditoria.py` y `auditoria_sql.py`;
   - el código: `iam/application/sesiones.py`, `recuperacion.py` y `notifications/application/preferencias.py`;
   - el contrato: `openapi.json` (`DispositivoVista`) y `README.md`, decisiones 108 a 113.
+
+## Decisiones de Jorge (12 de noviembre de 2026)
+
+Jorge decidió las primeras cinco de MATU-55 una por una y delegó el resto con «todas de acuerdo a tus recomendaciones». Se aplican las recomendaciones actualizadas del analista, que tienen en cuenta MATU-61, 62 y 94. Versión de la política según la D11, una por fusión. Fila de migraciones: 0024 MATU-62, 0025 MATU-55, 0026 MATU-42, 0027 MATU-46 y 0028 MATU-54. La próxima CL libre es la CL-68.
+
+| Id | Decisión |
+|---|---|
+| D1 | **c)** ingresos, eventos de seguridad y el código pedido para recuperar la cuenta. Los ingresos fallidos no se muestran nunca |
+| D2 | **a)** 90 días y hasta 20 líneas |
+| D3 | **a)** 3 años, con la CL-53. El borrado lo construye MATU-89 |
+| D4 | Ya no hace falta: la resolvió la D11 (la versión que toque al fusionar, sin volver a aceptar) |
+| D5 | **b)** «En tus teléfonos» |
+| D6 | **b)** la opción de push se oculta en el piloto, hasta activar el envío real con su versión de la política y la CL-37 |
+| D7 | **a)** se borra la columna `auditoria.ip` en la **0025** (`down_revision = "0024"`). Antes se verifica que MATU-62 no la escribe |
+| D8 | **a)** cerrar en otro teléfono con un diálogo, sin pedir la contraseña |
+
+**Ajustes:** la migración es la 0025, no la 0024; la «0.12» de las secciones 3 y 4 pasa a «la versión que toque al fusionar».
