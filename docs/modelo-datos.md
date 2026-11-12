@@ -894,6 +894,7 @@ erDiagram
     usuario ||--o{ pedido : "creado_por"
     grupo_familiar ||--o{ pedido : "grupo_id"
     usuario ||--o{ preferencia_notificacion : "usuario_id"
+    persona_cuidada ||--o{ auditoria : "persona_cuidada_id, grupo_id"
     auditoria {
         bigint id PK
         uuid grupo_id "opcional"
@@ -902,6 +903,7 @@ erDiagram
         text accion
         text entidad
         uuid entidad_id "opcional"
+        uuid persona_cuidada_id "opcional, MATU-54"
         text motivo "opcional"
         text request_id "opcional"
         timestamptz ocurrido_en
@@ -1068,7 +1070,7 @@ Cada celda de esta matriz está respaldada por una prueba de `test_aislamiento.p
 
 ² Desde la migración 0023 (MATU-61, D7), el comercio ve su parte en `pedido_comercio` y solo las líneas de sus ofertas, con `pagado_en` con valor y `enviado_en` fijado (MATU-63). No ve las reglas de faltante de la familia ni la entrega. [PENDIENTE para MATU-63: hoy `pedido_comercio_ver` le deja leer la fila completa de `pedido` (con `grupo_id`, `persona_cuidada_id`, `creado_por`, `total` y `costo_envio`); se acota por columnas en la vista del comercio.] Antes de la 0023, la visibilidad iba por `pedido.comercio_id` y las líneas la heredaban. [PENDIENTE: con esa regla, el comercio que reemplaza a otro en la fase 2 no ve la línea reasignada (sección 4.5).]
 ³ Desde la 0023 (MATU-61, C3): `app_escribe_pedido()` exige admin o cuidador, y `app_ve_entrega()` deja fuera al observador. La dirección de la persona (`direccion`) sigue con `direccion_familia` `FOR ALL` por grupo hasta MATU-42; la regla de rol la aplica la API.
-⁴ Desde la 0025 (MATU-55): `auditoria_cuenta_propia` deja que cada persona lea las filas sin grupo que hizo ella (`actor_tipo = 'usuario'` y `actor_ref = app_usuario()`) y el pedido de un código para recuperar su cuenta (`cuenta.recuperar_solicitar`, con ella como entidad). La pantalla es «Dónde entraste».
+⁴ Desde la 0025 (MATU-55): `auditoria_cuenta_propia` deja que cada persona lea las filas sin grupo que hizo ella (`actor_tipo = 'usuario'` y `actor_ref = app_usuario()`) y el pedido de un código para recuperar su cuenta (`cuenta.recuperar_solicitar`, con ella como entidad). La pantalla es «Dónde entraste». Desde la 0028 (MATU-54), la auditoría guarda `persona_cuidada_id` en toda acción de persona, también en `clave.destruir` (`plan_destruir_claves`), sin relleno de las filas anteriores. Ninguna política de lectura mira esa columna: el admin ve todo el grupo y el cuidador lo suyo y las aperturas, como antes. «Tus datos» lee también `cuenta.datos_descargar` con `auditoria_cuenta_propia`.
 
 ### 5.4 Cinco hallazgos al escribir las políticas
 
@@ -1171,7 +1173,10 @@ Reglas que la base hace cumplir aunque el código se equivoque:
 | Sin convenios vigentes traslapados, sin liquidaciones traslapadas | `EXCLUDE` con `btree_gist` |
 | Liquidación: neto = bruto − comisión | `CHECK` |
 | Auditoría y línea de tiempo del pedido: solo inserción | Permiso + trigger |
-| Una fila de auditoría sin grupo es siempre de una de las 14 acciones de la cuenta | `CHECK auditoria_cuenta_acotada` (0025, MATU-55) |
+| Una fila de auditoría sin grupo es siempre de una de las 15 acciones de la cuenta | `CHECK auditoria_cuenta_acotada` (0025, MATU-55, con `cuenta.datos_descargar` desde la 0028, MATU-54) |
+| La persona de una fila de auditoría es del mismo grupo de la fila | FK compuesta `auditoria_persona_fk (persona_cuidada_id, grupo_id) → persona_cuidada (id, grupo_id)`, `MATCH SIMPLE`, con `persona_cuidada_id_grupo_uq UNIQUE (id, grupo_id)` (0028). No pasa por RLS y no abre lecturas |
+| Una fila con persona tiene grupo | `CHECK auditoria_persona_con_grupo` (0028) |
+| Toda fila nueva de una acción de persona lleva su persona | `CHECK auditoria_persona_obligatoria … NOT VALID` (0028): las filas anteriores no tienen persona y no se pueden actualizar. La lista es `ACCIONES_DE_PERSONA` de `app/shared/auditoria.py` |
 | Transacciones de pasarela: nunca se borran | Permiso + trigger |
 | El outbox no lleva datos | `CHECK` sobre el payload |
 | El acceso de relevo vence en máximo 30 días, la invitación en 7, el refresh en 30 | `CHECK` |
@@ -1195,6 +1200,7 @@ Además de los índices de claves primarias y únicas, el modelo declara índice
 | `alerta_quiebre (perfil_id)` parcial sobre abiertas | Alertas pendientes |
 | `auditoria (entidad, entidad_id, ocurrido_en DESC)` | Pantalla "quién ha visto el plan" |
 | `auditoria_cuenta_ix`: `auditoria (actor_ref, ocurrido_en DESC) WHERE grupo_id IS NULL` | «Dónde entraste», los últimos ingresos de la cuenta (0025, MATU-55, decisión 267) |
+| `auditoria_persona_ix`: `auditoria (persona_cuidada_id, ocurrido_en DESC, id DESC) WHERE persona_cuidada_id IS NOT NULL` | Historial de «Datos de {nombre}» (0028, MATU-54) |
 | `consumo_comercio (comercio_id, estado)` parcial | Conciliación y cierre de período |
 
 ---
