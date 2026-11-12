@@ -300,3 +300,15 @@ Jorge decidió las primeras cinco de MATU-55 una por una y delegó el resto con 
 **CL-68 nueva (Pedidos y pagos en la copia):** ¿se puede entregar al admin y al cuidador el historial de pedidos de la persona con el nombre de quien pagó? ¿Conserva quien pagó y salió del grupo el acceso a sus pagos? Se relaciona con CL-11, 12, 61 y 66. Bloquea los datos reales.
 
 **Ajustes:** la migración es la 0028 (después de la 0025 de MATU-55, que hace la política de lectura de la auditoría si va primero); el JSON lleva los precios con IVA incluido, sin un campo `iva`; el módulo lee los pedidos por un puerto que devuelve vacío sin la capa 3; se borra «la próxima es CL-64».
+
+## Revisión de cierre (12-11)
+
+El analista normativo revisó lo construido en la rama de código de MATU-54 contra esta revisión previa y las decisiones D-54-1 a D-54-16.
+
+- **El código CUMPLE.** Lo que se guarda, quién lo ve, lo que queda en el historial, lo que nunca sale y lo que se informa coinciden con las decisiones de Jorge y con la política 0.17.
+- **F2 y F3 se corrigieron** en el código (decisiones 401 y 402 del contrato). «Tus datos» trae los grupos de los que la persona salió, con el rol y las fechas, sin el nombre del grupo, y a quien pagó le trae el código de autorización de sus pagos, solo ahí.
+- **F1 y F7 se resuelven con texto** en la política 0.17 (§6 y §10, «Por el correo de esta sección») y con la CL-70: los intentos fallidos, los registros de quien paga u observa en un grupo y los cambios antiguos que no se pueden asociar a una persona se declaran y se entregan por correo.
+- **C-E pasa a las condiciones antes de datos reales** de `consulta-legal.md`: marcar cada aviso y cada pago como simulado o de prueba en su propia fila, antes de enviar avisos reales o cobrar dinero real.
+- **Quedan abiertas** para la consulta legal la CL-61, la CL-62, la CL-63, la CL-68 y la CL-70, y las CL-04, CL-30, CL-48 y CL-53 ampliadas. Todas bloquean los datos reales.
+
+Los documentos quedan en el PR de documentos de MATU-54: la política 0.17, el registro de tratamientos (entradas 2 a 10 y la 13 nueva), la consulta legal, el modelo de datos, el ADR-029, la arquitectura 11.1 y `lenguaje.md`, sección 35.
