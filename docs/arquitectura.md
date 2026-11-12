@@ -1675,6 +1675,8 @@ Los dos indicadores en negrita son los que miden si el producto funciona como pr
 
 **Costo.** Se pierde parte del atractivo inmediato de "delivery para el cuidado". Se gana un producto que existe sin permiso de terceros.
 
+**Regla de operación (MATU-94, 11-11).** Apagar la capa 3 (`CAPA3_HABILITADA=false`) es reversible: el retiro y el borrado de la persona siguen cancelando los pedidos sin pagar y la tarea de conservación sigue corriendo (decisión 250). **Quitarla** (desplegar sin el paquete `ordering`) solo se hace sobre una base sin pedidos, porque sin el paquete nada cancela ni borra a los 30 días los pedidos que hubiera, y la política §10 lo promete.
+
 ---
 
 ### ADR-003 · El perfil de consumo lo declara el cuidador

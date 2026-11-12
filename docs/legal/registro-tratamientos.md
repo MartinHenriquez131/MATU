@@ -1,6 +1,6 @@
 # Registro de tratamientos de MATU
 
-**Estado:** borrador para el piloto académico, a la par de la política de privacidad v0.12 (MATU-61, pendiente de aprobación al fusionar). Lo redacta el analista normativo y lo aprueba Jorge Espinoza. Este documento no es asesoría legal.
+**Estado:** borrador para el piloto académico, a la par de la política de privacidad v0.12 (MATU-61), aprobada por Jorge el 11-11 (MATU-94, 74-1). Lo redacta el analista normativo y lo aprueba Jorge Espinoza. Este documento no es asesoría legal.
 
 Cada historia que empieza a tratar datos personales agrega aquí su entrada.
 
@@ -71,14 +71,14 @@ Cada historia que empieza a tratar datos personales agrega aquí su entrada.
   - en el grupo (arquitectura, sección 11.2, con CJ3 de Jorge): administrador y cuidador arman, ajustan, eligen la regla, confirman, cambian el teléfono, usan «Cambiar el pedido» y cancelan sin pagar. El pagador ve el pedido, la entrega y el resumen, no confirma y no cancela, y paga desde MATU-62. El observador ve el carrito sin la entrega ni el resumen (`PedidoVistaObservador`), y nunca la ficha. Otro grupo, 404
   - un solo pedido sin pagar por persona (C4)
   - el comercio, desde MATU-63, ve solo su parte (`pedido_comercio`): sus productos, su referencia del pedido y el código de retiro. **Ningún nombre**, ni la ficha, la dirección, el teléfono, las líneas de otro comercio ni el total de la familia (R8, D7). El comercio que reemplaza a otro ve lo mismo, solo con lo que le toca
-  - operación ve pedidos y pagos para dar soporte (lee todos los pedidos, de todos los grupos, con su rol propio), y devuelve por anulación. Sus lecturas no se auditan, igual que las de la familia (decisión 52); sus escrituras sí. Nunca la ficha ni el consumo de insumos
+  - operación ve pedidos y pagos para dar soporte (lee todos los pedidos, de todos los grupos, con su rol propio), y devuelve por anulación. Sus lecturas no se auditan, igual que las de la familia (decisión 52); sus escrituras sí. [PENDIENTE: CL-67, si las lecturas de operación de pedidos de otros grupos se deben registrar; se recomienda auditarlas en la historia del backoffice] Nunca la ficha ni el consumo de insumos
 - **La consulta de stock no trata datos personales:** se hace al confirmar, **una por comercio**, y lleva solo productos, cantidades y una referencia opaca para apartar, **aleatoria por pedido y por comercio, nunca por familia** (C22). No lleva datos de la familia, de la persona cuidada ni de la dirección, y una prueba sobre el objeto de la consulta lo verifica.
 - **Conservación:**
   - **lo que no se pagó** (`borrador`, total vencido y `cancelado` sin pago): se borra a los 30 días desde la última vez que cambió, desde que venció o desde que se canceló (C10), con una tarea del programador de MATU-74 que corre aunque los pedidos estén apagados, y con su línea de tiempo en cascada (D5). La copia de la entrega (`pedido_entrega`) se borra al cancelar. `idempotencia` se borra al vencer, a las 24 horas (D5). [PENDIENTE: CL-28 ampliada]
   - pedidos pagados y comprobantes de entrega, 2 años. Pagos y boletas, 6 años, por obligación tributaria (arquitectura, sección 11.8). [PENDIENTE: CL-28]
   - **retiro de la autorización de pedidos** (D1): en la misma transacción, los pedidos sin pagar de la persona pasan a `cancelado` con motivo `autorizacion_retirada`, se borra su `pedido_entrega` y se registra un `pedido.cancelar` por pedido. Si cancelar falla, se deshace también el retiro. Los pagados siguen su plazo [PENDIENTE: CL-44]. La dirección de la persona se conserva (CJ6 de Jorge)
   - **borrado de la persona** (MATU-72, D2): retira también la autorización `despacho` y, en la misma transacción, cancela los pedidos sin pagar con motivo `persona_borrada` y borra su `pedido_entrega`. Desde MATU-62 y MATU-63: los pedidos cerrados quedan solo con la comuna, y los pagados en curso conservan la dirección hasta cerrarse. Productos y montos siguen su plazo, sin verse después del retracto. En MATU-61 aplica solo la regla de los sin pagar. [PENDIENTE: CL-52 y CL-44]
-  - con la capa 3 apagada, el retiro y el borrado siguen funcionando y no tocan pedidos (CJ2 de Jorge)
+  - con la capa 3 apagada, el retiro y el borrado cancelan igual los pedidos sin pagar y borran su `pedido_entrega`, en la misma transacción (MATU-94, decisión 250, que corrige CJ2). Solo con la capa 3 quitada (sin el paquete `ordering`, ADR-002) no los tocan, y la capa se quita solo en una base sin pedidos (arquitectura, ADR-002)
 - **Medidas:**
   - separación por familia con RLS forzado, también en `pedido_comercio`
   - el comercio ve un pedido solo cuando está pagado y enviado, y nunca la dirección, que vive en una tabla aparte. Las políticas de `pedido_comercio` y `pedido_linea` por `pedido_comercio.comercio_id` van en la migración de MATU-61, con sus pruebas en `test_aislamiento.py` (D7)

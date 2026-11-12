@@ -488,6 +488,15 @@ En los orígenes, «Trello» es un comentario de la tarjeta de consulta legal, c
 
 ## 7. Seguridad, huellas de IP y derechos
 
+### CL-67 · Las lecturas de operación de los pedidos de otros grupos
+
+- **Pregunta:** ¿deben quedar registradas, sin contenido, las lecturas que hace el equipo de operación de los pedidos de otros grupos, que la política trata como datos sensibles, antes de tratar datos reales?
+- **Origen:** MATU-94, revisión de cierre del analista normativo, 11 de noviembre de 2026 (punto 8).
+- **Mientras tanto:** las lecturas de operación no se auditan, igual que las de la familia (decisión 52), y sus escrituras sí. El backoffice no está construido y el piloto usa solo datos sintéticos. Se recomienda, como diseño, auditar esas lecturas en la historia del backoffice.
+- **Bloquea:** datos reales.
+- **Se cierra en:** registro de tratamientos, entrada 2, «Quién accede» («[PENDIENTE: CL-67]»).
+- **Respuesta:** —
+
 ### CL-39 · La base de las huellas de IP y de email
 
 - **Pregunta:** para limitar los intentos de crear una cuenta, entrar, recuperar el acceso y abrir un enlace de relevo, MATU guarda una huella de la IP y, al entrar o recuperar el acceso, una del email, que duran una hora o 24 horas como máximo y no permiten recuperar el dato. ¿Ese conteo necesita una base de licitud propia, o basta el deber de seguridad?
@@ -771,3 +780,9 @@ Cada fila traduce un número antiguo a su número nuevo. «Sin número» es una 
 | MATU-61 | Sección 5, ampliar CL-44 (borrado con un pedido pagado en curso) | CL-44 |
 | MATU-61 | Sección 5, ampliar CL-33 (teléfono de contacto de quien no es usuario) | CL-33 |
 | MATU-61 | Sección 5, ampliar CL-28 (lo nunca pagado no se guarda 2 años) | CL-28 |
+
+### MATU-94 (11 de noviembre de 2026)
+
+| Historia | Número antiguo | Número nuevo |
+|---|---|---|
+| MATU-94 | Cierre del analista, punto 8 | CL-67 |
