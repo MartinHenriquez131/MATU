@@ -216,3 +216,13 @@ Jorge decidió las primeras cinco de MATU-55 una por una y delegó el resto con 
 | D-46-7 | Sí: se anota en MATU-42 y en la tarjeta de eliminar la cuenta que `nombre_pila_comparte` debe anonimizarse |
 
 **Ajustes:** `conservacion_relevo` va en `BORRADOS_DIARIOS` y corre siempre; las pruebas corren solo contra una base de pruebas (MATU-94); se borra «la próxima pregunta pasa a ser la CL-61».
+
+## Revisión de cierre (12-11)
+
+El analista revisó lo construido en MATU-46 contra esta revisión previa y las decisiones de Jorge.
+
+- **Código:** CUMPLE en las condiciones C1 a C14 y en las decisiones D-46-1 a D-46-7 de Jorge.
+- **Documentos:** se actualizan en el PR de documentos de MATU-46, con la política de privacidad **0.16**, la entrada 4 del registro de tratamientos, la consulta legal, la sección 11.8 de la arquitectura y la tabla `acceso_relevo` del modelo de datos. Nadie vuelve a aceptar la política, porque solo acorta plazos.
+- **Hallazgo F1, el borrado a pedido del relevo:** hoy el teléfono o el nombre de un relevo se borran solo por plazo o al borrar a la persona. Pasa a la tarjeta **MATU-101**, que depende de la respuesta de la CL-34, y queda como condición antes de datos reales.
+- **Consulta legal:** la CL-60 queda nueva (anonimización o seudonimización del nombre de pila) y se amplían la CL-29 (copias de respaldo) y la CL-34 (el relevo pide borrar sus datos).
+- **QA:** PASS, sin ningún FAIL.
