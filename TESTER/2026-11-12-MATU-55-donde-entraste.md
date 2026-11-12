@@ -3,7 +3,7 @@
 **PR revisados:** MartinHenriquez131/MATU_PROYECTO#88 (0025, política 0.14) y MartinHenriquez131/MATU#81. Además, la corrección de Martín #91 (`Dockerfile`), que fusionó Jorge.
 **Revisó:** Martín Henríquez, con `qa-tester-revisor` y `analista-revisor` · **Fecha:** 12/11/2026
 **Revisión obligatoria:** sí (datos personales y auditoría de la cuenta)
-**Veredicto general:** PENDIENTE de repetir S3, S5 y S9 en el iPhone después de #91
+**Veredicto general:** PASS, después de la corrección #91
 
 ## Revisiones
 
@@ -48,11 +48,26 @@ iPhone 11 con iOS 26.6.2 y Safari, en la demo con la cuenta de Carmen. El 12-11,
 - `infra/railway/Dockerfile` no copiaba `web/public`, así que la demo respondía 404 en `/manifest.webmanifest` y `/apple-touch-icon.png`, y no tenía `sw.js`. Martín lo comprobó en Safari.
 - Martín lo corrigió en MartinHenriquez131/MATU_PROYECTO#91, con una prueba que falla sin el arreglo. Jorge lo fusionó, y se desplegó en staging y la demo.
 
+## Segunda prueba en el teléfono, después de #91
+
+iPhone 11 con iOS 26.6.2 y Safari, en la demo con la cuenta de Carmen. Se borró antes el ícono «T». Terminó a las 15:44 del 12-11 (informado por Martín).
+
+| # | Prueba | Resultado |
+|---|---|---|
+| S3 | Ícono: corazón blanco sobre turquesa, con el nombre «MATU» | OK |
+| S4 | Instalada: sin la barra de Safari, en «Sin activar» y sin pedir permiso al cargar | OK |
+| S5 | Activar: «Activados», y «Activaste los avisos en Safari en iPhone» en Dónde entraste | OK |
+| S6 | Desactivar: vuelve a «Sin activar» | OK |
+| S9 | Salir borra la inscripción: al volver a entrar, «Sin activar» | OK |
+| S7 | Bloqueado en Ajustes de iOS: aparece la nota «Tu navegador no deja…» | OK |
+
+**Resultado:** PASS. Los nueve pasos están OK. S8 ya había pasado en la primera prueba.
+
 ## Hallazgos
 
 | ID | Severidad | Hallazgo | Estado |
 |---|---|---|---|
-| H1 | P1 | La imagen de Railway no tenía `web/public`: sin manifest, ícono ni service worker | Corregido en #91. Falta repetir S3 a S7 y S9 |
+| H1 | P1 | La imagen de Railway no tenía `web/public`: sin manifest, ícono ni service worker | Corregido en #91 y verificado en el iPhone |
 | H2 | P2 | C14 (avisos solo en teléfonos del equipo) se cumple solo por procedimiento, sin un control técnico (analista) | Para decidir (PO) |
 | H3 | P3 | `pedido.test.tsx` es intermitente en el CI | Se anota |
 
@@ -60,6 +75,6 @@ iPhone 11 con iOS 26.6.2 y Safari, en la demo con la cuenta de Carmen. El 12-11,
 
 | ID | Respuesta | Commit o PR | Verificado (Martín) |
 |---|---|---|---|
-| H1 | Fusionó #91 | a5f39ae | |
+| H1 | Fusionó #91 | a5f39ae | Sí: S3 a S7 y S9 OK, terminado a las 15:44 |
 | H2 | | | |
 | H3 | | | |
