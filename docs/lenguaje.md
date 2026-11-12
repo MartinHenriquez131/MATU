@@ -13,6 +13,7 @@
 **MATU-88 (11-11):** la 5.1 suma la pregunta del relevo, sin «Puedes contar un día bueno o uno difícil.», con el criterio de la 5.3. En los insumos en sobres, el campo y el error del envase dicen «sobres» en vez de «unidades» (H2 del TESTER de MATU-84). La 5.1 es decisión de Jorge del 11-11, y el envase en sobres es del orquestador, por delegación de Jorge del mismo día.
 **MATU-61 (11-11):** entra la sección 31, el pedido, con los textos de la especificación de pantallas v1.1 (sección 15). Con la decisión D10 de Jorge cambian la 21 (la lista nunca compra sola), la 23 («Compré» nunca hace un pedido) y la 27 («Agregar al pedido» en el catálogo). La 17 mantiene «El aviso nunca ofrece comprar.». Por aprobar por Jorge al fusionar.
 **MATU-62 (11-11):** entra la sección 32, el pago, con los textos de la especificación de pantallas v1.1 (sección 12). La 31 admite «Este comprobante no es una boleta.» (D-62-7), el aviso de los 2 minutos también para el pagador (D-62-14) y un punto nuevo en «Retirar». Decisiones del orquestador por delegación de Jorge del 11-11. Los textos **[NUEVO]** los aprobó Jorge el 12-11.
+**MATU-55 (12-11):** entra la sección 33, «Dónde entraste» y los avisos de «Tu cuenta», con los textos de la especificación de pantallas v1.1 (`docs/diseno/matu-55-donde-entraste.md`, sección 8). Ajusta la 13.3 («hoy» y «ayer» en «Última vez», y «teléfono», «computador» o «navegador» según cada uno) y la 20 («En tus teléfonos» en vez de «En este teléfono», D5). La ayuda del estado B cambia por decisión del 12-11. Por aprobar por Jorge al fusionar.
 **Fuentes:** resultados de las entrevistas (`docs/resultados-entrevistas.md`), arquitectura sección 10, política de privacidad v0.9, la demo aprobada (`Demo/src/`, rama `demo-web-viernes-30`) y el contrato de MATU-09 (`docs/api/`, rama `matu-09-contrato-api`).
 
 ---
@@ -683,7 +684,7 @@ El correo y el push nunca dicen qué insumo ni de quién, no ofrecen comprar y s
 | Correo, botón o enlace (sin identificadores) | Abrir MATU |
 | Correo, pie | Te llega este correo porque eres parte de un grupo de cuidado en MATU. Para dejar de recibir estos avisos por correo, entra a MATU y desactívalos en Tu cuenta. |
 | Push, título y cuerpo | MATU · Un insumo se está acabando. Abre la app para ver cuál. |
-| Preferencias en «Tu cuenta» (pantalla en MATU-55) | Avisos cuando un insumo se está acabando · Por correo · En este teléfono |
+| Preferencias en «Tu cuenta» (pantalla en MATU-55) | Avisos cuando un insumo se está acabando · Por correo · En este teléfono. Desde MATU-55, «En tus teléfonos» (sección 33) |
 
 ---
 
@@ -1173,3 +1174,77 @@ Los textos salen de la especificación de pantallas de MATU-62, v1.1 del 11-11 (
 | **Pedido pagado** | Pedido pagado · Pagado · Pedido {referencia} · {DD/MM/AAAA} a las {HH:MM} · Total pagado: {total} · Ver el comprobante | **[NUEVO]** · [A5.4] |
 
 **Ninguno usa** los términos de la sección 3, «rechazado», «fallido», «inválido», «token», «stock», «reserva», «monto real», «estimado» ni «con IVA». «Boleta» aparece solo en «Este comprobante no es una boleta.», que la niega.
+
+---
+
+## 33. Dónde entraste y avisos (MATU-55) · Por aprobar por Jorge al fusionar
+
+Los textos salen de la especificación de pantallas de MATU-55, v1.1 del 12-11 (`docs/diseno/matu-55-donde-entraste.md`, secciones 2, 3 y 8), que marca el origen de cada uno: [L 13.3] y las demás, los que ya están en esa sección, [A] los que propuso el analista normativo en la revisión previa (`legal/revision-previa-matu-55.md`, sección 5), **[NUEVO]** o **[AJUSTE]** los del diseñador y [CIERRE] los que el analista revisó en el cierre del 12-11. `{nombre}` es el nombre del teléfono o computador tal como llega («Chrome en Android»), `{correo}` es el correo de contacto de la política y `{fecha}` es «hoy», «ayer» o `DD/MM/AAAA`.
+
+**Regla de la sección.** Se dice «teléfono», «computador» o «navegador», nunca «dispositivo». El sustantivo sale de la clase de cada uno (E1): un teléfono es «teléfono», un computador es «computador» y lo demás es «navegador». Los textos de abajo van con «teléfono», y en un computador o en otro navegador cambia la palabra y nada más. Se dice «entrar» y «salir», nunca «sesión», «evento», «registro», «auditoría» ni «token». La IP aparece una sola vez, en la bajada, para decir que no se guarda.
+
+| Dónde | Texto | Origen |
+|---|---|---|
+| **«Dónde entraste»** | | |
+| Título y bajada | Dónde entraste · Los teléfonos y computadores donde entraste a MATU. No guardamos tu ubicación ni tu dirección IP. | [L 13.3] · **[NUEVO]** |
+| Tus teléfonos | Tus teléfonos y computadores | **[NUEVO]** |
+| El actual | Este teléfono · Este computador · Este navegador | [L 13.3] · **[NUEVO]** |
+| Última vez | Última vez: {fecha} a las {hora}, con «hoy» y «ayer» en vez de la fecha | [L 13.3] · **[AJUSTE]** «hoy» y «ayer» |
+| Acción en el actual | Salir | El botón de la cabecera (`MARCO.salir`), que la 26 todavía no tenía. Entra aquí |
+| Acción en otro | Cerrar en ese teléfono · Cerrar en ese computador · Cerrar en ese navegador | [L 13.3] · **[NUEVO]** |
+| Últimos ingresos | Últimos ingresos · Los de los últimos 90 días, hasta 20. | **[NUEVO]** · **[AJUSTE]** del texto del analista, con «hasta 20» |
+| Los días | Hoy · Ayer · El {día de la semana} · El {DD/MM/AAAA} | [L 15] |
+| La cola de una línea | a las {HH:MM} · {nombre} · (este teléfono) · (este computador) · (este navegador) | [A] · **[NUEVO]** el computador y el navegador |
+| Un teléfono que ya no está | un teléfono o computador que ya no está en tu lista · en un teléfono o computador que ya no está en tu lista | **[NUEVO]** |
+| **Las líneas de ingresos** | | |
+| Entraste | Entraste | [A] |
+| Saliste | Saliste | [A] |
+| Cerraste en otro | Cerraste MATU en {nombre} | [A] |
+| Salida por seguridad | Te sacamos de MATU en {nombre} porque notamos un uso extraño. | **[AJUSTE]** del texto del analista, sin «Vuelve a entrar.» |
+| Contraseña | Cambiaste tu contraseña | [A] |
+| Celular | Confirmaste tu celular | [A] |
+| Código pedido | Se pidió un código para recuperar tu cuenta · Si no lo pediste tú, no compartas el código con nadie. | [A] · **[NUEVO]** [CIERRE] |
+| Avisos en un teléfono | Activaste los avisos en {nombre} · Desactivaste los avisos en {nombre} | [A] |
+| Preferencia de avisos | Cambiaste tus avisos | [A] |
+| **Al pie de la lista** | | |
+| No reconoces un ingreso | ¿No reconoces un ingreso? Cierra MATU en ese teléfono. Para cambiar tu contraseña, sal de MATU y toca «¿Olvidaste tu contraseña?» al entrar. | **[AJUSTE]** del texto del analista (E5) |
+| Lo que no se muestra | Si necesitas los ingresos anteriores a 90 días, escribe a {correo} desde el correo de tu cuenta. · Mostramos los 20 más recientes. Para ver los demás, o los anteriores a 90 días, escribe a {correo} desde el correo de tu cuenta. · Sin correo: Mostramos los 20 más recientes. | **[NUEVO]** |
+| Vacío | No hay ingresos en los últimos 90 días. | [A] |
+| **Esperas y errores** | | |
+| Cargando | Cargando… · Volver a intentar | [L 26] |
+| Error de los teléfonos | No pudimos traer dónde entraste. Revisa tu conexión e inténtalo de nuevo. | [A] |
+| Error de los ingresos | No pudimos traer tus últimos ingresos. Revisa tu conexión e inténtalo de nuevo. | **[NUEVO]** |
+| **Cerrar en otro teléfono** | | |
+| Título | ¿Cerrar MATU en {nombre}? | [A] |
+| Texto | Quien lo use tendrá que volver a entrar con tu correo y tu contraseña. Puede seguir abierto hasta 15 minutos. | [A] |
+| Botones | Cerrar en ese teléfono · Cerrando… · Dejarlo abierto | [L 13.3] · **[NUEVO]** · [A] |
+| Listo | Cerramos MATU en {nombre}. | [A] |
+| Ya no estaba | Ese teléfono ya no estaba en tu lista. · Ese computador ya no estaba en tu lista. · Ese navegador ya no estaba en tu lista. | [A] · **[NUEVO]** |
+| Error | No pudimos cerrar MATU en ese teléfono. Revisa tu conexión y vuelve a intentarlo. | **[NUEVO]** |
+| **«Tu cuenta»** | | |
+| Dónde entraste | Dónde entraste · Los teléfonos y computadores donde entraste, y tus últimos ingresos. · Ver dónde entraste | [L 13.3] · **[NUEVO]** |
+| **Los avisos de «Tu cuenta»** | | |
+| Título | Avisos cuando un insumo se está acabando | [L 20] |
+| Ayuda | Te avisamos cuando un insumo se esté acabando. El aviso no dice cuál ni de quién. | [A] |
+| Alcance | Vale para todos tus grupos. | [A] (D5) |
+| Casillas | Por correo · En tus teléfonos | [L 20] · **[AJUSTE]** de «En este teléfono» (D5) |
+| Guardar | Guardando… · Guardamos tus avisos. | [L 17] · [A] |
+| Error al guardar | No pudimos guardar. Revisa tu conexión y vuelve a intentarlo. | [L 17] |
+| Error al cargar | No pudimos traer tus avisos. Revisa tu conexión e inténtalo de nuevo. | **[NUEVO]** |
+| Piloto | En el piloto los avisos se prueban sin enviarse: no te llegará nada. | [A] |
+| **El bloque «Este teléfono»** | | |
+| Título | Este teléfono · Este computador · Este navegador | [L 13.3] · **[NUEVO]** |
+| Error al cargar | No pudimos ver los avisos de este teléfono. Revisa tu conexión e inténtalo de nuevo. | **[NUEVO]** |
+| A. Activados | Activados · Desactivar en este teléfono | **[NUEVO]** |
+| B. Sin activar | Sin activar · Activar en este teléfono | **[NUEVO]** |
+| B. Ayuda | Al activarlos, tu navegador anota una dirección de avisos en el servicio de su fabricante, y MATU la guarda hasta que los desactives o salgas. En el piloto, MATU no le envía nada a ese servicio. | [CIERRE] · cambio decidido el 12-11 sobre el texto de la especificación v1.1 |
+| C. El navegador no deja | Tu navegador no deja que MATU te avise. Puedes cambiarlo en los ajustes del navegador. | [A] |
+| D. Sin soporte | Este navegador no puede recibir avisos. Puedes recibirlos por correo. | [A] · **[NUEVO]** la segunda frase |
+| E. iPhone sin instalar | En iPhone, primero agrega MATU a tu pantalla de inicio. · 1. Toca Compartir {ícono} en Safari. · 2. Elige «Agregar a inicio». · 3. Abre MATU desde su ícono y vuelve a Tu cuenta. | **[NUEVO]** |
+| F. MATU todavía no puede | Por ahora no se pueden activar los avisos en este teléfono. Puedes recibirlos por correo. | **[NUEVO]** |
+| Activar | Activando… · Activaste los avisos en este teléfono. · No activamos los avisos. Puedes volver a intentarlo. · No pudimos activar los avisos. Revisa tu conexión y vuelve a intentarlo. | **[NUEVO]** |
+| Desactivar | Desactivando… · Desactivaste los avisos en este teléfono. · No pudimos desactivar los avisos. Revisa tu conexión y vuelve a intentarlo. | **[NUEVO]** |
+
+**La ayuda del estado B** dice lo mismo que la política 0.14, §4 y §6: la dirección de avisos la anota el navegador en el servicio de su fabricante, MATU la guarda y en el piloto no le envía nada. Si una cambia, cambia la otra.
+
+**Ninguno usa** los términos de la sección 3, «dispositivo», «sesión», «evento», «registro», «auditoría», «token», «inválido», «rechazado» ni «fallido».
