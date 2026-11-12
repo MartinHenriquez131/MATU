@@ -332,3 +332,16 @@ Jorge decidió las primeras cinco de MATU-55 una por una y delegó el resto con 
 | D-42-14 | Ya no hace falta: la migración es la **0026** |
 
 **Ajustes:** si la 0024 no divide `direccion_familia` y `direccion_operacion`, las divide la 0026; el texto sobre pedidos del rol «Paga» se muestra solo con la capa 3 encendida; se borra «la próxima es CL-60».
+
+## Revisión de cierre (12-11)
+
+El analista revisó el código de MATU-42 y MATU-53 contra esta revisión previa y las decisiones de Jorge.
+
+- **El código CUMPLE en todos los puntos**, incluidas `membresia_retirar` (decisión 327) y la decisión 322.
+- **La política 0.15 se aplica en este PR**, junto con el registro de tratamientos (entrada 12 nueva y ajustes en las entradas 1 y 4), la consulta legal, el modelo de datos y la arquitectura (secciones 11.2 y 11.8).
+- **Observaciones:**
+  - **O1** (la cota de `p_ahora` hacia el pasado) y **O2** (la prueba del marcador `app.funcion`) se corrigen en el PR de código.
+  - **O3** (el email y el celular de un miembro todavía se pueden leer en SQL desde otro miembro activo) pasa a la tarjeta MATU-102, y se resuelve antes de datos reales.
+  - **O4** (avisar que se anulan las invitaciones sin usar de quien deja de administrar) va con un texto en las pantallas, que llega a `lenguaje.md` en un commit posterior.
+- **D-46-7** queda anotada en el registro de tratamientos, entrada 4: la copia del nombre de pila de quien comparte se anonimiza al eliminar la cuenta y en la purga de MATU-89.
+- **Quedan abiertas** la CL-57, la CL-58, la CL-59 y la CL-66 ampliada.
