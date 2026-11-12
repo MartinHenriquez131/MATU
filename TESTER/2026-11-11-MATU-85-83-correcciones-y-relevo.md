@@ -53,5 +53,5 @@ La ficha de la familia todavía parte los teléfonos. Ya tiene su tarjeta: MATU-
 
 | ID | Respuesta | Commit o PR | Verificado (Martín) |
 |---|---|---|---|
-| H1 | | | |
-| H2 | | | |
+| H1 | Corregido (MATU-88). La cabecera de `lenguaje.md` anota MATU-83 (la 5.3 del relevo), MATU-84 (la sección 30) y MATU-88, y la decisión de la 5.3 cita MATU-83 | MATU `afe69c3` y `6932650` (rama `docs/matu-88-correcciones`) | sí, 11-11: teléfono (MATU-88, D1 a D4) |
+| H2 | Corregido (MATU-88), según la decisión de Jorge del 11-11. En el relevo, «Su día» pregunta «¿Cómo es un día normal para {nombre}?», sin «Puedes contar un día bueno o uno difícil.». El editor de la familia sigue igual. `lenguaje.md` 5.1 suma la variante del relevo. Con una prueba que falla sin el cambio | MATU_PROYECTO `a2a42f4` (rama `matu-88-correcciones-tester`) y MATU `afe69c3` | sí, 11-11: teléfono (MATU-88, D1 a D4) |
