@@ -456,14 +456,24 @@ En los orígenes, «Trello» es un comentario de la tarjeta de consulta legal, c
 
 ### CL-37 · El servicio de push del navegador
 
-- **Pregunta:** el servicio de push lo elige el navegador del usuario (Google, Mozilla, Apple), no MATU, y recibe solo la dirección de avisos y un push sin contenido. ¿Es encargado de MATU bajo la Ley 21.719, o un tercero de otra calidad? ¿Cómo se informa la transferencia internacional?
+- **Pregunta:** el servicio de push lo elige el navegador del usuario (Google, Mozilla, Apple), no MATU, y recibe solo la dirección de avisos y un push sin contenido. ¿Es encargado de MATU bajo la Ley 21.719, o un tercero de otra calidad? ¿Cómo se informa la transferencia internacional? Desde MATU-55, la inscripción ya es real aunque MATU no envíe nada. Al tocar «Activar», el navegador contacta a su fabricante con la clave pública VAPID de MATU, y el fabricante puede saber que ese navegador usa una aplicación de cuidado de personas dependientes. ¿Esa inscripción, que la persona inicia y su navegador ejecuta, es una comunicación de datos que MATU tiene que informar, o una relación directa entre la persona y su fabricante? ¿Basta el permiso del navegador y el texto en pantalla, o hace falta algo más?
 - **Origen:**
   - MATU-37, MATU-41 y MATU-57, Trello del 3 de noviembre de 2026, pregunta 2, en lo que toca al push
   - MATU-41, revisión previa, Trello del 4 de noviembre de 2026, pregunta 2
-  - MATU-41, revisión de cierre, Trello del 4 de noviembre de 2026, pregunta 1.
-- **Mientras tanto:** push sin contenido (decisión 50 del contrato, confirmada el 9 de noviembre de 2026). El texto fijo lo pone el teléfono. El comentario 16 de la tarjeta, que hablaba de un push cifrado, quedó reemplazado por esa decisión: con solo el endpoint no se puede cifrar, y cifrar exigiría las claves `p256dh` y `auth`, que MATU no pide. En el semestre el envío es simulado.
+  - MATU-41, revisión de cierre, Trello del 4 de noviembre de 2026, pregunta 1
+  - MATU-55, revisión previa P8 (10-11-2026) y revisión de cierre (12-11-2026).
+- **Mientras tanto:** push sin contenido (decisión 50 del contrato, confirmada el 9 de noviembre de 2026). El texto fijo lo pone el teléfono. El comentario 16 de la tarjeta, que hablaba de un push cifrado, quedó reemplazado por esa decisión: con solo el endpoint no se puede cifrar, y cifrar exigiría las claves `p256dh` y `auth`, que MATU no pide. En el semestre el envío es simulado. Desde MATU-55, inscripción real solo al tocar el botón, sin envío (D6). Solo en teléfonos del equipo (C14). La política 0.14 lo informa en §4 y §6.
 - **Bloquea:** datos reales.
 - **Se cierra en:** registro, entrada 5, comunicaciones a terceros («[PENDIENTE: consulta legal sobre la calidad del servicio de push del navegador y la transferencia internacional]»), y entrada 6, comunicaciones a terceros.
+- **Respuesta:** —
+
+### CL-69 · La dirección de avisos real en un piloto sin datos reales
+
+- **Pregunta:** en staging, que la política declara sin datos reales, la dirección de avisos que se guarda al activar los avisos es la de un navegador real, y queda en Railway, en Estados Unidos. Si una persona que participa en una prueba de usabilidad activa los avisos en su propio teléfono, ¿MATU trata un dato personal real de un tercero? ¿Basta informarlo en la política (§1 y §4), o hace falta un consentimiento específico de la persona que participa, o prohibirlo?
+- **Origen:** MATU-55, revisión de cierre del analista normativo, 12 de noviembre de 2026.
+- **Mientras tanto:** «Activar en este teléfono» se prueba solo en teléfonos del equipo (condición C14). La dirección se borra al desactivar, al salir o con el cierre de staging.
+- **Bloquea:** ninguno, si se cumple C14.
+- **Se cierra en:** política §1. Registro, entradas 6 y 9.
 - **Respuesta:** —
 
 ### CL-38 · El dictado por voz
@@ -527,6 +537,15 @@ En los orígenes, «Trello» es un comentario de la tarjeta de consulta legal, c
 - **Mientras tanto:** acuse dentro de 2 días hábiles y respuesta a más tardar en 30 días corridos (D4).
 - **Bloquea:** datos reales. Conviene responderla antes del 1 de diciembre de 2026, porque el buzón ya está activo.
 - **Se cierra en:** política §10 «Cómo». Registro, entrada 11, base de licitud.
+- **Respuesta:** —
+
+### CL-53 · Los 3 años del registro de la cuenta
+
+- **Pregunta:** ¿es proporcional conservar 3 años la fecha, la hora y el dispositivo de cada ingreso y de cada evento de seguridad de la cuenta, incluidos los intentos fallidos que no se muestran? ¿Basta con mostrar 90 días y hasta 20 líneas en la aplicación y entregar el resto a pedido por correo, para el derecho de acceso?
+- **Origen:** MATU-55, revisión previa P3 (10-11-2026), D3 de Jorge (12-11-2026) y revisión de cierre (12-11-2026).
+- **Mientras tanto:** 3 años, declarados en la política 0.14, §8. No se borra todavía (MATU-89). La titular ve 90 días.
+- **Bloquea:** datos reales.
+- **Se cierra en:** política §8, «Registro de tu cuenta» (`PENDIENTE: CL-53`). Registro, entradas 6 y 8, conservación.
 - **Respuesta:** —
 
 ## 8. Consumidor y catálogo
@@ -665,7 +684,7 @@ En los orígenes, «Trello» es un comentario de la tarjeta de consulta legal, c
 - **Se cierra en:** condiciones del pedido 0.2, §3 y §9.
 - **Respuesta:** —
 
-**Se amplían con MATU-62:** CL-44 (el retiro o el borrado con un pago en curso: si se aprueba, se anula completo el mismo día) y CL-28 (apunta a la CL-64). Reservadas en otras ramas: la CL-53 (MATU-55), las CL-57 a 59 (MATU-42 y 53), la CL-60 (MATU-46), las CL-61 a 63 (MATU-54). La CL-67 es de MATU-94 (sección 7). La próxima libre es la **CL-68**.
+**Se amplían con MATU-62:** CL-44 (el retiro o el borrado con un pago en curso: si se aprueba, se anula completo el mismo día) y CL-28 (apunta a la CL-64). Reservadas en otras ramas: las CL-57 a 59 (MATU-42 y 53), la CL-60 (MATU-46), las CL-61 a 63 y la CL-68 (MATU-54). La CL-67 es de MATU-94 (sección 7). La CL-53 y la CL-69 quedan usadas por MATU-55. La próxima libre es la **CL-70**.
 
 ## Condiciones antes de datos reales
 
@@ -846,6 +865,14 @@ Cada fila traduce un número antiguo a su número nuevo. «Sin número» es una 
 | MATU-62 | Revisión previa, sección 6 | CL-54, CL-55 y CL-56 |
 | MATU-62 | Segunda revisión previa, sección 6 | CL-64, CL-65 y CL-66 |
 | MATU-62 | Segunda revisión previa, ampliar CL-44 y CL-28 | CL-44 y CL-28 |
+
+### MATU-55 (10 y 12 de noviembre de 2026)
+
+| Historia | Número antiguo | Número nuevo |
+|---|---|---|
+| MATU-55, revisión previa, 10-11-2026 | P3 | CL-53 |
+| MATU-55, revisión previa, 10-11-2026 | P8 | CL-37 |
+| MATU-55, revisión de cierre, 12-11-2026 | Sin número | CL-37, CL-53 y CL-69 |
 
 ### MATU-94 (11 de noviembre de 2026)
 
