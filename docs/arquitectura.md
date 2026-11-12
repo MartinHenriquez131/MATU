@@ -1323,6 +1323,8 @@ Tres dimensiones, evaluadas siempre en este orden: **quién es** (JWT válido y 
 | `comercio` | **nunca** | **nunca** | solo su propia oferta, con precio y stock | solo sus líneas de los pedidos del día | no | **ninguno**: solo la referencia del pedido y el código de retiro |
 | `operación` | **nunca** | **nunca** | administrar | ver todos, intervenir | ver, devolver por anulación, liquidar | nombre, dirección |
 
+**El grupo (MATU-42).** Solo el `admin` invita, anula invitaciones, cambia roles y el permiso del pagador y saca a alguien. Los demás roles reciben 404, y la RLS por operación de la 0026 lo exige también en la base. Cualquier miembro puede salir. El grupo nunca queda sin `admin` (trigger y 409). Al dejar de compartir la ficha (salir, ser sacado o pasar de `admin` o `cuidador` a `pagador` u `observador`) se cortan los accesos de relevo que la persona compartió. Al dejar de administrar, se anulan sus invitaciones sin usar.
+
 **Los pedidos antes de pagar (MATU-61, decisión CJ3 de Jorge del 11-11, decisión 194 de `api/README.md`).** El admin y el cuidador arman el carrito, eligen qué hacer si falta, cambian la dirección y el teléfono, confirman el total, usan «Cambiar el pedido» y **cancelan sin pagar**: cancelar sin pagar no mueve dinero, y el cuidador ya puede retirar la autorización de pedidos, que cancela lo mismo. La cancelación con devolución, después de pagar (MATU-62 y MATU-63), sigue siendo solo del admin. El pagador ve el carrito, la entrega y el resumen, no confirma y no cancela: si el total vence, lo vuelve a confirmar quien armó el pedido. El observador ve el carrito sin la dirección, el teléfono ni el resumen (`PedidoVistaObservador`). Un rol que no alcanza recibe 404.
 
 **Las celdas "nunca" no se garantizan por permiso, se garantizan por arquitectura.** `fulfillment`, `settlement` y `backoffice` no importan `care_plan` ni `consumption`, y la regla se verifica con la prueba de dependencias de la sección 6.4. Un permiso se puede configurar mal. Una importación que no existe, no.
@@ -1425,8 +1427,13 @@ Que la incidencia **no bloquee la entrega** es deliberado: la familia está espe
 | **Auditoría de la cuenta** (`sesion.*`, `dispositivo.*`, `cuenta.*` y `avisos.preferencia`, sin grupo) | 3 años. En «Dónde entraste» la titular ve los últimos 90 días, hasta 20 líneas | Seguridad de la cuenta y derecho de acceso de la titular (MATU-55, RF-37). Sin IP desde la 0025, que borró la columna (D7). Todavía no se borra sola: el borrado lo construye MATU-89. [PENDIENTE: CL-53] |
 | Acceso de relevo: nombre del relevo, motivo y fechas | 3 años desde que el acceso vence o se revoca, igual que la auditoría | Identifica a quién se entregó la ficha (decisión 25 del contrato de MATU-09) |
 | Teléfono del relevo | 30 días desde que el acceso vence o se revoca | Solo sirve mientras el acceso está vigente (decisión 25). [PENDIENTE: una migración quita el `NOT NULL` de `acceso_relevo.otorgado_a_telefono`, y una tarea lo borra al cumplirse el plazo. Ninguna migración hasta la 0017 lo hace. Las hace la historia que implemente esa conservación] |
+| Invitación al grupo, con su `indice_token` | 30 días desde que se acepta, se anula, se bloquea o vence | No guarda contacto (D-42-1 a). Solo sirve hasta cerrarse. Los 30 días permiten responder dudas de soporte (D-42-6, MATU-42) |
+| Membresía retirada (rol y fechas de quien salió) | Mientras la auditoría la nombre | Permite interpretar la auditoría de 3 años. [PENDIENTE: CL-59] |
+| Contadores de la invitación (huella HMAC de la IP. Tope de creación por cuenta y grupo) | 1 hora. Tope, 24 horas | MATU-42, decisiones 301 y 324 |
 
 **Si se borra a la persona cuidada**, su nombre de pila copiado en `acceso_relevo.nombre_pila_persona` se anonimiza (decisión 26). Lo hace la historia de borrado.
+
+**Si alguien sale del grupo**, `acceso_relevo.nombre_pila_comparte` e `invitacion.nombre_pila_invita` dejan de mostrarse a la familia (`autor_activo: false`, MATU-42), y sus accesos y sus invitaciones se cortan. La copia del nombre en el acceso se anonimiza al eliminar la cuenta y en la purga de MATU-89 (D-46-7).
 
 ---
 

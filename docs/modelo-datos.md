@@ -209,12 +209,15 @@ erDiagram
         uuid invitado_por FK "opcional"
         timestamptz unido_en
         timestamptz retirado_en "opcional"
+        int version
     }
     invitacion {
         uuid id PK
         uuid grupo_id FK
-        text destino_email "opcional"
-        text destino_telefono "opcional"
+        text nombre_pila_invita
+        bytea codigo_hash
+        smallint codigo_intentos_fallidos
+        timestamptz bloqueada_en "opcional"
         text rol
         bytea token_hash UK
         uuid invitado_por FK
@@ -275,8 +278,8 @@ erDiagram
 | `dispositivo` | Dispositivos para notificaciones push y para atar sesiones | Se revoca, no se borra |
 | `sesion_refresh` | Refresh token rotativo con detección de reutilización (11.6) | Todos los tokens de una cadena comparten `familia_id`. Si se presenta uno ya usado, se revoca la familia entera. Vigencia máxima de 30 días por `CHECK` |
 | `grupo_familiar` | El tenant del sistema | — |
-| `membresia` | Quién pertenece a qué grupo y con qué rol | Un usuario, una membresía por grupo. `puede_ver_plan` solo tiene sentido para `pagador` (`CHECK`) |
-| `invitacion` | Invitar a un familiar por email o teléfono (RF-38) | Token con hash, vence en máximo 7 días |
+| `membresia` | Quién pertenece a qué grupo y con qué rol | Una membresía no retirada por usuario y grupo (índice único parcial `WHERE estado <> 'retirada'`, 0026): volver a invitar crea una fila nueva. `puede_ver_plan` solo para `pagador` (`CHECK`). `version` para `If-Match`. El trigger `membresia_nunca_sin_admin` impide dejar el grupo sin admin. Sacar y salir pasan por `membresia_retirar` (`SECURITY DEFINER`). La retirada se conserva [PENDIENTE: CL-59] |
+| `invitacion` | Invitar a un familiar con un enlace y un código (RF-38, MATU-42) | **Sin correo ni teléfono** (D-42-1 a). SHA-256 del token y HMAC del código de 4 dígitos con `PEPPER_PIN`. 5 intentos y `bloqueada_en`. Un solo uso. Vence en 7 días. `nombre_pila_invita` copiado. Se borra 30 días después de cerrarse, con su `indice_token` (`invitacion_conservar`, D-42-6). La persona invitada la canjea con `invitacion_presentar`, `_verificar` y `_aceptar` (`SECURITY DEFINER`) |
 | `direccion` | Direcciones del grupo | Desde la migración de MATU-61, **`lat` y `lng` siempre nulas**, con un `CHECK` (C8): MATU no guarda la ubicación en el mapa. `version` da el `ETag` de `PUT …/personas-cuidadas/{persona_id}/direccion` (D4). La dirección se pide con el primer pedido, se copia a `pedido_entrega` al confirmar, se conserva al retirar la autorización de pedidos y se puede vaciar (CJ6 de Jorge). `referencia` hasta 200 caracteres (C9) |
 | `persona_cuidada` | La persona que recibe el cuidado. Es sujeto de datos, no usuario | **Sin diagnóstico** (11.3). `nivel_apoyo` es operacional |
 | `consentimiento` | Consentimiento por persona y finalidad (Ley 21.719, sección 11.5) | Un solo consentimiento vigente por persona y finalidad. `representante_legal` exige referencia al documento. `cuidador_de_hecho` exige fecha de revisión anual. **Inalterable** (migración 0006, 28-10, ajustada en la 0016 de MATU-44): solo se registra su revocación, una vez, y nunca se borra. `revocacion_motivo` (`retiro` o `renovacion`) se fija junto con `revocado_en`, con un `CHECK` que exige los dos juntos: el retiro corta los accesos de relevo en el caso de uso, y la renovación no. Solo administrador y cuidador fijan `revocado_en` (política RLS `consentimiento_familia_revocar`). A los 90 días de un retiro sin autorización nueva, la tarea `tarea_destruccion`, que hoy se corre a mano, llama a `plan_destruir_claves`, que destruye la clave de la persona y borra lo cifrado con ella; si después se autoriza de nuevo, la ficha empieza en blanco con una clave nueva. La confirmación anual del cuidador de hecho crea una fila nueva con su propia evidencia y no edita la anterior; ese historial es la prueba de licitud. Que DELETE se rechace siempre es provisional hasta la consulta legal sobre conservación y anonimización |
@@ -1291,7 +1294,7 @@ python db/gen_diagramas.py && python db/gen_matriz.py
 El esquema ya está migrado. Estas decisiones siguen abiertas y se confirman entre los dos en la planificación del sprint que las usa:
 
 - Vigencia máxima del acceso de relevo: **30 días**, o más corta (sprint 2)
-- Vigencia de la invitación: **7 días** (sprint 3)
+- ~~Vigencia de la invitación~~: **7 días**, decidido (D-42-3 de Jorge, 12-11. MATU-42)
 - Frecuencias permitidas de reposición: 7, 14, 21, 28 y 30 días (fuera del semestre: la reposición programada salió con el segundo recorte)
 - Período de liquidación por defecto: **quincenal** (sprint 4)
 - Los hallazgos 1 a 5 de la sección 5.4 y los 16 cambios de la sección 10 se llevan a la arquitectura v1.2
