@@ -69,11 +69,11 @@ En los orígenes, «Trello» es un comentario de la tarjeta de consulta legal, c
 
 ### CL-04 · Quién ejerce los derechos de la persona cuidada
 
-- **Pregunta:** si la persona cuidada no puede ejercer sus derechos (ver, corregir, borrar, oponerse) y no tiene representante, ¿quién los ejerce? En particular, ¿puede una cuidadora o un cuidador de hecho pedir el borrado de sus datos por su cuenta?
+- **Pregunta:** si la persona cuidada no puede ejercer sus derechos (ver, corregir, borrar, oponerse) y no tiene representante, ¿quién los ejerce? En particular, ¿puede una cuidadora o un cuidador de hecho pedir el borrado de sus datos por su cuenta? **Ampliada con MATU-54:** ¿pueden el admin y el cuidador, también uno de hecho, ejercer el acceso y la portabilidad en nombre de la persona, recibiendo la copia completa en la aplicación?
 - **Origen:**
   - MATU-26, revisión previa, Trello del 21 de octubre de 2026, pregunta 4
   - MATU-72, CL-7, segunda parte, en `revision-matu-72.md` (rama `docs/matu-72-borrar-al-tiro`) y en Trello del 8 de noviembre de 2026.
-- **Mientras tanto:** en la aplicación borran y retiran el admin y el cuidador, sin preguntar en qué calidad (MATU-44 y MATU-72, decisión D1).
+- **Mientras tanto:** en la aplicación borran y retiran el admin y el cuidador, sin preguntar en qué calidad (MATU-44 y MATU-72, decisión D1). Desde MATU-54, la copia de la persona la piden en la aplicación el admin y el cuidador (D-54-1 a).
 - **Bloquea:** datos reales.
 - **Se cierra en:** política, sección 10, «Quién puede pedirlo» («[PENDIENTE: si la cuidadora o el cuidador de hecho puede pedirlo en su nombre…]»). Política, sección 10, «Borrar los datos de la persona que cuidas», en la rama de MATU-72.
 - **Respuesta:** —
@@ -136,6 +136,35 @@ En los orígenes, «Trello» es un comentario de la tarjeta de consulta legal, c
 - **Mientras tanto:** el piloto opera solo con datos sintéticos, y la política dice que el responsable cambia en la versión 1.0 (política, sección 2). El tipo de persona jurídica va al contador en CL-47.
 - **Bloquea:** datos reales y dinero real.
 - **Se cierra en:** política, sección 2. `figura-legal-piloto.md`, sección 6, punto 1.
+- **Respuesta:** —
+
+### CL-57 · Las personas nuevas con acceso a los datos de la persona cuidada
+
+- **Pregunta:** ¿basta la autorización registrada (MATU-07), o la persona cuidada o su representante deben ser informados o autorizar a cada persona nueva del grupo? ¿Puede una cuidadora o un cuidador de hecho ampliar ese acceso invitando a otras personas?
+- **Origen:** MATU-42, revisión previa (11-11-2026) y de cierre (12-11-2026), `revision-previa-matu-42-53.md`, punto 3.
+- **Mientras tanto:** las declaraciones no cambian (C4). Al invitar, la pantalla le recuerda a quien administra que se lo cuente a la persona cuidada si puede comprenderlo (C5). Todo el grupo ve quiénes lo forman (C6).
+- **Se relaciona con:** CL-01 y CL-05.
+- **Bloquea:** datos reales.
+- **Se cierra en:** política, secciones 5 y 6. Registro, entrada 12, base de licitud.
+- **Respuesta:** —
+
+### CL-58 · La autorización cuando quien la dio sale del grupo
+
+- **Pregunta:** si quien dio la autorización (en especial como cuidadora o cuidador de hecho) sale del grupo o lo sacan, ¿sigue valiendo su declaración, en la ficha, en los insumos y en los pedidos? ¿Corresponde pedir una autorización nueva, y en qué plazo?
+- **Origen:** MATU-42, revisión previa y de cierre, punto 4 (D-42-9).
+- **Mientras tanto:** la autorización sigue vigente. Admin y cuidador ven `autorizo_alguien_que_ya_no_esta` y el aviso «La autorización la dio alguien que ya no está en el grupo. Sigue vigente.», sin saber quién fue. Renovar desde la aplicación va en MATU-69.
+- **Se relaciona con:** CL-01, CL-06 y la autorización de pedidos (MATU-61, D1).
+- **Bloquea:** datos reales.
+- **Se cierra en:** política, sección 6. Registro, entradas 1 y 12.
+- **Respuesta:** —
+
+### CL-61 · Quién recibe la copia de la persona y qué lleva de terceros
+
+- **Pregunta:** ¿pueden el admin y el cuidador del grupo, también un cuidador de hecho, recibir en la aplicación una copia completa y portable de los datos de la persona cuidada, como ejercicio de los derechos de ella? ¿O es una comunicación nueva que necesita su propia base? ¿Se pueden incluir los nombres de los relevos y de los miembros, y lo escrito en «A quién llamar», y excluir el teléfono del relevo y la referencia al documento? ¿La portabilidad alcanza a lo que escribió la familia y al registro de quién abrió la ficha? Si quien pide es el cuidador y su copia trae solo sus propias líneas del registro, ¿se cumple el derecho de la titular, o hay que entregarle siempre el registro completo?
+- **Origen:** MATU-54, revisión previa (11-11-2026, sección 9) y revisión de cierre (12-11-2026). Se relaciona con CL-04, CL-33 y CL-34.
+- **Mientras tanto:** la piden admin y cuidador (D-54-1 a), con nombres y sin teléfonos ni correos (D-54-4 a). El cuidador ve solo sus líneas (D-54-6 a), y el admin, todo.
+- **Bloquea:** datos reales.
+- **Se cierra en:** política §10, «Ver y descargar los datos desde la aplicación». Registro, entrada 13, base de licitud.
 - **Respuesta:** —
 
 ## 2. Datos de salud y finalidades
@@ -345,19 +374,20 @@ En los orígenes, «Trello» es un comentario de la tarjeta de consulta legal, c
 
 ### CL-29 · Destruir la clave y las copias de respaldo
 
-- **Pregunta:** ¿destruir la clave de la persona cuenta como supresión? ¿Basta que lo borrado siga en las copias de respaldo hasta que venzan, incluidos los insumos y las compras anotadas, que no tienen una clave propia que destruir? ¿Qué plazo máximo de copias es aceptable?
+- **Pregunta:** ¿destruir la clave de la persona cuenta como supresión? ¿Basta que lo borrado siga en las copias de respaldo hasta que venzan, incluidos los insumos y las compras anotadas, que no tienen una clave propia que destruir? ¿Qué plazo máximo de copias es aceptable? **Ampliada con MATU-46:** el teléfono del relevo también queda en las copias hasta que vencen. ¿Basta con volver a correr los borrados por plazo (`python -m app.tareas borrados`) antes de reabrir una copia restaurada, y repetir a mano los borrados de personas posteriores a la copia?
 - **Origen:**
   - MATU-44, CL-6, revisión de cierre, Trello del 7 de noviembre de 2026, y `revision-matu-44.md`
   - MATU-72, CL-6 ampliada, Trello del 8 de noviembre de 2026, y `revision-matu-72.md` (decisión D3)
   - Trello del 3 de noviembre de 2026, «respaldos», como pregunta ya registrada.
-- **Mientras tanto:** se destruye la clave y, en la misma transacción, se borran el texto cifrado y las secciones. Si se restaura una copia, antes de usarla se vuelve a borrar lo pedido, con la auditoría `persona.borrar` como lista.
+  - MATU-46, revisión previa (P9) y revisión de cierre, 11 y 12 de noviembre de 2026.
+- **Mientras tanto:** se destruye la clave y, en la misma transacción, se borran el texto cifrado y las secciones. Si se restaura una copia, antes de usarla se vuelve a borrar lo pedido, con la auditoría `persona.borrar` como lista. Desde MATU-46, al restaurar una copia se corre `python -m app.tareas borrados` antes de reabrir la base (`infra/railway/README.md`). Esa orden repite los borrados por plazo, pero no los pedidos: esos se repiten con la auditoría `persona.borrar`, y todavía no hay un script para hacerlo.
 - **Bloquea:** datos reales.
 - **Se cierra en:** política, sección 8, «Copias de respaldo» («[PENDIENTE: plazo]»). Registro, entrada 3, conservación, y entrada 5, conservación («copias de respaldo: [PENDIENTE]»).
 - **Respuesta:** —
 
 ### CL-30 · El borrado que se pide por correo
 
-- **Pregunta:** ¿cómo se verifica la identidad de una persona sin cuenta, o de su representante legal, que pide el borrado por correo? ¿Puede la familia volver a registrar y autorizar a la persona contra la voluntad de quien pidió el borrado?
+- **Pregunta:** ¿cómo se verifica la identidad de una persona sin cuenta, o de su representante legal, que pide el borrado por correo? ¿Puede la familia volver a registrar y autorizar a la persona contra la voluntad de quien pidió el borrado? **Ampliada con MATU-54:** la misma verificación, ¿vale para pedir por correo una copia de los datos de la persona cuidada, si ella o su representante no tienen a nadie en el grupo?
 - **Origen:** MATU-72, CL-7, primera y tercera parte, en `revision-matu-72.md` y en Trello del 8 de noviembre de 2026. La segunda parte, si un cuidador de hecho puede pedirlo, está en CL-04.
 - **Mientras tanto:** en la aplicación borran el admin y el cuidador. El borrado por correo, sin pasar por el grupo, queda para antes de los datos reales (política, sección 13).
 - **Bloquea:** datos reales.
@@ -402,6 +432,35 @@ En los orígenes, «Trello» es un comentario de la tarjeta de consulta legal, c
 - **Se cierra en:** política, sección 10, «Borrar los datos de la persona que cuidas» («PENDIENTE: CL-52 y CL-44»). Registro, entrada 2, conservación («[PENDIENTE: CL-52 y CL-44]»).
 - **Respuesta:** —
 
+### CL-59 · Cuánto se guarda la membresía de quien salió
+
+- **Pregunta:** ¿cuánto se pueden guardar el rol y las fechas de quien salió del grupo, si sirven para interpretar la auditoría de 3 años? ¿Puede esa persona pedir que se supriman antes?
+- **Origen:** MATU-42, revisión previa y de cierre, punto 9 (C14).
+- **Mientras tanto:** la fila queda `retirada`, con `retirado_en`, sin permiso de ficha, y no se borra. Nadie del grupo la ve. La persona la pide por correo.
+- **Se relaciona con:** CL-26, CL-34 y CL-53.
+- **Bloquea:** datos reales.
+- **Se cierra en:** política, sección 8. Registro, entrada 12, conservación. Arquitectura, 11.8.
+- **Respuesta:** —
+
+### CL-60 · ¿Anonimización o seudonimización del nombre de pila en los accesos de relevo?
+
+- **Pregunta:** al borrar a la persona cuidada, MATU reemplaza su nombre de pila en todos sus accesos de relevo por un valor fijo («borrada») y conserva el número interno que une el acceso, la auditoría y el grupo. ¿Es una anonimización según la Ley 21.719, o una seudonimización, de modo que esos accesos siguen siendo datos personales de la persona, con los plazos de la CL-27?
+- **Origen:** MATU-46, revisión previa, 11 de noviembre de 2026 (`revision-previa-matu-46.md`, sección 6), y revisión de cierre, 12 de noviembre de 2026. Se relaciona con CL-27.
+- **Mientras tanto:** se trata como dato personal. El acceso se conserva sin el nombre de la persona y sin el teléfono del relevo, por los plazos de la política, sección 8, y ya no se ve en la aplicación (MATU-72 y MATU-46, D-46-3 a).
+- **Bloquea:** datos reales.
+- **Se cierra en:** registro, entrada 4, datos. Política, sección 10.
+- **Respuesta:** —
+
+### CL-62 · La copia con la autorización retirada o en pausa
+
+- **Pregunta:** en los 90 días después de un retiro, o con la ficha en pausa por no renovar, ¿hay que entregar a la titular, si la pide, el texto que nadie puede leer? ¿Quién lo entrega y cómo, si para hacerlo el equipo tendría que descifrarlo?
+- **Origen:** MATU-54, revisión previa (sección 9) y de cierre. Se relaciona con CL-25 y CL-06.
+- **Mientras tanto:** la copia va solo con el estado y la fecha de borrado (D-54-5 a). Los enlaces, los pedidos y el registro sí van.
+- **Bloquea:** datos reales.
+- **Se cierra en:** política §10.
+- **Respuesta:** —
+
+
 ## 5. El relevo y otras personas que anota la familia
 
 ### CL-33 · La base de licitud de los datos del relevo y de «A quién llamar»
@@ -419,13 +478,14 @@ En los orígenes, «Trello» es un comentario de la tarjeta de consulta legal, c
 
 ### CL-34 · Los 3 años del registro de aperturas del relevo
 
-- **Pregunta:** ¿es proporcional conservar 3 años la fecha, la hora y el nombre del relevo, que es un tercero? ¿Cómo encaja con su derecho a pedir el borrado frente a un registro de auditoría que no se modifica ni se borra?
+- **Pregunta:** ¿es proporcional conservar 3 años la fecha, la hora y el nombre del relevo, que es un tercero? ¿Cómo encaja con su derecho a pedir el borrado frente a un registro de auditoría que no se modifica ni se borra? **Ampliada con MATU-46:** el relevo no tiene cuenta, y el aviso que ve antes del PIN le dice que puede pedir borrar sus datos por correo. ¿Puede pedir que se borre su teléfono antes de los 30 días, o su nombre antes de los 3 años? ¿Por qué vía, y cómo se verifica que es él? Hoy MATU no puede borrar a pedido el teléfono de un acceso en particular: la familia puede cortar el acceso, y el teléfono se borra 30 días después.
 - **Origen:**
   - MATU-45, Trello del 3 de noviembre de 2026, pregunta 1
-  - MATU-48, revisión de cierre, Trello del 4 de noviembre de 2026, pregunta 3.
-- **Mientras tanto:** 3 años desde que el acceso vence o se corta (política 0.10, sección 6).
+  - MATU-48, revisión de cierre, Trello del 4 de noviembre de 2026, pregunta 3
+  - MATU-46, revisión previa, 11 de noviembre de 2026 (sección 6), y revisión de cierre, 12 de noviembre de 2026 (F1).
+- **Mientras tanto:** 3 años desde que el acceso vence o se corta (política 0.10, sección 6), y nada los borra todavía a los 3 años (MATU-89). El teléfono se borra 30 días después de que el acceso vence o se corta, o al borrar a la persona (MATU-46).
 - **Bloquea:** datos reales.
-- **Se cierra en:** política, sección 6, «Quién abrió el enlace de relevo» («[PENDIENTE: consulta legal sobre si 3 años es proporcional…]»).
+- **Se cierra en:** política, sección 6, «Quién abrió el enlace de relevo» («[PENDIENTE: consulta legal sobre si 3 años es proporcional…]»). Política, sección 8, «Registro de quién abrió la ficha» y «Accesos de relevo». Registro, entrada 4, conservación.
 - **Respuesta:** —
 
 ## 6. Proveedores y transferencia internacional
@@ -456,14 +516,24 @@ En los orígenes, «Trello» es un comentario de la tarjeta de consulta legal, c
 
 ### CL-37 · El servicio de push del navegador
 
-- **Pregunta:** el servicio de push lo elige el navegador del usuario (Google, Mozilla, Apple), no MATU, y recibe solo la dirección de avisos y un push sin contenido. ¿Es encargado de MATU bajo la Ley 21.719, o un tercero de otra calidad? ¿Cómo se informa la transferencia internacional?
+- **Pregunta:** el servicio de push lo elige el navegador del usuario (Google, Mozilla, Apple), no MATU, y recibe solo la dirección de avisos y un push sin contenido. ¿Es encargado de MATU bajo la Ley 21.719, o un tercero de otra calidad? ¿Cómo se informa la transferencia internacional? Desde MATU-55, la inscripción ya es real aunque MATU no envíe nada. Al tocar «Activar», el navegador contacta a su fabricante con la clave pública VAPID de MATU, y el fabricante puede saber que ese navegador usa una aplicación de cuidado de personas dependientes. ¿Esa inscripción, que la persona inicia y su navegador ejecuta, es una comunicación de datos que MATU tiene que informar, o una relación directa entre la persona y su fabricante? ¿Basta el permiso del navegador y el texto en pantalla, o hace falta algo más?
 - **Origen:**
   - MATU-37, MATU-41 y MATU-57, Trello del 3 de noviembre de 2026, pregunta 2, en lo que toca al push
   - MATU-41, revisión previa, Trello del 4 de noviembre de 2026, pregunta 2
-  - MATU-41, revisión de cierre, Trello del 4 de noviembre de 2026, pregunta 1.
-- **Mientras tanto:** push sin contenido (decisión 50 del contrato, confirmada el 9 de noviembre de 2026). El texto fijo lo pone el teléfono. El comentario 16 de la tarjeta, que hablaba de un push cifrado, quedó reemplazado por esa decisión: con solo el endpoint no se puede cifrar, y cifrar exigiría las claves `p256dh` y `auth`, que MATU no pide. En el semestre el envío es simulado.
+  - MATU-41, revisión de cierre, Trello del 4 de noviembre de 2026, pregunta 1
+  - MATU-55, revisión previa P8 (10-11-2026) y revisión de cierre (12-11-2026).
+- **Mientras tanto:** push sin contenido (decisión 50 del contrato, confirmada el 9 de noviembre de 2026). El texto fijo lo pone el teléfono. El comentario 16 de la tarjeta, que hablaba de un push cifrado, quedó reemplazado por esa decisión: con solo el endpoint no se puede cifrar, y cifrar exigiría las claves `p256dh` y `auth`, que MATU no pide. En el semestre el envío es simulado. Desde MATU-55, inscripción real solo al tocar el botón, sin envío (D6). Solo en teléfonos del equipo (C14). La política 0.14 lo informa en §4 y §6.
 - **Bloquea:** datos reales.
 - **Se cierra en:** registro, entrada 5, comunicaciones a terceros («[PENDIENTE: consulta legal sobre la calidad del servicio de push del navegador y la transferencia internacional]»), y entrada 6, comunicaciones a terceros.
+- **Respuesta:** —
+
+### CL-69 · La dirección de avisos real en un piloto sin datos reales
+
+- **Pregunta:** en staging, que la política declara sin datos reales, la dirección de avisos que se guarda al activar los avisos es la de un navegador real, y queda en Railway, en Estados Unidos. Si una persona que participa en una prueba de usabilidad activa los avisos en su propio teléfono, ¿MATU trata un dato personal real de un tercero? ¿Basta informarlo en la política (§1 y §4), o hace falta un consentimiento específico de la persona que participa, o prohibirlo?
+- **Origen:** MATU-55, revisión de cierre del analista normativo, 12 de noviembre de 2026.
+- **Mientras tanto:** «Activar en este teléfono» se prueba solo en teléfonos del equipo (condición C14). La dirección se borra al desactivar, al salir o con el cierre de staging.
+- **Bloquea:** ninguno, si se cumple C14.
+- **Se cierra en:** política §1. Registro, entradas 6 y 9.
 - **Respuesta:** —
 
 ### CL-38 · El dictado por voz
@@ -487,6 +557,15 @@ En los orígenes, «Trello» es un comentario de la tarjeta de consulta legal, c
 - **Respuesta:** —
 
 ## 7. Seguridad, huellas de IP y derechos
+
+### CL-67 · Las lecturas de operación de los pedidos de otros grupos
+
+- **Pregunta:** ¿deben quedar registradas, sin contenido, las lecturas que hace el equipo de operación de los pedidos de otros grupos, que la política trata como datos sensibles, antes de tratar datos reales?
+- **Origen:** MATU-94, revisión de cierre del analista normativo, 11 de noviembre de 2026 (punto 8).
+- **Mientras tanto:** las lecturas de operación no se auditan, igual que las de la familia (decisión 52), y sus escrituras sí. El backoffice no está construido y el piloto usa solo datos sintéticos. Se recomienda, como diseño, auditar esas lecturas en la historia del backoffice.
+- **Bloquea:** datos reales.
+- **Se cierra en:** registro de tratamientos, entrada 2, «Quién accede» («[PENDIENTE: CL-67]»).
+- **Respuesta:** —
 
 ### CL-39 · La base de las huellas de IP y de email
 
@@ -513,11 +592,38 @@ En los orígenes, «Trello» es un comentario de la tarjeta de consulta legal, c
 
 ### CL-48 · El plazo para responder los derechos antes y después del 1 de diciembre de 2026
 
-- **Pregunta:** MATU promete acusar recibo dentro de 2 días hábiles y responder a más tardar en 30 días corridos. ¿Cumple ese plazo con la Ley 19.628 mientras rija su texto actual, hasta el 30 de noviembre de 2026, y con la Ley 21.719 desde el 1 de diciembre de 2026? ¿Desde cuándo corre el plazo si pedimos confirmar la identidad? ¿Se puede prorrogar? ¿La respuesta debe informar el derecho a reclamar ante la Agencia? ¿Con qué base se tratan los datos que llegan al buzón?
+- **Pregunta:** MATU promete acusar recibo dentro de 2 días hábiles y responder a más tardar en 30 días corridos. ¿Cumple ese plazo con la Ley 19.628 mientras rija su texto actual, hasta el 30 de noviembre de 2026, y con la Ley 21.719 desde el 1 de diciembre de 2026? ¿Desde cuándo corre el plazo si pedimos confirmar la identidad? ¿Se puede prorrogar? ¿La respuesta debe informar el derecho a reclamar ante la Agencia? ¿Con qué base se tratan los datos que llegan al buzón? **Ampliada con MATU-54:** la copia en la aplicación es inmediata. ¿Cuenta como respuesta dentro del plazo, o hay que responder igual por escrito cuando la persona además escribe?
 - **Origen:** MATU-75, revisión previa (D4) y de cierre, 9 de noviembre de 2026 (CL-75-1). Amplía CL-40.
 - **Mientras tanto:** acuse dentro de 2 días hábiles y respuesta a más tardar en 30 días corridos (D4).
 - **Bloquea:** datos reales. Conviene responderla antes del 1 de diciembre de 2026, porque el buzón ya está activo.
 - **Se cierra en:** política §10 «Cómo». Registro, entrada 11, base de licitud.
+- **Respuesta:** —
+
+### CL-53 · Los 3 años del registro de la cuenta
+
+- **Pregunta:** ¿es proporcional conservar 3 años la fecha, la hora y el dispositivo de cada ingreso y de cada evento de seguridad de la cuenta, incluidos los intentos fallidos que no se muestran? ¿Basta con mostrar 90 días y hasta 20 líneas en la aplicación y entregar el resto a pedido por correo, para el derecho de acceso?
+- **Origen:** MATU-55, revisión previa P3 (10-11-2026), D3 de Jorge (12-11-2026) y revisión de cierre (12-11-2026).
+- **Mientras tanto:** 3 años, declarados en la política 0.14, §8. No se borra todavía (MATU-89). La titular ve 90 días en pantalla, y desde MATU-54 todo, salvo los fallidos, en el archivo de «Tus datos».
+- **Bloquea:** datos reales.
+- **Se cierra en:** política §8, «Registro de tu cuenta» (`PENDIENTE: CL-53`). Registro, entradas 6 y 8, conservación.
+- **Respuesta:** —
+
+### CL-63 · El formato y el límite de la copia
+
+- **Pregunta:** ¿basta un JSON como formato estructurado y de uso común para la portabilidad, con la pantalla como formato legible y accesible? ¿Es compatible con la gratuidad un límite de 10 copias por hora por cuenta, si el correo sigue disponible? ¿Basta mostrar 90 días en la pantalla, con lo anterior solo en el JSON y, en formato legible, por correo?
+- **Origen:** MATU-54, revisión previa (sección 9) y de cierre.
+- **Mientras tanto:** pantalla y JSON (D-54-3 a), 10 por hora (D-54-10 a), 90 días en pantalla y todo en el archivo (D-54-9 a).
+- **Bloquea:** datos reales.
+- **Se cierra en:** política §10.
+- **Respuesta:** —
+
+### CL-70 · Lo que la copia no trae y se entrega por correo
+
+- **Pregunta:** el derecho de acceso, ¿obliga a incluir en la copia de la cuenta los intentos fallidos de entrar o de usar un código, que MATU guarda por seguridad y no muestra? ¿Y los registros que el pagador y el observador generan dentro de un grupo (abrir la ficha con permiso o empezar un pago), que hoy no están en ninguna copia de la aplicación? ¿Basta con entregarlos por correo a pedido? Si una fila antigua del registro no se puede atribuir con certeza a una persona cuidada, ¿basta con decirlo, sin entregarla?
+- **Origen:** MATU-54, revisión de cierre (12-11-2026), F1 y F7, y `hay_hechos_sin_asociar`. Se relaciona con CL-53.
+- **Mientras tanto:** se declaran en la política §6 y §10 y se entregan por correo. Las filas no atribuibles existen solo en datos sintéticos, anteriores a la 0028.
+- **Bloquea:** datos reales.
+- **Se cierra en:** política §6 y §10. Registro, entradas 6 y 13.
 - **Respuesta:** —
 
 ## 8. Consumidor y catálogo
@@ -649,14 +755,22 @@ En los orígenes, «Trello» es un comentario de la tarjeta de consulta legal, c
 
 ### CL-66 · Quién es el consumidor cuando paga una persona y arma otra
 
-- **Pregunta:** ¿quién ejerce el retracto, quién reclama y a quién se le devuelve? **Ampliada en el cierre de MATU-62:** ¿cuál es la base de licitud de los datos del pago de quien paga sin haber armado el pedido: la ejecución de la compra que acepta, u otra?
+- **Pregunta:** ¿quién ejerce el retracto, quién reclama y a quién se le devuelve? **Ampliada en el cierre de MATU-62:** ¿cuál es la base de licitud de los datos del pago de quien paga sin haber armado el pedido: la ejecución de la compra que acepta, u otra? **Ampliada en el cierre de MATU-42:** si quien pagó sale del grupo o lo sacan, deja de ver en la aplicación el pedido, el pago y el comprobante. ¿Basta con entregarlos por correo, o MATU debe mantenerle el acceso a su comprobante?
 - **Origen:** MATU-62, segunda revisión previa, 11 de noviembre de 2026 (`revision-previa-matu-62-segunda.md`, sección 6), con las decisiones del orquestador del 11-11 por delegación de Jorge.
-- **Mientras tanto:** la aceptación de las condiciones queda con quien pagó (`condiciones_aceptadas_por`, D-62-16) y la devolución va siempre a la misma tarjeta.
+- **Mientras tanto:** la aceptación de las condiciones queda con quien pagó (`condiciones_aceptadas_por`, D-62-16) y la devolución va siempre a la misma tarjeta. Quien salió pide su comprobante por el correo de la sección 10 de la política (MATU-42).
 - **Bloquea:** dinero real.
 - **Se cierra en:** condiciones del pedido 0.2, §3 y §9.
 - **Respuesta:** —
+### CL-68 · Pedidos y pagos en la copia
 
-**Se amplían con MATU-62:** CL-44 (el retiro o el borrado con un pago en curso: si se aprueba, se anula completo el mismo día) y CL-28 (apunta a la CL-64). Reservadas en otras ramas: la CL-53 (MATU-55), las CL-57 a 59 (MATU-42 y 53), la CL-60 (MATU-46), las CL-61 a 63 (MATU-54) y la CL-67 (MATU-94). La próxima libre es la **CL-68**.
+- **Pregunta:** ¿se puede entregar al admin y al cuidador el historial de pedidos de la persona, con el nombre de quien pagó? ¿Conserva quien pagó y salió del grupo el acceso a sus pagos, o basta entregárselos por correo?
+- **Origen:** MATU-54, decisiones de Jorge del 12-11-2026 (D-54-14 a D-54-16) y revisión de cierre. Se relaciona con CL-11, CL-12, CL-61 y CL-66.
+- **Mientras tanto:** la copia de la persona trae los pedidos con quién pagó, sin tarjeta ni datos de la venta. «Tus datos» trae los pagos de los grupos activos, con el tipo, los últimos 4, las cuotas y el código de autorización. Quien salió los pide por correo.
+- **Bloquea:** datos reales.
+- **Se cierra en:** registro, entradas 2 y 13, base de licitud.
+- **Respuesta:** —
+
+**Se amplían con MATU-62:** CL-44 (el retiro o el borrado con un pago en curso: si se aprueba, se anula completo el mismo día) y CL-28 (apunta a la CL-64). Las CL-57 a 59 quedan usadas por MATU-42 y 53, que amplía la CL-66. Las CL-61 a 63, la CL-68 y la CL-70 quedan usadas por MATU-54, que amplía la CL-04, CL-30, CL-48 y CL-53. La CL-67 es de MATU-94 (sección 7). La CL-53 y la CL-69 quedan usadas por MATU-55. La CL-60 queda usada por MATU-46, que amplía la CL-29 y la CL-34. La próxima libre es la **CL-71**.
 
 ## Condiciones antes de datos reales
 
@@ -665,8 +779,11 @@ Estas no son preguntas legales. Son trabajo del equipo que tiene que estar hecho
 - **Enviar correo solo a emails verificados.** Hoy cualquiera puede registrar un email ajeno (MATU-41, revisión previa, Trello del 4 de noviembre de 2026, punto 3, y política, sección 13).
 - **El correo de contacto** de privacidad (política, secciones 2 y 10). **Hecho en MATU-75, 09-11.**
 - **Borrar los datos de la persona cuando lo pide por correo,** sin pasar por su grupo (MATU-72, política, sección 13).
-- **Ver o descargar los datos desde la aplicación,** incluidas las compras anotadas. Mientras tanto, por el correo (política, sección 13, y `revision-matu-51.md`).
-- **Borrar el teléfono del relevo a los 30 días** (MATU-46).
+- **Ver o descargar los datos desde la aplicación,** incluidas las compras anotadas (política, sección 10, y `revision-matu-51.md`). **Hecho en MATU-54, 12-11.**
+- **Marcar cada aviso y cada pago como simulado o de prueba en su propia fila,** antes de enviar avisos reales o cobrar dinero real. Hoy la copia lo decide con la configuración del momento (`ENVIO_AVISOS_SIMULADO` y la pasarela configurada), y después informaría mal lo anterior (MATU-54, revisión de cierre, C-E).
+- **El procedimiento para responder por correo lo que la copia no trae** (CL-70), junto con el de la tarjeta MATU-99.
+- **Borrar el teléfono del relevo a los 30 días** (MATU-46). **Hecho en MATU-46, 12-11.**
+- **Borrar a pedido el teléfono o el nombre de un relevo,** si la CL-34 responde que puede pedirlo. Hoy solo se borran por plazo o al borrar a la persona (MATU-46, revisión de cierre, F1, tarjeta MATU-101).
 - **Renovar la autorización desde la aplicación** cuando vence la revisión de los 12 meses (MATU-69).
 - **La clave maestra en un servicio de custodia,** fuera del servidor de aplicación (ADR-016, política, sección 9, y registro, entrada 3).
 - **Un usuario propio para las tareas programadas,** con permiso solo para leer los identificadores (registro, entrada 5).
@@ -837,3 +954,43 @@ Cada fila traduce un número antiguo a su número nuevo. «Sin número» es una 
 | MATU-62 | Revisión previa, sección 6 | CL-54, CL-55 y CL-56 |
 | MATU-62 | Segunda revisión previa, sección 6 | CL-64, CL-65 y CL-66 |
 | MATU-62 | Segunda revisión previa, ampliar CL-44 y CL-28 | CL-44 y CL-28 |
+
+### MATU-55 (10 y 12 de noviembre de 2026)
+
+| Historia | Número antiguo | Número nuevo |
+|---|---|---|
+| MATU-55, revisión previa, 10-11-2026 | P3 | CL-53 |
+| MATU-55, revisión previa, 10-11-2026 | P8 | CL-37 |
+| MATU-55, revisión de cierre, 12-11-2026 | Sin número | CL-37, CL-53 y CL-69 |
+
+### MATU-94 (11 de noviembre de 2026)
+
+| Historia | Número antiguo | Número nuevo |
+|---|---|---|
+| MATU-94 | Cierre del analista, punto 8 | CL-67 |
+
+### MATU-42 y MATU-53 (11 y 12 de noviembre de 2026)
+
+| Historia | Número antiguo | Número nuevo |
+|---|---|---|
+| MATU-42 | Revisión previa, sección 7 | CL-57, CL-58 y CL-59 |
+| MATU-42 | Revisión de cierre, quien pagó y salió | CL-66 |
+
+### MATU-46 (11 y 12 de noviembre de 2026)
+
+| Historia | Número antiguo | Número nuevo |
+|---|---|---|
+| MATU-46, revisión previa | Sección 6, CL-60 (nueva) | CL-60 |
+| MATU-46, revisión previa | Sección 6, ampliar CL-34 | CL-34 |
+| MATU-46, revisión previa | Sección 6, ampliar CL-29 | CL-29 |
+| MATU-46, revisión de cierre | F1 (borrado a pedido del relevo) | CL-34 |
+
+### MATU-54 (11 y 12 de noviembre de 2026)
+
+| Historia | Número antiguo | Número nuevo |
+|---|---|---|
+| MATU-54, revisión previa | Sección 9, CL-61, 62 y 63 (nuevas) | CL-61, CL-62 y CL-63 |
+| MATU-54, revisión previa | Sección 9, ampliar CL-04, CL-30 y CL-48 | CL-04, CL-30 y CL-48 |
+| MATU-54, decisiones de Jorge | CL-68 (nueva) | CL-68 |
+| MATU-54, revisión de cierre | F1 y F7 | CL-70 |
+| MATU-54, revisión de cierre | Ampliar CL-53 | CL-53 |
