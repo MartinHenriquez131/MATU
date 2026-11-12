@@ -30,7 +30,7 @@ La razón es que las estimaciones del semestre resultaron muy por encima de lo r
 | Estimaciones de las tarjetas (las que la tienen) | MATU-63 (6 h), MATU-76 (4 h), MATU-95 (1,5 h), MATU-81 (8 h), MATU-79 (8 h), MATU-96 (1,5 h), MATU-106 (1 h), y su parte de MATU-78 (3 h), MATU-77 (2 h), MATU-80 (7 h) y MATU-104 (4 h) | MATU-64 (4 h), MATU-65 (5 h), y su parte de MATU-78 (5 h, lidera la redacción), MATU-77 (2 h), MATU-80 (2 h) y MATU-104 (2 h) |
 | Sin estimación todavía | MATU-92 y MATU-103, que se estiman en su plan | MATU-100 y la cola de revisión del sprint 4 |
 
-**Carga real.** Con los agentes, las cerca de 45 h estimadas de Jorge son unas 15 h reales. Martín carga cerca de 27 h de persona: la demo, la usabilidad, su parte de MATU-77, 78, 80 y 104, y la revisión de 9 PR con su informe en `TESTER/` y la prueba en el teléfono. Por eso se le pasaron solo MATU-100 y el liderazgo de la redacción de MATU-78 (decisión de Jorge del 12 de noviembre). Lo que más equilibra la carga es que Martín fusione la cola por la fila de migraciones el viernes 13 y el sábado 14: #85, #84, #87, #88, #89, #90 y MATU-54.
+**Carga real.** Con los agentes, las cerca de 45 h estimadas de Jorge son unas 15 h reales. Martín carga cerca de 27 h de persona: la demo, la usabilidad, su parte de MATU-77, 78, 80 y 104, y la revisión de 9 PR con su informe en `TESTER/` y la prueba en el teléfono. Por eso se le pasaron solo MATU-100 y el liderazgo de la redacción de MATU-78 (decisión de Jorge del 12 de noviembre). La cola del sprint 4 ya quedó fusionada el 12 de noviembre, así que esas horas de Martín se liberan para MATU-64 y MATU-65.
 
 **Las horas se miden y van al factor de vibecoding.** Al cerrar cada tarjeta se anotan en Trello las horas reales, con sus marcas de tiempo objetivas (movimientos de la tarjeta y commits) en hora de Chile. El factor del sprint y el del semestre se calculan en la ceremonia del jueves 19 y entran a MATU-78 y a MATU-104.
 
@@ -38,32 +38,27 @@ La razón es que las estimaciones del semestre resultaron muy por encima de lo r
 
 ## 3. Estado al empezar
 
-### En Revisión, esperando a Martín
+### El sprint 4 quedó cerrado en `main` el 12 de noviembre
 
-MATU-62, MATU-94, MATU-86, MATU-93, MATU-55, MATU-42, MATU-53 y MATU-46. **MATU-54 entra hoy, 12 de noviembre.**
-
-MATU-62 ya está fusionada en `main` de MATU_PROYECTO (PR #86, con la migración 0024 y la política 0.13). La tarjeta espera su cierre.
-
-### La cola de fusión
-
-En el orden de la fila de migraciones. Cada PR de código lleva su PR de documentos en el repositorio MATU.
+Martín revisó, fusionó y desplegó en staging y en la demostración toda la cola, en el orden de la fila de migraciones. MATU-62, MATU-94, MATU-86, MATU-93, MATU-55, MATU-42, MATU-53, MATU-46 y MATU-54 están en Terminado.
 
 | Orden | PR de MATU_PROYECTO | Tarjeta | Migración | Política | PR de documentos en MATU |
 |---|---|---|---|---|---|
-| 1 | #85 | MATU-94 · correcciones de la revisión de Martín a MATU-61 | — | — | #78 |
-| 2 | #84 | MATU-86 · la ficha de la familia muestra los teléfonos | — | — | — |
-| 3 | #87 | MATU-93 · ningún texto bajo 17 px | — | — | — |
-| 4 | #88 | MATU-55 · Dónde entraste, ingresos y avisos | 0025 | 0.14 | #81 |
-| 5 | #89 | MATU-42 y MATU-53 · invitar a un familiar y ver el grupo | 0026 | 0.15 | #82 |
-| 6 | #90 | MATU-46 · el teléfono del relevo se borra a los 30 días | 0027 | 0.16 | #83 |
-| 7 | MATU-54 (se abre hoy) | MATU-54 · Mis datos | 0028 | 0.17 | se abre con el PR |
+| 1 | MATU_PROYECTO#86 | MATU-62 · pago con Webpay Plus | 0024 | 0.13 | MATU#79 |
+| 2 | MATU_PROYECTO#85 | MATU-94 · correcciones de la revisión de Martín a MATU-61 | — | — | MATU#78 |
+| 3 | MATU_PROYECTO#84 | MATU-86 · la ficha de la familia muestra los teléfonos | — | — | — |
+| 4 | MATU_PROYECTO#87 | MATU-93 · ningún texto bajo 17 px | — | — | — |
+| 5 | MATU_PROYECTO#88 y #91 | MATU-55 · Dónde entraste, ingresos y avisos (el #91 agrega `web/public` a la imagen de Railway) | 0025 | 0.14 | MATU#81 |
+| 6 | MATU_PROYECTO#89 | MATU-42 y MATU-53 · invitar a un familiar y ver el grupo | 0026 | 0.15 | MATU#82 |
+| 7 | MATU_PROYECTO#90 | MATU-46 · el teléfono del relevo se borra a los 30 días | 0027 | 0.16 | MATU#83 |
+| 8 | MATU_PROYECTO#92 | MATU-54 · Mis datos | 0028 | 0.17 | MATU#87 |
 
-**Hasta que estén en `main` los siete PR** (#84 a #90 y el de MATU-54), el despliegue final de MATU-80 no tiene todo lo que necesita.
+Los hallazgos P2 y P3 de esas revisiones están en MATU-107, que se trabaja desde el 12 de noviembre. Ninguno se acepta.
 
 ### Migraciones y políticas
 
-- **Migraciones:** `main` llega a la 0024 (MATU-62). La cola trae de la 0025 a la 0028. **La 0029 queda reservada para MATU-63**, por los permisos del comercio.
-- **Política de privacidad:** `main` está en la 0.13 (MATU-62). La cola trae de la 0.14 a la 0.17, **una versión por fusión**.
+- **Migraciones:** `main` y la demostración están en la 0028. **La 0029 queda reservada para MATU-63**, por los permisos del comercio.
+- **Política de privacidad:** `main` está en la 0.17 (`docs/legal/`), y staging y la demostración publican `POLITICA_VERSION=0.17`. Cada historia que cambie la política sube una versión al fusionarse.
 
 ## 4. Tabla de prioridad
 
@@ -122,11 +117,11 @@ Los pesos son relativos a las historias del sprint 4, donde MATU-54 y MATU-42/53
 
 | Día | Jorge, con los agentes | Martín |
 |---|---|---|
-| Viernes 13 | Ceremonia (P1) · MATU-63: revisión previa del analista, especificación del diseñador, migración 0029, backend y vista del comercio | Ceremonia (P1) · revisa y fusiona la cola del sprint 4 en orden: #85, #84 y #87 · MATU-64: el recorrido 6 apenas MATU-63 esté en staging |
-| Sábado 14 | MATU-92 (Mis pedidos) · MATU-76 (avisos del pedido) | Revisa y fusiona #88, #89, #90 y MATU-54, con sus PR de documentos · cierra MATU-64 con los seis recorridos · revisa el PR de MATU-63 |
+| Viernes 13 | Ceremonia (P1) · MATU-63: revisión previa del analista, especificación del diseñador, migración 0029, backend y vista del comercio | Ceremonia (P1) · MATU-64: el recorrido 6 apenas MATU-63 esté en staging |
+| Sábado 14 | MATU-92 (Mis pedidos) · MATU-76 (avisos del pedido) | Cierra MATU-64 con los seis recorridos · revisa el PR de MATU-63 |
 | Domingo 15 | MATU-95 (la ficha) · MATU-81 (backoffice) | Termina MATU-65 (usabilidad ronda 2) y su informe · revisa MATU-92 y MATU-76 |
 | Lunes 16 | MATU-78: lo técnico, el estado de los siete objetivos y el factor de vibecoding con cifras, y revisa y fusiona el PR · MATU-77: revisa el guion | MATU-78: lidera la redacción (guía de la Fase 3, estructura, usabilidad y entrevistas, integración, edición final y PR) · MATU-77: escribe y ensaya el guion. **El informe y el guion quedan listos hoy** |
-| Martes 17 | MATU-80: las cinco pruebas de extremo a extremo que faltan y la carga con k6 · inicio de MATU-79 | MATU-80: corre las pruebas sobre la demo y hace el despliegue final desde `main` · revisa MATU-95 y MATU-81 |
+| Martes 17 | MATU-80: las cinco pruebas de extremo a extremo nuevas, que se suman a la que ya existe, y la carga con k6 · inicio de MATU-79 | MATU-80: corre las pruebas sobre la demo y hace el despliegue final desde `main` · revisa MATU-95 y MATU-81 |
 | Miércoles 18 | MATU-79 (retención, pruebas y puertas del CI) · MATU-96 · MATU-103 · MATU-100: confirma contra las migraciones 0005 y 0025 quién lee la auditoría, y revisa y fusiona el PR de Martín | MATU-100: verifica y corrige los documentos con su agente `revisor-documental` y abre el PR · revisa MATU-79, MATU-96 y MATU-103 · restablece la demo desde cero |
 | Jueves 19 | MATU-104: láminas y guion · ceremonia de cierre (P17) | MATU-104: la demo y su guion, ensayo con cronómetro · ceremonia de cierre (P17) |
 
@@ -141,10 +136,10 @@ Toda historia con migración parte de la punta de la última rama abierta que ta
 | Migración | Tarjeta | Política | Estado al 12 de noviembre |
 |---|---|---|---|
 | 0024 | MATU-62 · pago con Webpay Plus | 0.13 | En `main` (PR #86) |
-| 0025 | MATU-55 · Dónde entraste | 0.14 | PR #88, en revisión |
-| 0026 | MATU-42 y MATU-53 · invitar y ver el grupo | 0.15 | PR #89, en revisión |
-| 0027 | MATU-46 · teléfono del relevo | 0.16 | PR #90, en revisión |
-| 0028 | MATU-54 · Mis datos | 0.17 | El PR se abre hoy |
+| 0025 | MATU-55 · Dónde entraste | 0.14 | En `main` (PR #88) |
+| 0026 | MATU-42 y MATU-53 · invitar y ver el grupo | 0.15 | En `main` (PR #89) |
+| 0027 | MATU-46 · teléfono del relevo | 0.16 | En `main` (PR #90) |
+| 0028 | MATU-54 · Mis datos | 0.17 | En `main` (PR #92) |
 | 0029 | MATU-63 · vista de comercio | La siguiente, si su revisión previa la pide | Reservada |
 | Las que sigan | MATU-76 (tipos de aviso en un `CHECK`) y MATU-79 (retención), si la llevan | Una por fusión | Se fija en el plan de cada una |
 
@@ -176,7 +171,7 @@ La revisión del jueves 19 muestra el objetivo con **los seis recorridos crític
 
 Se dice en voz alta qué es simulado: el comercio, el envío de avisos y el pago en integración.
 
-Y en pantalla, el pipeline completo en verde con `test_aislamiento.py`, `test_arquitectura.py` y las seis pruebas de extremo a extremo de MATU-80.
+Y en pantalla, el pipeline completo en verde con `test_aislamiento.py`, `test_arquitectura.py` y las seis pruebas de extremo a extremo de MATU-80 (la que ya existe y las cinco nuevas).
 
 **Además, en la retrospectiva** se calcula el factor de vibecoding del sprint y del semestre (horas estimadas de lo terminado divididas por horas reales), y se revisa el trabajo con agentes y los roles del ADR-030.
 
@@ -202,6 +197,6 @@ Lo que sigue no se construye en el sprint 5. Está en la columna Product Backlog
 - MATU-89, MATU-99, MATU-101 y MATU-102
 - MATU-98
 - Las consultas legales abiertas, en su tarjeta de Trello
-- Lo de la épica «Paso a producción» que MATU-79 deja fuera: MFA, HSTS, monitoreo con alertas y quitar `auditoria.ip`
+- Lo de la épica «Paso a producción» que MATU-79 deja fuera: MFA, HSTS y monitoreo con alertas (quitar `auditoria.ip` ya lo hizo la 0025 de MATU-55)
 
 Mientras eso no esté cerrado, MATU trata **solo datos sintéticos**.
