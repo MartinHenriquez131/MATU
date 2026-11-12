@@ -540,6 +540,15 @@ En los orígenes, «Trello» es un comentario de la tarjeta de consulta legal, c
 
 ## 7. Seguridad, huellas de IP y derechos
 
+### CL-67 · Las lecturas de operación de los pedidos de otros grupos
+
+- **Pregunta:** ¿deben quedar registradas, sin contenido, las lecturas que hace el equipo de operación de los pedidos de otros grupos, que la política trata como datos sensibles, antes de tratar datos reales?
+- **Origen:** MATU-94, revisión de cierre del analista normativo, 11 de noviembre de 2026 (punto 8).
+- **Mientras tanto:** las lecturas de operación no se auditan, igual que las de la familia (decisión 52), y sus escrituras sí. El backoffice no está construido y el piloto usa solo datos sintéticos. Se recomienda, como diseño, auditar esas lecturas en la historia del backoffice.
+- **Bloquea:** datos reales.
+- **Se cierra en:** registro de tratamientos, entrada 2, «Quién accede» («[PENDIENTE: CL-67]»).
+- **Respuesta:** —
+
 ### CL-39 · La base de las huellas de IP y de email
 
 - **Pregunta:** para limitar los intentos de crear una cuenta, entrar, recuperar el acceso y abrir un enlace de relevo, MATU guarda una huella de la IP y, al entrar o recuperar el acceso, una del email, que duran una hora o 24 horas como máximo y no permiten recuperar el dato. ¿Ese conteo necesita una base de licitud propia, o basta el deber de seguridad?
@@ -717,7 +726,7 @@ En los orígenes, «Trello» es un comentario de la tarjeta de consulta legal, c
 - **Se cierra en:** condiciones del pedido 0.2, §3 y §9.
 - **Respuesta:** —
 
-**Se amplían con MATU-62:** CL-44 (el retiro o el borrado con un pago en curso: si se aprueba, se anula completo el mismo día) y CL-28 (apunta a la CL-64). Las CL-57 a 59 quedan usadas por MATU-42 y 53, que amplía la CL-66. Reservadas en otras ramas: las CL-61 a 63 y la CL-68 (MATU-54) y la CL-67 (MATU-94). La CL-53 y la CL-69 quedan usadas por MATU-55. La CL-60 queda usada por MATU-46, que amplía la CL-29 y la CL-34. La próxima libre es la **CL-70**.
+**Se amplían con MATU-62:** CL-44 (el retiro o el borrado con un pago en curso: si se aprueba, se anula completo el mismo día) y CL-28 (apunta a la CL-64). Las CL-57 a 59 quedan usadas por MATU-42 y 53, que amplía la CL-66. Reservadas en otras ramas: las CL-61 a 63 y la CL-68 (MATU-54). La CL-67 es de MATU-94 (sección 7). La CL-53 y la CL-69 quedan usadas por MATU-55. La CL-60 queda usada por MATU-46, que amplía la CL-29 y la CL-34. La próxima libre es la **CL-70**.
 
 ## Condiciones antes de datos reales
 
@@ -907,6 +916,12 @@ Cada fila traduce un número antiguo a su número nuevo. «Sin número» es una 
 | MATU-55, revisión previa, 10-11-2026 | P3 | CL-53 |
 | MATU-55, revisión previa, 10-11-2026 | P8 | CL-37 |
 | MATU-55, revisión de cierre, 12-11-2026 | Sin número | CL-37, CL-53 y CL-69 |
+
+### MATU-94 (11 de noviembre de 2026)
+
+| Historia | Número antiguo | Número nuevo |
+|---|---|---|
+| MATU-94 | Cierre del analista, punto 8 | CL-67 |
 
 ### MATU-42 y MATU-53 (11 y 12 de noviembre de 2026)
 
