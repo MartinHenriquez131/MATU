@@ -11,7 +11,7 @@
 **MATU-83 (11-11):** la 5.3 suma la pregunta del relevo, «¿A quién llamar si algo pasa?», sin «te», porque quien reemplaza no es quien escribió la ficha (decisión de Jorge del 09-11).
 **MATU-84 (11-11):** entra la sección 30, «Me quedan» y el alta del insumo en envases. Aprobados por Jorge el 10-11.
 **MATU-88 (11-11):** la 5.1 suma la pregunta del relevo, sin «Puedes contar un día bueno o uno difícil.», con el criterio de la 5.3. En los insumos en sobres, el campo y el error del envase dicen «sobres» en vez de «unidades» (H2 del TESTER de MATU-84). La 5.1 es decisión de Jorge del 11-11, y el envase en sobres es del orquestador, por delegación de Jorge del mismo día.
-**MATU-61 (11-11):** entra la sección 31, el pedido, con los textos de la especificación de pantallas v1.1 (sección 15). Con la decisión D10 de Jorge cambian la 21 (la lista nunca compra sola), la 23 («Compré» nunca hace un pedido) y la 27 («Agregar al pedido» en el catálogo). La 17 mantiene «El aviso nunca ofrece comprar.». Por aprobar por Jorge al fusionar.
+**MATU-61 (11-11):** entra la sección 31, el pedido, con los textos de la especificación de pantallas v1.1 (sección 15). Con la decisión D10 de Jorge cambian la 21 (la lista nunca compra sola), la 23 («Compré» nunca hace un pedido) y la 27 («Agregar al pedido» en el catálogo). La 17 mantiene «El aviso nunca ofrece comprar.». Aprobados por Jorge el 11-11 (MATU-94, 74-1).
 **MATU-62 (11-11):** entra la sección 32, el pago, con los textos de la especificación de pantallas v1.1 (sección 12). La 31 admite «Este comprobante no es una boleta.» (D-62-7), el aviso de los 2 minutos también para el pagador (D-62-14) y un punto nuevo en «Retirar». Decisiones del orquestador por delegación de Jorge del 11-11. Los textos **[NUEVO]** los aprobó Jorge el 12-11.
 **Fuentes:** resultados de las entrevistas (`docs/resultados-entrevistas.md`), arquitectura sección 10, política de privacidad v0.9, la demo aprobada (`Demo/src/`, rama `demo-web-viernes-30`) y el contrato de MATU-09 (`docs/api/`, rama `matu-09-contrato-api`).
 
@@ -689,7 +689,7 @@ El correo y el push nunca dicen qué insumo ni de quién, no ofrecen comprar y s
 
 ## 21. Lista de insumos (MATU-60) · Aprobados por Jorge el 06-11
 
-En la app se dice «lista de insumos», nunca «lista de reposición» ni «quiebre». La cantidad es una sugerencia: lo que falta para cubrir 30 días, descontando lo que MATU calcula que queda. La lista nunca compra sola. Solo quien tiene la autorización de pedidos puede tocar "Pedir estos productos". El texto que se imprime o se comparte no lleva los días que quedan ni el nombre de la persona (ADR-031).
+En la app se dice «lista de insumos», nunca «lista de reposición» ni «quiebre». La cantidad es una sugerencia: lo que falta para cubrir 30 días, descontando lo que MATU calcula que queda. La lista nunca compra sola. Solo quien tiene la autorización de pedidos puede tocar «Pedir estos productos». El texto que se imprime o se comparte no lleva los días que quedan ni el nombre de la persona (ADR-031).
 
 | Dónde | Texto |
 |---|---|
@@ -791,7 +791,7 @@ En la app se dice «autorización» y «retirar», nunca «consentimiento» ni �
 
 ## 23. Anotar una compra o lo que queda (MATU-51) · Aprobados por Jorge el 07-11
 
-En la app se dice «Compré» y «Me quedan», nunca «reposición», «reponer» ni «stock». Lo que se anota con «Compré» se llama **«compras anotadas»** en los textos, en las tarjetas y en el código. «Compré» habla de lo que la familia ya hizo: "Compré" anota lo que la familia ya compró, y nunca hace un pedido. La fecha la pone MATU (hoy) y la familia no la elige. Los días y la fecha de la confirmación los da la API.
+En la app se dice «Compré» y «Me quedan», nunca «reposición», «reponer» ni «stock». Lo que se anota con «Compré» se llama **«compras anotadas»** en los textos, en las tarjetas y en el código. «Compré» anota lo que la familia ya compró, y nunca hace un pedido. La fecha la pone MATU (hoy) y la familia no la elige. Los días y la fecha de la confirmación los da la API.
 
 | Dónde | Texto |
 |---|---|
@@ -938,7 +938,7 @@ En la app se dice «autorización» y «permiso», nunca «consentimiento». Est
 
 ## 27. Catálogo (MATU-59) · Aprobados por Jorge el 08-11
 
-Es la tercera pestaña de Insumos, para todos los roles del grupo. "Agregar al pedido" está en cada comercio que tiene el producto, para quien administra o cuida (MATU-61, sección 31). La pantalla no dice «stock» (sección 3.2): dice «Hay en» y «No hay en».
+Es la tercera pestaña de Insumos, para todos los roles del grupo. «Agregar al pedido» está en cada comercio que tiene el producto, para quien administra o cuida (MATU-61, sección 31). La pantalla no dice «stock» (sección 3.2): dice «Hay en» y «No hay en».
 
 | Dónde | Texto |
 |---|---|
@@ -1041,9 +1041,7 @@ Se usan tal cual: la pregunta «¿Cuántos quedan hoy, más o menos?» (sección
 
 ---
 
-## 31. Pedido (MATU-61) · Por aprobar por Jorge al fusionar
-
-> La sección 30 es de MATU-84, en otra rama. Si al fusionar el número ya está tomado, esta sección se renumera.
+## 31. Pedido (MATU-61) · Aprobados por Jorge el 11-11
 
 Los textos salen de la especificación de pantallas de MATU-61, v1.1 del 11-11 (`docs/diseno/matu-61-pedido.md`, sección 15), que marca el origen de cada uno: los propuestos por el analista normativo (`legal/revision-previa-matu-61.md`, sección 4), los que fijó Jorge en sus decisiones D8 a D10 y los nuevos del diseñador. Las llaves son datos de la API: `{producto}` es el nombre del producto, `{comercio}` el nombre de fantasía del comercio, `{pila}` el nombre de pila de la persona cuidada, `{precio}` en pesos enteros con punto de miles (`$12.990`) y `{HH:MM}` en 24 horas, hora de Chile.
 
