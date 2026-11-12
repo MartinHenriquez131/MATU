@@ -13,6 +13,8 @@
 **MATU-88 (11-11):** la 5.1 suma la pregunta del relevo, sin «Puedes contar un día bueno o uno difícil.», con el criterio de la 5.3. En los insumos en sobres, el campo y el error del envase dicen «sobres» en vez de «unidades» (H2 del TESTER de MATU-84). La 5.1 es decisión de Jorge del 11-11, y el envase en sobres es del orquestador, por delegación de Jorge del mismo día.
 **MATU-61 (11-11):** entra la sección 31, el pedido, con los textos de la especificación de pantallas v1.1 (sección 15). Con la decisión D10 de Jorge cambian la 21 (la lista nunca compra sola), la 23 («Compré» nunca hace un pedido) y la 27 («Agregar al pedido» en el catálogo). La 17 mantiene «El aviso nunca ofrece comprar.». Por aprobar por Jorge al fusionar.
 **MATU-62 (11-11):** entra la sección 32, el pago, con los textos de la especificación de pantallas v1.1 (sección 12). La 31 admite «Este comprobante no es una boleta.» (D-62-7), el aviso de los 2 minutos también para el pagador (D-62-14) y un punto nuevo en «Retirar». Decisiones del orquestador por delegación de Jorge del 11-11. Los textos **[NUEVO]** los aprobó Jorge el 12-11.
+**MATU-55 (12-11):** entra la sección 33, «Dónde entraste» y los avisos de «Tu cuenta», con los textos de la especificación de pantallas v1.1 (`docs/diseno/matu-55-donde-entraste.md`, sección 8). Ajusta la 13.3 («hoy» y «ayer» en «Última vez», y «teléfono», «computador» o «navegador» según cada uno) y la 20 («En tus teléfonos» en vez de «En este teléfono», D5). La ayuda del estado B cambia por decisión del 12-11. Por aprobar por Jorge al fusionar.
+**MATU-42 y MATU-53 (12-11):** entra la sección 34, invitar a un familiar y ver el grupo, con los textos de `textosInvitar.ts` (rama `matu-42-invitar-familiar`, 960e8fe) y de la especificación de pantallas v1.3 (`docs/diseno/matu-53-invitar-grupo.md`, sección 11). Los [ANALISTA] los aprobó Jorge el 12-11 y los **[NUEVO]** el orquestador, por delegación de Jorge del mismo día. Por aprobar por Jorge al fusionar.
 **Fuentes:** resultados de las entrevistas (`docs/resultados-entrevistas.md`), arquitectura sección 10, política de privacidad v0.9, la demo aprobada (`Demo/src/`, rama `demo-web-viernes-30`) y el contrato de MATU-09 (`docs/api/`, rama `matu-09-contrato-api`).
 
 ---
@@ -683,7 +685,7 @@ El correo y el push nunca dicen qué insumo ni de quién, no ofrecen comprar y s
 | Correo, botón o enlace (sin identificadores) | Abrir MATU |
 | Correo, pie | Te llega este correo porque eres parte de un grupo de cuidado en MATU. Para dejar de recibir estos avisos por correo, entra a MATU y desactívalos en Tu cuenta. |
 | Push, título y cuerpo | MATU · Un insumo se está acabando. Abre la app para ver cuál. |
-| Preferencias en «Tu cuenta» (pantalla en MATU-55) | Avisos cuando un insumo se está acabando · Por correo · En este teléfono |
+| Preferencias en «Tu cuenta» (pantalla en MATU-55) | Avisos cuando un insumo se está acabando · Por correo · En este teléfono. Desde MATU-55, «En tus teléfonos» (sección 33) |
 
 ---
 
@@ -1173,3 +1175,233 @@ Los textos salen de la especificación de pantallas de MATU-62, v1.1 del 11-11 (
 | **Pedido pagado** | Pedido pagado · Pagado · Pedido {referencia} · {DD/MM/AAAA} a las {HH:MM} · Total pagado: {total} · Ver el comprobante | **[NUEVO]** · [A5.4] |
 
 **Ninguno usa** los términos de la sección 3, «rechazado», «fallido», «inválido», «token», «stock», «reserva», «monto real», «estimado» ni «con IVA». «Boleta» aparece solo en «Este comprobante no es una boleta.», que la niega.
+
+---
+
+## 33. Dónde entraste y avisos (MATU-55) · Por aprobar por Jorge al fusionar
+
+Los textos salen de la especificación de pantallas de MATU-55, v1.1 del 12-11 (`docs/diseno/matu-55-donde-entraste.md`, secciones 2, 3 y 8), que marca el origen de cada uno: [L 13.3] y las demás, los que ya están en esa sección, [A] los que propuso el analista normativo en la revisión previa (`legal/revision-previa-matu-55.md`, sección 5), **[NUEVO]** o **[AJUSTE]** los del diseñador y [CIERRE] los que el analista revisó en el cierre del 12-11. `{nombre}` es el nombre del teléfono o computador tal como llega («Chrome en Android»), `{correo}` es el correo de contacto de la política y `{fecha}` es «hoy», «ayer» o `DD/MM/AAAA`.
+
+**Regla de la sección.** Se dice «teléfono», «computador» o «navegador», nunca «dispositivo». El sustantivo sale de la clase de cada uno (E1): un teléfono es «teléfono», un computador es «computador» y lo demás es «navegador». Los textos de abajo van con «teléfono», y en un computador o en otro navegador cambia la palabra y nada más. Se dice «entrar» y «salir», nunca «sesión», «evento», «registro», «auditoría» ni «token». La IP aparece una sola vez, en la bajada, para decir que no se guarda.
+
+| Dónde | Texto | Origen |
+|---|---|---|
+| **«Dónde entraste»** | | |
+| Título y bajada | Dónde entraste · Los teléfonos y computadores donde entraste a MATU. No guardamos tu ubicación ni tu dirección IP. | [L 13.3] · **[NUEVO]** |
+| Tus teléfonos | Tus teléfonos y computadores | **[NUEVO]** |
+| El actual | Este teléfono · Este computador · Este navegador | [L 13.3] · **[NUEVO]** |
+| Última vez | Última vez: {fecha} a las {hora}, con «hoy» y «ayer» en vez de la fecha | [L 13.3] · **[AJUSTE]** «hoy» y «ayer» |
+| Acción en el actual | Salir | El botón de la cabecera (`MARCO.salir`), que la 26 todavía no tenía. Entra aquí |
+| Acción en otro | Cerrar en ese teléfono · Cerrar en ese computador · Cerrar en ese navegador | [L 13.3] · **[NUEVO]** |
+| Últimos ingresos | Últimos ingresos · Los de los últimos 90 días, hasta 20. | **[NUEVO]** · **[AJUSTE]** del texto del analista, con «hasta 20» |
+| Los días | Hoy · Ayer · El {día de la semana} · El {DD/MM/AAAA} | [L 15] |
+| La cola de una línea | a las {HH:MM} · {nombre} · (este teléfono) · (este computador) · (este navegador) | [A] · **[NUEVO]** el computador y el navegador |
+| Un teléfono que ya no está | un teléfono o computador que ya no está en tu lista · en un teléfono o computador que ya no está en tu lista | **[NUEVO]** |
+| **Las líneas de ingresos** | | |
+| Entraste | Entraste | [A] |
+| Saliste | Saliste | [A] |
+| Cerraste en otro | Cerraste MATU en {nombre} | [A] |
+| Salida por seguridad | Te sacamos de MATU en {nombre} porque notamos un uso extraño. | **[AJUSTE]** del texto del analista, sin «Vuelve a entrar.» |
+| Contraseña | Cambiaste tu contraseña | [A] |
+| Celular | Confirmaste tu celular | [A] |
+| Código pedido | Se pidió un código para recuperar tu cuenta · Si no lo pediste tú, no compartas el código con nadie. | [A] · **[NUEVO]** [CIERRE] |
+| Avisos en un teléfono | Activaste los avisos en {nombre} · Desactivaste los avisos en {nombre} | [A] |
+| Preferencia de avisos | Cambiaste tus avisos | [A] |
+| **Al pie de la lista** | | |
+| No reconoces un ingreso | ¿No reconoces un ingreso? Cierra MATU en ese teléfono. Para cambiar tu contraseña, sal de MATU y toca «¿Olvidaste tu contraseña?» al entrar. | **[AJUSTE]** del texto del analista (E5) |
+| Lo que no se muestra | Si necesitas los ingresos anteriores a 90 días, escribe a {correo} desde el correo de tu cuenta. · Mostramos los 20 más recientes. Para ver los demás, o los anteriores a 90 días, escribe a {correo} desde el correo de tu cuenta. · Sin correo: Mostramos los 20 más recientes. | **[NUEVO]** |
+| Vacío | No hay ingresos en los últimos 90 días. | [A] |
+| **Esperas y errores** | | |
+| Cargando | Cargando… · Volver a intentar | [L 26] |
+| Error de los teléfonos | No pudimos traer dónde entraste. Revisa tu conexión e inténtalo de nuevo. | [A] |
+| Error de los ingresos | No pudimos traer tus últimos ingresos. Revisa tu conexión e inténtalo de nuevo. | **[NUEVO]** |
+| **Cerrar en otro teléfono** | | |
+| Título | ¿Cerrar MATU en {nombre}? | [A] |
+| Texto | Quien lo use tendrá que volver a entrar con tu correo y tu contraseña. Puede seguir abierto hasta 15 minutos. | [A] |
+| Botones | Cerrar en ese teléfono · Cerrando… · Dejarlo abierto | [L 13.3] · **[NUEVO]** · [A] |
+| Listo | Cerramos MATU en {nombre}. | [A] |
+| Ya no estaba | Ese teléfono ya no estaba en tu lista. · Ese computador ya no estaba en tu lista. · Ese navegador ya no estaba en tu lista. | [A] · **[NUEVO]** |
+| Error | No pudimos cerrar MATU en ese teléfono. Revisa tu conexión y vuelve a intentarlo. | **[NUEVO]** |
+| **«Tu cuenta»** | | |
+| Dónde entraste | Dónde entraste · Los teléfonos y computadores donde entraste, y tus últimos ingresos. · Ver dónde entraste | [L 13.3] · **[NUEVO]** |
+| **Los avisos de «Tu cuenta»** | | |
+| Título | Avisos cuando un insumo se está acabando | [L 20] |
+| Ayuda | Te avisamos cuando un insumo se esté acabando. El aviso no dice cuál ni de quién. | [A] |
+| Alcance | Vale para todos tus grupos. | [A] (D5) |
+| Casillas | Por correo · En tus teléfonos | [L 20] · **[AJUSTE]** de «En este teléfono» (D5) |
+| Guardar | Guardando… · Guardamos tus avisos. | [L 17] · [A] |
+| Error al guardar | No pudimos guardar. Revisa tu conexión y vuelve a intentarlo. | [L 17] |
+| Error al cargar | No pudimos traer tus avisos. Revisa tu conexión e inténtalo de nuevo. | **[NUEVO]** |
+| Piloto | En el piloto los avisos se prueban sin enviarse: no te llegará nada. | [A] |
+| **El bloque «Este teléfono»** | | |
+| Título | Este teléfono · Este computador · Este navegador | [L 13.3] · **[NUEVO]** |
+| Error al cargar | No pudimos ver los avisos de este teléfono. Revisa tu conexión e inténtalo de nuevo. | **[NUEVO]** |
+| A. Activados | Activados · Desactivar en este teléfono | **[NUEVO]** |
+| B. Sin activar | Sin activar · Activar en este teléfono | **[NUEVO]** |
+| B. Ayuda | Al activarlos, tu navegador anota una dirección de avisos en el servicio de su fabricante, y MATU la guarda hasta que los desactives o salgas. En el piloto, MATU no le envía nada a ese servicio. | [CIERRE] · cambio decidido el 12-11 sobre el texto de la especificación v1.1 |
+| C. El navegador no deja | Tu navegador no deja que MATU te avise. Puedes cambiarlo en los ajustes del navegador. | [A] |
+| D. Sin soporte | Este navegador no puede recibir avisos. Puedes recibirlos por correo. | [A] · **[NUEVO]** la segunda frase |
+| E. iPhone sin instalar | En iPhone, primero agrega MATU a tu pantalla de inicio. · 1. Toca Compartir {ícono} en Safari. · 2. Elige «Agregar a inicio». · 3. Abre MATU desde su ícono y vuelve a Tu cuenta. | **[NUEVO]** |
+| F. MATU todavía no puede | Por ahora no se pueden activar los avisos en este teléfono. Puedes recibirlos por correo. | **[NUEVO]** |
+| Activar | Activando… · Activaste los avisos en este teléfono. · No activamos los avisos. Puedes volver a intentarlo. · No pudimos activar los avisos. Revisa tu conexión y vuelve a intentarlo. | **[NUEVO]** |
+| Desactivar | Desactivando… · Desactivaste los avisos en este teléfono. · No pudimos desactivar los avisos. Revisa tu conexión y vuelve a intentarlo. | **[NUEVO]** |
+
+**La ayuda del estado B** dice lo mismo que la política 0.14, §4 y §6: la dirección de avisos la anota el navegador en el servicio de su fabricante, MATU la guarda y en el piloto no le envía nada. Si una cambia, cambia la otra.
+
+**Ninguno usa** los términos de la sección 3, «dispositivo», «sesión», «evento», «registro», «auditoría», «token», «inválido», «rechazado» ni «fallido».
+
+## 34. Invitar a un familiar y ver el grupo (MATU-42 y MATU-53) · Por aprobar por Jorge al fusionar
+
+Los textos salen de `web/src/familia/textosInvitar.ts` (rama `matu-42-invitar-familiar`, 960e8fe) y de la especificación de pantallas de MATU-53, v1.3 del 12-11 (`docs/diseno/matu-53-invitar-grupo.md`, secciones 0.6, 6.6 y 11). Cada uno marca su origen: [ANALISTA] los de la revisión previa del analista normativo (`legal/revision-previa-matu-42-53.md`, sección 5), aprobados por Jorge el 12-11, **[NUEVO]** los del diseñador, aprobados por el orquestador el 12-11 por delegación de Jorge, **[NUEVO v1.2]** los seis vacíos de la v1.1, **[NUEVO v1.3]** los del cierre del analista (O4 y el correo al salir) y [L n] los que ya están en la sección n. `{grupo}` es el nombre del grupo, `{nombre}` el de una persona del grupo, `{nombre_pila_invita}` el nombre de pila de quien invita, `{nombres_pila}` los nombres con que llaman a las personas cuidadas, unidos con «y» («María», «María y Pedro», «María, Pedro y Elena»), `{rol}` el rol en palabra, `{correo}` el correo de contacto de la política y `{url}` el enlace de la invitación.
+
+**Regla de la sección.** El rol se dice siempre en palabra: «Administra el grupo», «Cuida», «Paga» y «Se informa». En la interfaz nunca se dice «token», «usuario», «observador», «revocar», «rechazar», «invitado» ni «invitada», y ningún texto asume el género de nadie. Una invitación «se anula», «vence», «se usa» o «se bloquea». Quien sale del grupo se escribe como un nombre, con el mismo estilo. El código no va en el mensaje: se dicta por teléfono.
+
+| Dónde | Texto | Origen |
+|---|---|---|
+| **Los roles** | | |
+| El rol | Administra el grupo · Cuida · Paga · Se informa | [ANALISTA] |
+| El rol en infinitivo | para administrar el grupo · para cuidar · para pagar · para informarte | **[NUEVO]** |
+| Lo que permite «Administra el grupo» | Ve y cambia todo, comparte la ficha, invita y cambia los permisos. | [ANALISTA] |
+| Lo que permite «Cuida» | Ve y cambia la ficha y los insumos, y comparte la ficha con quien te reemplaza. | [ANALISTA] |
+| Lo que permite «Paga», con la capa 3 | Ve los insumos y paga los pedidos. Ve la ficha solo si quien administra le da permiso. | [ANALISTA] |
+| Lo que permite «Paga», sin la capa 3 | Ve los insumos. Ve la ficha solo si quien administra le da permiso. | **[NUEVO]** (ajuste de Jorge) |
+| Lo que permite «Se informa» | Ve el nombre de `{nombres_pila}` y sus insumos. No ve la ficha. | [ANALISTA] |
+| Sin persona registrada | la persona que cuidan (en «Se informa», en la confidencialidad de confirmar y al dar la ficha) | **[NUEVO v1.2]** |
+| **Grupo familiar: quiénes lo forman** | | |
+| Bajada | Quiénes forman `{grupo}`, a quién cuidan y qué permisos dieron. | **[NUEVO]** |
+| Bajada sin persona registrada | Quiénes forman `{grupo}`. Todavía no registran a la persona que cuidan. | **[NUEVO v1.3]** |
+| Título | Quiénes forman el grupo | [ANALISTA] |
+| La fila propia | (tú) | [ANALISTA] |
+| Desde cuándo | Se unió el `{fecha}`. | **[NUEVO]** |
+| La ficha de quien paga | Puede ver la ficha · No ve la ficha | [ANALISTA] |
+| Acciones | Cambiar lo que puede hacer · Cambiar tu rol | **[NUEVO]** |
+| Acciones | Dejar que vea la ficha · Quitarle la ficha · Sacar del grupo · Invitar a alguien | [ANALISTA] |
+| Nombres accesibles | Cambiar lo que puede hacer `{nombre}` · Dejar que vea la ficha a `{nombre}` · Quitarle la ficha a `{nombre}` · Sacar del grupo a `{nombre}` | **[NUEVO]** |
+| Último admin | Eres la única persona que administra el grupo. Para dejar ese rol, primero dáselo a otra persona. | **[NUEVO]** |
+| Para quien no administra | Solo quien administra el grupo invita, cambia los roles y saca a alguien. | **[NUEVO]** |
+| Solo una persona | Por ahora solo estás tú. Invita a quien cuida contigo. | **[NUEVO]** |
+| Error al cargar | No pudimos traer quiénes forman el grupo. Revisa tu conexión e inténtalo de nuevo. · Volver a intentar | [ANALISTA] · [L 26] |
+| Ya no estaba | Esa persona ya no estaba en el grupo. | [ANALISTA] |
+| Ya no administras | Ya no administras el grupo. | **[NUEVO]** |
+| El grupo sin admin (409) | El grupo necesita alguien que lo administre. Primero da ese rol a otra persona. | [ANALISTA] |
+| **Quien ya no está en el grupo** | | |
+| Al empezar la frase | Alguien que ya no está en el grupo | [ANALISTA] |
+| En medio de la frase | alguien que ya no está en el grupo | **[NUEVO]** |
+| La autorización que dio quien ya no está | La autorización la dio alguien que ya no está en el grupo. Sigue vigente. | [ANALISTA] (ajustado y aprobado, sin el nombre y sin «renuévala») |
+| En los 412 de la ficha, las secciones y los insumos | Otra persona | [L 6.2] (decisión 323: un autor sin nombre se lee así) |
+| **Invitaciones sin usar (solo admin)** | | |
+| Título | Invitaciones sin usar | [ANALISTA] |
+| Una invitación | `{rol}` · vence el `{fecha}` a las `{hora}`. | [ANALISTA] (con la hora) |
+| Una bloqueada | `{rol}` · se bloqueó. · El código se escribió mal cinco veces. Ya no sirve. | **[NUEVO v1.2]** |
+| Quién la creó | La creó `{nombre}`. | **[NUEVO]** |
+| Anular | Anular la invitación · Invitación anulada. | [ANALISTA] |
+| **Anular una invitación** | | |
+| Pregunta | ¿Anular la invitación? | **[NUEVO v1.2]** |
+| Texto | El enlace deja de servir, también con el código. Si quieres que esa persona se una, crea una invitación nueva. | **[NUEVO v1.2]** |
+| Botones | Anular la invitación · No anular | [ANALISTA] · **[NUEVO v1.2]** |
+| Esperando | Anulando la invitación… | **[NUEVO v1.2]** |
+| Sin red | No pudimos anular la invitación. Revisa tu conexión y vuelve a intentarlo. Todo sigue como estaba. | **[NUEVO v1.2]** |
+| Ya cerrada | Esa invitación ya se usó. · Esa invitación ya venció. · Esa invitación ya no se puede anular. | **[NUEVO v1.2]** |
+| **Invitar** | | |
+| Título | Invitar a alguien al grupo | **[NUEVO]** |
+| Bajada | Le mandas un enlace desde tu teléfono y le dictas un código aparte. No guardamos su correo ni su teléfono. | **[NUEVO]** |
+| El rol | ¿Qué podrá hacer? | [ANALISTA] |
+| Sin rol elegido | Elige qué podrá hacer. | **[NUEVO]** |
+| Al elegir «Administra el grupo» | Podrá invitar, cambiar permisos y sacar a otras personas, también a ti. | [ANALISTA] |
+| Cuéntale, con una persona | Si `{nombre_pila}` puede comprenderlo, cuéntale que invitaste a otra persona. | [ANALISTA] |
+| Cuéntale, con varias | Si `{nombres_pila}` pueden comprenderlo, cuéntales que invitaste a otra persona. | **[NUEVO v1.2]** |
+| Antes del botón | Vale 7 días y sirve una sola vez. | **[NUEVO]** |
+| Botón | Crear la invitación · Creando la invitación… | [ANALISTA] · **[NUEVO]** |
+| Vista previa | Lo que verá al abrir el enlace | **[NUEVO]** |
+| Lo que verá | `{nombre_pila_invita}` te invita a su grupo de cuidado en MATU, para `{rol en infinitivo}`. · Sin rol: `{nombre_pila_invita}` te invita a su grupo de cuidado en MATU, para el rol que elijas. | [ANALISTA] · **[NUEVO]** |
+| Errores | No pudimos crear la invitación. Revisa tu conexión y vuelve a intentarlo. · Ya creaste muchas invitaciones hoy. Vuelve a intentarlo mañana. · Ya no administras el grupo, así que no puedes invitar. | **[NUEVO]** |
+| **La invitación lista** | | |
+| Título | Invitación lista | [ANALISTA] |
+| Vigencia | Vale una sola vez, hasta el `{fecha}` a las `{hora}`. | [ANALISTA] |
+| El rol | Para `{rol en infinitivo}`. | **[NUEVO]** |
+| El código | Código para unirse · Repetir el código | **[NUEVO]** |
+| Nombre accesible del código | Código: `{dígitos separados por espacios}` | **[NUEVO]** |
+| Dictar | Díselo por teléfono, no lo escribas en el mensaje. No lo volverás a ver. | [ANALISTA] |
+| Enviar y copiar | Enviar el enlace · Copiar el enlace | [ANALISTA] |
+| El mensaje | Te invito a mi grupo de cuidado en MATU. Abre este enlace para unirte. El código te lo digo por teléfono. `{url}` | [ANALISTA] |
+| Copiado | Enlace copiado. Pégalo en tu mensaje. · Enlace de la invitación | **[NUEVO]** |
+| No se pudo copiar | No pudimos copiar el enlace. Usa «Enviar el enlace». | [L 9.1] |
+| El código ya no se ve | El código ya no se puede ver · Por seguridad se muestra una sola vez. Si se perdió, anula la invitación desde Grupo familiar y crea una nueva. | **[NUEVO]** |
+| **Abrir la invitación (`/invitacion`)** | | |
+| Marco | Invitación a un grupo de cuidado · En la pestaña: Invitación a un grupo de cuidado · MATU · Abriendo la invitación… | **[NUEVO]** |
+| Presentación | `{nombre_pila_invita}` te invita a su grupo de cuidado en MATU, para `{rol en infinitivo}`. · Vale hasta el `{fecha}` a las `{hora}`. | [ANALISTA] |
+| El código | Escribe el código que te dijo. · Seguir | [ANALISTA] |
+| El campo | Código · Revisando el código… | **[NUEVO]** |
+| Código incompleto | El código tiene 4 números. Revisa que estén todos. | **[NUEVO]** (como el PIN de L 7.3) |
+| Código incorrecto | Ese código no es. Te quedan `{n}` intentos. Después, la invitación se bloquea. · Ese código no es. Te queda 1 intento. Después, la invitación se bloquea. | [ANALISTA] (ajustado) · **[NUEVO]** el singular |
+| Sin cuenta | Para unirte, crea tu cuenta o entra con la que tienes. | [ANALISTA] |
+| Sin cuenta | Te trae de vuelta aquí para terminar de unirte. · Crear mi cuenta · Entrar con mi cuenta · Después de esto vuelves a la invitación de `{nombre_pila_invita}`. | **[NUEVO]** |
+| Confirmar | Te unes a `{grupo}`. Cuidan a `{nombres_pila}`. · Tu rol: `{rol}`. `{lo que permite}` · Las personas del grupo verán tu nombre. No verán tu correo ni tu celular. · Lo que veas sobre `{nombres_pila}` es para su cuidado. No lo compartas fuera del grupo. | [ANALISTA] (con «Tu rol» ajustado) |
+| Confirmar | Te unes a `{grupo}`. Todavía no registran a la persona que cuidan. · Te unes como `{tu nombre}`. | **[NUEVO]** |
+| Botones | Unirme al grupo · No quiero unirme | [ANALISTA] |
+| Esperando | Uniéndote al grupo… | **[NUEVO]** |
+| Si no se une | No te uniste al grupo · Si cambias de opinión, vuelve a abrir el enlace antes del `{fecha}`. · Ir a MATU | **[NUEVO]** |
+| Hecho | Ya eres parte de `{grupo}`. | [ANALISTA] |
+| **Cuando la invitación no sigue** | | |
+| ¿Qué hago? | ¿Qué hago? · Pídele una nueva a quien te invitó. · Pídele a `{nombre_pila_invita}` una nueva. | [L 7.2] · [ANALISTA] |
+| Vencida (410) | Esta invitación venció · Las invitaciones duran 7 días, y esta ya terminó. | **[NUEVO]** |
+| Usada (410) | Esta invitación ya se usó · Cada invitación sirve una sola vez. | **[NUEVO]** |
+| No disponible (410, también si se anuló o no existe) | Esta invitación no está disponible · Puede que se haya copiado incompleta o que ya no exista. Revisa que la abriste completa desde el mensaje. | **[NUEVO]** (como L 7.3) |
+| Bloqueada (423) | Esta invitación se bloqueó · El código se escribió mal cinco veces. Por seguridad, ya no sirve. | **[NUEVO]** |
+| Ya es parte | Ya eres parte de este grupo | [ANALISTA] |
+| Muchos intentos (429) | Espera un momento · Hubo muchos intentos desde esta conexión. Vuelve a intentarlo en `{n}` minutos. (con 1: «1 minuto») | [L 7.3] (sin «de entrar») |
+| Sin red | No pudimos completar esto. · Revisa tu conexión y vuelve a intentarlo. · Volver a intentar | [L 8] · [L 26] |
+| Sin el enlace en la memoria | Vuelve a abrir el enlace · Vuelve a abrir el enlace que te enviaron. | [L 7.3] · [ANALISTA] |
+| **Cambiar el rol** | | |
+| Título | Cambiar lo que puede hacer `{nombre}` · Cambiar tu rol | **[NUEVO]** |
+| El rol | ¿Qué podrá hacer? · Ahora (etiqueta del rol actual) · Elige otro rol para guardar. | [ANALISTA] · **[NUEVO]** |
+| A «Administra el grupo» | `{nombre}` podrá invitar, cambiar permisos y sacar a otras personas, también a ti. | [ANALISTA] (con el nombre) |
+| Deja de ver la ficha | `{nombre}` dejará de ver la ficha. · Se corta 1 enlace de relevo que compartió. · Se cortan `{n}` enlaces de relevo que compartió. | **[NUEVO]** · **[NUEVO]** el singular · [ANALISTA] |
+| A «Paga» | Como paga, no verá la ficha hasta que le des permiso. | **[NUEVO]** |
+| Otra persona deja de administrar | `{nombre}` dejará de administrar el grupo. | **[NUEVO v1.3]** |
+| Tú dejas de administrar | Dejarás de administrar el grupo. Para volver a hacerlo, otra persona que administra tendrá que dártelo. | **[NUEVO]** |
+| Tú dejas de administrar y pasas a «Paga» o «Se informa» | También dejarás de ver la ficha. (va después de «…tendrá que dártelo.») | **[NUEVO v1.3]** |
+| Botones | Guardar el cambio · No cambiar · Guardando el cambio… | [ANALISTA] · **[NUEVO]** |
+| Hecho | Ahora `{nombre}` `{rol en minúscula}`. · Cortamos 1 enlace. · Cortamos `{n}` enlaces. | [ANALISTA] · **[NUEVO]** |
+| Hecho, el rol propio | Ahora cuidas. · Ahora pagas. · Ahora te informas. | **[NUEVO v1.2]** |
+| Sin red | No pudimos guardar el cambio. Todo sigue como estaba. | [ANALISTA] |
+| Otra persona lo cambió (412) | Otra persona del grupo cambió lo que puede hacer `{nombre}` mientras lo mirabas. Ahora `{nombre}` `{rol en minúscula}`. Revisa y vuelve a elegir. | **[NUEVO]** |
+| **Las invitaciones de quien deja de administrar (O4)** | | |
+| Otra persona deja de administrar | Si creó invitaciones que nadie ha usado, se anulan. | **[NUEVO v1.3]** |
+| Tú dejas de administrar | Si creaste invitaciones que nadie ha usado, se anulan. | **[NUEVO v1.3]** |
+| **El permiso de quien paga para ver la ficha** | | |
+| Dar | ¿Dejar que `{nombre}` vea la ficha? · Podrá leer la ficha de `{nombres_pila}` y ver sus enlaces de relevo. No podrá cambiarla ni compartirla. (con varias personas: «las fichas») | **[NUEVO]** |
+| Botones | Dejar que vea la ficha · No por ahora | [ANALISTA] · **[NUEVO]** |
+| Hecho | Ahora `{nombre}` puede ver la ficha. | **[NUEVO]** |
+| Quitar | ¿Quitarle la ficha a `{nombre}`? · `{nombre}` dejará de ver la ficha desde ahora. | **[NUEVO]** |
+| Botones | Quitarle la ficha · No quitar | [ANALISTA] · **[NUEVO]** |
+| Hecho | `{nombre}` ya no ve la ficha. | **[NUEVO]** |
+| **Sacar del grupo** | | |
+| Pregunta | ¿Sacar a `{nombre}` del grupo? · Dejará de verlo ahora. | [ANALISTA] |
+| Los enlaces | Se cortan los enlaces de relevo que compartió. (si no se sabe cuántos) · Se corta 1 enlace de relevo que compartió. · Se cortan `{n}` enlaces de relevo que compartió. | [ANALISTA] |
+| Sin enlaces | No tiene enlaces de relevo que abran ahora. | **[NUEVO]** |
+| La ficha | Lo que escribió en la ficha queda. | [ANALISTA] |
+| Para volver | Para volver, tendrías que invitar a `{nombre}` de nuevo. | **[NUEVO]** |
+| Botones | Sacar del grupo · No sacar · Sacando del grupo… | [ANALISTA] · **[NUEVO]** |
+| Hecho | `{nombre}` ya no está en el grupo. · Cortamos `{n}` enlaces. | [ANALISTA] · **[NUEVO]** |
+| Sin red | No pudimos sacar a `{nombre}` del grupo. Revisa tu conexión y vuelve a intentarlo. Todo sigue como estaba. | **[NUEVO]** |
+| **Salir del grupo** | | |
+| La sección | Salir del grupo · Dejarás de ver `{grupo}` y se cortan los enlaces de relevo que compartiste. · Salir del grupo | [ANALISTA] · **[NUEVO]** |
+| Pregunta | ¿Salir de `{grupo}`? · Dejarás de verlo ahora. · Se cortan los enlaces de relevo que compartiste. · Hoy abren `{n}`. | [ANALISTA] · [L 22] |
+| La ficha | Lo que escribiste en la ficha queda, porque es parte del cuidado de `{nombres_pila}`. (sin persona registrada no aparece) | **[NUEVO]** |
+| Para volver | Para volver, alguien que administra el grupo tiene que invitarte de nuevo. | **[NUEVO]** |
+| Lo que se pide por correo, con la capa 3 | Si después necesitas lo que hiciste en el grupo o los comprobantes de tus pagos, pídelos a `{correo}`. | **[NUEVO v1.3]** |
+| Lo que se pide por correo, sin la capa 3 | Si después necesitas lo que hiciste en el grupo, pídelo a `{correo}`. | **[NUEVO v1.3]** |
+| Botones | Salir del grupo · Quedarme · Saliendo del grupo… | [ANALISTA] · **[NUEVO]** |
+| Hecho | Saliste de `{grupo}`. · Cortamos `{n}` enlaces. | **[NUEVO]** |
+| Sin red | No pudimos sacarte del grupo. Revisa tu conexión y vuelve a intentarlo. Sigues en el grupo. | **[NUEVO]** |
+| Única persona que administra | Eres la única persona que administra `{grupo}`. Para salir, primero da ese rol a otra persona. | **[NUEVO]** |
+| Única persona del grupo (`unica-persona`) | Eres la única persona de `{grupo}`, así que no puedes salir. Si ya no usan MATU para cuidar a `{nombres_pila}`, puedes borrar sus datos en «Borrar sus datos», más arriba. · Sin persona registrada, solo la primera oración. | **[NUEVO]** · **[NUEVO v1.2]** |
+
+**Sin persona registrada**, `/grupo` se abre igual para todos los roles (decisión del orquestador del 12-11). La bajada es la de «sin persona registrada», y no se muestran las autorizaciones ni «Borrar sus datos».
+
+**El aviso O4 va sin negrita**, siempre después de lo que cambia y antes de «Para volver…», en cambiar el rol, sacar y salir (especificación, 0.6). Es genérico, porque la API no dice cuántas invitaciones se anulan, y es cierto también si no había ninguna. La nota de hecho no las nombra.
+
+**El correo al salir** va como párrafo bajo la lista del diálogo, para todos los roles, como texto y sin enlace. Dice lo mismo que la política 0.15, §10, «Salir de un grupo». Si una cambia, cambia la otra.
+
+**Ninguno usa** los términos de la sección 3, «token», «usuario», «observador», «revocar», «rechazar», «invitado», «invitada», «inválido» ni «fallido».

@@ -209,12 +209,15 @@ erDiagram
         uuid invitado_por FK "opcional"
         timestamptz unido_en
         timestamptz retirado_en "opcional"
+        int version
     }
     invitacion {
         uuid id PK
         uuid grupo_id FK
-        text destino_email "opcional"
-        text destino_telefono "opcional"
+        text nombre_pila_invita
+        bytea codigo_hash
+        smallint codigo_intentos_fallidos
+        timestamptz bloqueada_en "opcional"
         text rol
         bytea token_hash UK
         uuid invitado_por FK
@@ -275,8 +278,8 @@ erDiagram
 | `dispositivo` | Dispositivos para notificaciones push y para atar sesiones | Se revoca, no se borra |
 | `sesion_refresh` | Refresh token rotativo con detección de reutilización (11.6) | Todos los tokens de una cadena comparten `familia_id`. Si se presenta uno ya usado, se revoca la familia entera. Vigencia máxima de 30 días por `CHECK` |
 | `grupo_familiar` | El tenant del sistema | — |
-| `membresia` | Quién pertenece a qué grupo y con qué rol | Un usuario, una membresía por grupo. `puede_ver_plan` solo tiene sentido para `pagador` (`CHECK`) |
-| `invitacion` | Invitar a un familiar por email o teléfono (RF-38) | Token con hash, vence en máximo 7 días |
+| `membresia` | Quién pertenece a qué grupo y con qué rol | Una membresía no retirada por usuario y grupo (índice único parcial `WHERE estado <> 'retirada'`, 0026): volver a invitar crea una fila nueva. `puede_ver_plan` solo para `pagador` (`CHECK`). `version` para `If-Match`. El trigger `membresia_nunca_sin_admin` impide dejar el grupo sin admin. Sacar y salir pasan por `membresia_retirar` (`SECURITY DEFINER`). La retirada se conserva [PENDIENTE: CL-59] |
+| `invitacion` | Invitar a un familiar con un enlace y un código (RF-38, MATU-42) | **Sin correo ni teléfono** (D-42-1 a). SHA-256 del token y HMAC del código de 4 dígitos con `PEPPER_PIN`. 5 intentos y `bloqueada_en`. Un solo uso. Vence en 7 días. `nombre_pila_invita` copiado. Se borra 30 días después de cerrarse, con su `indice_token` (`invitacion_conservar`, D-42-6). La persona invitada la canjea con `invitacion_presentar`, `_verificar` y `_aceptar` (`SECURITY DEFINER`) |
 | `direccion` | Direcciones del grupo | Desde la migración de MATU-61, **`lat` y `lng` siempre nulas**, con un `CHECK` (C8): MATU no guarda la ubicación en el mapa. `version` da el `ETag` de `PUT …/personas-cuidadas/{persona_id}/direccion` (D4). La dirección se pide con el primer pedido, se copia a `pedido_entrega` al confirmar, se conserva al retirar la autorización de pedidos y se puede vaciar (CJ6 de Jorge). `referencia` hasta 200 caracteres (C9) |
 | `persona_cuidada` | La persona que recibe el cuidado. Es sujeto de datos, no usuario | **Sin diagnóstico** (11.3). `nivel_apoyo` es operacional |
 | `consentimiento` | Consentimiento por persona y finalidad (Ley 21.719, sección 11.5) | Un solo consentimiento vigente por persona y finalidad. `representante_legal` exige referencia al documento. `cuidador_de_hecho` exige fecha de revisión anual. **Inalterable** (migración 0006, 28-10, ajustada en la 0016 de MATU-44): solo se registra su revocación, una vez, y nunca se borra. `revocacion_motivo` (`retiro` o `renovacion`) se fija junto con `revocado_en`, con un `CHECK` que exige los dos juntos: el retiro corta los accesos de relevo en el caso de uso, y la renovación no. Solo administrador y cuidador fijan `revocado_en` (política RLS `consentimiento_familia_revocar`). A los 90 días de un retiro sin autorización nueva, la tarea `tarea_destruccion`, que hoy se corre a mano, llama a `plan_destruir_claves`, que destruye la clave de la persona y borra lo cifrado con ella; si después se autoriza de nuevo, la ficha empieza en blanco con una clave nueva. La confirmación anual del cuidador de hecho crea una fila nueva con su propia evidencia y no edita la anterior; ese historial es la prueba de licitud. Que DELETE se rechace siempre es provisional hasta la consulta legal sobre conservación y anonimización |
@@ -899,7 +902,6 @@ erDiagram
         text entidad
         uuid entidad_id "opcional"
         text motivo "opcional"
-        inet ip "no se llena, migración pendiente"
         text request_id "opcional"
         timestamptz ocurrido_en
     }
@@ -987,7 +989,7 @@ erDiagram
 
 | Tabla | Propósito | Reglas que conviene notar |
 |---|---|---|
-| `auditoria` | Todo acceso al plan y toda acción sensible | **Solo inserción**, por permiso y por trigger. `actor_ref` es polimórfico porque el relevo no es usuario. **La IP no se guarda** (decisión 27 del contrato de MATU-09, 27-10): la columna `ip` viene de la 0001, no se llena y se elimina con una migración. [PENDIENTE: migración pendiente, MATU-25] |
+| `auditoria` | Todo acceso al plan y toda acción sensible | **Solo inserción**, por permiso y por trigger. `actor_ref` es polimórfico porque el relevo no es usuario. **La IP no se guarda** (decisión 27 del contrato de MATU-09, 27-10): la columna `ip`, que venía de la 0001 y nunca se llenó, se borró en la 0025 (MATU-55, decisión 266, D7). **Desde la 0025 (MATU-55):** el `CHECK auditoria_cuenta_acotada` obliga a que toda fila con `grupo_id IS NULL` sea una de las 14 acciones de la cuenta (`ACCIONES_DE_CUENTA`: `sesion.*`, `dispositivo.*`, `cuenta.*` y la nueva `avisos.preferencia`, decisión 258). La política `auditoria_cuenta_propia` (`FOR SELECT`, decisión 257), que se suma con OR a las del grupo y del relevo, deja que la titular lea las filas sin grupo con `actor_tipo = 'usuario'` y `actor_ref` suyo, más `cuenta.recuperar_solicitar` con actor sistema y ella como entidad. Sin `app.usuario_id` no se ve ninguna fila, y `sesion.inicio_fallido` no la ve nadie. El índice parcial `auditoria_cuenta_ix` sirve a «Dónde entraste» (decisión 267) |
 | `evento_outbox` | Eventos de dominio hacia notificaciones (8.6) | Sin RLS. **El payload solo admite UUID**: un `CHECK` rechaza cualquier otro valor, así que un dato personal no puede colarse por error |
 | `evento_consumido` | Idempotencia del consumidor | Clave primaria compuesta |
 | `idempotencia` | Respuestas guardadas por `Idempotency-Key` | Lleva `grupo_id` y RLS (defecto 4 de la sección 12.8). Guarda el hash de la petición: la misma clave con otro cuerpo es un error 422 |
@@ -1053,7 +1055,7 @@ Cada celda de esta matriz está respaldada por una prueba de `test_aislamiento.p
 
 | Eje | Plan de cuidado | Perfil de consumo | Pedido | Líneas y precios | Dirección de entrega | Cargo y pagos | Liquidación | Auditoría |
 |---|---|---|---|---|---|---|---|---|
-| **Familia** | Según rol¹ | Sí | Ven todos; escriben admin y cuidador³ | Ven todos; escriben admin y cuidador³ | Admin y cuidador la cambian; el pagador la ve; el observador no ve la del pedido³ | Sí | Nunca | Su grupo |
+| **Familia** | Según rol¹ | Sí | Ven todos; escriben admin y cuidador³ | Ven todos; escriben admin y cuidador³ | Admin y cuidador la cambian; el pagador la ve; el observador no ve la del pedido³ | Sí | Nunca | Su grupo, y cada persona la de su cuenta⁴ |
 | **Relevo** | Solo secciones habilitadas y vigente | Nunca | Nunca | Nunca | Nunca | Nunca | Nunca | Inserta la suya |
 | **Comercio** | Nunca | Nunca | Pagados y enviados o posteriores² | Solo las suyas² | **Nunca** | Nunca | Los suyos | Nunca |
 | **Repartidor** | Nunca | Nunca | Su asignación activa | **Nunca** | Su asignación activa | Nunca | Nunca | Nunca |
@@ -1065,6 +1067,7 @@ Cada celda de esta matriz está respaldada por una prueba de `test_aislamiento.p
 
 ² Desde la migración 0023 (MATU-61, D7), el comercio ve su parte en `pedido_comercio` y solo las líneas de sus ofertas, con `pagado_en` con valor y `enviado_en` fijado (MATU-63). No ve las reglas de faltante de la familia ni la entrega. [PENDIENTE para MATU-63: hoy `pedido_comercio_ver` le deja leer la fila completa de `pedido` (con `grupo_id`, `persona_cuidada_id`, `creado_por`, `total` y `costo_envio`); se acota por columnas en la vista del comercio.] Antes de la 0023, la visibilidad iba por `pedido.comercio_id` y las líneas la heredaban. [PENDIENTE: con esa regla, el comercio que reemplaza a otro en la fase 2 no ve la línea reasignada (sección 4.5).]
 ³ Desde la 0023 (MATU-61, C3): `app_escribe_pedido()` exige admin o cuidador, y `app_ve_entrega()` deja fuera al observador. La dirección de la persona (`direccion`) sigue con `direccion_familia` `FOR ALL` por grupo hasta MATU-42; la regla de rol la aplica la API.
+⁴ Desde la 0025 (MATU-55): `auditoria_cuenta_propia` deja que cada persona lea las filas sin grupo que hizo ella (`actor_tipo = 'usuario'` y `actor_ref = app_usuario()`) y el pedido de un código para recuperar su cuenta (`cuenta.recuperar_solicitar`, con ella como entidad). La pantalla es «Dónde entraste».
 
 ### 5.4 Cinco hallazgos al escribir las políticas
 
@@ -1167,6 +1170,7 @@ Reglas que la base hace cumplir aunque el código se equivoque:
 | Sin convenios vigentes traslapados, sin liquidaciones traslapadas | `EXCLUDE` con `btree_gist` |
 | Liquidación: neto = bruto − comisión | `CHECK` |
 | Auditoría y línea de tiempo del pedido: solo inserción | Permiso + trigger |
+| Una fila de auditoría sin grupo es siempre de una de las 14 acciones de la cuenta | `CHECK auditoria_cuenta_acotada` (0025, MATU-55) |
 | Transacciones de pasarela: nunca se borran | Permiso + trigger |
 | El outbox no lleva datos | `CHECK` sobre el payload |
 | El acceso de relevo vence en máximo 30 días, la invitación en 7, el refresh en 30 | `CHECK` |
@@ -1189,6 +1193,7 @@ Además de los índices de claves primarias y únicas, el modelo declara índice
 | `evento_outbox (disponible_en)` parcial sobre pendientes | Toma del publicador con `SKIP LOCKED` |
 | `alerta_quiebre (perfil_id)` parcial sobre abiertas | Alertas pendientes |
 | `auditoria (entidad, entidad_id, ocurrido_en DESC)` | Pantalla "quién ha visto el plan" |
+| `auditoria_cuenta_ix`: `auditoria (actor_ref, ocurrido_en DESC) WHERE grupo_id IS NULL` | «Dónde entraste», los últimos ingresos de la cuenta (0025, MATU-55, decisión 267) |
 | `consumo_comercio (comercio_id, estado)` parcial | Conciliación y cierre de período |
 
 ---
@@ -1289,7 +1294,7 @@ python db/gen_diagramas.py && python db/gen_matriz.py
 El esquema ya está migrado. Estas decisiones siguen abiertas y se confirman entre los dos en la planificación del sprint que las usa:
 
 - Vigencia máxima del acceso de relevo: **30 días**, o más corta (sprint 2)
-- Vigencia de la invitación: **7 días** (sprint 3)
+- ~~Vigencia de la invitación~~: **7 días**, decidido (D-42-3 de Jorge, 12-11. MATU-42)
 - Frecuencias permitidas de reposición: 7, 14, 21, 28 y 30 días (fuera del semestre: la reposición programada salió con el segundo recorte)
 - Período de liquidación por defecto: **quincenal** (sprint 4)
 - Los hallazgos 1 a 5 de la sección 5.4 y los 16 cambios de la sección 10 se llevan a la arquitectura v1.2
