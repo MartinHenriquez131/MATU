@@ -1420,6 +1420,7 @@ Que la incidencia **no bloquee la entrega** es deliberado: la familia está espe
 | **Plan de cuidado** | Mientras exista consentimiento vigente, más 90 días | Dato sensible. Se minimiza |
 | Perfil de consumo | Igual que el plan de cuidado | Deriva de él |
 | Auditoría de acceso | 3 años | Capacidad de acreditar cumplimiento |
+| **Auditoría de la cuenta** (`sesion.*`, `dispositivo.*`, `cuenta.*` y `avisos.preferencia`, sin grupo) | 3 años. En «Dónde entraste» la titular ve los últimos 90 días, hasta 20 líneas | Seguridad de la cuenta y derecho de acceso de la titular (MATU-55, RF-37). Sin IP desde la 0025, que borró la columna (D7). Todavía no se borra sola: el borrado lo construye MATU-89. [PENDIENTE: CL-53] |
 | Acceso de relevo: nombre del relevo, motivo y fechas | 3 años desde que el acceso vence o se revoca, igual que la auditoría | Identifica a quién se entregó la ficha (decisión 25 del contrato de MATU-09) |
 | Teléfono del relevo | 30 días desde que el acceso vence o se revoca | Solo sirve mientras el acceso está vigente (decisión 25). [PENDIENTE: una migración quita el `NOT NULL` de `acceso_relevo.otorgado_a_telefono`, y una tarea lo borra al cumplirse el plazo. Ninguna migración hasta la 0017 lo hace. Las hace la historia que implemente esa conservación] |
 

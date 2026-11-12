@@ -899,7 +899,6 @@ erDiagram
         text entidad
         uuid entidad_id "opcional"
         text motivo "opcional"
-        inet ip "no se llena, migración pendiente"
         text request_id "opcional"
         timestamptz ocurrido_en
     }
@@ -987,7 +986,7 @@ erDiagram
 
 | Tabla | Propósito | Reglas que conviene notar |
 |---|---|---|
-| `auditoria` | Todo acceso al plan y toda acción sensible | **Solo inserción**, por permiso y por trigger. `actor_ref` es polimórfico porque el relevo no es usuario. **La IP no se guarda** (decisión 27 del contrato de MATU-09, 27-10): la columna `ip` viene de la 0001, no se llena y se elimina con una migración. [PENDIENTE: migración pendiente, MATU-25] |
+| `auditoria` | Todo acceso al plan y toda acción sensible | **Solo inserción**, por permiso y por trigger. `actor_ref` es polimórfico porque el relevo no es usuario. **La IP no se guarda** (decisión 27 del contrato de MATU-09, 27-10): la columna `ip`, que venía de la 0001 y nunca se llenó, se borró en la 0025 (MATU-55, decisión 266, D7). **Desde la 0025 (MATU-55):** el `CHECK auditoria_cuenta_acotada` obliga a que toda fila con `grupo_id IS NULL` sea una de las 14 acciones de la cuenta (`ACCIONES_DE_CUENTA`: `sesion.*`, `dispositivo.*`, `cuenta.*` y la nueva `avisos.preferencia`, decisión 258). La política `auditoria_cuenta_propia` (`FOR SELECT`, decisión 257), que se suma con OR a las del grupo y del relevo, deja que la titular lea las filas sin grupo con `actor_tipo = 'usuario'` y `actor_ref` suyo, más `cuenta.recuperar_solicitar` con actor sistema y ella como entidad. Sin `app.usuario_id` no se ve ninguna fila, y `sesion.inicio_fallido` no la ve nadie. El índice parcial `auditoria_cuenta_ix` sirve a «Dónde entraste» (decisión 267) |
 | `evento_outbox` | Eventos de dominio hacia notificaciones (8.6) | Sin RLS. **El payload solo admite UUID**: un `CHECK` rechaza cualquier otro valor, así que un dato personal no puede colarse por error |
 | `evento_consumido` | Idempotencia del consumidor | Clave primaria compuesta |
 | `idempotencia` | Respuestas guardadas por `Idempotency-Key` | Lleva `grupo_id` y RLS (defecto 4 de la sección 12.8). Guarda el hash de la petición: la misma clave con otro cuerpo es un error 422 |
@@ -1053,7 +1052,7 @@ Cada celda de esta matriz está respaldada por una prueba de `test_aislamiento.p
 
 | Eje | Plan de cuidado | Perfil de consumo | Pedido | Líneas y precios | Dirección de entrega | Cargo y pagos | Liquidación | Auditoría |
 |---|---|---|---|---|---|---|---|---|
-| **Familia** | Según rol¹ | Sí | Ven todos; escriben admin y cuidador³ | Ven todos; escriben admin y cuidador³ | Admin y cuidador la cambian; el pagador la ve; el observador no ve la del pedido³ | Sí | Nunca | Su grupo |
+| **Familia** | Según rol¹ | Sí | Ven todos; escriben admin y cuidador³ | Ven todos; escriben admin y cuidador³ | Admin y cuidador la cambian; el pagador la ve; el observador no ve la del pedido³ | Sí | Nunca | Su grupo, y cada persona la de su cuenta⁴ |
 | **Relevo** | Solo secciones habilitadas y vigente | Nunca | Nunca | Nunca | Nunca | Nunca | Nunca | Inserta la suya |
 | **Comercio** | Nunca | Nunca | Pagados y enviados o posteriores² | Solo las suyas² | **Nunca** | Nunca | Los suyos | Nunca |
 | **Repartidor** | Nunca | Nunca | Su asignación activa | **Nunca** | Su asignación activa | Nunca | Nunca | Nunca |
@@ -1065,6 +1064,7 @@ Cada celda de esta matriz está respaldada por una prueba de `test_aislamiento.p
 
 ² Desde la migración 0023 (MATU-61, D7), el comercio ve su parte en `pedido_comercio` y solo las líneas de sus ofertas, con `pagado_en` con valor y `enviado_en` fijado (MATU-63). No ve las reglas de faltante de la familia ni la entrega. [PENDIENTE para MATU-63: hoy `pedido_comercio_ver` le deja leer la fila completa de `pedido` (con `grupo_id`, `persona_cuidada_id`, `creado_por`, `total` y `costo_envio`); se acota por columnas en la vista del comercio.] Antes de la 0023, la visibilidad iba por `pedido.comercio_id` y las líneas la heredaban. [PENDIENTE: con esa regla, el comercio que reemplaza a otro en la fase 2 no ve la línea reasignada (sección 4.5).]
 ³ Desde la 0023 (MATU-61, C3): `app_escribe_pedido()` exige admin o cuidador, y `app_ve_entrega()` deja fuera al observador. La dirección de la persona (`direccion`) sigue con `direccion_familia` `FOR ALL` por grupo hasta MATU-42; la regla de rol la aplica la API.
+⁴ Desde la 0025 (MATU-55): `auditoria_cuenta_propia` deja que cada persona lea las filas sin grupo que hizo ella (`actor_tipo = 'usuario'` y `actor_ref = app_usuario()`) y el pedido de un código para recuperar su cuenta (`cuenta.recuperar_solicitar`, con ella como entidad). La pantalla es «Dónde entraste».
 
 ### 5.4 Cinco hallazgos al escribir las políticas
 
@@ -1167,6 +1167,7 @@ Reglas que la base hace cumplir aunque el código se equivoque:
 | Sin convenios vigentes traslapados, sin liquidaciones traslapadas | `EXCLUDE` con `btree_gist` |
 | Liquidación: neto = bruto − comisión | `CHECK` |
 | Auditoría y línea de tiempo del pedido: solo inserción | Permiso + trigger |
+| Una fila de auditoría sin grupo es siempre de una de las 14 acciones de la cuenta | `CHECK auditoria_cuenta_acotada` (0025, MATU-55) |
 | Transacciones de pasarela: nunca se borran | Permiso + trigger |
 | El outbox no lleva datos | `CHECK` sobre el payload |
 | El acceso de relevo vence en máximo 30 días, la invitación en 7, el refresh en 30 | `CHECK` |
@@ -1189,6 +1190,7 @@ Además de los índices de claves primarias y únicas, el modelo declara índice
 | `evento_outbox (disponible_en)` parcial sobre pendientes | Toma del publicador con `SKIP LOCKED` |
 | `alerta_quiebre (perfil_id)` parcial sobre abiertas | Alertas pendientes |
 | `auditoria (entidad, entidad_id, ocurrido_en DESC)` | Pantalla "quién ha visto el plan" |
+| `auditoria_cuenta_ix`: `auditoria (actor_ref, ocurrido_en DESC) WHERE grupo_id IS NULL` | «Dónde entraste», los últimos ingresos de la cuenta (0025, MATU-55, decisión 267) |
 | `consumo_comercio (comercio_id, estado)` parcial | Conciliación y cierre de período |
 
 ---
