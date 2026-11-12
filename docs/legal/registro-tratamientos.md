@@ -1,6 +1,6 @@
 # Registro de tratamientos de MATU
 
-**Estado:** borrador para el piloto académico, a la par de la política de privacidad v0.16 (MATU-46, pendiente de aprobación al fusionar). Lo redacta el analista normativo y lo aprueba Jorge Espinoza. Este documento no es asesoría legal.
+**Estado:** borrador para el piloto académico, a la par de la política de privacidad v0.17 (MATU-54, pendiente de aprobación al fusionar). Lo redacta el analista normativo y lo aprueba Jorge Espinoza. Este documento no es asesoría legal.
 
 Cada historia que empieza a tratar datos personales agrega aquí su entrada.
 
@@ -78,6 +78,7 @@ Cada historia que empieza a tratar datos personales agrega aquí su entrada.
   - el comercio, desde MATU-63, ve solo su parte (`pedido_comercio`): sus productos, su referencia del pedido y el código de retiro. **Ningún nombre**, ni la ficha, la dirección, el teléfono, las líneas de otro comercio ni el total de la familia (R8, D7). El comercio que reemplaza a otro ve lo mismo, solo con lo que le toca
   - operación ve pedidos y pagos para dar soporte (lee todos los pedidos, de todos los grupos, con su rol propio), y devuelve por anulación. Sus lecturas no se auditan, igual que las de la familia (decisión 52); sus escrituras sí. [PENDIENTE: CL-67, si las lecturas de operación de pedidos de otros grupos se deben registrar; se recomienda auditarlas en la historia del backoffice] Nunca la ficha ni el consumo de insumos
   - `sistema` (la vuelta de Transbank, sin grupo ni cuenta) y `matu_scheduler` (la conciliación) resuelven las ventas por funciones `SECURITY DEFINER` que devuelven solo ids
+  - en la copia de los datos (entrada 13): admin y cuidador leen los pedidos y pagos de la persona, con el nombre de quien pagó, sin la tarjeta, el teléfono de contacto ni los datos de la venta. Quien pagó lee sus pagos en «Tus datos», con el tipo de tarjeta, los últimos 4, las cuotas y el código de autorización, solo en los grupos donde sigue activo [PENDIENTE: CL-68]
 - **La consulta de stock no trata datos personales:** se hace al confirmar, **una por comercio**, y lleva solo productos, cantidades y una referencia opaca para apartar, **aleatoria por pedido y por comercio, nunca por familia** (C22). No lleva datos de la familia, de la persona cuidada ni de la dirección, y una prueba sobre el objeto de la consulta lo verifica.
 - **Conservación:**
   - **lo que no se pagó** (`borrador`, total vencido y `cancelado` sin pago): se borra a los 30 días desde la última vez que cambió, desde que venció o desde que se canceló (C10), con una tarea del programador de MATU-74 que corre aunque los pedidos estén apagados, y con su línea de tiempo en cascada (D5). La copia de la entrega (`pedido_entrega`) se borra al cancelar. `idempotencia` se borra al vencer, a las 24 horas (D5). [PENDIENTE: CL-28 ampliada]
@@ -152,7 +153,7 @@ Cada historia que empieza a tratar datos personales agrega aquí su entrada.
   - `ETag` y 412 cuando dos personas editan el mismo campo (MATU-13)
   - el texto nunca aparece en logs, errores, URLs ni en el almacenamiento del navegador
   - el detalle de la auditoría solo admite tipos de sección, nunca texto (`CHECK` de la migración 0013)
-  - la ficha y sus secciones no se imprimen ni se exportan: no hay ruta ni vista de impresión (ADR-029)
+  - la ficha y sus secciones no se imprimen ni se exportan para compartir: no hay ruta ni vista de impresión (ADR-029). La única salida es la copia de la entrada 13, que se descifra solo con la autorización vigente
   - desde la aplicación, la clave de la persona solo admite las dos escrituras del cifrado, y solo de administrador y cuidador: crearla y destruirla. La aplicación no la borra ni cambia la clave maestra que la protege. Ese cambio, cuando se pase al servicio de custodia, irá por una función propia de la base (MATU-66, migración 0020)
 - **Comunicaciones a terceros:**
   - solo al relevo, con lo que dice la entrada 4
@@ -221,7 +222,7 @@ Cada historia que empieza a tratar datos personales agrega aquí su entrada.
   - nunca token, PIN ni texto de la ficha en los logs
   - la app de la familia guarda el PIN y el enlace solo en la memoria de la pantalla, los muestra una vez y nunca copia el PIN al portapapeles ni lo pone en el mensaje. El enlace se envía con la hoja de compartir del teléfono o copiándolo, nunca con el token en la dirección de un servicio de terceros (MATU-48)
   - nombre y teléfono del relevo sin autocompletado del navegador
-  - sin impresión ni exportación de la ficha (ADR-029)
+  - sin impresión ni exportación de la ficha (ADR-029), salvo la copia de la entrada 13, que nunca trae el teléfono del relevo
   - la base limita por rol quién escribe los accesos (MATU-66, migración 0020): administrador y cuidador los crean, los cortan y anonimizan el nombre de pila de la persona; el pagador con permiso solo los lee; el relevo solo actualiza los contadores de su acceso vigente. La aplicación no puede cambiar el teléfono (solo vaciarlo, al borrar a la persona, MATU-46), el PIN, los campos habilitados ni el vencimiento de un acceso, ni borrar un acceso o su token. Un acceso o un token cortado no se reabre ni cambia la fecha de su corte, y ningún vencimiento se alarga: un trigger lo rechaza para todos los roles de la base, también el dueño (MATU-47, migración 0020). Un teléfono vaciado no vuelve ni cambia por otro, y su instante de borrado no cambia: un trigger lo rechaza para todos los roles de la base, también el dueño (MATU-46, migración 0027)
   - la tarea diaria `conservacion_relevo` (MATU-46) llama a `relevo_conservar`, `SECURITY DEFINER`, dueño `matu_owner`, `search_path` fijo, que solo ejecuta `matu_scheduler` con `app.rol = 'operacion'`. Exige un `ahora` que no esté en el futuro y un límite de al menos 30 días, vacía solo el teléfono, no deja leer la tabla al programador y devuelve solo un contador. Su línea del log lleva solo ese contador
   - si se restaura una copia de respaldo, antes de reabrir la base se corre `python -m app.tareas borrados` (`infra/railway/README.md`) [PENDIENTE: CL-29]
@@ -265,7 +266,7 @@ Cada historia que empieza a tratar datos personales agrega aquí su entrada.
   - auditoría de solo inserción de `consumo.crear`, `consumo.editar`, `consumo.desactivar`, `consumo.activar`, `consumo.eliminar`, `consentimiento.otorgar` y `consentimiento.revocar`, sin nombre, cantidades ni IP;
   - los eventos llevan solo identificadores;
   - nada en el almacenamiento del navegador ni en la URL;
-  - RLS separada de `alerta_quiebre` y `reposicion` (MATU-37): leen los cuatro roles; solo el rol sistema crea alertas; solo admin y cuidador las cierran o declaran una compra; nadie las borra a mano; la API no expone las compras (sin ruta de lectura, MATU-51) y la conservación las borra con `quiebre_conservar`, solo como `matu_owner` con `app.rol = 'operacion'` (migración 0017);
+  - RLS separada de `alerta_quiebre` y `reposicion` (MATU-37): leen los cuatro roles; solo el rol sistema crea alertas; solo admin y cuidador las cierran o declaran una compra; nadie las borra a mano; las compras se leen solo en la copia de la entrada 13, con la autorización de insumos vigente y la conservación las borra con `quiebre_conservar`, solo como `matu_owner` con `app.rol = 'operacion'` (migración 0017);
   - auditoría de `alerta.materializar`, `alerta.resolver`, `alerta.descartar` y `reposicion.declarar`, sin nombre, cantidades ni IP;
   - el aviso por push o correo es un texto fijo sin nombres de personas ni de insumos, y su enlace no lleva identificadores. El correo va sin seguimiento de aperturas ni de clics. El push va sin contenido (RFC 8030 con VAPID, decisión 50 del contrato): el servicio de push solo recibe la dirección de avisos y el teléfono muestra el texto fijo
   - antes de cada envío, en cada intento y en cada canal, se revisa que la autorización de `consumo` esté `VIGENTE` según el `Reloj` (no retirada y con la revisión de 12 meses al día), que la alerta siga abierta con su perfil, que la membresía y el usuario sigan activos, y que el canal esté activo y tenga destino. Si algo falla, el aviso queda `omitida` con su código (MATU-41, decisión 107)
@@ -300,12 +301,12 @@ Cada historia que empieza a tratar datos personales agrega aquí su entrada.
   - dispositivo: nombre general sin agente de usuario, creación, último uso y `push_token` opcional. La `clase` (teléfono, computador u otro) se calcula al leer desde el nombre y no se guarda (decisión 280). `push_activo` se lee como `push_token IS NOT NULL` y nunca devuelve el endpoint;
   - huella HMAC de la IP y del email en Redis, por 1 hora;
   - huella HMAC de la IP en el contador de creación de cuentas (`usuarios-ip`, 5 por hora, ventana fija de 1 hora; MATU-25, decisión 114). La IP no llega a Redis, a los logs, a la auditoría ni a la respuesta 429;
-  - auditoría de la cuenta, sin grupo: `sesion.*`, `dispositivo.*`, `cuenta.*` y `avisos.preferencia` (MATU-55, sin los valores). Va sin huella del email (decisión 64) y sin IP, porque la 0025 borró la columna (D7), y con `sesiones_revocadas` como único detalle. El `CHECK auditoria_cuenta_acotada` (0025) obliga a que toda fila sin grupo sea de una de esas 14 acciones.
+  - auditoría de la cuenta, sin grupo: `sesion.*`, `dispositivo.*`, `cuenta.*` y `avisos.preferencia` (MATU-55, sin los valores). Va sin huella del email (decisión 64) y sin IP, porque la 0025 borró la columna (D7), y con `sesiones_revocadas` como único detalle. El `CHECK auditoria_cuenta_acotada` (0025, ampliado en la 0028) obliga a que toda fila sin grupo sea de una de esas 15 acciones, con `cuenta.datos_descargar` (MATU-54).
 - **Base de licitud:** ejecución del servicio que pide la persona. Para los contadores por huella de IP y de email: [PENDIENTE: consulta legal]. La dirección de avisos (`push_token`) se guarda solo cuando la persona toca «Activar» y su navegador le pide permiso. Es la ejecución del servicio que pide, y para la Ley 19.628 es el consentimiento expreso de la persona (art. 4). [PENDIENTE: CL-37]
 - **Quién accede:**
   - cada persona a sus dispositivos;
   - operación no ve ninguna fila, y la conservación corre con `iam_conservar`;
-  - la titular lee su auditoría de la cuenta con la RLS `auditoria_cuenta_propia` (0025): las filas sin grupo en que ella es el actor (`actor_tipo = 'usuario'`), y el pedido de un código para recuperar su cuenta (`cuenta.recuperar_solicitar`, con actor sistema y ella como entidad). La pantalla muestra una lista cerrada de 10 tipos, de los últimos 90 días y hasta 20, nunca los fallidos ni `cuenta.celular_solicitar`. El relevo, el sistema y operación no ven ninguna fila. `sesion.inicio_fallido` no la ve nadie. Lo anterior a 90 días se entrega por correo. [PENDIENTE: escribir el procedimiento de consulta fuera de la aplicación para responder un pedido de acceso: rol, columnas y registro de la respuesta. Antes de datos reales, en la tarjeta MATU-99]
+  - la titular lee su auditoría de la cuenta con la RLS `auditoria_cuenta_propia` (0025): las filas sin grupo en que ella es el actor (`actor_tipo = 'usuario'`), y el pedido de un código para recuperar su cuenta (`cuenta.recuperar_solicitar`, con actor sistema y ella como entidad). La pantalla muestra una lista cerrada de 10 tipos, de los últimos 90 días y hasta 20, nunca los fallidos ni `cuenta.celular_solicitar`. El relevo, el sistema y operación no ven ninguna fila. `sesion.inicio_fallido` no la ve nadie. Lo anterior a 90 días se entrega por correo. En «Tus datos» (entrada 13) la titular ve la misma lista, más `pediste_una_copia`: 90 días en pantalla y todo en el archivo, sin los fallidos [PENDIENTE: CL-70]. [PENDIENTE: escribir el procedimiento de consulta fuera de la aplicación para responder un pedido de acceso: rol, columnas y registro de la respuesta. Antes de datos reales, en la tarjeta MATU-99]
 - **Conservación:**
   - ventana deslizante de 30 días sin tope absoluto (decisión de Jorge del 31-10);
   - las sesiones se borran 30 días después de vencer o de cerrarse;
@@ -346,7 +347,7 @@ Cada historia que empieza a tratar datos personales agrega aquí su entrada.
   - por cada código, en Redis y nunca en la base: la huella HMAC del código (pepper propio), su vencimiento, el canal (celular o correo) y los intentos. Al usarse se borra;
   - las huellas HMAC de la IP, del email, del celular y de la cuenta en los contadores de envíos, y de la IP, del email y de la cuenta en los contadores de intentos fallidos.
 - **Base de licitud:** ejecución del servicio que pide la persona. Para los contadores por huella: [PENDIENTE: consulta legal], como en la entrada 6.
-- **Quién accede:** nadie ve el código. Los eventos de recuperación (`cuenta.recuperar_solicitar`, `cuenta.recuperar_verificar_fallido`, `cuenta.contrasena_cambiar`) van sin datos de contacto, código ni IP. Operación no los lee: la 0005 quitó su política. La titular ve en «Dónde entraste» el pedido de un código («Se pidió un código para recuperar tu cuenta») y el cambio de contraseña (MATU-55, D1-c, RLS `auditoria_cuenta_propia`). Nunca ve los fallidos.
+- **Quién accede:** nadie ve el código. Los eventos de recuperación (`cuenta.recuperar_solicitar`, `cuenta.recuperar_verificar_fallido`, `cuenta.contrasena_cambiar`) van sin datos de contacto, código ni IP. Operación no los lee: la 0005 quitó su política. La titular ve en «Dónde entraste» y en «Tus datos» el pedido de un código («Se pidió un código para recuperar tu cuenta») y el cambio de contraseña (MATU-55, D1-c, RLS `auditoria_cuenta_propia`). Nunca ve los fallidos.
 - **Conservación:** el código, hasta usarse o 10 minutos. Los contadores de envíos, 1 hora y 24 horas. La auditoría, 3 años, como el resto de la auditoría de la cuenta (entrada 6). [PENDIENTE: CL-53, MATU-89]
 - **Medidas:**
   - código de 6 dígitos, de un solo uso y con 5 intentos como máximo; pedir uno nuevo invalida el anterior;
@@ -383,7 +384,7 @@ Cada historia que empieza a tratar datos personales agrega aquí su entrada.
 - **Titulares:** las cuentas creadas desde la versión 0.11. Las anteriores quedan sin registro (D2).
 - **Datos:** `usuario_id`, `version`, `huella` (SHA-256 del texto mostrado, con el correo de contacto escrito en el texto) y `aceptada_en`. Sin IP ni navegador.
 - **Base de licitud:** ejecución del servicio que pide la persona. [PENDIENTE: CL-50, si «acepto» es un consentimiento o solo un acuse de lectura]
-- **Quién accede:** la titular, en «Tu cuenta», y operación para soporte. Nadie lo modifica ni lo borra desde la aplicación.
+- **Quién accede:** la titular, en «Tu cuenta» y en «Tus datos» (entrada 13), y operación para soporte. Nadie lo modifica ni lo borra desde la aplicación.
 - **Conservación:** mientras exista la cuenta. [PENDIENTE: CL-49, plazo tras eliminar la cuenta]
 - **Medidas:**
   - tabla de solo agregar, con RLS forzado
@@ -447,6 +448,33 @@ Cada historia que empieza a tratar datos personales agrega aquí su entrada.
 - **Comunicaciones a terceros:** ninguna desde MATU. Quien administra manda el enlace con la aplicación de su teléfono.
 - **Transferencia internacional:** [PENDIENTE: CL-35].
 - **Decisiones automatizadas:** ninguna. El bloqueo es un control de seguridad.
+
+## 13. Acceso y copia de los datos (MATU-54)
+
+**Todavía no se trata con datos reales.** Solo con datos sintéticos (`figura-legal-piloto.md`).
+
+- **Finalidad:** atender el derecho de acceso y de portabilidad de la persona cuidada y de cada cuenta, en la aplicación.
+- **Titulares:** la persona cuidada, cada persona usuaria y los terceros nombrados en la copia (relevos y miembros del grupo, por su nombre, y quienes aparecen en «A quién llamar», con lo escrito).
+- **Datos:** no crea ningún dato nuevo. Lee lo de las entradas 1, 2, 3, 4, 5, 6, 7, 10 y 12, con la lista cerrada de las decisiones 350 a 361 y 401 en adelante de `docs/api/README.md` del repositorio MATU_PROYECTO. Registra `persona.datos_descargar` (con grupo y persona) o `cuenta.datos_descargar` (sin grupo), sin detalle. La 0028 agrega `auditoria.persona_cuidada_id`, que llenan toda acción de persona y `plan_destruir_claves`.
+- **Base de licitud:** el cumplimiento del derecho de la titular (Ley 19.628, art. 12, y Ley 21.719). Que admin y cuidador lo ejerzan en nombre de la persona: [PENDIENTE: CL-04 y CL-61]. El nombre de quien pagó en la copia de la persona: [PENDIENTE: CL-68].
+- **Quién accede:**
+  - a «Datos de», admin y cuidador activos. El cuidador ve en el historial solo sus filas y las aperturas del relevo (`alcance = lo_tuyo`). Pagador, observador, otro grupo y una persona borrada reciben 404
+  - a «Tus datos», cada cuenta, con las políticas de lo propio (`membresia_propia`, `aceptacion_propia_leer`, `notificacion_propia`, `auditoria_cuenta_propia`). Los pagos se leen fijando cada grupo activo en la transacción, sin una política nueva (decisión 360)
+  - operación, nunca. La 0028 no abre ninguna lectura
+- **Lo que nunca sale:** ids internos, `request_id`, IP, huellas de token, PIN o código, `evidencia` en bruto, `referencia_documento`, `push_token`, claves, el teléfono del relevo, correos y celulares de otros, el teléfono de contacto del pedido, y el token, la orden y la sesión de la venta. El código de autorización sale solo en «Tus datos» de quien pagó. El texto de la ficha y lo anotado de los insumos, solo con su autorización vigente.
+- **Lo que no trae y se entrega por correo:** lo anterior a 90 días en formato legible, lo hecho y los pagos en los grupos que la cuenta dejó, los intentos fallidos, los registros con grupo de pagador y observador, y las filas anteriores a la 0028 que no se pueden asociar (`hay_hechos_sin_asociar`), solo si se atribuyen sin duda. [PENDIENTE: CL-70]
+- **Conservación:** la copia no se guarda en el servidor. El registro de cada copia, 3 años, como la auditoría [PENDIENTE: MATU-89]. El archivo que queda en el dispositivo no lo alcanzan los plazos de MATU.
+- **Medidas:**
+  - un solo GET por copia, en una transacción `REPEATABLE READ`, con la auditoría al principio de la misma transacción. Si falla, no se entrega nada
+  - esquemas `extra="forbid"` y columnas nombradas, con una prueba que recorre la respuesta buscando los campos prohibidos
+  - `no-store` también en los errores, y `Content-Disposition: inline` con `matu-datos-` o `matu-cuenta-AAAA-MM-DD.json`, sin nombres
+  - en el navegador, solo memoria: el Blob se revoca de inmediato, y nada queda en el almacenamiento, en la URL, en `history.state` ni en el título
+  - 10 copias por hora por cuenta, con un HMAC en Redis. Sin Redis, 503
+  - logs con la ruta, el estado y el usuario, nunca la copia (prueba)
+  - la FK compuesta `auditoria_persona_fk` impide atribuir una fila a una persona de otro grupo, también desde el relevo, y el `CHECK auditoria_persona_obligatoria` (NOT VALID) obliga a toda fila nueva
+- **Comunicaciones a terceros:** ninguna desde MATU. Quien descarga decide adónde lleva el archivo.
+- **Transferencia internacional:** la de la entrada 9 (staging, datos sintéticos).
+- **Decisiones automatizadas:** ninguna.
 
 ## Nota sobre la ficha ampliada (ADR-028)
 
