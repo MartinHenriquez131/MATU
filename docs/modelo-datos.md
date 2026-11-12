@@ -234,8 +234,9 @@ erDiagram
         text comuna
         text region
         text referencia "opcional"
-        numeric lat "opcional"
-        numeric lng "opcional"
+        numeric lat "siempre nula"
+        numeric lng "siempre nula"
+        int version
         timestamptz creado_en
     }
     persona_cuidada {
@@ -276,7 +277,7 @@ erDiagram
 | `grupo_familiar` | El tenant del sistema | — |
 | `membresia` | Quién pertenece a qué grupo y con qué rol | Un usuario, una membresía por grupo. `puede_ver_plan` solo tiene sentido para `pagador` (`CHECK`) |
 | `invitacion` | Invitar a un familiar por email o teléfono (RF-38) | Token con hash, vence en máximo 7 días |
-| `direccion` | Direcciones del grupo | Coordenadas opcionales, validadas por rango |
+| `direccion` | Direcciones del grupo | Desde la migración de MATU-61, **`lat` y `lng` siempre nulas**, con un `CHECK` (C8): MATU no guarda la ubicación en el mapa. `version` da el `ETag` de `PUT …/personas-cuidadas/{persona_id}/direccion` (D4). La dirección se pide con el primer pedido, se copia a `pedido_entrega` al confirmar, se conserva al retirar la autorización de pedidos y se puede vaciar (CJ6 de Jorge). `referencia` hasta 200 caracteres (C9) |
 | `persona_cuidada` | La persona que recibe el cuidado. Es sujeto de datos, no usuario | **Sin diagnóstico** (11.3). `nivel_apoyo` es operacional |
 | `consentimiento` | Consentimiento por persona y finalidad (Ley 21.719, sección 11.5) | Un solo consentimiento vigente por persona y finalidad. `representante_legal` exige referencia al documento. `cuidador_de_hecho` exige fecha de revisión anual. **Inalterable** (migración 0006, 28-10, ajustada en la 0016 de MATU-44): solo se registra su revocación, una vez, y nunca se borra. `revocacion_motivo` (`retiro` o `renovacion`) se fija junto con `revocado_en`, con un `CHECK` que exige los dos juntos: el retiro corta los accesos de relevo en el caso de uso, y la renovación no. Solo administrador y cuidador fijan `revocado_en` (política RLS `consentimiento_familia_revocar`). A los 90 días de un retiro sin autorización nueva, la tarea `tarea_destruccion`, que hoy se corre a mano, llama a `plan_destruir_claves`, que destruye la clave de la persona y borra lo cifrado con ella; si después se autoriza de nuevo, la ficha empieza en blanco con una clave nueva. La confirmación anual del cuidador de hecho crea una fila nueva con su propia evidencia y no edita la anterior; ese historial es la prueba de licitud. Que DELETE se rechace siempre es provisional hasta la consulta legal sobre conservación y anonimización |
 
@@ -479,6 +480,7 @@ erDiagram
         text comuna
         text telefono "opcional"
         text estado
+        bool ficticio
         timestamptz creado_en
     }
     usuario_comercio {
@@ -516,12 +518,14 @@ erDiagram
 | Tabla | Propósito | Reglas que conviene notar |
 |---|---|---|
 | `categoria_cuidado`, `producto` | El catálogo curado | Datos de referencia: todos los leen, solo operación los escribe. `producto.retracto_pierde_al_abrir` (MATU-59) dice si el derecho a retracto se pierde al abrir el sello; lo pone operación por producto, no se infiere de la categoría. `producto.unidades_por_envase` es del catálogo (capa 3). La lista de insumos usa solo `perfil_consumo.unidades_por_envase` (decisión 121) |
-| `comercio` | Comercios en convenio | Todos ven los activos (nombre para armar pedidos) |
+| `comercio` | Comercios en convenio | Todos ven los activos (nombre para armar pedidos). `ficticio` (`boolean NOT NULL DEFAULT true`, migración de MATU-61, D9) dice si el comercio es de ejemplo. Viaja en la API, en el catálogo y en el pedido, y la pantalla agrega «(comercio ficticio)» solo si es `true`. El primer convenio real debe autorizar a publicar el nombre de fantasía, los precios y el stock |
 | `usuario_comercio` | Qué usuarios operan la vista de un comercio | Resuelve el `app.comercio_id` del encargado al iniciar sesión |
 | `convenio` | Condiciones comerciales | `comision_bp` en puntos base. **Un comercio no puede tener dos convenios vigentes que se traslapen** (`EXCLUDE` sobre el rango de vigencia) |
 | `oferta` | Precio de un producto en un comercio | El comercio actualiza solo las suyas. Con el ADR-027 es el precio exacto con IVA del comercio en convenio. La migración 0019 (MATU-59) renombró `precio_referencia` a `precio` (`CHECK > 0`) y agregó `stock` (entero, `CHECK >= 0`). La API entrega solo si hay, nunca la cantidad |
 
 ### 4.5 Capa 3 · Pedido, sustitución y reposición programada
+
+> **MATU-61 (11-11).** Esta sección ya incluye lo que el contrato de MATU-61 pide a su migración, la 0023 (decisión 214 de `api/README.md`), con las decisiones D3 y D5 a D9 de Jorge (`legal/revision-previa-matu-61.md`, sección 7): sale `pedido.destinatario_nombre_pila` (C16), entra un registro por comercio dentro del pedido (`pedido_comercio`, D7), las líneas guardan el precio y la oferta del carrito y la copia del retracto (C3, C15), las columnas de las condiciones aceptadas (D6), `lat` y `lng` siempre nulas (C8), la regla si falta queda fija al pagar (C12 y C13), la línea de tiempo con motivo cerrado y borrado en cascada (C19, D5) y `plan_reposicion_linea.perfil_consumo_id` con `ON DELETE SET NULL` (D3). Fuera de esta sección cambian `comercio.ficticio` (4.4, D9) y `direccion.version` con el mismo `CHECK` de `lat` y `lng` nulas (4.1, D4 y C8). Se confirma contra la migración cuando se fusione.
 
 ```mermaid
 ---
@@ -532,10 +536,14 @@ erDiagram
     plan_reposicion ||--o{ ocurrencia : "plan_reposicion_id"
     comercio ||--o{ oferta : "comercio_id"
     producto ||--o{ oferta : "producto_id"
-    comercio ||--o{ pedido : "comercio_id"
+    comercio ||--o{ pedido : "comercio_id (sin uso desde MATU-61)"
     persona_cuidada ||--o{ pedido : "persona_cuidada_id"
     pedido ||--o| pedido_entrega : "pedido_id"
+    pedido ||--o{ pedido_comercio : "pedido_id"
+    comercio ||--o{ pedido_comercio : "comercio_id"
+    pedido_comercio ||--o{ pedido_linea : "pedido_comercio_id"
     oferta ||--o{ pedido_linea : "oferta_id"
+    oferta ||--o{ pedido_linea : "oferta_carrito_id"
     oferta ||--o{ pedido_linea : "oferta_reasignada_id"
     pedido ||--o{ pedido_linea : "pedido_id"
     producto ||--o{ pedido_linea : "producto_id"
@@ -553,12 +561,11 @@ erDiagram
         uuid id PK
         uuid grupo_id FK
         uuid persona_cuidada_id FK
-        uuid comercio_id FK
+        uuid comercio_id FK "opcional, sin uso"
         text estado
         text modo_cumplimiento
         text origen
         tstzrange ventana_entrega "opcional"
-        text destinatario_nombre_pila
         text codigo_retiro_hash "opcional"
         timestamptz codigo_retiro_expira_en "opcional"
         timestamptz codigo_retiro_usado_en "opcional"
@@ -573,6 +580,15 @@ erDiagram
         timestamptz total_confirmado_en "opcional"
         timestamptz total_vence_en "opcional"
         timestamptz pagado_en "opcional"
+        text condiciones_version "opcional"
+        timestamptz condiciones_aceptadas_en "opcional"
+        text condiciones_huella "opcional"
+    }
+    pedido_comercio {
+        uuid id PK
+        uuid pedido_id FK
+        uuid comercio_id FK
+        text referencia
     }
     pedido_entrega {
         uuid pedido_id PK, FK
@@ -581,17 +597,21 @@ erDiagram
         text depto "opcional"
         text comuna
         text referencia "opcional"
-        numeric lat "opcional"
-        numeric lng "opcional"
+        numeric lat "siempre nula"
+        numeric lng "siempre nula"
         text telefono_contacto
     }
     pedido_linea {
         uuid id PK
         uuid pedido_id FK
+        uuid pedido_comercio_id FK "opcional"
         uuid oferta_id FK
         uuid producto_id FK
         int cantidad
         bigint precio_unitario
+        bigint precio_carrito
+        uuid oferta_carrito_id FK
+        bool retracto_pierde_al_abrir "opcional"
         text estado_linea
         timestamptz creado_en
         bigint monto_devuelto
@@ -631,7 +651,7 @@ erDiagram
         uuid id PK
         uuid plan_reposicion_id FK
         uuid producto_id FK
-        uuid perfil_consumo_id FK "opcional"
+        uuid perfil_consumo_id FK "opcional, ON DELETE SET NULL"
         int cantidad_envases
     }
     ocurrencia {
@@ -661,12 +681,13 @@ erDiagram
 
 | Tabla | Propósito | Reglas que conviene notar |
 |---|---|---|
-| `pedido` | El pedido, con sus 17 estados (sección 8.1 de la arquitectura) | Los 17 estados están en un `CHECK`: `borrador`, `total_confirmado`, `vencido`, `pagado`, `enviado_a_comercio`, `preparando`, `listo_retiro`, `asignado`, `sin_repartidor`, `retirado`, `en_ruta`, `entregado`, `no_entregado`, `reprogramado`, `cerrado`, `cancelado` y `cancelado_con_devolucion`. Las transiciones válidas las controla el dominio, no la base. **`total = subtotal_productos + costo_envio`**, con un envío único por pedido. `total_vence_en` (15 minutos, lo fija el dominio) existe si y solo si existe `total_confirmado_en`, y es posterior. **`pagado_en` fija el precio**: nulo antes del pago, obligatorio desde `pagado`, y solo con total confirmado. Desde ahí, el trigger `pedido_pagado_fijo` impide cambiar el total, sus partes, la confirmación y `pagado_en`, y volver a un estado previo al pago. [PENDIENTE: `destinatario_nombre_pila` viene de la 0001 y contradice la decisión del 26 de octubre: el comercio no ve ningún nombre. Sale con una migración nueva. Como RLS filtra filas y no columnas, mientras exista el comercio puede leerla en la base, igual que `grupo_id`, `persona_cuidada_id` y `creado_por`.] |
-| `pedido_entrega` | La dirección de entrega congelada al confirmar | **Tabla aparte a propósito**: el comercio ve el pedido y nunca la dirección (11.2), y RLS filtra filas, no columnas |
-| `pedido_linea` | Qué se pidió, a qué precio, y qué se devolvió | `precio_unitario` es el precio exacto pagado. **Con el pedido pagado, un trigger impide cambiar producto, oferta, cantidad o precio, y agregar o borrar líneas** (`pedido_linea_pagada_fija`): lo que no se entrega se devuelve, no se edita. `monto_devuelto` nunca supera cantidad × `precio_unitario`, y la línea está en `devuelta` si y solo si tiene monto y fecha de devolución. La reasignación apunta a otra oferta **del mismo producto** (trigger `pedido_linea_mismo_producto`), con sus tres columnas juntas o ninguna; la diferencia de `precio_reasignado` la asume MATU (arquitectura, 7.6 b). Estados: `pendiente`, `sin_stock`, `preparada`, `faltante`, `devuelta`, `eliminada`. [PENDIENTE: el comercio que reemplaza a otro no ve la línea reasignada, porque la línea hereda la visibilidad del pedido y el RLS del comercio usa `pedido.comercio_id`. Es de la fase 2, con una decisión de aislamiento pendiente] |
-| `regla_sustitucion` | Qué hace MATU si falta un producto (RF-21, redefinido el 27-10) | Una regla por producto y pedido. `accion` es `otro_comercio` (el mismo producto en otro comercio en convenio) o `quitar` (sale del pedido y se devuelve su precio), por `CHECK`. **Sin fila, se busca en otro comercio**: es la opción por omisión. La migración 0002 quitó `producto_sustituto_id`, `precio_maximo` y `regla_sustitucion_especifico`: nunca otra marca ni otro producto. Mantiene `regla_sustitucion_uq` y la política `regla_hereda`. El backend propone renombrarla a `regla_faltante`; es una propuesta y no se renombró |
-| `pedido_transicion` | La línea de tiempo del pedido | Solo inserción. Es lo que permite reconstruir un pedido con incidencia sin tocar la base (atributo de calidad 6) |
-| `plan_reposicion` y `plan_reposicion_linea` | Envíos periódicos (RF-17) | Las líneas se proponen desde el perfil de consumo (8.9) |
+| `pedido` | El pedido, con sus 17 estados (sección 8.1 de la arquitectura) | Los 17 estados están en un `CHECK`: `borrador`, `total_confirmado`, `vencido`, `pagado`, `enviado_a_comercio`, `preparando`, `listo_retiro`, `asignado`, `sin_repartidor`, `retirado`, `en_ruta`, `entregado`, `no_entregado`, `reprogramado`, `cerrado`, `cancelado` y `cancelado_con_devolucion`. Las transiciones válidas las controla el dominio, no la base. **`total = subtotal_productos + costo_envio`**, con un envío único por pedido. `total_vence_en` (15 minutos, lo fija el dominio) existe si y solo si existe `total_confirmado_en`, y es posterior. **`pagado_en` fija el precio**: nulo antes del pago, obligatorio desde `pagado`, y solo con total confirmado. Desde ahí, el trigger `pedido_pagado_fijo` impide cambiar el total, sus partes, la confirmación y `pagado_en`, y volver a un estado previo al pago. **Sin nombre de la persona:** `destinatario_nombre_pila`, que venía de la 0001, sale en la migración de MATU-61 (R7, C16). **Las condiciones aceptadas** (D6): `condiciones_version`, `condiciones_aceptadas_en` y `condiciones_huella` (SHA-256), creadas en MATU-61 y escritas al pagar (MATU-62), con un `CHECK` que impide `pagado_en` sin `condiciones_aceptadas_en`. **Desde la 0024 (MATU-62):** `condiciones_aceptadas_por` (la cuenta que pagó, D-62-16) entra en el `CHECK` de las condiciones completas, `referencia` (4 a 6 cifras, única por grupo) identifica el pedido en el comprobante, y el trigger `pedido_escritura_del_pago` deja marcar `pagado` solo a `sistema` u `operacion`, desde `total_confirmado` o `vencido`, con una venta aprobada y no anulada del mismo total y del mismo `total_confirmado_en`. El pagador escribe solo las cuatro columnas de las condiciones, a su nombre. **`comercio_id` deja de ser obligatorio y se deja de usar**: con varios comercios, cada uno tiene su registro en `pedido_comercio` (D7). **Un solo pedido sin pagar por persona** (C4). Los pedidos no pagados (`borrador`, total vencido y `cancelado` sin `pagado_en`) se borran a los 30 días con una tarea del programador de MATU-74 (D5). [PENDIENTE: como RLS filtra filas y no columnas, la vista del comercio de MATU-63 no debe exponer `grupo_id`, `persona_cuidada_id` ni `creado_por`, con su prueba de contrato.] |
+| `pedido_comercio` | La parte de cada comercio dentro del pedido de la familia (MATU-61, D7, ADR-027) | Nueva en la migración de MATU-61. Una fila por comercio (`UNIQUE (pedido_id, comercio_id)`), creada al confirmar, con su `referencia` opaca aleatoria, distinta por pedido y por comercio (C22). La familia ve un pedido, con un envío único. **Cada comercio verá solo su parte** (R8): sus líneas, su referencia y el estado, nunca las líneas de otro comercio, el total de la familia, la dirección ni un nombre. RLS forzado, y las políticas de `pedido_comercio` y de `pedido_linea` por `pedido_comercio.comercio_id`, recién con el pedido pagado y enviado, con sus pruebas en `test_aislamiento.py`. La usan MATU-63 y la liquidación de la fase 2. «Cambiar el pedido» borra las partes por comercio |
+| `pedido_entrega` | La dirección de entrega congelada al confirmar | **Tabla aparte a propósito**: el comercio ve el pedido y nunca la dirección (11.2), y RLS filtra filas, no columnas. Se copia al confirmar desde la dirección de la persona y el teléfono elegido (D4), y se borra al cancelar sin pagar, al retirar la autorización de pedidos y al borrar a la persona (D1, D2). **`lat` y `lng` siempre nulas**, con un `CHECK` (C8): MATU no guarda la ubicación en el mapa |
+| `pedido_linea` | Qué se pidió, a qué precio, y qué se devolvió | `precio_unitario` es el precio exacto pagado. **Con el pedido pagado, un trigger impide cambiar producto, oferta, cantidad o precio, y agregar o borrar líneas** (`pedido_linea_pagada_fija`): lo que no se entrega se devuelve, no se edita. `monto_devuelto` nunca supera cantidad × `precio_unitario`, y la línea está en `devuelta` si y solo si tiene monto y fecha de devolución. La reasignación apunta a otra oferta **del mismo producto** (trigger `pedido_linea_mismo_producto`), con sus tres columnas juntas o ninguna; la diferencia de `precio_reasignado` la asume MATU (arquitectura, 7.6 b). Estados: `pendiente`, `sin_stock`, `preparada`, `faltante`, `devuelta`, `eliminada`. **Desde MATU-61:** cada línea apunta a la parte de su comercio (`pedido_comercio_id`, D7), guarda el precio y la oferta del carrito (`precio_carrito`, `oferta_carrito_id`), contra los que se marca un cambio de precio o de comercio al confirmar (C15), y una copia de `producto.retracto_pierde_al_abrir` hecha al confirmar (C3). En `borrador` el precio es el del carrito. [PENDIENTE: cómo ve la línea reasignada el comercio que reemplaza a otro después de pagar. Con D7 la línea apunta a la parte de un comercio, y el reemplazo lo resuelve MATU-63] |
+| `regla_sustitucion` | Qué hace MATU si falta un producto (RF-21, redefinido el 27-10) | Una regla por producto y pedido. `accion` es `otro_comercio` (el mismo producto en otro comercio en convenio) o `quitar` (sale del pedido y se devuelve su precio), por `CHECK`. **Sin fila, se busca en otro comercio**: es la opción por omisión. La migración 0002 quitó `producto_sustituto_id`, `precio_maximo` y `regla_sustitucion_especifico`: nunca otra marca ni otro producto. Mantiene `regla_sustitucion_uq`. El contrato de MATU-61 la expone como `reglas-faltante` y la tabla no cambia de nombre (decisión 200). **Desde la migración de MATU-61:** un trigger la deja fija con el pedido pagado (C12), y solo el admin y el cuidador la escriben, con políticas por operación (C13) |
+| `pedido_transicion` | La línea de tiempo del pedido | Solo inserción. Es lo que permite reconstruir un pedido con incidencia sin tocar la base (atributo de calidad 6). **Desde la migración de MATU-61:** `motivo` es una lista cerrada con un `CHECK` (C19): `total_vencio`, `familia_cancela`, `familia_cambia_carrito`, `autorizacion_retirada` y `persona_borrada`, o nulo al confirmar. Se borra con su pedido no pagado a los 30 días, en cascada o con un orden de borrado (D5) |
+| `plan_reposicion` y `plan_reposicion_linea` | Envíos periódicos (RF-17) | Las líneas se proponen desde el perfil de consumo (8.9). **Desde la migración de MATU-61:** `plan_reposicion_linea.perfil_consumo_id` tiene `ON DELETE SET NULL`, con su prueba, para que el borrado de la persona y el retiro de la autorización de insumos no fallen al borrar los perfiles (D3). Para la fase 2 queda la condición de que el borrado y el retiro cancelen los `plan_reposicion` de la persona |
 | `ocurrencia` | Cada envío programado, materializado con 14 días de anticipación | Única por plan y fecha (ADR-012). `generada` si y solo si tiene pedido |
 
 ### 4.6 Capa 3 · Cargo, pago dividido y pasarela
@@ -741,9 +762,9 @@ erDiagram
 
 | Tabla | Propósito | Reglas que conviene notar |
 |---|---|---|
-| `cargo` | Lo que MATU cobra a la familia por un pedido: un solo cobro del total exacto (ADR-027) | Uno por pedido. Sin margen, monto autorizado ni capturado. **Lo devuelto nunca supera lo cobrado** (`CHECK`). Estados `pendiente`, `pagado`, `rechazado`, `devuelto_parcial` y `anulado`, y un `CHECK` ata cada uno a sus montos: nada cobrado en `pendiente` y `rechazado`; cobrado y nada devuelto en `pagado`; devolución menor que lo cobrado en `devuelto_parcial` e igual en `anulado` |
+| `cargo` | Lo que MATU cobra a la familia por un pedido: un solo cobro del total exacto (ADR-027) | Uno por pedido. Sin margen, monto autorizado ni capturado. **Lo devuelto nunca supera lo cobrado** (`CHECK`). Estados `pendiente`, `pagado`, `rechazado`, `devuelto_parcial` y `anulado`, y un `CHECK` ata cada uno a sus montos: nada cobrado en `pendiente` y `rechazado`; cobrado y nada devuelto en `pagado`; devolución menor que lo cobrado en `devuelto_parcial` e igual en `anulado`. **Desde la 0024 (MATU-62):** se crea al tocar «Pagar» (D-62-11) y el pagador puede reabrir su cargo rechazado. El trigger `cargo_pago_atado` aplica las transiciones de la decisión 243. `matu_app` no lo puede borrar. Con la conservación de D-62-13, un cargo sin dinero se borra con su pedido a los 30 días, y uno con dinero se guarda 6 años |
 | `participacion` | La parte de cada familiar | Un solo respaldo por cargo (índice único parcial). Mismos montos y la misma regla que `cargo`, con los estados en femenino (`pendiente`, `pagada`, `rechazada`, `devuelta_parcial`, `anulada`). [PENDIENTE: la 0002 quitó `monto_comprometido`, que era la base del prorrateo de la arquitectura 8.3; cuando vuelva el pago entre varios familiares, la base del reparto se define con otra migración.] **En el MVP hay una sola participación por cargo:** el pago entre varios familiares salió del semestre con el segundo recorte de la arquitectura v1.1 (sección 15.3), y la tabla se mantiene para cuando vuelva |
-| `transaccion_pasarela` | Cada operación con Transbank: `venta` (venta normal de Webpay Plus) o `anulacion`, total o parcial | **Nunca se borra** (permiso y trigger). `buy_order` limitado a 26 caracteres, que es el límite de Transbank. `tipo_tarjeta` registra crédito, débito o prepago, que es justo lo que deben verificar los casos de venta normal con los dos medios. El estado `autorizando` se mantiene para el retorno pendiente de la pasarela y su índice de conciliación |
+| `transaccion_pasarela` | Cada operación con Transbank: `venta` (venta normal de Webpay Plus) o `anulacion`, total o parcial | **Nunca se borra** (permiso y trigger). `buy_order` limitado a 26 caracteres, que es el límite de Transbank. `tipo_tarjeta` registra crédito, débito o prepago, que es justo lo que deben verificar los casos de venta normal con los dos medios. El estado `autorizando` se mantiene para el retorno pendiente de la pasarela y su índice de conciliación. **Desde la 0024 (MATU-62):** la venta queda atada al total y a su `total_confirmado_en` al insertarse, y lo que la identifica no cambia. Una sola venta aprobada y no anulada por cargo, token único, `cuotas`, `session_id` y `motivo_cierre`, y `payload_respuesta` siempre vacío (`CHECK`). Una línea se devuelve una sola vez. **«Nunca se borra» queda acotado por D-62-13:** las transacciones de un intento sin dinero se borran con su pedido a los 30 días [PENDIENTE: CL-64] |
 | `medio_pago_inscrito` | Tarjeta inscrita con OneClick | Solo la ve su dueño. Entraba al MVP por el respaldo del pago dividido (ADR-007), que salió del semestre con el segundo recorte. Se mantiene en el esquema para la fase 2 del producto |
 
 ### 4.7 Capa 3 · Cumplimiento y liquidación al comercio
@@ -1032,9 +1053,9 @@ Cada celda de esta matriz está respaldada por una prueba de `test_aislamiento.p
 
 | Eje | Plan de cuidado | Perfil de consumo | Pedido | Líneas y precios | Dirección de entrega | Cargo y pagos | Liquidación | Auditoría |
 |---|---|---|---|---|---|---|---|---|
-| **Familia** | Según rol¹ | Sí | Sí | Sí | Sí | Sí | Nunca | Su grupo |
+| **Familia** | Según rol¹ | Sí | Ven todos; escriben admin y cuidador³ | Ven todos; escriben admin y cuidador³ | Admin y cuidador la cambian; el pagador la ve; el observador no ve la del pedido³ | Sí | Nunca | Su grupo |
 | **Relevo** | Solo secciones habilitadas y vigente | Nunca | Nunca | Nunca | Nunca | Nunca | Nunca | Inserta la suya |
-| **Comercio** | Nunca | Nunca | Pagados y enviados o posteriores² | Sí | **Nunca** | Nunca | Los suyos | Nunca |
+| **Comercio** | Nunca | Nunca | Pagados y enviados o posteriores² | Solo las suyas² | **Nunca** | Nunca | Los suyos | Nunca |
 | **Repartidor** | Nunca | Nunca | Su asignación activa | **Nunca** | Su asignación activa | Nunca | Nunca | Nunca |
 | **Operación** | **Nunca** | **Nunca** | Todos | Todos | Todos | Todos | Todos | Lee todo |
 | **Sistema (worker)** | Nunca | Su grupo | Su grupo | Su grupo | Su grupo | Su grupo | Nunca | Inserta |
@@ -1042,7 +1063,8 @@ Cada celda de esta matriz está respaldada por una prueba de `test_aislamiento.p
 
 ¹ admin y cuidador siempre, pagador solo con `puede_ver_plan`, observador nunca. **Esta regla vive en RLS**, no solo en la API: si la API olvida revisar el rol, la base igual devuelve cero filas.
 
-² Desde la migración 0002, `pedido_comercio_ver` y `pedido_comercio_actualizar` exigen `pedido.comercio_id` del comercio, `pagado_en` con valor y un estado posterior a `pagado`. Las líneas heredan esa visibilidad. [PENDIENTE: con esa regla, el comercio que reemplaza a otro en la fase 2 no ve la línea reasignada (sección 4.5).]
+² Desde la migración 0023 (MATU-61, D7), el comercio ve su parte en `pedido_comercio` y solo las líneas de sus ofertas, con `pagado_en` con valor y `enviado_en` fijado (MATU-63). No ve las reglas de faltante de la familia ni la entrega. [PENDIENTE para MATU-63: hoy `pedido_comercio_ver` le deja leer la fila completa de `pedido` (con `grupo_id`, `persona_cuidada_id`, `creado_por`, `total` y `costo_envio`); se acota por columnas en la vista del comercio.] Antes de la 0023, la visibilidad iba por `pedido.comercio_id` y las líneas la heredaban. [PENDIENTE: con esa regla, el comercio que reemplaza a otro en la fase 2 no ve la línea reasignada (sección 4.5).]
+³ Desde la 0023 (MATU-61, C3): `app_escribe_pedido()` exige admin o cuidador, y `app_ve_entrega()` deja fuera al observador. La dirección de la persona (`direccion`) sigue con `direccion_familia` `FOR ALL` por grupo hasta MATU-42; la regla de rol la aplica la API.
 
 ### 5.4 Cinco hallazgos al escribir las políticas
 

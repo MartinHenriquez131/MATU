@@ -27,7 +27,7 @@
 
 | ID | Respuesta | Commit o PR | Verificado (Martín) |
 |---|---|---|---|
-| H1 | | | |
-| H2 | | | |
-| H3 | | | |
-| H4 | | | |
+| H1 | La tarjeta nombra los casos 1 a 4 de la estrategia 10.2, en la descripción y en sus dos ítems | MATU-62 en Trello (10-11) | |
+| H2 | La prueba en el teléfono de MATU-62 usa la AMEX y la Redcompra de integración, y el README del spike también | ítem de MATU-62 y MATU_PROYECTO #78 | |
+| H3 | De acuerdo con el supuesto de 90 días mientras se está en integración. Antes de salir de integración se confirma con Transbank. La arquitectura y el ADR-027 lo dicen | MATU #66 e ítem de MATU-62 | |
+| H4 | La `PasarelaFalsa` responderá `PARTIALLY_NULLIFIED` con `balance`, y el duplicado se detecta con el registro propio del token | ítem de MATU-62 | |
