@@ -1242,6 +1242,7 @@ Los textos salen de la especificación de pantallas de MATU-55, v1.1 del 12-11 (
 | C. El navegador no deja | Tu navegador no deja que MATU te avise. Puedes cambiarlo en los ajustes del navegador. | [A] |
 | D. Sin soporte | Este navegador no puede recibir avisos. Puedes recibirlos por correo. | [A] · **[NUEVO]** la segunda frase |
 | E. iPhone sin instalar | En iPhone, primero agrega MATU a tu pantalla de inicio. · 1. Toca Compartir {ícono} en Safari. · 2. Elige «Agregar a inicio». · 3. Abre MATU desde su ícono y vuelve a Tu cuenta. | **[NUEVO]** |
+| G. Piloto, cuenta fuera del equipo (`permitido: false`, MATU-107) | En el piloto, los avisos en el teléfono solo se prueban en los teléfonos del equipo de MATU. | **[ANALISTA]** C14 · sin botón «Activar» |
 | F. MATU todavía no puede | Por ahora no se pueden activar los avisos en este teléfono. Puedes recibirlos por correo. | **[NUEVO]** |
 | Activar | Activando… · Activaste los avisos en este teléfono. · No activamos los avisos. Puedes volver a intentarlo. · No pudimos activar los avisos. Revisa tu conexión y vuelve a intentarlo. | **[NUEVO]** |
 | Desactivar | Desactivando… · Desactivaste los avisos en este teléfono. · No pudimos desactivar los avisos. Revisa tu conexión y vuelve a intentarlo. | **[NUEVO]** |
@@ -1426,6 +1427,7 @@ Los textos salen de `web/src/familia/textosMisDatos.ts` (rama de código de MATU
 | **«Datos de {nombre_pila}»** | | |
 | Volver | Volver a Grupo familiar | [L 22] |
 | Bajada | Lo que MATU guarda hoy de {nombre_pila}, al {fecha} a las {hora}. | **[NUEVO]** |
+| Límite (MATU-107, 54-H3) | Cada vez que abres esta pantalla cuenta como una copia de los datos. Puedes abrirla hasta 10 veces por hora. | **[ANALISTA]** |
 | Los bloques | Sus datos · Autorizaciones · Su ficha · Enlaces de relevo · Sus insumos · Compras anotadas (últimos 90 días) · Avisos de insumos · Sus pedidos · Quién abrió o editó la ficha | [ANALISTA] |
 | **Descargar** | | |
 | Ayuda | Es un archivo (JSON) que otro programa puede leer, para llevar estos datos a otro lugar. | [ANALISTA] |
@@ -1444,8 +1446,8 @@ Los textos salen de `web/src/familia/textosMisDatos.ts` (rama de código de MATU
 | Cargando | Cargando… · Volver a intentar | [L 26] |
 | Sin red o 500 | No pudimos traer los datos. Revisa tu conexión y vuelve a intentarlo. | [ANALISTA] |
 | 503 | No pudimos traer los datos en este momento. Vuelve a intentarlo en unos minutos. | **[NUEVO]** |
-| 429, con la hora | Ya pediste los datos varias veces. Vuelve a intentarlo a las {hora}. | **[ANALISTA, ajustado]** con `Retry-After` |
-| 429, sin la hora | Ya pediste los datos varias veces. Vuelve a intentarlo en una hora. | [ANALISTA] |
+| 429, con la hora | Abriste o descargaste los datos varias veces en la última hora. Vuelve a intentarlo a las {hora}. | **[ANALISTA, ajustado]** con `Retry-After` |
+| 429, sin la hora | Abriste o descargaste los datos varias veces en la última hora. Vuelve a intentarlo en una hora. | [ANALISTA] |
 | 404 | El 404 general y «Volver a Grupo familiar» | [L 8] · [L 22] |
 | **Los historiales** | | |
 | Con algo anterior a 90 días | Los de los últimos 90 días. Lo anterior va en el archivo. | **[NUEVO]** |
@@ -1552,6 +1554,7 @@ Los textos salen de `web/src/familia/textosMisDatos.ts` (rama de código de MATU
 | **«Tus datos»** | | |
 | Volver | Volver a tu cuenta | [L 19] |
 | Bajada | Lo que MATU guarda hoy de tu cuenta, al {fecha} a las {hora}. | **[NUEVO]** |
+| Límite (MATU-107, 54-H3) | Cada vez que abres esta pantalla cuenta como una copia de los datos. Puedes abrirla hasta 10 veces por hora. | **[ANALISTA]** |
 | Las personas que cuidas | Lo que guardamos de las personas que cuidas lo ves en Grupo familiar. · Ir a Grupo familiar | [ANALISTA] |
 | Los bloques | Tu cuenta · Política de privacidad · Tus grupos · Tus avisos · Avisos que te enviamos · Tus pagos | [ANALISTA] |
 | Los bloques | Tus teléfonos y computadores · Últimos ingresos | [L 33] |

@@ -6,6 +6,16 @@ Esto no es asesoría legal: sirve para que Jorge decida. Lo que queda en REQUIER
 
 **Nota del orquestador:** los faltantes 2 (la persona cuidada entra con su propia cuenta) y 3 (corregir los datos) de la sección 8 quedaron como tarjetas propias en el Product Backlog: MATU-90 y MATU-91.
 
+**Nota del 12-11 (MATU-107, hallazgo 54-H2 de Martín): las secciones 0 y 2 quedaron reemplazadas.** Describen el borrador de la 0028 de esta revisión previa, no la migración que se construyó. Vale la 0028 fusionada (`backend/alembic/versions/0028_auditoria_persona.py` del repositorio MATU_PROYECTO, «Plan de la 0028» y decisiones 365, 368 a 370 y 400 de `docs/api/README.md`). Lo que cambia:
+1. La clave foránea es compuesta: `(persona_cuidada_id, grupo_id)` hacia `persona_cuidada (id, grupo_id)`, con el `UNIQUE persona_cuidada_id_grupo_uq`.
+2. Se agrega el `CHECK auditoria_persona_obligatoria`, `NOT VALID` a propósito.
+3. Amplía el `CHECK auditoria_cuenta_acotada` de la 0025 a 15 acciones, con `cuenta.datos_descargar`. Por eso ya no son ciertas «La acción nueva de auditoría no necesita migración» (sección 0) ni «No hace falta un `CHECK` nuevo» (P5).
+4. El índice suma `id DESC`.
+5. `plan_destruir_claves` escribe `clave.destruir` con la persona.
+6. La bajada se detiene con un `CHECK` temporal, no con un `SELECT`.
+
+Además, donde dice «la 0024 de MATU-55», es la 0025. El texto original se deja como estaba, como registro de lo que se revisó.
+
 ## 0. Resumen para la planificación
 
 - **Hay que corregir un hallazgo del código antes de construir «Quién abrió o editó la ficha».** La auditoría no guarda a qué persona se refiere cada fila. `plan.editar` y `plan.quitar_seccion` guardan el id de la sección (`care_plan/infrastructure/auditoria_ficha.py:64,73,81`). `consumo.*`, `alerta.*` y `reposicion.declarar` guardan el id de su fila. Esas filas se borran al quitar una sección, al destruir la clave a los 90 días o al eliminar un insumo, y entonces la auditoría ya no se puede asociar a la persona. En un grupo que cuida a dos personas, la copia saldría incompleta o mezclada. Se propone la **0028** (sección 2).
