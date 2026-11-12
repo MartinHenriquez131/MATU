@@ -15,6 +15,7 @@
 **MATU-62 (11-11):** entra la sección 32, el pago, con los textos de la especificación de pantallas v1.1 (sección 12). La 31 admite «Este comprobante no es una boleta.» (D-62-7), el aviso de los 2 minutos también para el pagador (D-62-14) y un punto nuevo en «Retirar». Decisiones del orquestador por delegación de Jorge del 11-11. Los textos **[NUEVO]** los aprobó Jorge el 12-11.
 **MATU-55 (12-11):** entra la sección 33, «Dónde entraste» y los avisos de «Tu cuenta», con los textos de la especificación de pantallas v1.1 (`docs/diseno/matu-55-donde-entraste.md`, sección 8). Ajusta la 13.3 («hoy» y «ayer» en «Última vez», y «teléfono», «computador» o «navegador» según cada uno) y la 20 («En tus teléfonos» en vez de «En este teléfono», D5). La ayuda del estado B cambia por decisión del 12-11. Por aprobar por Jorge al fusionar.
 **MATU-42 y MATU-53 (12-11):** entra la sección 34, invitar a un familiar y ver el grupo, con los textos de `textosInvitar.ts` (rama `matu-42-invitar-familiar`, 960e8fe) y de la especificación de pantallas v1.3 (`docs/diseno/matu-53-invitar-grupo.md`, sección 11). Los [ANALISTA] los aprobó Jorge el 12-11 y los **[NUEVO]** el orquestador, por delegación de Jorge del mismo día. Por aprobar por Jorge al fusionar.
+**MATU-54 (12-11):** entra la sección 35, la copia de los datos («Datos de» la persona y «Tus datos»), con los textos de `textosMisDatos.ts` (rama de código de MATU-54) y de la especificación de pantallas v1.3 (`docs/diseno/matu-54-mis-datos.md`, secciones 2 a 5 y 9). Ajusta la 29 («Tu cuenta, cómo pedir»: la copia ya no se pide por correo, está en «Tus datos») y la 33 («Pediste una copia de tus datos» en los últimos ingresos). Por aprobar por Jorge al fusionar.
 **Fuentes:** resultados de las entrevistas (`docs/resultados-entrevistas.md`), arquitectura sección 10, política de privacidad v0.9, la demo aprobada (`Demo/src/`, rama `demo-web-viernes-30`) y el contrato de MATU-09 (`docs/api/`, rama `matu-09-contrato-api`).
 
 ---
@@ -1011,7 +1012,7 @@ La política se muestra en la app, en /privacidad, desde «En un minuto» hasta 
 | Tu cuenta, fila | Política de privacidad |
 | Tu cuenta, dato | Aceptaste la versión {version} el {DD/MM/AAAA}. |
 | Tu cuenta, sin registro | No tenemos registro de qué versión aceptaste. |
-| Tu cuenta, cómo pedir | Para cambiar tu nombre o tu correo, pedir una copia de tus datos o eliminar tu cuenta, escribe a cuidaconmatu@gmail.com desde el correo de tu cuenta. |
+| Tu cuenta, cómo pedir | Para cambiar tu nombre o tu correo, o eliminar tu cuenta, escribe a cuidaconmatu@gmail.com desde el correo de tu cuenta. Para ver o descargar tus datos, entra a «Tus datos». (MATU-54, por aprobar por Jorge al fusionar) |
 | Enlace a otra pestaña | {texto} (se abre en otra pestaña) |
 | Rótulo del índice | Índice |
 | Al final de cada sección, en el teléfono | Volver al índice |
@@ -1205,6 +1206,7 @@ Los textos salen de la especificación de pantallas de MATU-55, v1.1 del 12-11 (
 | Código pedido | Se pidió un código para recuperar tu cuenta · Si no lo pediste tú, no compartas el código con nadie. | [A] · **[NUEVO]** [CIERRE] |
 | Avisos en un teléfono | Activaste los avisos en {nombre} · Desactivaste los avisos en {nombre} | [A] |
 | Preferencia de avisos | Cambiaste tus avisos | [A] |
+| Copia de tus datos | Pediste una copia de tus datos | **[NUEVO]** MATU-54 (especificación, 5.5). La cola dice solo «a las {HH:MM}». Por aprobar por Jorge al fusionar |
 | **Al pie de la lista** | | |
 | No reconoces un ingreso | ¿No reconoces un ingreso? Cierra MATU en ese teléfono. Para cambiar tu contraseña, sal de MATU y toca «¿Olvidaste tu contraseña?» al entrar. | **[AJUSTE]** del texto del analista (E5) |
 | Lo que no se muestra | Si necesitas los ingresos anteriores a 90 días, escribe a {correo} desde el correo de tu cuenta. · Mostramos los 20 más recientes. Para ver los demás, o los anteriores a 90 días, escribe a {correo} desde el correo de tu cuenta. · Sin correo: Mostramos los 20 más recientes. | **[NUEVO]** |
@@ -1403,3 +1405,198 @@ Los textos salen de `web/src/familia/textosInvitar.ts` (rama `matu-42-invitar-fa
 **El correo al salir** va como párrafo bajo la lista del diálogo, para todos los roles, como texto y sin enlace. Dice lo mismo que la política 0.15, §10, «Salir de un grupo». Si una cambia, cambia la otra.
 
 **Ninguno usa** los términos de la sección 3, «token», «usuario», «observador», «revocar», «rechazar», «invitado», «invitada», «inválido» ni «fallido».
+
+## 35. Copia de los datos (MATU-54) · Por aprobar por Jorge al fusionar
+
+Los textos salen de `web/src/familia/textosMisDatos.ts` (rama de código de MATU-54) y de la especificación de pantallas de MATU-54, v1.3 del 12-11 (`docs/diseno/matu-54-mis-datos.md`, secciones 2 a 5 y 9). Cada uno marca su origen: [ANALISTA] los de la revisión previa del analista normativo (`legal/revision-previa-matu-54.md`, sección 7), **[ANALISTA, ajustado]** los que cambió la especificación (sección 9, ajustes 1 a 8), [README] los de las decisiones del contrato (`docs/api/README.md`, Q15), **[NUEVO]** los del diseñador, y [L n] los que ya están en la sección n. `{nombre_pila}` es el nombre con que llaman a la persona cuidada, `{nombre}` el de una persona del grupo, `{correo}` el correo de contacto de la política, `{grupo}` el nombre del grupo, `{referencia}` el número del pedido o del comprobante, `{fecha}` es `DD/MM/AAAA` y `{hora}` es `HH:MM`.
+
+**Regla de la sección.** Se dice «copia», «archivo» y «descargar», nunca «exportar». El historial se llama «Quién abrió o editó la ficha», nunca «registro», «auditoría» ni «registro de accesos». Se dice «autorización», nunca «consentimiento», y nunca «sesión», «token» ni «usuario». Ni el título de la pestaña ni la URL llevan el nombre de nadie. Los títulos largos llevan en la pantalla un guion suave escrito en el texto («Autoriza­ciones», «Tus teléfonos y compu­tadores», «Condiciones de compra que acep­taste»): aquí van sin él.
+
+| Dónde | Texto | Origen |
+|---|---|---|
+| **El archivo** | | |
+| El aviso fijo del archivo (`aviso`, igual en las dos copias) | Esta es una copia de los datos que MATU guarda, para que puedas conocerlos o llevarlos a otro lugar. No es la ficha para un relevo, y no se usa para compartirla. MATU no guarda esta copia. Este archivo queda donde lo descargaste, fuera de MATU: no vence y MATU no lo puede borrar. | **[ANALISTA, ajustado]** (P14, decisión 377). Si cambia, cambia también la `const` del contrato y `AVISO_COPIA` del backend |
+| **Títulos de pestaña** | | |
+| «Datos de» y «Tus datos» | Datos guardados · MATU · Tus datos · MATU | **[NUEVO]** |
+| **La entrada en «Grupo familiar»** | | |
+| Título | Datos de {nombre_pila} | [ANALISTA] |
+| Texto, admin y cuidador | Todo lo que MATU guarda de {nombre_pila}. Si {nombre_pila} o su representante legal te lo pide, puedes mostrárselo o darle una copia. | [ANALISTA] |
+| Botón, admin y cuidador | Ver los datos de {nombre_pila} | [ANALISTA] |
+| Pagador y observador | Los puede ver quien administra el grupo o quien cuida a {nombre_pila}. | [ANALISTA] |
+| **«Datos de {nombre_pila}»** | | |
+| Volver | Volver a Grupo familiar | [L 22] |
+| Bajada | Lo que MATU guarda hoy de {nombre_pila}, al {fecha} a las {hora}. | **[NUEVO]** |
+| Los bloques | Sus datos · Autorizaciones · Su ficha · Enlaces de relevo · Sus insumos · Compras anotadas (últimos 90 días) · Avisos de insumos · Sus pedidos · Quién abrió o editó la ficha | [ANALISTA] |
+| **Descargar** | | |
+| Ayuda | Es un archivo (JSON) que otro programa puede leer, para llevar estos datos a otro lugar. | [ANALISTA] |
+| Los 90 días | En esta pantalla, los historiales muestran los últimos 90 días. El archivo trae todo lo guardado. | **[NUEVO]** |
+| Botón | Descargar en un archivo | [ANALISTA] |
+| Hecho | Te entregamos el archivo. Búscalo en tus descargas. | **[ANALISTA, ajustado]** sin «de tu teléfono» |
+| **Antes de descargar** | | |
+| Título | Antes de descargar | [ANALISTA] |
+| Texto, la persona | El archivo trae todo lo de esta pantalla, también lo escrito en la ficha y los nombres y teléfonos de «A quién llamar». Queda en tu teléfono o computador, fuera de MATU: no vence, no se puede cortar y MATU no lo puede borrar. | **[ANALISTA, ajustado]** «o computador» |
+| Texto, la persona sin la ficha | El archivo trae todo lo de esta pantalla, y lo anterior a 90 días. Queda en tu teléfono o computador, fuera de MATU: no vence, no se puede cortar y MATU no lo puede borrar. | **[NUEVO]** la primera oración |
+| Lo que importa | No lo uses para compartir la ficha con un relevo: para eso está el enlace con PIN. | [ANALISTA] |
+| Texto, tu cuenta | El archivo trae tu correo y tu celular completos. Queda en tu teléfono o computador, fuera de MATU. | **[ANALISTA, ajustado]** «o computador» |
+| Botones | Descargar · No descargar | [ANALISTA] |
+| El navegador no deja | No pudimos armar el archivo en este navegador. Prueba en otro navegador o en un computador. | **[NUEVO]** |
+| **Esperas y errores** | | |
+| Cargando | Cargando… · Volver a intentar | [L 26] |
+| Sin red o 500 | No pudimos traer los datos. Revisa tu conexión y vuelve a intentarlo. | [ANALISTA] |
+| 503 | No pudimos traer los datos en este momento. Vuelve a intentarlo en unos minutos. | **[NUEVO]** |
+| 429, con la hora | Ya pediste los datos varias veces. Vuelve a intentarlo a las {hora}. | **[ANALISTA, ajustado]** con `Retry-After` |
+| 429, sin la hora | Ya pediste los datos varias veces. Vuelve a intentarlo en una hora. | [ANALISTA] |
+| 404 | El 404 general y «Volver a Grupo familiar» | [L 8] · [L 22] |
+| **Los historiales** | | |
+| Con algo anterior a 90 días | Los de los últimos 90 días. Lo anterior va en el archivo. | **[NUEVO]** |
+| Sin nada anterior | Los de los últimos 90 días. | **[NUEVO]** |
+| Ver más | Ver más · Se agregaron {n} líneas. | [aprobado 03-11, `INSUMOS.verMas`] · [L 15] |
+| **Sus datos** | | |
+| Rótulos | Nombre · Le dicen · Cuánto apoyo necesita · Dirección · En MATU desde | **[NUEVO]** («Le dicen» y «Cuánto apoyo necesita», de L 25.3) |
+| La dirección | Referencia: {referencia de la dirección} · Sin dirección. | **[NUEVO]** |
+| Corregir | Si algo está mal, escribe a {correo} desde el correo de tu cuenta. | **[NUEVO]** (P8) |
+| **Autorizaciones** | | |
+| Cada una, por su finalidad | Los títulos de los bloques de la 22 y de la 31 | [L 22] · [L 31] |
+| El estado | Vigente · En pausa · Retirada · Se renovó | [L 22] · **[NUEVO]** «Se renovó» |
+| Quién la da | La da {nombre_pila}, por su cuenta. · La da su representante legal. · La da quien la cuida, sin ser su representante legal. | **[NUEVO]** (las calidades de L 25.4) |
+| Las fechas | La registró {nombre} el {fecha}. · Hay que renovarla el {fecha}. · Había que renovarla el {fecha}. · Se retiró el {fecha}. · Se renovó el {fecha}. | **[NUEVO]** |
+| Lo aceptado | Lo que se aceptó: política de privacidad {version} · declaración {version} · aviso {version} | **[NUEVO]** |
+| El documento | Hay una referencia al documento del representante legal. Si la necesitas, pídela a {correo}. · Sin correo: Hay una referencia al documento del representante legal. | **[ANALISTA, ajustado]** con `{correo}` |
+| Vacío | Todavía no hay autorizaciones. | **[NUEVO]** |
+| **La ficha y los insumos, sin autorización** | | |
+| Ficha retirada | La autorización de la ficha está retirada. Lo escrito sigue guardado sin que nadie lo pueda leer, y se borra el {fecha}. · Sin fecha: La autorización de la ficha está retirada. Lo escrito sigue guardado sin que nadie lo pueda leer. | [ANALISTA] |
+| Ficha en pausa | La ficha está en pausa porque falta renovar la autorización. Cuando se renueve, vuelve a aparecer aquí. | [ANALISTA] |
+| Ficha borrada | La autorización de la ficha se retiró, y lo escrito ya se borró. | **[NUEVO]** |
+| Ficha sin autorizar | Nadie ha autorizado todavía guardar la ficha de {nombre_pila}. | **[NUEVO]** |
+| Insumos retirados | La autorización de los insumos está retirada. Lo anotado se borra el {fecha}. · Sin fecha: La autorización de los insumos está retirada. | [ANALISTA] |
+| Insumos en pausa | Los insumos están en pausa porque falta renovar la autorización. Cuando se renueve, vuelven a aparecer aquí. | **[NUEVO]** |
+| Insumos borrados | La autorización de los insumos se retiró, y lo anotado ya se borró. | **[NUEVO]** |
+| Insumos sin autorizar | Nadie ha autorizado todavía calcular los insumos de {nombre_pila}. | **[NUEVO]** |
+| **Su ficha** | | |
+| Quién lo escribió | Lo escribió {nombre} el {fecha}. | **[NUEVO]** |
+| Un campo vacío | Sin escribir. | **[NUEVO]** |
+| **Enlaces de relevo** | | |
+| El teléfono | No incluimos el teléfono de los relevos. | **[ANALISTA, ajustado]** |
+| El estado | Vigente · Vencido · Cortado · Bloqueado | **[NUEVO]** «Vigente» · [L 9] |
+| Cada enlace | Ve: … · Lo compartió {nombre} el {fecha}. · Vence el {fecha}. · Venció el {fecha}. · Se cortó el {fecha}. | **[NUEVO]** |
+| Las aperturas | No se ha abierto. · Se abrió una vez, el {fecha}. · Se abrió {n} veces. La última, el {fecha}. | **[NUEVO]** |
+| Vacío | Todavía no hay enlaces de relevo. | **[NUEVO]** |
+| **Sus insumos** | | |
+| Cada insumo | Se acaba el {fecha}. · Avisa el mismo día. · Avisa 1 día antes. · Avisa {n} días antes. · {n} por envase. · Lo agregaron el {fecha}. · Lo cambió por última vez {nombre} el {fecha}. · Ya no se sigue | **[NUEVO]** («Usa…» y «Quedaban…» son de L 21) |
+| Vacío | Todavía no hay insumos. | **[NUEVO]** |
+| **Compras anotadas** | | |
+| Cada compra | El {fecha} · {n} {unidad} de {insumo} · Anotó {nombre} · Llegó con un pedido de MATU | **[NUEVO]** (la unidad con las palabras de L 21) |
+| Las anteriores a 90 días | Lo anterior va en el archivo. | **[NUEVO]** (decisión 403) |
+| Vacío | No hay compras anotadas en los últimos 90 días. | **[NUEVO]** |
+| **Avisos de insumos** | | |
+| Cada aviso | {insumo}: se acaba el {fecha}. | **[NUEVO]** |
+| El estado | Todavía no se avisa. · Se avisó el {fecha}. · Se resolvió el {fecha}. · Se descartó el {fecha}. | **[NUEVO]** |
+| Vacío | No hay avisos en los últimos 90 días. | **[NUEVO]** |
+| **Sus pedidos** | | |
+| Título | Pedido {referencia} · Sin referencia: Pedido del {fecha} | **[NUEVO]** |
+| Cuándo y dónde | Lo armaron el {fecha}. · En {comercio} · Si falta: {qué hacer} | **[NUEVO]** (lo que se hace si falta, con las palabras de la 31) |
+| Montos | Productos · Envío · Total | **[NUEVO]** · [L 27] · [L 27] |
+| El pago | Sin pagar. · El pago está en curso. · Lo pagó {nombre} el {fecha}. · Cobrado: {monto} · Devuelto: {monto} · El pago no se aprobó. · Se devolvió todo el pago: {monto}. | **[NUEVO]** |
+| Las devoluciones | Se devolvieron {monto} porque no se pudo entregar {producto}. · Se devolvieron {monto} porque no se pudo entregar un producto. · Se devolvieron {monto} porque el pago llegó cuando el total ya había vencido. · Se devolvieron {monto} porque se canceló el pedido. · En curso, «Se devolvieron» cambia por «Se están devolviendo». | **[NUEVO]** |
+| El piloto | Pago de prueba: no se cobró dinero real. | **[NUEVO]** (el rótulo de la pasarela) |
+| La entrega | Entrega: {calle} {número}, {depto}, {comuna}, {región} | **[NUEVO]** |
+| Vacío | No hay pedidos. | **[NUEVO]** |
+| **Las 11 palabras del estado del pedido** | | |
+| `borrador` | Sin confirmar | **[NUEVO]** |
+| `total_confirmado` | Por pagar | **[NUEVO]** |
+| `vencido` | Venció sin pagar | **[NUEVO]** |
+| `pagado` | Pagado | [L 32, `textosPago`] |
+| `enviado_a_comercio`, `preparando` | En preparación | **[NUEVO]** |
+| `listo_retiro`, `asignado`, `sin_repartidor`, `retirado` | Por despachar | **[NUEVO]** |
+| `en_ruta` | En camino | **[NUEVO]** |
+| `entregado`, `cerrado` | Entregado | **[NUEVO]** |
+| `no_entregado` | No se entregó | **[NUEVO]** |
+| `reprogramado` | Reprogramado | **[NUEVO]** |
+| `cancelado`, `cancelado_con_devolucion` | Cancelado | **[NUEVO]** |
+| **Quién abrió o editó la ficha** | | |
+| Lo tuyo | Aquí ves solo lo que hiciste tú. La lista completa la ve quien administra el grupo. | [ANALISTA] |
+| La cola de una línea | a las {hora} · {nombre} · Sin nombre: a las {hora} · alguien que ya no está en el grupo · De MATU: a las {hora} | [ANALISTA] · [L 34] |
+| Los días | Hoy · Ayer · El {día de la semana} · El {fecha} | [L 15] |
+| Cambios antiguos | Hay cambios antiguos que no podemos mostrar aquí ni en el archivo. Si los necesitas, pídelos a {correo}. · Sin correo: Hay cambios antiguos que no podemos mostrar aquí ni en el archivo. | **[ANALISTA, ajustado]** «ni en el archivo» |
+| Vacío | No hay cambios en los últimos 90 días. | **[NUEVO]** |
+| **Las 26 frases del historial** | | |
+| 1 `abrio_la_ficha` | Abrió la ficha | [ANALISTA] |
+| 2 `edito_la_ficha` | Editó «{campo o sección}» · Sin campo ni sección: Editó la ficha | [ANALISTA] · **[NUEVO]** (decisión 356) |
+| 3 `quito_una_seccion` | Quitó «{sección}» · Sin sección: Quitó una sección de la ficha | [ANALISTA] · **[NUEVO]** |
+| 4 `ficha_borrada` | MATU borró lo escrito en la ficha | [README] |
+| 5 `dio_una_autorizacion` | Con `finalidad`: Dio la autorización de la ficha · Dio la autorización de los insumos · Dio la autorización de los pedidos · Sin ella: Dio una autorización | **[NUEVO]** (F1, decisión 384) |
+| 6 `retiro_una_autorizacion` | Con `finalidad`: Retiró la autorización de la ficha · Retiró la autorización de los insumos · Retiró la autorización de los pedidos · Sin ella: Retiró una autorización | **[NUEVO]** (F1) |
+| 7 `compartio_la_ficha` | Compartió la ficha con un relevo | **[NUEVO]** |
+| 8 `corto_un_enlace` | Cortó un enlace de relevo | **[NUEVO]** |
+| 9 `agrego_un_insumo` | Agregó un insumo | **[NUEVO]** |
+| 10 `edito_un_insumo` | Cambió un insumo | **[NUEVO]** |
+| 11 `dejo_de_seguir_un_insumo` | Dejó de seguir un insumo | **[NUEVO]** |
+| 12 `volvio_a_seguir_un_insumo` | Volvió a seguir un insumo | **[NUEVO]** |
+| 13 `quito_un_insumo` | Quitó un insumo | **[NUEVO]** |
+| 14 `anoto_una_compra` | Anotó una compra | **[NUEVO]** |
+| 15 `aviso_de_insumo` | MATU avisó que un insumo se está acabando | **[NUEVO]** |
+| 16 `descarto_un_aviso` | Descartó un aviso de insumo | **[NUEVO]** |
+| 17 `resolvio_un_aviso` | Resolvió un aviso de insumo | **[NUEVO]** |
+| 18 `cambio_la_direccion` | Cambió la dirección | **[NUEVO]** |
+| 19 `creo_un_pedido` | Con `referencia`: Armó el pedido {referencia} · Sin ella: Armó un pedido | **[NUEVO]** (F1) |
+| 20 `confirmo_un_pedido` | Con `referencia`: Confirmó el pedido {referencia} · Sin ella: Confirmó un pedido | **[NUEVO]** (F1) |
+| 21 `cancelo_un_pedido` | Con `referencia`: Canceló el pedido {referencia} · Sin ella: Canceló un pedido | **[NUEVO]** (F1) |
+| 22 `cambio_que_hacer_si_falta` | Con `referencia`: Cambió qué hacer si falta un producto en el pedido {referencia} · Sin ella: Cambió qué hacer si falta un producto | **[NUEVO]** (F1) |
+| 23 `inicio_un_pago` | Con `referencia`: Empezó a pagar el pedido {referencia} · Sin ella: Empezó a pagar un pedido | **[NUEVO]** (F1) |
+| 24 `pago_aprobado` | Con `referencia`: Se aprobó el pago del pedido {referencia} · Sin ella: Se aprobó el pago de un pedido | [README, ajustado] · **[NUEVO]** (F1) |
+| 25 `pago_anulado` | Con `referencia`: Se devolvió dinero del pago del pedido {referencia} · Sin ella: Se devolvió dinero de un pago | [README, ajustado: decía «Se anuló el pago»] · **[NUEVO]** (F1) |
+| 26 `pidio_una_copia` | Pidió una copia de los datos | [ANALISTA] |
+| **La entrada en «Tu cuenta»** | | |
+| Título y bajada | Tus datos · Ver y descargar lo que MATU guarda de tu cuenta. | [ANALISTA] |
+| Botón | Ver tus datos | **[NUEVO]** |
+| **«Tus datos»** | | |
+| Volver | Volver a tu cuenta | [L 19] |
+| Bajada | Lo que MATU guarda hoy de tu cuenta, al {fecha} a las {hora}. | **[NUEVO]** |
+| Las personas que cuidas | Lo que guardamos de las personas que cuidas lo ves en Grupo familiar. · Ir a Grupo familiar | [ANALISTA] |
+| Los bloques | Tu cuenta · Política de privacidad · Tus grupos · Tus avisos · Avisos que te enviamos · Tus pagos | [ANALISTA] |
+| Los bloques | Tus teléfonos y computadores · Últimos ingresos | [L 33] |
+| Los bloques | Condiciones de compra que aceptaste | **[NUEVO]** |
+| **Tu cuenta** | | |
+| Rótulos | Tu nombre · Los códigos te llegan · Cuenta creada | **[NUEVO]** («Tu correo» y «Tu celular» son de L 19) |
+| El canal de los códigos | Por SMS · Por WhatsApp | **[NUEVO]** (las palabras de L 19) |
+| El celular | Completo en el archivo. | **[NUEVO]** |
+| **Política de privacidad** | | |
+| La aceptación | Aceptaste la versión {version} el {fecha}. · Huella: {huella} · Sin aceptación: No hay una aceptación registrada. | **[NUEVO]** |
+| **Tus grupos** | | |
+| Cada grupo | {grupo} · el rol en palabra de L 34 · Te uniste el {fecha}. · Puede ver la ficha · No ve la ficha | **[NUEVO]** · [L 34] |
+| Un grupo del que saliste | Un grupo del que saliste · el rol en palabra · Te uniste el {fecha}. · Saliste el {fecha}. | **[NUEVO]** (F2, decisión 401) |
+| Vacío | No estás en ningún grupo. | **[NUEVO]** |
+| **Tus teléfonos y computadores** | | |
+| Cada uno | Desde el {fecha}. · Última vez: {fecha} · Se cerró el {fecha} · Cerrado · Recibe avisos. | **[NUEVO]** · [L 13.3] |
+| Al pie | Ver dónde entraste | [L 33] |
+| Vacío | Todavía no hay teléfonos ni computadores. | **[NUEVO]** |
+| **Últimos ingresos** | | |
+| Las líneas | Las de la 33, más «Pediste una copia de tus datos» | [L 33] · **[NUEVO]** |
+| Vacío | No hay ingresos en los últimos 90 días. | [L 33] |
+| **Tus avisos** | | |
+| Rótulos | Por correo · En tus teléfonos · Sí · No | [L 20] · [L 33] · **[NUEVO]** |
+| Al pie | Puedes cambiarlos en Tu cuenta. | **[NUEVO]** |
+| **Avisos que te enviamos** | | |
+| El piloto | En el piloto los avisos se prueban sin enviarse: aparecen aquí, pero no te llegaron. | [ANALISTA] |
+| Cada aviso | {fecha} a las {hora} · {canal} · {resultado} | [ANALISTA] |
+| El canal | Por correo · En tus teléfonos · Por SMS | [L 20] · [L 33] · **[NUEVO]** |
+| El resultado | Salió · No salió · En el piloto no salió · Todavía no sale | [ANALISTA] · [ANALISTA, D-54-11] · **[NUEVO]** |
+| Vacío | No hay avisos en los últimos 90 días. | **[NUEVO]** |
+| **Tus pagos** | | |
+| Título | Pago {referencia} · Sin referencia: Pago del {fecha} | **[NUEVO]** |
+| El monto | {monto} en {grupo} | **[NUEVO]** |
+| La tarjeta | Tarjeta de crédito terminada en {últimos 4} · Tarjeta de débito terminada en {últimos 4} · Tarjeta de prepago terminada en {últimos 4} · Sin datos de la tarjeta. | **[NUEVO]** |
+| Las cuotas, después de la tarjeta | {n} cuotas, con 2 o más · Sin cuotas | **[NUEVO]** |
+| La devolución | Devuelto: {monto} | **[NUEVO]** |
+| El código | Código de autorización: {código} | **[NUEVO]** (F3, decisión 402) |
+| El piloto | Pago de prueba: no se cobró dinero real. | **[NUEVO]** |
+| **Condiciones de compra que aceptaste** | | |
+| Cada aceptación | Versión {version}, el {fecha}. · En {grupo}, para el pedido {referencia}. · En {grupo}, para un pedido que no se pagó. · Huella: {huella} | **[NUEVO]** |
+
+**Las palabras del estado del pedido** juntan los 17 valores en 11, porque a la familia no le cambia nada la diferencia entre, por ejemplo, `asignado` y `retirado`. El archivo trae el valor exacto. Cuando la historia del despacho fije sus palabras, esta tabla las toma (especificación, P13).
+
+**Las frases con `referencia`** terminan en el número del pedido, que la pantalla muestra en cifras. Sin `referencia`, en un pedido que no se pagó o que ya no existe, va la frase general. Los de insumos y enlaces son siempre generales: el contrato no trae el nombre y no se pide.
+
+**«Un grupo del que saliste»** va en el lugar del nombre del grupo, porque la cuenta ya no lo puede leer, y **«Código de autorización»** sale solo en «Tus datos» de quien pagó, nunca en «Datos de». Dicen lo mismo que la política 0.17, §10, «Ver y descargar los datos desde la aplicación». Si una cambia, cambia la otra.
+
+**Ninguno usa** los términos de la sección 3, «exportar», «auditoría», «registro de accesos», «consentimiento», «sesión», «token», «usuario», «inválido», «rechazado» ni «fallido».
