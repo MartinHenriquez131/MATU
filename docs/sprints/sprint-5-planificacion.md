@@ -27,8 +27,10 @@ La razón es que las estimaciones del semestre resultaron muy por encima de lo r
 | | Jorge | Martín |
 |---|---|---|
 | Qué hace | Desarrolla todo con los seis agentes, redacta lo técnico del informe y prepara las láminas | Revisa y fusiona la cola, despliega la demo, hace la usabilidad, escribe el guion y prueba en el teléfono |
-| Estimaciones de las tarjetas (las que la tienen) | MATU-63 (6 h), MATU-76 (4 h), MATU-95 (1,5 h), MATU-81 (8 h), MATU-79 (8 h), MATU-96 (1,5 h), y su parte de MATU-78 (5 h), MATU-77 (2 h), MATU-80 (7 h) y MATU-104 (4 h) | MATU-64 (4 h), MATU-65 (5 h), y su parte de MATU-78 (3 h), MATU-77 (2 h), MATU-80 (2 h) y MATU-104 (2 h) |
-| Sin estimación todavía | MATU-92, MATU-100 y MATU-103, que se estiman en su plan | La cola de revisión del sprint 4 |
+| Estimaciones de las tarjetas (las que la tienen) | MATU-63 (6 h), MATU-76 (4 h), MATU-95 (1,5 h), MATU-81 (8 h), MATU-79 (8 h), MATU-96 (1,5 h), y su parte de MATU-78 (3 h), MATU-77 (2 h), MATU-80 (7 h) y MATU-104 (4 h) | MATU-64 (4 h), MATU-65 (5 h), y su parte de MATU-78 (5 h, lidera la redacción), MATU-77 (2 h), MATU-80 (2 h) y MATU-104 (2 h) |
+| Sin estimación todavía | MATU-92 y MATU-103, que se estiman en su plan | MATU-100 y la cola de revisión del sprint 4 |
+
+**Carga real.** Con los agentes, las cerca de 45 h estimadas de Jorge son unas 15 h reales. Martín carga cerca de 27 h de persona: la demo, la usabilidad, su parte de MATU-77, 78, 80 y 104, y la revisión de 9 PR con su informe en `TESTER/` y la prueba en el teléfono. Por eso se le pasaron solo MATU-100 y el liderazgo de la redacción de MATU-78 (decisión de Jorge del 12 de noviembre). Lo que más equilibra la carga es que Martín fusione la cola por la fila de migraciones el viernes 13 y el sábado 14: #85, #84, #87, #88, #89, #90 y MATU-54.
 
 **Las horas se miden y van al factor de vibecoding.** Al cerrar cada tarjeta se anotan en Trello las horas reales, con sus marcas de tiempo objetivas (movimientos de la tarjeta y commits) en hora de Chile. El factor del sprint y el del semestre se calculan en la ceremonia del jueves 19 y entran a MATU-78 y a MATU-104.
 
@@ -67,47 +69,70 @@ En el orden de la fila de migraciones. Cada PR de código lleva su PR de documen
 
 El orden es el orden de ejecución.
 
-| P | Tarjeta | Día | Responsable | Depende de |
-|---|---|---|---|---|
-| 1 | Ceremonia · Revisión y retrospectiva del sprint 4, y planificación del sprint 5 | vie 13 | Jorge y Martín | — |
-| 2 | MATU-63 · Vista de comercio con código de retiro | vie 13 | Jorge | MATU-61, 62 |
-| 3 | MATU-64 · Entorno de demostración (arrastre) | vie 13 y sáb 14 | Martín | MATU-63 para el recorrido 6 |
-| 4 | MATU-92 · Mis pedidos | sáb 14 | Jorge | MATU-63 |
-| 5 | MATU-76 · Avisos del pedido | sáb 14 | Jorge | MATU-63, 74 |
-| 6 | MATU-95 · Ficha: «A quién llamar» y alergias | dom 15 | Jorge | — |
-| 7 | MATU-81 · Backoffice mínimo | dom 15 | Jorge | MATU-61, 62, 63 |
-| 8 | MATU-65 · Usabilidad ronda 2 (arrastre) | hasta dom 15 | Martín | la app en staging |
-| 9 | MATU-78 · Evidencia de la Fase 3 | lun 16 | Jorge y Martín | MATU-65 |
-| 10 | MATU-77 · Guion de demostración | lun 16 | Jorge y Martín | MATU-64 |
-| 11 | MATU-80 · E2E, carga y despliegue final | mar 17 | Jorge y Martín | MATU-63, 64, 92 |
-| 12 | MATU-79 · Endurecimiento, retención y CI | mar 17 y mié 18 | Jorge | MATU-74 |
-| 13 | MATU-96 · Prueba de carrera | mié 18 | Jorge | — |
-| 14 | MATU-103 · Velo de los diálogos | mié 18 | Jorge | — |
-| 15 | MATU-100 · Coherencia de documentos | mié 18 | Jorge | — |
-| 16 | MATU-104 · Presentación final | jue 19, y se pule en la reserva | Jorge y Martín | MATU-77, 78 |
-| 17 | Ceremonia · Revisión final y retrospectiva del semestre | jue 19 | Jorge y Martín | — |
+| P | Tarjeta | Día | Vence | Responsable | Depende de |
+|---|---|---|---|---|---|
+| 1 | Ceremonia · Revisión y retrospectiva del sprint 4, y planificación del sprint 5 | vie 13 | 13 de noviembre | Jorge y Martín | — |
+| 2 | MATU-63 · Vista de comercio con código de retiro | vie 13 | 13 de noviembre | Jorge | MATU-61, 62 |
+| 3 | MATU-64 · Entorno de demostración (arrastre) | vie 13 y sáb 14 | 14 de noviembre | Martín | MATU-63 para el recorrido 6 |
+| 4 | MATU-92 · Mis pedidos | sáb 14 | 14 de noviembre | Jorge | MATU-63 |
+| 5 | MATU-76 · Avisos del pedido | sáb 14 | 14 de noviembre | Jorge | MATU-63, 74 |
+| 6 | MATU-95 · Ficha: «A quién llamar» y alergias | dom 15 | 15 de noviembre | Jorge | — |
+| 7 | MATU-81 · Backoffice mínimo | dom 15 | 15 de noviembre | Jorge | MATU-61, 62, 63 |
+| 8 | MATU-65 · Usabilidad ronda 2 (arrastre) | hasta dom 15 | 15 de noviembre | Martín | la app en staging |
+| 9 | MATU-78 · Evidencia de la Fase 3 | lun 16 | 16 de noviembre | Martín (lidera la redacción) y Jorge | MATU-65 |
+| 10 | MATU-77 · Guion de demostración | lun 16 | 16 de noviembre | Jorge y Martín | MATU-64 |
+| 11 | MATU-80 · E2E, carga y despliegue final | mar 17 | 17 de noviembre | Jorge y Martín | MATU-63, 64, 92 |
+| 12 | MATU-79 · Endurecimiento, retención y CI | mar 17 y mié 18 | 18 de noviembre | Jorge | MATU-74 |
+| 13 | MATU-96 · Prueba de carrera | mié 18 | 18 de noviembre | Jorge | — |
+| 14 | MATU-103 · Velo de los diálogos | mié 18 | 18 de noviembre | Jorge | — |
+| 15 | MATU-100 · Coherencia de documentos | mié 18 | 18 de noviembre | Martín | — |
+| 16 | MATU-104 · Presentación final | jue 19, y se pule en la reserva | 19 de noviembre | Jorge y Martín | MATU-77, 78 |
+| 17 | Ceremonia · Revisión final y retrospectiva del semestre | jue 19 | 19 de noviembre | Jorge y Martín | — |
+
+**Cambios de responsable del 12 de noviembre (decisión de Jorge):**
+- **MATU-100 pasa a Martín (Eje B).** Martín verifica y corrige los documentos con su agente `revisor-documental` y abre el PR. Jorge confirma contra las migraciones 0005 y 0025 quién lee la auditoría, y revisa y fusiona.
+- **MATU-78: Martín lidera la redacción.** Martín se encarga de la guía de la Fase 3, la estructura, la usabilidad y las entrevistas, la integración y la edición final, y abre el PR. Jorge escribe lo técnico, el estado de los 7 objetivos y el factor de vibecoding con sus cifras, y revisa y fusiona. Estimación: unas 8 h (Martín 5 h, Jorge 3 h).
+
+**R3, «Arrepentirme de la compra» (ADR-027):** MATU-63 hace la regla y la devolución en el backend, y MATU-92 pone el botón y la pantalla de la familia.
 
 **Las que necesitan revisión previa del analista normativo** (tocan dinero o datos personales): MATU-63, MATU-92, MATU-76 y MATU-81. Va antes de implementar, sin excepción.
 
 **Las que tienen pantallas** pasan por la especificación y la revisión visual del diseñador: MATU-63, MATU-92, MATU-95, MATU-81 y MATU-103.
 
-## 5. Secuencia por día
+## 5. Peso de las historias
+
+| Peso | Tarjeta | Por qué pesa | Riesgo |
+|---|---|---|---|
+| L | MATU-63 · Vista de comercio | App nueva con su sesión y rol, migración 0029, stock, preparar, código de retiro, regla de R3 y devolución. Analista, especificación y revisión visual | Es la primera de la cadena: desbloquea 64, 92, 76, 81 y 80 |
+| L | MATU-80 · E2E, carga y despliegue | Cinco recorridos E2E nuevos que cruzan todos los módulos, k6 y despliegue desde `main` | Depende de la cola de fusión y de la demo |
+| L | MATU-79 · Endurecimiento y CI | Retención, 404 en seis rutas y prueba global, contrato del relevo, cinco puertas nuevas del CI, trazabilidad y `/v1/salud` | Las puertas pueden destapar fallas viejas (`ruff format` marca hoy 143 archivos). Conviene partirla en PR chicos |
+| M+ | MATU-81 · Backoffice | Interfaz nueva de operación: línea de tiempo, incidencias (RF-40) y conciliación. Puede llevar migración | Que no vea nada de la persona cuidada |
+| M | MATU-92 · Mis pedidos | Lista, detalle, código de retiro y botón de R3. El backend es sobre todo lectura | Que el código solo lo vea quien corresponde |
+| M | MATU-76 · Avisos del pedido | Consumidores en `notifications`, tipos nuevos en un `CHECK` y preferencias | Bajo: copia el patrón de MATU-41 |
+| M (humano) | MATU-78 · Informe Fase 3 | Documento grande con cifras de todo el semestre | La guía del curso |
+| M (humano) | MATU-64 · Demo y MATU-65 · Usabilidad | Operación y sesiones con personas | Horarios ajenos |
+| S–M | MATU-104 · Presentación y MATU-77 · Guion | Redacción y ensayo | La fecha |
+| S | MATU-95, 96, 103, 100 y las ceremonias | Ajustes acotados | MATU-96 si la carrera no se puede fijar |
+
+Los pesos son relativos a las historias del sprint 4, donde MATU-54 y MATU-42/53 serían L. No son horas. El factor de vibecoding medido (MATU-61: estimadas 10 h, reales poco más de 3) es la razón de que no haya plan de sacrificio.
+
+## 6. Secuencia por día
 
 | Día | Jorge, con los agentes | Martín |
 |---|---|---|
 | Viernes 13 | Ceremonia (P1) · MATU-63: revisión previa del analista, especificación del diseñador, migración 0029, backend y vista del comercio | Ceremonia (P1) · revisa y fusiona la cola del sprint 4 en orden: #85, #84 y #87 · MATU-64: el recorrido 6 apenas MATU-63 esté en staging |
 | Sábado 14 | MATU-92 (Mis pedidos) · MATU-76 (avisos del pedido) | Revisa y fusiona #88, #89, #90 y MATU-54, con sus PR de documentos · cierra MATU-64 con los seis recorridos · revisa el PR de MATU-63 |
 | Domingo 15 | MATU-95 (la ficha) · MATU-81 (backoffice) | Termina MATU-65 (usabilidad ronda 2) y su informe · revisa MATU-92 y MATU-76 |
-| Lunes 16 | MATU-78: lo técnico y el estado de los siete objetivos · MATU-77: revisa el guion | MATU-78: usabilidad, entrevistas y revisión del documento · MATU-77: escribe y ensaya el guion. **El informe y el guion quedan listos hoy** |
+| Lunes 16 | MATU-78: lo técnico, el estado de los siete objetivos y el factor de vibecoding con cifras, y revisa y fusiona el PR · MATU-77: revisa el guion | MATU-78: lidera la redacción (guía de la Fase 3, estructura, usabilidad y entrevistas, integración, edición final y PR) · MATU-77: escribe y ensaya el guion. **El informe y el guion quedan listos hoy** |
 | Martes 17 | MATU-80: las cinco pruebas de extremo a extremo que faltan y la carga con k6 · inicio de MATU-79 | MATU-80: corre las pruebas sobre la demo y hace el despliegue final desde `main` · revisa MATU-95 y MATU-81 |
-| Miércoles 18 | MATU-79 (retención, pruebas y puertas del CI) · MATU-96 · MATU-103 · MATU-100 | Revisa MATU-79, MATU-96, MATU-103 y MATU-100 · restablece la demo desde cero |
+| Miércoles 18 | MATU-79 (retención, pruebas y puertas del CI) · MATU-96 · MATU-103 · MATU-100: confirma contra las migraciones 0005 y 0025 quién lee la auditoría, y revisa y fusiona el PR de Martín | MATU-100: verifica y corrige los documentos con su agente `revisor-documental` y abre el PR · revisa MATU-79, MATU-96 y MATU-103 · restablece la demo desde cero |
 | Jueves 19 | MATU-104: láminas y guion · ceremonia de cierre (P17) | MATU-104: la demo y su guion, ensayo con cronómetro · ceremonia de cierre (P17) |
 
 **La cola del sprint 4 se fusiona el viernes 13 y el sábado 14**, antes del despliegue final. Martín la fusiona en el orden de la sección 3, con merge commit. Si pide cambios en un PR de abajo, el orquestador de Jorge los corrige y los propaga a los de arriba.
 
 **Las historias de este sprint que tocan dinero o datos sensibles las revisa Martín siempre**, con su informe en `TESTER/` (definición de terminado, punto 5).
 
-## 6. Fila de migraciones y políticas
+## 7. Fila de migraciones y políticas
 
 Toda historia con migración parte de la punta de la última rama abierta que también tenga una y toma el número siguiente. Las que no tienen migración salen de `main` y se fusionan en cualquier orden.
 
@@ -123,7 +148,7 @@ Toda historia con migración parte de la punta de la última rama abierta que ta
 
 **Sin migración:** MATU-94, MATU-86, MATU-93, MATU-92 (si su plan no la pide), MATU-95, MATU-96, MATU-103 y MATU-100.
 
-## 7. Definición de terminado
+## 8. Definición de terminado
 
 Una historia está terminada cuando, y solo cuando:
 
@@ -136,7 +161,7 @@ Una historia está terminada cuando, y solo cuando:
 
 **Con vibecoding no hay excepciones:** el código generado por los agentes cumple los mismos seis puntos que el escrito a mano.
 
-## 8. Guion de la revisión del sprint
+## 9. Guion de la revisión del sprint
 
 La revisión del jueves 19 muestra el objetivo con **los seis recorridos críticos de MATU-64**, en vivo contra el entorno de demostración restablecido desde cero (`docs/entorno-demo.md`) y con las cuentas sintéticas de la semilla:
 
@@ -153,7 +178,7 @@ Y en pantalla, el pipeline completo en verde con `test_aislamiento.py`, `test_ar
 
 **Además, en la retrospectiva** se calcula el factor de vibecoding del sprint y del semestre (horas estimadas de lo terminado divididas por horas reales), y se revisa el trabajo con agentes y los roles del ADR-030.
 
-## 9. Riesgos del sprint
+## 10. Riesgos del sprint
 
 | Riesgo | Probabilidad | Qué se hace |
 |---|---|---|
@@ -163,7 +188,7 @@ Y en pantalla, el pipeline completo en verde con `test_aislamiento.py`, `test_ar
 | **Docker.** Las pruebas y las migraciones locales dependen de Docker Desktop, y la imagen de la demo todavía no trae la semilla del catálogo (hallazgo H1 de MATU-64) | Media | Se revisa que Docker esté arriba antes de cada auditoría del QA. El `Dockerfile` se corrige dentro de MATU-64 o MATU-80, antes del despliegue final |
 | **Las dependencias de MATU-63.** MATU-92, MATU-76, MATU-81, MATU-80 y el recorrido 6 de MATU-64 esperan su vista y sus estados | Media | MATU-63 es la primera prioridad del viernes 13. Si se atrasa, en la demo el retiro se opera a mano (orden de sacrificio, punto 2) y MATU-95, que no depende de nada, se adelanta |
 
-## 10. Qué queda para después del semestre
+## 11. Qué queda para después del semestre
 
 Lo que sigue no se construye en el sprint 5. Está en la columna Product Backlog de Trello y se presenta en MATU-104 como lo que viene.
 
