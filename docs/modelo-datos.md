@@ -343,7 +343,7 @@ erDiagram
         text otorgado_a_nombre
         text otorgado_a_telefono "opcional, se vacía (MATU-46)"
         text nombre_pila_persona
-        text nombre_pila_comparte "migración pendiente, MATU-18"
+        text nombre_pila_comparte "desde la 0004 (MATU-18)"
         text_array secciones_permitidas
         text motivo "enumerado, sin texto libre"
         bytea token_hash UK
@@ -372,7 +372,7 @@ erDiagram
 | `clave_datos` | Una clave de datos (DEK) por persona cuidada, cifrada con la clave maestra (KEK) | `dek_cifrada_con_kek` nula **si y solo si** `destruida_en` tiene valor. El borrado criptográfico no deja estados ambiguos ni se regenera en silencio (defecto 5 de la sección 12.8). Desde la migración 0016 (MATU-44), el `UNIQUE (persona_cuidada_id)` es el índice parcial `clave_datos_vigente_uq`: una sola clave no destruida por persona. Una clave nueva solo se crea después de una autorización nueva para `plan_cuidado`, otorgada en el instante de la última destrucción o después (trigger `clave_datos_nueva_tras_autorizacion`) |
 | `plan_cuidado` | Un plan por persona cuidada | `modo` = `ficha_relevo` por defecto, tras el cierre del ADR-023. `completo` queda disponible sin migración |
 | `plan_seccion` | El contenido, cifrado sección por sección | Nonce de exactamente 12 bytes, tag de 16. **El nonce es único en toda la tabla**: repetirlo rompe AES-GCM. `version` implementa el bloqueo optimista (RF-04) |
-| `acceso_relevo` | El enlace temporal para el relevo (RF-05 a RF-07) | Solo secciones válidas y al menos una. Vigencia máxima de 30 días. PIN con máximo 5 intentos fallidos. Guarda `nombre_pila_persona` para que el relevo nunca lea `persona_cuidada`, y `nombre_pila_comparte` para que nunca lea `usuario` (decisión 28 del contrato de MATU-09). [PENDIENTE: `nombre_pila_comparte` lo agrega una migración de MATU-18.] **`motivo` es un enumerado sin texto libre**: `salgo_unas_horas`, `fin_de_semana_fuera`, `turno_de_noche` u `otro` (decisión 16). Cabe en la columna `text` y lo valida la API. Desde la 0027 (MATU-46), `otorgado_a_telefono` admite nulo y `telefono_borrado_en` guarda cuándo se vació, con el `CHECK` `acceso_relevo_telefono_borrado`: el teléfono está vacío si y solo si hay instante. Un trigger impide, para todos los roles, que el teléfono vuelva, cambie por otro o cambie su instante. La retención del teléfono y del resto del acceso está en la sección 11.8 de la arquitectura |
+| `acceso_relevo` | El enlace temporal para el relevo (RF-05 a RF-07) | Solo secciones válidas y al menos una. Vigencia máxima de 30 días. PIN con máximo 5 intentos fallidos. Guarda `nombre_pila_persona` para que el relevo nunca lea `persona_cuidada`, y `nombre_pila_comparte` para que nunca lea `usuario` (decisión 28 del contrato de MATU-09). `nombre_pila_comparte` existe desde la 0004 (MATU-18). **`motivo` es un enumerado sin texto libre**: `salgo_unas_horas`, `fin_de_semana_fuera`, `turno_de_noche` u `otro` (decisión 16). Cabe en la columna `text` y lo valida la API. Desde la 0027 (MATU-46), `otorgado_a_telefono` admite nulo y `telefono_borrado_en` guarda cuándo se vació, con el `CHECK` `acceso_relevo_telefono_borrado`: el teléfono está vacío si y solo si hay instante. Un trigger impide, para todos los roles, que el teléfono vuelva, cambie por otro o cambie su instante. La retención del teléfono y del resto del acceso está en la sección 11.8 de la arquitectura |
 
 **La ficha de relevo no necesita tablas nuevas.** Sus tres campos (rutina en una línea, qué hacer si se altera, a quién llamar) son tres tipos de sección que ya existían: `rutina`, `manejo_situaciones` y `red_apoyo`. El ADR-023 decía que el plan B "no toca el modelo de datos", y este diseño lo confirma.
 
@@ -1062,7 +1062,7 @@ Cada celda de esta matriz está respaldada por una prueba de `test_aislamiento.p
 | **Relevo** | Solo secciones habilitadas y vigente | Nunca | Nunca | Nunca | Nunca | Nunca | Nunca | Inserta la suya |
 | **Comercio** | Nunca | Nunca | Pagados y enviados o posteriores² | Solo las suyas² | **Nunca** | Nunca | Los suyos | Nunca |
 | **Repartidor** | Nunca | Nunca | Su asignación activa | **Nunca** | Su asignación activa | Nunca | Nunca | Nunca |
-| **Operación** | **Nunca** | **Nunca** | Todos | Todos | Todos | Todos | Todos | Lee todo |
+| **Operación** | **Nunca** | **Nunca** | Todos | Todos | Todos | Todos | Todos | **Nunca**⁵ |
 | **Sistema (worker)** | Nunca | Su grupo | Su grupo | Su grupo | Su grupo | Su grupo | Nunca | Inserta |
 | **Sin contexto** | Nunca | Nunca | Nunca | Nunca | Nunca | Nunca | Nunca | Nunca |
 
@@ -1071,6 +1071,8 @@ Cada celda de esta matriz está respaldada por una prueba de `test_aislamiento.p
 ² Desde la migración 0023 (MATU-61, D7), el comercio ve su parte en `pedido_comercio` y solo las líneas de sus ofertas, con `pagado_en` con valor y `enviado_en` fijado (MATU-63). No ve las reglas de faltante de la familia ni la entrega. [PENDIENTE para MATU-63: hoy `pedido_comercio_ver` le deja leer la fila completa de `pedido` (con `grupo_id`, `persona_cuidada_id`, `creado_por`, `total` y `costo_envio`); se acota por columnas en la vista del comercio.] Antes de la 0023, la visibilidad iba por `pedido.comercio_id` y las líneas la heredaban. [PENDIENTE: con esa regla, el comercio que reemplaza a otro en la fase 2 no ve la línea reasignada (sección 4.5).]
 ³ Desde la 0023 (MATU-61, C3): `app_escribe_pedido()` exige admin o cuidador, y `app_ve_entrega()` deja fuera al observador. La dirección de la persona (`direccion`) sigue con `direccion_familia` `FOR ALL` por grupo hasta MATU-42; la regla de rol la aplica la API.
 ⁴ Desde la 0025 (MATU-55): `auditoria_cuenta_propia` deja que cada persona lea las filas sin grupo que hizo ella (`actor_tipo = 'usuario'` y `actor_ref = app_usuario()`) y el pedido de un código para recuperar su cuenta (`cuenta.recuperar_solicitar`, con ella como entidad). La pantalla es «Dónde entraste». Desde la 0028 (MATU-54), la auditoría guarda `persona_cuidada_id` en toda acción de persona, también en `clave.destruir` (`plan_destruir_claves`), sin relleno de las filas anteriores. Ninguna política de lectura mira esa columna: el admin ve todo el grupo y el cuidador lo suyo y las aperturas, como antes. «Tus datos» lee también `cuenta.datos_descargar` con `auditoria_cuenta_propia`.
+
+⁵ La 0005 (MATU-14) quitó `auditoria_operacion`: desde entonces operación no lee la auditoría. Las únicas políticas de lectura son `auditoria_familia` (0005), `auditoria_aperturas_relevo` (0010) y `auditoria_cuenta_propia` (0025). Corregido en MATU-100, 13-11.
 
 ### 5.4 Cinco hallazgos al escribir las políticas
 

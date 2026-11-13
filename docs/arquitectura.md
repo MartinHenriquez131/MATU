@@ -774,6 +774,17 @@ El esquema solo cambia con migraciones de Alembic revisables y reversibles. **De
 | 0015 | `perfil_unidades_por_envase` | MATU-60 | 6 de noviembre | Unidades por envase, opcionales, para la lista de insumos (ADR-031) |
 | 0016 | `retiro_autorizacion` | MATU-44 | 6 de noviembre | Motivo del retiro de una autorización, barrera por rol y destrucción de la ficha a los 90 días |
 | 0017 | `conservar_compras` | MATU-51 | 7 de noviembre | Las compras declaradas se borran a los 90 días |
+| 0018 | `borrar_persona` | MATU-72 | 9 de noviembre | Borrar los datos de la persona al tiro, cuando se pide |
+| 0019 | `catalogo_precio_stock_retracto` | MATU-59 | 9 de noviembre | Catálogo con precio exacto, stock por oferta y retracto por producto |
+| 0020 | `permisos_rls_por_operacion` | MATU-47 y MATU-66 | 9 de noviembre | Permisos de `matu_app` acotados y RLS separada por operación y por rol |
+| 0021 | `aceptacion_politica` | MATU-75 | 9 de noviembre | La aceptación de la política de privacidad al crear la cuenta |
+| 0022 | `roles_de_las_tareas` | MATU-74 | 10 de noviembre | Las tareas programadas con sus propios roles, y operación sin los avisos |
+| 0023 | `pedido_sin_pagar` | MATU-61 | 11 de noviembre | El pedido sin pagar (carrito, total confirmado y cancelar), la dirección y la autorización de pedidos |
+| 0024 | `pago_webpay` | MATU-62 | 12 de noviembre | El pago del total exacto confirmado con Webpay Plus, venta normal (ADR-027) |
+| 0025 | `auditoria_cuenta_propia` | MATU-55 | 12 de noviembre | La persona lee la auditoría de su propia cuenta, y se borra `auditoria.ip` |
+| 0026 | `invitar_familiar` | MATU-42 y MATU-53 | 12 de noviembre | Invitar a un familiar, roles, sacar y salir del grupo, con RLS por operación |
+| 0027 | `telefono_relevo` | MATU-46 | 12 de noviembre | El teléfono del relevo se borra a los 30 días, y al tiro si se borra a la persona |
+| 0028 | `auditoria_persona` | MATU-54 | 12 de noviembre | La auditoría guarda a qué persona cuidada se refiere cada fila, para la copia de los datos |
 
 **Los diagramas del modelo de datos siguen en la 0001** para las tablas que cambiaron después. Se regeneran con `backend/db/gen_diagramas.py` contra una base con todas las migraciones (modelo de datos, sección 0).
 
@@ -1052,6 +1063,31 @@ sequenceDiagram
 | Paginación | Cursor, no offset |
 | Fechas | ISO 8601 con zona. El servidor opera en UTC, la aplicación muestra en America/Santiago |
 | Versionado | La v1 no rompe contratos. Un cambio incompatible crea `/api/v2` |
+
+### Rutas de la cuenta (iam)
+
+Rutas de la cuenta de cada persona, sin `X-Grupo-Id` (MATU-38, 41, 54, 55, 57 y 75). La fuente es `docs/api/openapi.json` del repositorio MATU_PROYECTO.
+
+```
+POST   /v1/sesiones                        → entrar
+POST   /v1/sesiones/renovar                → renovar la sesión (refresh rotativo)
+POST   /v1/sesiones/cerrar                 → salir
+GET    /v1/dispositivos                    → «Dónde entraste»: los teléfonos y computadores con sesión
+DELETE /v1/dispositivos/{dispositivo_id}   → cerrar en ese teléfono
+GET    /v1/dispositivos/actual/push        → si este teléfono tiene los avisos activados, y la clave pública
+PUT    /v1/dispositivos/actual/push        → activar los avisos en este teléfono
+DELETE /v1/dispositivos/actual/push        → desactivarlos
+POST   /v1/recuperacion/codigo             → pedir un código para recuperar la cuenta
+POST   /v1/recuperacion/contrasena         → cambiar la contraseña con el código
+GET    /v1/cuenta                          → «Tu cuenta»
+POST   /v1/cuenta/celular/codigo           → pedir el código del celular
+POST   /v1/cuenta/celular/verificar        → confirmar el celular
+GET    /v1/yo/avisos                       → preferencias de aviso
+PUT    /v1/yo/avisos                       → guardar las preferencias (se audita sin los valores)
+GET    /v1/yo/ingresos                     → los últimos ingresos (90 días, hasta 20 líneas)
+GET    /v1/yo/datos                        → «Tus datos»: la copia de lo que MATU guarda de la cuenta
+GET    /v1/politica                        → la política vigente y su versión
+```
 
 ### 9.2 Capa 1 · Plan de cuidado
 
