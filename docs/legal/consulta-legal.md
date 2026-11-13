@@ -699,7 +699,7 @@ En los orígenes, «Trello» es un comentario de la tarjeta de consulta legal, c
   - ¿Se puede ejercer por producto?
   - ¿Sube a 90 días si el comprobante queda solo en la aplicación? (con la CL-54)
 - **Origen:** MATU-63, revisión previa, 13 de noviembre de 2026 (`revision-previa-matu-63.md`, sección 5), con las decisiones D-63-1 a D-63-16 (D-63-9 y D-63-10). Se relaciona con CL-41 y CL-54.
-- **Mientras tanto:** el botón dura 10 días hábiles desde `entregado_en`, y el correo acepta retractos hasta 90 días. Se pide por producto. [PENDIENTE: los feriados en el plazo, decisión 421 del contrato]
+- **Mientras tanto:** el botón dura 10 días hábiles desde `entregado_en`. Se pide por producto, en una o varias veces dentro del plazo. «Si lo pides por correo, el equipo de MATU lo registra en el sistema a tu nombre y te devolvemos igual que desde la aplicación. Por correo se aceptan retractos hasta 90 días desde la entrega mientras la CL-54 siga abierta» (cierre del analista, H2 y H3). [PENDIENTE: los feriados en el plazo, decisión 421 del contrato]
 - **Bloquea:** dinero real.
 - **Se cierra en:** condiciones del pedido 0.3, §9 («[PENDIENTE: CL-41, CL-54, CL-71 y CL-72 …]»).
 - **Respuesta:** —
@@ -709,6 +709,7 @@ En los orígenes, «Trello» es un comentario de la tarjeta de consulta legal, c
 - **Pregunta:**
   - ¿«Sin retención de gastos» (Ley 19.496, art. 3 bis) obliga a devolver el envío en un retracto parcial?
   - ¿Quién prueba que un sello se abrió, y qué pasa si el producto vuelve abierto?
+  - Un producto que se rechazó por volver con el sello abierto, ¿se puede volver a pedir en retracto dentro del plazo? Mientras tanto, se pueden volver a pedir las unidades que no se devolvieron, pero no las rechazadas por sello abierto (H3)
 - **Origen:** MATU-63, revisión previa, 13 de noviembre de 2026 (`revision-previa-matu-63.md`, sección 5), con las decisiones D-63-1 a D-63-16 (D-63-10, envío b, confirmada por Jorge el 13-11). Se relaciona con P5 del ADR-027 y con CL-41.
 - **Mientras tanto:** el envío se devuelve solo si se devuelve todo (condiciones 0.3). Los pedidos con la 0.2 se respetan como estaban: el envío se devuelve en todo retracto.
 - **Bloquea:** dinero real.
