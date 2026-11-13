@@ -27,7 +27,7 @@ La revisión previa del analista normativo de MATU-52 (03-11) mostró el problem
 
 - **Se pierde el plan B sin internet del relevo.** Si se corta internet o el teléfono se queda sin batería, el relevo depende de lo que anotó o fotografió de la página del relevo. Es una consecuencia aceptada: la protección de la ficha pesa más. No se reabre este punto sin una decisión nueva.
 - MATU no puede impedir que el relevo o la familia impriman la página con el navegador o le saquen una captura. MATU no lo ofrece ni lo facilita: no hay botón, vista ni estilo de impresión para la ficha. El aviso que ve quien comparte (lenguaje.md, sección 9) ya dice que el relevo puede anotar o fotografiar.
-- **No es una excepción a los derechos del titular.** «Mis datos» (MATU-54, sprint 4) entrega a quien corresponde todo lo que MATU guarda de la persona, incluida la ficha, porque es el derecho de acceso y de portabilidad (Ley 21.719). Esa descarga no es una hoja para pegar ni para entregar a un relevo, y su formato lo revisa el analista en MATU-54.
+- **No es una excepción a los derechos del titular.** La copia de los datos, «Tus datos» y «Datos de» la persona (MATU-54, sprint 4), entrega a quien corresponde todo lo que MATU guarda de la persona, incluida la ficha, porque es el derecho de acceso y de portabilidad (Ley 21.719). Esa descarga no es una hoja para pegar ni para entregar a un relevo, y su formato lo revisa el analista en MATU-54.
 - No hay ruta `GET …/plan/exportar` ni acción de auditoría `plan.imprimir`.
 
 **En la arquitectura:** RF-09 con el texto nuevo, sin la ruta de exportación de la ficha, y sin «versión imprimible» en el alcance ni en el calendario. Se consolida en la v1.2 (MATU-43).

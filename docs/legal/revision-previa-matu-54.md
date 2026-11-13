@@ -36,6 +36,8 @@ Esto no es asesoría legal: sirve para que Jorge decida. Lo que queda en REQUIER
 
 **Con la 0023 a la 0027 no hay choque:** no toca `auditoria_detalle_acotado` (0026) ni `acceso_relevo` (0027).
 
+> **Nota (MATU-100, 13-11):** este borrador quedó reemplazado por la 0028 fusionada. Las diferencias son tres: la acción nueva sí lleva `CHECK` (`auditoria_cuenta_acotada` pasa a 15 acciones); la referencia es una FK compuesta `(persona_cuidada_id, grupo_id)` con `persona_cuidada_id_grupo_uq`, y se agrega `auditoria_persona_obligatoria` (NOT VALID); y el índice es `(persona_cuidada_id, ocurrido_en DESC, id DESC)`. La fuente es la migración y `docs/modelo-datos.md`.
+
 **Borrador** (con D-54-7 (a). La forma la decide el backend):
 
 ```sql
@@ -196,7 +198,7 @@ Las CL-61 a CL-63, las ampliaciones de la sección 9, «la próxima es CL-64» y
 - El modelo de datos: la columna `auditoria.persona_cuidada_id`.
 - `docs/api/README.md`: las dos rutas propuestas y P2-2 cerrado por MATU-55.
 
-## 7. Textos propuestos para `lenguaje.md` (sección 34, «Copia de los datos (MATU-54)»)
+## 7. Textos propuestos para `lenguaje.md` (sección 34, «Copia de los datos (MATU-54)»; se publicó como la **35**, porque la 34 quedó para MATU-42)
 
 Sin «auditoría», «registro de accesos», «consentimiento», «sesión», «token», «usuario» ni «exportar». El número 34 sigue a las 31 a 33 de la fila.
 

@@ -455,7 +455,7 @@ Cada historia que empieza a tratar datos personales agrega aquí su entrada.
 
 - **Finalidad:** atender el derecho de acceso y de portabilidad de la persona cuidada y de cada cuenta, en la aplicación.
 - **Titulares:** la persona cuidada, cada persona usuaria y los terceros nombrados en la copia (relevos y miembros del grupo, por su nombre, y quienes aparecen en «A quién llamar», con lo escrito).
-- **Datos:** no crea ningún dato nuevo. Lee lo de las entradas 1, 2, 3, 4, 5, 6, 7, 10 y 12, con la lista cerrada de las decisiones 350 a 361 y 401 en adelante de `docs/api/README.md` del repositorio MATU_PROYECTO. Registra `persona.datos_descargar` (con grupo y persona) o `cuenta.datos_descargar` (sin grupo), sin detalle. La 0028 agrega `auditoria.persona_cuidada_id`, que llenan toda acción de persona y `plan_destruir_claves`.
+- **Datos:** no crea ningún dato nuevo. Lee lo de las entradas 1, 2, 3, 4, 5, 6, 7, 10 y 12, con la lista cerrada de las decisiones 342 a 403 de `docs/api/README.md` del repositorio MATU_PROYECTO. Registra `persona.datos_descargar` (con grupo y persona) o `cuenta.datos_descargar` (sin grupo), sin detalle. La 0028 agrega `auditoria.persona_cuidada_id`, que llenan toda acción de persona y `plan_destruir_claves`.
 - **Base de licitud:** el cumplimiento del derecho de la titular (Ley 19.628, art. 12, y Ley 21.719). Que admin y cuidador lo ejerzan en nombre de la persona: [PENDIENTE: CL-04 y CL-61]. El nombre de quien pagó en la copia de la persona: [PENDIENTE: CL-68].
 - **Quién accede:**
   - a «Datos de», admin y cuidador activos. El cuidador ve en el historial solo sus filas y las aperturas del relevo (`alcance = lo_tuyo`). Pagador, observador, otro grupo y una persona borrada reciben 404
@@ -467,7 +467,7 @@ Cada historia que empieza a tratar datos personales agrega aquí su entrada.
 - **Medidas:**
   - un solo GET por copia, en una transacción `REPEATABLE READ`, con la auditoría al principio de la misma transacción. Si falla, no se entrega nada
   - esquemas `extra="forbid"` y columnas nombradas, con una prueba que recorre la respuesta buscando los campos prohibidos
-  - `no-store` también en los errores, y `Content-Disposition: inline` con `matu-datos-` o `matu-cuenta-AAAA-MM-DD.json`, sin nombres
+  - `no-store` también en los errores, y `Content-Disposition: inline` con `matu-datos-AAAA-MM-DD.json` o `matu-cuenta-AAAA-MM-DD.json`, sin nombres
   - en el navegador, solo memoria: el Blob se revoca de inmediato, y nada queda en el almacenamiento, en la URL, en `history.state` ni en el título
   - 10 copias por hora por cuenta, con un HMAC en Redis. Sin Redis, 503
   - logs con la ruta, el estado y el usuario, nunca la copia (prueba)

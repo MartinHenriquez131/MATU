@@ -761,6 +761,7 @@ En los orígenes, «Trello» es un comentario de la tarjeta de consulta legal, c
 - **Bloquea:** dinero real.
 - **Se cierra en:** condiciones del pedido 0.2, §3 y §9.
 - **Respuesta:** —
+
 ### CL-68 · Pedidos y pagos en la copia
 
 - **Pregunta:** ¿se puede entregar al admin y al cuidador el historial de pedidos de la persona, con el nombre de quien pagó? ¿Conserva quien pagó y salió del grupo el acceso a sus pagos, o basta entregárselos por correo?
