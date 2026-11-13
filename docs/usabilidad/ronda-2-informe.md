@@ -17,6 +17,7 @@
 | P2 | Cuidadora remunerada | 12/11, 18:00 a 18:38 | Mucho |
 | P3 | Familiar que aporta y no vive con la persona | 12/11, 19:00 a 19:37 | Normal |
 
+- **Reclutamiento:** las tres llegaron por un grupo de personas mayores de la comuna. El contacto se hizo a través de familiares del moderador que participan en el grupo.
 - **Consentimiento:** las tres lo firmaron.
 - **Teléfono:** las tres usaron el teléfono del equipo, nunca el suyo.
 - **Datos:** solo los inventados de la demo. Las cuentas son de prueba, con correos de `example.com`.
@@ -75,6 +76,7 @@ Se confirma lo que mostraron las entrevistas de MATU-35 (H6): quien aporta paga 
 ## Limitaciones
 
 - **Perfiles:** dos de las tres participantes tienen el mismo perfil (cuidadora remunerada). Jorge lo aprobó antes de las sesiones. No hubo una cuidadora familiar conviviente; ese perfil sí estuvo en la ronda 1.
+- **Reclutamiento:** el canal es un grupo organizado, como pide la estrategia (sección 11), y no la red personal directa de la ronda 1. Pero se llegó por familiares del moderador que participan en el grupo, así que puede quedar algo de benevolencia.
 - **Muestra:** son tres sesiones. Los tiempos indican tendencias, no promedios.
 - **Moderador:** el mismo de la ronda 1, que conoce la app. Puede haber orientado sin darse cuenta.
 - **U3 en la ronda 1** se midió con el prototipo y sin meta de tiempo en esta ronda, así que su comparación es cualitativa.
