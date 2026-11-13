@@ -83,3 +83,14 @@ El ADR-006 resolvía un precio que no se conocía hasta que el comercio preparab
 
 - **Cobrar primero y devolver lo que falte.** Es más rápido para la familia, pero convierte la devolución en una operación rutinaria y vuelve a depender de devoluciones con débito, que no están verificadas.
 - **Mantener el ADR-006 con el plan B del débito.** Funciona, pero deja dos experiencias de pago distintas según la tarjeta y textos con plazos por definir.
+
+---
+
+## Notas posteriores
+
+**MATU-63 (13 de noviembre de 2026).** Precisan cómo se cumple este ADR en el piloto, sin cambiar la decisión. Las aprobó Jorge el 13-11 (D-63-5, D-63-9 y D-63-10). El resto lo aplicó el orquestador por delegación. Detalle en [`legal/revision-previa-matu-63.md`](../legal/revision-previa-matu-63.md).
+- **El código de retiro:** donde el contexto dice que el comercio ve «la referencia del pedido y el código de retiro», el comercio ve solo la referencia, creada al azar por cada comercio que prepara. El código lo dice quien retira por MATU, operación en el piloto, y el comercio solo puede revisar si es correcto: no lo ve. Hay un código por cada comercio del pedido, y la familia no lo recibe, porque MATU despacha a la casa.
+- **Un producto que falta después de pagar (punto 5):** en el piloto no se reasigna a otro comercio. Se anula el cobro de las unidades que faltan el mismo día, a la misma tarjeta. La reasignación queda para la fase 2.
+- **El envío en el retracto:** con las condiciones del pedido 0.3, el envío se devuelve solo si se devuelve todo lo entregado. Los pedidos que aceptaron la 0.2 se respetan como estaban, con el envío siempre, que fue la decisión del 27-10 (P5). Pendiente: CL-72.
+- **El plazo del retracto:** 10 días hábiles desde la entrega, que marca operación, mientras la CL-71 siga abierta.
+- **El apartado de stock:** MATU aparta el stock automáticamente al confirmar el total, contra el stock que mantiene el comercio (punto 5, primera frase).
