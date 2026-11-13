@@ -328,6 +328,20 @@ En los orígenes, «Trello» es un comentario de la tarjeta de consulta legal, c
 - **Se cierra en:** política §12. Registro, entrada 10, base de licitud.
 - **Respuesta:** —
 
+### CL-73 · Los datos de quienes trabajan en el comercio
+
+- **Pregunta:**
+  - ¿Cuál es la base de licitud de la cuenta de quien atiende un comercio y del registro de sus acciones?
+  - ¿MATU es responsable de esos datos, o lo es el comercio?
+  - ¿Cómo se les informa?
+  - ¿3 años es proporcional?
+  - El encargado no puede ver su propio registro en la aplicación (`auditoria_cuenta_propia` mira solo `actor_tipo = 'usuario'`): ¿basta con pedirlo por correo?
+- **Origen:** MATU-63, revisión previa, 13 de noviembre de 2026 (`revision-previa-matu-63.md`, sección 5), con las decisiones D-63-1 a D-63-16 (D-63-12 y D-63-14). Se relaciona con CL-22 y CL-53.
+- **Mientras tanto:** solo la cuenta de prueba, con datos sintéticos (`@example.com`).
+- **Bloquea:** datos reales.
+- **Se cierra en:** política §6 («PENDIENTE: CL-73»). Registro, entrada 14, base de licitud, quién accede y conservación.
+- **Respuesta:** —
+
 ## 4. Conservación y borrado
 
 ### CL-25 · Los 90 días después de retirar una autorización
@@ -363,11 +377,12 @@ En los orígenes, «Trello» es un comentario de la tarjeta de consulta legal, c
 
 ### CL-28 · El plazo de los pagos y los pedidos
 
-- **Pregunta:** ¿corresponde guardar 6 años los pagos y las boletas, y 2 años los pedidos y los comprobantes de entrega? **Ampliada con MATU-61:** ¿basta con borrar a los 30 días lo que nunca se pagó (el pedido en armado, el de total vencido y el cancelado sin pago), con su línea de tiempo, en vez de guardarlo 2 años? ¿Se puede guardar 24 horas, para no repetir un pedido, solo el estado y el número del pedido?
+- **Pregunta:** ¿corresponde guardar 6 años los pagos y las boletas, y 2 años los pedidos y los comprobantes de entrega? **Ampliada con MATU-61:** ¿basta con borrar a los 30 días lo que nunca se pagó (el pedido en armado, el de total vencido y el cancelado sin pago), con su línea de tiempo, en vez de guardarlo 2 años? ¿Se puede guardar 24 horas, para no repetir un pedido, solo el estado y el número del pedido? **Ampliada con MATU-63:** ¿siguen al pedido (2 años) los retractos y las partes por comercio, y al pago (6 años) la anulación de un retracto? ¿Basta borrar la huella del código de retiro al usarse, al vencer o al bloquearse? ¿Son 3 años proporcionales para el registro de lo que hace el comercio?
 - **Origen:**
   - MATU-26, revisión previa, Trello del 21 de octubre de 2026, pregunta 12, primera parte
-  - MATU-61, revisión previa, 10 de noviembre de 2026 (`revision-previa-matu-61.md`, punto 12 y sección 5), con la decisión D5 de Jorge del 11 de noviembre de 2026.
-- **Mientras tanto:** el registro declara 2 años para los pedidos pagados y 6 años para pagos y boletas (arquitectura, sección 11.8). Lo no pagado se borra a los 30 días con una tarea del programador de MATU-74, y `idempotencia` guarda solo el estado y el id del pedido y se borra a las 24 horas (D5).
+  - MATU-61, revisión previa, 10 de noviembre de 2026 (`revision-previa-matu-61.md`, punto 12 y sección 5), con la decisión D5 de Jorge del 11 de noviembre de 2026
+  - MATU-63, revisión previa, 13 de noviembre de 2026 (`revision-previa-matu-63.md`, D-63-13).
+- **Mientras tanto:** el registro declara 2 años para los pedidos pagados y 6 años para pagos y boletas (arquitectura, sección 11.8). Desde MATU-63, las partes, las líneas y los retractos siguen al pedido, y la anulación de un retracto, al pago (D-63-13). Lo no pagado se borra a los 30 días con una tarea del programador de MATU-74, y `idempotencia` guarda solo el estado y el id del pedido y se borra a las 24 horas (D5).
 - **Bloquea:** dinero real. Lo no pagado, también datos reales.
 - **Se cierra en:** política, sección 4, «De tus pedidos» («PENDIENTE: confirmar en la versión 1.0. CL-28 y CL-44»), y sección 8, «Pedidos que no se pagaron» («PENDIENTE: CL-28 ampliada»). Registro, entrada 2, conservación.
 - **Respuesta:** —
@@ -676,6 +691,30 @@ En los orígenes, «Trello» es un comentario de la tarjeta de consulta legal, c
 - **Se cierra en:** no tiene un `[PENDIENTE]`.
 - **Respuesta:** —
 
+### CL-71 · Cómo se cuenta el retracto
+
+- **Pregunta:**
+  - ¿Los 10 días del retracto son corridos o hábiles?
+  - ¿Se cuentan desde la entrega que registra MATU?
+  - ¿Se puede ejercer por producto?
+  - ¿Sube a 90 días si el comprobante queda solo en la aplicación? (con la CL-54)
+- **Origen:** MATU-63, revisión previa, 13 de noviembre de 2026 (`revision-previa-matu-63.md`, sección 5), con las decisiones D-63-1 a D-63-16 (D-63-9 y D-63-10). Se relaciona con CL-41 y CL-54.
+- **Mientras tanto:** el botón dura 10 días hábiles desde `entregado_en`, y el correo acepta retractos hasta 90 días. Se pide por producto. [PENDIENTE: los feriados en el plazo, decisión 421 del contrato]
+- **Bloquea:** dinero real.
+- **Se cierra en:** condiciones del pedido 0.3, §9 («[PENDIENTE: CL-41, CL-54, CL-71 y CL-72 …]»).
+- **Respuesta:** —
+
+### CL-72 · El envío y el sello en el retracto
+
+- **Pregunta:**
+  - ¿«Sin retención de gastos» (Ley 19.496, art. 3 bis) obliga a devolver el envío en un retracto parcial?
+  - ¿Quién prueba que un sello se abrió, y qué pasa si el producto vuelve abierto?
+- **Origen:** MATU-63, revisión previa, 13 de noviembre de 2026 (`revision-previa-matu-63.md`, sección 5), con las decisiones D-63-1 a D-63-16 (D-63-10, envío b, confirmada por Jorge el 13-11). Se relaciona con P5 del ADR-027 y con CL-41.
+- **Mientras tanto:** el envío se devuelve solo si se devuelve todo (condiciones 0.3). Los pedidos con la 0.2 se respetan como estaban: el envío se devuelve en todo retracto.
+- **Bloquea:** dinero real.
+- **Se cierra en:** condiciones del pedido 0.3, §9. Lo resuelto por diseño de P5 (más abajo).
+- **Respuesta:** —
+
 ## 9. Para el contador
 
 ### CL-46 · La boleta, la devolución y la compra al comercio
@@ -709,20 +748,20 @@ En los orígenes, «Trello» es un comentario de la tarjeta de consulta legal, c
 
 ### CL-54 · El contenido de la confirmación escrita
 
-- **Pregunta:** ¿cumple el art. 12 A de la Ley 19.496 un comprobante dentro de la aplicación, sin correo? ¿Basta un correo sin la lista de productos, que remite el detalle a la aplicación? **Ampliada en la segunda revisión:** si quien paga no es quien armó el pedido, ¿a quién se le debe la confirmación? **Ampliada en el cierre de MATU-62:** si quien paga elige en Webpay cuotas con interés de su banco, ¿debe la confirmación decir algo más que «Pagaste {total} una sola vez»? Mientras tanto, el comprobante muestra «en {n} cuotas» y MATU cobra una sola vez.
+- **Pregunta:** ¿cumple el art. 12 A de la Ley 19.496 un comprobante dentro de la aplicación, sin correo? ¿Basta un correo sin la lista de productos, que remite el detalle a la aplicación? **Ampliada en la segunda revisión:** si quien paga no es quien armó el pedido, ¿a quién se le debe la confirmación? **Ampliada en el cierre de MATU-62:** si quien paga elige en Webpay cuotas con interés de su banco, ¿debe la confirmación decir algo más que «Pagaste {total} una sola vez»? Mientras tanto, el comprobante muestra «en {n} cuotas» y MATU cobra una sola vez. **Ampliada con MATU-63:** si el comprobante queda solo en la aplicación, ¿el plazo del retracto sube a 90 días? Mientras tanto, el correo acepta retractos hasta 90 días (D-63-9, con la CL-71).
 - **Origen:** MATU-62, revisión previa, 10 de noviembre de 2026 (`revision-previa-matu-62.md`, sección 6); ampliada en la MATU-62, segunda revisión previa, 11 de noviembre de 2026 (`revision-previa-matu-62-segunda.md`, sección 6), con las decisiones del orquestador del 11-11 por delegación de Jorge.
 - **Mientras tanto:** el comprobante queda en MATU, con los productos, y en el piloto no se envía por correo (P-62-5; verificar el correo va en MATU-91). Si falta la confirmación, el retracto podría subir de 10 a 90 días.
 - **Bloquea:** dinero real.
-- **Se cierra en:** condiciones del pedido 0.2, §4 («[PENDIENTE: CL-54]»).
+- **Se cierra en:** condiciones del pedido 0.2 y 0.3, §4 («[PENDIENTE: CL-54]»), y 0.3, §9.
 - **Respuesta:** —
 
 ### CL-55 · La devolución si la anulación no es posible
 
-- **Pregunta:** ¿qué medio cumple el art. 3 bis (45 días, sin retención) si Transbank no permite anular? ¿Pedir datos bancarios exige una base de licitud nueva?
+- **Pregunta:** ¿qué medio cumple el art. 3 bis (45 días, sin retención) si Transbank no permite anular? ¿Pedir datos bancarios exige una base de licitud nueva? **Ampliada con MATU-63:** ¿y si el retracto llega fuera del plazo de anulación de Transbank, por ejemplo uno pedido por correo cerca de los 90 días?
 - **Origen:** MATU-62, revisión previa, 10 de noviembre de 2026 (`revision-previa-matu-62.md`, sección 6).
 - **Mientras tanto:** se reintenta la anulación, se avisa a operación y se le escribe a la familia, sin pedir datos bancarios (D-62-6 a).
 - **Bloquea:** dinero real.
-- **Se cierra en:** condiciones del pedido 0.2, §7 («[PENDIENTE: CL-55]»).
+- **Se cierra en:** condiciones del pedido 0.2 y 0.3, §7 («[PENDIENTE: CL-55]»), y 0.3, §9.
 - **Respuesta:** —
 
 ### CL-56 · El rol de Transbank respecto de los datos de quien paga
@@ -754,11 +793,11 @@ En los orígenes, «Trello» es un comentario de la tarjeta de consulta legal, c
 
 ### CL-66 · Quién es el consumidor cuando paga una persona y arma otra
 
-- **Pregunta:** ¿quién ejerce el retracto, quién reclama y a quién se le devuelve? **Ampliada en el cierre de MATU-62:** ¿cuál es la base de licitud de los datos del pago de quien paga sin haber armado el pedido: la ejecución de la compra que acepta, u otra? **Ampliada en el cierre de MATU-42:** si quien pagó sale del grupo o lo sacan, deja de ver en la aplicación el pedido, el pago y el comprobante. ¿Basta con entregarlos por correo, o MATU debe mantenerle el acceso a su comprobante?
+- **Pregunta:** ¿quién ejerce el retracto, quién reclama y a quién se le devuelve? **Ampliada en el cierre de MATU-62:** ¿cuál es la base de licitud de los datos del pago de quien paga sin haber armado el pedido: la ejecución de la compra que acepta, u otra? **Ampliada en el cierre de MATU-42:** si quien pagó sale del grupo o lo sacan, deja de ver en la aplicación el pedido, el pago y el comprobante. ¿Basta con entregarlos por correo, o MATU debe mantenerle el acceso a su comprobante? **Ampliada con MATU-63:** ¿quién pide el retracto cuando paga una persona y arma otra? Mientras tanto, lo piden quien administra el grupo o quien pagó, si sigue activo, y la devolución va a la misma tarjeta (D-63-10).
 - **Origen:** MATU-62, segunda revisión previa, 11 de noviembre de 2026 (`revision-previa-matu-62-segunda.md`, sección 6), con las decisiones del orquestador del 11-11 por delegación de Jorge.
 - **Mientras tanto:** la aceptación de las condiciones queda con quien pagó (`condiciones_aceptadas_por`, D-62-16) y la devolución va siempre a la misma tarjeta. Quien salió pide su comprobante por el correo de la sección 10 de la política (MATU-42).
 - **Bloquea:** dinero real.
-- **Se cierra en:** condiciones del pedido 0.2, §3 y §9.
+- **Se cierra en:** condiciones del pedido 0.2, §3 y §9, y 0.3, §9.
 - **Respuesta:** —
 ### CL-68 · Pedidos y pagos en la copia
 
@@ -769,7 +808,7 @@ En los orígenes, «Trello» es un comentario de la tarjeta de consulta legal, c
 - **Se cierra en:** registro, entradas 2 y 13, base de licitud.
 - **Respuesta:** —
 
-**Se amplían con MATU-62:** CL-44 (el retiro o el borrado con un pago en curso: si se aprueba, se anula completo el mismo día) y CL-28 (apunta a la CL-64). Las CL-57 a 59 quedan usadas por MATU-42 y 53, que amplía la CL-66. Las CL-61 a 63, la CL-68 y la CL-70 quedan usadas por MATU-54, que amplía la CL-04, CL-30, CL-48 y CL-53. La CL-67 es de MATU-94 (sección 7). La CL-53 y la CL-69 quedan usadas por MATU-55. La CL-60 queda usada por MATU-46, que amplía la CL-29 y la CL-34. La próxima libre es la **CL-71**.
+**Se amplían con MATU-62:** CL-44 (el retiro o el borrado con un pago en curso: si se aprueba, se anula completo el mismo día) y CL-28 (apunta a la CL-64). Las CL-57 a 59 quedan usadas por MATU-42 y 53, que amplía la CL-66. Las CL-61 a 63, la CL-68 y la CL-70 quedan usadas por MATU-54, que amplía la CL-04, CL-30, CL-48 y CL-53. La CL-67 es de MATU-94 (sección 7). La CL-53 y la CL-69 quedan usadas por MATU-55. La CL-60 queda usada por MATU-46, que amplía la CL-29 y la CL-34. Las CL-71 a CL-73 quedan usadas por MATU-63 (sección 8 y sección 3), que amplía la CL-28, la CL-54, la CL-55 y la CL-66. La próxima libre es la **CL-74**.
 
 ## Condiciones antes de datos reales
 
@@ -790,7 +829,7 @@ Estas no son preguntas legales. Son trabajo del equipo que tiene que estar hecho
 - **Revisar las condiciones de servicio y el acuerdo de tratamiento de datos de Railway,** y el plazo de sus registros HTTP (registro, entrada 9).
 - **El procedimiento escrito ante una filtración** (política, sección 11).
 - **Guardar qué versión de la política aceptó cada usuario** al crear su cuenta (política, sección 12). Es la evidencia mínima mientras se responde CL-22. **Hecho en MATU-75, 09-11.**
-- **La proyección del comercio sin identificadores de la familia,** con una migración nueva antes de construir la vista del comercio (registro, entrada 2).
+- **La proyección del comercio sin identificadores de la familia,** con una migración nueva antes de construir la vista del comercio (registro, entrada 2). **Hecho en MATU-63, 13-11** (0029, D-63-1).
 - **Verificar en integración la anulación parcial de una venta normal** con crédito y con débito, y los plazos de anulación de Transbank, antes del sprint 4 (política, sección 6, y `figura-legal-piloto.md`, sección 5). Es una verificación técnica, no legal.
 - **La evaluación de impacto del art. 15 ter,** sea obligatoria o no (ADR-027, P7).
 - **La persona jurídica y el alta comercial en Transbank** (`figura-legal-piloto.md`, sección 6, puntos 1 y 2), y **la política 1.0 revisada por un abogado** (punto 4).
@@ -804,7 +843,7 @@ Estas preguntas se hicieron en algún momento y ya no van a la consulta.
 - **Si un borrado puede esperar los 90 días de gracia** (MATU-26, Trello del 21 de octubre de 2026, pregunta 12, tercera parte): no espera. El borrado a pedido es inmediato desde MATU-72 (decisión de Jorge del 7 de noviembre de 2026).
 - **Quién consiente por la persona mayor dependiente** (ADR-027, P3): con MATU-07, con la calidad de quien autoriza y la revisión a los 12 meses. Lo que quedó abierto está en CL-01.
 - **Si la referencia opaca es un dato personal para el comercio** (ADR-027, P4, y `revision-previa-adr-027.md`, punto 7, comercios encargados o responsables): MATU trata al comercio como si fuera encargado, y el convenio lleva siempre las cláusulas del art. 15 bis.
-- **El alcance del retracto** (ADR-027, P5, y `revision-previa-adr-027.md`, punto 3): aplica a todo producto sellado y se pierde solo si se abre el sello. MATU devuelve también el envío y paga el retiro. El suplemento y las bolsas siguen en CL-41.
+- **El alcance del retracto** (ADR-027, P5, y `revision-previa-adr-027.md`, punto 3): aplica a todo producto sellado y se pierde solo si se abre el sello. MATU devuelve también el envío y paga el retiro. El suplemento y las bolsas siguen en CL-41. **Cambia con las condiciones 0.3 (MATU-63, D-63-10 b, decisión de Jorge del 13-11):** el envío se devuelve solo si se devuelve todo, y el retiro sigue sin costo. Los pedidos con la 0.2 se respetan como estaban. Lo abierto va en la CL-72.
 - **La falta de entrega y si MATU revende o intermedia** (ADR-027, P6, y `revision-previa-adr-027.md`, punto 1, art. 43 de la Ley 19.496): MATU vende, devuelve el mismo día, responde ante la familia y después repite contra el comercio según el convenio.
 - **La evaluación de impacto** (ADR-027, P7): se hace antes de operar con datos reales, sea obligatoria o no. Está en las condiciones.
 - **El plazo legal de la devolución y el reglamento de comercio electrónico** (`revision-previa-adr-027.md`, puntos 4 y 5): los resolvió el texto de la ley (`investigacion-normativa-adr-027.md`, secciones 1 y 2). No hay un plazo legal específico, y los términos del pedido dicen «anulamos su cobro el mismo día».
@@ -993,3 +1032,13 @@ Cada fila traduce un número antiguo a su número nuevo. «Sin número» es una 
 | MATU-54, decisiones de Jorge | CL-68 (nueva) | CL-68 |
 | MATU-54, revisión de cierre | F1 y F7 | CL-70 |
 | MATU-54, revisión de cierre | Ampliar CL-53 | CL-53 |
+
+### MATU-63 (13 de noviembre de 2026)
+
+| Historia | Número antiguo | Número nuevo |
+|---|---|---|
+| MATU-63, revisión previa | Sección 5, CL-71, 72 y 73 (nuevas) | CL-71, CL-72 y CL-73 |
+| MATU-63, revisión previa | Sección 5, ampliar CL-28 (retractos, código y registro del comercio) | CL-28 |
+| MATU-63, revisión previa | Sección 5, ampliar CL-54 (el plazo del retracto con el comprobante solo en la aplicación) | CL-54 |
+| MATU-63, revisión previa | Sección 5, ampliar CL-55 (un retracto fuera del plazo de anulación de Transbank) | CL-55 |
+| MATU-63, revisión previa | Sección 5, ampliar CL-66 (quién pide el retracto) | CL-66 |
