@@ -31,7 +31,7 @@
 | U3 · Declarar el consumo «a la vista» | — | Lo logró con una aclaración | Sin ayuda | Sin ayuda | 2 de 3 sin ayuda | 3 de 3 bajo 3:00 (con confusión) |
 | U4 · Armar un pedido desde la lista | < 6:00 | 4:50, con 1 ayuda | 3:45 | 4:10 | **3 de 3** | 3 de 3 (prototipo) |
 
-Los tiempos de U1 y U4 se tomaron con cronómetro. Los de U2 son aproximados.
+Los tiempos son los que anotó el moderador. En U2 la guía pedía un tiempo aproximado.
 
 ## Tarea del pagador (P3, con la cuenta de Rodrigo)
 
