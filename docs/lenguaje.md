@@ -1124,6 +1124,8 @@ Los textos salen de la especificación de pantallas de MATU-61, v1.1 del 11-11 (
 | Volver a autorizar, hecho | Pedidos autorizados. Ya puedes hacer pedidos para {pila}. |
 | Aviso del piloto | El de la sección 11, una vez por pantalla con precios: tu pedido y antes de pagar |
 
+**Pendiente de Jorge (MATU-63, cierre del analista, H12):** la fila «Si falta» dice «El mismo producto. Pagas lo mismo.», y las condiciones 0.3, §5, ya no dicen «pagas lo mismo». Se deja como está hasta que Jorge decida si se cambia. [PENDIENTE DE JORGE]
+
 `{correo}` es el canal de reclamo de las condiciones del pedido, cuidaconmatu@gmail.com (D8). `{ventana}` es la ventana fija del piloto, «Entre 24 y 48 horas hábiles» (D8). «Pagar {total}» es de MATU-62: aquí solo se fija el texto.
 
 **Ninguno usa** los términos de la sección 3, «stock», «carro», «carrito», «reserva» (salvo en «No hay reserva ni cobros después.», que la niega), «tope», «estimado», «aprox.» ni «monto real». «Boleta» aparece solo en «En este piloto no se emite boleta» y en «Este comprobante no es una boleta.» (sección 32, D-62-7).
