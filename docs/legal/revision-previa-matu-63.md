@@ -70,7 +70,7 @@ En el PR de documentos de MATU-63 (rama `docs/matu-63-comercio`):
 
 ## 4. Contradicciones que se corrigen
 
-1. **El comercio «ve» el código** (arquitectura 6.2, 9.5, 11.2 y su tabla; política §6; registro, entrada 2; `figura-legal-piloto.md`). Pasa a: el comercio **valida** el código, y lo dice quien retira por MATU.
+1. **El comercio «ve» el código** (arquitectura 6.2, 9.5 y 11.2 con su tabla, política §6, registro, entrada 2, y `figura-legal-piloto.md`). Pasa a: el comercio **valida** el código, y lo dice quien retira por MATU.
 2. **Un código por pedido** (arquitectura 7.4 y modelo 4.5). Pasa a un código por parte (`pedido_comercio`).
 3. **Los estados que mueve el comercio** (arquitectura 8.7 y 9.5). Pasan a ser estados de la parte, y el estado del pedido lo mueve `sistema`.
 4. **La invariante 3 de la arquitectura 8.3** vale para los faltantes. En el retracto, el envío se devuelve solo si se devuelve todo (condiciones 0.3), y la 0.2 se respeta. Lo mismo en lo resuelto por diseño de P5 (`consulta-legal.md`, `figura-legal-piloto.md` y arquitectura 18.1), que decía que el envío se devuelve siempre.
