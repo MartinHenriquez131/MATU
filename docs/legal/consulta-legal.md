@@ -460,7 +460,6 @@ En los orígenes, «Trello» es un comentario de la tarjeta de consulta legal, c
 - **Se cierra en:** política §10.
 - **Respuesta:** —
 
-
 ## 5. El relevo y otras personas que anota la familia
 
 ### CL-33 · La base de licitud de los datos del relevo y de «A quién llamar»
@@ -531,7 +530,7 @@ En los orígenes, «Trello» es un comentario de la tarjeta de consulta legal, c
 
 - **Pregunta:** en staging, que la política declara sin datos reales, la dirección de avisos que se guarda al activar los avisos es la de un navegador real, y queda en Railway, en Estados Unidos. Si una persona que participa en una prueba de usabilidad activa los avisos en su propio teléfono, ¿MATU trata un dato personal real de un tercero? ¿Basta informarlo en la política (§1 y §4), o hace falta un consentimiento específico de la persona que participa, o prohibirlo?
 - **Origen:** MATU-55, revisión de cierre del analista normativo, 12 de noviembre de 2026.
-- **Mientras tanto:** «Activar en este teléfono» se prueba solo en teléfonos del equipo (condición C14). La dirección se borra al desactivar, al salir o con el cierre de staging.
+- **Mientras tanto:** «Activar en este teléfono» solo funciona en las cuentas del equipo: desde MATU-107 lo impide un control técnico (`PUSH_CUENTAS_PERMITIDAS`, que falla cerrado), no solo un procedimiento. La dirección se borra al desactivar, al salir o con el cierre de staging.
 - **Bloquea:** ninguno, si se cumple C14.
 - **Se cierra en:** política §1. Registro, entradas 6 y 9.
 - **Respuesta:** —
