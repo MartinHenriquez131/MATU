@@ -396,7 +396,7 @@ graph TB
 |---|---|---|
 | **App Familia** | Ficha de relevo, secciones complementarias, perfil de consumo, lista de insumos, catálogo, pedido, seguimiento. Aplicación web mobile first, diseñada primero para 360 px de ancho | No calcula totales finales. No decide sustituciones. No guarda nada de la ficha, del consentimiento ni de la persona cuidada en el navegador |
 | **Backoffice** | Catálogo, convenios, monitoreo, incidencias, conciliación, liquidación, indicadores | No accede al plan de cuidado. No es canal de soporte al cliente final |
-| **Vista de Comercio** | Stock apartado, sus líneas de los pedidos del día, preparación, validación de código, marcado de retiro y entrega | No ve la dirección de entrega ni ningún nombre: solo la referencia del pedido y el código de retiro (ADR-027) |
+| **Vista de Comercio** | Stock apartado, sus líneas de los pedidos del día, preparación y validación del código de retiro, que llega hasta «retirado» | No ve la dirección de entrega ni ningún nombre: solo sus productos y la referencia de su parte (ADR-027). **No ve el código**: lo valida (MATU-63, D-63-1 y D-63-5). No marca «en camino» ni «entregado»: lo hace operación (D-63-6) |
 | **Vista de Relevo** | Lectura de las secciones habilitadas del plan de cuidado | No permite edición. No expone otras secciones. No crea sesión persistente |
 | **API MATU** | Toda la lógica de negocio y toda la autorización | No ejecuta trabajo largo. Nada sobre 2 segundos vive aquí |
 | **Worker** | Trabajo por tenant: predicción de quiebre, materialización de alertas | No expone endpoints. No es alcanzable desde internet. **No evade RLS** |
@@ -591,7 +591,9 @@ Es aritmética de tercero básico, y esa es exactamente la gracia. **El valor no
 | `producto` | id, categoria_id, nombre, marca, presentacion, unidad, **unidades_por_envase**, requiere_receta, activo | `unidades_por_envase` conecta el catálogo con el perfil de consumo: 30 pañales por paquete permite traducir tasa de uso a paquetes |
 | `oferta` | producto_id, comercio_id, precio, stock, disponible, actualizado_en | Con el ADR-027 el precio de la oferta es el precio exacto con IVA del comercio en convenio. La migración 0019 (MATU-59) renombró `precio_referencia` a `precio` y agregó `stock` |
 | `convenio` | comercio_id, vigencia_desde, vigencia_hasta, **comision_pct**, **tarifa_despacho**, prepara_pedidos, cuenta_corriente, estado | `comision_pct` y `tarifa_despacho` son la regla de cálculo de la liquidación |
-| `pedido` | id, grupo_id, persona_cuidada_id, comercio_id, direccion_id, estado, modo_cumplimiento, origen (`manual`, `alerta_quiebre`), ventana_entrega, **subtotal_productos**, **costo_envio**, **total**, **total_confirmado_en**, **total_vence_en**, **pagado_en**, codigo_retiro_hash, creado_por | `origen` incorpora `alerta_quiebre`, que es el camino que conecta la capa 2 con la 3. **`total = subtotal_productos + costo_envio`** por `CHECK`, con un envío único por pedido. `total_vence_en` lo fija el dominio 15 minutos después de `total_confirmado_en`; la base exige que los dos existan juntos y que el vencimiento sea posterior. **`pagado_en` marca desde cuándo el precio queda fijo**: nulo en `borrador`, `total_confirmado` y `vencido`, obligatorio desde `pagado` en adelante, y solo con un total confirmado (`CHECK`). Los 17 estados están en 8.1 |
+| `pedido` | id, grupo_id, persona_cuidada_id, comercio_id, direccion_id, estado, modo_cumplimiento, origen (`manual`, `alerta_quiebre`), ventana_entrega, **subtotal_productos**, **costo_envio**, **total**, **total_confirmado_en**, **total_vence_en**, **pagado_en**, codigo_retiro_hash, creado_por | `origen` incorpora `alerta_quiebre`, que es el camino que conecta la capa 2 con la 3. **`total = subtotal_productos + costo_envio`** por `CHECK`, con un envío único por pedido. `total_vence_en` lo fija el dominio 15 minutos después de `total_confirmado_en`; la base exige que los dos existan juntos y que el vencimiento sea posterior. **`pagado_en` marca desde cuándo el precio queda fijo**: nulo en `borrador`, `total_confirmado` y `vencido`, obligatorio desde `pagado` en adelante, y solo con un total confirmado (`CHECK`). Los 17 estados están en 8.1. **Desde la 0029 (MATU-63):** `codigo_retiro_hash` y las demás `codigo_retiro_*` quedan sin uso, porque hay **un código por parte** (`pedido_comercio`, D-63-3), y `entregado_en` marca el inicio del retracto |
+| `pedido_comercio` | id, pedido_id, comercio_id, referencia, enviado_en, **estado**, version, preparando_en, lista_en, retirada_en, cancelada_en, motivo_cancelacion, **codigo_hash**, codigo_generado_en, codigo_expira_en, codigo_usado_en, codigo_intentos, codigo_bloqueado_en, **apartado_hasta** | La parte de cada comercio dentro del pedido (MATU-61, D7). **Desde la 0029 (MATU-63):** el estado de la parte (`enviada`, `preparando`, `lista`, `retirada` o `cancelada`), el código de retiro de la parte, guardado solo como HMAC-SHA256 (D-63-3 y D-63-4), y el apartado del stock (D-63-7). La referencia es de 6 caracteres de un alfabeto que se dicta (O6) |
+| `retracto`, `retracto_linea` | retracto: id, grupo_id, pedido_id, solicitado_por, solicitado_en, plazo_hasta, incluye_envio, estado, resuelto_en, resuelto_por. retracto_linea: retracto_id, pedido_linea_id, cantidad | **Nuevas en la 0029 (MATU-63, D-63-10).** R3, «Arrepentirme de la compra», por producto. RLS forzado. Siguen al pedido (`ON DELETE CASCADE`). Su anulación va en `transaccion_pasarela` con `motivo_anulacion = 'retracto'` |
 | `pedido_entrega` | pedido_id, calle, numero, depto, comuna, referencia, lat y lng (siempre nulas, con un `CHECK`, C8 de MATU-61), telefono_contacto | **Separada de `pedido`** porque RLS filtra filas, no columnas: es la única forma de que el comercio vea el pedido sin la dirección de entrega (diferencia 9 del modelo de datos). El comercio no tiene política sobre esta tabla |
 | `pedido_linea` | id, pedido_id, oferta_id, producto_id, cantidad, **precio_unitario**, estado_linea, **monto_devuelto**, **devuelta_en**, **oferta_reasignada_id**, **precio_reasignado**, **reasignada_en** | **Con el pedido pagado la línea no se edita**: un trigger impide cambiar producto, oferta, cantidad o precio, y agregar o borrar líneas. Lo que no se entrega se devuelve: `monto_devuelto` nunca supera cantidad × `precio_unitario`, y la línea está en `devuelta` si y solo si tiene monto y fecha de devolución. **La reasignación es al mismo producto en otra oferta**, nunca otra marca (trigger), y `precio_reasignado` es lo que MATU paga, con la diferencia a su cargo. Estados: `pendiente`, `sin_stock`, `preparada`, `faltante`, `devuelta`, `eliminada` |
 | `regla_sustitucion` | id, pedido_id, producto_id, accion | **RF-21, redefinido el 27-10.** Qué hace MATU si un producto del pedido falta: `otro_comercio` (el mismo producto en otro comercio en convenio) o `quitar` (sale del pedido y se devuelve su precio). **Sin fila, se busca en otro comercio**: es la opción por omisión. Una regla por producto y pedido. Salieron `producto_sustituto_id` y `precio_maximo`: nunca otra marca ni otro producto. El backend propone renombrarla a `regla_faltante`; es una propuesta y no se renombró |
@@ -601,7 +603,7 @@ Es aritmética de tercero básico, y esa es exactamente la gracia. **El valor no
 | `consumo_comercio` | id, comercio_id, pedido_id, monto_autorizado, monto_boleta, folio_boleta, evidencia_id, estado, desviacion_pct | Contrapartida de `cargo`: lo que MATU debe al comercio. [PENDIENTE: `monto_autorizado` sigue en el esquema] |
 | `liquidacion` | id, comercio_id, periodo_desde, periodo_hasta, monto_bruto, **monto_comision**, monto_neto, estado, factura_ref, pagada_en | `monto_comision = Σ(consumo.monto_boleta × convenio.comision_pct)` |
 
-**Lo que el comercio ve, en la base.** Las políticas `pedido_comercio_ver` y `pedido_comercio_actualizar` le muestran un pedido solo si es suyo (`pedido.comercio_id`), tiene `pagado_en` y está en `enviado_a_comercio` o después. Las líneas heredan esa visibilidad desde el pedido. RLS filtra filas, no columnas. En los pedidos que ve, el comercio alcanza todas las columnas de `pedido`, incluidos identificadores estables de la familia (`grupo_id`, `persona_cuidada_id`, `creado_por`) y, por herencia, las transiciones y las elecciones de RF-21. Que no los vea ni los cambie depende hoy de la proyección de la API (9.5). [PENDIENTE: quitar `destinatario_nombre_pila` con una migración nueva; impedir que el comercio escriba `regla_sustitucion` y `monto_devuelto`; decidir si la proyección del comercio también se limita en la base.]
+**Lo que el comercio ve, en la base (desde la 0029, MATU-63).** La 0029 quita `pedido_comercio_ver`, `pedido_comercio_actualizar`, `pedido_comercio_propio` y `linea_comercio_ver`: el comercio ya no lee ni escribe las tablas del pedido. Lee y escribe solo por funciones `SECURITY DEFINER` (`comercio_partes`, `comercio_lineas`, `comercio_preparar`, `comercio_marcar_linea`, `comercio_listo`, `comercio_validar_codigo` y `comercio_existencias`), que exigen la cuenta activa de un comercio activo, sin grupo, y devuelven solo la proyección de la D-63-1: la parte, su referencia opaca, su estado y el estado del código, y por línea el producto, la cantidad y su estado. Nunca `pedido_id`, `grupo_id`, `persona_cuidada_id`, `creado_por`, montos, transiciones, la entrega ni la huella del código. Una prueba verifica que una sesión de comercio lee cero filas de las tablas del pedido y del pago (D-63-1 y D-63-2). *Antes de la 0029, RLS le dejaba leer la fila completa del pedido y escribirla, también `grupo_id` (hallazgo P1 de la revisión previa de MATU-63).*
 
 **Lo que la migración 0002 dejó fuera a propósito.** Ninguno de estos puntos tiene diseño todavía, y no se inventa aquí:
 
@@ -635,7 +637,7 @@ Es aritmética de tercero básico, y esa es exactamente la gracia. **El valor no
 
 **f) Hay dos flujos de dinero y dos tablas distintas.** `cargo` describe lo que MATU cobra a la familia. `consumo_comercio` y `liquidacion` describen lo que MATU debe al comercio. Son montos parecidos en momentos distintos: se cobra al pagar el total confirmado, antes de preparar (ADR-027), y se paga al comercio a fin de período.
 
-**g) El código de retiro se guarda con hash, no en claro.** Es la credencial que autoriza a llevarse mercadería cargada a la cuenta de MATU. Se trata como contraseña de un solo uso.
+**g) El código de retiro se guarda con hash, no en claro.** Es la credencial que autoriza a llevarse mercadería cargada a la cuenta de MATU. Se trata como contraseña de un solo uso. **Desde la 0029 (MATU-63) hay uno por parte** (`pedido_comercio`), de 6 cifras, guardado solo como HMAC-SHA256 con `CODIGO_RETIRO_SECRETO`. Vale 90 minutos, se bloquea al quinto intento y la huella se vacía al usarse, al vencer o al bloquearse (D-63-3 y D-63-4). Lo recibe operación, que lo dice en el local. El comercio solo lo valida, y la familia no lo ve (D-63-5).
 
 **h) El nonce se guarda, no se deriva.** `plan_seccion` lleva `nonce` y `tag_auth` como columnas. Sin nonce almacenado no se puede descifrar, y reutilizarlo entre escrituras rompe AES-GCM por completo.
 
@@ -796,12 +798,12 @@ stateDiagram-v2
     vencido --> borrador: «Cambiar el pedido» con el total vencido
     total_confirmado --> pagado: cobro único aprobado
     vencido --> pagado: pago iniciado con el total vigente, aprobado tarde por el mismo total
-    pagado --> enviado_a_comercio: se publica en la vista del comercio
-    enviado_a_comercio --> preparando: el comercio empieza a preparar
-    preparando --> listo_retiro: preparado
-    listo_retiro --> retirado: código validado en el local
-    retirado --> en_ruta
-    en_ruta --> entregado: evidencia de entrega registrada
+    pagado --> enviado_a_comercio: el sistema, al llegar las partes a cada comercio
+    enviado_a_comercio --> preparando: el sistema, cuando un comercio empieza a preparar su parte
+    preparando --> listo_retiro: el sistema, cuando todas las partes están listas
+    listo_retiro --> retirado: el sistema, cuando se validó el código de cada parte
+    retirado --> en_ruta: operación
+    en_ruta --> entregado: operación registra la entrega
     en_ruta --> no_entregado: nadie en el domicilio
     entregado --> cerrado
     no_entregado --> reprogramado: nueva ventana
@@ -830,11 +832,17 @@ Un pedido pagado nunca vuelve a `borrador`: lo impide el trigger `pedido_pagado_
 - Mientras hay un pago en curso, `confirmar`, `cambiar`, las líneas, las reglas y el contacto responden 409 `pago-en-curso`. Cancelar, retirar la autorización y borrar a la persona siguen funcionando (regla 1), y si el pago se aprueba después, se anula.
 - Manda esta sección sobre la 12.4: con el total vencido, `pagar` no vuelve el pedido a `borrador` (D-62-15).
 
+**Después del pago (MATU-63, D-63-3, D-63-6 y D-63-11, decisiones 413, 414, 418 y 419 de `api/README.md`).**
+- **El comercio mueve su parte, no el pedido.** Cada `pedido_comercio` pasa por `enviada`, `preparando`, `lista` y `retirada`, o `cancelada`. El estado del pedido lo lleva `sistema` según sus partes, por el outbox, con `actor_tipo = comercio` y `actor_ref = comercio_id` en la línea de tiempo, nunca la cuenta del encargado.
+- **El comercio llega hasta «retirado»**, al validar el código. `en_ruta`, `entregado` y `no_entregado` los marca operación. `entregado_en` es el inicio del retracto.
+- **Después del pago, el estado lo mueven solo `sistema` y operación**, sin cuenta (`pedido_escritura_del_pago` de la 0029). La familia y el comercio no cambian nada de un pedido pagado, salvo la cancelación con devolución del admin mientras ningún comercio empezó a preparar (R15).
+- `pedido_transicion.motivo` suma `producto_faltante` y `retracto`.
+
 **El cobro ocurre una sola vez, antes de preparar.** La familia paga el total confirmado y desde ahí el monto no cambia. No hay estado de captura pendiente ni de incobrable, porque no queda nada por cobrar después de pagar.
 
-**El pedido se prepara antes de asignar repartidor**, no después. El comercio confirma `listo_retiro` y recién ahí sale el retiro. Eso baja el tiempo del repartidor por pedido de unos 40 minutos a menos de 10.
+**El pedido se prepara antes de asignar repartidor**, no después. Cada comercio marca su parte «lista», el sistema pasa el pedido a `listo_retiro` y recién ahí sale el retiro. Eso baja el tiempo del repartidor por pedido de unos 40 minutos a menos de 10.
 
-**El faltante tardío no es un estado del pedido, es un evento de la línea.** Si al preparar o al retirar un producto apartado ya no está, se aplica la elección de la familia para ese producto (RF-21) con la regla de la sección 8.3: el mismo producto en otro comercio, o la devolución de su precio. Si eligió quitarlo, o ningún comercio lo tiene, se devuelve su precio. El pedido sigue su curso con las demás líneas. Solo si no se entrega ningún producto pasa a `cancelado_con_devolucion`.
+**El faltante tardío no es un estado del pedido, es un evento de la línea.** Si al preparar o al retirar un producto apartado ya no está, se aplica la elección de la familia para ese producto (RF-21) con la regla de la sección 8.3: el mismo producto en otro comercio, o la devolución de su precio. Si eligió quitarlo, o ningún comercio lo tiene, se devuelve su precio. El pedido sigue su curso con las demás líneas. Solo si no se entrega ningún producto pasa a `cancelado_con_devolucion`. **En el piloto (MATU-63, D-63-8), después de pagar no se busca en otro comercio:** lo que falta se devuelve el mismo día, por anulación parcial a la misma tarjeta, y si falta solo una parte, se devuelven esas unidades (`pedido_linea.unidades_faltantes`) y se entrega el resto. La devolución la dispara `sistema`, nunca la sesión del comercio.
 
 **`requiere_decision` sale de la máquina.** Existía para que la familia eligiera un sustituto con el comercio preparando. Con RF-21 redefinido (27-10), la familia decide **antes de pagar**, por cada producto, si un faltante se busca en otro comercio (lo que pasa si no elige) o se quita y se devuelve su precio. No queda nada que decidir después de pagar.
 
@@ -852,7 +860,7 @@ Un pedido pagado nunca vuelve a `borrador`: lo impide el trigger `pedido_pagado_
 **Lo que la base garantiza del ciclo.** Las transiciones las controla el dominio, pero la migración 0002 agrega `CHECK` que atan el estado a los datos del cobro:
 - antes del pago (`borrador`, `total_confirmado`, `vencido`) no hay `pagado_en`; desde `pagado` en adelante, incluido `cancelado_con_devolucion`, siempre lo hay. `cancelado` admite los dos casos;
 - `total_confirmado` y `vencido` exigen `total_confirmado_en`, y un pedido con total confirmado tiene un total mayor que cero;
-- el comercio ve el pedido solo con `pagado_en` y desde `enviado_a_comercio`;
+- el comercio ve su parte solo con `pagado_en` y desde que se le envía, y desde la 0029 solo por funciones (7.4);
 - con el pedido pagado, el trigger `pedido_pagado_fijo` deja fijos el total, sus partes, la confirmación y `pagado_en`, y no deja volver a `borrador`, `total_confirmado` ni `vencido`, ni a la familia ni al comercio.
 
 **Estados del cargo.** `pendiente`, `pagado`, `rechazado`, `devuelto_parcial` y `anulado`. La participación usa los mismos en femenino. Un `CHECK` ata cada estado a sus montos (sección 7.4).
@@ -868,7 +876,7 @@ Una prueba parametrizada recorre **todas las combinaciones** de estados, los 289
 | La familia pide desde la lista | MATU consulta el stock en los comercios en convenio, por el puerto `CatalogoComercio`. Si el comercio elegido no tiene un producto, lo busca en otro. Si ninguno lo tiene, sale del pedido | Tres productos en un comercio, uno en otro, uno sale |
 | Se muestra el total confirmado | Productos a precio exacto con IVA más **un envío único por pedido**, aunque el retiro pase por dos comercios. Vale 15 minutos | $53.470 + $3.990 = $57.460 |
 | La familia paga | **Venta normal** de Webpay Plus. Crédito y débito funcionan igual | $57.460 cobrados |
-| Caso excepcional: falta un producto al retirar | El mismo producto en otro comercio, y MATU asume la diferencia. Si nadie lo tiene, se devuelve su precio por anulación parcial | $8.990 devueltos a la misma tarjeta |
+| Caso excepcional: falta un producto al retirar | El mismo producto en otro comercio, y MATU asume la diferencia (fase 2). Si nadie lo tiene, se devuelve su precio por anulación parcial. **En el piloto, después de pagar, siempre se devuelve el mismo día** (D-63-8) | $8.990 devueltos a la misma tarjeta |
 
 **La consulta de stock no lleva datos de nadie.** Solo productos, cantidades y una referencia opaca para apartar. No lleva datos de la familia, de la persona cuidada ni de la dirección. Una prueba sobre el objeto de la consulta lo verifica.
 
@@ -888,15 +896,16 @@ Una prueba parametrizada recorre **todas las combinaciones** de estados, los 289
 
 | Situación | Qué se devuelve | Cómo |
 |---|---|---|
-| Un producto apartado falta, la familia no eligió quitarlo (RF-21) y otro comercio en convenio lo tiene | Nada. **MATU asume la diferencia de precio**, y la familia paga lo que aceptó | Reasignación del retiro. **Fase 2**: requiere la aplicación de repartidor y la asignación en cascada. En el semestre se muestra simulada en la demo |
-| Un producto falta y la familia eligió quitarlo (RF-21), o ningún comercio lo tiene | El precio pagado de ese producto | Anulación parcial de Webpay Plus, a la misma tarjeta, el mismo día, con aviso a la familia en el momento |
+| Un producto apartado falta, la familia no eligió quitarlo (RF-21) y otro comercio en convenio lo tiene | Nada. **MATU asume la diferencia de precio**, y la familia paga lo que aceptó | Reasignación del retiro. **Fase 2**: requiere la aplicación de repartidor y la asignación en cascada. **En el piloto no se hace después de pagar** (MATU-63, D-63-8): se devuelve, como en la fila siguiente |
+| Un producto falta y la familia eligió quitarlo (RF-21), o ningún comercio lo tiene | El precio pagado de ese producto. Si faltan solo algunas unidades, esas unidades por su precio (D-63-8) | Anulación parcial de Webpay Plus, a la misma tarjeta, el mismo día, con aviso a la familia en el momento |
 | No se entrega ningún producto | El total, envío incluido | Anulación de Webpay Plus por el total |
-| La familia cancela antes de que el comercio empiece a preparar | El total, envío incluido, sin costo | Anulación de Webpay Plus por el total |
+| La familia cancela antes de que algún comercio empiece a preparar (R15, solo el admin) | El total, envío incluido, sin costo | Anulación de Webpay Plus por el total |
+| **Retracto (R3, MATU-63, D-63-10)**: la familia devuelve productos entregados, con el sello cerrado | Cantidad × precio pagado. **El envío, solo si se devuelve todo lo entregado** (condiciones 0.3). Con las condiciones 0.1 y 0.2, también el envío en un retracto parcial | Anulación de Webpay Plus a la misma tarjeta, una por línea con motivo `retracto` y otra para el envío, antes de 45 días. La resuelve operación al recibir los productos |
 
 **Tres invariantes, con su prueba:**
 1. La suma de lo devuelto nunca supera lo cobrado.
 2. Una línea se devuelve una sola vez, aunque el evento llegue dos veces.
-3. El envío se devuelve solo si no se entrega ningún producto.
+3. Por un faltante, el envío se devuelve solo si no se entrega ningún producto. En un retracto, solo si se devuelve todo lo entregado (condiciones 0.3), y en los pedidos que aceptaron la 0.2, siempre (MATU-63, D-63-10). `transaccion_linea_devuelta_uq` pasa a una anulación por línea y motivo (0029).
 
 **Sin reemplazo por otra marca.** Si falta un producto se busca el mismo en otro comercio o sale del pedido. Nunca se cambia por un equivalente.
 
@@ -962,7 +971,7 @@ sequenceDiagram
 1. **La idempotencia es de MATU, no de la pasarela.** La prueba de concepto del 24 de octubre mostró que un `commit` repetido no falla: Transbank devuelve la misma transacción ya aprobada. El módulo registra el token y el estado del cargo en su propia base, y si el token ya está procesado no paga el pedido otra vez ni crea un segundo cargo.
 2. Un job de conciliación consulta el estado de toda transacción iniciada con más de 10 minutos.
 3. El resultado se escribe en **una sola transacción** junto con el cambio de estado y el evento del outbox.
-4. **El total vencido no se cobra.** `pagar` verifica la vigencia contra el puerto `Reloj` antes de llamar a la pasarela. La venta vive `VIDA_VENTA_WEBPAY_MINUTOS` (10 por omisión), y ese plazo fija cuánto dura `pago-en-curso`. [PENDIENTE: la vida real del token de Webpay Plus, que mide Martín en integración (P-62-6), para que el stock quede apartado al menos los 15 minutos más ese tiempo.]
+4. **El total vencido no se cobra.** `pagar` verifica la vigencia contra el puerto `Reloj` antes de llamar a la pasarela. La venta vive `VIDA_VENTA_WEBPAY_MINUTOS` (10 por omisión), y ese plazo fija cuánto dura `pago-en-curso`. *Cerrado por MATU-63 (D-63-7):* MATU aparta el stock al confirmar, hasta `total_vence_en` más `VIDA_VENTA_WEBPAY_MINUTOS`, y así se cumple el punto 5 del ADR-027. El apartado se libera al cancelar, al usar «Cambiar el pedido» o al vencer sin un pago en curso, y se consume al pagar. Si la medición de P-62-6 da una vida mayor, se ajusta esa variable.
 
 **El cargo se crea al tocar «Pagar»** (D-62-11), no al confirmar. La conciliación corre cada 5 minutos con `matu_scheduler`, también con la capa 3 apagada (D-62-17), y la vuelta de Transbank resuelve la venta como `sistema`, sin grupo ni cuenta, por funciones `SECURITY DEFINER` que devuelven solo ids. La anulación parcial queda como caso de uso probado, sin ruta, y la dispara MATU-63 (decisión 223).
 
@@ -1016,16 +1025,16 @@ sequenceDiagram
     participant VC as Vista de Comercio
     participant DB as PostgreSQL
 
-    API->>VC: publica sus líneas del pedido (referencia y código, sin nombres)
+    API->>VC: publica su parte del pedido (referencia y productos, sin nombres ni código)
     Note over VC: el encargado prepara lo que apartó
-    VC->>API: preparado + documento del comercio a MATU
-    API->>DB: pedido a listo_retiro · registra lo que MATU debe al comercio
-    API->>DB: genera codigo_retiro (se guarda el hash)
-    Note over VC: quien retira exhibe el código en el local
-    VC->>API: valida código (un solo uso, 90 min)
-    API->>DB: pedido a retirado
-    VC->>API: entrega registrada + evidencia
-    API->>DB: pedido a entregado · concilia lo debido al comercio
+    VC->>API: empieza a preparar · marca cada producto · listo
+    API->>DB: parte a lista · el sistema lleva el estado del pedido y devuelve lo que falta
+    API->>DB: operación genera el código de la parte (se guarda solo el HMAC)
+    Note over VC: quien retira por MATU dice el código en el local
+    VC->>API: valida el código (un solo uso, 90 min, 5 intentos)
+    API->>DB: parte a retirada · el sistema lleva el pedido a retirado
+    Note over API: operación marca en camino y entregado
+    API->>DB: pedido a entregado · registra lo que MATU debe a cada comercio
     Note over DB: a fin de período, liquidacion agrupa<br/>los consumos y se cruza con la factura
 ```
 
@@ -1033,7 +1042,7 @@ sequenceDiagram
 
 **El calce de caja sigue a favor de MATU:** se cobra a la familia al pagar el pedido y se paga al comercio a fin de período. Es un argumento de viabilidad que conviene mencionar en la defensa, porque muestra que el modelo de negocio y la arquitectura se sostienen mutuamente.
 
-**En el piloto, el retiro y la entrega se marcan desde la vista de comercio**, porque la app de repartidor quedó fuera del alcance comprometido. El flujo completo se demuestra igual.
+**En el piloto, el comercio marca hasta el retiro, al validar el código, y operación marca «en camino», «entregado» y «no entregado»** (MATU-63, D-63-6), porque la app de repartidor quedó fuera del alcance comprometido. El código lo recibe operación una sola vez, por la consola hasta MATU-81 (decisión 426). La familia no lo ve (D-63-5). El flujo completo se demuestra igual.
 
 ---
 
@@ -1154,12 +1163,23 @@ POST   /insumos/pedido/pago                         → la vuelta de Transbank p
 ### 9.5 Comercio y operación
 
 ```
-GET    /v1/comercio/pedidos?fecha=
-GET    /v1/comercio/pedidos/{id}                    → solo sus líneas, referencia y código de retiro, sin nombres
-POST   /v1/comercio/pedidos/{id}/lineas/{lid}/sin-stock → faltante tardío: reasigna (fase 2) o devuelve su precio
-POST   /v1/comercio/pedidos/{id}/preparado          → documento del comercio a MATU, sin monto real
-POST   /v1/comercio/pedidos/{id}/validar-codigo
-POST   /v1/comercio/pedidos/{id}/entregado          → cierra el pedido; ya no dispara un cobro
+GET    /v1/comercio                                  → nombre de fantasía, si es ficticio y el contacto
+GET    /v1/comercio/partes                           → sus partes de hoy: referencia, estado y estado del código, sin nombres
+GET    /v1/comercio/partes/{parte_id}                → sus líneas: producto, cantidad y estado, con ETag
+POST   /v1/comercio/partes/{parte_id}/preparar       → enviada a preparando
+PUT    /v1/comercio/partes/{parte_id}/lineas/{linea_id} → preparada, o faltante con sus unidades
+POST   /v1/comercio/partes/{parte_id}/listo          → lista, o cancelada si no tiene ninguno
+POST   /v1/comercio/partes/{parte_id}/validar-codigo → el código solo en el cuerpo · a retirada
+GET    /v1/comercio/productos                        → precio (solo lectura), stock, apartado y disponibles
+PATCH  /v1/comercio/productos/{oferta_id}            → stock y si lo ofrece
+
+GET    /v1/operacion/pedidos                          → los pagados en curso, con sus partes
+POST   /v1/operacion/partes/{parte_id}/codigo         → genera o regenera el código y lo devuelve una sola vez
+POST   /v1/operacion/pedidos/{pedido_id}/en-camino
+POST   /v1/operacion/pedidos/{pedido_id}/entregado    → fija entregado_en y lo que MATU debe a cada comercio
+POST   /v1/operacion/pedidos/{pedido_id}/no-entregado
+GET    /v1/operacion/retractos                        → los retractos pedidos
+POST   /v1/operacion/retractos/{retracto_id}/resolver → devolver o rechazar
 
 GET    /v1/backoffice/comercios/{id}/consumos?estado=&periodo=
 POST   /v1/backoffice/consumos/{id}/conciliar
@@ -1167,6 +1187,8 @@ GET    /v1/backoffice/indicadores
 ```
 
 **La consulta de stock no es un endpoint público.** Va de MATU al comercio por el puerto `CatalogoComercio`, con solo productos, cantidades y una referencia opaca.
+
+**Rutas de MATU-63** (decisiones 407 a 430 de `api/README.md`, que manda sobre esta lista junto con `openapi.json`). El comercio mueve **su parte**, no el pedido, y llega hasta «retirado». Valida el código, nunca lo ve (D-63-1 a D-63-6). Las rutas de operación las usa la pantalla de MATU-81. Hasta entonces, el código se genera desde la consola (decisión 426). La familia usa `POST /v1/pedidos/{pedido_id}/cancelar-con-devolucion` (R15, solo el admin) y `GET` y `POST /v1/pedidos/{pedido_id}/retractos` (R3, el admin o quien pagó), con sus pantallas en MATU-92.
 
 ### 9.6 Ejemplo de respuesta con la capa 2 en acción
 
@@ -1320,7 +1342,7 @@ Tres dimensiones, evaluadas siempre en este orden: **quién es** (JWT válido y 
 | `pagador` | según permiso explícito | ver | ver | ver, sin confirmar | pagar | nombre, dirección |
 | `observador` | no | ver | ver | ver el carrito, sin la entrega ni el resumen | no | nombre |
 | `relevo` (token) | **solo secciones habilitadas, solo lectura** | no | no | no | no | nombre de pila |
-| `comercio` | **nunca** | **nunca** | solo su propia oferta, con precio y stock | solo sus líneas de los pedidos del día | no | **ninguno**: solo la referencia del pedido y el código de retiro |
+| `comercio` | **nunca** | **nunca** | solo su propia oferta: ve el precio y cambia el stock y si la ofrece | solo su parte de los pedidos del día, por funciones, hasta «retirado» | no | **ninguno**: solo la referencia de su parte. Valida el código de retiro, sin verlo |
 | `operación` | **nunca** | **nunca** | administrar | ver todos, intervenir | ver, devolver por anulación, liquidar | nombre, dirección |
 
 **El grupo (MATU-42).** Solo el `admin` invita, anula invitaciones, cambia roles y el permiso del pagador y saca a alguien. Los demás roles reciben 404, y la RLS por operación de la 0026 lo exige también en la base. Cualquier miembro puede salir. El grupo nunca queda sin `admin` (trigger y 409). Al dejar de compartir la ficha (salir, ser sacado o pasar de `admin` o `cuidador` a `pagador` u `observador`) se cortan los accesos de relevo que la persona compartió. Al dejar de administrar, se anulan sus invitaciones sin usar.
@@ -1331,8 +1353,8 @@ Tres dimensiones, evaluadas siempre en este orden: **quién es** (JWT válido y 
 
 **Lo que ve un comercio, con el ADR-027.**
 - **La consulta de stock no trata datos personales.** Lleva solo productos, cantidades y una referencia opaca para apartar. No lleva datos de la familia, de la persona cuidada ni de la dirección, y una prueba sobre el objeto de la consulta lo verifica.
-- **El comercio que prepara ve solo sus líneas**, la referencia del pedido y el código de retiro. Nunca un nombre, la ficha ni la dirección. Como MATU emite la boleta, el comercio no necesita el nombre de quien paga.
-- **El comercio que reemplaza a otro** recibe la misma proyección que el original, solo con las líneas que le tocan.
+- **El comercio que prepara ve solo sus líneas** y la referencia de su parte. Nunca un nombre, la ficha, la dirección, montos ni el código de retiro, que solo valida (MATU-63, D-63-1 y D-63-5). Como MATU emite la boleta, el comercio no necesita el nombre de quien paga.
+- **El comercio que reemplaza a otro** recibe la misma proyección que el original, solo con las líneas que le tocan. Es de la fase 2: en el piloto, después de pagar, lo que falta se devuelve (D-63-8).
 - **Los productos del pedido se tratan como datos sensibles** mientras se consulta, porque junto con un dato que identifica pueden revelar salud o dependencia. [PENDIENTE: consulta legal sobre si lo son según la Ley 21.719 (P2). Los comercios en convenio se tratan como encargados, con las cláusulas del art. 15 bis (decisión de Jorge, 27-10).]
 
 ### 11.3 Minimización de datos de salud
@@ -1418,6 +1440,9 @@ Que la incidencia **no bloquee la entrega** es deliberado: la familia está espe
 | Registro de pagos y boletas | 6 años | Obligación tributaria |
 | **Pagos sin dinero** (intentos rechazados, abandonados o vencidos en Webpay), con su cargo y sus transacciones | 30 días, con su pedido | Nada se cobró (D-62-13 c de MATU-62). Un cobro anulado completo, en cambio, se guarda 6 años con el pedido sin entrega, sin las líneas ni la dirección. [PENDIENTE: CL-64] |
 | Pedidos pagados y evidencias de entrega | 2 años | Resolución de disputas |
+| Partes por comercio, sus líneas y los retractos (MATU-63) | 2 años, con el pedido. La anulación de un retracto, 6 años, con el pago | D-63-13. Todavía no se borran solos: el borrado lo construye MATU-89. [PENDIENTE: CL-28 ampliada] |
+| Huella del código de retiro | Hasta que se usa, vence o se bloquea | D-63-4 y D-63-13. La vacía la tarea `despacho` al vencer |
+| Auditoría del comercio (sin grupo, `actor_tipo = 'comercio'`) | 3 años | D-63-12 y D-63-13. Todavía no se borra sola (MATU-89). [PENDIENTE: CL-73] |
 | **Pedidos no pagados** (`borrador`, total vencido y `cancelado` sin pago), con su `pedido_transicion` | 30 días. La copia de la entrega (`pedido_entrega`) se borra al cancelar | Nada justifica guardar lo que nunca se pagó (D5 de la revisión previa de MATU-61). Lo borra una tarea del programador de MATU-74. [PENDIENTE: CL-28 ampliada] |
 | `idempotencia` de los POST del pedido | 24 horas, solo el estado HTTP y el id del pedido, sin el cuerpo | D5 de la revisión previa de MATU-61 |
 | Dirección de entrega de la persona | Mientras la persona esté registrada, hasta que se vacía o se borra a la persona. Retirar la autorización de pedidos no la borra | Se pide con el primer pedido y se guarda para los próximos (D4 y CJ6 de Jorge) |
@@ -2098,7 +2123,7 @@ Existía en el diseño anterior sobre la publicación exclusiva en Android. Se r
 
 | Qué se saca | Requisitos | Horas | Cómo se demuestra igual |
 |---|---|---|---|
-| Aplicación de repartidor | RF-27, RF-28, RF-29 | 24 h | El pedido se marca retirado y entregado desde la vista de comercio |
+| Aplicación de repartidor | RF-27, RF-28, RF-29 | 24 h | El comercio marca el retiro al validar el código, y operación marca «en camino» y «entregado» (MATU-63, D-63-6) |
 | Seguimiento de posición | RF-30 | 4 h | Los cambios de estado por push cubren la necesidad real |
 | Liquidación automática | mitad de RF-31 | 5 h | Se registra el consumo por pedido y el cierre se hace en planilla |
 | Indicadores avanzados | parte de RF-32 | 8 h | Quedan cuatro de los seis indicadores |
@@ -2284,7 +2309,7 @@ De los cuatro huecos que la v1.0 declaraba, **uno se cerró y tres siguen abiert
 | ~~**La captura diferida no aplica a débito ni prepago**~~ **MATERIALIZADO Y REEMPLAZADO** | — | — | Se confirmó en el sprint 0: el débito no admite captura diferida. Fue la razón principal del ADR-027, que cobra una sola vez el total exacto en venta normal, con crédito y débito iguales |
 | **La anulación parcial de una venta normal no se admite con débito**, o sus plazos no calzan con "el mismo día" | Media | Alto | Casos de venta normal y anulación parcial con crédito y con débito en el ambiente de integración, antes del sprint 4. Si no se admite, se define otro medio antes del sprint 4, sin pedir datos bancarios a la familia salvo que se apruebe como tratamiento nuevo. [PENDIENTE: plazos máximos de anulación de Transbank] |
 | **Los precios del comercio no están al día** | Media | Medio | El convenio obliga al comercio a mantener precios y stock. Sin convenio, el piloto usa precios de ejemplo detrás del puerto `CatalogoComercio` y lo declara en la interfaz |
-| **Un producto apartado falta al retirar** | Baja | Medio | El comercio que confirma el stock lo aparta. Si falta, el mismo producto en otro comercio, con la diferencia a cargo de MATU, o devolución de su precio. La reasignación después de pagar es fase 2 y en el semestre se muestra simulada |
+| **Un producto apartado falta al retirar** | Baja | Medio | El comercio que confirma el stock lo aparta. Si falta, el mismo producto en otro comercio, con la diferencia a cargo de MATU, o devolución de su precio. La reasignación después de pagar es fase 2. En el piloto, lo que falta después de pagar se devuelve el mismo día (MATU-63, D-63-8) |
 | **La consulta legal del ADR-027 no llega antes de cobrar dinero real** | Media | Alto | En el semestre no se cobra dinero real. La investigación normativa del 27-10 resolvió con el texto de la ley que el retracto aplica y cómo se informa, y que no hay un plazo legal específico para devolver lo no entregado. El 27-10 Jorge resolvió por diseño P3 a P7 con la opción más protectora. Antes de cobrar dinero real quedan P1 y P2 para un abogado y P8 para un contador (sección 18.1). Mientras tanto, los productos se tratan como sensibles. |
 | Pérdida de capacidad de una persona | Media | **Crítico en nueve semanas** | Con el ADR-030 el desarrollo depende de Jorge, y la revisión y el despliegue de Martín. Estado documentado en los dos repositorios, informes de revisión en `TESTER/` y PR pequeños. Con la ventana acortada, una ausencia de dos semanas ya no es recuperable y obliga a aplicar el orden de sacrificio de inmediato |
 | Curar el catálogo toma más de lo previsto | Media | Bajo | El catálogo semilla son los seis productos que reportaron las entrevistadas, no una lista inventada. Es trabajo humano acotado, en el sprint 4 |
@@ -2323,13 +2348,13 @@ De los cuatro huecos que la v1.0 declaraba, **uno se cerró y tres siguen abiert
 | **Quién paga y por qué canal se llega** | Abierto | Las cuatro entrevistas de ampliación, semana 9 |
 | **Consulta legal sobre representación** | Abierto, y con una pregunta nueva | Además de la zona gris del `cuidador_de_hecho`, la cuidadora remunerada planteó de quién es el registro cuando lo escribe una trabajadora. **No hay respuesta en la arquitectura** |
 | **Persona jurídica** | Abierto, ya no bloqueante | Sin RUT no hay Webpay en producción. El entregable del semestre se formuló como entorno de demostración. Con el ADR-027 MATU vende y emite la boleta, y para eso necesita inicio de actividades, después del semestre |
-| **Consulta legal del ADR-027** | Abierto, con tres preguntas | La investigación normativa del 27-10 (`legal/investigacion-normativa-adr-027.md`) resolvió con el texto de la ley que el retracto aplica y cómo se informa, y que el plazo de la devolución lo fijan los términos del pedido. El 27-10 Jorge resolvió por diseño, con la opción más protectora, P3 a P7: quién consiente se resuelve con MATU-07; el comercio se trata como encargado, con las cláusulas del art. 15 bis; el retracto aplica a todo producto sellado, con envío devuelto y retiro a cargo de MATU; ante la falta de entrega, MATU devuelve el mismo día, responde ante la familia y repite contra el comercio, sin limitar indemnizaciones; y la evaluación de impacto se hace antes de operar con datos reales. Quedan abiertas P1 y P2 (art. 16 bis, inciso 1, y si los pedidos son datos de salud) para un abogado, y P8 (lo tributario) para un contador. Ninguna bloquea el semestre, porque no hay datos ni dinero reales. Ver la sección "Decisiones de Jorge (27-10)" de la investigación |
+| **Consulta legal del ADR-027** | Abierto, con tres preguntas | La investigación normativa del 27-10 (`legal/investigacion-normativa-adr-027.md`) resolvió con el texto de la ley que el retracto aplica y cómo se informa, y que el plazo de la devolución lo fijan los términos del pedido. El 27-10 Jorge resolvió por diseño, con la opción más protectora, P3 a P7: quién consiente se resuelve con MATU-07; el comercio se trata como encargado, con las cláusulas del art. 15 bis; el retracto aplica a todo producto sellado, con envío devuelto y retiro a cargo de MATU (desde las condiciones 0.3 de MATU-63, el envío se devuelve solo si se devuelve todo, D-63-10 b); ante la falta de entrega, MATU devuelve el mismo día, responde ante la familia y repite contra el comercio, sin limitar indemnizaciones; y la evaluación de impacto se hace antes de operar con datos reales. Quedan abiertas P1 y P2 (art. 16 bis, inciso 1, y si los pedidos son datos de salud) para un abogado, y P8 (lo tributario) para un contador. Ninguna bloquea el semestre, porque no hay datos ni dinero reales. Ver la sección "Decisiones de Jorge (27-10)" de la investigación |
 
 **Requisitos para el sprint 4 que salen de la investigación normativa** (`legal/investigacion-normativa-adr-027.md`). Por aprobar por Jorge, y todavía sin diseño:
 
 - R1: resumen antes de pagar completo (8.2), con el vendedor identificado como "piloto académico, sin persona jurídica" durante el piloto.
 - R2: aviso de derecho a retracto junto al precio, con letra no menor.
-- R3: "Arrepentirme de la compra" durante 10 días.
+- R3: "Arrepentirme de la compra" durante 10 días. *MATU-63:* 10 días hábiles desde la entrega (D-63-9), con la regla y la ruta en MATU-63 y la pantalla en MATU-92.
 - R4: confirmación escrita al pagar, comprobante y correo.
 - R5 (esquema): versión y fecha de las condiciones aceptadas.
 - R6: referencia opaca aleatoria por pedido, con prueba sobre el objeto de la consulta.

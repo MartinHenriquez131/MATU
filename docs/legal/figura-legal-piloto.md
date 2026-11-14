@@ -101,7 +101,7 @@ La aplicación no debe limitar las formas de pago (decisión del 24/10/2026, reg
   - el canal de reclamo, el enlace a las condiciones del pedido y una salida sin costo
 
   Acepta las condiciones del pedido y recibe un comprobante.
-- **Quién vende.** Después del semestre: MATU vende y emite una sola boleta por el total, con el envío incluido. Los comercios le cobran a MATU por cuenta corriente y no ven el nombre de nadie, solo la referencia del pedido y el código de retiro. Vender de verdad exige la persona jurídica de la sección 6. [PENDIENTE: consulta tributaria sobre el documento tributario cuando hay devolución]
+- **Quién vende.** Después del semestre: MATU vende y emite una sola boleta por el total, con el envío incluido. Los comercios le cobran a MATU por cuenta corriente y no ven el nombre de nadie, solo sus productos y la referencia de su parte del pedido. El código de retiro no lo ven: quien retira por MATU lo dice y el comercio solo revisa si es correcto (MATU-63, D-63-1 y D-63-5). Vender de verdad exige la persona jurídica de la sección 6. [PENDIENTE: consulta tributaria sobre el documento tributario cuando hay devolución]
 - **Lo que el Decreto 6 de 2021 (Reglamento de Comercio Electrónico) pide a MATU como vendedor** (`investigacion-normativa-adr-027.md`, sección 1):
   - identificar al vendedor (art. 7);
   - mostrar el despacho separado del precio (art. 11);
@@ -119,7 +119,7 @@ La aplicación no debe limitar las formas de pago (decisión del 24/10/2026, reg
   - en el pedido entregado, la acción "Arrepentirme de la compra" durante 10 días;
   - la devolución por retracto se hace sin retención de gastos y dentro de 45 días (art. 3 bis), por anulación de Webpay Plus a la misma tarjeta mientras esté dentro del plazo máximo de anulación de Transbank. [PENDIENTE: el retracto puede ejercerse hasta 10 días después de recibir, o 90 sin confirmación escrita; si eso excede el plazo de anulación, se define otro medio antes del sprint 4, sin pedir datos bancarios a la familia salvo que se apruebe como tratamiento nuevo]
   - sin la confirmación escrita del art. 12 A, el plazo sube a 90 días.
-- **Alcance del retracto** (decisión de Jorge, 27-10, la opción más protectora): aplica a todo producto sellado y se pierde solo si se abre el sello. MATU devuelve también el envío y paga el retiro. No se aplica ninguna exclusión más amplia.
+- **Alcance del retracto** (decisión de Jorge, 27-10, la opción más protectora): aplica a todo producto sellado y se pierde solo si se abre el sello. MATU devuelve también el envío y paga el retiro. No se aplica ninguna exclusión más amplia. **Cambia con las condiciones del pedido 0.3 (MATU-63, D-63-10 b, decisión de Jorge del 13-11):** el envío se devuelve solo si se devuelve todo lo entregado, y el retiro sigue sin costo. El botón dura 10 días hábiles desde la entrega (D-63-9). Los pedidos que aceptaron la 0.2 se respetan como estaban. [PENDIENTE: CL-71 y CL-72]
 - Nada de esto mueve dinero real durante el semestre. Después del semestre, el alta comercial cubre la venta normal de Webpay Plus.
 
 ## 6. Qué se hace después del semestre
@@ -136,7 +136,7 @@ Antes de tratar datos reales o cobrar dinero real, en este orden:
    - [PENDIENTE: consulta tributaria con un contador sobre el documento tributario cuando hay devolución (P8)]
    - P3, quién consiente por la persona mayor dependiente (arts. 12 y 16 c): se resuelve con MATU-07, con la calidad del otorgante y la revisión a los 12 meses. Lo que quede abierto se une a la consulta del cuidador de hecho.
    - P4, si la referencia opaca es un dato personal para el comercio: no depende de la respuesta. MATU trata al comercio como si fuera encargado, y el convenio lleva siempre las cláusulas del art. 15 bis.
-   - P5, alcance del retracto: aplica a todo producto sellado y se pierde solo si se abre el sello; MATU devuelve también el envío y paga el retiro; no se aplica ninguna exclusión más amplia (sección 5).
+   - P5, alcance del retracto: aplica a todo producto sellado y se pierde solo si se abre el sello; MATU devuelve también el envío y paga el retiro; no se aplica ninguna exclusión más amplia (sección 5). Desde las condiciones 0.3, el envío se devuelve solo si se devuelve todo (MATU-63, D-63-10 b).
    - P6, falta de entrega: devolución el mismo día; MATU responde ante la familia y después repite contra el comercio según el convenio; los términos no limitan ninguna indemnización que corresponda (sección 5).
    - P7, evaluación de impacto (art. 15 ter): se hace antes de operar con datos reales, sea obligatoria o no.
 4. Política de privacidad 1.0 revisada por un abogado, con la persona jurídica como responsable. `POLITICA_VERSION` pasa a 1.0, y los consentimientos otorgados con versiones 0.x no sirven para datos reales.
