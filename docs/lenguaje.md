@@ -1551,6 +1551,13 @@ Los textos salen de `web/src/familia/textosMisDatos.ts` (rama de código de MATU
 | 24 `pago_aprobado` | Con `referencia`: Se aprobó el pago del pedido {referencia} · Sin ella: Se aprobó el pago de un pedido | [README, ajustado] · **[NUEVO]** (F1) |
 | 25 `pago_anulado` | Con `referencia`: Se devolvió dinero del pago del pedido {referencia} · Sin ella: Se devolvió dinero de un pago | [README, ajustado: decía «Se anuló el pago»] · **[NUEVO]** (F1) |
 | 26 `pidio_una_copia` | Pidió una copia de los datos | [ANALISTA] |
+| 27 `devolucion_a_la_tarjeta` | MATU devolvió dinero a la tarjeta por el pedido {referencia} · sin referencia: MATU devolvió dinero a la tarjeta | **[NUEVO]** MATU-63 |
+| 28 `pidio_un_retracto` | Pidió un retracto del pedido {referencia} · sin referencia: Pidió un retracto | **[NUEVO]** MATU-63 |
+| 29 `codigo_de_retiro_generado` | MATU preparó el código de retiro del pedido {referencia} · sin referencia: MATU preparó un código de retiro | **[NUEVO]** MATU-63 (nunca el código) |
+| 30 `pedido_en_camino` | MATU salió a entregar el pedido {referencia} · sin referencia: MATU salió a entregar un pedido | **[NUEVO]** MATU-63 |
+| 31 `pedido_entregado` | MATU entregó el pedido {referencia} · sin referencia: MATU entregó un pedido | **[NUEVO]** MATU-63 |
+| 32 `pedido_no_entregado` | MATU no pudo entregar el pedido {referencia} · sin referencia: MATU no pudo entregar un pedido | **[NUEVO]** MATU-63 |
+| 33 `retracto_resuelto` | MATU respondió el retracto del pedido {referencia} · sin referencia: MATU respondió un retracto | **[NUEVO]** MATU-63 (no dice si se aceptó) |
 | **La entrada en «Tu cuenta»** | | |
 | Título y bajada | Tus datos · Ver y descargar lo que MATU guarda de tu cuenta. | [ANALISTA] |
 | Botón | Ver tus datos | **[NUEVO]** |
