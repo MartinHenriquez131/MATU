@@ -1552,7 +1552,7 @@ Los textos salen de `web/src/familia/textosMisDatos.ts` (rama de código de MATU
 | 25 `pago_anulado` | Con `referencia`: Se devolvió dinero del pago del pedido {referencia} · Sin ella: Se devolvió dinero de un pago | [README, ajustado: decía «Se anuló el pago»] · **[NUEVO]** (F1) |
 | 26 `pidio_una_copia` | Pidió una copia de los datos | [ANALISTA] |
 | 27 `devolucion_a_la_tarjeta` | MATU devolvió dinero a la tarjeta por el pedido {referencia} · sin referencia: MATU devolvió dinero a la tarjeta | **[NUEVO]** MATU-63 |
-| 28 `pidio_un_retracto` | Pidió un retracto del pedido {referencia} · sin referencia: Pidió un retracto | **[NUEVO]** MATU-63 |
+| 28 `pidio_un_retracto` | Pidió arrepentirse de la compra del pedido {referencia} · sin referencia: Pidió arrepentirse de una compra | **[NUEVO]** MATU-63 (la familia lee «arrepentirse de la compra», no «retracto») |
 | 29 `codigo_de_retiro_generado` | MATU preparó el código de retiro del pedido {referencia} · sin referencia: MATU preparó un código de retiro | **[NUEVO]** MATU-63 (nunca el código) |
 | 30 `pedido_en_camino` | MATU salió a entregar el pedido {referencia} · sin referencia: MATU salió a entregar un pedido | **[NUEVO]** MATU-63 |
 | 31 `pedido_entregado` | MATU entregó el pedido {referencia} · sin referencia: MATU entregó un pedido | **[NUEVO]** MATU-63 |
