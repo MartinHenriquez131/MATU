@@ -1600,3 +1600,34 @@ Los textos salen de `web/src/familia/textosMisDatos.ts` (rama de código de MATU
 **«Un grupo del que saliste»** va en el lugar del nombre del grupo, porque la cuenta ya no lo puede leer, y **«Código de autorización»** sale solo en «Tus datos» de quien pagó, nunca en «Datos de». Dicen lo mismo que la política 0.17, §10, «Ver y descargar los datos desde la aplicación». Si una cambia, cambia la otra.
 
 **Ninguno usa** los términos de la sección 3, «exportar», «auditoría», «registro de accesos», «consentimiento», «sesión», «token», «usuario», «inválido», «rechazado» ni «fallido».
+
+## 37. «Me quedan» con envases cerrados y unidades sueltas, y el total con el envío (MATU-109) · Por aprobar por Jorge al fusionar
+
+Origen: usabilidad ronda 2 (`docs/usabilidad/ronda-2-informe.md`), H1 (P2) y H4 (P3). Especificación: `docs/diseno/matu-109-me-quedan.md` del repositorio MATU_PROYECTO. La sección 36 queda reservada para la consola del comercio (MATU-63).
+
+**«Me quedan» y el alta del insumo** (cambian las secciones 23 y 30):
+
+| Dónde | Texto | Marca |
+|---|---|---|
+| Panel, ayuda en modo sueltos, en unidades | Cuenta unidades, no envases. Si tienes envases cerrados, toca «Contar en envases». Reemplaza lo que calculábamos. Si no queda nada, escribe 0. | [CAMBIA] 23 |
+| Panel, ayuda en modo sueltos, en sobres | Cuenta sobres, no envases. Si tienes envases cerrados, toca «Contar en envases». Reemplaza lo que calculábamos. Si no queda nada, escribe 0. | [CAMBIA] 23 |
+| Alta, ayuda en modo sueltos | Cuenta unidades, no envases. Si tienes envases cerrados, toca «Contar en envases». (en sobres, «Cuenta sobres, no envases…») | [NUEVO] |
+| Edición, ayuda en modo sueltos | La de hoy (18) y después: Cuenta unidades, no envases. Si tienes envases cerrados, toca «Contar en envases». | [NUEVO] |
+| Panel, ayuda en modo envases | Cuenta los envases cerrados y, a ojo, lo suelto. Reemplaza lo que calculábamos. | [CAMBIA] 30 |
+| Alta y edición, ayuda en modo envases | Cuenta los envases cerrados y, a ojo, lo suelto. | [CAMBIA] 30 |
+| Primer contador | Envases cerrados | [CAMBIA] 30 («Envases enteros») |
+| Ayuda del primer contador | Los que todavía no abres. | [NUEVO] |
+| Ayuda del segundo contador, unidades | Las del envase abierto y las que están fuera de su envase. | [NUEVO] |
+| Ayuda del segundo contador, sobres | Los del envase abierto y los que están fuera de su envase. | [NUEVO] |
+| Botones − y + (lector) | Uno menos: Envases cerrados · Uno más: Envases cerrados | [CAMBIA] |
+
+En ml y g no cambia nada: no hay modo envases, así que la ayuda no nombra «Contar en envases».
+
+**El total del pedido** (cambia la sección 31):
+
+| Dónde | Texto | Marca |
+|---|---|---|
+| Bajo «Total» en la boleta, vigente y vencida | Son los precios finales. El envío es uno solo, por todo el pedido. | [NUEVO] |
+| Bajada de «Antes de pagar» | Confirmamos que hay cada producto. El total, con el envío, es {total}. | [CAMBIA] 31 |
+
+La línea bajo el total no usa la palabra «IVA», para cumplir la regla de la sección 31, que solo la admite en «Precio de ejemplo · IVA incluido». <!-- PENDIENTE de Jorge: si prefiere «Cada precio ya incluye el IVA. El envío es uno solo, por todo el pedido.», hay que ampliar la regla de la sección 31 -->
