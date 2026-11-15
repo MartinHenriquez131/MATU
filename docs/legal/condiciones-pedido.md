@@ -1,7 +1,8 @@
 # Condiciones del pedido de MATU
 
-**Versión 0.2 · 11 de noviembre de 2026 (11/11/2026)** · versión del piloto académico. Parte de la 0.1 (MATU-61) y suma el pago (MATU-62): la redactó el analista normativo en la segunda revisión previa de MATU-62 (`revision-previa-matu-62-segunda.md`) y la aprobó el orquestador el 11-11, por delegación de Jorge Espinoza (Product Owner), que la confirmó el 12-11. La §4 se corrigió antes de publicarse: en el piloto el comprobante queda en MATU y no se envía por correo (P-62-5). No es asesoría legal. En el piloto no se cobra dinero real.
-**Identificador de versión en el sistema:** `0.2`, con huella SHA-256 `64859e519a0aa19bb56b415256d2d9757f162e278824edffb1092a2985a334b7`. La 0.1 sigue publicada (`GET /v1/condiciones-pedido?version=0.1`) para quien la aceptó.
+**Versión 0.3 · 13 de noviembre de 2026 (13/11/2026)** · versión del piloto académico. Parte de la 0.2 y suma lo que pasa después de pagar (MATU-63): cambian §5 (un producto que falta después de pagar se devuelve el mismo día), §6 (se cancela mientras ningún comercio empiece a preparar), §8 (si no hay nadie para recibir) y §9 (cómo se pide el retracto y cuándo se devuelve el envío). La redactó el analista normativo en la revisión previa de MATU-63 (`revision-previa-matu-63.md`, D-63-8 a D-63-11 y D-63-16). Jorge confirmó el 13-11 el plazo de 10 días hábiles (D-63-9) y que el envío se devuelve solo si se devuelve todo (D-63-10 b). **Pendiente de aprobación: la aprueba Jorge al fusionar.** No es asesoría legal. En el piloto no se cobra dinero real.
+**Identificador de versión en el sistema:** `0.3`, con huella SHA-256 `ecd49b57dfd80e55899e07050e30e03fc2627831f0f2c4731ef0bb4d75d94d19`.
+**La 0.3 se acepta solo en los pedidos nuevos (D-63-16).** **La 0.2 rige para los pedidos que la aceptaron**, y se cumplen según la 0.2: en un retracto se devuelve también el envío, aunque se devuelva solo una parte (D-63-10 a). La 0.2 (huella `64859e519a0aa19bb56b415256d2d9757f162e278824edffb1092a2985a334b7`) y la 0.1 siguen publicadas (`GET /v1/condiciones-pedido?version=0.2` y `?version=0.1`) para quien las aceptó.
 **Versión propia (D6):** estas condiciones tienen su número, separado del de la política de privacidad. Cambiar una palabra desde la sección 1 hasta el final es publicar una versión nueva, porque cambia la huella del texto que se acepta.
 **Dónde se leen:** en la app, en /condiciones-pedido, con el enlace «Condiciones del pedido» del resumen antes de pagar (`GET /v1/condiciones-pedido`), y la versión aceptada desde el comprobante (`?version=`).
 
@@ -33,16 +34,14 @@ Al pagar te mostramos un comprobante, que queda guardado en MATU, con el número
 
 ## 5. Si falta un producto
 
-Antes de pagar eliges, por cada producto, si lo buscamos en otro comercio o si lo sacamos del pedido. Si no eliges, lo buscamos.
+Antes de pagar eliges, por cada producto, si lo buscamos en otro comercio o si lo sacamos del pedido. Si no eliges, lo buscamos. Lo hacemos al confirmar el total: si el producto pasa a otro comercio o cambia de precio, lo ves antes de pagar. Nunca lo cambiamos por otra marca ni por otro producto.
 
-- Si lo buscamos y otro comercio lo tiene, pagas lo mismo que aceptaste. La diferencia de precio la asume MATU.
-- Nunca lo cambiamos por otra marca ni por otro producto.
-- Si nadie lo tiene, o elegiste sacarlo, anulamos su cobro el mismo día, a la misma tarjeta. Si no se entrega ningún producto, devolvemos también el envío. Cuándo lo ves en tu cuenta depende de tu banco.
+Durante el piloto, si después de pagar falta un producto, no lo buscamos en otro comercio: anulamos el cobro de lo que falta el mismo día, a la misma tarjeta. Si falta solo una parte, te devolvemos esas unidades y te llevamos el resto. Si no se entrega ningún producto, devolvemos también el envío. Cuándo lo ves en tu cuenta depende de tu banco.
 
 ## 6. Cancelar
 
 - Antes de pagar, no seguir no tiene costo.
-- Después de pagar, quien administra el grupo puede cancelar sin costo mientras el comercio no empiece a preparar, y te devolvemos el total.
+- Después de pagar, quien administra el grupo puede cancelar sin costo, y te devolvemos el total, mientras ningún comercio empiece a preparar.
 
 ## 7. Si no podemos devolver
 
@@ -50,11 +49,13 @@ Si la anulación en Transbank no se puede hacer, la reintentamos y te escribimos
 
 ## 8. Entrega
 
-Durante el piloto, el pedido llega entre 24 y 48 horas hábiles. Te lo mostramos antes de pagar. Si no podemos cumplirlo, te avisamos y eliges entre esperar o recibir la devolución.
+Durante el piloto, el pedido llega entre 24 y 48 horas hábiles. Te lo mostramos antes de pagar. Si no podemos cumplirlo, te avisamos. Mientras ningún comercio empiece a preparar, puedes cancelar y te devolvemos el total. Si no hay nadie para recibirlo, coordinamos otra entrega o te devolvemos el total.
 
 ## 9. Derecho a retracto
 
-Tienes 10 días desde que recibes el producto. En los productos de uso personal o de higiene sellados, se pierde solo si abres el sello. MATU devuelve también el envío y paga el retiro. Lo pides en el pedido entregado, con «Arrepentirme de la compra». [PENDIENTE: CL-41, suplemento y bolsas colectoras; medio de devolución si se pasa el plazo de anulación de Transbank]
+Lo piden quien administra el grupo o quien pagó, en el pedido entregado, con «Arrepentirme de la compra», hasta la fecha que te mostramos (10 días hábiles desde la entrega). Puedes elegir qué productos devuelves. Puedes devolverlos en una o varias veces mientras dure el plazo. Pasamos a buscarlos sin costo. Cuando los recibimos con su sello cerrado, te devolvemos su precio a la misma tarjeta, y también el envío si devuelves todo. Si no alcanzas a hacerlo en la aplicación, escríbenos a cuidaconmatu@gmail.com.
+
+En los productos de uso personal o de higiene sellados, el derecho a retracto se pierde solo si abres el sello. [PENDIENTE: CL-41, CL-54, CL-71 y CL-72. Suplemento y bolsas colectoras, cómo se cuenta el plazo, el envío en un retracto parcial y el medio de devolución si se pasa el plazo de anulación de Transbank, CL-55]
 
 ## 10. Si algo no llega
 
