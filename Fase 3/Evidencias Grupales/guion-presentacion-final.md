@@ -16,7 +16,7 @@
 - **Problema y solución:** el contexto de la Fase 2 se abre en las tres láminas de la Fase 1 (`Fase 1/Evidencias Grupales/MATU_Presentacion_Fase1.pptx`): el problema con sus cifras, el diagnóstico (dos problemas que son el mismo) y la solución (tres capas, y el orden importa). Es lo que más pesa en la presentación.
 - **El equipo son Jorge y Martín.** Las entrevistas y la usabilidad aparecen como respaldo en una frase, no tienen lámina propia.
 
-Las cifras marcadas con `[VERIFICAR]` hay que revisarlas antes del primer ensayo.
+**Cifras verificadas el 16-11** en el código (`main`, eb32e70), en `docs/arquitectura.md` y en GitHub: 26 requisitos *Debe* sobre 42 (arquitectura, 3.6), 23 cumplidos, 98 PR fusionados en MATU_PROYECTO, 29 migraciones, 251 pruebas en `test_aislamiento.py`, 10 módulos, $5.990 y 84 familias (arquitectura, 16.2) y el factor de 1,98 (MATU#99). Las cifras del problema son las de la presentación de la Fase 1 (ENDIDE 2022). Las dos marcadas con `[VERIFICAR el día de la presentación]` dependen de MATU-80 y MATU-81.
 
 ---
 
@@ -75,7 +75,7 @@ Nos comprometimos a construir esta plataforma y dejarla operativa en un entorno 
 
 ### Lámina 7 · Objetivos específicos
 **Habla Martín, recibe la palabra de Jorge · 25 s · al terminar 2:55.**
-Gracias, Jorge. Teníamos siete objetivos, y seis están cumplidos. Tres cambiaron su redacción por decisiones del camino: la lista se exporta sin enlace, el pago es un solo cobro del total exacto y fijamos seis recorridos críticos. El séptimo es que esos recorridos corran solos en cada cambio. Ya pasaron todos en un teléfono real `[VERIFICAR: estado de MATU-80 el día de la presentación]`.
+Gracias, Jorge. Teníamos siete objetivos, y seis están cumplidos. Tres cambiaron su redacción por decisiones del camino: la lista se exporta sin enlace, el pago es un solo cobro del total exacto y fijamos seis recorridos críticos. El séptimo es que esos recorridos corran solos en cada cambio. Ya pasaron todos en un teléfono real, y uno ya corre solo en cada cambio. Los otros cinco se automatizan esta semana `[VERIFICAR el día de la presentación: MATU-80]`.
 
 ### Lámina 8 · Alcance
 **Habla Martín · 15 s · al terminar 3:10.**
@@ -83,7 +83,7 @@ Construimos lo que nunca se sacrifica: la ficha, el acceso del relevo, la predic
 
 ### Lámina 9 · Requerimientos
 **Habla Martín · 15 s · al terminar 3:25.**
-De 42 requerimientos funcionales, cumplimos los obligatorios `[VERIFICAR: cuántos de 26]`. Entre los no funcionales hay dos que no se negocian: ningún pago sin registrar y la accesibilidad. El texto se puede agrandar al doble sin perder nada en la pantalla de un teléfono.
+De 42 requerimientos funcionales, 26 son obligatorios, y cumplimos 23. Los tres que faltan son de la operación interna de MATU: conciliar con el comercio, gestionar el catálogo y resolver incidencias `[VERIFICAR el día de la presentación: RF-31, RF-32 y RF-40, con MATU-81]`. Entre los no funcionales hay dos que no se negocian: ningún pago sin registrar y la accesibilidad. El texto se puede agrandar al doble sin perder nada en la pantalla de un teléfono.
 
 ### Lámina 10 · Metodología
 **Habla Martín · 15 s · al terminar 3:40.**
@@ -103,7 +103,7 @@ Es un monolito modular: una sola API con diez módulos, y las dependencias van s
 
 ### Lámina 14 · Modelo de datos
 **Habla Martín · 20 s · al terminar 4:50.**
-Todo el modelo cuelga del grupo familiar, que es la unidad de aislamiento. No guardamos datos clínicos. El comercio no lee las tablas de la familia: solo ve, por funciones cerradas, sus productos, las cantidades y una referencia al azar. Cada cambio de la base es una migración reversible, ya van 29, y las pruebas de aislamiento corren en cada entrega `[VERIFICAR: cuántas]`.
+Todo el modelo cuelga del grupo familiar, que es la unidad de aislamiento. No guardamos datos clínicos. El comercio no lee las tablas de la familia: solo ve, por funciones cerradas, sus productos, las cantidades y una referencia al azar. Cada cambio de la base es una migración reversible, ya van 29, y 251 pruebas de aislamiento corren en cada entrega.
 
 ### Lámina 15 · Modelo de negocio
 **Habla Martín · 15 s · al terminar 5:05 · pasa la palabra a Jorge.**
