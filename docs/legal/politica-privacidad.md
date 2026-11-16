@@ -529,5 +529,5 @@ Si hay una filtración que afecte datos personales, avisaremos sin demora a la A
 
 - Ley 19.628 sobre protección de la vida privada, con las modificaciones de la Ley 21.719 de protección de datos personales, que rigen plenamente desde el 1 de diciembre de 2026.
 - Ley 19.496 sobre protección de los derechos de los consumidores, para los pedidos y los pagos.
-- Decreto 6 de 2021 del Ministerio de Economía (Reglamento de Comercio Electrónico) y Decreto 52 de 2024 (exclusión del derecho a retracto), para los pedidos y los pagos. <!-- PENDIENTE: verificar en CL-41 el Decreto 52 de 2024 (cierre del analista de MATU-63) -->
+- Decreto 6 de 2021 del Ministerio de Economía (Reglamento de Comercio Electrónico) y Decreto 52 de 2024 (exclusión del derecho a retracto), para los pedidos y los pagos. <!-- PENDIENTE: el decreto es el N° 52 de 2022, publicado el 27-08-2024 (verificado el 16-11 en CL-41). El año se corrige en la próxima versión de la política, junto con su copia en el backend -->
 - Ley 20.422 sobre igualdad de oportunidades e inclusión de personas con discapacidad. Por eso esta política está escrita para leerse en el teléfono.

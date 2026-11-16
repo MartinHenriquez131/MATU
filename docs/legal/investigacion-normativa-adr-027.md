@@ -5,7 +5,7 @@
 ## Fuentes primarias
 
 - **Ley 19.496:** texto refundido, DFL 3 de 2021, con la Ley 21.398 "Pro Consumidor". https://www.bcn.cl/leychile/navegar?idNorma=1160403
-- **Decreto 52 de 2024**, Ministerio de Economía: reglamento de exclusión del derecho a retracto. https://www.bcn.cl/leychile/navegar?idNorma=1206144
+- **Decreto 52 de 2022**, Ministerio de Economía (publicado el 27-08-2024, vigente desde el 27-02-2025): reglamento de exclusión del derecho a retracto. https://www.bcn.cl/leychile/navegar?idNorma=1206144
 - **Decreto 6 de 2021**, Ministerio de Economía: Reglamento de Comercio Electrónico. https://www.bcn.cl/leychile/navegar?idNorma=1165504
 - **Ley 19.628 en la versión que fija la Ley 21.719**, vigente desde el 1 de diciembre de 2026. https://www.bcn.cl/leychile/navegar?idNorma=141599&idVersion=2026-12-01
 
