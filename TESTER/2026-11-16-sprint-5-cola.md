@@ -94,3 +94,26 @@ Se hizo en la demo, con el Motorola Edge 50 y Edge (información de Martín).
 - la línea bajo el total queda tal como está.
 
 **A la consulta legal:** CL-71 (los días hábiles), CL-72 (el envío en el retracto), CL-73 (la calidad del comercio) y CL-55.
+
+## Anexo · 16-11 · Pedido con dos productos y «No lo tengo» (cierra H3)
+
+**Demo, dos teléfonos.** Carmen en el Motorola y `comercio@example.com` en el iPhone. De 11:45 a 12:18 (hora de Chile), según Martín.
+
+| Paso | Qué se probó | Resultado |
+|---|---|---|
+| 1 | Carmen arma un pedido con dos productos de Almacén El Ejemplo y lo paga con la AMEX de prueba | OK |
+| 2 | El pedido llega a «Pedidos de hoy» con la corrida siguiente de `matu-cron-despacho`. El comercio marca «Lo tengo» en uno y «No lo tengo» en el otro. Al marcar «No lo tengo», la pantalla dice: «No lo cambies por otra marca ni por otro producto. MATU se encarga del resto.» (ADR-027, sin sustitución) | OK |
+| 3 | El comercio deja el pedido en «Listo» y el código se genera en la consola (`codigo-retiro`). El código no se escribió en el chat | OK |
+| R1 | Un código errado se rechaza | OK |
+| R2 | El código correcto deja el pedido retirado | OK |
+| R3 | Carmen ve el pedido retirado y la devolución del producto que faltó, a la misma tarjeta | OK |
+
+**Resultado:** PASS. **H3 queda cerrado.**
+
+**Hallazgos nuevos:**
+
+| ID | Severidad | Hallazgo | Propuesta |
+|---|---|---|---|
+| H7 | P2 | La semilla crea cuenta de comercio solo para Almacén El Ejemplo. Un pedido que cae en Bodega La Muestra (por ejemplo, con toallitas o crema, que solo tienen stock ahí) no lo puede preparar nadie en la demo. Los dos primeros pedidos de esta prueba quedaron ahí y no aparecieron en la consola | Jorge agrega a la semilla una cuenta para el segundo comercio (`comercio2@example.com`), o deja stock solo en el primero. Se nombra en el guion (MATU-77) |
+| H8 | P3 | Entre el pago y la llegada al comercio pasan hasta 5 minutos (`matu-cron-despacho`, `*/5`). Ni la familia ni el comercio lo ven explicado | Un texto en la consola del comercio, o decirlo en voz alta en el guion de la demo |
+| H9 | P3 | La carga de `SCHEDULER_DATABASE_URL` en la consola falló tres veces: se copió la referencia de Railway (29 caracteres), faltó el `export` y quedó `export ` pegado delante de la URL. El comando responde siempre «falta SCHEDULER_DATABASE_URL», sin distinguir si la variable no existe, no se lee como URL o es de otro usuario | Se suma a H4: lo resuelve la pantalla de MATU-81. Mientras tanto, el instructivo de MATU-64 trae el paso a paso con `railway variables -k` |
