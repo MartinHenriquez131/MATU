@@ -45,7 +45,7 @@ Cada bloque trae su tiempo, lo que se dice (para decirlo con palabras propias, n
 - **Cómo trabajamos:** Scrum en cinco sprints, con roles definidos (ADR-030):
   - Jorge, como Product Owner, desarrolla con un equipo de agentes de IA, cada uno con su rol y sus reglas;
   - Martín revisa cada cambio, lo despliega y lo prueba en un teléfono real antes de fusionarlo.
-- **[recortable]** El factor de vibecoding medido en el semestre: `[CIFRA de la parte técnica de MATU-78]`.
+- **[recortable]** El factor de vibecoding medido en el semestre: **1,98**. Por cada hora de trabajo de Jorge, salió lo que se había estimado en casi dos (143 h estimadas y 72 h reales, medidas en Trello). Para el equipo, 2,04.
 - Pasar la palabra: «Jorge les muestra la ficha funcionando».
 
 ## 3 · Jorge · Demo de la capa 1: la ficha de relevo (3:00 – 5:00)
