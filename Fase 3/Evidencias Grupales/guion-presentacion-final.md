@@ -2,18 +2,21 @@
 
 **Duración:** 10 minutos (600 segundos).
 **Orden:**
-1. Jorge abre.
-2. Martín sigue.
+1. Jorge abre: problema, diagnóstico y solución.
+2. Martín sigue: objetivos, cómo se construyó y la arquitectura.
 3. Jorge muestra la ficha en la demo.
 4. Martín muestra las capas 2 y 3.
 5. Jorge cuenta los próximos pasos de MATU.
 6. Martín cierra.
 
-**Borrador del orquestador · 16 de noviembre de 2026.** Jorge y Martín lo ajustan en los ensayos (MATU-111).
+**Borrador del orquestador, versión 2 · 16 de noviembre de 2026.** Jorge y Martín lo ajustan en los ensayos (MATU-111).
 
-**Estructura:** sigue la de la presentación de la Fase 2 (`Fase 2/Evidencias Proyecto/MATU_Presentacion_Fase2.pptx`), que a su vez ordenó la de la Fase 1. Son las mismas láminas, en el mismo orden y con la misma forma de nota: **quién habla, cuánto dura, en qué minuto termina y el texto dicho.** El contenido cambia porque cuenta el proyecto terminado: lo que se cumplió, lo que se construyó y lo que viene. Cada nota se puede pegar tal cual en las notas del orador de su lámina.
+**Estructura y profundidad:**
+- **Estructura:** las láminas y el orden son los de la presentación de la Fase 2 (`Fase 2/Evidencias Proyecto/MATU_Presentacion_Fase2.pptx`). Cada nota tiene la misma forma: quién habla, cuánto dura, en qué minuto termina y el texto dicho.
+- **Problema y solución:** el contexto de la Fase 2 se abre en las tres láminas de la Fase 1 (`Fase 1/Evidencias Grupales/MATU_Presentacion_Fase1.pptx`): el problema con sus cifras, el diagnóstico (dos problemas que son el mismo) y la solución (tres capas, y el orden importa). Es lo que más pesa en la presentación.
+- **El equipo son Jorge y Martín.** Las entrevistas y la usabilidad aparecen como respaldo en una frase, no tienen lámina propia.
 
-**Las cifras marcadas con `[VERIFICAR]`** hay que contrastarlas con la parte técnica de la Fase 3 (MATU#99) antes del primer ensayo.
+Las cifras marcadas con `[VERIFICAR]` hay que revisarlas antes del primer ensayo.
 
 ---
 
@@ -23,27 +26,24 @@
 |---|---|---|---|---|
 | 1 | Portada | Jorge | 10 s | 0:10 |
 | 2 | Equipo | Jorge | 15 s | 0:25 |
-| 3 | Contexto · problema y propuesta | Jorge | 40 s | 1:05 |
-| 4 | Objetivo general | Jorge | 15 s | 1:20 |
-| 5 | Objetivos específicos | Martín | 30 s | 1:50 |
-| 6 | Alcance | Martín | 20 s | 2:10 |
-| 7 | Requerimientos | Martín | 15 s | 2:25 |
-| 8 | Metodología y validación | Martín | 25 s | 2:50 |
-| 9 | Cronograma | Martín | 20 s | 3:10 |
-| 10 | Tecnologías y herramientas | Martín | 10 s | 3:20 |
-| 11 | Arquitectura de la aplicación | Martín | 20 s | 3:40 |
-| 12 | Modelo de datos y seguridad | Martín | 15 s | 3:55 |
-| 13 | Modelo de negocio | Martín | 15 s | 4:10 |
-| 14 | Demostración · Capa 1, la ficha de relevo | Jorge | 1 min 50 s | 6:00 |
-| 15 | Demostración · Capas 2 y 3, insumos y despacho | Martín | 2 min 15 s | 8:15 |
-| 16 | Próximos pasos de MATU | Jorge | 45 s | 9:00 |
-| 17 | Conclusión | Martín | 45 s | 9:45 |
-| 18 | Gracias | Martín | 15 s | 10:00 |
-
-**Respecto de la Fase 2:**
-- La demostración pasa de una lámina a dos, una para cada uno.
-- «Mejoras futuras» pasa a llamarse «Próximos pasos de MATU», y la presenta Jorge.
-- La validación con usuarios entra en «Metodología», con las dos rondas de usabilidad.
+| 3 | El problema | Jorge | 40 s | 1:05 |
+| 4 | El diagnóstico | Jorge | 30 s | 1:35 |
+| 5 | La solución | Jorge | 45 s | 2:20 |
+| 6 | Objetivo general | Jorge | 10 s | 2:30 |
+| 7 | Objetivos específicos | Martín | 25 s | 2:55 |
+| 8 | Alcance | Martín | 15 s | 3:10 |
+| 9 | Requerimientos | Martín | 15 s | 3:25 |
+| 10 | Metodología | Martín | 15 s | 3:40 |
+| 11 | Cronograma | Martín | 10 s | 3:50 |
+| 12 | Tecnologías y herramientas | Martín | 10 s | 4:00 |
+| 13 | Arquitectura de la aplicación | Martín | 30 s | 4:30 |
+| 14 | Modelo de datos | Martín | 20 s | 4:50 |
+| 15 | Modelo de negocio | Martín | 15 s | 5:05 |
+| 16 | Demostración · Capa 1, la ficha de relevo | Jorge | 1 min 35 s | 6:40 |
+| 17 | Demostración · Capas 2 y 3, consumo y despacho | Martín | 1 min 50 s | 8:30 |
+| 18 | Próximos pasos de MATU | Jorge | 40 s | 9:10 |
+| 19 | Conclusión | Martín | 35 s | 9:45 |
+| 20 | Gracias | Martín | 15 s | 10:00 |
 
 ---
 
@@ -51,86 +51,94 @@
 
 ### Lámina 1 · Portada
 **Habla Jorge · 10 s · al terminar 0:10.**
-Buenas tardes. Somos Jorge Espinoza y Martín Henríquez, y les presentamos el resultado final de MATU, un sistema de continuidad del cuidado para personas mayores con dependencia.
+Buenas tardes. Somos Jorge Espinoza y Martín Henríquez, y les presentamos MATU terminado: un sistema de continuidad del cuidado para personas mayores con dependencia.
 
 ### Lámina 2 · Equipo
 **Habla Jorge · 15 s · al terminar 0:25.**
-Yo soy el Product Owner y desarrollé MATU con un equipo de seis agentes de IA. Martín es el Scrum Master. Él revisó cada cambio, lo desplegó y lo probó en un teléfono real antes de fusionarlo. Los agentes proponen, y nosotros decidimos.
+Yo soy el Product Owner y desarrollé el sistema. Martín es el Scrum Master: desplegó los entornos, probó cada cambio en un teléfono real y revisó y fusionó cada entrega. Ninguno de los dos fusiona su propio trabajo.
 
-### Lámina 3 · Contexto · problema y propuesta
+### Lámina 3 · El problema
 **Habla Jorge · 40 s · al terminar 1:05.**
-En Chile, casi un millón y medio de personas adultas viven con dependencia, y el 96,4% de quienes las cuidan en el hogar no recibe pago. Entrevistamos a diez cuidadoras: nueve de cada diez habían dejado de salir por falta de alguien que las reemplazara, y cuando las reemplazaban, el relevo fallaba por algo que solo sabía ella. Ese conocimiento vive en una sola cabeza. MATU lo saca de ahí, en tres capas y en este orden: la ficha de relevo, que es el producto; la predicción de cuándo se acaba cada insumo, que es lo que nos diferencia; y el despacho, que es un servicio y se puede quitar sin que lo demás deje de funcionar.
+En Chile, un millón y medio de personas adultas viven en situación de dependencia. El 96,4% de quienes las cuidan en el hogar no recibe remuneración, y siete de cada diez son mujeres. El 41,3% no tiene un cuidador formal. Y hay doscientas mil personas con demencia, que en 2024 fue la cuarta causa de muerte del país. El cuidado lo sostienen las familias, sin pago y sin herramientas.
 
-### Lámina 4 · Objetivo general
-**Habla Jorge · 15 s · al terminar 1:20 · pasa la palabra a Martín.**
-Nos comprometimos a construir una plataforma que convierta el cuidado de una persona mayor en una ficha que se puede traspasar, y en una predicción de sus insumos con su reposición. Hoy está desplegada y funcionando. Martín les cuenta cómo llegamos.
+### Lámina 4 · El diagnóstico
+**Habla Jorge · 30 s · al terminar 1:35.**
+Hay dos problemas que parecen distintos y son el mismo. El primero es la continuidad: cómo se cuida a alguien vive en una sola cabeza, y traspasarlo cuesta horas. El segundo es el abastecimiento: el consumo se lleva de memoria, y se compra cuando alguien nota que se acabó. Las dos son la misma falla: el cuidado depende de una persona que no puede delegar ni ausentarse. Nueve de cada diez cuidadoras que entrevistamos habían dejado de salir por falta de relevo.
 
-### Lámina 5 · Objetivos específicos
-**Habla Martín, recibe la palabra de Jorge · 30 s · al terminar 1:50.**
-Gracias, Jorge. Teníamos siete objetivos, y seis están cumplidos. Tres cambiaron su redacción por decisiones que tomamos en el camino. La lista de reposición se exporta sin enlace. El pago es un solo cobro del total exacto, en vez de reservar un monto y cobrarlo después. Y fijamos seis recorridos críticos. El séptimo objetivo es que esos seis recorridos corran solos en cada cambio. Ya pasaron todos en un teléfono real, y estamos terminando de automatizarlos `[VERIFICAR: estado de MATU-80 el día de la presentación]`.
+### Lámina 5 · La solución
+**Habla Jorge · 45 s · al terminar 2:20.**
+MATU tiene tres capas, y el orden importa. La capa 1 es el producto: una ficha de relevo con tres campos, su día, qué hacer si se altera y a quién llamar. Se comparte con quien reemplaza por un enlace con PIN, que vence y se puede cortar. La capa 2 es el diferenciador: del mismo cuidado se declara el consumo, y MATU anticipa cuándo se acaba cada insumo y arma la lista de reposición. La capa 3 es el despacho, y es un servicio, no la razón de existir: sin ella, la familia exporta su lista y compra donde quiera. El orden importa porque la predicción existe gracias al cuidado: nadie que no conozca a la persona sabe que usa cuatro pañales al día.
 
-### Lámina 6 · Alcance
-**Habla Martín · 20 s · al terminar 2:10.**
-Construimos lo que nunca se sacrifica: la ficha, el acceso del relevo, la predicción de quiebre y la exportación de la lista. Lo que dejamos fuera del semestre está diseñado y tiene sus tablas en la base de datos: el pago dividido entre familiares, el prorrateo, la reposición programada, la app de repartidor y la liquidación automática.
+### Lámina 6 · Objetivo general
+**Habla Jorge · 10 s · al terminar 2:30 · pasa la palabra a Martín.**
+Nos comprometimos a construir esta plataforma y dejarla operativa en un entorno de demostración. Hoy lo está, y Martín les cuenta cómo la construimos.
 
-### Lámina 7 · Requerimientos
-**Habla Martín · 15 s · al terminar 2:25.**
-De los requerimientos funcionales, cumplimos todos los obligatorios `[VERIFICAR: cuántos de 42]`. En los no funcionales pesan tres: el aislamiento entre familias, el cifrado de la ficha y la accesibilidad, con texto que se puede agrandar al doble sin perder nada en la pantalla de un teléfono.
+### Lámina 7 · Objetivos específicos
+**Habla Martín, recibe la palabra de Jorge · 25 s · al terminar 2:55.**
+Gracias, Jorge. Teníamos siete objetivos, y seis están cumplidos. Tres cambiaron su redacción por decisiones del camino: la lista se exporta sin enlace, el pago es un solo cobro del total exacto y fijamos seis recorridos críticos. El séptimo es que esos recorridos corran solos en cada cambio. Ya pasaron todos en un teléfono real `[VERIFICAR: estado de MATU-80 el día de la presentación]`.
 
-### Lámina 8 · Metodología y validación
-**Habla Martín · 25 s · al terminar 2:50.**
-Usamos Scrum con sprints de una semana. Cada historia va en su rama, con pruebas junto al código, y no se fusiona sin el CI en verde y sin la revisión de la otra persona. Validamos con usuarias en dos rondas de usabilidad. En la segunda, las tres participantes completaron la ficha en menos de tres minutos sin ayuda, cuando en la primera lo había logrado solo una de tres.
+### Lámina 8 · Alcance
+**Habla Martín · 15 s · al terminar 3:10.**
+Construimos lo que nunca se sacrifica: la ficha, el acceso del relevo, la predicción de quiebre y la exportación de la lista. Es un piloto académico, sin dinero real y sin convenios, y es una app web pensada para el teléfono.
 
-### Lámina 9 · Cronograma
-**Habla Martín · 20 s · al terminar 3:10.**
-Cerramos cinco sprints de construcción. Medimos el factor de vibecoding con las horas reales anotadas en cada tarjeta: 1,98. Es decir, cada hora de trabajo de Jorge rindió lo que habíamos estimado en casi dos. Suponíamos 1,8, y el mínimo aceptable era 1,4.
+### Lámina 9 · Requerimientos
+**Habla Martín · 15 s · al terminar 3:25.**
+De 42 requerimientos funcionales, cumplimos los obligatorios `[VERIFICAR: cuántos de 26]`. Entre los no funcionales hay dos que no se negocian: ningún pago sin registrar y la accesibilidad. El texto se puede agrandar al doble sin perder nada en la pantalla de un teléfono.
 
-### Lámina 10 · Tecnologías y herramientas
-**Habla Martín · 10 s · al terminar 3:20.**
-Usamos tecnología conocida y documentada: Python con FastAPI, PostgreSQL y Redis en el backend, React con TypeScript en la app, y despliegue en Railway con dos entornos, uno de pruebas y otro de demostración.
+### Lámina 10 · Metodología
+**Habla Martín · 15 s · al terminar 3:40.**
+Usamos Scrum con sprints de una semana. Cada cambio va en su rama, con sus pruebas, y no entra sin el CI en verde y sin la revisión de la otra persona. Además medimos cuánto nos aceleró el desarrollo asistido por IA, en vez de suponerlo: un factor de 1,98.
 
-### Lámina 11 · Arquitectura de la aplicación
-**Habla Martín · 20 s · al terminar 3:40.**
-Es un monolito modular: una sola API, con módulos que solo dependen hacia abajo, y una prueba automática que lo verifica en cada cambio. La capa de despacho se puede apagar, y probamos que la ficha y la predicción siguen funcionando sin ella.
+### Lámina 11 · Cronograma
+**Habla Martín · 10 s · al terminar 3:50.**
+Cerramos los cinco sprints de construcción, con 98 entregas fusionadas al código, y todavía quedan los dos sprints de reserva.
 
-### Lámina 12 · Modelo de datos y seguridad
-**Habla Martín · 15 s · al terminar 3:55.**
-Todo cuelga del grupo familiar. La base de datos aísla a cada familia por fila, así que una consulta sin contexto no devuelve nada. La ficha se guarda cifrada con una clave por persona, y el comercio nunca ve el nombre ni la dirección de la familia.
+### Lámina 12 · Tecnologías y herramientas
+**Habla Martín · 10 s · al terminar 4:00.**
+Usamos tecnología conocida: Python con FastAPI, PostgreSQL 16, React con TypeScript y Webpay Plus de Transbank. El despliegue está en Railway, con un entorno de pruebas y otro de demostración.
 
-### Lámina 13 · Modelo de negocio
-**Habla Martín · 15 s · al terminar 4:10 · pasa la palabra a Jorge.**
-El modelo se sostiene con suscripción más despacho, y el equilibrio llega con 84 familias `[VERIFICAR: cifra vigente del modelo de negocio]`. Ahora Jorge les muestra la ficha funcionando.
+### Lámina 13 · Arquitectura de la aplicación
+**Habla Martín · 30 s · al terminar 4:30.**
+Es un monolito modular: una sola API con diez módulos, y las dependencias van siempre hacia abajo. La ficha no sabe que existe el despacho, y por eso la capa 3 se puede apagar: una prueba automática verifica que la ficha y la predicción siguen funcionando. La seguridad está en el diseño. Cada familia está aislada en la base de datos, de modo que una consulta sin contexto devuelve cero filas. La ficha va cifrada, con una clave por persona. Y diseñamos para la Ley 21.719, que rige plenamente desde diciembre.
 
-### Lámina 14 · Demostración · Capa 1, la ficha de relevo
-**Habla Jorge, recibe la palabra de Martín · demo de 1 min 50 s · al terminar 6:00.**
-Esto es MATU en vivo, en el entorno de demostración y con datos de prueba. Entro como Carmen, que cuida a su madre.
+### Lámina 14 · Modelo de datos
+**Habla Martín · 20 s · al terminar 4:50.**
+Todo el modelo cuelga del grupo familiar, que es la unidad de aislamiento. No guardamos datos clínicos. El comercio no lee las tablas de la familia: solo ve, por funciones cerradas, sus productos, las cantidades y una referencia al azar. Cada cambio de la base es una migración reversible, ya van 29, y las pruebas de aislamiento corren en cada entrega `[VERIFICAR: cuántas]`.
 
-- **(25 s) La ficha.** Estos son los tres campos: su día, qué hacer si se altera y a quién llamar. Carmen los llenó en menos de tres minutos.
-- **(35 s) Compartir con un relevo.** Carmen crea un enlace para quien la reemplaza este sábado. El enlace vence solo, y el PIN se entrega por separado.
-- **(30 s) En el teléfono del relevo.** Quien la reemplaza lo abre sin cuenta y sin instalar nada: el enlace y el PIN bastan. Ve lo que necesita, y nada más.
-- **(20 s) Cortar el acceso.** Si Carmen vuelve antes, corta el acceso, y el otro teléfono ya no ve la ficha. El texto de la ficha va cifrado, y la familia ve quién la abrió.
+### Lámina 15 · Modelo de negocio
+**Habla Martín · 15 s · al terminar 5:05 · pasa la palabra a Jorge.**
+Solo con despacho, el negocio no se sostiene. Con una suscripción de $5.990, el equilibrio baja a 84 familias, y seis de cada diez entrevistadas ya pagan por algún servicio de cuidado. Jorge les muestra MATU funcionando.
 
-Martín, ¿nos muestras los insumos?
+### Lámina 16 · Demostración · Capa 1, la ficha de relevo
+**Habla Jorge, recibe la palabra de Martín · demo de 1 min 35 s · al terminar 6:40.**
+Carmen cuida a su mamá, y este sábado la reemplaza otra persona.
 
-### Lámina 15 · Demostración · Capas 2 y 3, insumos y despacho
-**Habla Martín, recibe la palabra de Jorge · demo de 2 min 15 s · al terminar 8:15.**
+- **(25 s) La ficha.** Estos son los tres campos de Carmen: su día, qué hacer si se altera y a quién llamar.
+- **(30 s) Compartir.** Carmen crea un enlace para quien la reemplaza. El enlace vence solo, y el PIN se entrega por separado.
+- **(25 s) El relevo.** En el otro teléfono, quien reemplaza abre el enlace sin cuenta y sin instalar nada. Escribe el PIN y ve lo que necesita, y nada más.
+- **(15 s) Quién la vio y cortar el acceso.** Carmen ve que el relevo abrió la ficha. Si vuelve antes, corta el acceso, y el otro teléfono ya no la ve.
 
-- **(30 s) Insumos y aviso de quiebre.** Carmen anotó cuánto usa de cada insumo, y MATU calcula cuándo se acaba. Aquí hay un aviso: los pañales se acaban en pocos días.
-- **(20 s) La lista de reposición.** La lista se puede imprimir o compartir aunque nunca se compre por MATU, porque las dos primeras capas sirven solas.
-- **(40 s) Pedido y pago.** Si la familia quiere, arma el pedido desde la lista y paga en Transbank, aquí en su ambiente de integración y con una tarjeta de prueba. Es un solo cobro del total exacto: precios finales y un solo envío.
-- **(45 s) El comercio y el retiro.** En el otro teléfono está el comercio, con un pedido que dejamos preparado antes. Ve solo los productos y una referencia, sin el nombre ni la dirección de la familia. Quien retira por MATU dice el código, el comercio lo valida y Carmen ve su pedido retirado. Si al comercio le falta un producto, MATU le devuelve ese monto el mismo día, a la misma tarjeta, sin cambiarlo por otra marca.
+Martín, ¿qué pasa con los insumos?
 
-El comercio, los avisos y el pago son simulados. Todo lo demás es la app real. Jorge les cuenta lo que viene.
+### Lámina 17 · Demostración · Capas 2 y 3, consumo y despacho
+**Habla Martín, recibe la palabra de Jorge · demo de 1 min 50 s · al terminar 8:30.**
 
-### Lámina 16 · Próximos pasos de MATU
-**Habla Jorge, recibe la palabra de Martín · 45 s · al terminar 9:00 · pasa la palabra a Martín.**
-Lo primero es la app nativa: en el semestre MATU es una app web pensada para el teléfono, y la versión nativa es la etapa siguiente. Después viene lo que ya dejamos diseñado: el pago dividido entre familiares, la reposición programada y la liquidación a los comercios. Antes de usar datos reales y dinero real, cerramos la consulta legal abierta, sobre todo la Ley 21.719, que rige plenamente desde diciembre, y la verificación en dos pasos para operación. Y el paso que más nos importa es un piloto con familias y comercios reales.
+- **(30 s) Lo que se está acabando.** Carmen anotó cuánto usa de cada insumo, y MATU le avisa que los pañales se acaban en pocos días.
+- **(15 s) La lista.** La lista se imprime o se comparte aunque nunca se compre por MATU.
+- **(35 s) Pedido y pago.** Si quiere, arma el pedido desde la lista y paga en Transbank, aquí en su ambiente de integración. Es un solo cobro del total exacto: precios finales y un solo envío.
+- **(30 s) El comercio y el retiro.** En el otro teléfono, el comercio ve solo los productos y una referencia, sin el nombre ni la dirección de la familia. Valida el código de retiro, y Carmen ve su pedido retirado. Si falta un producto, MATU devuelve ese monto el mismo día, a la misma tarjeta.
 
-### Lámina 17 · Conclusión
-**Habla Martín · 45 s · al terminar 9:45.**
-En resumen: el problema está medido, la solución está construida y validada con usuarias, y las tres capas funcionan en un entorno desplegado, con los seis recorridos críticos probados en un teléfono real. Lo que más aprendimos fue a dejar que la evidencia recortara el alcance: la ficha quedó en tres campos porque las cuidadoras nos mostraron que un plan largo no se completa. MATU no reemplaza a quien cuida. Hace que lo que ella sabe no dependa de una sola persona.
+El comercio, los avisos y el pago son simulados. Todo lo demás es el sistema real.
 
-### Lámina 18 · Gracias
+### Lámina 18 · Próximos pasos de MATU
+**Habla Jorge, recibe la palabra de Martín · 40 s · al terminar 9:10 · pasa la palabra a Martín.**
+Lo que quedó fuera está diseñado. Primero, los medicamentos y el retiro en el CESFAM, que fue la demanda más repetida en las entrevistas. Después, la app nativa, el pago dividido entre familiares, la reposición programada y los comercios reales. Y antes de tratar datos reales o cobrar dinero real, cerramos la consulta legal abierta, la figura jurídica para vender y la verificación en dos pasos para operación. El paso siguiente es un piloto con familias reales.
+
+### Lámina 19 · Conclusión
+**Habla Martín · 35 s · al terminar 9:45.**
+En resumen: el problema está medido, la solución va en orden y la seguridad está en el diseño. Las tres capas funcionan en un entorno desplegado, y la capa 3 se puede quitar sin que la familia pierda su ficha ni su predicción. MATU no reemplaza a quien cuida. Hace que lo que ella sabe no dependa de una sola persona.
+
+### Lámina 20 · Gracias
 **Habla Martín · 15 s · al terminar 10:00.**
 Gracias. Jorge y yo quedamos atentos a sus preguntas.
 
@@ -139,28 +147,28 @@ Gracias. Jorge y yo quedamos atentos a sus preguntas.
 ## Preparación de la demo (Martín, 30 minutos antes)
 
 1. **Restablecer la demo** con el instructivo (`docs/entorno-demo.md`), en menos de 10 minutos.
-2. **Dejar un pedido ya pagado y preparado en el comercio** para la lámina 15. Desde el pago, el pedido tarda hasta 5 minutos en llegarle al comercio (H8), y en vivo no hay tiempo de esperarlo.
+2. **Dejar un pedido ya pagado y preparado en el comercio** para la lámina 17. Desde el pago, el pedido tarda hasta 5 minutos en llegarle al comercio (H8), y en vivo no hay tiempo de esperarlo.
 3. **Usar solo productos con stock en Almacén El Ejemplo** mientras no esté la cuenta del segundo comercio (H7, MATU-112).
 4. **Generar el código de retiro justo antes,** porque vale 90 minutos. Nunca escribirlo en un chat.
 5. Dejar los dos teléfonos con la sesión abierta, el brillo al máximo y las notificaciones en silencio.
-6. **Plan B:** tener abiertos, y disponibles sin conexión, el video del recorrido principal y las capturas de los recorridos.
+6. **Plan B:** el video del recorrido principal y las capturas, abiertos y disponibles sin conexión.
 
 ## Si el tiempo no alcanza
 
-Se recorta en este orden, sin tocar la demo:
-1. lámina 10 (tecnologías): se dice solo en una frase;
-2. lámina 7 (requerimientos): se pasa con la cifra y nada más;
-3. lámina 15, la frase del producto que falta.
+Se recorta en este orden, sin tocar el problema, la solución ni la demo:
+1. lámina 12 (tecnologías);
+2. lámina 11 (cronograma), que se dice en una frase dentro de la 10;
+3. lámina 9 (requerimientos), solo con la cifra.
 
 ## Preguntas probables de la comisión
 
 | Pregunta | Responde | Idea central |
 |---|---|---|
-| ¿Por qué una app web y no nativa? | Jorge | Fue la decisión del semestre (ADR-026): llega a cualquier teléfono sin instalar nada, y las participantes de usabilidad lo valoraron |
-| ¿Cómo protegen los datos de salud? | Jorge | La ficha va cifrada con una clave por persona, la base aísla a cada familia por fila, el relevo vence y se puede cortar, y no hay analítica de terceros |
-| ¿Cuál fue el rol de la IA? | Jorge | Seis agentes con roles y reglas escritas. Las personas deciden, revisan y fusionan, y el factor de vibecoding está medido con horas reales |
-| ¿Qué pasa si la cuidadora no tiene tiempo? | Martín | Por eso son tres campos (lo pidió la evidencia, H1), y se llenan en menos de 3 minutos (usabilidad, ronda 2) |
-| ¿Por qué el despacho se puede quitar? | Martín | Para que la ficha y la predicción sirvan aunque la familia compre en otra parte. La lista se exporta |
+| ¿Cómo protegen los datos de salud? | Jorge | No guardamos datos clínicos. La ficha va cifrada con una clave por persona, cada familia está aislada en la base, el relevo vence y se puede cortar, y no hay analítica de terceros |
+| ¿Por qué el despacho se puede quitar? | Jorge | Para que la ficha y la predicción sirvan aunque la familia compre en otra parte. Una prueba automática lo verifica |
+| ¿Por qué una app web y no nativa? | Martín | Fue la decisión del semestre (ADR-026): llega a cualquier teléfono sin instalar nada. La nativa es el próximo paso |
+| ¿Cómo usaron la IA? | Jorge | Como asistencia al desarrollo, con revisión humana en cada entrega y el aporte medido con horas reales (factor 1,98) |
 | ¿Es legal cobrar? | Martín | En el piloto no se cobra dinero real. Hay una consulta legal abierta y documentada que se cierra antes de hacerlo |
+| ¿Cómo saben que la ficha sirve? | Martín | La ficha quedó en tres campos porque las entrevistas mostraron que un plan largo no se completa, y en la usabilidad se llenó en menos de 3 minutos |
 
-**Palabras que no se usan** (`docs/lenguaje.md`): diagnóstico, conducta, incidente, deterioro, incontinencia.
+**Palabras que no se usan** (`docs/lenguaje.md`): diagnóstico, conducta, incidente, deterioro, incontinencia. La lámina 4 se llama «El diagnóstico» en la Fase 1. Ese término es para la comisión, no es un texto de la app.
