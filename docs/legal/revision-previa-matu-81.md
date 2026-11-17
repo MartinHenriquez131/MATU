@@ -59,7 +59,7 @@ Esto no es asesoría legal: sirve para que Jorge decida. Este archivo es el resu
 - Una cuenta de operación que entra por la puerta de la familia o del comercio se manda a `/operacion/entrar`, donde vuelve a escribir su contraseña. El desafío se descarta y nunca va a la URL.
 - La política 0.21 queda en `backend/app/modules/iam/politica/politica-0.21.md`, con su huella en `PUBLICADAS` (decisión 469).
 - La copia de los datos trae el motivo del rechazo de cada retracto (H2 del cierre).
-- La nota y la resolución de lo que pasó con un pedido (`incidencia`) se guardan cifradas con la clave de la persona, como la ficha, y se vuelven ilegibles al destruir sus claves (P2-1 de Martín, decisión de Jorge del 17-11).
+- La nota y la resolución de lo que pasó con un pedido (`incidencia`) se guardan cifradas con una clave propia de las notas de operación (no la de la ficha, para que operación nunca alcance la clave de la ficha, §11.2 y §12.8), y se vuelven ilegibles porque esa clave se destruye junto con las claves de la persona (P2-1 de Martín. Jorge decidió el 17-11 cifrarla, y eligió la clave propia).
 - La política 0.21 corrige su nota de cabecera sobre los datos nuevos: agrega dos registros sobre el pedido, la nota de lo que pasó (2 años, guardada cifrada) y cuándo el equipo lo revisó (3 años), que son parte de responder por el pedido ya autorizado, sin nuevas finalidades ni destinatarios. Jorge la aprobó el 17-11 sin volver a aceptar.
 
 ## 3. Condiciones
