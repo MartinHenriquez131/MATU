@@ -1757,7 +1757,7 @@ La línea bajo el total no usa la palabra «IVA», para cumplir la regla de la s
 
 ---
 
-## 38. Tus pedidos (MATU-92) · Por aprobar por Jorge al fusionar
+## 38. Tus pedidos (MATU-92) · Aprobados por Jorge el 17-11
 
 Los textos salen de la especificación de pantallas de MATU-92, v1.1 (`docs/diseno/matu-92-tus-pedidos.md`, sección 9), y están tal cual en la app, en `web/src/familia/textosTusPedidos.ts` del repositorio MATU_PROYECTO. Cada uno marca su origen: [L n] los que ya están en la sección n, **[NUEVO]** (revisión previa) los que propuso el analista normativo en la revisión previa de MATU-92 (decisiones D-92-1 a D-92-4), **[NUEVO]** los del diseñador y **[AJUSTE]** los que el diseñador cambió, con su porqué en la sección 10 de la especificación. Las decisiones D1 a D8 son las del orquestador sobre las contradicciones del diseñador, del 16-11, por delegación de Jorge.
 
