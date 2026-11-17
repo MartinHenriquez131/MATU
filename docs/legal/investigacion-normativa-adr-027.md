@@ -23,8 +23,8 @@ De Sernac solo se vieron fragmentos en un buscador. Son fuente secundaria.
 
 **Qué significa para MATU**
 - **El retracto aplica.** Pañales, apósitos, guantes y cremas cerrados tienen retracto, que se pierde solo si se abre el sello.
-- **Junto al precio y en el resumen previo al pago** va el texto: "Derecho a retracto: tienes 10 días desde que lo recibes. No aplica si abres el sello del producto".
-- **En el pedido entregado** aparece "Arrepentirme de la compra" durante 10 días.
+- **Junto al precio y en el resumen previo al pago** va el texto: "Derecho a retracto: tienes 10 días hábiles desde que lo recibes. No aplica si abres el sello del producto".
+- **En el pedido entregado** aparece "Arrepentirme de la compra" durante 10 días hábiles.
 - **Al pagar** se envía la confirmación escrita (art. 12 A).
 - **La devolución por retracto** usa la misma anulación de Webpay.
 - **El Decreto 6 además pide:**

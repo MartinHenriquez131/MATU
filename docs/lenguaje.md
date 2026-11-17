@@ -17,6 +17,7 @@
 **MATU-42 y MATU-53 (12-11):** entra la sección 34, invitar a un familiar y ver el grupo, con los textos de `textosInvitar.ts` (rama `matu-42-invitar-familiar`, 960e8fe) y de la especificación de pantallas v1.3 (`docs/diseno/matu-53-invitar-grupo.md`, sección 11). Los [ANALISTA] los aprobó Jorge el 12-11 y los **[NUEVO]** el orquestador, por delegación de Jorge del mismo día. Aprobado por Jorge el 16-11.
 **MATU-54 (12-11):** entra la sección 35, la copia de los datos («Datos de» la persona y «Tus datos»), con los textos de `textosMisDatos.ts` (rama de código de MATU-54) y de la especificación de pantallas v1.3 (`docs/diseno/matu-54-mis-datos.md`, secciones 2 a 5 y 9). Ajusta la 29 («Tu cuenta, cómo pedir»: la copia ya no se pide por correo, está en «Tus datos») y la 33 («Pediste una copia de tus datos» en los últimos ingresos). Aprobado por Jorge el 16-11.
 **MATU-63 (13-11):** entra la sección 36, la consola del comercio, con los textos de la especificación de pantallas v1.1 (`docs/diseno/matu-63-comercio.md`, sección 12) y los de la familia de la revisión previa (`legal/revision-previa-matu-63.md`). Corrige la 31 («Si falta un producto»): en el piloto, después de pagar no se busca en otro comercio, se devuelve el mismo día (D-63-8). Aprobado por Jorge el 16-11.
+**MATU-92 (17-11):** entra la sección 38, «Tus pedidos», con los textos de `textosTusPedidos.ts` (rama de código de MATU-92) y de la especificación de pantallas v1.1 (`docs/diseno/matu-92-tus-pedidos.md`, sección 9). La 27 y la 32 dicen «10 días hábiles» en vez de «10 días» (C24 y D1). La 36 anota que la variante del faltante parcial para quien no pagó está en la 38, sin los últimos 4 dígitos (C25). Aprobado por Jorge el 17-11.
 **Fuentes:** resultados de las entrevistas (`docs/resultados-entrevistas.md`), arquitectura sección 10, política de privacidad v0.9, la demo aprobada (`Demo/src/`, rama `demo-web-viernes-30`) y el contrato de MATU-09 (`docs/api/`, rama `matu-09-contrato-api`).
 
 ---
@@ -957,8 +958,8 @@ Es la tercera pestaña de Insumos, para todos los roles del grupo. «Agregar al 
 | Ningún comercio lo tiene | Por ahora no está disponible |
 | Nota de lo que hay | Lo que hay se confirma antes de pagar. |
 | Envío | El envío se suma al pedido, una sola vez por pedido. |
-| Retracto, si se pierde al abrir el sello (letra no menor que el precio) | Derecho a retracto: tienes 10 días desde que lo recibes. No aplica si abres el sello del producto. |
-| Retracto, el resto (letra no menor que el precio) | Derecho a retracto: tienes 10 días desde que lo recibes. |
+| Retracto, si se pierde al abrir el sello (letra no menor que el precio) | Derecho a retracto: tienes 10 días hábiles desde que lo recibes. No aplica si abres el sello del producto. |
+| Retracto, el resto (letra no menor que el precio) | Derecho a retracto: tienes 10 días hábiles desde que lo recibes. |
 | Catálogo vacío | Todavía no hay productos en el catálogo. |
 | Error al cargar | No pudimos traer el catálogo. Revisa tu conexión e inténtalo de nuevo. |
 | El catálogo está apagado (capa 3 sin activar, la API responde 404) | El catálogo no está disponible por ahora. |
@@ -1164,7 +1165,7 @@ Los textos salen de la especificación de pantallas de MATU-62, v1.1 del 11-11 (
 | Comprobante | Comprobante · Pedido {referencia} · {DD/MM/AAAA} a las {HH:MM} · {cantidad} × {precio} · Envío (uno por pedido) · Total pagado · Pagado · Tarjeta de débito terminada en {ultimos4} · Tarjeta de crédito terminada en {ultimos4} · Tarjeta de crédito terminada en {ultimos4}, en {n} cuotas · Tarjeta de prepago terminada en {ultimos4} · Código de autorización {codigo} · Lo pagó otra persona de tu grupo. | **[NUEVO]** · [A5.4] · **[AJUSTE]** la tarjeta |
 | Sello del piloto | Pago de prueba. No se cobró dinero real. Este comprobante no es una boleta. | [D-62-7] |
 | Datos del pedido | Datos del pedido · Vende: MATU, piloto académico, sin persona jurídica. · Entrega: {ventana} · Condiciones aceptadas: versión {v}, el {DD/MM/AAAA} · Condiciones del pedido, versión {v} (se abre en otra pestaña) | **[NUEVO]** · [A5.4] |
-| Garantías | Lo que te garantizamos · Derecho a retracto: tienes 10 días desde que lo recibes. · Si un producto no llega, te devolvemos su precio el mismo día, a la misma tarjeta. Cuándo lo ves en tu cuenta depende de tu banco. · Quien administra el grupo puede cancelar sin costo mientras el comercio no empiece a preparar. · ¿Algo no está bien? Escríbenos a {correo}. | **[NUEVO]** el título · [A5.4] |
+| Garantías | Lo que te garantizamos · Derecho a retracto: tienes 10 días hábiles desde que lo recibes. · Si un producto no llega, te devolvemos su precio el mismo día, a la misma tarjeta. Cuándo lo ves en tu cuenta depende de tu banco. · Quien administra el grupo puede cancelar sin costo mientras el comercio no empiece a preparar. · ¿Algo no está bien? Escríbenos a {correo}. | **[NUEVO]** el título · [A5.4] |
 | Correo | Te enviamos este comprobante a {correo}. (solo cuando el correo se envíe, después de MATU-91) · En el piloto, el comprobante no se envía por correo. Imprímelo o guárdalo en PDF si lo necesitas. | [A5.4] · **[AJUSTE]** |
 | Acciones | Imprimir o guardar en PDF · Ir a tu pedido | [L 21] · [L 31] |
 | Pago tardío respetado | Tu pago llegó después de que venció el total, y lo respetamos: pagaste {total}, el precio que aceptaste. | [A5.4] |
@@ -1173,7 +1174,7 @@ Los textos salen de la especificación de pantallas de MATU-62, v1.1 del 11-11 (
 | Anulación en curso | Estamos anulando tu pago · El pedido cambió o se canceló mientras pagabas. Estamos devolviendo {total} a tu tarjeta terminada en {ultimos4}. Si no se completa hoy, te escribimos. MATU nunca te pide los datos de tu banco por mensaje. | **[NUEVO]** |
 | Devolución hecha | Devolvimos {monto} a tu tarjeta terminada en {ultimos4}, por {producto}. Cuándo lo ves en tu cuenta depende de tu banco. · Quien no pagó: Devolvimos {monto} a la tarjeta con que se pagó, por {producto}. Cuándo se ve en la cuenta depende del banco. | [A5.4] · **[AJUSTE]** |
 | Devolución en curso | Estamos devolviendo {monto} a tu tarjeta. Si no se completa hoy, te escribimos. MATU nunca te pide los datos de tu banco por mensaje. · Quien no pagó: Estamos devolviendo {monto} a la tarjeta con que se pagó. Si no se completa hoy, le escribimos a quien pagó. MATU nunca pide los datos de un banco por mensaje. | [A5.4] · **[AJUSTE]** |
-| Renglones | Devolvimos: {producto} · Pagaste en total · por tu pedido completo | **[NUEVO]** |
+| Renglones | Devolvimos: {producto} · Pagaste en total · por tu pedido completo (solo si se canceló el pedido) · Devolvimos: el envío · por el envío (MATU-92, P1-3: la devolución del envío no dice «tu pedido completo») | **[NUEVO]** |
 | **Pedido pagado** | Pedido pagado · Pagado · Pedido {referencia} · {DD/MM/AAAA} a las {HH:MM} · Total pagado: {total} · Ver el comprobante | **[NUEVO]** · [A5.4] |
 
 **Ninguno usa** los términos de la sección 3, «rechazado», «fallido», «inválido», «token», «stock», «reserva», «monto real», «estimado» ni «con IVA». «Boleta» aparece solo en «Este comprobante no es una boleta.», que la niega.
@@ -1710,7 +1711,7 @@ Las llaves son datos de la API: `{nombre}` es el nombre de fantasía del comerci
 | **Para la familia** (se usan en MATU-92 y MATU-76) | | |
 | Aviso por push o correo | MATU: hay una novedad en un pedido. Abre la app para verla. | [ANALISTA] |
 | Estados | En preparación · Listo para salir · En camino · Entregado el {fecha} | [ANALISTA] |
-| Faltante parcial | Faltaron {n} de {producto}. Te devolvimos {monto} a tu tarjeta terminada en {últimos 4}. Cuándo lo ves en tu cuenta depende de tu banco. | [ANALISTA] |
+| Faltante parcial | Faltaron {n} de {producto}. Te devolvimos {monto} a tu tarjeta terminada en {últimos 4}. Cuándo lo ves en tu cuenta depende de tu banco. | [ANALISTA]. Es para quien pagó. La variante para quien no pagó está en la sección 38, sin los últimos 4 dígitos (C25 de MATU-92) |
 | Botón | Arrepentirme de la compra | [ANALISTA] |
 | Ayuda del botón | Puedes hacerlo hasta el {DD/MM/AAAA}. Pasamos a buscar los productos sin costo y te devolvemos su precio a la misma tarjeta cuando los recibimos con su sello cerrado. Si devuelves todo, también el envío. | [ANALISTA] |
 | Elegir productos | Elige qué productos devuelves · Devolver estos productos · No, volver | [ANALISTA] |
@@ -1753,3 +1754,111 @@ En ml y g no cambia nada: no hay modo envases, así que la ayuda no nombra «Con
 | Bajada de «Antes de pagar» | Confirmamos que hay cada producto. El total, con el envío, es {total}. | [CAMBIA] 31 |
 
 La línea bajo el total no usa la palabra «IVA», para cumplir la regla de la sección 31, que solo la admite en «Precio de ejemplo · IVA incluido». <!-- PENDIENTE de Jorge: si prefiere «Cada precio ya incluye el IVA. El envío es uno solo, por todo el pedido.», hay que ampliar la regla de la sección 31 -->
+
+---
+
+## 38. Tus pedidos (MATU-92) · Aprobados por Jorge el 17-11
+
+Los textos salen de la especificación de pantallas de MATU-92, v1.1 (`docs/diseno/matu-92-tus-pedidos.md`, sección 9), y están tal cual en la app, en `web/src/familia/textosTusPedidos.ts` del repositorio MATU_PROYECTO. Cada uno marca su origen: [L n] los que ya están en la sección n, **[NUEVO]** (revisión previa) los que propuso el analista normativo en la revisión previa de MATU-92 (decisiones D-92-1 a D-92-4), **[NUEVO]** los del diseñador y **[AJUSTE]** los que el diseñador cambió, con su porqué en la sección 10 de la especificación. Las decisiones D1 a D8 son las del orquestador sobre las contradicciones del diseñador, del 16-11, por delegación de Jorge.
+
+Las llaves son datos de la API, con el formato de las secciones 31 y 32: `{pila}` es el nombre de pila de la persona cuidada, `{referencia}` el número corto del pedido, `{producto}` el nombre del producto, `{comercio}` el nombre de fantasía del comercio, `{n}` un número, `{monto}` y `{total}` en pesos enteros con punto de miles, `{fecha}` en DD/MM/AAAA y `{correo}` el canal de reclamo de las condiciones del pedido. La pantalla pone las cifras en `cifras`. Por eso algunas frases van partidas, y la tabla trae cada parte tal como está en la app. Al final está cómo se arman.
+
+**Regla de la sección.** La familia ve solo sus pedidos pagados, de los últimos 2 años. **El código de retiro nunca se muestra a la familia** (D-63-5), y ningún texto lo nombra. Tampoco la referencia de la parte del comercio. El observador ve solo la fecha, los productos y «Pagado» (D-92-1). Los últimos 4 dígitos de la tarjeta los ve solo quien pagó (C17). El plazo de retracto siempre dice «10 días hábiles» (C20). Nunca «rechazado», «fallido», «stock», «reserva», «con IVA» ni «código de retiro» (C26), y nunca se muestra el `title`, el `detail` ni el `mensaje` de la API.
+
+| Dónde | Texto | Origen |
+|---|---|---|
+| **La lista** | | |
+| Pestaña de Insumos y título | Tus pedidos | **[NUEVO]** (revisión previa) |
+| `<title>` del detalle | Pedido {referencia} · MATU | **[NUEVO]** (revisión previa) |
+| Bajada | Los pedidos pagados de {pila}, de los últimos 2 años. | **[NUEVO]** (revisión previa) |
+| Vacío | Todavía no hay pedidos pagados para {pila}. · Ir a tu pedido | **[NUEVO]** (revisión previa) · [L 31] |
+| Fila | Pedido {referencia} · Total pagado: · Devuelto: | **[NUEVO]** (revisión previa) · **[NUEVO]** «Devuelto:» |
+| Fila, productos (O5) | {primero} y 1 producto más · {primero} y {otros} productos más | **[NUEVO]** |
+| Ver más | Ver más pedidos · Cargando más… · No pudimos traer más pedidos. Revisa tu conexión y vuelve a intentarlo. | **[NUEVO]** |
+| Capa 3 apagada | Tus pedidos no están disponibles por ahora. | **[NUEVO]** |
+| No se pudo traer la lista | No pudimos traer tus pedidos. Revisa tu conexión y vuelve a intentarlo. | **[NUEVO]** (revisión previa) |
+| Observador, una vez bajo la bajada | Quien administra el grupo, quien cuida a {pila} y quien paga ven el detalle. | **[AJUSTE]** de la revisión previa, sin «Pagado ·», que ya dice la etiqueta de cada fila |
+| Productos borrados (C28) | De este pedido guardamos solo lo que se pagó y lo que se devolvió. | **[NUEVO]** (revisión previa) |
+| Al final de «Pedido» | Ver todos tus pedidos | **[NUEVO]** |
+| En el comprobante de la vuelta de Webpay | Ver cómo va tu pedido | **[NUEVO]** |
+| **El estado del pedido** | | |
+| `pagado` | Pagado · Lo estamos enviando al comercio. Puede tardar unos minutos. | **[NUEVO]** (revisión previa) |
+| `enviado_a_comercio` | Enviado al comercio | **[NUEVO]** (revisión previa) |
+| `preparando` | En preparación | [L 36] |
+| `listo_retiro`, `asignado`, `sin_repartidor` y `retirado` | Listo para salir | [L 36] |
+| `en_ruta` | En camino | [L 36] |
+| `entregado` y `cerrado` | Entregado el | [L 36] |
+| `no_entregado` | No pudimos entregarlo · Te escribimos para coordinar otra entrega o devolverte el total. | **[NUEVO]** (revisión previa) |
+| `reprogramado` | Entrega reprogramada · Te avisamos cuando salga de nuevo. | **[NUEVO]** (revisión previa) |
+| `cancelado_con_devolucion`, devolución hecha | Cancelado · Devolvimos · , envío incluido, a la tarjeta con que se pagó. | **[NUEVO]** (revisión previa) |
+| `cancelado_con_devolucion`, devolución en curso | Estamos devolviendo | **[AJUSTE]** (D2): mientras sigue en curso, «Devolvimos» es falso |
+| **El detalle** | | |
+| Encabezado | Volver a tus pedidos · Pagado el · a las | **[NUEVO]** · **[NUEVO]** · [L 32] |
+| Cómo va | Cómo va · De {comercio} · De un comercio · (comercio ficticio) · Faltaron {n} | **[NUEVO]** · **[NUEVO]** (revisión previa) · **[NUEVO]**, si el comercio dejó de estar activo · [L 31] · **[NUEVO]** |
+| Estado de cada parte (C16) | Enviado al comercio · En preparación · Listo para salir · Salió del comercio · No tenía estos productos · Cancelado | **[NUEVO]** (revisión previa) · [L 36] · [L 36] · **[NUEVO]** · **[NUEVO]** · **[NUEVO]** (revisión previa) |
+| No se pudo traer el pedido | No pudimos traer tu pedido. Revisa tu conexión e inténtalo de nuevo. | [L 31] |
+| No se pudo traer el comprobante | No pudimos traer el comprobante. Revisa tu conexión y vuelve a intentarlo. · Tampoco pudimos mostrar lo que se devolvió. · Volver a intentar | **[NUEVO]** |
+| 404 | No encontramos este pedido. | [L 31] |
+| **Dinero devuelto** | | |
+| Título (D5) | Dinero devuelto | **[NUEVO]** |
+| Fecha | El | **[NUEVO]** |
+| Faltante | Faltaron {n} de {producto}. | [L 36] |
+| Quien pagó (D3) | Te devolvimos · a tu tarjeta terminada en · Cuándo lo ves en tu cuenta depende de tu banco. | [L 36] · [L 32] · [L 32] |
+| Quien no pagó (C17 y C25) | Devolvimos · a la tarjeta con que se pagó · Cuándo se ve en la cuenta depende del banco. | [L 32] |
+| Por qué | por {producto} · por tu pedido completo (solo si se canceló) · por el envío | [L 32] **[AJUSTE]** |
+| Envío devuelto (C13) | Devolvimos el envío: | **[NUEVO]** (revisión previa) |
+| En curso | Estamos devolviendo · a tu tarjeta. | [L 32] |
+| En curso, quien pagó | Si no se completa hoy, te escribimos. MATU nunca te pide los datos de tu banco por mensaje. | [L 32] |
+| En curso, quien no pagó | Si no se completa hoy, le escribimos a quien pagó. MATU nunca pide los datos de un banco por mensaje. | [L 32] |
+| **Productos para devolver** | | |
+| Título | Productos para devolver | **[NUEVO]** |
+| Estados | Devolución pedida · Devuelto el · No se aceptó la devolución · Si tienes dudas, escríbenos a | **[NUEVO]** (revisión previa) |
+| Monto | Te devolvemos · , envío incluido, (cuando el monto ya incluye el envío: «Te devolvemos {monto}, envío incluido, cuando recibamos…») · cuando recibamos los productos con su sello cerrado. | **[NUEVO]** (revisión previa) |
+| Quién la pidió (C18) | La pidió otra persona de tu grupo. | **[NUEVO]** |
+| Por correo, si la pidió quien mira (C21) | Esta devolución la pediste por correo. La registró el equipo de MATU. | **[NUEVO]** (revisión previa) |
+| Por correo, si la pidió otra persona | Esta devolución se pidió por correo. La registró el equipo de MATU. | **[AJUSTE]** (D4): «la pediste» es falso si no la pidió quien mira |
+| **Arrepentirme de la compra** | | |
+| Botón | Arrepentirme de la compra | [L 36] |
+| Ayuda del botón | Puedes hacerlo hasta el · Pasamos a buscar los productos sin costo y te devolvemos su precio a la misma tarjeta cuando los recibimos con su sello cerrado. · Si devuelves todo, también el envío. | [L 36] (la última, solo si las condiciones lo incluyen, C9) |
+| Quien no puede (C7) | Pueden arrepentirse de la compra quien administra el grupo y quien la pagó. | **[NUEVO]** (revisión previa) |
+| Nada por devolver | Ya se pidió devolver todos los productos de este pedido. | **[NUEVO]** |
+| Plazo vencido, hasta los 90 días (C22) | El plazo para arrepentirte desde la aplicación terminó el · Si todavía quieres devolver productos, o tienes un problema con el pedido, escríbenos a | **[NUEVO]** (revisión previa) |
+| Plazo vencido, después de los 90 días | El plazo para arrepentirte terminó el · Si tienes un problema con el pedido, escríbenos a | [L 36] |
+| **La pantalla de arrepentirse** | | |
+| Encabezado | Volver al pedido {referencia} · Elige qué productos devuelves | **[NUEVO]** · [L 36] |
+| Cada producto | Recibiste · Pagaste · cada uno. | **[NUEVO]** |
+| Sello | Si abres el sello, ya no se puede devolver. | **[NUEVO]** (revisión previa) |
+| Cuántos | Ya se pidió devolver {n}. · ¿Cuántos devuelves? · Uno menos: {producto} · Uno más: {producto} · Puedes devolver hasta {n}. · Ya se pidió devolver todos. · Escribe un número de 0 a {n}. | **[NUEVO]** |
+| Resumen | Lo que vas a devolver · Todavía no eliges ningún producto. | **[NUEVO]** |
+| Lo elegido | Vas a devolver: | **[AJUSTE]** de la revisión previa, en lista |
+| Botones | Devolver estos productos · Enviando… · No, volver | [L 36] · **[NUEVO]** (revisión previa) · [L 36] |
+| Nada elegido | Elige al menos un producto y cuántos devuelves. | **[NUEVO]** (revisión previa) |
+| Hecho | Recibimos tu pedido de devolución. Te escribimos para coordinar el retiro. | [L 36] |
+| Red o servidor | No pudimos enviar tu pedido de devolución. Revisa tu conexión y vuelve a intentarlo. Lo que elegiste sigue aquí. | **[NUEVO]** |
+| Ya se pidió (409, C8) | Otra persona de tu grupo ya pidió devolver algunos de estos productos. · Te mostramos lo que todavía puedes devolver. Revisa lo que elegiste antes de enviarlo. | **[NUEVO]** (la primera, en negrita) |
+| **Cancelar el pedido** | | |
+| Bloque | Cancelar el pedido · Puedes cancelarlo sin costo mientras el comercio no empiece a prepararlo. | [L 36] · **[NUEVO]** |
+| Quien no administra (C7) | Solo quien administra el grupo puede cancelar un pedido pagado, mientras el comercio no empiece a prepararlo. | **[NUEVO]** (revisión previa) |
+| Diálogo (C12) | ¿Cancelar este pedido? · Te devolvemos · , envío incluido, a la misma tarjeta. Cuándo lo ves en tu cuenta depende de tu banco. · Pago de prueba. No se cobró dinero real. | **[NUEVO]** (revisión previa) · [L 36], con la última frase de la revisión previa · [L 32] |
+| Botones del diálogo | Cancelar el pedido · Seguir con el pedido · Cancelando… | [L 36] · **[NUEVO]** (revisión previa) |
+| Hecho | Cancelamos el pedido. Estamos devolviendo · a la tarjeta con que se pagó. | **[NUEVO]** (revisión previa) |
+| Ya cancelado (409, C11) | Este pedido ya se canceló. Te mostramos cómo quedó. | **[NUEVO]** (revisión previa) |
+| Ya se prepara | Ya están preparando tu pedido, así que no se puede cancelar. Cuando llegue, puedes arrepentirte de la compra. | [L 36] |
+| Red o servidor | No pudimos cancelar el pedido. Revisa tu conexión y vuelve a intentarlo. Todo sigue como estaba. | [L 31] |
+| Red o servidor, sin poder leer el pedido de nuevo | No pudimos cancelar el pedido. Revisa tu conexión y vuelve a intentarlo. | [L 31], sin «Todo sigue como estaba.», porque la pantalla no sabe si el pedido sigue igual |
+
+**Cómo se arman las frases partidas.** La pantalla junta las partes con la cifra en medio:
+
+- Cancelado: «Devolvimos {total}, envío incluido, a la tarjeta con que se pagó.», y con la devolución en curso, «Estamos devolviendo {total}, envío incluido, a la tarjeta con que se pagó.» (D2).
+- Faltante parcial, quien pagó: «Faltaron {n} de {producto}. Te devolvimos {monto} a tu tarjeta terminada en {últimos 4}. Cuándo lo ves en tu cuenta depende de tu banco.» (D3, la de la sección 36).
+- Faltante parcial, quien no pagó: «Faltaron {n} de {producto}. Devolvimos {monto} a la tarjeta con que se pagó. Cuándo se ve en la cuenta depende del banco.», sin los últimos 4 (C25).
+- Envío: «Devolvimos el envío: {monto}.»
+- Retracto: «Te devolvemos {monto} cuando recibamos los productos con su sello cerrado.» y «Recibiste {n}. Pagaste {precio} cada uno.»
+- Plazo vencido: «El plazo para arrepentirte desde la aplicación terminó el {fecha}. Si todavía quieres devolver productos, o tienes un problema con el pedido, escríbenos a {correo}.» y «El plazo para arrepentirte terminó el {fecha}. Si tienes un problema con el pedido, escríbenos a {correo}.»
+- En «Plazo vencido, después de 90 días», {fecha} es el fin de los 90 días desde la entrega (`plazo_correo_hasta`), no el décimo día hábil. En «hasta 90 días», {fecha} es el décimo día hábil (`plazo_hasta`). Cierre del analista, H1 de C22.
+- Cancelar: «Te devolvemos {total}, envío incluido, a la misma tarjeta. Cuándo lo ves en tu cuenta depende de tu banco.» y «Cancelamos el pedido. Estamos devolviendo {total} a la tarjeta con que se pagó.»
+- Fechas: «Entregado el {fecha}», «Pagado el {fecha} a las {HH:MM}», «El {fecha}», «Devuelto el {fecha}» y «Puedes hacerlo hasta el {fecha}.».
+
+El botón «Volver a intentar» de los errores es el de la sección 26.
+
+**Ninguno usa** los términos de la sección 3, «código de retiro», «rechazado», «fallido», «stock», «reserva» ni «con IVA», ni «10 días» sin «hábiles».
