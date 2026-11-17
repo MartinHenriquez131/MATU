@@ -549,7 +549,8 @@ La pregunta guía y el ejemplo no se muestran en la página del relevo.
 | Dónde | Texto |
 |---|---|
 | Bajo cada sección | No hace falta escribir diagnósticos ni enfermedades. Escribe lo que ayuda a cuidar. |
-| Comer y beber, y Sus remedios | Si tiene alergia a algún remedio o alimento, anótalo aquí. |
+| Comer y beber (MATU-95, aprobado por Jorge el 17-11) | ¿Hay algo que no puede comer o tomar? Anótalo aquí. |
+| Sus remedios (MATU-95, aprobado por Jorge el 17-11) | ¿Hay algún remedio que no le pueden dar? Anótalo aquí. |
 | Sus remedios, siempre visible (también al relevo) | Esto lo escribe la familia. No reemplaza la indicación del médico. |
 | Contador | {n} de 500 caracteres · {n} de 800 caracteres |
 | Compartir, casilla (siempre sin marcar) | Incluir Sus remedios |

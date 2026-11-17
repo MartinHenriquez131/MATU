@@ -557,7 +557,7 @@ En los orígenes, «Trello» es un comentario de la tarjeta de consulta legal, c
 - **Origen:**
   - MATU-39, Trello del 3 de noviembre de 2026, pregunta 2
   - MATU-50, revisión de cierre, Trello del 3 de noviembre de 2026.
-- **Mientras tanto:** el botón de dictar está oculto solo en «Sus remedios» (decisión de Jorge del 3 de noviembre de 2026). Se reactiva quitando una condición en `web/src/familia/EditorSeccion.tsx`. En el resto de la ficha se informa en la política.
+- **Mientras tanto:** el botón de dictar está oculto solo en «Sus remedios» (decisión de Jorge del 3 de noviembre de 2026). Se reactiva quitando una condición en `web/src/familia/EditorSeccion.tsx`. En el resto de la ficha se informa en la política. **Desde MATU-95 (17-11)** la pregunta alcanza también a «Comer y beber», porque su ayuda pide anotar lo que no puede comer o tomar, que puede ser un dato relativo a la salud. Jorge decidió mantener ahí el dictado: «cualquier dato de la ficha es un dato médico, eso no nos puede bloquear; los remedios es diferente ya que es una indicación médica, y es el médico el responsable».
 - **Bloquea:** datos reales.
 - **Se cierra en:** política, sección 6, «Dictar en vez de escribir» («[PENDIENTE: consulta legal sobre el envío de audio de un dato sensible…]»). Registro, entrada 3, dictado.
 - **Respuesta:** —
