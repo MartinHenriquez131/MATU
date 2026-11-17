@@ -649,7 +649,7 @@ En los orígenes, «Trello» es un comentario de la tarjeta de consulta legal, c
 - **Origen:**
   - MATU-59, revisión previa, Trello del 8 de noviembre de 2026, pregunta 1, que la suma a P5 del ADR-027
   - `lenguaje.md`, sección 27, «Pendiente de la consulta legal» (rama `docs/matu-59-catalogo`).
-- **Mientras tanto:** esos dos productos usan el texto del retracto sin la exclusión («Derecho a retracto: tienes 10 días desde que lo recibes.»), que es la opción más protectora. El resto de P5 está resuelto por diseño (ver «Lo que ya se resolvió por diseño»).
+- **Mientras tanto:** esos dos productos usan el texto del retracto sin la exclusión («Derecho a retracto: tienes 10 días hábiles desde que lo recibes.»), que es la opción más protectora. El resto de P5 está resuelto por diseño (ver «Lo que ya se resolvió por diseño»).
 - **Bloquea:** dinero real.
 - **Se cierra en:** `lenguaje.md`, sección 27, en la rama de MATU-59, y el campo `producto.retracto_pierde_al_abrir` de esos productos.
 - **Cita verificada (16-11-2026, texto oficial de LeyChile, idNorma 1206144):** el decreto es el **N° 52 de 2022** (promulgado el 21-04-2022, publicado el 27-08-2024 y vigente seis meses después, el 27-02-2025), no «de 2024». El art. 4 N° 4 y el art. 6 dicen lo que citan los documentos. El art. 4 N° 4 nombra como ejemplos «ropa interior, trajes de baño, maquillaje y artículos de higiene personal como cepillos de dientes, jabones o cremas», y no menciona suplementos ni bolsas colectoras, así que **la pregunta de fondo sigue abierta**. El art. 6 pide, además, ajustes para informar la exclusión a las personas con discapacidad. Se corrigió el año en `docs/legal/`. En la política, el año se corrige en la próxima versión, porque su texto vive versionado en el backend.
