@@ -29,6 +29,15 @@ Las crea la semilla, con la contraseña que se define al sembrar (`SEMILLA_CONTR
 | Riquelme | Patricia Riquelme | admin | `patricia@example.com` |
 | Riquelme | Tomás Riquelme | observador | `tomas@example.org` |
 
+Cuentas de los comercios ficticios (MATU-63 y MATU-112), una por comercio. Cada una ve solo la parte del pedido que le toca preparar:
+
+| Comercio | Rol | Correo |
+|---|---|---|
+| Almacén El Ejemplo | encargado | `comercio@example.com` |
+| Bodega La Muestra | encargado | `comercio2@example.com` |
+
+Si la demo se sembró antes de MATU-112, basta con correr la semilla sin `--restablecer`, que solo crea lo que falta. Así queda la cuenta de Bodega La Muestra, y un pedido con productos de los dos comercios lo prepara cada uno con su cuenta.
+
 El relevo de ejemplo es «Rosa», de la Familia Soto. Su enlace y su PIN se ven solo en la terminal (sección 3, paso 5). **Nunca se pegan en un chat.**
 
 ## 3. Restablecer la demo (unos 2 segundos)
