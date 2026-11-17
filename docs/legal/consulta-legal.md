@@ -545,7 +545,7 @@ En los orígenes, «Trello» es un comentario de la tarjeta de consulta legal, c
 
 - **Pregunta:** en staging, que la política declara sin datos reales, la dirección de avisos que se guarda al activar los avisos es la de un navegador real, y queda en Railway, en Estados Unidos. Si una persona que participa en una prueba de usabilidad activa los avisos en su propio teléfono, ¿MATU trata un dato personal real de un tercero? ¿Basta informarlo en la política (§1 y §4), o hace falta un consentimiento específico de la persona que participa, o prohibirlo?
 - **Origen:** MATU-55, revisión de cierre del analista normativo, 12 de noviembre de 2026.
-- **Mientras tanto:** «Activar en este teléfono» solo funciona en las cuentas del equipo: desde MATU-107 lo impide un control técnico (`PUSH_CUENTAS_PERMITIDAS`, que falla cerrado), no solo un procedimiento. La dirección se borra al desactivar, al salir o con el cierre de staging. El control también rige en producción. No se quita sin la respuesta de esta consulta y de CL-37 (MATU-112, H6).
+- **Mientras tanto:** «Activar en este teléfono» solo funciona en las cuentas del equipo: desde MATU-107 lo impide un control técnico (`PUSH_CUENTAS_PERMITIDAS`, que falla cerrado), no solo un procedimiento. La dirección se borra al desactivar, al salir o con el cierre de staging. El control también rige en producción. No se quita sin la respuesta de esta consulta y de CL-37, sin el encargado y la transferencia anotados en el registro (entradas 5, 6 y 9) y, si se agrega un destinatario, sin una política nueva (MATU-112, H6).
 - **Bloquea:** ninguno, si se cumple C14.
 - **Se cierra en:** política §1. Registro, entradas 6 y 9.
 - **Respuesta:** —
