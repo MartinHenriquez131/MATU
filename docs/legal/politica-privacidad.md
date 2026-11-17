@@ -528,7 +528,7 @@ Si hay una filtración que afecte datos personales, avisaremos sin demora a la A
 - Renovar desde la aplicación la autorización cuando vence su revisión de los 12 meses.
 - Avisos de insumos por notificación o por correo: en el piloto se prueban sin enviarse (los de la aplicación ya funcionan). Ya puedes elegirlos en «Tu cuenta» y activarlos en un teléfono, pero no te llegará nada.
 - Enviar correos solo a direcciones verificadas.
-- En el piloto, después de pagar no buscamos un producto que falta en otro comercio: anulamos su cobro el mismo día. En el piloto, con comercios ficticios, el retiro y la entrega se marcan en MATU sin llevar un pedido real: el equipo de MATU no ve tu dirección ni tu teléfono. <!-- D-63-6 y D-63-8. Decisión de Jorge del 17-11 (O1 del cierre del analista de MATU-81) -->
+- En el piloto, después de pagar no buscamos un producto que falta en otro comercio: anulamos su cobro el mismo día. Como los comercios son ficticios, el retiro y la entrega se marcan en MATU sin llevar un pedido real: el equipo de MATU no ve tu dirección ni tu teléfono. <!-- D-63-6 y D-63-8. Decisión de Jorge del 17-11 (O1 del cierre del analista de MATU-81) -->
 - Pagos con dinero real. En el piloto los pagos son de prueba, en el ambiente de prueba de Transbank, y no se cobra dinero real. El comprobante no es una boleta, y no se envía por correo: queda en MATU y lo puedes imprimir o guardar en PDF.
 - Verificar tu email al crear la cuenta. Mientras no exista, si intentas registrarte con un email que ya tiene cuenta, MATU te lo dirá, y alguien podría registrar un email que no es suyo.
 - Eliminar tu cuenta o cambiar tu nombre o tu correo desde la aplicación. Mientras tanto, pídelo a cuidaconmatu@gmail.com desde el correo de tu cuenta.
