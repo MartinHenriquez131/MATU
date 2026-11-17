@@ -337,7 +337,7 @@ En los orígenes, «Trello» es un comentario de la tarjeta de consulta legal, c
   - ¿3 años es proporcional?
   - El encargado no puede ver su propio registro en la aplicación (`auditoria_cuenta_propia` mira solo `actor_tipo = 'usuario'`): ¿basta con pedirlo por correo?
 - **Origen:** MATU-63, revisión previa, 13 de noviembre de 2026 (`revision-previa-matu-63.md`, sección 5), con las decisiones D-63-1 a D-63-16 (D-63-12 y D-63-14). Se relaciona con CL-22 y CL-53.
-- **Mientras tanto:** solo la cuenta de prueba, con datos sintéticos (`@example.com`).
+- **Mientras tanto:** solo las cuentas de prueba, una por comercio ficticio, con datos sintéticos (`@example.com`).
 - **Bloquea:** datos reales.
 - **Se cierra en:** política §6 («PENDIENTE: CL-73»). Registro, entrada 14, base de licitud, quién accede y conservación.
 - **Respuesta:** —
@@ -546,7 +546,7 @@ En los orígenes, «Trello» es un comentario de la tarjeta de consulta legal, c
 
 - **Pregunta:** en staging, que la política declara sin datos reales, la dirección de avisos que se guarda al activar los avisos es la de un navegador real, y queda en Railway, en Estados Unidos. Si una persona que participa en una prueba de usabilidad activa los avisos en su propio teléfono, ¿MATU trata un dato personal real de un tercero? ¿Basta informarlo en la política (§1 y §4), o hace falta un consentimiento específico de la persona que participa, o prohibirlo?
 - **Origen:** MATU-55, revisión de cierre del analista normativo, 12 de noviembre de 2026.
-- **Mientras tanto:** «Activar en este teléfono» solo funciona en las cuentas del equipo: desde MATU-107 lo impide un control técnico (`PUSH_CUENTAS_PERMITIDAS`, que falla cerrado), no solo un procedimiento. La dirección se borra al desactivar, al salir o con el cierre de staging.
+- **Mientras tanto:** «Activar en este teléfono» solo funciona en las cuentas del equipo: desde MATU-107 lo impide un control técnico (`PUSH_CUENTAS_PERMITIDAS`, que falla cerrado), no solo un procedimiento. La dirección se borra al desactivar, al salir o con el cierre de staging. El control también rige en producción. No se quita sin la respuesta de esta consulta y de CL-37, sin el encargado y la transferencia anotados en el registro (entradas 5, 6 y 9) y, si se agrega un destinatario, sin una política nueva (MATU-112, H6).
 - **Bloquea:** ninguno, si se cumple C14.
 - **Se cierra en:** política §1. Registro, entradas 6 y 9.
 - **Respuesta:** —
@@ -713,7 +713,7 @@ En los orígenes, «Trello» es un comentario de la tarjeta de consulta legal, c
   - ¿Quién prueba que un sello se abrió, y qué pasa si el producto vuelve abierto?
   - Un producto que se rechazó por volver con el sello abierto, ¿se puede volver a pedir en retracto dentro del plazo? Mientras tanto, se pueden volver a pedir las unidades que no se devolvieron, pero no las rechazadas por sello abierto (H3)
 - **Origen:** MATU-63, revisión previa, 13 de noviembre de 2026 (`revision-previa-matu-63.md`, sección 5), con las decisiones D-63-1 a D-63-16 (D-63-10, envío b, confirmada por Jorge el 13-11). Se relaciona con P5 del ADR-027 y con CL-41.
-- **Mientras tanto:** el envío se devuelve solo si se devuelve todo (condiciones 0.3). Los pedidos con la 0.2 se respetan como estaban: el envío se devuelve en todo retracto.
+- **Mientras tanto:** el envío se devuelve solo si se devuelve todo (condiciones 0.3). Los pedidos con la 0.2 se respetan como estaban: el envío se devuelve en todo retracto. Un pedido pagado sin versión de condiciones (anterior a la 0023 en una base donde la restricción no se validó) se trata como la 0.2: el envío se devuelve en todo retracto, una sola vez (MATU-112, H1, decidido por Jorge el 15-11).
 - **Bloquea:** dinero real.
 - **Se cierra en:** condiciones del pedido 0.3, §9. Lo resuelto por diseño de P5 (más abajo).
 - **Respuesta:** —

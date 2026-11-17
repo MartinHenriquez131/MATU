@@ -13,10 +13,10 @@
 **MATU-88 (11-11):** la 5.1 suma la pregunta del relevo, sin «Puedes contar un día bueno o uno difícil.», con el criterio de la 5.3. En los insumos en sobres, el campo y el error del envase dicen «sobres» en vez de «unidades» (H2 del TESTER de MATU-84). La 5.1 es decisión de Jorge del 11-11, y el envase en sobres es del orquestador, por delegación de Jorge del mismo día.
 **MATU-61 (11-11):** entra la sección 31, el pedido, con los textos de la especificación de pantallas v1.1 (sección 15). Con la decisión D10 de Jorge cambian la 21 (la lista nunca compra sola), la 23 («Compré» nunca hace un pedido) y la 27 («Agregar al pedido» en el catálogo). La 17 mantiene «El aviso nunca ofrece comprar.». Aprobados por Jorge el 11-11 (MATU-94, 74-1).
 **MATU-62 (11-11):** entra la sección 32, el pago, con los textos de la especificación de pantallas v1.1 (sección 12). La 31 admite «Este comprobante no es una boleta.» (D-62-7), el aviso de los 2 minutos también para el pagador (D-62-14) y un punto nuevo en «Retirar». Decisiones del orquestador por delegación de Jorge del 11-11. Los textos **[NUEVO]** los aprobó Jorge el 12-11.
-**MATU-55 (12-11):** entra la sección 33, «Dónde entraste» y los avisos de «Tu cuenta», con los textos de la especificación de pantallas v1.1 (`docs/diseno/matu-55-donde-entraste.md`, sección 8). Ajusta la 13.3 («hoy» y «ayer» en «Última vez», y «teléfono», «computador» o «navegador» según cada uno) y la 20 («En tus teléfonos» en vez de «En este teléfono», D5). La ayuda del estado B cambia por decisión del 12-11. Por aprobar por Jorge al fusionar.
-**MATU-42 y MATU-53 (12-11):** entra la sección 34, invitar a un familiar y ver el grupo, con los textos de `textosInvitar.ts` (rama `matu-42-invitar-familiar`, 960e8fe) y de la especificación de pantallas v1.3 (`docs/diseno/matu-53-invitar-grupo.md`, sección 11). Los [ANALISTA] los aprobó Jorge el 12-11 y los **[NUEVO]** el orquestador, por delegación de Jorge del mismo día. Por aprobar por Jorge al fusionar.
-**MATU-54 (12-11):** entra la sección 35, la copia de los datos («Datos de» la persona y «Tus datos»), con los textos de `textosMisDatos.ts` (rama de código de MATU-54) y de la especificación de pantallas v1.3 (`docs/diseno/matu-54-mis-datos.md`, secciones 2 a 5 y 9). Ajusta la 29 («Tu cuenta, cómo pedir»: la copia ya no se pide por correo, está en «Tus datos») y la 33 («Pediste una copia de tus datos» en los últimos ingresos). Por aprobar por Jorge al fusionar.
-**MATU-63 (13-11):** entra la sección 36, la consola del comercio, con los textos de la especificación de pantallas v1.1 (`docs/diseno/matu-63-comercio.md`, sección 12) y los de la familia de la revisión previa (`legal/revision-previa-matu-63.md`). Corrige la 31 («Si falta un producto»): en el piloto, después de pagar no se busca en otro comercio, se devuelve el mismo día (D-63-8). Por aprobar por Jorge al fusionar.
+**MATU-55 (12-11):** entra la sección 33, «Dónde entraste» y los avisos de «Tu cuenta», con los textos de la especificación de pantallas v1.1 (`docs/diseno/matu-55-donde-entraste.md`, sección 8). Ajusta la 13.3 («hoy» y «ayer» en «Última vez», y «teléfono», «computador» o «navegador» según cada uno) y la 20 («En tus teléfonos» en vez de «En este teléfono», D5). La ayuda del estado B cambia por decisión del 12-11. Aprobado por Jorge el 16-11.
+**MATU-42 y MATU-53 (12-11):** entra la sección 34, invitar a un familiar y ver el grupo, con los textos de `textosInvitar.ts` (rama `matu-42-invitar-familiar`, 960e8fe) y de la especificación de pantallas v1.3 (`docs/diseno/matu-53-invitar-grupo.md`, sección 11). Los [ANALISTA] los aprobó Jorge el 12-11 y los **[NUEVO]** el orquestador, por delegación de Jorge del mismo día. Aprobado por Jorge el 16-11.
+**MATU-54 (12-11):** entra la sección 35, la copia de los datos («Datos de» la persona y «Tus datos»), con los textos de `textosMisDatos.ts` (rama de código de MATU-54) y de la especificación de pantallas v1.3 (`docs/diseno/matu-54-mis-datos.md`, secciones 2 a 5 y 9). Ajusta la 29 («Tu cuenta, cómo pedir»: la copia ya no se pide por correo, está en «Tus datos») y la 33 («Pediste una copia de tus datos» en los últimos ingresos). Aprobado por Jorge el 16-11.
+**MATU-63 (13-11):** entra la sección 36, la consola del comercio, con los textos de la especificación de pantallas v1.1 (`docs/diseno/matu-63-comercio.md`, sección 12) y los de la familia de la revisión previa (`legal/revision-previa-matu-63.md`). Corrige la 31 («Si falta un producto»): en el piloto, después de pagar no se busca en otro comercio, se devuelve el mismo día (D-63-8). Aprobado por Jorge el 16-11.
 **MATU-92 (17-11):** entra la sección 38, «Tus pedidos», con los textos de `textosTusPedidos.ts` (rama de código de MATU-92) y de la especificación de pantallas v1.1 (`docs/diseno/matu-92-tus-pedidos.md`, sección 9). La 27 y la 32 dicen «10 días hábiles» en vez de «10 días» (C24 y D1). La 36 anota que la variante del faltante parcial para quien no pagó está en la 38, sin los últimos 4 dígitos (C25). Por aprobar por Jorge al fusionar.
 **Fuentes:** resultados de las entrevistas (`docs/resultados-entrevistas.md`), arquitectura sección 10, política de privacidad v0.9, la demo aprobada (`Demo/src/`, rama `demo-web-viernes-30`) y el contrato de MATU-09 (`docs/api/`, rama `matu-09-contrato-api`).
 
@@ -1083,7 +1083,7 @@ Los textos salen de la especificación de pantallas de MATU-61, v1.1 del 11-11 (
 | Cantidad fuera de rango | Escribe una cantidad de 1 a 99. |
 | Cantidad, error al guardar | No pudimos guardar la cantidad. Revisa tu conexión y vuelve a intentarlo. |
 | Subtotal | Subtotal: {precio} |
-| Si falta | Si falta este producto · Buscarlo en otro comercio · El mismo producto. Pagas lo mismo. · Sacarlo del pedido y devolverme su precio · Nunca lo cambiamos por otra marca ni por otro producto. (una vez, sobre las líneas) |
+| Si falta | Si falta este producto · Buscarlo en otro comercio · El mismo producto. Si cambia el precio, lo ves antes de pagar. · Sacarlo del pedido y devolverme su precio · Nunca lo cambiamos por otra marca ni por otro producto. (una vez, sobre las líneas) |
 | Si falta, error | No pudimos guardar qué hacer si falta. Revisa tu conexión y vuelve a intentarlo. |
 | Si falta, pagador y resumen | Si falta: lo buscamos en otro comercio. · Si falta: lo sacamos y te devolvemos su precio. |
 | Sacar | Sacar del pedido · Para el lector: Sacar del pedido: {producto} · Sacamos «{producto}» del pedido. · No pudimos sacarlo. Revisa tu conexión y vuelve a intentarlo. |
@@ -1125,7 +1125,7 @@ Los textos salen de la especificación de pantallas de MATU-61, v1.1 del 11-11 (
 | Volver a autorizar, hecho | Pedidos autorizados. Ya puedes hacer pedidos para {pila}. |
 | Aviso del piloto | El de la sección 11, una vez por pantalla con precios: tu pedido y antes de pagar |
 
-**Pendiente de Jorge (MATU-63, cierre del analista, H12):** la fila «Si falta» dice «El mismo producto. Pagas lo mismo.», y las condiciones 0.3, §5, ya no dicen «pagas lo mismo». Se deja como está hasta que Jorge decida si se cambia. [PENDIENTE DE JORGE]
+**Decidido por Jorge el 16-11 (MATU-63, cierre del analista, H12):** la opción «Buscarlo en otro comercio» ya no dice «Pagas lo mismo», porque si el producto pasa a otro comercio y cambia de precio, la familia lo ve antes de pagar (condiciones del pedido, §5). Ahora dice «El mismo producto. Si cambia el precio, lo ves antes de pagar.». La pantalla se cambia en MATU-112.
 
 `{correo}` es el canal de reclamo de las condiciones del pedido, cuidaconmatu@gmail.com (D8). `{ventana}` es la ventana fija del piloto, «Entre 24 y 48 horas hábiles» (D8). «Pagar {total}» es de MATU-62: aquí solo se fija el texto.
 
@@ -1181,7 +1181,7 @@ Los textos salen de la especificación de pantallas de MATU-62, v1.1 del 11-11 (
 
 ---
 
-## 33. Dónde entraste y avisos (MATU-55) · Por aprobar por Jorge al fusionar
+## 33. Dónde entraste y avisos (MATU-55) · Aprobados por Jorge el 16-11
 
 Los textos salen de la especificación de pantallas de MATU-55, v1.1 del 12-11 (`docs/diseno/matu-55-donde-entraste.md`, secciones 2, 3 y 8), que marca el origen de cada uno: [L 13.3] y las demás, los que ya están en esa sección, [A] los que propuso el analista normativo en la revisión previa (`legal/revision-previa-matu-55.md`, sección 5), **[NUEVO]** o **[AJUSTE]** los del diseñador y [CIERRE] los que el analista revisó en el cierre del 12-11. `{nombre}` es el nombre del teléfono o computador tal como llega («Chrome en Android»), `{correo}` es el correo de contacto de la política y `{fecha}` es «hoy», «ayer» o `DD/MM/AAAA`.
 
@@ -1210,7 +1210,7 @@ Los textos salen de la especificación de pantallas de MATU-55, v1.1 del 12-11 (
 | Código pedido | Se pidió un código para recuperar tu cuenta · Si no lo pediste tú, no compartas el código con nadie. | [A] · **[NUEVO]** [CIERRE] |
 | Avisos en un teléfono | Activaste los avisos en {nombre} · Desactivaste los avisos en {nombre} | [A] |
 | Preferencia de avisos | Cambiaste tus avisos | [A] |
-| Copia de tus datos | Pediste una copia de tus datos | **[NUEVO]** MATU-54 (especificación, 5.5). La cola dice solo «a las {HH:MM}». Por aprobar por Jorge al fusionar |
+| Copia de tus datos | Pediste una copia de tus datos | **[NUEVO]** MATU-54 (especificación, 5.5). La cola dice solo «a las {HH:MM}». Aprobado por Jorge el 16-11 |
 | **Al pie de la lista** | | |
 | No reconoces un ingreso | ¿No reconoces un ingreso? Cierra MATU en ese teléfono. Para cambiar tu contraseña, sal de MATU y toca «¿Olvidaste tu contraseña?» al entrar. | **[AJUSTE]** del texto del analista (E5) |
 | Lo que no se muestra | Si necesitas los ingresos anteriores a 90 días, escribe a {correo} desde el correo de tu cuenta. · Mostramos los 20 más recientes. Para ver los demás, o los anteriores a 90 días, escribe a {correo} desde el correo de tu cuenta. · Sin correo: Mostramos los 20 más recientes. | **[NUEVO]** |
@@ -1255,7 +1255,7 @@ Los textos salen de la especificación de pantallas de MATU-55, v1.1 del 12-11 (
 
 **Ninguno usa** los términos de la sección 3, «dispositivo», «sesión», «evento», «registro», «auditoría», «token», «inválido», «rechazado» ni «fallido».
 
-## 34. Invitar a un familiar y ver el grupo (MATU-42 y MATU-53) · Por aprobar por Jorge al fusionar
+## 34. Invitar a un familiar y ver el grupo (MATU-42 y MATU-53) · Aprobados por Jorge el 16-11
 
 Los textos salen de `web/src/familia/textosInvitar.ts` (rama `matu-42-invitar-familiar`, 960e8fe) y de la especificación de pantallas de MATU-53, v1.3 del 12-11 (`docs/diseno/matu-53-invitar-grupo.md`, secciones 0.6, 6.6 y 11). Cada uno marca su origen: [ANALISTA] los de la revisión previa del analista normativo (`legal/revision-previa-matu-42-53.md`, sección 5), aprobados por Jorge el 12-11, **[NUEVO]** los del diseñador, aprobados por el orquestador el 12-11 por delegación de Jorge, **[NUEVO v1.2]** los seis vacíos de la v1.1, **[NUEVO v1.3]** los del cierre del analista (O4 y el correo al salir) y [L n] los que ya están en la sección n. `{grupo}` es el nombre del grupo, `{nombre}` el de una persona del grupo, `{nombre_pila_invita}` el nombre de pila de quien invita, `{nombres_pila}` los nombres con que llaman a las personas cuidadas, unidos con «y» («María», «María y Pedro», «María, Pedro y Elena»), `{rol}` el rol en palabra, `{correo}` el correo de contacto de la política y `{url}` el enlace de la invitación.
 
@@ -1411,7 +1411,7 @@ Los textos salen de `web/src/familia/textosInvitar.ts` (rama `matu-42-invitar-fa
 
 **Ninguno usa** los términos de la sección 3, «token», «usuario», «observador», «revocar», «rechazar», «invitado», «invitada», «inválido» ni «fallido».
 
-## 35. Copia de los datos (MATU-54) · Por aprobar por Jorge al fusionar
+## 35. Copia de los datos (MATU-54) · Aprobados por Jorge el 16-11
 
 Los textos salen de `web/src/familia/textosMisDatos.ts` (rama de código de MATU-54) y de la especificación de pantallas de MATU-54, v1.3 del 12-11 (`docs/diseno/matu-54-mis-datos.md`, secciones 2 a 5 y 9). Cada uno marca su origen: [ANALISTA] los de la revisión previa del analista normativo (`legal/revision-previa-matu-54.md`, sección 7), **[ANALISTA, ajustado]** los que cambió la especificación (sección 9, ajustes 1 a 8), [README] los de las decisiones del contrato (`docs/api/README.md`, Q15), **[NUEVO]** los del diseñador, y [L n] los que ya están en la sección n. `{nombre_pila}` es el nombre con que llaman a la persona cuidada, `{nombre}` el de una persona del grupo, `{correo}` el correo de contacto de la política, `{grupo}` el nombre del grupo, `{referencia}` el número del pedido o del comprobante, `{fecha}` es `DD/MM/AAAA` y `{hora}` es `HH:MM`.
 
@@ -1615,7 +1615,7 @@ Los textos salen de `web/src/familia/textosMisDatos.ts` (rama de código de MATU
 
 **Ninguno usa** los términos de la sección 3, «exportar», «auditoría», «registro de accesos», «consentimiento», «sesión», «token», «usuario», «inválido», «rechazado» ni «fallido».
 
-## 36. La consola del comercio (MATU-63) · Por aprobar por Jorge al fusionar
+## 36. La consola del comercio (MATU-63) · Aprobados por Jorge el 16-11
 
 Los textos del comercio salen de la especificación de pantallas de MATU-63, v1.1 del 13-11 (`docs/diseno/matu-63-comercio.md`, secciones 2 a 8 y 12). Cada uno marca su origen: [ANALISTA] los de la revisión previa del analista normativo (`legal/revision-previa-matu-63.md`, que la especificación marca [A45]), **[AJUSTE]** los del analista que cambió el diseñador, con su porqué en la sección 12 de la especificación, **[NUEVO]** los del diseñador, [E39] los de Entrar de la app de la familia (`matu-39-app-familia.md` 3.3) y [L n] los que ya están en la sección n. «Especificación» marca los que la especificación trae sin marca de origen. Los de la familia, al final, salen de la sección 4.5 de la revisión previa.
 
@@ -1724,7 +1724,7 @@ En los de la familia, `{correo}` es el canal de reclamo de las condiciones del p
 
 **Ninguno usa** los términos de la sección 3, «stock», «reserva», «reservar», «token», «sesión», «inválido», «rechazado» ni «fallido».
 
-## 37. «Me quedan» con envases cerrados y unidades sueltas, y el total con el envío (MATU-109) · Por aprobar por Jorge al fusionar
+## 37. «Me quedan» con envases cerrados y unidades sueltas, y el total con el envío (MATU-109) · Aprobados por Jorge el 16-11
 
 Origen: usabilidad ronda 2 (`docs/usabilidad/ronda-2-informe.md`), H1 (P2) y H4 (P3). Especificación: `docs/diseno/matu-109-me-quedan.md` del repositorio MATU_PROYECTO. La sección 36 es la consola del comercio (MATU-63).
 
