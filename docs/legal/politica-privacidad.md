@@ -1,9 +1,9 @@
 # Política de privacidad de MATU
 
-**Versión 0.19 · 13 de noviembre de 2026 (13/11/2026)** · los comercios preparan los pedidos pagados y se agrega «Arrepentirme de la compra» (MATU-63). La versión 0.18 era del 12/11/2026 (MATU-107)
+**Versión 0.20 · 17 de noviembre de 2026 (17/11/2026)** · se agrega «Tus pedidos», con arrepentirse de la compra y cancelar un pedido pagado desde la aplicación (MATU-92). La versión 0.19 era del 13/11/2026 (MATU-63)
 **Estado:** borrador para el piloto académico. Todavía no sirve para tratar datos reales.
 **Aprobación:** aprobada como borrador v0.9 por Jorge Espinoza (Product Owner) el 25/10/2026. La revisión la hizo el orquestador del equipo de agentes, por delegación. Se confirman los tres compromisos del texto: MATU no vende datos, borra de inmediato los datos reales que entren por error, y ejercer los derechos es gratis. Los pendientes que quedan (plazos, proveedores y procedimiento ante filtraciones) se resuelven en la versión 1.0, antes de tratar datos reales.
-**Identificador de versión en el sistema:** `0.19`
+**Identificador de versión en el sistema:** `0.20`
 **Versión 0.10 (03-11):** la redactó el analista normativo con las decisiones de Jorge del 31-10, del 02-11 y del 03-11 (contrato de MATU-32, MATU-36 y MATU-38). Aprobada por Jorge el 05-11 como borrador del piloto, que trabaja solo con datos sintéticos. Antes de tratar datos reales pasa por la consulta legal. `POLITICA_VERSION` pasa a `0.10` en el backend con MATU-36
 **ADR-027 (27-10):** las secciones que empiezan con esa nota adaptan el texto a los pedidos y pagos del ADR-027. Aprobado por Jorge el 27-10 como diseño. Las frases de §4 y §6 sobre lo que el comercio ve o no ve se publican en futuro («cuando existan los pedidos») y se cumplen con la capa 3 (MATU-61 a 63).
 **MATU-50 (03-11):** se precisan las secciones 4, 6, 8 y 9 con la ficha ampliada ya construida, y se agrega que la ficha no se imprime (ADR-029). No agregan usos, datos ni destinatarios, y no cambian las declaraciones. No cambian la versión: `POLITICA_VERSION` sigue en `0.10`. Aprobado por Jorge el 03-11.
@@ -70,6 +70,8 @@ La política no promete que quien administra vea en la aplicación quién invit�
 **MATU-107 (12-11) · versión 0.18 (D11: una versión por fusión):** cambia §6, para que diga lo mismo que §10 sobre lo que ve quien cuida en «Datos de» la persona: lo que hizo él y las veces que un relevo abrió el enlace (hallazgo de Martín). No cambia lo que se ve (D-54-6 a). **Nadie vuelve a aceptar la política:** no agrega usos, datos, destinatarios ni declaraciones. Las autorizaciones dadas siguen con su versión. **Pendiente de aprobación: la aprueba Jorge al fusionar.**
 
 **MATU-63 (13-11) · versión 0.19 (D11):** cambian §3, §4, §6, §8, §12 y §13. Los comercios reciben los pedidos pagados, los preparan y los entregan a quien retira por MATU con un código. Se agrega «Arrepentirme de la compra». Según `revision-previa-matu-63.md` (D-63-1 a D-63-16). **Nadie vuelve a aceptar la política:** las declaraciones de pedidos ya cubren enviar al comercio solo los productos y las cantidades, y responder por cada pedido. Pendiente: CL-71, CL-72, CL-73 y las CL-28, CL-54, CL-55 y CL-66 ampliadas. **Pendiente de aprobación: la aprueba Jorge al fusionar.**
+
+**MATU-92 (17-11) · versión 0.20 (D11):** cambian §10, §12, §13 y §14. La familia ve sus pedidos pagados en «Tus pedidos», con su estado, el comprobante y lo devuelto, según su rol: el observador ve solo la fecha, los productos y «Pagado» (D-92-1). Desde la aplicación se pide arrepentirse de la compra y se cancela un pedido pagado, así que sale de §13. §14 corrige el año del Decreto 52, que es de 2022 (CL-41). Según la revisión previa de MATU-92 (D-92-1 a D-92-4). **Nadie vuelve a aceptar la política:** no agrega usos, datos, destinatarios ni declaraciones, porque «Tus pedidos» muestra a cada rol lo que ya veía (§6). Las autorizaciones dadas siguen con su versión. Pendiente: la CL-28 ampliada (D-92-2). **Pendiente de aprobación: la aprueba Jorge al fusionar.**
 
 ---
 
@@ -416,6 +418,8 @@ Puedes pedir:
 
 **Los datos de la persona que cuidas.** Quien administra el grupo o quien cuida a la persona los ve en «Grupo familiar», «Datos de» la persona: su nombre, cómo la llaman, su nivel de apoyo, su dirección, sus autorizaciones, su ficha con sus secciones, sus enlaces de relevo y cada vez que se abrieron, sus insumos, las compras anotadas y los avisos de insumos, sus pedidos con quién los pagó, y quién abrió o editó la ficha o cambió sus insumos, sus autorizaciones, su dirección o sus pedidos. Quien administra ve todo ese registro, y quien cuida ve solo lo que hizo él y las veces que un relevo abrió el enlace. Si la persona o su representante legal te lo pide, muéstraselo o entrégale la copia. Quien paga y el observador no piden esta copia. <!-- D-54-1 a, D-54-6 a. PENDIENTE: CL-04 y CL-61 -->
 
+**Tus pedidos.** En «Tus pedidos» ves los pedidos pagados de la persona, con su estado, el comprobante y lo devuelto, según tu rol (sección 6). <!-- MATU-92, D-92-1 -->
+
 **Lo que no trae ninguna copia:** el teléfono de los relevos, el correo y el celular de las personas del grupo, el teléfono de contacto de los pedidos, la referencia al documento del representante legal (la copia dice si existe), los datos de la tarjeta en la copia de la persona, el texto de los avisos ni los números internos de MATU.
 
 **Si una autorización está retirada o en pausa**, la copia no trae lo escrito en la ficha ni lo anotado de los insumos, porque nadie lo puede leer, y dice hasta cuándo se guarda. Los enlaces de relevo, los pedidos y el registro sí van. <!-- D-54-5 a. PENDIENTE: CL-62 -->
@@ -504,6 +508,7 @@ Si hay una filtración que afecte datos personales, avisaremos sin demora a la A
 - La versión 0.17 agrega ver y descargar los datos desde la aplicación. No te pedimos aceptar de nuevo esta política ni volver a dar las autorizaciones: la copia la reciben quienes ya ven esos datos. <!-- MATU-54, D11 -->
 - La versión 0.18 aclara en la sección 6 lo que ve quien cuida en «Datos de» la persona. No cambia lo que se ve, y no te pedimos aceptar de nuevo esta política ni volver a dar las autorizaciones. <!-- MATU-107, D11 -->
 - La versión 0.19 agrega cómo los comercios preparan tu pedido y el código de retiro, y arrepentirte de una compra. No te pedimos aceptar de nuevo esta política ni volver a dar las autorizaciones: la autorización de los pedidos ya cubre enviar al comercio solo los productos y las cantidades. <!-- MATU-63, D11 -->
+- La versión 0.20 agrega «Tus pedidos», donde ves los pedidos pagados de la persona según tu rol, y arrepentirte de una compra o cancelar un pedido pagado desde la aplicación. No te pedimos aceptar de nuevo esta política ni volver a dar las autorizaciones: cada persona del grupo ve lo mismo que antes, según su rol. <!-- MATU-92, D11 -->
 - La versión 1.0 será la primera revisada por un abogado y la primera que permita usar datos reales.
 <!-- PENDIENTE: CL-50, si «acepto» es un consentimiento o solo un acuse de lectura -->
 
@@ -518,7 +523,6 @@ Si hay una filtración que afecte datos personales, avisaremos sin demora a la A
 - Avisos de insumos por notificación o por correo: en el piloto se prueban sin enviarse (los de la aplicación ya funcionan). Ya puedes elegirlos en «Tu cuenta» y activarlos en un teléfono, pero no te llegará nada.
 - Enviar correos solo a direcciones verificadas.
 - En el piloto, después de pagar no buscamos un producto que falta en otro comercio: anulamos su cobro el mismo día. El retiro y la entrega los hace el equipo de MATU. <!-- D-63-6 y D-63-8 -->
-- «Arrepentirme de la compra» y cancelar un pedido pagado desde la aplicación. Mientras tanto, pídelo a cuidaconmatu@gmail.com. Si lo pides por correo, el equipo de MATU lo registra en el sistema a tu nombre y te devolvemos igual que desde la aplicación. Por correo se aceptan retractos hasta 90 días desde la entrega. <!-- MATU-92. MATU-63, H2: mientras la CL-54 siga abierta -->
 - Pagos con dinero real. En el piloto los pagos son de prueba, en el ambiente de prueba de Transbank, y no se cobra dinero real. El comprobante no es una boleta, y no se envía por correo: queda en MATU y lo puedes imprimir o guardar en PDF.
 - Verificar tu email al crear la cuenta. Mientras no exista, si intentas registrarte con un email que ya tiene cuenta, MATU te lo dirá, y alguien podría registrar un email que no es suyo.
 - Eliminar tu cuenta o cambiar tu nombre o tu correo desde la aplicación. Mientras tanto, pídelo a cuidaconmatu@gmail.com desde el correo de tu cuenta.
@@ -529,5 +533,5 @@ Si hay una filtración que afecte datos personales, avisaremos sin demora a la A
 
 - Ley 19.628 sobre protección de la vida privada, con las modificaciones de la Ley 21.719 de protección de datos personales, que rigen plenamente desde el 1 de diciembre de 2026.
 - Ley 19.496 sobre protección de los derechos de los consumidores, para los pedidos y los pagos.
-- Decreto 6 de 2021 del Ministerio de Economía (Reglamento de Comercio Electrónico) y Decreto 52 de 2024 (exclusión del derecho a retracto), para los pedidos y los pagos. <!-- PENDIENTE: el decreto es el N° 52 de 2022, publicado el 27-08-2024 (verificado el 16-11 en CL-41). El año se corrige en la próxima versión de la política, junto con su copia en el backend -->
+- Decreto 6 de 2021 del Ministerio de Economía (Reglamento de Comercio Electrónico) y Decreto 52 de 2022 del Ministerio de Economía (exclusión del derecho a retracto), para los pedidos y los pagos.
 - Ley 20.422 sobre igualdad de oportunidades e inclusión de personas con discapacidad. Por eso esta política está escrita para leerse en el teléfono.

@@ -377,12 +377,13 @@ En los orígenes, «Trello» es un comentario de la tarjeta de consulta legal, c
 
 ### CL-28 · El plazo de los pagos y los pedidos
 
-- **Pregunta:** ¿corresponde guardar 6 años los pagos y las boletas, y 2 años los pedidos y los comprobantes de entrega? **Ampliada con MATU-61:** ¿basta con borrar a los 30 días lo que nunca se pagó (el pedido en armado, el de total vencido y el cancelado sin pago), con su línea de tiempo, en vez de guardarlo 2 años? ¿Se puede guardar 24 horas, para no repetir un pedido, solo el estado y el número del pedido? **Ampliada con MATU-63:** ¿siguen al pedido (2 años) los retractos y las partes por comercio, y al pago (6 años) la anulación de un retracto? ¿Basta borrar la huella del código de retiro al usarse, al vencer o al bloquearse? ¿Son 3 años proporcionales para el registro de lo que hace el comercio?
+- **Pregunta:** ¿corresponde guardar 6 años los pagos y las boletas, y 2 años los pedidos y los comprobantes de entrega? **Ampliada con MATU-61:** ¿basta con borrar a los 30 días lo que nunca se pagó (el pedido en armado, el de total vencido y el cancelado sin pago), con su línea de tiempo, en vez de guardarlo 2 años? ¿Se puede guardar 24 horas, para no repetir un pedido, solo el estado y el número del pedido? **Ampliada con MATU-63:** ¿siguen al pedido (2 años) los retractos y las partes por comercio, y al pago (6 años) la anulación de un retracto? ¿Basta borrar la huella del código de retiro al usarse, al vencer o al bloquearse? ¿Son 3 años proporcionales para el registro de lo que hace el comercio? **Ampliada con MATU-92:** ¿desde cuándo se cuentan los 2 años de un pedido pagado: desde el pago o desde su cierre (la entrega o la cancelación)?
 - **Origen:**
   - MATU-26, revisión previa, Trello del 21 de octubre de 2026, pregunta 12, primera parte
   - MATU-61, revisión previa, 10 de noviembre de 2026 (`revision-previa-matu-61.md`, punto 12 y sección 5), con la decisión D5 de Jorge del 11 de noviembre de 2026
   - MATU-63, revisión previa, 13 de noviembre de 2026 (`revision-previa-matu-63.md`, D-63-13).
-- **Mientras tanto:** el registro declara 2 años para los pedidos pagados y 6 años para pagos y boletas (arquitectura, sección 11.8). Desde MATU-63, las partes, las líneas y los retractos siguen al pedido, y la anulación de un retracto, al pago (D-63-13). Lo no pagado se borra a los 30 días con una tarea del programador de MATU-74, y `idempotencia` guarda solo el estado y el id del pedido y se borra a las 24 horas (D5).
+  - MATU-92, revisión previa, 16 de noviembre de 2026, con la decisión D-92-2 del orquestador por delegación de Jorge.
+- **Mientras tanto:** el registro declara 2 años para los pedidos pagados y 6 años para pagos y boletas (arquitectura, sección 11.8). Desde MATU-63, las partes, las líneas y los retractos siguen al pedido, y la anulación de un retracto, al pago (D-63-13). Lo no pagado se borra a los 30 días con una tarea del programador de MATU-74, y `idempotencia` guarda solo el estado y el id del pedido y se borra a las 24 horas (D5). Desde MATU-92, mientras siga la consulta, los 2 años de un pedido pagado se cuentan desde su cierre, es decir, desde la entrega o la cancelación (D-92-2). «Tus pedidos» muestra los de los últimos 2 años con esa misma regla.
 - **Bloquea:** dinero real. Lo no pagado, también datos reales.
 - **Se cierra en:** política, sección 4, «De tus pedidos» («PENDIENTE: confirmar en la versión 1.0. CL-28 y CL-44»), y sección 8, «Pedidos que no se pagaron» («PENDIENTE: CL-28 ampliada»). Registro, entrada 2, conservación.
 - **Respuesta:** —
@@ -1044,3 +1045,9 @@ Cada fila traduce un número antiguo a su número nuevo. «Sin número» es una 
 | MATU-63, revisión previa | Sección 5, ampliar CL-54 (el plazo del retracto con el comprobante solo en la aplicación) | CL-54 |
 | MATU-63, revisión previa | Sección 5, ampliar CL-55 (un retracto fuera del plazo de anulación de Transbank) | CL-55 |
 | MATU-63, revisión previa | Sección 5, ampliar CL-66 (quién pide el retracto) | CL-66 |
+
+### MATU-92 (17 de noviembre de 2026)
+
+| Historia | Número antiguo | Número nuevo |
+|---|---|---|
+| MATU-92, revisión previa | D-92-2, ampliar CL-28 (desde cuándo se cuentan los 2 años de un pedido pagado) | CL-28 |

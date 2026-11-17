@@ -1,6 +1,6 @@
 # Registro de tratamientos de MATU
 
-**Estado:** borrador para el piloto académico, a la par de la política de privacidad v0.19 (MATU-63, pendiente de aprobación al fusionar). Lo redacta el analista normativo y lo aprueba Jorge Espinoza. Este documento no es asesoría legal.
+**Estado:** borrador para el piloto académico, a la par de la política de privacidad v0.20 (MATU-92, pendiente de aprobación al fusionar). Lo redacta el analista normativo y lo aprueba Jorge Espinoza. Este documento no es asesoría legal.
 
 Cada historia que empieza a tratar datos personales agrega aquí su entrada.
 
@@ -83,6 +83,7 @@ Cada historia que empieza a tratar datos personales agrega aquí su entrada.
   - el comercio lee solo por funciones `SECURITY DEFINER`: sus productos, cantidades, su referencia y el estado del código, sin verlo (D-63-1). No escribe en `pedido`. Prepara, marca y valida el código solo por `comercio_preparar`, `comercio_marcar_linea`, `comercio_listo` y `comercio_validar_codigo` (D-63-2). **Ningún nombre**, ni la ficha, la dirección, el teléfono, las líneas de otro comercio, montos, el total de la familia ni el código (R8, D7). En el piloto, después de pagar no hay reemplazo por otro comercio: lo que falta se devuelve (D-63-8)
   - operación genera el código de una parte lista y lo recibe una sola vez, y marca «en camino», «entregado» y «no entregado» (D-63-5 y D-63-6). La familia no ve el código. Operación también devuelve el total cuando el pedido no se entrega, y registra a nombre de la familia un retracto o una cancelación que se pidió por correo, con la misma devolución que desde la aplicación (cierre del analista, H1 y H2)
   - el retracto lo piden el admin o quien pagó, si sigue activo, y la cancelación después de pagar, solo el admin, mientras ningún comercio empezó a preparar (D-63-10 y D-63-11)
+  - la familia ve sus pedidos pagados en «Tus pedidos» (MATU-92), con la misma proyección por rol, sin el código de retiro ni la referencia de la parte. El observador ve solo la fecha, los productos y «Pagado» (D-92-1). Mirar la lista o el detalle no se audita (C23)
   - operación ve pedidos y pagos para dar soporte (lee todos los pedidos, de todos los grupos, con su rol propio), y devuelve por anulación. Sus lecturas no se auditan, igual que las de la familia (decisión 52); sus escrituras sí. [PENDIENTE: CL-67, si las lecturas de operación de pedidos de otros grupos se deben registrar; se recomienda auditarlas en la historia del backoffice] Nunca la ficha ni el consumo de insumos
   - `sistema` (la vuelta de Transbank, sin grupo ni cuenta) y `matu_scheduler` (la conciliación) resuelven las ventas por funciones `SECURITY DEFINER` que devuelven solo ids
   - en la copia de los datos (entrada 13): admin y cuidador leen los pedidos y pagos de la persona, con el nombre de quien pagó, sin la tarjeta, el teléfono de contacto ni los datos de la venta. Quien pagó lee sus pagos en «Tus datos», con el tipo de tarjeta, los últimos 4, las cuotas y el código de autorización, solo en los grupos donde sigue activo [PENDIENTE: CL-68]
