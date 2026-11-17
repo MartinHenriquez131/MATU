@@ -1869,7 +1869,7 @@ El botón «Volver a intentar» de los errores es el de la sección 26.
 
 ---
 
-## 39. La copia de los datos: lo que hizo el equipo de MATU (MATU-81) · Por aprobar por Jorge al fusionar
+## 39. La copia de los datos: lo que hizo el equipo de MATU (MATU-81) · Aprobados por Jorge el 17-11
 
 La familia lee en la copia de sus datos (sección 35) lo que el equipo de MATU anotó de un pedido y cuándo lo abrió en su consola. Los textos están tal cual en la app, en `web/src/familia/textosMisDatos.ts` de la rama de código de MATU-81. **[ANALISTA]** marca los de la revisión previa de MATU-81 (`legal/revision-previa-matu-81.md`, D-81-4 y D-81-5) y **[NUEVO]** los demás.
 
@@ -1897,7 +1897,7 @@ En el historial, si el hecho no trae la referencia, la app dice «El equipo de M
 
 ---
 
-## 40. La consola de operación (MATU-81) · Por aprobar por Jorge al fusionar
+## 40. La consola de operación (MATU-81) · Aprobados por Jorge el 17-11
 
 Los textos salen de la especificación de pantallas de MATU-81, v1.0 (`docs/diseno/matu-81-operacion.md`), y están tal cual en la app, en `web/src/operacion/textos.ts` de la rama de código de MATU-81. Van agrupados como en la especificación. Cada uno marca su origen: **[NUEVO]** los del diseñador, **[FRONTEND]** los que puso el frontend porque la especificación no los traía, [ANALISTA] el de la revisión previa de MATU-81 (C11), [E39] los de Entrar de la app de la familia y [L n] los que ya están en la sección n (la 36 es la consola del comercio).
 
