@@ -4,7 +4,7 @@
 
 Esto no es asesoría legal: sirve para que Jorge decida. Este archivo es el resumen de la revisión previa del 17-11, con las decisiones que se tomaron. Lo que queda en REQUIERE CONSULTA LEGAL va a `consulta-legal.md`, como ampliación de la CL-28, la CL-67 y la CL-72. Jorge delegó las decisiones el 16-11: «según tu recomendación, foco en el usuario final». El orquestador aceptó todas las recomendaciones del analista, de la D-81-1 a la D-81-12.
 
-**Dónde está lo construido:** la migración `0030_backoffice_operacion.py` (`down_revision = "0029"`) y las decisiones 449 a 465 de `docs/api/README.md` del repositorio MATU_PROYECTO, en la rama `matu-81-backoffice`. La especificación de pantallas es `docs/diseno/matu-81-operacion.md`, del mismo repositorio.
+**Dónde está lo construido:** la migración `0030_backoffice_operacion.py` (`down_revision = "0029"`) y las decisiones 449 a 469 de `docs/api/README.md` del repositorio MATU_PROYECTO, en la rama `matu-81-backoffice`. La especificación de pantallas es `docs/diseno/matu-81-operacion.md`, del mismo repositorio.
 
 ## 0. Resumen para la planificación
 
@@ -48,11 +48,17 @@ Esto no es asesoría legal: sirve para que Jorge decida. Este archivo es el resu
 
 **La migración 0030.** MATU-112 y MATU-92 no traen migración. Si MATU-76 lleva una, va después de esta.
 
-**Ajustes al construir** (decisiones 449 a 465 del contrato):
+**Ajustes al construir** (decisiones 449 a 469 del contrato):
 - `consentimiento_operacion` no se quita del todo: pasa a `consentimiento_conservacion`, `TO matu_owner` (decisión 452). `plan_destruir_claves` y `consumo_conservar`, que corren como `matu_owner` con `app.rol = 'operacion'`, siguen leyendo el consentimiento para borrar a tiempo. Operación ya no lo lee desde la aplicación, y una prueba lo verifica.
 - Se agrega `retracto.motivo_rechazo`, con un `CHECK` que lo admite solo en un retracto rechazado (C24, decisión 460).
 - El TOTP se escribe con `hmac` y `hashlib`, sin dependencias nuevas, probado con los vectores del RFC 4226 y del RFC 6238. La sesión de operación dura como máximo 12 horas desde el segundo factor (decisiones 449 a 451).
 - El alta se hace con `python -m app.tareas operacion-alta`, interactiva y con `matu_scheduler` (decisión 453).
+- Se permiten varios retractos por pedido, igual que en MATU-92: no hay 409 de «retracto en curso». Cada uno se limita a lo que queda por devolver.
+- La familia ve el motivo del rechazo en «Tus pedidos» (decisión 468), con «El producto llegó con el sello abierto.» y «No recibimos el producto de vuelta.».
+- La lista de retractos se filtra por estado (decisión 466). Cada anulación pendiente dice si está en curso o sin terminar (decisión 467).
+- Una cuenta de operación que entra por la puerta de la familia o del comercio se manda a `/operacion/entrar`, donde vuelve a escribir su contraseña. El desafío se descarta y nunca va a la URL.
+- La política 0.21 queda en `backend/app/modules/iam/politica/politica-0.21.md`, con su huella en `PUBLICADAS` (decisión 469).
+- La copia de los datos trae el motivo del rechazo de cada retracto (H2 del cierre).
 
 ## 3. Condiciones
 
