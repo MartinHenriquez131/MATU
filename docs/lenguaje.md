@@ -1848,7 +1848,7 @@ Las llaves son datos de la API, con el formato de las secciones 31 y 32: `{pila}
 | Red o servidor | No pudimos cancelar el pedido. Revisa tu conexión y vuelve a intentarlo. Todo sigue como estaba. | [L 31] |
 | Red o servidor, sin poder leer el pedido de nuevo | No pudimos cancelar el pedido. Revisa tu conexión y vuelve a intentarlo. | [L 31], sin «Todo sigue como estaba.», porque la pantalla no sabe si el pedido sigue igual |
 | **Por qué no se aceptó la devolución (MATU-81)** | | |
-| Bajo «No se aceptó la devolución», motivo `sello_abierto` | El producto llegó con el sello abierto. | **[NUEVO]** C24 de MATU-81 y decisión 468 |
+| Bajo «No se aceptó la devolución», motivo `sello_abierto` | El producto volvió con el sello abierto. | **[NUEVO]** C24 de MATU-81 y decisión 468 (17-11: «volvió» y no «llegó», para no leerse como que le llegó abierto a la familia) |
 | Bajo «No se aceptó la devolución», motivo `producto_no_recibido` | No recibimos el producto de vuelta. | **[NUEVO]** C24 de MATU-81 y decisión 468 |
 
 **Cómo se arman las frases partidas.** La pantalla junta las partes con la cifra en medio:
@@ -1990,13 +1990,14 @@ Las llaves son datos de la API: `{ref}` la referencia del pedido, `{ref_parte}` 
 | Título y fila | Retractos · Retracto del pedido {ref} · Por la app · Por correo · Pedido el {DD/MM/AAAA} · Responder antes del {DD/MM/AAAA} · El plazo venció el {DD/MM/AAAA}. | **[NUEVO]** |
 | Filtros (decisión 466) | Por resolver · Devueltos · Sin devolución | **[NUEVO]** |
 | Vacío | No hay retractos por resolver. · No hay retractos en «{chip}». | **[NUEVO]** |
-| Hay más | Mostramos los primeros 200. | **[FRONTEND]** del molde de MATU-55, con `hay_mas` (decisión 466) |
+| Hay más | Hay más de 200 retractos aquí. Mostramos los primeros 200. | **[NUEVO]** especificación 1.1, 8.2, con `hay_mas` (decisión 466) |
 | Cargando y error | Cargando los retractos… · No pudimos traer los retractos. Revisa tu conexión y vuelve a intentarlo. | **[FRONTEND]** del molde de la 36 |
 | Pantalla ancha y volver | Elige un retracto de la lista para ver sus productos y resolverlo. · Volver a los retractos | **[FRONTEND]** |
 | El retracto elegido | Devuelto · Sin devolución · Productos que devuelve · Incluye el envío: sí · Incluye el envío: no · Se devolverían · Ver el pedido · Resuelto el {DD/MM/AAAA} a las {HH:MM}. | **[NUEVO]** |
 | **8.4 Resolver** | | |
 | Botones | Devolver {monto} · No devolver · Cancelar | **[NUEVO]** |
 | Por qué no | ¿Por qué no se devuelve? · El sello del producto se abrió. · MATU no recibió el producto de vuelta. · La familia ve este motivo. · Elige por qué no se devuelve. | **[NUEVO]** (la familia lee el motivo con las palabras de la sección 38) |
+| Diálogo «No devolver», destacado | No se devuelve dinero. La familia ve el motivo: {texto que lee la familia, de la 38} | **[AJUSTE]** O3 del cierre del analista: el equipo ve la frase exacta que lee la familia |
 | Devolver | ¿Devolver {monto} por este retracto? · Es el retracto del pedido {ref}. Esto no se deshace. · Se devuelven {monto} a la misma tarjeta con que se pagó. · Devolviendo… · Volver al retracto · Devolviste {monto} por el retracto del pedido {ref}. Cuándo se ve en la cuenta depende del banco. | **[NUEVO]** |
 | No devolver | ¿No devolver el dinero de este retracto? · No se devuelve dinero. La familia ve el motivo: {motivo} · Guardando… · Respondiste el retracto del pedido {ref} sin devolver dinero. | **[NUEVO]** |
 | Cambió o falló | Este retracto cambió mientras lo veías. Te mostramos cómo quedó. · No pudimos hablar con Transbank. No se devolvió nada. Vuelve a intentarlo en unos minutos. · No pudimos completar esto. Revisa tu conexión y vuelve a intentarlo. | **[NUEVO]** · **[NUEVO]** · [L 8], sin la última frase |
