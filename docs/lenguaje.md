@@ -1855,6 +1855,7 @@ Las llaves son datos de la API, con el formato de las secciones 31 y 32: `{pila}
 - Envío: «Devolvimos el envío: {monto}.»
 - Retracto: «Te devolvemos {monto} cuando recibamos los productos con su sello cerrado.» y «Recibiste {n}. Pagaste {precio} cada uno.»
 - Plazo vencido: «El plazo para arrepentirte desde la aplicación terminó el {fecha}. Si todavía quieres devolver productos, o tienes un problema con el pedido, escríbenos a {correo}.» y «El plazo para arrepentirte terminó el {fecha}. Si tienes un problema con el pedido, escríbenos a {correo}.»
+- En «Plazo vencido, después de 90 días», {fecha} es el fin de los 90 días desde la entrega (`plazo_correo_hasta`), no el décimo día hábil. En «hasta 90 días», {fecha} es el décimo día hábil (`plazo_hasta`). Cierre del analista, H1 de C22.
 - Cancelar: «Te devolvemos {total}, envío incluido, a la misma tarjeta. Cuándo lo ves en tu cuenta depende de tu banco.» y «Cancelamos el pedido. Estamos devolviendo {total} a la tarjeta con que se pagó.»
 - Fechas: «Entregado el {fecha}», «Pagado el {fecha} a las {HH:MM}», «El {fecha}», «Devuelto el {fecha}» y «Puedes hacerlo hasta el {fecha}.».
 
