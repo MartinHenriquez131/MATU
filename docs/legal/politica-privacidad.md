@@ -420,6 +420,8 @@ Puedes pedir:
 
 **Tus pedidos.** En «Tus pedidos» ves los pedidos pagados de la persona, con su estado, el comprobante y lo devuelto, según tu rol (sección 6). <!-- MATU-92, D-92-1 -->
 
+Si no alcanzas a arrepentirte de una compra desde la aplicación, por correo se aceptan retractos hasta 90 días desde la entrega, y el equipo de MATU lo registra a tu nombre. <!-- MATU-92, C22. MATU-63, H2 -->
+
 **Lo que no trae ninguna copia:** el teléfono de los relevos, el correo y el celular de las personas del grupo, el teléfono de contacto de los pedidos, la referencia al documento del representante legal (la copia dice si existe), los datos de la tarjeta en la copia de la persona, el texto de los avisos ni los números internos de MATU.
 
 **Si una autorización está retirada o en pausa**, la copia no trae lo escrito en la ficha ni lo anotado de los insumos, porque nadie lo puede leer, y dice hasta cuándo se guarda. Los enlaces de relevo, los pedidos y el registro sí van. <!-- D-54-5 a. PENDIENTE: CL-62 -->
