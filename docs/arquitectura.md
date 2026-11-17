@@ -608,7 +608,7 @@ Es aritmética de tercero básico, y esa es exactamente la gracia. **El valor no
 **Lo que la migración 0002 dejó fuera a propósito.** Ninguno de estos puntos tiene diseño todavía, y no se inventa aquí:
 
 - [PENDIENTE: `consumo_comercio.monto_autorizado`, "el tope que vio el comercio", sigue en el esquema aunque el ADR-027 ya no tiene tope autorizado. Se rediseña con la conciliación de 11.7 y el convenio.]
-- [PENDIENTE: los tipos `desviacion_monto` y `captura_rechazada` de `incidencia` siguen en su `CHECK`. Con precio exacto y sin captura pierden su sentido original; se revisan junto con la conciliación.]
+- Resuelto en la migración 0030 (MATU-81, D-81-3): los tipos de `incidencia` pasan a `faltante`, `entrega_fallida`, `reclamo_familia`, `cobro_sin_respuesta`, `devolucion_pendiente` y `otro`. Salen `desviacion_monto` y `captura_rechazada`, y sus filas pasan a `otro`.
 - Resuelto en la migración 0019 (MATU-59): `oferta.precio_referencia` pasó a `oferta.precio`, sin el comentario de precio referencial del ADR-011.
 - [PENDIENTE: el RLS del comercio se resuelve por `pedido.comercio_id`. **El comercio que reemplaza a otro no ve la línea reasignada**, porque la línea hereda la visibilidad del pedido y no de `oferta_reasignada_id`. La reasignación es de la fase 2, y cómo se le da a ese comercio la proyección de 11.2 es una decisión de aislamiento pendiente.]
 - [PENDIENTE: por lo mismo, `pedido` conserva un solo `comercio_id`, y el comercio ve todas las líneas del pedido. Cómo se registra un pedido que al confirmar se abastece en dos comercios, con un solo cobro y un solo envío (ADR-027, ajuste del ADR-024), no está en la 0002.]
@@ -776,6 +776,19 @@ El esquema solo cambia con migraciones de Alembic revisables y reversibles. **De
 | 0015 | `perfil_unidades_por_envase` | MATU-60 | 6 de noviembre | Unidades por envase, opcionales, para la lista de insumos (ADR-031) |
 | 0016 | `retiro_autorizacion` | MATU-44 | 6 de noviembre | Motivo del retiro de una autorización, barrera por rol y destrucción de la ficha a los 90 días |
 | 0017 | `conservar_compras` | MATU-51 | 7 de noviembre | Las compras declaradas se borran a los 90 días |
+| 0018 | `borrar_persona` | MATU-72 | 8 de noviembre | Borrar los datos de la persona al tiro, cuando se pide |
+| 0019 | `catalogo_precio_stock_retracto` | MATU-59 | 8 de noviembre | El catálogo con precio exacto, stock por oferta y el retracto por producto |
+| 0020 | `permisos_rls_por_operacion` | MATU-47 y MATU-66 | 9 de noviembre | Permisos de `matu_app` acotados y RLS separada por operación y por rol |
+| 0021 | `aceptacion_politica` | MATU-75 | 9 de noviembre | La aceptación de la política de privacidad al crear la cuenta |
+| 0022 | `roles_de_las_tareas` | MATU-74 | 9 de noviembre | Las tareas con sus propios roles, y operación sin los avisos |
+| 0023 | `pedido_sin_pagar` | MATU-61 | 11 de noviembre | El pedido sin pagar (carrito, total confirmado y cancelar), la dirección y la autorización de pedidos |
+| 0024 | `pago_webpay` | MATU-62 | 11 de noviembre | El pago del total exacto confirmado con Webpay Plus, venta normal |
+| 0025 | `auditoria_cuenta_propia` | MATU-55 | 12 de noviembre | «Dónde entraste»: la persona lee la auditoría de su propia cuenta |
+| 0026 | `invitar_familiar` | MATU-42 y MATU-53 | 12 de noviembre | Invitar a un familiar, ver quiénes forman el grupo, cambiar roles, sacar y salir |
+| 0027 | `telefono_relevo` | MATU-46 | 12 de noviembre | El teléfono del relevo se borra a los 30 días, y al tiro si se borra a la persona |
+| 0028 | `auditoria_persona` | MATU-54 | 12 de noviembre | La auditoría sabe a qué persona cuidada se refiere cada fila, para su copia de datos |
+| 0029 | `vista_comercio` | MATU-63 | 13 de noviembre | La vista del comercio por funciones, el código de retiro por parte, el despacho y el retracto |
+| 0030 | `backoffice_operacion` | MATU-81 | 17 de noviembre | `incidencia` con tipos nuevos y sin DELETE, el segundo factor de operación (`iam_mfa_secreto`, `sesion_refresh.mfa_en` y el alta por consola), la separación de las cuentas de operación, `retracto.motivo_rechazo`, el catálogo de los comercios ficticios, y operación sin leer la persona, el consentimiento ni las aceptaciones de la política (11.6) |
 
 **Los diagramas del modelo de datos siguen en la 0001** para las tablas que cambiaron después. Se regeneran con `backend/db/gen_diagramas.py` contra una base con todas las migraciones (modelo de datos, sección 0).
 
@@ -1042,7 +1055,7 @@ sequenceDiagram
 
 **El calce de caja sigue a favor de MATU:** se cobra a la familia al pagar el pedido y se paga al comercio a fin de período. Es un argumento de viabilidad que conviene mencionar en la defensa, porque muestra que el modelo de negocio y la arquitectura se sostienen mutuamente.
 
-**En el piloto, el comercio marca hasta el retiro, al validar el código, y operación marca «en camino», «entregado» y «no entregado»** (MATU-63, D-63-6), porque la app de repartidor quedó fuera del alcance comprometido. El código lo recibe operación una sola vez, por la consola hasta MATU-81 (decisión 426). La familia no lo ve (D-63-5). El flujo completo se demuestra igual.
+**En el piloto, el comercio marca hasta el retiro, al validar el código, y operación marca «en camino», «entregado» y «no entregado»** (MATU-63, D-63-6), porque la app de repartidor quedó fuera del alcance comprometido. El código lo recibe operación una sola vez, por la pantalla de operación (MATU-81), con la tarea de consola como respaldo (D-81-10). La familia no lo ve (D-63-5). El flujo completo se demuestra igual.
 
 ---
 
@@ -1173,13 +1186,29 @@ POST   /v1/comercio/partes/{parte_id}/validar-codigo → el código solo en el c
 GET    /v1/comercio/productos                        → precio (solo lectura), stock, apartado y disponibles
 PATCH  /v1/comercio/productos/{oferta_id}            → stock y si lo ofrece
 
-GET    /v1/operacion/pedidos                          → los pagados en curso, con sus partes
+GET    /v1/operacion/pedidos?grupo=&estado=           → los pagados, por grupo de estados (en curso si no se filtra), hasta 200
+POST   /v1/operacion/pedidos/buscar                   → por referencia, con la referencia en el cuerpo
+GET    /v1/operacion/pedidos/{pedido_id}              → partes, líneas, línea de tiempo y acciones con su monto · se audita
+GET    /v1/operacion/pedidos/{pedido_id}/cobro        → la conciliación del pedido, sin la tarjeta · se audita
+GET    /v1/operacion/cobros/pendientes                → ventas sin respuesta por más de 15 minutos y anulaciones sin terminar
 POST   /v1/operacion/partes/{parte_id}/codigo         → genera o regenera el código y lo devuelve una sola vez
 POST   /v1/operacion/pedidos/{pedido_id}/en-camino
 POST   /v1/operacion/pedidos/{pedido_id}/entregado    → fija entregado_en y lo que MATU debe a cada comercio
 POST   /v1/operacion/pedidos/{pedido_id}/no-entregado
-GET    /v1/operacion/retractos                        → los retractos pedidos
-POST   /v1/operacion/retractos/{retracto_id}/resolver → devolver o rechazar
+POST   /v1/operacion/pedidos/{pedido_id}/cancelar-con-devolucion
+POST   /v1/operacion/pedidos/{pedido_id}/retractos   → el retracto por correo, con correo_solicitante en el cuerpo
+GET    /v1/operacion/retractos                        → los retractos pedidos, con sus líneas
+GET    /v1/operacion/retractos/{retracto_id}
+POST   /v1/operacion/retractos/{retracto_id}/resolver → devolver, o rechazar con un motivo
+GET    /v1/operacion/incidencias?estado=
+POST   /v1/operacion/pedidos/{pedido_id}/incidencias
+GET    /v1/operacion/incidencias/{incidencia_id}
+PATCH  /v1/operacion/incidencias/{incidencia_id}     → estado, resolución y asignación, con If-Match
+GET    /v1/operacion/catalogo                         → las ofertas, editables solo en los comercios ficticios
+PATCH  /v1/operacion/ofertas/{oferta_id}              → precio, stock y si se ofrece, con If-Match
+
+POST   /v1/sesiones                                   → con una cuenta de operación, 401 mfa-requerido con un desafío
+POST   /v1/sesiones/mfa                               → el desafío y el código · entrega la sesión de operación
 
 GET    /v1/backoffice/comercios/{id}/consumos?estado=&periodo=
 POST   /v1/backoffice/consumos/{id}/conciliar
@@ -1188,7 +1217,9 @@ GET    /v1/backoffice/indicadores
 
 **La consulta de stock no es un endpoint público.** Va de MATU al comercio por el puerto `CatalogoComercio`, con solo productos, cantidades y una referencia opaca.
 
-**Rutas de MATU-63** (decisiones 407 a 430 de `api/README.md`, que manda sobre esta lista junto con `openapi.json`). El comercio mueve **su parte**, no el pedido, y llega hasta «retirado». Valida el código, nunca lo ve (D-63-1 a D-63-6). Las rutas de operación las usa la pantalla de MATU-81. Hasta entonces, el código se genera desde la consola (decisión 426). La familia usa `POST /v1/pedidos/{pedido_id}/cancelar-con-devolucion` (R15, solo el admin) y `GET` y `POST /v1/pedidos/{pedido_id}/retractos` (R3, el admin o quien pagó), con sus pantallas en MATU-92.
+**Rutas de MATU-63** (decisiones 407 a 430 de `api/README.md`, que manda sobre esta lista junto con `openapi.json`). El comercio mueve **su parte**, no el pedido, y llega hasta «retirado». Valida el código, nunca lo ve (D-63-1 a D-63-6). Las rutas de operación las usa la pantalla de operación. El código se genera por la pantalla de operación (MATU-81), con la tarea de consola como respaldo (D-81-10). La familia usa `POST /v1/pedidos/{pedido_id}/cancelar-con-devolucion` (R15, solo el admin) y `GET` y `POST /v1/pedidos/{pedido_id}/retractos` (R3, el admin o quien pagó), con sus pantallas en MATU-92.
+
+**Rutas de MATU-81** (decisiones 449 a 465 de `api/README.md`, que manda sobre esta lista junto con `openapi.json`). La consola de operación exige el segundo factor en todas sus rutas (11.6). Ninguna respuesta trae datos de la persona cuidada, del grupo ni de la cuenta de la familia: ni nombre, nivel de apoyo, dirección, teléfono, `persona_cuidada_id`, `grupo_id`, el nombre del grupo ni quién pidió o pagó (C5), con `extra="forbid"` y la prueba `test_contrato_operacion.py`. La línea de tiempo sale de `pedido_transicion` y de los instantes de las partes, el cobro, las anulaciones, los retractos y las incidencias, nunca de `auditoria`, y su actor es `familia`, `comercio` (con su nombre), `operacion` o `sistema` (C6). La búsqueda va por `POST`, con la referencia en el cuerpo, nunca en la URL, los logs, los errores ni la auditoría (C7). Abrir el detalle o el cobro se audita como `operacion.pedido_ver`, con el grupo y la persona y sin contenido. Las listas no (D-81-5). La conciliación muestra `buy_order` y nunca el token, el `session_id`, la respuesta de Transbank, los últimos 4, el tipo de tarjeta, las cuotas ni el código de autorización (D-81-8). Las incidencias y las ofertas piden `If-Match` (428 sin él, 412 desactualizado). Un comercio real responde 409 `comercio-real`, y la base también lo impide (D-81-7). Rechazar un retracto exige `motivo` (`sello_abierto` o `producto_no_recibido`, 422 `motivo-rechazo`), y el retracto por correo de un admin lleva `correo_solicitante`, que el servidor busca entre los admins activos del grupo (422 `solicitante-invalido`, D-81-9). `consumo_comercio` sigue solo de lectura y sin ruta (D-81-11). Las rutas de `/v1/backoffice` de arriba siguen sin construir.
 
 ### 9.6 Ejemplo de respuesta con la capa 2 en acción
 
@@ -1343,7 +1374,7 @@ Tres dimensiones, evaluadas siempre en este orden: **quién es** (JWT válido y 
 | `observador` | no | ver | ver | ver el carrito, sin la entrega ni el resumen | no | nombre |
 | `relevo` (token) | **solo secciones habilitadas, solo lectura** | no | no | no | no | nombre de pila |
 | `comercio` | **nunca** | **nunca** | solo su propia oferta: ve el precio y cambia el stock y si la ofrece | solo su parte de los pedidos del día, por funciones, hasta «retirado» | no | **ninguno**: solo la referencia de su parte. Valida el código de retiro, sin verlo |
-| `operación` | **nunca** | **nunca** | administrar | ver todos, intervenir | ver, devolver por anulación, liquidar | nombre, dirección |
+| `operación` | **nunca** | **nunca** | administrar. En el piloto cambia precio, stock y si se ofrece solo en los comercios ficticios (MATU-81, D-81-7) | ver todos, intervenir, anotar lo que pasó con un pedido. Abrir un pedido se audita (D-81-5) | ver la conciliación sin la tarjeta, devolver por anulación, liquidar | **ninguno** en la consola (MATU-81, C5). Desde la 0030 no lee la persona cuidada ni el consentimiento. La base le deja leer la dirección y la entrega, sin escribirla, y ninguna ruta las lee (D-81-6 y C34) |
 
 **El grupo (MATU-42).** Solo el `admin` invita, anula invitaciones, cambia roles y el permiso del pagador y saca a alguien. Los demás roles reciben 404, y la RLS por operación de la 0026 lo exige también en la base. Cualquier miembro puede salir. El grupo nunca queda sin `admin` (trigger y 409). Al dejar de compartir la ficha (salir, ser sacado o pasar de `admin` o `cuidador` a `pagador` u `observador`) se cortan los accesos de relevo que la persona compartió. Al dejar de administrar, se anulan sus invitaciones sin usar.
 
@@ -1409,6 +1440,7 @@ Esta es la pregunta jurídica central del proyecto.
 |---|---|
 | Transporte | TLS 1.3 y HSTS. **Sin certificate pinning en el piloto**: con renovación automática de certificados, fijar el certificado hoja inhabilita todas las instalaciones publicadas cada 60 días |
 | Autenticación | Argon2id, access token de 15 min, refresh rotativo con detección de reutilización, MFA obligatorio para operación. **La revocación de un access token es efectiva en 15 minutos por caducidad**, no de forma inmediata: un JWT autocontenido no se revoca. Se acepta y se declara |
+| Segundo factor de operación (MATU-81) | **TOTP según el RFC 6238**, escrito con `hmac` y `hashlib`, sin dependencias nuevas, y probado con los vectores del RFC 4226 y del RFC 6238: 6 cifras, pasos de 30 segundos y una ventana de ±1. **El secreto** tiene 160 bits y se guarda cifrado con AES-256-GCM, la KEK y el AAD `mfa:<usuario_id>` en `usuario.mfa_secreto_cifrado`. `matu_app` no lee la columna: `iam_mfa_secreto` (`SECURITY DEFINER`, `matu_owner`, `search_path` fijo) entrega lo cifrado solo de la cuenta que está entrando. **El alta** es `python -m app.tareas operacion-alta`, interactiva y con `matu_scheduler`: muestra la URI `otpauth` una sola vez, pide el primer código y solo entonces guarda. Repetirla, si se pierde el teléfono, cambia el secreto y cierra las sesiones abiertas. Sin SMS ni códigos de recuperación en el piloto. **La entrada tiene dos pasos:** con la contraseña correcta, `POST /v1/sesiones` responde 401 `mfa-requerido` con un desafío de 256 bits que vale 5 minutos, guardado en Redis solo como su SHA-256, sin tokens ni cookie. `POST /v1/sesiones/mfa`, con el desafío y el código, entrega la sesión. Un paso ya usado no se acepta de nuevo (401 `codigo-mfa-usado`), y 5 códigos fallidos por cuenta en 15 minutos bloquean la entrada (429 `mfa-bloqueado`, HMAC de la cuenta con `PEPPER_LIMITES`). Sin Redis, sin el pepper o sin la KEK, 503. **La marca:** el access token lleva el claim `mfa` y `sesion_refresh.mfa_en` la guarda. La sesión vence a más tardar 12 horas después del segundo factor, sin el deslizante de 30 días (`CHECK` y trigger `sesion_refresh_mfa`). `operador()` responde 401 `mfa-requerido` sin la marca o pasadas las 12 horas, y 404 si la cuenta no es de operación. **Separación:** una cuenta de operación no es miembro de un grupo ni de un comercio, y al revés (trigger `cuenta_operacion_separada`). Se auditan `cuenta.mfa_alta`, `sesion.mfa_correcto` y `sesion.mfa_fallido`, sin grupo, sin el código ni el secreto (decisiones 450 a 454) |
 | API | Rate limiting por IP y por usuario, validación estricta con Pydantic, CORS restringido, proyecciones por rol. **La IP no se guarda.** El contador de intentos del relevo (MATU-25) vive en Redis. Su clave es una huella HMAC de la IP, con un secreto de `.env`, y vence a la hora. La IP en claro no llega a la base, a la auditoría ni a los logs |
 | Base de datos | RLS forzado en toda tabla de negocio, con las excepciones de la sección 7.7 acotadas por permiso, usuario de aplicación sin `SUPERUSER`, `auditoria` sin UPDATE ni DELETE, cifrado de volumen |
 | Datos sensibles | Sobre-cifrado por sección, borrado criptográfico, sin plan de cuidado en ningún registro de log |
@@ -1443,6 +1475,8 @@ Que la incidencia **no bloquee la entrega** es deliberado: la familia está espe
 | Partes por comercio, sus líneas y los retractos (MATU-63) | 2 años, con el pedido. La anulación de un retracto, 6 años, con el pago | D-63-13. Todavía no se borran solos: el borrado lo construye MATU-89. [PENDIENTE: CL-28 ampliada] |
 | Huella del código de retiro | Hasta que se usa, vence o se bloquea | D-63-4 y D-63-13. La vacía la tarea `despacho` al vencer |
 | Auditoría del comercio (sin grupo, `actor_tipo = 'comercio'`) | 3 años | D-63-12 y D-63-13. Todavía no se borra sola (MATU-89). [PENDIENTE: CL-73] |
+| Lo que pasó con un pedido (`incidencia`, MATU-81) | 2 años desde el cierre del pedido, con el pedido (`ON DELETE CASCADE`) | C12 de MATU-81. Todavía no se borra sola: el borrado lo construye MATU-89. [PENDIENTE: CL-28 ampliada] |
+| Auditoría de operación (`operacion.pedido_ver`, `incidencia.*`, `catalogo.oferta_cambiar` y las del segundo factor) | 3 años, como el resto de la auditoría | D-81-5, C4, C14 y C32. Todavía no se borra sola (MATU-89). [PENDIENTE: CL-28 y CL-67 ampliadas] |
 | **Pedidos no pagados** (`borrador`, total vencido y `cancelado` sin pago), con su `pedido_transicion` | 30 días. La copia de la entrega (`pedido_entrega`) se borra al cancelar | Nada justifica guardar lo que nunca se pagó (D5 de la revisión previa de MATU-61). Lo borra una tarea del programador de MATU-74. [PENDIENTE: CL-28 ampliada] |
 | `idempotencia` de los POST del pedido | 24 horas, solo el estado HTTP y el id del pedido, sin el cuerpo | D5 de la revisión previa de MATU-61 |
 | Dirección de entrega de la persona | Mientras la persona esté registrada, hasta que se vacía o se borra a la persona. Retirar la autorización de pedidos no la borra | Se pide con el primer pedido y se guarda para los próximos (D4 y CJ6 de Jorge) |

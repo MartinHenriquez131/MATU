@@ -377,15 +377,16 @@ En los orígenes, «Trello» es un comentario de la tarjeta de consulta legal, c
 
 ### CL-28 · El plazo de los pagos y los pedidos
 
-- **Pregunta:** ¿corresponde guardar 6 años los pagos y las boletas, y 2 años los pedidos y los comprobantes de entrega? **Ampliada con MATU-61:** ¿basta con borrar a los 30 días lo que nunca se pagó (el pedido en armado, el de total vencido y el cancelado sin pago), con su línea de tiempo, en vez de guardarlo 2 años? ¿Se puede guardar 24 horas, para no repetir un pedido, solo el estado y el número del pedido? **Ampliada con MATU-63:** ¿siguen al pedido (2 años) los retractos y las partes por comercio, y al pago (6 años) la anulación de un retracto? ¿Basta borrar la huella del código de retiro al usarse, al vencer o al bloquearse? ¿Son 3 años proporcionales para el registro de lo que hace el comercio? **Ampliada con MATU-92:** ¿desde cuándo se cuentan los 2 años de un pedido pagado: desde el pago o desde su cierre (la entrega o la cancelación)?
+- **Pregunta:** ¿corresponde guardar 6 años los pagos y las boletas, y 2 años los pedidos y los comprobantes de entrega? **Ampliada con MATU-61:** ¿basta con borrar a los 30 días lo que nunca se pagó (el pedido en armado, el de total vencido y el cancelado sin pago), con su línea de tiempo, en vez de guardarlo 2 años? ¿Se puede guardar 24 horas, para no repetir un pedido, solo el estado y el número del pedido? **Ampliada con MATU-63:** ¿siguen al pedido (2 años) los retractos y las partes por comercio, y al pago (6 años) la anulación de un retracto? ¿Basta borrar la huella del código de retiro al usarse, al vencer o al bloquearse? ¿Son 3 años proporcionales para el registro de lo que hace el comercio? **Ampliada con MATU-92:** ¿desde cuándo se cuentan los 2 años de un pedido pagado: desde el pago o desde su cierre (la entrega o la cancelación)? **Ampliada con MATU-81:** ¿deben seguir al pedido (2 años desde su cierre) las notas de lo que pasó con él (`incidencia`), que la familia ve en la copia de sus datos? ¿Son 3 años proporcionales para el registro de cuándo el equipo de MATU abrió un pedido y para el de la cuenta de operación y su segundo factor?
 - **Origen:**
   - MATU-26, revisión previa, Trello del 21 de octubre de 2026, pregunta 12, primera parte
   - MATU-61, revisión previa, 10 de noviembre de 2026 (`revision-previa-matu-61.md`, punto 12 y sección 5), con la decisión D5 de Jorge del 11 de noviembre de 2026
   - MATU-63, revisión previa, 13 de noviembre de 2026 (`revision-previa-matu-63.md`, D-63-13).
   - MATU-92, revisión previa, 16 de noviembre de 2026, con la decisión D-92-2 del orquestador por delegación de Jorge.
-- **Mientras tanto:** el registro declara 2 años para los pedidos pagados y 6 años para pagos y boletas (arquitectura, sección 11.8). Desde MATU-63, las partes, las líneas y los retractos siguen al pedido, y la anulación de un retracto, al pago (D-63-13). Lo no pagado se borra a los 30 días con una tarea del programador de MATU-74, y `idempotencia` guarda solo el estado y el id del pedido y se borra a las 24 horas (D5). Desde MATU-92, mientras siga la consulta, los 2 años de un pedido pagado se cuentan desde su cierre, es decir, desde la entrega o la cancelación (D-92-2). «Tus pedidos» muestra los de los últimos 2 años con esa misma regla.
+  - MATU-81, revisión previa, 17 de noviembre de 2026 (`revision-previa-matu-81.md`, P4 y sección 7), con las decisiones D-81-1 a D-81-12 del orquestador con el mandato de Jorge del 16-11.
+- **Mientras tanto:** el registro declara 2 años para los pedidos pagados y 6 años para pagos y boletas (arquitectura, sección 11.8). Desde MATU-63, las partes, las líneas y los retractos siguen al pedido, y la anulación de un retracto, al pago (D-63-13). Lo no pagado se borra a los 30 días con una tarea del programador de MATU-74, y `idempotencia` guarda solo el estado y el id del pedido y se borra a las 24 horas (D5). Desde MATU-92, mientras siga la consulta, los 2 años de un pedido pagado se cuentan desde su cierre, es decir, desde la entrega o la cancelación (D-92-2). «Tus pedidos» muestra los de los últimos 2 años con esa misma regla. Desde MATU-81, las incidencias siguen al pedido (`ON DELETE CASCADE`, C12), y el registro de las lecturas de operación (`operacion.pedido_ver`) y el de la cuenta de operación duran 3 años, como el resto de la auditoría. El borrado lo construye MATU-89.
 - **Bloquea:** dinero real. Lo no pagado, también datos reales.
-- **Se cierra en:** política, sección 4, «De tus pedidos» («PENDIENTE: confirmar en la versión 1.0. CL-28 y CL-44»), y sección 8, «Pedidos que no se pagaron» («PENDIENTE: CL-28 ampliada»). Registro, entrada 2, conservación.
+- **Se cierra en:** política, sección 4, «De tus pedidos» («PENDIENTE: confirmar en la versión 1.0. CL-28 y CL-44»), y sección 8, «Pedidos que no se pagaron» y «Lo que pasó con un pedido» («PENDIENTE: CL-28 ampliada»). Registro, entrada 2, conservación, y entrada 15, conservación.
 - **Respuesta:** —
 
 ### CL-29 · Destruir la clave y las copias de respaldo
@@ -575,11 +576,13 @@ En los orígenes, «Trello» es un comentario de la tarjeta de consulta legal, c
 
 ### CL-67 · Las lecturas de operación de los pedidos de otros grupos
 
-- **Pregunta:** ¿deben quedar registradas, sin contenido, las lecturas que hace el equipo de operación de los pedidos de otros grupos, que la política trata como datos sensibles, antes de tratar datos reales?
-- **Origen:** MATU-94, revisión de cierre del analista normativo, 11 de noviembre de 2026 (punto 8).
-- **Mientras tanto:** las lecturas de operación no se auditan, igual que las de la familia (decisión 52), y sus escrituras sí. El backoffice no está construido y el piloto usa solo datos sintéticos. Se recomienda, como diseño, auditar esas lecturas en la historia del backoffice.
+- **Pregunta:** ¿deben quedar registradas, sin contenido, las lecturas que hace el equipo de operación de los pedidos de otros grupos, que la política trata como datos sensibles, antes de tratar datos reales? **Ampliada con MATU-81:** ¿basta con registrar cuándo el equipo abre el detalle, la línea de tiempo o el cobro de un pedido, sin registrar las listas ni la búsqueda? ¿Es suficiente que la familia vea esas aperturas en la copia de sus datos, o tiene que verlas también en la aplicación?
+- **Origen:**
+  - MATU-94, revisión de cierre del analista normativo, 11 de noviembre de 2026 (punto 8).
+  - MATU-81, revisión previa, 17 de noviembre de 2026 (`revision-previa-matu-81.md`, P3 y sección 7), con la decisión D-81-5.
+- **Mientras tanto:** desde MATU-81, abrir el detalle, la línea de tiempo o el cobro de un pedido se audita como `operacion.pedido_ver`, con el grupo y la persona y sin contenido. La familia lo ve en la copia de sus datos: «El equipo de MATU revisó el pedido {referencia}». Las listas y la búsqueda no se auditan. Las escrituras de operación se auditan como antes. Las lecturas de la familia siguen sin auditarse (decisión 52). El piloto usa solo datos sintéticos.
 - **Bloquea:** datos reales.
-- **Se cierra en:** registro de tratamientos, entrada 2, «Quién accede» («[PENDIENTE: CL-67]»).
+- **Se cierra en:** registro de tratamientos, entrada 2, «Quién accede» («[PENDIENTE: CL-67 ampliada]»). Política, §6, el párrafo del equipo de MATU («PENDIENTE: CL-67 ampliada»).
 - **Respuesta:** —
 
 ### CL-39 · La base de las huellas de IP y de email
@@ -712,8 +715,9 @@ En los orígenes, «Trello» es un comentario de la tarjeta de consulta legal, c
   - ¿«Sin retención de gastos» (Ley 19.496, art. 3 bis) obliga a devolver el envío en un retracto parcial?
   - ¿Quién prueba que un sello se abrió, y qué pasa si el producto vuelve abierto?
   - Un producto que se rechazó por volver con el sello abierto, ¿se puede volver a pedir en retracto dentro del plazo? Mientras tanto, se pueden volver a pedir las unidades que no se devolvieron, pero no las rechazadas por sello abierto (H3)
-- **Origen:** MATU-63, revisión previa, 13 de noviembre de 2026 (`revision-previa-matu-63.md`, sección 5), con las decisiones D-63-1 a D-63-16 (D-63-10, envío b, confirmada por Jorge el 13-11). Se relaciona con P5 del ADR-027 y con CL-41.
-- **Mientras tanto:** el envío se devuelve solo si se devuelve todo (condiciones 0.3). Los pedidos con la 0.2 se respetan como estaban: el envío se devuelve en todo retracto.
+  - **Ampliada con MATU-81:** el rechazo lleva un motivo de una lista cerrada que la familia ve: `sello_abierto` o `producto_no_recibido`, que significa que MATU no recibió el producto de vuelta. ¿Basta con ese motivo para informar a la familia por qué se rechazó su retracto? ¿Quién prueba que el producto no se recibió, y qué plazo tiene la familia para devolverlo antes de que se rechace por ese motivo?
+- **Origen:** MATU-63, revisión previa, 13 de noviembre de 2026 (`revision-previa-matu-63.md`, sección 5), con las decisiones D-63-1 a D-63-16 (D-63-10, envío b, confirmada por Jorge el 13-11). Se relaciona con P5 del ADR-027 y con CL-41. Ampliada con MATU-81, revisión previa, 17 de noviembre de 2026 (`revision-previa-matu-81.md`, P7 y C24).
+- **Mientras tanto:** el envío se devuelve solo si se devuelve todo (condiciones 0.3). Los pedidos con la 0.2 se respetan como estaban: el envío se devuelve en todo retracto. Desde MATU-81, rechazar un retracto exige el motivo (`retracto.motivo_rechazo`, 0030), y la familia lo ve en «Tus pedidos» (MATU-92). Los rechazos anteriores a la 0030 quedan sin motivo.
 - **Bloquea:** dinero real.
 - **Se cierra en:** condiciones del pedido 0.3, §9. Lo resuelto por diseño de P5 (más abajo).
 - **Respuesta:** —
@@ -811,7 +815,7 @@ En los orígenes, «Trello» es un comentario de la tarjeta de consulta legal, c
 - **Se cierra en:** registro, entradas 2 y 13, base de licitud.
 - **Respuesta:** —
 
-**Se amplían con MATU-62:** CL-44 (el retiro o el borrado con un pago en curso: si se aprueba, se anula completo el mismo día) y CL-28 (apunta a la CL-64). Las CL-57 a 59 quedan usadas por MATU-42 y 53, que amplía la CL-66. Las CL-61 a 63, la CL-68 y la CL-70 quedan usadas por MATU-54, que amplía la CL-04, CL-30, CL-48 y CL-53. La CL-67 es de MATU-94 (sección 7). La CL-53 y la CL-69 quedan usadas por MATU-55. La CL-60 queda usada por MATU-46, que amplía la CL-29 y la CL-34. Las CL-71 a CL-73 quedan usadas por MATU-63 (sección 8 y sección 3), que amplía la CL-28, la CL-54, la CL-55 y la CL-66. La próxima libre es la **CL-74**.
+**Se amplían con MATU-62:** CL-44 (el retiro o el borrado con un pago en curso: si se aprueba, se anula completo el mismo día) y CL-28 (apunta a la CL-64). Las CL-57 a 59 quedan usadas por MATU-42 y 53, que amplía la CL-66. Las CL-61 a 63, la CL-68 y la CL-70 quedan usadas por MATU-54, que amplía la CL-04, CL-30, CL-48 y CL-53. La CL-67 es de MATU-94 (sección 7). La CL-53 y la CL-69 quedan usadas por MATU-55. La CL-60 queda usada por MATU-46, que amplía la CL-29 y la CL-34. Las CL-71 a CL-73 quedan usadas por MATU-63 (sección 8 y sección 3), que amplía la CL-28, la CL-54, la CL-55 y la CL-66. MATU-92 amplía la CL-28. MATU-81 no agrega preguntas y amplía la CL-28, la CL-67 y la CL-72. La próxima libre es la **CL-74**.
 
 ## Condiciones antes de datos reales
 
@@ -1051,3 +1055,11 @@ Cada fila traduce un número antiguo a su número nuevo. «Sin número» es una 
 | Historia | Número antiguo | Número nuevo |
 |---|---|---|
 | MATU-92, revisión previa | D-92-2, ampliar CL-28 (desde cuándo se cuentan los 2 años de un pedido pagado) | CL-28 |
+
+### MATU-81 (17 de noviembre de 2026)
+
+| Historia | Número antiguo | Número nuevo |
+|---|---|---|
+| MATU-81, revisión previa | P4 y sección 7, ampliar CL-28 (las incidencias y el registro de operación) | CL-28 |
+| MATU-81, revisión previa | P3, D-81-5 y sección 7, ampliar CL-67 (qué lecturas de operación se registran) | CL-67 |
+| MATU-81, revisión previa | P7, C24 y sección 7, ampliar CL-72 (el motivo del rechazo de un retracto) | CL-72 |
