@@ -278,7 +278,7 @@ El punto 6 es nuevo respecto de la arquitectura y formaliza la regla 3 de la sec
 | 0 | Esta estrategia · prueba de concepto de Transbank (parcial) · `test_aislamiento.py` conectado a Alembic y en verde en el pipeline |
 | 1 | Casos pendientes de la prueba de Transbank · `test_arquitectura.py` que no pasa en vacío · dobles de `Reloj` y `CustodiaClaves` · pruebas de identidad, grupo, persona cuidada y consentimiento |
 | 2 | Pruebas de cifrado con AAD, ficha, concurrencia optimista (412 y 428) y auditoría · fábricas de datos sintéticos · pruebas del relevo completo (410, 423, sesión sin grupo) · e2e `test_recorrido_relevo` en local |
-| 3 | e2e `test_recorrido_relevo` en staging · `test_capa3_desacoplable.py` · pruebas de widget con accesibilidad · prueba en un dispositivo real de gama baja · refresh rotativo · las ocho pruebas del quiebre + propiedad · doble de `Notificador` · consumidor del outbox idempotente · usabilidad, ronda 1 con el prototipo |
+| 3 | e2e `test_recorrido_relevo` en staging (desde MATU-80, `tests/e2e/test_recorrido_2_relevo.py`, junto con los otros cinco recorridos) · `test_capa3_desacoplable.py` · pruebas de widget con accesibilidad · prueba en un dispositivo real de gama baja · refresh rotativo · las ocho pruebas del quiebre + propiedad · doble de `Notificador` · consumidor del outbox idempotente · usabilidad, ronda 1 con el prototipo |
 | 4 | Los siete casos de pago de la sección 12.4 · usabilidad, ronda 2 con la app |
 | 5 | Carga con k6 · revisión final de la matriz de trazabilidad |
 
