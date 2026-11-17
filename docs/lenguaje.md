@@ -1174,7 +1174,7 @@ Los textos salen de la especificación de pantallas de MATU-62, v1.1 del 11-11 (
 | Anulación en curso | Estamos anulando tu pago · El pedido cambió o se canceló mientras pagabas. Estamos devolviendo {total} a tu tarjeta terminada en {ultimos4}. Si no se completa hoy, te escribimos. MATU nunca te pide los datos de tu banco por mensaje. | **[NUEVO]** |
 | Devolución hecha | Devolvimos {monto} a tu tarjeta terminada en {ultimos4}, por {producto}. Cuándo lo ves en tu cuenta depende de tu banco. · Quien no pagó: Devolvimos {monto} a la tarjeta con que se pagó, por {producto}. Cuándo se ve en la cuenta depende del banco. | [A5.4] · **[AJUSTE]** |
 | Devolución en curso | Estamos devolviendo {monto} a tu tarjeta. Si no se completa hoy, te escribimos. MATU nunca te pide los datos de tu banco por mensaje. · Quien no pagó: Estamos devolviendo {monto} a la tarjeta con que se pagó. Si no se completa hoy, le escribimos a quien pagó. MATU nunca pide los datos de un banco por mensaje. | [A5.4] · **[AJUSTE]** |
-| Renglones | Devolvimos: {producto} · Pagaste en total · por tu pedido completo | **[NUEVO]** |
+| Renglones | Devolvimos: {producto} · Pagaste en total · por tu pedido completo (solo si se canceló el pedido) · Devolvimos: el envío · por el envío (MATU-92, P1-3: la devolución del envío no dice «tu pedido completo») | **[NUEVO]** |
 | **Pedido pagado** | Pedido pagado · Pagado · Pedido {referencia} · {DD/MM/AAAA} a las {HH:MM} · Total pagado: {total} · Ver el comprobante | **[NUEVO]** · [A5.4] |
 
 **Ninguno usa** los términos de la sección 3, «rechazado», «fallido», «inválido», «token», «stock», «reserva», «monto real», «estimado» ni «con IVA». «Boleta» aparece solo en «Este comprobante no es una boleta.», que la niega.
@@ -1797,7 +1797,7 @@ Las llaves son datos de la API, con el formato de las secciones 31 y 32: `{pila}
 | Cómo va | Cómo va · De {comercio} · De un comercio · (comercio ficticio) · Faltaron {n} | **[NUEVO]** · **[NUEVO]** (revisión previa) · **[NUEVO]**, si el comercio dejó de estar activo · [L 31] · **[NUEVO]** |
 | Estado de cada parte (C16) | Enviado al comercio · En preparación · Listo para salir · Salió del comercio · No tenía estos productos · Cancelado | **[NUEVO]** (revisión previa) · [L 36] · [L 36] · **[NUEVO]** · **[NUEVO]** · **[NUEVO]** (revisión previa) |
 | No se pudo traer el pedido | No pudimos traer tu pedido. Revisa tu conexión e inténtalo de nuevo. | [L 31] |
-| No se pudo traer el comprobante | No pudimos traer el comprobante. Revisa tu conexión y vuelve a intentarlo. | **[NUEVO]** |
+| No se pudo traer el comprobante | No pudimos traer el comprobante. Revisa tu conexión y vuelve a intentarlo. · Tampoco pudimos mostrar lo que se devolvió. · Volver a intentar | **[NUEVO]** |
 | 404 | No encontramos este pedido. | [L 31] |
 | **Dinero devuelto** | | |
 | Título (D5) | Dinero devuelto | **[NUEVO]** |
@@ -1805,7 +1805,7 @@ Las llaves son datos de la API, con el formato de las secciones 31 y 32: `{pila}
 | Faltante | Faltaron {n} de {producto}. | [L 36] |
 | Quien pagó (D3) | Te devolvimos · a tu tarjeta terminada en · Cuándo lo ves en tu cuenta depende de tu banco. | [L 36] · [L 32] · [L 32] |
 | Quien no pagó (C17 y C25) | Devolvimos · a la tarjeta con que se pagó · Cuándo se ve en la cuenta depende del banco. | [L 32] |
-| Por qué | por {producto} · por tu pedido completo | [L 32] |
+| Por qué | por {producto} · por tu pedido completo (solo si se canceló) · por el envío | [L 32] **[AJUSTE]** |
 | Envío devuelto (C13) | Devolvimos el envío: | **[NUEVO]** (revisión previa) |
 | En curso | Estamos devolviendo · a tu tarjeta. | [L 32] |
 | En curso, quien pagó | Si no se completa hoy, te escribimos. MATU nunca te pide los datos de tu banco por mensaje. | [L 32] |
@@ -1813,7 +1813,7 @@ Las llaves son datos de la API, con el formato de las secciones 31 y 32: `{pila}
 | **Productos para devolver** | | |
 | Título | Productos para devolver | **[NUEVO]** |
 | Estados | Devolución pedida · Devuelto el · No se aceptó la devolución · Si tienes dudas, escríbenos a | **[NUEVO]** (revisión previa) |
-| Monto | Te devolvemos · cuando recibamos los productos con su sello cerrado. · También te devolvemos el envío. | **[NUEVO]** (revisión previa) |
+| Monto | Te devolvemos · , envío incluido, (cuando el monto ya incluye el envío: «Te devolvemos {monto}, envío incluido, cuando recibamos…») · cuando recibamos los productos con su sello cerrado. | **[NUEVO]** (revisión previa) |
 | Quién la pidió (C18) | La pidió otra persona de tu grupo. | **[NUEVO]** |
 | Por correo, si la pidió quien mira (C21) | Esta devolución la pediste por correo. La registró el equipo de MATU. | **[NUEVO]** (revisión previa) |
 | Por correo, si la pidió otra persona | Esta devolución se pidió por correo. La registró el equipo de MATU. | **[AJUSTE]** (D4): «la pediste» es falso si no la pidió quien mira |
@@ -1821,14 +1821,14 @@ Las llaves son datos de la API, con el formato de las secciones 31 y 32: `{pila}
 | Botón | Arrepentirme de la compra | [L 36] |
 | Ayuda del botón | Puedes hacerlo hasta el · Pasamos a buscar los productos sin costo y te devolvemos su precio a la misma tarjeta cuando los recibimos con su sello cerrado. · Si devuelves todo, también el envío. | [L 36] (la última, solo si las condiciones lo incluyen, C9) |
 | Quien no puede (C7) | Pueden arrepentirse de la compra quien administra el grupo y quien la pagó. | **[NUEVO]** (revisión previa) |
-| Nada por devolver | Ya pediste devolver todos los productos de este pedido. | **[NUEVO]** |
+| Nada por devolver | Ya se pidió devolver todos los productos de este pedido. | **[NUEVO]** |
 | Plazo vencido, hasta los 90 días (C22) | El plazo para arrepentirte desde la aplicación terminó el · Si todavía quieres devolver productos, o tienes un problema con el pedido, escríbenos a | **[NUEVO]** (revisión previa) |
 | Plazo vencido, después de los 90 días | El plazo para arrepentirte terminó el · Si tienes un problema con el pedido, escríbenos a | [L 36] |
 | **La pantalla de arrepentirse** | | |
 | Encabezado | Volver al pedido {referencia} · Elige qué productos devuelves | **[NUEVO]** · [L 36] |
 | Cada producto | Recibiste · Pagaste · cada uno. | **[NUEVO]** |
 | Sello | Si abres el sello, ya no se puede devolver. | **[NUEVO]** (revisión previa) |
-| Cuántos | Ya pediste devolver {n}. · ¿Cuántos devuelves? · Uno menos: {producto} · Uno más: {producto} · Puedes devolver hasta {n}. · Ya pediste devolver todos. · Escribe un número de 0 a {n}. | **[NUEVO]** |
+| Cuántos | Ya se pidió devolver {n}. · ¿Cuántos devuelves? · Uno menos: {producto} · Uno más: {producto} · Puedes devolver hasta {n}. · Ya se pidió devolver todos. · Escribe un número de 0 a {n}. | **[NUEVO]** |
 | Resumen | Lo que vas a devolver · Todavía no eliges ningún producto. | **[NUEVO]** |
 | Lo elegido | Vas a devolver: | **[AJUSTE]** de la revisión previa, en lista |
 | Botones | Devolver estos productos · Enviando… · No, volver | [L 36] · **[NUEVO]** (revisión previa) · [L 36] |
