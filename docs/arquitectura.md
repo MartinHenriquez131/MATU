@@ -2421,7 +2421,7 @@ MATU_PROYECTO/
 └── .github/workflows/ci.yml
 ```
 
-**Sin `mobile/`.** La v1.1 preveía `mobile/packages/core` y `mobile/apps/familia` para Flutter. El ADR-026 los reemplazó por `web/`. Las pruebas no se separan en `unit/`, `integration/` y `e2e/` como preveía la v1.1: se agrupan por módulo, y cada archivo dice en su nombre qué nivel prueba. [PENDIENTE: la carpeta de los recorridos de punta a punta, con los seis recorridos críticos de MATU-64.]
+**Sin `mobile/`.** La v1.1 preveía `mobile/packages/core` y `mobile/apps/familia` para Flutter. El ADR-026 los reemplazó por `web/`. Las pruebas no se separan en `unit/`, `integration/` y `e2e/` como preveía la v1.1: se agrupan por módulo, y cada archivo dice en su nombre qué nivel prueba. La excepción son los recorridos de punta a punta: los seis recorridos críticos de MATU-64 viven en `backend/tests/e2e/`, uno por archivo (`test_recorrido_1_alta_y_ficha.py` a `test_recorrido_6_retiro_con_codigo.py`), con la marca `e2e`, y corren en cada push (MATU-80). La carga con k6 está en `infra/carga/`.
 
 Cada módulo interno sigue la misma estructura, de modo que agregar uno nuevo sea mecánico:
 
