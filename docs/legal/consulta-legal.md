@@ -260,7 +260,7 @@ En los orígenes, «Trello» es un comentario de la tarjeta de consulta legal, c
 
 - **Pregunta:** el aviso fijo «MATU: un insumo se está acabando. Abre la app para ver cuál», enviado por un proveedor de push o de correo, ¿revela un dato sensible?
 - **Origen:** MATU-37, Trello del 3 de noviembre de 2026, pregunta 1.
-- **Mientras tanto:** el aviso no dice qué insumo ni de quién, y el push va sin contenido.
+- **Mientras tanto:** el aviso no dice qué insumo ni de quién, y el push va sin contenido. **Desde MATU-76 (D-76-1, 18-11),** el push dice para todo «MATU · Tienes una novedad. Abre la app para verla.», que ya no nombra los insumos. El correo del insumo sigue con su texto, y el del pedido dice «Hay una novedad en un pedido. Abre la app para verla.».
 - **Bloquea:** datos reales.
 - **Se cierra en:** no tiene un `[PENDIENTE]` propio.
 - **Respuesta:** —
@@ -767,7 +767,7 @@ En los orígenes, «Trello» es un comentario de la tarjeta de consulta legal, c
 
 - **Pregunta:** ¿qué medio cumple el art. 3 bis (45 días, sin retención) si Transbank no permite anular? ¿Pedir datos bancarios exige una base de licitud nueva? **Ampliada con MATU-63:** ¿y si el retracto llega fuera del plazo de anulación de Transbank, por ejemplo uno pedido por correo cerca de los 90 días?
 - **Origen:** MATU-62, revisión previa, 10 de noviembre de 2026 (`revision-previa-matu-62.md`, sección 6).
-- **Mientras tanto:** se reintenta la anulación, se avisa a operación y se le escribe a la familia, sin pedir datos bancarios (D-62-6 a).
+- **Mientras tanto:** se reintenta la anulación, se avisa a operación y se le escribe a la familia, sin pedir datos bancarios (D-62-6 a). **Nota de MATU-76 (H1, 18-11):** el «te escribimos» de las condiciones, §7, cuando falla una anulación, se cumple con un correo que escribe el equipo de MATU, no con un aviso automático: no hay un evento para la anulación fallida. La consola de operación (MATU-81) muestra lo pendiente en «Devoluciones sin terminar». Los avisos de MATU-76 no dicen que cumplen el §7.
 - **Bloquea:** dinero real.
 - **Se cierra en:** condiciones del pedido 0.2 y 0.3, §7 («[PENDIENTE: CL-55]»), y 0.3, §9.
 - **Respuesta:** —
@@ -816,13 +816,31 @@ En los orígenes, «Trello» es un comentario de la tarjeta de consulta legal, c
 - **Se cierra en:** registro, entradas 2 y 13, base de licitud.
 - **Respuesta:** —
 
-**Se amplían con MATU-62:** CL-44 (el retiro o el borrado con un pago en curso: si se aprueba, se anula completo el mismo día) y CL-28 (apunta a la CL-64). Las CL-57 a 59 quedan usadas por MATU-42 y 53, que amplía la CL-66. Las CL-61 a 63, la CL-68 y la CL-70 quedan usadas por MATU-54, que amplía la CL-04, CL-30, CL-48 y CL-53. La CL-67 es de MATU-94 (sección 7). La CL-53 y la CL-69 quedan usadas por MATU-55. La CL-60 queda usada por MATU-46, que amplía la CL-29 y la CL-34. Las CL-71 a CL-73 quedan usadas por MATU-63 (sección 8 y sección 3), que amplía la CL-28, la CL-54, la CL-55 y la CL-66. MATU-92 amplía la CL-28. MATU-81 no agrega preguntas y amplía la CL-28, la CL-67 y la CL-72. La próxima libre es la **CL-74**.
+### CL-74 · El correo sobre el dinero que no se puede apagar
+
+- **Pregunta:** ¿puede MATU enviar siempre el correo que avisa una devolución, un producto que faltó o una cancelación con devolución, aunque quien pagó desactivó los avisos del pedido por correo en «Tu cuenta»? ¿Basta como base el deber de informar al consumidor sobre su pago (las condiciones del pedido, §3 y §5, dicen «te avisamos»), o hace falta otra? ¿Debe el correo decir por qué llega aunque se apagaron los avisos?
+- **Origen:** MATU-76, revisión previa, 18 de noviembre de 2026, decisión D-76-3 de Jorge. Se relaciona con la CL-54 y la CL-55.
+- **Mientras tanto:** el correo de `PagoAnulado`, `ProductoFaltante` y `PedidoCanceladoConDevolucion` llega siempre a quien pagó, sin productos, montos, comercio, referencia ni código. Su pie dice «Como es sobre tu dinero, te llega aunque hayas desactivado los avisos por correo.», y «Tu cuenta» lo dice junto a la casilla. El push y el correo de «Entregado» y de «No pudimos entregarlo» se pueden apagar. En el piloto el envío es simulado.
+- **Bloquea:** dinero real.
+- **Se cierra en:** política §6 («PENDIENTE: CL-74 y CL-75»). Registro, entrada 2, base de licitud.
+- **Respuesta:** —
+
+### CL-75 · La devolución a quien pagó y ya salió del grupo
+
+- **Pregunta:** si quien pagó un pedido sale del grupo o lo sacan, y después hay una devolución, un producto que faltó o una cancelación, ¿hay que informárselo? ¿Por qué canal: el correo de su cuenta, aunque ya no esté en el grupo, u otro? ¿Basta con que la política diga que la devolución va igual a su tarjeta?
+- **Origen:** MATU-76, revisión previa, 18 de noviembre de 2026, decisión D-76-4 de Jorge. Se relaciona con la CL-66 y la CL-68.
+- **Mientras tanto:** quien salió del grupo no recibe ningún aviso del pedido, tampoco el correo sobre el dinero (`miembro_inactivo`). La devolución va igual a la misma tarjeta, y la política lo dice en §10, «Salir de un grupo». Quien salió puede pedir su comprobante por el correo de la sección 10 de la política (MATU-42).
+- **Bloquea:** dinero real.
+- **Se cierra en:** política §10 («PENDIENTE: CL-75») y §6. Registro, entrada 2, base de licitud.
+- **Respuesta:** —
+
+**Se amplían con MATU-62:** CL-44 (el retiro o el borrado con un pago en curso: si se aprueba, se anula completo el mismo día) y CL-28 (apunta a la CL-64). Las CL-57 a 59 quedan usadas por MATU-42 y 53, que amplía la CL-66. Las CL-61 a 63, la CL-68 y la CL-70 quedan usadas por MATU-54, que amplía la CL-04, CL-30, CL-48 y CL-53. La CL-67 es de MATU-94 (sección 7). La CL-53 y la CL-69 quedan usadas por MATU-55. La CL-60 queda usada por MATU-46, que amplía la CL-29 y la CL-34. Las CL-71 a CL-73 quedan usadas por MATU-63 (sección 8 y sección 3), que amplía la CL-28, la CL-54, la CL-55 y la CL-66. MATU-92 amplía la CL-28. MATU-81 no agrega preguntas y amplía la CL-28, la CL-67 y la CL-72. Las CL-74 y CL-75 quedan usadas por MATU-76, que agrega una nota a la CL-19 y a la CL-55. La próxima libre es la **CL-76**.
 
 ## Condiciones antes de datos reales
 
 Estas no son preguntas legales. Son trabajo del equipo que tiene que estar hecho antes de operar con datos reales o con dinero real.
 
-- **Enviar correo solo a emails verificados.** Hoy cualquiera puede registrar un email ajeno (MATU-41, revisión previa, Trello del 4 de noviembre de 2026, punto 3, y política, sección 13).
+- **Enviar correo solo a emails verificados.** Hoy cualquiera puede registrar un email ajeno (MATU-41, revisión previa, Trello del 4 de noviembre de 2026, punto 3, y política, sección 13). Desde MATU-76 también aplica a los avisos del pedido (H4).
 - **El correo de contacto** de privacidad (política, secciones 2 y 10). **Hecho en MATU-75, 09-11.**
 - **Borrar los datos de la persona cuando lo pide por correo,** sin pasar por su grupo (MATU-72, política, sección 13).
 - **Ver o descargar los datos desde la aplicación,** incluidas las compras anotadas (política, sección 10, y `revision-matu-51.md`). **Hecho en MATU-54, 12-11.**
@@ -1064,3 +1082,12 @@ Cada fila traduce un número antiguo a su número nuevo. «Sin número» es una 
 | MATU-81, revisión previa | P4 y sección 7, ampliar CL-28 (las incidencias y el registro de operación) | CL-28 |
 | MATU-81, revisión previa | P3, D-81-5 y sección 7, ampliar CL-67 (qué lecturas de operación se registran) | CL-67 |
 | MATU-81, revisión previa | P7, C24 y sección 7, ampliar CL-72 (el motivo del rechazo de un retracto) | CL-72 |
+
+### MATU-76 (18 de noviembre de 2026)
+
+| Historia | Número antiguo | Número nuevo |
+|---|---|---|
+| MATU-76, revisión previa | D-76-3, CL nueva (el correo sobre el dinero que no se apaga) | CL-74 |
+| MATU-76, revisión previa | D-76-4, CL nueva (la devolución a quien salió del grupo) | CL-75 |
+| MATU-76, revisión previa | D-76-1, nota a la CL-19 (el push genérico) | CL-19 |
+| MATU-76, revisión previa | H1, nota a la CL-55 (el «te escribimos» de las condiciones, §7) | CL-55 |

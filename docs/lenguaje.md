@@ -19,6 +19,7 @@
 **MATU-63 (13-11):** entra la sección 36, la consola del comercio, con los textos de la especificación de pantallas v1.1 (`docs/diseno/matu-63-comercio.md`, sección 12) y los de la familia de la revisión previa (`legal/revision-previa-matu-63.md`). Corrige la 31 («Si falta un producto»): en el piloto, después de pagar no se busca en otro comercio, se devuelve el mismo día (D-63-8). Aprobado por Jorge el 16-11.
 **MATU-92 (17-11):** entra la sección 38, «Tus pedidos», con los textos de `textosTusPedidos.ts` (rama de código de MATU-92) y de la especificación de pantallas v1.1 (`docs/diseno/matu-92-tus-pedidos.md`, sección 9). La 27 y la 32 dicen «10 días hábiles» en vez de «10 días» (C24 y D1). La 36 anota que la variante del faltante parcial para quien no pagó está en la 38, sin los últimos 4 dígitos (C25). Aprobado por Jorge el 17-11.
 **MATU-81 (17-11):** la 38 suma los dos motivos por los que no se aceptó una devolución (C24 y decisión 468). Entran la sección 39, lo que la familia lee en la copia de sus datos de lo que hizo el equipo de MATU (D-81-4 y D-81-5, `textosMisDatos.ts`), y la 40, la consola de operación, con los textos de `web/src/operacion/textos.ts` y de la especificación de pantallas v1.0 (`docs/diseno/matu-81-operacion.md`), ambos de la rama de código de MATU-81. Aprobado por Jorge el 17-11.
+**MATU-76 (18-11):** entra la sección 41, los avisos del pedido, con los textos de la especificación de pantallas v1.0 (`docs/diseno/matu-76-avisos-pedido.md`, secciones 2 a 4 y 8) y del correo de la decisión 473 del contrato. Cambia el texto del push en la 13.3, la 20 y la 36: un solo texto genérico para todo lo que MATU avisa (D-76-1). Propuestos por el orquestador el 18-11, pendientes de confirmación de Jorge.
 **Fuentes:** resultados de las entrevistas (`docs/resultados-entrevistas.md`), arquitectura sección 10, política de privacidad v0.9, la demo aprobada (`Demo/src/`, rama `demo-web-viernes-30`) y el contrato de MATU-09 (`docs/api/`, rama `matu-09-contrato-api`).
 
 ---
@@ -524,7 +525,7 @@ Si no se elige quién da el permiso, el error dice: «Elige quién da el permiso
 | El dispositivo actual | Este teléfono |
 | Último uso | Última vez: {fecha} a las {hora} |
 | Botón | Cerrar en ese teléfono |
-| Aviso push (MATU-41) | MATU: un insumo se está acabando. Abre la app para ver cuál |
+| Aviso push (MATU-41) | MATU · Tienes una novedad. Abre la app para verla. (cambio de MATU-76, D-76-1: el mismo texto para todo lo que MATU avisa. Antes: «MATU: un insumo se está acabando. Abre la app para ver cuál») |
 
 ---
 
@@ -688,7 +689,7 @@ El correo y el push nunca dicen qué insumo ni de quién, no ofrecen comprar y s
 | Correo, cuerpo | Un insumo se está acabando. Abre la app para ver cuál. |
 | Correo, botón o enlace (sin identificadores) | Abrir MATU |
 | Correo, pie | Te llega este correo porque eres parte de un grupo de cuidado en MATU. Para dejar de recibir estos avisos por correo, entra a MATU y desactívalos en Tu cuenta. |
-| Push, título y cuerpo | MATU · Un insumo se está acabando. Abre la app para ver cuál. |
+| Push, título y cuerpo | MATU · Tienes una novedad. Abre la app para verla. (cambio de MATU-76, D-76-1: el mismo texto para los insumos, los pedidos y lo que MATU avise después. Antes: «MATU · Un insumo se está acabando. Abre la app para ver cuál.». El correo del insumo no cambia) |
 | Preferencias en «Tu cuenta» (pantalla en MATU-55) | Avisos cuando un insumo se está acabando · Por correo · En este teléfono. Desde MATU-55, «En tus teléfonos» (sección 33) |
 
 ---
@@ -1718,7 +1719,7 @@ Las llaves son datos de la API: `{nombre}` es el nombre de fantasía del comerci
 | Error al traer | No pudimos traer tus productos. Revisa tu conexión y vuelve a intentarlo. · Volver a intentar | **[NUEVO]** · [L 26] |
 | Rótulo del piloto | Comercio de prueba. · Estos productos y precios son de ejemplo. | **[AJUSTE]** de «Estos pedidos son inventados.» |
 | **Para la familia** (se usan en MATU-92 y MATU-76) | | |
-| Aviso por push o correo | MATU: hay una novedad en un pedido. Abre la app para verla. | [ANALISTA] |
+| Aviso por push o correo | Cambio de MATU-76 (D-76-1): el push dice «MATU · Tienes una novedad. Abre la app para verla.», igual que todo aviso (sección 20), y el correo va con el asunto «MATU: hay una novedad en un pedido» y el cuerpo «Hay una novedad en un pedido. Abre la app para verla.» (sección 41). Antes: «MATU: hay una novedad en un pedido. Abre la app para verla.» para los dos | [ANALISTA] · MATU-76 |
 | Estados | En preparación · Listo para salir · En camino · Entregado el {fecha} | [ANALISTA] |
 | Faltante parcial | Faltaron {n} de {producto}. Te devolvimos {monto} a tu tarjeta terminada en {últimos 4}. Cuándo lo ves en tu cuenta depende de tu banco. | [ANALISTA]. Es para quien pagó. La variante para quien no pagó está en la sección 38, sin los últimos 4 dígitos (C25 de MATU-92) |
 | Botón | Arrepentirme de la compra | [ANALISTA] |
@@ -2051,3 +2052,48 @@ Las llaves son datos de la API: `{ref}` la referencia del pedido, `{ref_parte}` 
 | Cargando, vacío y error | Cargando el catálogo… · No hay comercios de prueba con productos. · No pudimos traer el catálogo. Revisa tu conexión y vuelve a intentarlo. | **[NUEVO]** |
 
 **Ninguno usa** «token», «sesión», «stock», «inválido», «rechazado» ni «fallido», ni los términos de la sección 3. La palabra «IVA» va solo en el catálogo de prueba, que es interno.
+
+---
+
+## 41. Avisos del pedido (MATU-76) · Propuestos por el orquestador el 18-11, pendientes de confirmación de Jorge
+
+Los textos salen de la especificación de pantallas de MATU-76, v1.0 del 18-11 (`docs/diseno/matu-76-avisos-pedido.md`, secciones 2 a 4 y 8), y los del correo, de la decisión 473 del contrato (`docs/api/README.md` del repositorio MATU_PROYECTO). Cada uno marca su origen: [L n] los que ya están en la sección n, [D-76-1] el que aprobó Jorge con esa decisión, [ANALISTA] los borradores de la revisión previa de MATU-76, **[NUEVO]** los del diseñador y **[AJUSTE]** los que cambian un borrador o un texto aprobado.
+
+**Regla de la sección.** El aviso le llega solo a quien pagó (D-76-2). Ningún aviso dice qué pedido es, ni sus productos, montos, nombres, el comercio, la referencia ni el código de retiro, y ninguno dice «te devolvimos», porque la cancelación se avisa aunque la devolución haya fallado (H3). El correo sobre el dinero (una devolución, un producto que faltó o una cancelación) llega siempre (D-76-3), y ningún texto dice que se puede apagar.
+
+| Dónde | Texto | Origen |
+|---|---|---|
+| **El push** | | |
+| Título y cuerpo | MATU · Tienes una novedad. Abre la app para verla. (el mismo para un insumo, un pedido o lo que MATU avise después) | [D-76-1] |
+| **El correo** (plantilla `pedido_novedad`, el mismo para todos los eventos) | | |
+| Remitente | MATU | [L 20] |
+| Asunto | MATU: hay una novedad en un pedido | [ANALISTA] |
+| Cuerpo | Hay una novedad en un pedido. Abre la app para verla. | [ANALISTA] |
+| Botón o enlace (a la raíz, sin identificadores) | Abrir MATU | [L 20] |
+| Pie del aviso que se puede apagar («Entregado» y «No pudimos entregarlo») | Te llega este correo porque pagaste un pedido en MATU. Para dejar de recibir estos avisos por correo, entra a MATU y desactívalos en Tu cuenta. | [ANALISTA] |
+| Pie del aviso de dinero (una devolución, un producto que faltó o una cancelación) | Te llega este correo porque pagaste un pedido en MATU. Como es sobre tu dinero, te llega aunque hayas desactivado los avisos por correo. | **[AJUSTE]** del borrador del analista («…y es sobre tu dinero.»), para que quien apagó los correos entienda por qué le llega |
+| **«Tu cuenta», tarjeta B** | | |
+| Título | Avisos de tus pedidos | **[NUEVO]** |
+| Ayuda | Te avisamos cuando hay una novedad en un pedido que pagaste. El aviso no dice qué pedido ni qué productos. | **[NUEVO]** |
+| Alcance | Vale para todos tus grupos. | [L 33] |
+| Casillas | Por correo · En tus teléfonos | [L 20] · [L 33] |
+| Nota del dinero, siempre visible bajo «Por correo» | Si es sobre tu dinero, como una devolución, un producto que faltó o una cancelación, el correo te llega igual. | **[NUEVO]** |
+| Guardar y errores | Guardando… · Guardamos tus avisos. · No pudimos guardar. Revisa tu conexión y vuelve a intentarlo. · No pudimos traer tus avisos. Revisa tu conexión e inténtalo de nuevo. · Volver a intentar | [L 17] · [L 33] · [L 26] |
+| **«Tu cuenta», tarjeta C** | | |
+| Título | Este teléfono · Este computador · Este navegador | [L 33] |
+| Ayuda | Aquí te llegan los avisos que marcaste «En tus teléfonos», si los activas. | **[NUEVO]** |
+| Lo demás | Los estados A a G y sus textos, sin cambios | [L 33] |
+| **«Tu cuenta», después de las tarjetas** | | |
+| Piloto, una sola vez | En el piloto los avisos se prueban sin enviarse: no te llegará nada. | [L 33] |
+| **«Tus datos», «Tus avisos»** | | |
+| Grupos | Cuando un insumo se está acabando · De tus pedidos | **[NUEVO]** |
+| Rótulos y valores | Por correo · En tus teléfonos · Sí · No | [L 35] |
+| El dinero, solo con «Por correo» de pedidos en «No» | El correo sobre tu dinero te llega igual. | **[NUEVO]** |
+| Al pie | Puedes cambiarlos en Tu cuenta. | [L 35] |
+| **«Tus datos», «Avisos que te enviamos»** | | |
+| La línea de cada aviso | {fecha} a las {hora} · {tipo} · {canal} · {resultado} | **[AJUSTE]** de [L 35]: suma el tipo antes del canal. Reemplaza la fila «Cada aviso» de la 35 |
+| El tipo | Aviso de insumo · Aviso de pedido | **[NUEVO]**. Con un tipo desconocido se omite esa parte de la línea |
+
+`{tipo}` sale del campo `tipo` de `AvisoEnviadoCopia` (`insumo` o `pedido`, decisión 473). `{canal}` y `{resultado}` siguen la sección 35.
+
+**Ninguno usa** los términos de la sección 3, «faltante», «notificación», «evento», «preferencia», «token», «rechazado» ni «fallido».
