@@ -198,7 +198,7 @@ Catálogo de requisitos trazados a módulo y priorizados con MoSCoW. **Debe** en
 | RF-25 | Se cobra una sola vez el total confirmado, en venta normal, con crédito o débito, y la única devolución es por anulación a la misma tarjeta (ADR-027) | `payments` | Debe |
 | RF-26 | El comercio en convenio confirma y aparta el stock, ve solo sus líneas del día y prepara | `fulfillment` | Debe |
 | RF-31 | La operación concilia la boleta contra el pedido y cierra períodos de liquidación | `settlement` | Debe |
-| RF-32 | La operación gestiona catálogo, convenios, incidencias e indicadores | `backoffice` | Debe |
+| RF-32 | La operación gestiona catálogo, convenios, incidencias e indicadores | `backoffice` | Debería (recorte de MATU-123: en el semestre, las incidencias, RF-40, y el catálogo de los comercios ficticios, D-81-7, sin convenios ni indicadores) |
 | RF-22 | La familia reparte el gasto entre miembros del grupo y designa un respaldo | `payments` | Podría |
 | RF-23 | Cada participante autoriza su parte de forma independiente dentro de un plazo | `payments` | Podría |
 | RF-24 | El sistema redistribuye el faltante al vencer el plazo, sobre el respaldo primero | `payments` | Podría |
@@ -230,7 +230,7 @@ Catálogo de requisitos trazados a módulo y priorizados con MoSCoW. **Debe** en
 
 **Los medicamentos con receta fueron la demanda más repetida fuera del alcance.** Tres de las diez entrevistadas dependen del hospital o del consultorio para sus fármacos, y el único quiebre grave que reportó una de ellas fue una receta vencida, no un insumo. Se mantienen fuera del MVP por el riesgo regulatorio del ADR-022, ahora con evidencia de campo que respalda priorizarlos en la fase 2.
 
-**Cobertura:** **26 requisitos comprometidos** como *Debe*, 8 condicionados como *Debería* y 8 fuera del MVP como *Podría*, sobre un catálogo de 42, tras los dos recortes de la sección 15.3 y la incorporación de RF-42.
+**Cobertura:** **25 requisitos comprometidos** como *Debe*, 9 condicionados como *Debería* y 8 fuera del MVP como *Podría*, sobre un catálogo de 42, tras los dos recortes de la sección 15.3, la incorporación de RF-42 y el recorte de RF-32 (MATU-123).
 
 **El cobro de la suscripción del servicio (RF-41) queda fuera del MVP a propósito.** La sección 16 calcula un punto de equilibrio suponiendo ese ingreso, y conviene ser explícito: **es un ejercicio de viabilidad, no un compromiso de alcance**.
 
@@ -2185,6 +2185,8 @@ Existía en el diseño anterior sobre la publicación exclusiva en Android. Se r
 **Por qué la holgura es tan alta a propósito, y no es sobra.** Nueve semanas no admiten recuperar un atraso: no hay sprint de colchón al final. La v1.1 agregaba que el equipo aprendería Flutter mientras construía, costo que el ADR-026 eliminó. Y la experiencia de la v1.0, que declaraba 4,4% de holgura sobre trece semanas, mostró que una holgura de un dígito es optimismo aritmético. **Un 21% sobre nueve semanas es aproximadamente dos sprints de reserva, que es lo mínimo defendible.**
 
 **Y el recorte se propaga.** RF-22 a RF-24 bajan a *Podría* en la sección 3.3, RF-16 a RF-19 bajan a *Debería* en la 3.2, la sección 8.1 pierde los estados de recaudación, la 8.3 se reescribe y la 12.4 pasa de doce casos obligatorios a siete, que el ADR-027 dejó después en nueve. **Un recorte que no se propaga al catálogo de requisitos, a las máquinas de estado y al plan de pruebas no es un recorte, es una intención.**
+
+**Recorte de RF-32 (MATU-123, decisión de Jorge del 18 de noviembre).** RF-32 baja a *Debería* en la sección 3.3. En el semestre, la operación gestiona las incidencias de un pedido (RF-40, MATU-81), opera los pedidos desde su consola (MATU-63) y cambia el precio, el stock y si se ofrece cada producto, solo en los comercios ficticios del piloto (MATU-81, D-81-7). Los convenios (dar de alta o de baja un comercio) se cargan con la semilla de la demo, y los cuatro indicadores del primer recorte quedan para después. Es el atributo que esta misma sección pone primero ante un atraso. La puerta de trazabilidad del CI deja de exigirle prueba a RF-32.
 
 **Lo que no se saca bajo ninguna circunstancia:** la ficha de relevo, el acceso de relevo, la predicción de quiebre y la exportación de lista. Son el producto.
 

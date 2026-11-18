@@ -761,7 +761,7 @@ h2{page-break-after:avoid}figure.chart,table{page-break-inside:avoid}}
 <td>RF-32</td>
 <td>La operación gestiona catálogo, convenios, incidencias e indicadores</td>
 <td><code>backoffice</code></td>
-<td>Debe</td>
+<td>Debería (recorte de MATU-123: en el semestre, las incidencias, RF-40, y el catálogo de los comercios ficticios, D-81-7, sin convenios ni indicadores)</td>
 </tr>
 <tr>
 <td>RF-22</td>
@@ -889,7 +889,7 @@ h2{page-break-after:avoid}figure.chart,table{page-break-inside:avoid}}
 </tbody>
 </table>
 <p><strong>Los medicamentos con receta fueron la demanda más repetida fuera del alcance.</strong> Tres de las diez entrevistadas dependen del hospital o del consultorio para sus fármacos, y el único quiebre grave que reportó una de ellas fue una receta vencida, no un insumo. Se mantienen fuera del MVP por el riesgo regulatorio del ADR-022, ahora con evidencia de campo que respalda priorizarlos en la fase 2.</p>
-<p><strong>Cobertura:</strong> <strong>26 requisitos comprometidos</strong> como <em>Debe</em>, 8 condicionados como <em>Debería</em> y 8 fuera del MVP como <em>Podría</em>, sobre un catálogo de 42, tras los dos recortes de la sección 15.3 y la incorporación de RF-42.</p>
+<p><strong>Cobertura:</strong> <strong>25 requisitos comprometidos</strong> como <em>Debe</em>, 9 condicionados como <em>Debería</em> y 8 fuera del MVP como <em>Podría</em>, sobre un catálogo de 42, tras los dos recortes de la sección 15.3, la incorporación de RF-42 y el recorte de RF-32 (MATU-123).</p>
 <p><strong>El cobro de la suscripción del servicio (RF-41) queda fuera del MVP a propósito.</strong> La sección 16 calcula un punto de equilibrio suponiendo ese ingreso, y conviene ser explícito: <strong>es un ejercicio de viabilidad, no un compromiso de alcance</strong>.</p>
 <p>Un requisito sin módulo o un módulo sin requisito son errores de diseño y se revisan en cada cierre de sprint.</p>
 <hr>
@@ -3422,6 +3422,7 @@ jobs:
 <p><strong>Alcance resultante: 213 horas contra 270 de capacidad, con 57 horas de holgura, un 21%.</strong></p>
 <p><strong>Por qué la holgura es tan alta a propósito, y no es sobra.</strong> Nueve semanas no admiten recuperar un atraso: no hay sprint de colchón al final. La v1.1 agregaba que el equipo aprendería Flutter mientras construía, costo que el ADR-026 eliminó. Y la experiencia de la v1.0, que declaraba 4,4% de holgura sobre trece semanas, mostró que una holgura de un dígito es optimismo aritmético. <strong>Un 21% sobre nueve semanas es aproximadamente dos sprints de reserva, que es lo mínimo defendible.</strong></p>
 <p><strong>Y el recorte se propaga.</strong> RF-22 a RF-24 bajan a <em>Podría</em> en la sección 3.3, RF-16 a RF-19 bajan a <em>Debería</em> en la 3.2, la sección 8.1 pierde los estados de recaudación, la 8.3 se reescribe y la 12.4 pasa de doce casos obligatorios a siete, que el ADR-027 dejó después en nueve. <strong>Un recorte que no se propaga al catálogo de requisitos, a las máquinas de estado y al plan de pruebas no es un recorte, es una intención.</strong></p>
+<p><strong>Recorte de RF-32 (MATU-123, decisión de Jorge del 18 de noviembre).</strong> RF-32 baja a <em>Debería</em> en la sección 3.3. En el semestre, la operación gestiona las incidencias de un pedido (RF-40, MATU-81), opera los pedidos desde su consola (MATU-63) y cambia el precio, el stock y si se ofrece cada producto, solo en los comercios ficticios del piloto (MATU-81, D-81-7). Los convenios (dar de alta o de baja un comercio) se cargan con la semilla de la demo, y los cuatro indicadores del primer recorte quedan para después. Es el atributo que esta misma sección pone primero ante un atraso. La puerta de trazabilidad del CI deja de exigirle prueba a RF-32.</p>
 <p><strong>Lo que no se saca bajo ninguna circunstancia:</strong> la ficha de relevo, el acceso de relevo, la predicción de quiebre y la exportación de lista. Son el producto.</p>
 <h3 id="154-plan-de-sprints">15.4 Plan de sprints</h3>
 <blockquote>
