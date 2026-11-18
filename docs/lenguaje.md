@@ -22,6 +22,7 @@
 **MATU-76 (18-11):** entra la sección 41, los avisos del pedido, con los textos de la especificación de pantallas v1.0 (`docs/diseno/matu-76-avisos-pedido.md` del repositorio MATU_PROYECTO, secciones 2 a 4 y 8) y del correo de la decisión 473 del contrato. Cambia el texto del push en la 13.3, la 20 y la 36: un solo texto genérico para todo lo que MATU avisa (D-76-1). Aprobados por Jorge el 18-11.
 **MATU-114 (18-11):** la 39 suma el hecho que la familia lee cuando el equipo de MATU intentó registrar un retracto con un correo que no es de quien administra el grupo (`operacion.retracto_correo_fallido`, sin el correo), y la 40, en 8.5, el texto de la consola ante el límite de intentos (429). Aprobado por Jorge el 18-11.
 **MATU-116 (18-11):** la 38 suma lo que ve quien pagó y pasó a «Se informa» en los pedidos que pagó (T1 y T2). La 35 usa «Un grupo del que saliste» también en «Tus pagos» (T3) y suma el texto del arrepentimiento de un grupo del que saliste, sin productos (T4). La 34 reemplaza lo que se pide por correo al salir del grupo, porque los pagos siguen en «Tus datos» (T5), y suma el aviso al pasar a «Se informa» (T6). Con la especificación de diseño de MATU-116 (`docs/diseno/matu-116-pagos-propios.md` del repositorio MATU_PROYECTO, sección 4.3), la 35 suma el bloque «Lo que pediste devolver» de «Tus datos» (N2 a N6, con T4), y T3 pasa a minúscula dentro de la frase del monto (N1). La 38 precisa que quien «Se informa» ve «Entrega: {ventana}» en lo que pagó, que es solo la franja horaria. Dicen lo mismo que la política 0.25, §6 y §10. Aprobado por Jorge el 18-11.
+**MATU-115 (18-11):** la 31 cambia «Si falta: lo buscamos en otro comercio.» por «Si falta antes de pagar: lo buscamos en otro comercio.», en la fila del pagador y el resumen y en la de «Se informa». Buscarlo en otro comercio vale solo antes de pagar. Es la decisión 1 de Jorge del 17-11, aprobada. «Si falta: buscarlo en otro comercio» de «Datos de» (35) no cambia, porque nombra la opción elegida. Con la especificación de diseño de MATU-115 (`docs/diseno/matu-115-retractos-y-si-falta.md` del repositorio MATU_PROYECTO, sección 1.11), la 35 suma en «Sus pedidos» la subsección «Lo que se pidió devolver» (R1, R2, R4 y R5) y dos frases de la devolución en dinero: por arrepentimiento (R6) y con un motivo que la app no conoce (R7). Antes, una devolución por arrepentimiento decía «porque se canceló el pedido», que es falso. R3 («Lo pidió {nombre}…») no entra: la copia no suma quién lo pidió (decisión P2, minimización). R1 a R7 los propone el orquestador con el mandato de Jorge del 18-11 y quedan pendientes de su confirmación.
 **Fuentes:** resultados de las entrevistas (`docs/resultados-entrevistas.md`), arquitectura sección 10, política de privacidad v0.9, la demo aprobada (`Demo/src/`, rama `demo-web-viernes-30`) y el contrato de MATU-09 (`docs/api/`, rama `matu-09-contrato-api`).
 
 ---
@@ -1089,7 +1090,7 @@ Los textos salen de la especificación de pantallas de MATU-61, v1.1 del 11-11 (
 | Subtotal | Subtotal: {precio} |
 | Si falta | Si falta este producto · Buscarlo en otro comercio · El mismo producto. Si cambia el precio, lo ves antes de pagar. · Sacarlo del pedido y devolverme su precio · Nunca lo cambiamos por otra marca ni por otro producto. (una vez, sobre las líneas) |
 | Si falta, error | No pudimos guardar qué hacer si falta. Revisa tu conexión y vuelve a intentarlo. |
-| Si falta, pagador y resumen | Si falta: lo buscamos en otro comercio. · Si falta: lo sacamos y te devolvemos su precio. |
+| Si falta, pagador y resumen | Si falta antes de pagar: lo buscamos en otro comercio. · Si falta: lo sacamos y te devolvemos su precio. · **Aprobado por Jorge el 17-11 (MATU-115):** la primera reemplaza «Si falta: lo buscamos en otro comercio.», porque buscarlo en otro comercio vale solo antes de pagar (condiciones 0.3, §5). La segunda no cambia |
 | Sacar | Sacar del pedido · Para el lector: Sacar del pedido: {producto} · Sacamos «{producto}» del pedido. · No pudimos sacarlo. Revisa tu conexión y vuelve a intentarlo. |
 | Entrega | Entrega · Dirección · Todavía no hay una dirección de entrega. · Agregar la dirección · Cambiar dirección · Teléfono de contacto · (tu celular) · Cambiar teléfono · Llega entre 24 y 48 horas hábiles. |
 | Teléfono | Para que quien entrega pueda avisarte. Si es el de otra persona, avísale. · Guardar el teléfono · Guardamos el teléfono. · Escribe un celular de Chile, por ejemplo +56 9 5555 0137. |
@@ -1102,7 +1103,7 @@ Los textos salen de la especificación de pantallas de MATU-61, v1.1 del 11-11 (
 | Bajada | Lo que se va a pedir para {pila}. |
 | Estado del pedido en curso | Sin confirmar · Falta pagarlo · Hay que confirmarlo de nuevo |
 | Línea | {producto} · {presentación}, si es distinta del nombre · De {comercio} (comercio ficticio) · {cantidad} con el sufijo de la sección 21 · Nunca lo cambiamos por otra marca ni por otro producto. (una vez, sobre las líneas) |
-| Si falta | Si falta: lo buscamos en otro comercio. · Si falta: lo sacamos del pedido. |
+| Si falta | Si falta antes de pagar: lo buscamos en otro comercio. · Si falta: lo sacamos del pedido. · **Aprobado por Jorge el 17-11 (MATU-115):** la primera reemplaza «Si falta: lo buscamos en otro comercio.». La segunda no cambia |
 | Pie | Los precios y el total los ven quien administra el grupo, quien cuida a {pila} y quien paga. |
 | Vacío | Bajo la bajada «Lo que se va a pedir para {pila}.»: Todavía no hay un pedido para {pila}. |
 | No lleva | El precio, «cada uno», «Precio de ejemplo · IVA incluido», «Subtotal:», «Productos:», el envío, el total, «Derecho a retracto», el aviso del piloto, «…puede cambiar el pedido y ver el total.» ni «…y te devolvemos su precio.» |
@@ -1517,9 +1518,20 @@ Los textos salen de `web/src/familia/textosMisDatos.ts` (rama de código de MATU
 | Montos | Productos · Envío · Total | **[NUEVO]** · [L 27] · [L 27] |
 | El pago | Sin pagar. · El pago está en curso. · Lo pagó {nombre} el {fecha}. · Cobrado: {monto} · Devuelto: {monto} · El pago no se aprobó. · Se devolvió todo el pago: {monto}. | **[NUEVO]** |
 | Las devoluciones | Se devolvieron {monto} porque no se pudo entregar {producto}. · Se devolvieron {monto} porque no se pudo entregar un producto. · Se devolvieron {monto} porque el pago llegó cuando el total ya había vencido. · Se devolvieron {monto} porque se canceló el pedido. · En curso, «Se devolvieron» cambia por «Se están devolviendo». | **[NUEVO]** |
+| Las devoluciones por arrepentimiento (`retracto`, R6) | Se devolvieron {monto} porque se pidió devolver {producto}. · sin el producto: Se devolvieron {monto} porque se pidió devolver productos de este pedido. · En curso, «Se devolvieron» cambia por «Se están devolviendo». | **[NUEVO]** Propuesto por el orquestador con el mandato de Jorge del 18-11, pendiente de confirmación de Jorge (MATU-115) |
+| Las devoluciones con un motivo que la app no conoce (R7) | Se devolvieron {monto}. · En curso, «Se devolvieron» cambia por «Se están devolviendo». Nunca un «porque» que no corresponde | **[NUEVO]** Propuesto por el orquestador con el mandato de Jorge del 18-11, pendiente de confirmación de Jorge (MATU-115) |
 | El piloto | Pago de prueba: no se cobró dinero real. | **[NUEVO]** (el rótulo de la pasarela) |
 | La entrega | Entrega: {calle} {número}, {depto}, {comuna}, {región} | **[NUEVO]** |
 | Vacío | No hay pedidos. | **[NUEVO]** |
+| **Sus pedidos: lo que se pidió devolver** (dentro de cada pedido, solo si hay al menos uno) | | |
+| Título de la subsección (R1) | Lo que se pidió devolver | **[AJUSTE]** de «Lo que pediste devolver» (MATU-116, N2): en «Datos de» no lo pidió necesariamente quien lee. Propuesto por el orquestador con el mandato de Jorge del 18-11, pendiente de confirmación de Jorge (MATU-115) |
+| Estado | Devolución pedida · Devuelto el {fecha} · No se aceptó la devolución | [L 38] |
+| Estado, devuelto sin fecha (R5) | Devuelto | **[NUEVO]** (la palabra de la 38 sin la fecha) Propuesto por el orquestador con el mandato de Jorge del 18-11, pendiente de confirmación de Jorge (MATU-115) |
+| Cuándo se pidió (R2) | Se pidió el {fecha}. | **[AJUSTE]** de «Lo pediste el {fecha}.» (MATU-116, N4). No dice quién: el contrato no lo trae (decisión P2), y quién lo pidió está en «Quién abrió o editó la ficha», hecho 28. Propuesto por el orquestador con el mandato de Jorge del 18-11, pendiente de confirmación de Jorge (MATU-115) |
+| Productos | {producto} × {cantidad}, uno por línea | Como las líneas del pedido |
+| El envío, solo si se pidió devolverlo (R4) | También se pidió devolver el envío. | **[NUEVO]** Propuesto por el orquestador con el mandato de Jorge del 18-11, pendiente de confirmación de Jorge (MATU-115) |
+| Cuándo se respondió, solo si no se aceptó | Respondimos el {fecha}. | MATU-116, N5 |
+| Por qué no se aceptó | El producto volvió con el sello abierto. · No recibimos el producto de vuelta. | [L 38] |
 | **Las 11 palabras del estado del pedido** | | |
 | `borrador` | Sin confirmar | **[NUEVO]** |
 | `total_confirmado` | Por pagar | **[NUEVO]** |
