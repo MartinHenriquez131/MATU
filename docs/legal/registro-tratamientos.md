@@ -519,7 +519,7 @@ Cada historia que empieza a tratar datos personales agrega aquí su entrada.
 - **Titulares:** encargados y administradores de comercio.
 - **Datos:** nombre, correo, celular (entrada 7), el rol en `usuario_comercio` y el registro de sus acciones (entrada 2, auditoría del comercio).
 - **Base de licitud:** [PENDIENTE: CL-73].
-- **Quién accede:** la propia cuenta y operación. El encargado no ve su propio registro en la aplicación, porque `auditoria_cuenta_propia` mira solo `actor_tipo = 'usuario'`. Mientras tanto, lo pide por correo [PENDIENTE: CL-73].
+- **Quién accede:** la propia cuenta. Operación no la lee desde sus herramientas: el alta de una cuenta de comercio la busca con una función que usa solo para eso (MATU-114). El encargado no ve su propio registro en la aplicación, porque `auditoria_cuenta_propia` mira solo `actor_tipo = 'usuario'`. Mientras tanto, lo pide por correo [PENDIENTE: CL-73].
 - **Conservación:** la cuenta, mientras esté activa. El registro, 3 años [PENDIENTE: CL-73. El borrado lo construye MATU-89].
 - **Medidas:**
   - el comercio lee y escribe solo por funciones, sin grupo (D-63-1 y D-63-2)
