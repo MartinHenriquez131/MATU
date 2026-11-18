@@ -89,6 +89,7 @@ Una prueba de arquitectura verifica que `domain/` no importe `datetime.now`, `ti
 - **Nombre que dice la regla**, no el método: `test_relevo_vencido_devuelve_410`, no `test_get_relevo_2`.
 - **Estructura Dado, Cuando, Entonces**, separada por una línea en blanco.
 - **Una regla por prueba.** Si una prueba falla, el nombre ya dice qué se rompió.
+- **Cada prueba cita su requisito** con `@pytest.mark.rf("RF-xx")` o `@pytest.mark.rf("RNF-xx")`, nunca con el número de una tarjeta (sección 14).
 - **Datos sintéticos siempre.** Nunca datos reales, ni siquiera anonimizados. Las fábricas generan nombres y direcciones chilenas ficticias.
 - **Sin dependencias entre pruebas.** Cada prueba de integración corre en una transacción que se revierte.
 - **Las pruebas de propiedades** (Hypothesis) se usan donde hay aritmética: prorrateo y quiebre. Buscan el caso que el equipo no imaginó.
@@ -195,6 +196,7 @@ El pipeline de la sección 12.7 de la arquitectura, con estas puertas. Un pull r
 | openapi-diff | El código rompe el contrato versionado |
 | `alembic upgrade`, `downgrade -1`, `upgrade` | Una migración no es reversible |
 | `detect-secrets` y `pip-audit` | Hay un secreto o una dependencia con vulnerabilidad conocida |
+| Trazabilidad (MATU-79) | Un RF *Debe*, o un RNF *Debe* con verificación *automática*, no tiene ninguna prueba que lo cite con `rf(...)` (sección 14) |
 
 **Pruebas inestables.** Una prueba que falla de forma intermitente se marca `@pytest.mark.flaky` con un issue asociado y tiene **un sprint** para arreglarse o eliminarse. Una prueba inestable que se tolera enseña a ignorar el pipeline.
 
@@ -286,7 +288,7 @@ El punto 6 es nuevo respecto de la arquitectura y formaliza la regla 3 de la sec
 
 ## 14. Trazabilidad
 
-Cada historia del backlog lista los requisitos (RF) que cubre y cada prueba se etiqueta con el requisito que verifica (`@pytest.mark.rf("RF-05")`). Al cierre de cada sprint un script lista los requisitos *Debe* sin ninguna prueba asociada. **Un requisito comprometido sin prueba no está terminado**, aunque la pantalla funcione.
+Cada historia del backlog lista los requisitos (RF) que cubre y cada prueba se etiqueta con el requisito que verifica (`@pytest.mark.rf("RF-05")`). Los requisitos no funcionales se citan igual, con los ID de la sección 2.2 de la arquitectura (`@pytest.mark.rf("RNF-07")`). **Desde MATU-79 (18-11)**, la puerta de trazabilidad del CI exige al menos una prueba para cada RF *Debe* y para cada RNF *Debe* con verificación *automática*. Los RNF *manuales* (la usabilidad con personas, la carga de k6 y la revisión de la línea de tiempo) se verifican fuera del pipeline, con su informe. Al cierre de cada sprint un script lista los requisitos *Debe* sin ninguna prueba asociada. **Un requisito comprometido sin prueba no está terminado**, aunque la pantalla funcione.
 
 ---
 
