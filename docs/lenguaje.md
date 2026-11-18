@@ -739,9 +739,9 @@ En la app se dice «lista de insumos», nunca «lista de reposición» ni «quie
 | Sin autorización o revisión vencida | Los textos de «Permiso» de la sección 18 |
 | Pie del texto compartido y de la impresión | Piloto académico con datos de prueba |
 | Al imprimir cualquier otra pantalla de la app | Esta pantalla no se imprime. |
-| Campo nuevo en el formulario del insumo (opcional) | ¿Cuántas unidades trae cada envase? (En los insumos en sobres: «¿Cuántos sobres trae cada envase?», MATU-88) · Ayuda: Si lo anotas, la lista sugiere envases enteros. Puedes dejarlo en blanco. |
+| Campo nuevo en el formulario del insumo (opcional) | ¿Cuántas unidades trae cada envase? (En los insumos en sobres: «¿Cuántos sobres trae cada envase?», MATU-88. En ml: «¿Cuántos ml trae cada envase?». En g: «¿Cuántos gramos trae cada envase?», MATU-110, aprobados por Jorge el 17-11. En ml y g no se muestra «Contar en envases») · Ayuda: Si lo anotas, la lista sugiere envases enteros. Puedes dejarlo en blanco. |
 | Campo del envase, fuera de rango | Escribe un número de 1 a 10.000, o déjalo en blanco. |
-| Campo del envase, en el conflicto (412) | Cada envase trae {u} {unidades / sobres / ml / g} (con 1: «1 unidad», «1 sobre»). · Sin unidades por envase. |
+| Campo del envase, en el conflicto (412) | Cada envase trae {u} {unidades / sobres / ml / g} (con 1: «1 unidad», «1 sobre»). · Sin unidades por envase. · Sin sobres por envase. · Sin ml por envase. · Sin gramos por envase. (MATU-110, aprobados por Jorge el 17-11) |
 
 Formato exacto del texto compartido (sin enlace, sin los días y sin el nombre de la persona ni del grupo):
 
@@ -1489,7 +1489,7 @@ Los textos salen de `web/src/familia/textosMisDatos.ts` (rama de código de MATU
 | Las aperturas | No se ha abierto. · Se abrió una vez, el {fecha}. · Se abrió {n} veces. La última, el {fecha}. | **[NUEVO]** |
 | Vacío | Todavía no hay enlaces de relevo. | **[NUEVO]** |
 | **Sus insumos** | | |
-| Cada insumo | Se acaba el {fecha}. · Avisa el mismo día. · Avisa 1 día antes. · Avisa {n} días antes. · {n} por envase. · Lo agregaron el {fecha}. · Lo cambió por última vez {nombre} el {fecha}. · Ya no se sigue | **[NUEVO]** («Usa…» y «Quedaban…» son de L 21) |
+| Cada insumo | Se acaba el {fecha}. · Avisa el mismo día. · Avisa 1 día antes. · Avisa {n} días antes. · {cantidad} por envase., con la unidad y el punto de miles: «20 unidades por envase.», «10 sobres por envase.», «400 ml por envase.», «100 g por envase.» (MATU-110, aprobado por Jorge el 17-11) · Lo agregaron el {fecha}. · Lo cambió por última vez {nombre} el {fecha}. · Ya no se sigue | **[NUEVO]** («Usa…» y «Quedaban…» son de L 21) |
 | Vacío | Todavía no hay insumos. | **[NUEVO]** |
 | **Compras anotadas** | | |
 | Cada compra | El {fecha} · {n} {unidad} de {insumo} · Anotó {nombre} · Llegó con un pedido de MATU | **[NUEVO]** (la unidad con las palabras de L 21) |
