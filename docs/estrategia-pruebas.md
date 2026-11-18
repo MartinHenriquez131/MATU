@@ -1,6 +1,7 @@
 # MATU — Estrategia de pruebas
 
-**Versión:** 1.2 · 5 de noviembre de 2026 · alineada con el backlog v1.3 y el calendario de sprints v1.3
+**Versión:** 1.3 · 18 de noviembre de 2026 · alineada con el backlog v1.3 y el calendario de sprints v1.3
+**Cambios de la v1.3 (MATU-79, 18-11):** las pruebas citan los requisitos no funcionales con los ID `RNF-01` a `RNF-10` de la arquitectura 2.2 (sección 14). Entra la puerta de trazabilidad del CI, que exige prueba a los RF *Debe* y a los RNF *Debe* automáticos (secciones 8 y 14). La sección 5 pide que cada prueba cite su requisito y no una tarjeta.
 **Cambios de la v1.2 (aprobados por Jorge el 05-11):** el nivel de interfaz pasa a la aplicación web del ADR-026, con Vitest y Testing Library. La v1.1 decía `flutter test`, que el ADR-026 dejó sin efecto.
 **Equipo:** Jorge Espinoza · Martín Henríquez
 **Documentos asociados:** Arquitectura v1.2, sección 12 · Modelo de datos v1.0 · Backlog sprints 1 a 3
@@ -89,6 +90,7 @@ Una prueba de arquitectura verifica que `domain/` no importe `datetime.now`, `ti
 - **Nombre que dice la regla**, no el método: `test_relevo_vencido_devuelve_410`, no `test_get_relevo_2`.
 - **Estructura Dado, Cuando, Entonces**, separada por una línea en blanco.
 - **Una regla por prueba.** Si una prueba falla, el nombre ya dice qué se rompió.
+- **Cada prueba cita su requisito** con `@pytest.mark.rf("RF-xx")` o `@pytest.mark.rf("RNF-xx")`, nunca con el número de una tarjeta (sección 14). La regla rige para las pruebas nuevas. Las marcas que ya existen con el número de una tarjeta, como `MATU-64`, `MATU-105` o `MATU-112`, y las de una ley, como `Ley-21.719`, se pasan a su RF o RNF de a poco, al tocar cada prueba.
 - **Datos sintéticos siempre.** Nunca datos reales, ni siquiera anonimizados. Las fábricas generan nombres y direcciones chilenas ficticias.
 - **Sin dependencias entre pruebas.** Cada prueba de integración corre en una transacción que se revierte.
 - **Las pruebas de propiedades** (Hypothesis) se usan donde hay aritmética: prorrateo y quiebre. Buscan el caso que el equipo no imaginó.
@@ -195,6 +197,7 @@ El pipeline de la sección 12.7 de la arquitectura, con estas puertas. Un pull r
 | openapi-diff | El código rompe el contrato versionado |
 | `alembic upgrade`, `downgrade -1`, `upgrade` | Una migración no es reversible |
 | `detect-secrets` y `pip-audit` | Hay un secreto o una dependencia con vulnerabilidad conocida |
+| Trazabilidad (MATU-79) | Un RF *Debe*, o un RNF *Debe* con verificación *automática*, no tiene ninguna prueba que lo cite con `rf(...)` (sección 14) |
 
 **Pruebas inestables.** Una prueba que falla de forma intermitente se marca `@pytest.mark.flaky` con un issue asociado y tiene **un sprint** para arreglarse o eliminarse. Una prueba inestable que se tolera enseña a ignorar el pipeline.
 
@@ -286,8 +289,8 @@ El punto 6 es nuevo respecto de la arquitectura y formaliza la regla 3 de la sec
 
 ## 14. Trazabilidad
 
-Cada historia del backlog lista los requisitos (RF) que cubre y cada prueba se etiqueta con el requisito que verifica (`@pytest.mark.rf("RF-05")`). Al cierre de cada sprint un script lista los requisitos *Debe* sin ninguna prueba asociada. **Un requisito comprometido sin prueba no está terminado**, aunque la pantalla funcione.
+Cada historia del backlog lista los requisitos (RF) que cubre y cada prueba se etiqueta con el requisito que verifica (`@pytest.mark.rf("RF-05")`). Los requisitos no funcionales se citan igual, con los ID de la sección 2.2 de la arquitectura (`@pytest.mark.rf("RNF-07")`). **Desde MATU-79 (18-11)**, la puerta de trazabilidad del CI exige al menos una prueba para cada RF *Debe* y para cada RNF *Debe* con verificación *automática*. Los RNF *manuales* (la usabilidad con personas, la carga de k6 y la revisión de la línea de tiempo) se verifican fuera del pipeline, con su informe. Al cierre de cada sprint un script lista los requisitos *Debe* sin ninguna prueba asociada. **Un requisito comprometido sin prueba no está terminado**, aunque la pantalla funcione.
 
 ---
 
-*Estrategia de pruebas MATU · versión 1.2 · 5 de noviembre de 2026 · Jorge Espinoza y Martín Henríquez*
+*Estrategia de pruebas MATU · versión 1.3 · 18 de noviembre de 2026 · Jorge Espinoza y Martín Henríquez*
