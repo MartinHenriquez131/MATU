@@ -20,6 +20,7 @@
 **MATU-92 (17-11):** entra la sección 38, «Tus pedidos», con los textos de `textosTusPedidos.ts` (rama de código de MATU-92) y de la especificación de pantallas v1.1 (`docs/diseno/matu-92-tus-pedidos.md`, sección 9). La 27 y la 32 dicen «10 días hábiles» en vez de «10 días» (C24 y D1). La 36 anota que la variante del faltante parcial para quien no pagó está en la 38, sin los últimos 4 dígitos (C25). Aprobado por Jorge el 17-11.
 **MATU-81 (17-11):** la 38 suma los dos motivos por los que no se aceptó una devolución (C24 y decisión 468). Entran la sección 39, lo que la familia lee en la copia de sus datos de lo que hizo el equipo de MATU (D-81-4 y D-81-5, `textosMisDatos.ts`), y la 40, la consola de operación, con los textos de `web/src/operacion/textos.ts` y de la especificación de pantallas v1.0 (`docs/diseno/matu-81-operacion.md`), ambos de la rama de código de MATU-81. Aprobado por Jorge el 17-11.
 **MATU-76 (18-11):** entra la sección 41, los avisos del pedido, con los textos de la especificación de pantallas v1.0 (`docs/diseno/matu-76-avisos-pedido.md` del repositorio MATU_PROYECTO, secciones 2 a 4 y 8) y del correo de la decisión 473 del contrato. Cambia el texto del push en la 13.3, la 20 y la 36: un solo texto genérico para todo lo que MATU avisa (D-76-1). Propuestos por el orquestador el 18-11, pendientes de confirmación de Jorge.
+**MATU-114 (18-11):** la 39 suma el hecho que la familia lee cuando el equipo de MATU intentó registrar un retracto con un correo que no es de quien administra el grupo (`operacion.retracto_correo_fallido`, sin el correo), y la 40, en 8.5, el texto de la consola ante el límite de intentos (429). Propuesto por el orquestador con el mandato de Jorge del 18-11, pendiente de confirmación de Jorge.
 **Fuentes:** resultados de las entrevistas (`docs/resultados-entrevistas.md`), arquitectura sección 10, política de privacidad v0.9, la demo aprobada (`Demo/src/`, rama `demo-web-viernes-30`) y el contrato de MATU-09 (`docs/api/`, rama `matu-09-contrato-api`).
 
 ---
@@ -1901,6 +1902,7 @@ La familia lee en la copia de sus datos (sección 35) lo que el equipo de MATU a
 | Cuándo se resolvió | Se resolvió el {DD/MM/AAAA}. | **[NUEVO]** |
 | Antes de la resolución | Cómo se resolvió: | **[NUEVO]** |
 | Historial, cuando el equipo abrió el pedido o su pago | El equipo de MATU revisó el pedido {referencia} | **[ANALISTA]** D-81-5 · sin nombre de quién del equipo |
+| Historial, cuando el equipo intentó registrar un retracto con un correo que no es de quien administra el grupo (`operacion.retracto_correo_fallido`) | El equipo de MATU intentó registrar que alguien quiere arrepentirse de la compra del pedido {referencia}, con un correo que no es de quien administra el grupo · sin referencia: El equipo de MATU intentó registrar que alguien quiere arrepentirse de una compra, con un correo que no es de quien administra el grupo | **[NUEVO]** MATU-114 · sin el correo ni quién del equipo, y «arrepentirse de la compra», como la fila 28 de la sección 35. Propuesto por el orquestador con el mandato de Jorge del 18-11, pendiente de confirmación de Jorge. |
 
 En el historial, si el hecho no trae la referencia, la app dice «El equipo de MATU revisó un pedido», con el molde de la fila 28 de la sección 35.
 
@@ -2017,6 +2019,7 @@ Las llaves son datos de la API: `{ref}` la referencia del pedido, `{ref_parte}` 
 | Botón y hecho | Registrar el retracto · Registrando… · Registraste el retracto del pedido {ref}. Resuélvelo en «Retractos». · Ir a Retractos | **[NUEVO]** |
 | Errores | Escribe el correo de quien lo pidió. · Escribe un correo, por ejemplo nombre@example.com. · Elige al menos un producto. · Este pedido ya no tiene plazo de retracto: venció el {DD/MM/AAAA}. | **[NUEVO]** |
 | No es quien administra | Ese correo no es de quien administra el grupo de este pedido. · Revisa el correo. Si lo mandó otra persona, respóndele que lo pida quien administra. | **[NUEVO]** |
+| Muchos intentos (429, 5 correos que no corresponden en una hora) | Hiciste muchos intentos con correos que no corresponden. Espera una hora antes de volver a intentar. | **[NUEVO]** MATU-114. Propuesto por el orquestador con el mandato de Jorge del 18-11, pendiente de confirmación de Jorge. |
 | Producto que no se puede devolver (422) | Elige productos que se entregaron, hasta lo que queda por devolver. | **[FRONTEND]**, también cuando las unidades ya se pidieron |
 | **9. Incidencias** | | |
 | Título y filtros | Incidencias · Abiertas · En gestión · Resueltas | **[NUEVO]** |
