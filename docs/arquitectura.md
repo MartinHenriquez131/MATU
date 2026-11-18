@@ -192,7 +192,7 @@ Catálogo de requisitos trazados a módulo y priorizados con MoSCoW. **Debe** en
 | RF-25 | Se cobra una sola vez el total confirmado, en venta normal, con crédito o débito, y la única devolución es por anulación a la misma tarjeta (ADR-027) | `payments` | Debe |
 | RF-26 | El comercio en convenio confirma y aparta el stock, ve solo sus líneas del día y prepara | `fulfillment` | Debe |
 | RF-31 | La operación concilia la boleta contra el pedido y cierra períodos de liquidación | `settlement` | Debe |
-| RF-32 | La operación gestiona catálogo, convenios, incidencias e indicadores | `backoffice` | Debería (recorte de MATU-123: en el semestre, solo las incidencias, RF-40) |
+| RF-32 | La operación gestiona catálogo, convenios, incidencias e indicadores | `backoffice` | Debería (recorte de MATU-123: en el semestre, las incidencias, RF-40, y el catálogo de los comercios ficticios, D-81-7, sin convenios ni indicadores) |
 | RF-22 | La familia reparte el gasto entre miembros del grupo y designa un respaldo | `payments` | Podría |
 | RF-23 | Cada participante autoriza su parte de forma independiente dentro de un plazo | `payments` | Podría |
 | RF-24 | El sistema redistribuye el faltante al vencer el plazo, sobre el respaldo primero | `payments` | Podría |
@@ -2145,7 +2145,7 @@ Existía en el diseño anterior sobre la publicación exclusiva en Android. Se r
 
 **Y el recorte se propaga.** RF-22 a RF-24 bajan a *Podría* en la sección 3.3, RF-16 a RF-19 bajan a *Debería* en la 3.2, la sección 8.1 pierde los estados de recaudación, la 8.3 se reescribe y la 12.4 pasa de doce casos obligatorios a siete, que el ADR-027 dejó después en nueve. **Un recorte que no se propaga al catálogo de requisitos, a las máquinas de estado y al plan de pruebas no es un recorte, es una intención.**
 
-**Recorte de RF-32 (MATU-123, decisión de Jorge del 18 de noviembre).** RF-32 baja a *Debería* en la sección 3.3. En el semestre, la operación gestiona solo las incidencias de un pedido (RF-40, MATU-81) y opera los pedidos desde su consola (MATU-63). El catálogo y los convenios se cargan con la semilla de la demo, porque el piloto usa comercios ficticios, y los cuatro indicadores del primer recorte quedan para después. Es el atributo que esta misma sección pone primero ante un atraso. La puerta de trazabilidad del CI deja de exigirle prueba a RF-32.
+**Recorte de RF-32 (MATU-123, decisión de Jorge del 18 de noviembre).** RF-32 baja a *Debería* en la sección 3.3. En el semestre, la operación gestiona las incidencias de un pedido (RF-40, MATU-81), opera los pedidos desde su consola (MATU-63) y cambia el precio, el stock y si se ofrece cada producto, solo en los comercios ficticios del piloto (MATU-81, D-81-7). Los convenios (dar de alta o de baja un comercio) se cargan con la semilla de la demo, y los cuatro indicadores del primer recorte quedan para después. Es el atributo que esta misma sección pone primero ante un atraso. La puerta de trazabilidad del CI deja de exigirle prueba a RF-32.
 
 **Lo que no se saca bajo ninguna circunstancia:** la ficha de relevo, el acceso de relevo, la predicción de quiebre y la exportación de lista. Son el producto.
 
