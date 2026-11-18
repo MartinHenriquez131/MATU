@@ -1408,7 +1408,7 @@ Los textos salen de `web/src/familia/textosInvitar.ts` (rama `matu-42-invitar-fa
 | Pregunta | ¿Salir de `{grupo}`? · Dejarás de verlo ahora. · Se cortan los enlaces de relevo que compartiste. · Hoy abren `{n}`. | [ANALISTA] · [L 22] |
 | La ficha | Lo que escribiste en la ficha queda, porque es parte del cuidado de `{nombres_pila}`. (sin persona registrada no aparece) | **[NUEVO]** |
 | Para volver | Para volver, alguien que administra el grupo tiene que invitarte de nuevo. | **[NUEVO]** |
-| Lo que se pide por correo, con la capa 3 (T5) | Tus pagos los seguirás viendo en Tus datos. Si después necesitas lo que hiciste en el grupo o el detalle de un pedido, pídelo a `{correo}`. | **[NUEVO]** Aprobado por Jorge el 18-11 (MATU-116), reemplaza el de la v1.3 |
+| Lo que se pide por correo, con la capa 3 (T5, en la sección y en la pregunta) | Tus pagos los seguirás viendo en Tus datos. Si después necesitas lo que hiciste en el grupo o el detalle de un pedido, pídelo a `{correo}`. | **[NUEVO]** Aprobado por Jorge el 18-11 (MATU-116), reemplaza el de la v1.3 |
 | Lo que se pide por correo, sin la capa 3 | Si después necesitas lo que hiciste en el grupo, pídelo a `{correo}`. | **[NUEVO v1.3]** |
 | Botones | Salir del grupo · Quedarme · Saliendo del grupo… | [ANALISTA] · **[NUEVO]** |
 | Hecho | Saliste de `{grupo}`. · Cortamos `{n}` enlaces. | **[NUEVO]** |
@@ -1629,13 +1629,13 @@ Los textos salen de `web/src/familia/textosMisDatos.ts` (rama de código de MATU
 | Productos, si salió del grupo (T4) | Los productos los puedes pedir a {correo}. | **[NUEVO]** Aprobado por Jorge el 18-11 (MATU-116) |
 | Por qué no se aceptó | El producto volvió con el sello abierto. · No recibimos el producto de vuelta. | [L 38] |
 | **Condiciones de compra que aceptaste** | | |
-| Cada aceptación | Versión {version}, el {fecha}. · En {grupo}, para el pedido {referencia}. · En {grupo}, para un pedido que no se pagó. · Huella: {huella} | **[NUEVO]** |
+| Cada aceptación | Versión {version}, el {fecha}. · En {grupo}, para el pedido {referencia}. · En {grupo}, para un pedido que no se pagó. · de un grupo del que salió: En un grupo del que saliste, para el pedido {referencia}. · En un grupo del que saliste, para un pedido que no se pagó. · Huella: {huella} | **[NUEVO]** · **[AJUSTE]** de T3 (MATU-116), Aprobado por Jorge el 18-11 (MATU-116) |
 
 **Las palabras del estado del pedido** juntan los 17 valores en 11, porque a la familia no le cambia nada la diferencia entre, por ejemplo, `asignado` y `retirado`. El archivo trae el valor exacto. Cuando la historia del despacho fije sus palabras, esta tabla las toma (especificación, P13).
 
 **Las frases con `referencia`** terminan en el número del pedido, que la pantalla muestra en cifras. Sin `referencia`, en un pedido que no se pagó o que ya no existe, va la frase general. Los de insumos y enlaces son siempre generales: el contrato no trae el nombre y no se pide.
 
-**«Un grupo del que saliste»** va en el lugar del nombre del grupo, en «Tus grupos», en «Tus pagos» y en «Lo que pediste devolver» (T3, N1 y N6, MATU-116), porque la cuenta ya no lo puede leer, y **«Código de autorización»** sale solo en «Tus datos» de quien pagó, nunca en «Datos de». Dicen lo mismo que la política 0.17 y 0.25, §10, «Ver y descargar los datos desde la aplicación». Si una cambia, cambia la otra.
+**«Un grupo del que saliste»** va en el lugar del nombre del grupo, en «Tus grupos», en «Tus pagos», en «Lo que pediste devolver» y en «Condiciones de compra que aceptaste» (T3, N1 y N6, MATU-116), porque la cuenta ya no lo puede leer, y **«Código de autorización»** sale solo en «Tus datos» de quien pagó, nunca en «Datos de». Dicen lo mismo que la política 0.17 y 0.25, §10, «Ver y descargar los datos desde la aplicación». Si una cambia, cambia la otra.
 
 **Ninguno usa** los términos de la sección 3, «exportar», «auditoría», «registro de accesos», «consentimiento», «sesión», «token», «usuario», «inválido», «rechazado» ni «fallido».
 
