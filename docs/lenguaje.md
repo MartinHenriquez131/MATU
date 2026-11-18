@@ -21,7 +21,7 @@
 **MATU-81 (17-11):** la 38 suma los dos motivos por los que no se aceptó una devolución (C24 y decisión 468). Entran la sección 39, lo que la familia lee en la copia de sus datos de lo que hizo el equipo de MATU (D-81-4 y D-81-5, `textosMisDatos.ts`), y la 40, la consola de operación, con los textos de `web/src/operacion/textos.ts` y de la especificación de pantallas v1.0 (`docs/diseno/matu-81-operacion.md`), ambos de la rama de código de MATU-81. Aprobado por Jorge el 17-11.
 **MATU-76 (18-11):** entra la sección 41, los avisos del pedido, con los textos de la especificación de pantallas v1.0 (`docs/diseno/matu-76-avisos-pedido.md` del repositorio MATU_PROYECTO, secciones 2 a 4 y 8) y del correo de la decisión 473 del contrato. Cambia el texto del push en la 13.3, la 20 y la 36: un solo texto genérico para todo lo que MATU avisa (D-76-1). Aprobados por Jorge el 18-11.
 **MATU-114 (18-11):** la 39 suma el hecho que la familia lee cuando el equipo de MATU intentó registrar un retracto con un correo que no es de quien administra el grupo (`operacion.retracto_correo_fallido`, sin el correo), y la 40, en 8.5, el texto de la consola ante el límite de intentos (429). Aprobado por Jorge el 18-11.
-**MATU-116 (18-11):** la 38 suma lo que ve quien pagó y pasó a «Se informa» en los pedidos que pagó (T1 y T2). La 35 usa «Un grupo del que saliste» también en «Tus pagos» (T3) y suma el texto del arrepentimiento de un grupo del que saliste, sin productos (T4). La 34 reemplaza lo que se pide por correo al salir del grupo, porque los pagos siguen en «Tus datos» (T5), y suma el aviso al pasar a «Se informa» (T6). Dicen lo mismo que la política 0.25, §6 y §10. Aprobado por Jorge el 18-11.
+**MATU-116 (18-11):** la 38 suma lo que ve quien pagó y pasó a «Se informa» en los pedidos que pagó (T1 y T2). La 35 usa «Un grupo del que saliste» también en «Tus pagos» (T3) y suma el texto del arrepentimiento de un grupo del que saliste, sin productos (T4). La 34 reemplaza lo que se pide por correo al salir del grupo, porque los pagos siguen en «Tus datos» (T5), y suma el aviso al pasar a «Se informa» (T6). Con la especificación de diseño de MATU-116 (`docs/diseno/matu-116-pagos-propios.md` del repositorio MATU_PROYECTO, sección 4.3), la 35 suma el bloque «Lo que pediste devolver» de «Tus datos» (N2 a N6, con T4), y T3 pasa a minúscula dentro de la frase del monto (N1). La 38 precisa que quien «Se informa» ve «Entrega: {ventana}» en lo que pagó, que es solo la franja horaria. Dicen lo mismo que la política 0.25, §6 y §10. Aprobado por Jorge el 18-11.
 **Fuentes:** resultados de las entrevistas (`docs/resultados-entrevistas.md`), arquitectura sección 10, política de privacidad v0.9, la demo aprobada (`Demo/src/`, rama `demo-web-viernes-30`) y el contrato de MATU-09 (`docs/api/`, rama `matu-09-contrato-api`).
 
 ---
@@ -1583,6 +1583,7 @@ Los textos salen de `web/src/familia/textosMisDatos.ts` (rama de código de MATU
 | Los bloques | Tu cuenta · Política de privacidad · Tus grupos · Tus avisos · Avisos que te enviamos · Tus pagos | [ANALISTA] |
 | Los bloques | Tus teléfonos y computadores · Últimos ingresos | [L 33] |
 | Los bloques | Condiciones de compra que aceptaste | **[NUEVO]** |
+| Los bloques, después de «Tus pagos» y antes de «Condiciones de compra que aceptaste» (N2) | Lo que pediste devolver (solo si hay al menos uno) | **[NUEVO]** Aprobado por Jorge el 18-11 (MATU-116) |
 | **Tu cuenta** | | |
 | Rótulos | Tu nombre · Los códigos te llegan · Cuenta creada | **[NUEVO]** («Tu correo» y «Tu celular» son de L 19) |
 | El canal de los códigos | Por SMS · Por WhatsApp | **[NUEVO]** (las palabras de L 19) |
@@ -1611,13 +1612,22 @@ Los textos salen de `web/src/familia/textosMisDatos.ts` (rama de código de MATU
 | Vacío | No hay avisos en los últimos 90 días. | **[NUEVO]** |
 | **Tus pagos** | | |
 | Título | Pago {referencia} · Sin referencia: Pago del {fecha} | **[NUEVO]** |
-| El monto | {monto} en {grupo} · de un grupo del que saliste: {monto} en Un grupo del que saliste | **[NUEVO]** · **[NUEVO]** T3, Aprobado por Jorge el 18-11 (MATU-116) |
+| El monto | {monto} en {grupo} · de un grupo del que saliste: {monto} en un grupo del que saliste | **[NUEVO]** · **[AJUSTE]** de T3 (N1), Aprobado por Jorge el 18-11 (MATU-116) |
 | La tarjeta | Tarjeta de crédito terminada en {últimos 4} · Tarjeta de débito terminada en {últimos 4} · Tarjeta de prepago terminada en {últimos 4} · Sin datos de la tarjeta. | **[NUEVO]** |
 | Las cuotas, después de la tarjeta | {n} cuotas, con 2 o más · Sin cuotas | **[NUEVO]** |
 | La devolución | Devuelto: {monto} | **[NUEVO]** |
 | El código | Código de autorización: {código} | **[NUEVO]** (F3, decisión 402) |
 | El piloto | Pago de prueba: no se cobró dinero real. | **[NUEVO]** |
-| El arrepentimiento de un grupo del que saliste, sin productos (T4) | Los productos los puedes pedir a {correo}. | **[NUEVO]** Aprobado por Jorge el 18-11 (MATU-116) |
+| **Lo que pediste devolver** | | |
+| Título del bloque y del índice (N2) | Lo que pediste devolver | **[NUEVO]** Aprobado por Jorge el 18-11 (MATU-116) |
+| Título de cada uno | Pedido {referencia} · sin referencia: Devolución del {fecha} (N3) | [L 38] · **[NUEVO]** Aprobado por Jorge el 18-11 (MATU-116) |
+| Estado | Devolución pedida · Devuelto el {fecha} · No se aceptó la devolución | [L 38] |
+| Cuándo lo pidió (N4) | Lo pediste el {fecha}. | **[NUEVO]** Aprobado por Jorge el 18-11 (MATU-116) |
+| Cuándo se respondió, solo si no se aceptó (N5) | Respondimos el {fecha}. | **[NUEVO]** Aprobado por Jorge el 18-11 (MATU-116) |
+| El grupo (N6) | En {grupo}. · sin el grupo: En un grupo del que saliste. | **[NUEVO]** Aprobado por Jorge el 18-11 (MATU-116) · **[AJUSTE]** de T3 en la segunda |
+| Productos, si sigue en el grupo | {producto}, uno por línea | — |
+| Productos, si salió del grupo (T4) | Los productos los puedes pedir a {correo}. | **[NUEVO]** Aprobado por Jorge el 18-11 (MATU-116) |
+| Por qué no se aceptó | El producto volvió con el sello abierto. · No recibimos el producto de vuelta. | [L 38] |
 | **Condiciones de compra que aceptaste** | | |
 | Cada aceptación | Versión {version}, el {fecha}. · En {grupo}, para el pedido {referencia}. · En {grupo}, para un pedido que no se pagó. · Huella: {huella} | **[NUEVO]** |
 
@@ -1625,7 +1635,7 @@ Los textos salen de `web/src/familia/textosMisDatos.ts` (rama de código de MATU
 
 **Las frases con `referencia`** terminan en el número del pedido, que la pantalla muestra en cifras. Sin `referencia`, en un pedido que no se pagó o que ya no existe, va la frase general. Los de insumos y enlaces son siempre generales: el contrato no trae el nombre y no se pide.
 
-**«Un grupo del que saliste»** va en el lugar del nombre del grupo, en «Tus grupos» y en «Tus pagos» (T3, MATU-116), porque la cuenta ya no lo puede leer, y **«Código de autorización»** sale solo en «Tus datos» de quien pagó, nunca en «Datos de». Dicen lo mismo que la política 0.17 y 0.25, §10, «Ver y descargar los datos desde la aplicación». Si una cambia, cambia la otra.
+**«Un grupo del que saliste»** va en el lugar del nombre del grupo, en «Tus grupos», en «Tus pagos» y en «Lo que pediste devolver» (T3, N1 y N6, MATU-116), porque la cuenta ya no lo puede leer, y **«Código de autorización»** sale solo en «Tus datos» de quien pagó, nunca en «Datos de». Dicen lo mismo que la política 0.17 y 0.25, §10, «Ver y descargar los datos desde la aplicación». Si una cambia, cambia la otra.
 
 **Ninguno usa** los términos de la sección 3, «exportar», «auditoría», «registro de accesos», «consentimiento», «sesión», «token», «usuario», «inválido», «rechazado» ni «fallido».
 
@@ -1777,7 +1787,7 @@ Los textos salen de la especificación de pantallas de MATU-92, v1.1 (`docs/dise
 
 Las llaves son datos de la API, con el formato de las secciones 31 y 32: `{pila}` es el nombre de pila de la persona cuidada, `{referencia}` el número corto del pedido, `{producto}` el nombre del producto, `{comercio}` el nombre de fantasía del comercio, `{n}` un número, `{monto}` y `{total}` en pesos enteros con punto de miles, `{fecha}` en DD/MM/AAAA y `{correo}` el canal de reclamo de las condiciones del pedido. La pantalla pone las cifras en `cifras`. Por eso algunas frases van partidas, y la tabla trae cada parte tal como está en la app. Al final está cómo se arman.
 
-**Regla de la sección.** La familia ve solo sus pedidos pagados, de los últimos 2 años. **El código de retiro nunca se muestra a la familia** (D-63-5), y ningún texto lo nombra. Tampoco la referencia de la parte del comercio. Quien «Se informa» ve por pedido la fecha del pago, el estado sin su explicación y los productos, sin montos y sin abrir el detalle (MATU-113, que reemplaza a la D-92-1 en lo del estado). Los pedidos que pagó los ve como quien paga, sin la entrega, y en ellos puede arrepentirse de la compra (MATU-116, J1). Lo decide la API, nunca la pantalla. Los últimos 4 dígitos de la tarjeta los ve solo quien pagó (C17). El plazo de retracto siempre dice «10 días hábiles» (C20). Nunca «rechazado», «fallido», «stock», «reserva», «con IVA» ni «código de retiro» (C26), y nunca se muestra el `title`, el `detail` ni el `mensaje` de la API.
+**Regla de la sección.** La familia ve solo sus pedidos pagados, de los últimos 2 años. **El código de retiro nunca se muestra a la familia** (D-63-5), y ningún texto lo nombra. Tampoco la referencia de la parte del comercio. Quien «Se informa» ve por pedido la fecha del pago, el estado sin su explicación y los productos, sin montos y sin abrir el detalle, salvo en los pedidos que pagó, que ve como quien paga, sin la entrega (MATU-116) (MATU-113, que reemplaza a la D-92-1 en lo del estado). En esos pedidos, «sin la entrega» quiere decir sin la dirección ni el teléfono de contacto: «Entrega: {ventana}» sí se ve, porque es solo la franja horaria (decisión de Jorge del 18-11). En ellos puede arrepentirse de la compra (J1). Lo decide la API, nunca la pantalla. Los últimos 4 dígitos de la tarjeta los ve solo quien pagó (C17). El plazo de retracto siempre dice «10 días hábiles» (C20). Nunca «rechazado», «fallido», «stock», «reserva», «con IVA» ni «código de retiro» (C26), y nunca se muestra el `title`, el `detail` ni el `mensaje` de la API.
 
 | Dónde | Texto | Origen |
 |---|---|---|
@@ -1793,7 +1803,7 @@ Las llaves son datos de la API, con el formato de las secciones 31 y 32: `{pila}
 | No se pudo traer la lista | No pudimos traer tus pedidos. Revisa tu conexión y vuelve a intentarlo. | **[NUEVO]** (revisión previa) |
 | Se informa, una vez bajo la bajada | Quien administra el grupo, quien cuida a {pila} y quien paga ven el detalle. | **[AJUSTE]** de la revisión previa, sin «Pagado ·», que ya dice la etiqueta de cada fila |
 | Se informa, bajo la bajada si hay un pedido que pagó (T1) | De los pedidos que pagaste, ves el detalle y puedes arrepentirte de la compra. | **[NUEVO]** Aprobado por Jorge el 18-11 (MATU-116) |
-| Se informa, la fila y el detalle de un pedido que pagó (T2) | Los textos de «Paga» de esta sección, sin el bloque de la entrega. Los pedidos que no pagó, con la fila «Se informa». | **[NUEVO]** Aprobado por Jorge el 18-11 (MATU-116) |
+| Se informa, la fila y el detalle de un pedido que pagó (T2) | Los textos de «Paga» de esta sección, con «Entrega: {ventana}» y sin la dirección ni el teléfono de contacto. Los pedidos que no pagó, con la fila «Se informa». | **[NUEVO]** Aprobado por Jorge el 18-11 (MATU-116) |
 | Fila, «Se informa» | Pagado el {DD/MM/AAAA} | **[NUEVO]** MATU-113 (D4), aprobado por Jorge el 17-11 |
 | Estado, «Se informa» | La etiqueta de cada estado de esta sección, sin la explicación: Pagado · Enviado al comercio · En preparación · Listo para salir · En camino · Entregado el {fecha} · No pudimos entregarlo · Entrega reprogramada · Cancelado | [L 38], MATU-113 (O1) |
 | Productos borrados (C28) | De este pedido guardamos solo lo que se pagó y lo que se devolvió. | **[NUEVO]** (revisión previa) |
