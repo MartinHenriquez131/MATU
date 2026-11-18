@@ -1408,7 +1408,7 @@ Los textos salen de `web/src/familia/textosInvitar.ts` (rama `matu-42-invitar-fa
 | Pregunta | ¿Salir de `{grupo}`? · Dejarás de verlo ahora. · Se cortan los enlaces de relevo que compartiste. · Hoy abren `{n}`. | [ANALISTA] · [L 22] |
 | La ficha | Lo que escribiste en la ficha queda, porque es parte del cuidado de `{nombres_pila}`. (sin persona registrada no aparece) | **[NUEVO]** |
 | Para volver | Para volver, alguien que administra el grupo tiene que invitarte de nuevo. | **[NUEVO]** |
-| Lo que se pide por correo, con la capa 3 (T5, en la sección y en la pregunta) | Tus pagos los seguirás viendo en Tus datos. Si después necesitas lo que hiciste en el grupo o el detalle de un pedido, pídelo a `{correo}`. | **[NUEVO]** Aprobado por Jorge el 18-11 (MATU-116), reemplaza el de la v1.3 |
+| Lo que se pide por correo, con la capa 3 (T5, en la sección y en la pregunta) | Tus pagos los seguirás viendo en «Tus datos». Si después necesitas lo que hiciste en el grupo o el detalle de un pedido, pídelo a `{correo}`. | **[NUEVO]** Aprobado por Jorge el 18-11 (MATU-116), reemplaza el de la v1.3 |
 | Lo que se pide por correo, sin la capa 3 | Si después necesitas lo que hiciste en el grupo, pídelo a `{correo}`. | **[NUEVO v1.3]** |
 | Botones | Salir del grupo · Quedarme · Saliendo del grupo… | [ANALISTA] · **[NUEVO]** |
 | Hecho | Saliste de `{grupo}`. · Cortamos `{n}` enlaces. | **[NUEVO]** |
