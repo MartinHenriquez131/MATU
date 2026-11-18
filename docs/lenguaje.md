@@ -1052,7 +1052,7 @@ Se usan tal cual: la pregunta «¿Cuántos quedan hoy, más o menos?» (sección
 
 Los textos salen de la especificación de pantallas de MATU-61, v1.1 del 11-11 (`docs/diseno/matu-61-pedido.md`, sección 15), que marca el origen de cada uno: los propuestos por el analista normativo (`legal/revision-previa-matu-61.md`, sección 4), los que fijó Jorge en sus decisiones D8 a D10 y los nuevos del diseñador. Las llaves son datos de la API: `{producto}` es el nombre del producto, `{comercio}` el nombre de fantasía del comercio, `{pila}` el nombre de pila de la persona cuidada, `{precio}` en pesos enteros con punto de miles (`$12.990`) y `{HH:MM}` en 24 horas, hora de Chile.
 
-**Regla de la sección.** En la app se dice «tu pedido», nunca «carro» ni «carrito». Se dice «lo que hay» y «que haya», nunca «stock». La cantidad es en envases del catálogo. **Todos los precios llevan el IVA incluido:** el total se llama «Total», nunca «Total con IVA», y ningún texto presenta el IVA como algo que se suma o que aparece después. «IVA» solo va en «Precio de ejemplo · IVA incluido» (sección 27). «Pedir» lo hace solo quien tiene la autorización de pedidos. La lista nunca compra sola, el aviso nunca ofrece comprar y «Compré» nunca hace un pedido (D10).
+**Regla de la sección.** En la app se dice «tu pedido», nunca «carro» ni «carrito». Se dice «lo que hay» y «que haya», nunca «stock». La cantidad es en envases del catálogo. **Todos los precios llevan el IVA incluido:** el total se llama «Total», nunca «Total con IVA», y ningún texto presenta el IVA como algo que se suma o que aparece después. «IVA» solo va en «Precio de ejemplo · IVA incluido» (sección 27). «Pedir» lo hace solo quien tiene la autorización de pedidos. La lista nunca compra sola, el aviso nunca ofrece comprar y «Compré» nunca hace un pedido (D10). Quien tiene el rol `observador` se nombra «Se informa». «Observador» es el nombre interno y nunca va en la interfaz. Quien «Se informa» no ve ningún monto del pedido (MATU-113).
 
 | Dónde | Texto |
 |---|---|
@@ -1094,8 +1094,16 @@ Los textos salen de la especificación de pantallas de MATU-61, v1.1 del 11-11 (
 | Pie | Productos: {precio} · El envío y el total los ves al confirmar que haya cada producto. · Ver el total · Confirmando… · Estamos confirmando que haya cada producto… |
 | Sin dirección | Agrega la dirección de entrega para ver el total. |
 | Total ya confirmado | Ya confirmaste el total. Para cambiar algo, toca «Cambiar el pedido». |
-| Vacío | Tu pedido está vacío. Agrega productos desde el catálogo o desde tu lista de insumos. · Ir al catálogo · Ir a la lista de insumos · Pagador y observador: Todavía no hay un pedido para {pila}. |
-| Pagador y observador | Quien administra el grupo o quien cuida a {pila} puede cambiar el pedido y ver el total. · Ver el resumen (solo el pagador) · Pasaron 15 minutos y el total venció. Pídele a quien armó el pedido que lo vuelva a confirmar. |
+| Vacío | Tu pedido está vacío. Agrega productos desde el catálogo o desde tu lista de insumos. · Ir al catálogo · Ir a la lista de insumos · Pagador y «Se informa»: Todavía no hay un pedido para {pila}. |
+| Pagador | Quien administra el grupo o quien cuida a {pila} puede cambiar el pedido y ver el total. · Ver el resumen (solo el pagador) · Pasaron 15 minutos y el total venció. Pídele a quien armó el pedido que lo vuelva a confirmar. |
+| **Se informa (MATU-113) · Aprobados por Jorge el 17-11** | |
+| Bajada | Lo que se va a pedir para {pila}. |
+| Estado del pedido en curso | Sin confirmar · Falta pagarlo · Hay que confirmarlo de nuevo |
+| Línea | {producto} · {presentación}, si es distinta del nombre · De {comercio} (comercio ficticio) · {cantidad} con el sufijo de la sección 21 · Nunca lo cambiamos por otra marca ni por otro producto. (una vez, sobre las líneas) |
+| Si falta | Si falta: lo buscamos en otro comercio. · Si falta: lo sacamos del pedido. |
+| Pie | Los precios y el total los ven quien administra el grupo, quien cuida a {pila} y quien paga. |
+| Vacío | Bajo la bajada «Lo que se va a pedir para {pila}.»: Todavía no hay un pedido para {pila}. |
+| No lleva | El precio, «cada uno», «Precio de ejemplo · IVA incluido», «Subtotal:», «Productos:», el envío, el total, «Derecho a retracto», el aviso del piloto, «…puede cambiar el pedido y ver el total.» ni «…y te devolvemos su precio.» |
 | **Dirección** | |
 | Título y ayuda | ¿Dónde lo entregamos? · La usamos solo para entregar tus pedidos. Ningún comercio la ve. · La guardamos para los próximos pedidos de {pila}. |
 | Campos | Calle · Número · Depto (opcional) · Comuna · Referencia (opcional) · Por ejemplo: portón verde. No escribas datos de salud. |
@@ -1125,7 +1133,7 @@ Los textos salen de la especificación de pantallas de MATU-61, v1.1 del 11-11 (
 | Ver la dirección (propuesta O12 del diseñador) | Ver la dirección de entrega · Para el lector: Ver la dirección de entrega de {pila} |
 | Retirar | ¿Retirar la autorización de los pedidos de {pila}? · Ya no se pueden hacer pedidos para {pila} desde MATU, desde ahora. · Cancelamos sin costo los pedidos sin pagar y borramos la dirección y el teléfono que se copiaron en ellos. · Si hay un pago en curso y se aprueba, lo anulamos completo el mismo día. (MATU-62) · Los pedidos ya pagados siguen hasta que se entreguen. · La dirección de entrega de {pila} queda guardada para cuando vuelvas a autorizar. Puedes vaciarla cuando quieras. · La lista de insumos se puede seguir imprimiendo y compartiendo. · Su ficha, sus insumos y los enlaces de relevo no cambian. · Autorización retirada. Ya no se pueden hacer pedidos para {pila}. |
 | Volver a autorizar, hecho | Pedidos autorizados. Ya puedes hacer pedidos para {pila}. |
-| Aviso del piloto | El de la sección 11, una vez por pantalla con precios: tu pedido y antes de pagar |
+| Aviso del piloto | El de la sección 11, una vez por pantalla con precios: tu pedido y antes de pagar. No va en la vista de «Se informa», que no tiene precios. |
 
 **Decidido por Jorge el 16-11 (MATU-63, cierre del analista, H12):** la opción «Buscarlo en otro comercio» ya no dice «Pagas lo mismo», porque si el producto pasa a otro comercio y cambia de precio, la familia lo ve antes de pagar (condiciones del pedido, §5). Ahora dice «El mismo producto. Si cambia el precio, lo ves antes de pagar.». La pantalla se cambia en MATU-112.
 
@@ -1765,7 +1773,7 @@ Los textos salen de la especificación de pantallas de MATU-92, v1.1 (`docs/dise
 
 Las llaves son datos de la API, con el formato de las secciones 31 y 32: `{pila}` es el nombre de pila de la persona cuidada, `{referencia}` el número corto del pedido, `{producto}` el nombre del producto, `{comercio}` el nombre de fantasía del comercio, `{n}` un número, `{monto}` y `{total}` en pesos enteros con punto de miles, `{fecha}` en DD/MM/AAAA y `{correo}` el canal de reclamo de las condiciones del pedido. La pantalla pone las cifras en `cifras`. Por eso algunas frases van partidas, y la tabla trae cada parte tal como está en la app. Al final está cómo se arman.
 
-**Regla de la sección.** La familia ve solo sus pedidos pagados, de los últimos 2 años. **El código de retiro nunca se muestra a la familia** (D-63-5), y ningún texto lo nombra. Tampoco la referencia de la parte del comercio. El observador ve solo la fecha, los productos y «Pagado» (D-92-1). Los últimos 4 dígitos de la tarjeta los ve solo quien pagó (C17). El plazo de retracto siempre dice «10 días hábiles» (C20). Nunca «rechazado», «fallido», «stock», «reserva», «con IVA» ni «código de retiro» (C26), y nunca se muestra el `title`, el `detail` ni el `mensaje` de la API.
+**Regla de la sección.** La familia ve solo sus pedidos pagados, de los últimos 2 años. **El código de retiro nunca se muestra a la familia** (D-63-5), y ningún texto lo nombra. Tampoco la referencia de la parte del comercio. Quien «Se informa» ve por pedido la fecha del pago, el estado sin su explicación y los productos, sin montos y sin abrir el detalle (MATU-113, que reemplaza a la D-92-1 en lo del estado). Los últimos 4 dígitos de la tarjeta los ve solo quien pagó (C17). El plazo de retracto siempre dice «10 días hábiles» (C20). Nunca «rechazado», «fallido», «stock», «reserva», «con IVA» ni «código de retiro» (C26), y nunca se muestra el `title`, el `detail` ni el `mensaje` de la API.
 
 | Dónde | Texto | Origen |
 |---|---|---|
@@ -1779,7 +1787,9 @@ Las llaves son datos de la API, con el formato de las secciones 31 y 32: `{pila}
 | Ver más | Ver más pedidos · Cargando más… · No pudimos traer más pedidos. Revisa tu conexión y vuelve a intentarlo. | **[NUEVO]** |
 | Capa 3 apagada | Tus pedidos no están disponibles por ahora. | **[NUEVO]** |
 | No se pudo traer la lista | No pudimos traer tus pedidos. Revisa tu conexión y vuelve a intentarlo. | **[NUEVO]** (revisión previa) |
-| Observador, una vez bajo la bajada | Quien administra el grupo, quien cuida a {pila} y quien paga ven el detalle. | **[AJUSTE]** de la revisión previa, sin «Pagado ·», que ya dice la etiqueta de cada fila |
+| Se informa, una vez bajo la bajada | Quien administra el grupo, quien cuida a {pila} y quien paga ven el detalle. | **[AJUSTE]** de la revisión previa, sin «Pagado ·», que ya dice la etiqueta de cada fila |
+| Fila, «Se informa» | Pagado el {DD/MM/AAAA} | **[NUEVO]** MATU-113 (D4), aprobado por Jorge el 17-11 |
+| Estado, «Se informa» | La etiqueta de cada estado de esta sección, sin la explicación: Pagado · Enviado al comercio · En preparación · Listo para salir · En camino · Entregado el {fecha} · No pudimos entregarlo · Entrega reprogramada · Cancelado | [L 38], MATU-113 (O1) |
 | Productos borrados (C28) | De este pedido guardamos solo lo que se pagó y lo que se devolvió. | **[NUEVO]** (revisión previa) |
 | Al final de «Pedido» | Ver todos tus pedidos | **[NUEVO]** |
 | En el comprobante de la vuelta de Webpay | Ver cómo va tu pedido | **[NUEVO]** |
@@ -1862,7 +1872,7 @@ Las llaves son datos de la API, con el formato de las secciones 31 y 32: `{pila}
 - Plazo vencido: «El plazo para arrepentirte desde la aplicación terminó el {fecha}. Si todavía quieres devolver productos, o tienes un problema con el pedido, escríbenos a {correo}.» y «El plazo para arrepentirte terminó el {fecha}. Si tienes un problema con el pedido, escríbenos a {correo}.»
 - En «Plazo vencido, después de 90 días», {fecha} es el fin de los 90 días desde la entrega (`plazo_correo_hasta`), no el décimo día hábil. En «hasta 90 días», {fecha} es el décimo día hábil (`plazo_hasta`). Cierre del analista, H1 de C22.
 - Cancelar: «Te devolvemos {total}, envío incluido, a la misma tarjeta. Cuándo lo ves en tu cuenta depende de tu banco.» y «Cancelamos el pedido. Estamos devolviendo {total} a la tarjeta con que se pagó.»
-- Fechas: «Entregado el {fecha}», «Pagado el {fecha} a las {HH:MM}», «El {fecha}», «Devuelto el {fecha}» y «Puedes hacerlo hasta el {fecha}.».
+- Fechas: «Entregado el {fecha}», «Pagado el {fecha} a las {HH:MM}», «El {fecha}», «Devuelto el {fecha}» y «Puedes hacerlo hasta el {fecha}.», y, en la fila de «Se informa», «Pagado el {fecha}», sin la hora.
 
 El botón «Volver a intentar» de los errores es el de la sección 26.
 
