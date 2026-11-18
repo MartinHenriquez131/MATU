@@ -1,6 +1,6 @@
 # Registro de tratamientos de MATU
 
-**Estado:** borrador para el piloto académico, a la par de la política de privacidad v0.24 (MATU-76 y MATU-114, pendientes de confirmación de Jorge). Lo redacta el analista normativo y lo aprueba Jorge Espinoza. Este documento no es asesoría legal.
+**Estado:** borrador para el piloto académico, a la par de la política de privacidad v0.24 (MATU-76, aprobada por Jorge el 18-11, y MATU-114, pendiente de confirmación de Jorge). Lo redacta el analista normativo y lo aprueba Jorge Espinoza. Este documento no es asesoría legal.
 
 Cada historia que empieza a tratar datos personales agrega aquí su entrada.
 
@@ -54,7 +54,7 @@ Cada historia que empieza a tratar datos personales agrega aquí su entrada.
 
 > MATU-81 (17-11): decisiones D-81-1 a D-81-12 del orquestador con el mandato de Jorge del 16-11 (`revision-previa-matu-81.md`) y decisiones 449 a 469 del contrato. Migración 0030. La consola de operación, con segundo factor, ve los pedidos y sus cobros sin datos de la persona, anota lo que pasó con cada pedido (`incidencia`) y registra cuándo abre un pedido.
 
-> MATU-76 (18-11): decisiones D-76-1 a D-76-6 de Jorge (revisión previa de MATU-76, condiciones C1 a C16) y decisión 473 del contrato. Sin migración (C10). Los avisos de las novedades de un pedido pagado, por correo y por push, solo a quien pagó. Propuesto por el orquestador con el mandato de Jorge del 18-11, pendiente de confirmación de Jorge.
+> MATU-76 (18-11): decisiones D-76-1 a D-76-6 de Jorge (revisión previa de MATU-76, condiciones C1 a C16) y decisión 473 del contrato. Sin migración (C10). Los avisos de las novedades de un pedido pagado, por correo y por push, solo a quien pagó. Aprobado por Jorge el 18-11.
 
 **Se trata solo con datos sintéticos.** Desde MATU-61 se arma el pedido y se confirma el total, con precios de ejemplo, comercios ficticios (`comercio.ficticio`, D9) y una consulta de stock simulada. Los pagos se harán solo en el ambiente de integración de Transbank (`figura-legal-piloto.md`, sección 5).
 
