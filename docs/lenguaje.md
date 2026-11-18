@@ -2016,7 +2016,7 @@ Las llaves son datos de la API: `{ref}` la referencia del pedido, `{ref_parte}` 
 | Estado (9.1) | Abierta · En gestión · Resuelta | **[NUEVO]** |
 | La incidencia elegida | Ver el pedido · Nota · La tienes tú. · Cómo se resolvió · Resuelta el {DD/MM/AAAA} a las {HH:MM}. · Resolver · Pasar a en gestión · La incidencia quedó en gestión. | **[NUEVO]** |
 | Ayuda de la nota | No escribas nombres, datos de salud ni la dirección. La familia puede leer esta nota. | [ANALISTA] C11 |
-| Nota con la clave destruida (decisión 471) | La nota ya no está disponible: se borró con los datos de la persona. (También en «Lo que pasó» de la copia de los datos.) | Aprobado por Jorge el 17-11 |
+| Nota con la clave destruida (decisión 471) | La nota ya no está disponible: se borró con los datos de la persona. (En la aplicación la ve solo la consola: después del borrado, la copia de la persona no se puede pedir desde la aplicación. El texto queda también en la copia por si llega a mostrarse.) | Aprobado por Jorge el 17-11 |
 | Contador | {n} de 500 caracteres | [L 5.4] |
 | Anotar | Anotar una incidencia · ¿Qué pasó? · Guardar la incidencia · Guardando… · Cancelar · Anotaste la incidencia en el pedido {ref}. | **[NUEVO]** |
 | Errores al anotar | Elige qué pasó. · Escribe qué pasó, sin nombres ni datos de salud. · La nota admite hasta 500 caracteres. Acórtala un poco para guardarla. · Solo se anotan incidencias de pedidos pagados. | **[NUEVO]** |
