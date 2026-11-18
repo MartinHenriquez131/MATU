@@ -1,6 +1,6 @@
 # Registro de tratamientos de MATU
 
-**Estado:** borrador para el piloto académico, a la par de la política de privacidad v0.24 (MATU-76, aprobada por Jorge el 18-11, y MATU-114, pendiente de confirmación de Jorge). Lo redacta el analista normativo y lo aprueba Jorge Espinoza. Este documento no es asesoría legal.
+**Estado:** borrador para el piloto académico, a la par de la política de privacidad v0.24 (MATU-76 y MATU-114, aprobadas por Jorge el 18-11). Lo redacta el analista normativo y lo aprueba Jorge Espinoza. Este documento no es asesoría legal.
 
 Cada historia que empieza a tratar datos personales agrega aquí su entrada.
 
