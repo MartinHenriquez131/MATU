@@ -1518,18 +1518,18 @@ Los textos salen de `web/src/familia/textosMisDatos.ts` (rama de código de MATU
 | Montos | Productos · Envío · Total | **[NUEVO]** · [L 27] · [L 27] |
 | El pago | Sin pagar. · El pago está en curso. · Lo pagó {nombre} el {fecha}. · Cobrado: {monto} · Devuelto: {monto} · El pago no se aprobó. · Se devolvió todo el pago: {monto}. | **[NUEVO]** |
 | Las devoluciones | Se devolvieron {monto} porque no se pudo entregar {producto}. · Se devolvieron {monto} porque no se pudo entregar un producto. · Se devolvieron {monto} porque el pago llegó cuando el total ya había vencido. · Se devolvieron {monto} porque se canceló el pedido. · En curso, «Se devolvieron» cambia por «Se están devolviendo». | **[NUEVO]** |
-| Las devoluciones por arrepentimiento (`retracto`, R6) | Se devolvieron {monto} porque se pidió devolver {producto}. · sin el producto: Se devolvieron {monto} porque se pidió devolver productos de este pedido. · En curso, «Se devolvieron» cambia por «Se están devolviendo». | **[NUEVO]** Propuesto por el orquestador con el mandato de Jorge del 18-11, pendiente de confirmación de Jorge (MATU-115) |
-| Las devoluciones con un motivo que la app no conoce (R7) | Se devolvieron {monto}. · En curso, «Se devolvieron» cambia por «Se están devolviendo». Nunca un «porque» que no corresponde | **[NUEVO]** Propuesto por el orquestador con el mandato de Jorge del 18-11, pendiente de confirmación de Jorge (MATU-115) |
+| Las devoluciones por arrepentimiento (`retracto`, R6) | Se devolvieron {monto} porque se pidió devolver {producto}. · sin el producto: Se devolvieron {monto} porque se pidió devolver productos de este pedido. · En curso, «Se devolvieron» cambia por «Se están devolviendo». | **[NUEVO]** Propuesto por el orquestador con el mandato de Jorge del 18-11. Aprobado por Jorge el 18-11 (MATU-115) |
+| Las devoluciones con un motivo que la app no conoce (R7) | Se devolvieron {monto}. · En curso, «Se devolvieron» cambia por «Se están devolviendo». Nunca un «porque» que no corresponde | **[NUEVO]** Propuesto por el orquestador con el mandato de Jorge del 18-11. Aprobado por Jorge el 18-11 (MATU-115) |
 | El piloto | Pago de prueba: no se cobró dinero real. | **[NUEVO]** (el rótulo de la pasarela) |
 | La entrega | Entrega: {calle} {número}, {depto}, {comuna}, {región} | **[NUEVO]** |
 | Vacío | No hay pedidos. | **[NUEVO]** |
 | **Sus pedidos: lo que se pidió devolver** (dentro de cada pedido, solo si hay al menos uno) | | |
-| Título de la subsección (R1) | Lo que se pidió devolver | **[AJUSTE]** de «Lo que pediste devolver» (MATU-116, N2): en «Datos de» no lo pidió necesariamente quien lee. Propuesto por el orquestador con el mandato de Jorge del 18-11, pendiente de confirmación de Jorge (MATU-115) |
+| Título de la subsección (R1) | Lo que se pidió devolver | **[AJUSTE]** de «Lo que pediste devolver» (MATU-116, N2): en «Datos de» no lo pidió necesariamente quien lee. Propuesto por el orquestador con el mandato de Jorge del 18-11. Aprobado por Jorge el 18-11 (MATU-115) |
 | Estado | Devolución pedida · Devuelto el {fecha} · No se aceptó la devolución | [L 38] |
-| Estado, devuelto sin fecha (R5) | Devuelto | **[NUEVO]** (la palabra de la 38 sin la fecha) Propuesto por el orquestador con el mandato de Jorge del 18-11, pendiente de confirmación de Jorge (MATU-115) |
-| Cuándo se pidió (R2) | Se pidió el {fecha}. | **[AJUSTE]** de «Lo pediste el {fecha}.» (MATU-116, N4). No dice quién: el contrato no lo trae (decisión P2), y quién lo pidió está en «Quién abrió o editó la ficha», hecho 28. Propuesto por el orquestador con el mandato de Jorge del 18-11, pendiente de confirmación de Jorge (MATU-115) |
+| Estado, devuelto sin fecha (R5) | Devuelto | **[NUEVO]** (la palabra de la 38 sin la fecha) Propuesto por el orquestador con el mandato de Jorge del 18-11. Aprobado por Jorge el 18-11 (MATU-115) |
+| Cuándo se pidió (R2) | Se pidió el {fecha}. | **[AJUSTE]** de «Lo pediste el {fecha}.» (MATU-116, N4). No dice quién: el contrato no lo trae (decisión P2), y quién lo pidió está en «Quién abrió o editó la ficha», hecho 28. Propuesto por el orquestador con el mandato de Jorge del 18-11. Aprobado por Jorge el 18-11 (MATU-115) |
 | Productos | {producto} × {cantidad}, uno por línea | Como las líneas del pedido |
-| El envío, solo si se pidió devolverlo (R4) | También se pidió devolver el envío. | **[NUEVO]** Propuesto por el orquestador con el mandato de Jorge del 18-11, pendiente de confirmación de Jorge (MATU-115) |
+| El envío, solo si se pidió devolverlo (R4) | También se pidió devolver el envío. | **[NUEVO]** Propuesto por el orquestador con el mandato de Jorge del 18-11. Aprobado por Jorge el 18-11 (MATU-115) |
 | Cuándo se respondió, solo si no se aceptó | Respondimos el {fecha}. | MATU-116, N5 |
 | Por qué no se aceptó | El producto volvió con el sello abierto. · No recibimos el producto de vuelta. | [L 38] |
 | **Las 11 palabras del estado del pedido** | | |
