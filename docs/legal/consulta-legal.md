@@ -818,12 +818,14 @@ En los orígenes, «Trello» es un comentario de la tarjeta de consulta legal, c
 
 ### CL-74 · El correo sobre el dinero que no se puede apagar
 
-- **Pregunta:** ¿puede MATU enviar siempre el correo que avisa una devolución, un producto que faltó o una cancelación con devolución, aunque quien pagó desactivó los avisos del pedido por correo en «Tu cuenta»? ¿Basta como base el deber de informar al consumidor sobre su pago (las condiciones del pedido, §3 y §5, dicen «te avisamos»), o hace falta otra? ¿Debe el correo decir por qué llega aunque se apagaron los avisos?
+- **Pregunta:** ¿puede MATU enviar siempre el correo que avisa una devolución, un producto que faltó o una cancelación con devolución, aunque quien pagó desactivó los avisos del pedido por correo en «Tu cuenta»? ¿Basta como base el deber de informar al consumidor sobre su pago (las condiciones del pedido, §3 y §5, dicen «te avisamos»), o hace falta otra? ¿Debe el correo decir por qué llega aunque se apagaron los avisos? **Ampliada en el cierre de MATU-76:** las condiciones del pedido, §8, dicen «Si no podemos cumplirlo, te avisamos». ¿Puede quien pagó apagar el correo de «No pudimos entregarlo», o ese aviso tampoco se debe poder apagar?
 - **Origen:** MATU-76, revisión previa, 18 de noviembre de 2026, decisión D-76-3 de Jorge. Se relaciona con la CL-54 y la CL-55.
 - **Mientras tanto:** el correo de `PagoAnulado`, `ProductoFaltante` y `PedidoCanceladoConDevolucion` llega siempre a quien pagó, sin productos, montos, comercio, referencia ni código. Su pie dice «Como es sobre tu dinero, te llega aunque hayas desactivado los avisos por correo.», y «Tu cuenta» lo dice junto a la casilla. El push y el correo de «Entregado» y de «No pudimos entregarlo» se pueden apagar. En el piloto el envío es simulado.
 - **Bloquea:** dinero real.
-- **Se cierra en:** política §6 («PENDIENTE: CL-74 y CL-75»). Registro, entrada 2, base de licitud.
+- **Se cierra en:** política §6 («PENDIENTE: CL-74 y CL-75») y condiciones del pedido 0.3, §8. Registro, entrada 2, base de licitud.
 - **Respuesta:** —
+
+> Los «CL-75-1» a «CL-75-3» de MATU-75 que aparecen en este documento son identificadores de origen de esa revisión, no consultas. La consulta CL-75 es la de abajo.
 
 ### CL-75 · La devolución a quien pagó y ya salió del grupo
 
