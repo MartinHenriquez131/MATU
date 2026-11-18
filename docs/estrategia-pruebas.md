@@ -1,6 +1,7 @@
 # MATU — Estrategia de pruebas
 
-**Versión:** 1.2 · 5 de noviembre de 2026 · alineada con el backlog v1.3 y el calendario de sprints v1.3
+**Versión:** 1.3 · 18 de noviembre de 2026 · alineada con el backlog v1.3 y el calendario de sprints v1.3
+**Cambios de la v1.3 (MATU-79, 18-11):** las pruebas citan los requisitos no funcionales con los ID `RNF-01` a `RNF-10` de la arquitectura 2.2 (sección 14). Entra la puerta de trazabilidad del CI, que exige prueba a los RF *Debe* y a los RNF *Debe* automáticos (secciones 8 y 14). La sección 5 pide que cada prueba cite su requisito y no una tarjeta.
 **Cambios de la v1.2 (aprobados por Jorge el 05-11):** el nivel de interfaz pasa a la aplicación web del ADR-026, con Vitest y Testing Library. La v1.1 decía `flutter test`, que el ADR-026 dejó sin efecto.
 **Equipo:** Jorge Espinoza · Martín Henríquez
 **Documentos asociados:** Arquitectura v1.2, sección 12 · Modelo de datos v1.0 · Backlog sprints 1 a 3
@@ -89,7 +90,7 @@ Una prueba de arquitectura verifica que `domain/` no importe `datetime.now`, `ti
 - **Nombre que dice la regla**, no el método: `test_relevo_vencido_devuelve_410`, no `test_get_relevo_2`.
 - **Estructura Dado, Cuando, Entonces**, separada por una línea en blanco.
 - **Una regla por prueba.** Si una prueba falla, el nombre ya dice qué se rompió.
-- **Cada prueba cita su requisito** con `@pytest.mark.rf("RF-xx")` o `@pytest.mark.rf("RNF-xx")`, nunca con el número de una tarjeta (sección 14).
+- **Cada prueba cita su requisito** con `@pytest.mark.rf("RF-xx")` o `@pytest.mark.rf("RNF-xx")`, nunca con el número de una tarjeta (sección 14). La regla rige para las pruebas nuevas. Las marcas que ya existen con el número de una tarjeta, como `MATU-64`, `MATU-105` o `MATU-112`, y las de una ley, como `Ley-21.719`, se pasan a su RF o RNF de a poco, al tocar cada prueba.
 - **Datos sintéticos siempre.** Nunca datos reales, ni siquiera anonimizados. Las fábricas generan nombres y direcciones chilenas ficticias.
 - **Sin dependencias entre pruebas.** Cada prueba de integración corre en una transacción que se revierte.
 - **Las pruebas de propiedades** (Hypothesis) se usan donde hay aritmética: prorrateo y quiebre. Buscan el caso que el equipo no imaginó.
@@ -292,4 +293,4 @@ Cada historia del backlog lista los requisitos (RF) que cubre y cada prueba se e
 
 ---
 
-*Estrategia de pruebas MATU · versión 1.2 · 5 de noviembre de 2026 · Jorge Espinoza y Martín Henríquez*
+*Estrategia de pruebas MATU · versión 1.3 · 18 de noviembre de 2026 · Jorge Espinoza y Martín Henríquez*
