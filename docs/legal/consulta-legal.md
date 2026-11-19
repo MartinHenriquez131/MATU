@@ -803,7 +803,7 @@ En los orígenes, «Trello» es un comentario de la tarjeta de consulta legal, c
 
 - **Pregunta:** ¿quién ejerce el retracto, quién reclama y a quién se le devuelve? **Ampliada en el cierre de MATU-62:** ¿cuál es la base de licitud de los datos del pago de quien paga sin haber armado el pedido: la ejecución de la compra que acepta, u otra? **Ampliada en el cierre de MATU-42:** si quien pagó sale del grupo o lo sacan, deja de ver en la aplicación el pedido, el pago y el comprobante. ¿Basta con entregarlos por correo, o MATU debe mantenerle el acceso a su comprobante? **Ampliada con MATU-63:** ¿quién pide el retracto cuando paga una persona y arma otra? Mientras tanto, lo piden quien administra el grupo o quien pagó, si sigue activo, y la devolución va a la misma tarjeta (D-63-10).
 - **Origen:** MATU-62, segunda revisión previa, 11 de noviembre de 2026 (`revision-previa-matu-62-segunda.md`, sección 6), con las decisiones del orquestador del 11-11 por delegación de Jorge.
-- **Mientras tanto:** la aceptación de las condiciones queda con quien pagó (`condiciones_aceptadas_por`, D-62-16) y la devolución va siempre a la misma tarjeta. Quien salió pide su comprobante por el correo de la sección 10 de la política (MATU-42).
+- **Mientras tanto:** la aceptación de las condiciones queda con quien pagó (`condiciones_aceptadas_por`, D-62-16) y la devolución va siempre a la misma tarjeta. Hasta MATU-116, quien salió pedía su comprobante por el correo de la sección 10 de la política (MATU-42). **Desde MATU-116 (aprobado por Jorge el 18-11):** quien está en «Se informa» y pagó un pedido pide el retracto de ese pedido en la aplicación (J1). Quien salió del grupo lo pide por correo, y operación lo reconoce como quien pagó por la huella de su correo, aunque haya salido, sin ver su correo ni la lista del grupo (J4). Quien salió ve sus pagos en «Tus datos» (CL-68).
 - **Bloquea:** dinero real.
 - **Se cierra en:** condiciones del pedido 0.2, §3 y §9, y 0.3, §9.
 - **Respuesta:** —
@@ -811,7 +811,7 @@ En los orígenes, «Trello» es un comentario de la tarjeta de consulta legal, c
 
 - **Pregunta:** ¿se puede entregar al admin y al cuidador el historial de pedidos de la persona, con el nombre de quien pagó? ¿Conserva quien pagó y salió del grupo el acceso a sus pagos, o basta entregárselos por correo?
 - **Origen:** MATU-54, decisiones de Jorge del 12-11-2026 (D-54-14 a D-54-16) y revisión de cierre. Se relaciona con CL-11, CL-12, CL-61 y CL-66.
-- **Mientras tanto:** la copia de la persona trae los pedidos con quién pagó, sin tarjeta ni datos de la venta. «Tus datos» trae los pagos de los grupos activos, con el tipo, los últimos 4, las cuotas y el código de autorización. Quien salió los pide por correo.
+- **Mientras tanto:** la copia de la persona trae los pedidos con quién pagó, sin tarjeta ni datos de la venta. Hasta MATU-116, «Tus datos» traía los pagos de los grupos activos, con el tipo, los últimos 4, las cuotas y el código de autorización, y quien salió los pedía por correo. **Desde MATU-116 (J2, J3 y J5, aprobado por Jorge el 18-11):** «Tus datos» trae los pagos de la cuenta en todos sus grupos, también los que dejó, sin el nombre del grupo («Un grupo del que saliste»). Sus retractos de un grupo que dejó van sin productos, que pide por correo.
 - **Bloquea:** datos reales.
 - **Se cierra en:** registro, entradas 2 y 13, base de licitud.
 - **Respuesta:** —
@@ -1093,3 +1093,10 @@ Cada fila traduce un número antiguo a su número nuevo. «Sin número» es una 
 | MATU-76, revisión previa | D-76-4, CL nueva (la devolución a quien salió del grupo) | CL-75 |
 | MATU-76, revisión previa | D-76-1, nota a la CL-19 (el push genérico) | CL-19 |
 | MATU-76, revisión previa | H1, nota a la CL-55 (el «te escribimos» de las condiciones, §7) | CL-55 |
+
+### MATU-116 (18 de noviembre de 2026)
+
+| Historia | Número antiguo | Número nuevo |
+|---|---|---|
+| MATU-116, revisión previa | J2 y J3, nuevo «mientras tanto» de la CL-68 (los pagos de quien salió en «Tus datos») | CL-68 |
+| MATU-116, revisión previa | J1 y J4, nuevo «mientras tanto» de la CL-66 (el retracto de quien pagó en «Se informa» o salió del grupo) | CL-66 |
