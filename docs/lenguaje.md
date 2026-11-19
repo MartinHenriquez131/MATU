@@ -2055,7 +2055,7 @@ Las llaves son datos de la API: `{ref}` la referencia del pedido, `{ref_parte}` 
 | Anotar | Anotar una incidencia · ¿Qué pasó? · Guardar la incidencia · Guardando… · Cancelar · Anotaste la incidencia en el pedido {ref}. | **[NUEVO]** |
 | Errores al anotar | Elige qué pasó. · Escribe qué pasó, sin nombres ni datos de salud. · La nota admite hasta 500 caracteres. Acórtala un poco para guardarla. · Solo se anotan incidencias de pedidos pagados. | **[NUEVO]** |
 | Resolver | Marcar resuelta · Escribe cómo se resolvió, sin nombres ni datos de salud. · Marcaste resuelta la incidencia. · Ya estaba resuelta. | **[NUEVO]** |
-| Nota con un correo o un teléfono (422 `nota-con-contacto`, al anotar y al resolver) | La nota no puede llevar correos, teléfonos ni RUT. Quítalos para guardarla. | **[NUEVO]** MATU-128 (R5) <!-- MATU-128: Aprobado por Jorge el 19-11 --> |
+| Nota con un correo, un teléfono o un RUT (422 `nota-con-contacto`, al anotar y al resolver) | La nota no puede llevar correos, teléfonos ni RUT. Quítalos para guardarla. | **[NUEVO]** MATU-128 (R5) <!-- MATU-128: Aprobado por Jorge el 19-11 --> |
 | Otra persona la cambió | Otra persona del equipo cambió esta incidencia mientras la veías. Te mostramos cómo quedó. Lo que escribiste sigue aquí. · sin lo escrito, porque ya quedó resuelta: Otra persona del equipo cambió esta incidencia mientras la veías. Te mostramos cómo quedó. | **[NUEVO]** |
 | Error | No pudimos completar esto. Revisa tu conexión y vuelve a intentarlo. Lo que escribiste sigue aquí. | [L 8] |
 | **9.4 Los tipos** (palabras de la consola, la familia lee las de la sección 39) | Falta un producto · No se pudo entregar · Reclamo de la familia · Cobro sin respuesta · Devolución pendiente · Otra cosa | **[NUEVO]** |
