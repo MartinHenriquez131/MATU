@@ -39,7 +39,7 @@ Cada historia que empieza a tratar datos personales agrega aquí su entrada.
 - **Transferencia internacional:** [PENDIENTE: proveedor y país].
 - **Decisiones automatizadas:** ninguna.
 
-## 2. Pedidos y pagos de insumos (ADR-027, MATU-61, MATU-62, MATU-63, MATU-81, MATU-76, MATU-116, MATU-124, MATU-128) <!-- MATU-124 y MATU-128: Aprobado por Jorge el 19-11 -->
+## 2. Pedidos y pagos de insumos (ADR-027, MATU-61, MATU-62, MATU-63, MATU-81, MATU-76, MATU-116, MATU-124, MATU-128) <!-- MATU-124: aprobado por el orquestador con el mandato de Jorge del 19-11 --> <!-- MATU-128: Aprobado por Jorge el 19-11 -->
 
 > Aprobado por Jorge el 27-10 como diseño. Las frases sobre lo que el comercio ve o no ve se publican solo cuando la migración del sprint 4 (requisitos R7 a R9, arquitectura 18.1) las haga ciertas.
 
