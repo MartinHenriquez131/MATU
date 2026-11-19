@@ -2352,7 +2352,7 @@ GET    /v1/backoffice/indicadores
 <td>administrar. En el piloto cambia precio, stock y si se ofrece solo en los comercios ficticios (MATU-81, D-81-7)</td>
 <td>ver todos, intervenir, anotar lo que pasó con un pedido. Abrir un pedido se audita (D-81-5)</td>
 <td>ver la conciliación sin la tarjeta, devolver por anulación, liquidar</td>
-<td><strong>ninguno</strong> en la consola (MATU-81, C5). Desde la 0030 no lee la persona cuidada ni el consentimiento. La base le deja leer la dirección y la entrega, sin escribirla, y ninguna ruta las lee (D-81-6 y C34)</td>
+<td><strong>ninguno</strong> en la consola (MATU-81, C5). Desde la 0030 no lee la persona cuidada ni el consentimiento. Desde la 0033 (MATU-122) la base tampoco le deja leer la dirección, la entrega ni el grupo, ni con el grupo del pedido en el contexto; solo <code>pedido_conservar</code> ve la entrega, para borrarla (D-81-6, C34 y C2 de MATU-122)</td>
 </tr>
 </tbody>
 </table>
