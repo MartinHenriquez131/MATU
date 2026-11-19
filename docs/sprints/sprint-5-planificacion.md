@@ -194,7 +194,7 @@ Lo que sigue no se construye en el sprint 5. Está en la columna Product Backlog
 - La reposición programada, la app de repartidor y la liquidación automática
 
 **Antes de datos reales:**
-- MATU-89, MATU-99, MATU-101 y MATU-102
+- MATU-89, MATU-99 y MATU-101 (MATU-102 entró al semestre: lo cierra MATU-79 con la migración 0034, por decisión de Jorge del 18-11)
 - MATU-98
 - Las consultas legales abiertas, en su tarjeta de Trello
 - Lo de la épica «Paso a producción» que MATU-79 deja fuera: MFA, HSTS y monitoreo con alertas (quitar `auditoria.ip` ya lo hizo la 0025 de MATU-55)
