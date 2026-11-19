@@ -1898,7 +1898,7 @@ El botón «Volver a intentar» de los errores es el de la sección 26.
 
 ## 39. La copia de los datos: lo que hizo el equipo de MATU (MATU-81) · Aprobados por Jorge el 17-11
 
-La familia lee en la copia de sus datos (sección 35) lo que el equipo de MATU anotó de un pedido y cuándo lo abrió en su consola. Los textos están tal cual en la app, en `web/src/familia/textosMisDatos.ts` de la rama de código de MATU-81. **[ANALISTA]** marca los de la revisión previa de MATU-81 (`legal/revision-previa-matu-81.md`, D-81-4 y D-81-5) y **[NUEVO]** los demás.
+La familia lee en la copia de sus datos (sección 35) lo que el equipo de MATU anotó de un pedido y cuándo lo abrió en su consola. Los textos están tal cual en la app, en `web/src/familia/textosMisDatos.ts` de la rama de código de MATU-81. **[ANALISTA]** marca los de la revisión previa de MATU-81 (`legal/revision-previa-matu-81.md`, D-81-4 y D-81-5) y **[NUEVO]** los demás. Quien pagó un pedido ve lo mismo en ese pedido, en «Tus pedidos» (MATU-128). <!-- MATU-128: aprobado por el orquestador con el mandato de Jorge del 19-11 -->
 
 **Regla de la sección.** Lo que lee la familia nunca dice «incidente» ni «incidencia»: dice «Lo que pasó con tu pedido» (D-81-4). Nunca dice quién del equipo anotó algo o abrió el pedido. Las fechas van en DD/MM/AAAA, sin la hora.
 
@@ -1916,6 +1916,11 @@ La familia lee en la copia de sus datos (sección 35) lo que el equipo de MATU a
 | Cuándo se anotó | Lo anotamos el {DD/MM/AAAA}. | **[NUEVO]** |
 | Cuándo se resolvió | Se resolvió el {DD/MM/AAAA}. | **[NUEVO]** |
 | Antes de la resolución | Cómo se resolvió: | **[NUEVO]** |
+| La nota no se puede leer, porque su clave se destruyó al borrar los datos de la persona (`nota_disponible: false`) | La nota ya no está disponible: se borró con los datos de la persona. | Decisión 471, aprobado por Jorge el 17-11 <!-- MATU-128: aprobado por el orquestador con el mandato de Jorge del 19-11 --> |
+| «Tus pedidos», lo que pasó, cuando falta la clave maestra (503) | Por ahora no podemos revisar si anotamos algo sobre este pedido. Vuelve a intentarlo en unos minutos. | **[NUEVO]** MATU-128 (N1) <!-- MATU-128: aprobado por el orquestador con el mandato de Jorge del 19-11 --> |
+| «Tus pedidos», lo que pasó, sin red o con un error del servidor (500) | No pudimos revisar si anotamos algo sobre este pedido. Revisa tu conexión y vuelve a intentarlo. | **[NUEVO]** MATU-128 (N2) <!-- MATU-128: aprobado por el orquestador con el mandato de Jorge del 19-11 --> |
+| «Tus pedidos», lo que pasó, al volver a intentar, si no hay nada anotado | No hay nada anotado sobre este pedido. | **[NUEVO]** MATU-128 (N3) <!-- MATU-128: aprobado por el orquestador con el mandato de Jorge del 19-11 --> |
+| «Tus pedidos», lo que pasó, anuncio solo para lectores de pantalla cuando llega después de que se ve el detalle | Más abajo está lo que pasó con tu pedido. | **[NUEVO]** MATU-128 (N4) <!-- MATU-128: aprobado por el orquestador con el mandato de Jorge del 19-11 --> |
 | Historial, cuando el equipo abrió el pedido o su pago | El equipo de MATU revisó el pedido {referencia} | **[ANALISTA]** D-81-5 · sin nombre de quién del equipo |
 | Historial, cuando el equipo intentó registrar un retracto con un correo que no es de quien administra el grupo (`operacion.retracto_correo_fallido`) | El equipo de MATU intentó registrar que alguien quiere arrepentirse de la compra del pedido {referencia}, con un correo que no es de quien administra el grupo · sin referencia: El equipo de MATU intentó registrar que alguien quiere arrepentirse de una compra, con un correo que no es de quien administra el grupo | **[NUEVO]** MATU-114 · sin el correo ni quién del equipo, y «arrepentirse de la compra», como la fila 28 de la sección 35. Aprobado por Jorge el 18-11. |
 
