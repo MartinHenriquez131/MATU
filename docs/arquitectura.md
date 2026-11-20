@@ -796,6 +796,11 @@ El esquema solo cambia con migraciones de Alembic revisables y reversibles. **De
 | 0029 | `vista_comercio` | MATU-63 | 13 de noviembre | La vista del comercio por funciones, el código de retiro por parte, el despacho y el retracto |
 | 0030 | `backoffice_operacion` | MATU-81 | 17 de noviembre | `incidencia` con tipos nuevos y sin DELETE, el segundo factor de operación (`iam_mfa_secreto`, `sesion_refresh.mfa_en` y el alta por consola), la separación de las cuentas de operación, `retracto.motivo_rechazo`, el catálogo de los comercios ficticios, y operación sin leer la persona, el consentimiento ni las aceptaciones de la política (11.6) |
 | 0031 | `operacion_sin_cuentas` | MATU-114 | 18 de noviembre | Quita `usuario_operacion_leer`, `membresia_operacion` e `invitacion_operacion`, y agrega `operacion_cuenta_activa`, `cuenta_es_operacion` y `operacion_solicitante_retracto`. La app deja de leer `codigo_hash`, con `codigo_vigente` generada, `clave_notas_familia_leer` queda solo para admin y cuidador, y entra la acción de auditoría `operacion.retracto_correo_fallido` |
+| 0032 | `pagos_propios` | MATU-116 | 19 de noviembre | Quien pagó un pedido sigue viendo sus pagos y puede arrepentirse de esa compra, aunque pase a «Se informa» o salga del grupo |
+| 0033 | `operacion_lee_lo_que_usa` | MATU-122 | 19 de noviembre | Operación lee solo lo que usa |
+| 0034 | `politicas_contacto` | MATU-79 | 19 de noviembre | El contacto de cada cuenta y del relevo, solo para quien lo usa (permisos por columna), y `notificacion_sistema` separada por operación |
+| 0035 | `conservacion_con_su_marcador` | MATU-124 | 19 de noviembre | Cada tarea de conservación ve y borra solo con su propio marcador, y la dirección queda solo para la familia (`direccion_solo_familia`) |
+| 0036 | `lo_que_paso_quien_pago` | MATU-128 | 20 de noviembre | Quien pagó un pedido ve «Lo que pasó con tu pedido» en ese pedido (`pedido_lo_que_paso`) |
 
 **Los diagramas del modelo de datos siguen en la 0001** para las tablas que cambiaron después. Se regeneran con `backend/db/gen_diagramas.py` contra una base con todas las migraciones (modelo de datos, sección 0).
 
@@ -1081,6 +1086,33 @@ sequenceDiagram
 | Paginación | Cursor, no offset |
 | Fechas | ISO 8601 con zona. El servidor opera en UTC, la aplicación muestra en America/Santiago |
 | Versionado | La v1 no rompe contratos. Un cambio incompatible crea `/api/v2` |
+
+### Rutas de la cuenta (iam)
+
+Rutas de la cuenta de cada persona, sin `X-Grupo-Id` (MATU-38, 41, 54, 55, 57, 75 y 81). La fuente es `docs/api/openapi.json` del repositorio MATU_PROYECTO.
+
+```
+POST   /v1/usuarios                        → crear la cuenta, con la aceptación de la política
+POST   /v1/sesiones                        → entrar (una cuenta de operación recibe 401 mfa-requerido)
+POST   /v1/sesiones/mfa                    → el segundo factor de operación (MATU-81)
+POST   /v1/sesiones/renovar                → renovar la sesión (refresh rotativo)
+POST   /v1/sesiones/cerrar                 → salir
+GET    /v1/dispositivos                    → «Dónde entraste»: los teléfonos y computadores con sesión
+DELETE /v1/dispositivos/{dispositivo_id}   → cerrar en ese teléfono
+GET    /v1/dispositivos/actual/push        → si este teléfono tiene los avisos activados, y la clave pública
+PUT    /v1/dispositivos/actual/push        → activar los avisos en este teléfono
+DELETE /v1/dispositivos/actual/push        → desactivarlos
+POST   /v1/recuperacion/codigo             → pedir un código para recuperar la cuenta
+POST   /v1/recuperacion/contrasena         → cambiar la contraseña con el código
+GET    /v1/cuenta                          → «Tu cuenta»
+POST   /v1/cuenta/celular/codigo           → pedir el código del celular
+POST   /v1/cuenta/celular/verificar        → confirmar el celular
+GET    /v1/yo/avisos                       → preferencias de aviso
+PUT    /v1/yo/avisos                       → guardar las preferencias (se audita sin los valores)
+GET    /v1/yo/ingresos                     → los últimos ingresos (90 días, hasta 20 líneas)
+GET    /v1/yo/datos                        → «Tus datos»: la copia de lo que MATU guarda de la cuenta
+GET    /v1/politica                        → la política vigente y su versión
+```
 
 ### 9.2 Capa 1 · Plan de cuidado
 
