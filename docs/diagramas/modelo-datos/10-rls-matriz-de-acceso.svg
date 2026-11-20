@@ -2602,8 +2602,17 @@ z
 " style="fill: #fdf0c8; stroke: #9aa4b2; stroke-linejoin: miter"/>
     </g>
     <g id="text_53">
-     <!-- Inserta, sin leer (MATU-100) -->
-     <text x="1036.8" y="328.5" text-anchor="middle" style="font-family: DejaVu Sans, sans-serif; font-size: 10.5px; fill: #000">Inserta, sin leer</text>
+     <!-- Lee todo -->
+     <g transform="translate(1014.037031 328.525636) scale(0.105 -0.105)">
+      <use xlink:href="#DejaVuSans-4c"/>
+      <use xlink:href="#DejaVuSans-65" transform="translate(53.962891 0)"/>
+      <use xlink:href="#DejaVuSans-65" transform="translate(115.486328 0)"/>
+      <use xlink:href="#DejaVuSans-20" transform="translate(177.009766 0)"/>
+      <use xlink:href="#DejaVuSans-74" transform="translate(208.796875 0)"/>
+      <use xlink:href="#DejaVuSans-6f" transform="translate(248.005859 0)"/>
+      <use xlink:href="#DejaVuSans-64" transform="translate(309.1875 0)"/>
+      <use xlink:href="#DejaVuSans-6f" transform="translate(372.664062 0)"/>
+     </g>
     </g>
     <g id="patch_55">
      <path d="M 7.2 405.628213 

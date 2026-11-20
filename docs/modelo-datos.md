@@ -1066,7 +1066,7 @@ sequenceDiagram
 
 ### 5.3 Matriz de acceso
 
-Cada celda de esta matriz está respaldada por una prueba de `test_aislamiento.py`. Versión en imagen: `10-rls-matriz-de-acceso.png` (la imagen y su SVG muestran la columna Auditoría de operación como «Inserta, sin leer» desde MATU-100; el resto de la imagen puede ir atrasado respecto de esta tabla, que es la que manda).
+Cada celda de esta matriz está respaldada por una prueba de `test_aislamiento.py`. Versión en imagen: `10-rls-matriz-de-acceso.png`.
 
 | Eje | Plan de cuidado | Perfil de consumo | Pedido | Líneas y precios | Dirección de entrega | Cargo y pagos | Liquidación | Auditoría |
 |---|---|---|---|---|---|---|---|---|

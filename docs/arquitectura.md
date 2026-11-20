@@ -624,7 +624,7 @@ Es aritmética de tercero básico, y esa es exactamente la gracia. **El valor no
 | Entidad | Campos relevantes | Notas |
 |---|---|---|
 | `consentimiento` | id, grupo_id, usuario_id, persona_cuidada_id, **calidad_otorgante** (`titular`, `representante_legal`, `cuidador_de_hecho`), finalidad, version_politica, evidencia, otorgado_en, revocado_en, revocacion_motivo | Requisito directo de la Ley 21.719. **`calidad_otorgante` es la pieza clave**: el titular de los datos es muchas veces una persona sin capacidad para consentir, y quien opera la aplicación puede no ser su representante legal. Ver la sección 11.5. **Es inalterable** desde la migración 0006: no se actualiza ni se borra, y solo se registra la revocación, una vez. Desde la 0016 la revocación lleva su motivo (`retiro` o `renovacion`) y solo la registran admin o cuidador (MATU-44) |
-| `auditoria` | id, grupo_id, persona_cuidada_id, actor_tipo, **actor_ref**, accion, entidad, entidad_id, **motivo**, request_id, ocurrido_en | Append-only, con una prueba comprometida que lo verifique. **`actor_ref` es polimórfico** porque el relevo no es usuario y es justamente el actor más sensible del sistema. **La IP no se guarda** (decisión 27 del contrato de MATU-09, 27-10): la 0025 borró la columna `ip`. **Quién lee la auditoría:** la 0005 (decisión 36) deja que el administrador lea todas las filas de su grupo y cada miembro solo las suyas, la 0010 agrega que quien puede ver el plan lee las aperturas de los relevos (RF-08), y la 0025 (`auditoria_cuenta_propia`) deja que cada persona lea las acciones de su cuenta. **Operación inserta y no lee** (`modelo-datos.md`, matriz 5.3, nota ⁷). La 0028 agrega `persona_cuidada_id`. |
+| `auditoria` | id, grupo_id, persona_cuidada_id, actor_tipo, **actor_ref**, accion, entidad, entidad_id, **motivo**, detalle, request_id, ocurrido_en | Append-only, con una prueba comprometida que lo verifique. **`actor_ref` es polimórfico** porque el relevo no es usuario y es justamente el actor más sensible del sistema. **La IP no se guarda** (decisión 27 del contrato de MATU-09, 27-10): la 0025 borró la columna `ip`. **Quién lee la auditoría:** la 0005 (decisión 36) deja que el administrador lea todas las filas de su grupo y cada miembro solo las suyas, la 0010 agrega que quien puede ver el plan lee las aperturas de los relevos (RF-08), y la 0025 (`auditoria_cuenta_propia`) deja que cada persona lea las acciones de su cuenta. **Operación inserta y no lee** (`modelo-datos.md`, matriz 5.3, nota ⁷). La 0008 agrega `detalle` (jsonb) y la 0028, `persona_cuidada_id`. |
 | `evento_outbox` | id, grupo_id, tipo, **payload solo con identificadores**, agregado_id, disponible_en, intentos, publicado_en, fallido_en | Tabla de **infraestructura sin RLS**, acotada por permiso de rol. Contrato completo en 8.6 |
 | `idempotencia` | clave, **grupo_id**, endpoint, usuario_id, hash_peticion, estado_http, respuesta, creada_en | Soporta el header `Idempotency-Key`. **Lleva `grupo_id` y RLS como cualquier tabla de negocio**: guarda cuerpos de respuesta de pedidos y pagos, de modo que sin tenant sería una excepción no declarada al modelo de aislamiento (sección 12.8) |
 | `evento_consumido` | evento_id, consumidor, consumido_en | Clave primaria compuesta. Es lo que hace idempotente al consumidor |
@@ -1256,8 +1256,6 @@ GET    /v1/backoffice/indicadores
 
 **La lista no lleva el nombre de la persona cuidada, nada de la ficha ni acciones** (ADR-031). La v1.1 traía el nombre de la persona y una acción `compartir_enlace`, que salieron. La cantidad sugerida cubre 30 días y va en envases enteros cuando la familia anotó las unidades por envase. **La lista funciona sin ningún comercio en convenio**: es la decisión 2 de cabecera hecha contrato de API. El texto que sale del teléfono tampoco lleva los días que quedan, para que sea más difícil deducir el consumo diario.
 
----
-
 ### 9.7 Rutas de la cuenta
 
 Rutas de la cuenta de cada persona, sin `X-Grupo-Id`, de los módulos `iam` y `notifications` (las de aviso) (MATU-38, 41, 54, 55, 57, 75 y 81). La fuente es `docs/api/openapi.json` del repositorio MATU_PROYECTO.
@@ -1283,6 +1281,8 @@ GET    /v1/yo/ingresos                     → los últimos ingresos (90 días, 
 GET    /v1/yo/datos                        → «Tus datos»: la copia de lo que MATU guarda de la cuenta
 GET    /v1/politica                        → la política vigente y su versión
 ```
+
+---
 
 ## 10. Diseño de interacción y accesibilidad
 
