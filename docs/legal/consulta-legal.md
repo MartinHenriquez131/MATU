@@ -260,7 +260,7 @@ En los orígenes, «Trello» es un comentario de la tarjeta de consulta legal, c
 
 - **Pregunta:** el aviso fijo «MATU: un insumo se está acabando. Abre la app para ver cuál», enviado por un proveedor de push o de correo, ¿revela un dato sensible?
 - **Origen:** MATU-37, Trello del 3 de noviembre de 2026, pregunta 1.
-- **Mientras tanto:** el aviso no dice qué insumo ni de quién, y el push va sin contenido.
+- **Mientras tanto:** el aviso no dice qué insumo ni de quién, y el push va sin contenido. **Desde MATU-76 (D-76-1, 18-11),** el push dice para todo «MATU · Tienes una novedad. Abre la app para verla.», que ya no nombra los insumos. El correo del insumo sigue con su texto, y el del pedido dice «Hay una novedad en un pedido. Abre la app para verla.».
 - **Bloquea:** datos reales.
 - **Se cierra en:** no tiene un `[PENDIENTE]` propio.
 - **Respuesta:** —
@@ -311,10 +311,11 @@ En los orígenes, «Trello» es un comentario de la tarjeta de consulta legal, c
 - **Pregunta:** con datos reales, ¿qué cambios obligan a publicar una versión nueva y a renovar las autorizaciones ya otorgadas, y cuáles basta con informar en la política vigente, a la que remiten las declaraciones con «según la política de privacidad vigente»? En particular:
   - agregar un dato opcional, como las unidades por envase, o una función nueva dentro de la misma finalidad, como la lista que se imprime o se comparte
   - activar un proveedor real, como el de correo. La política, sección 12, pide una autorización nueva «si un cambio agrega… personas que reciben datos». ¿Cuenta un encargado como «persona que recibe datos»?
+  - **Ampliada con MATU-128:** la 0.26 suma a quien pagó un pedido como lector de lo que anotó el equipo de MATU, dentro del grupo y sobre un pedido que ya veía. ¿Cuenta como «persona que recibe datos» de la sección 12, o basta informarlo sin pedir aceptar de nuevo? <!-- MATU-128: Aprobado por Jorge el 19-11 (ratificado el 20-11) -->
 - **Origen:**
   - MATU-60, CL-4, revisión de cierre, Trello del 6 de noviembre de 2026, y `revision-matu-60.md`
   - MATU-41, revisión de cierre, Trello del 4 de noviembre de 2026, pregunta 3.
-- **Mientras tanto:** un cambio que no agrega usos, datos ni destinatarios no cambia la versión (criterio del 6 de noviembre de 2026). Si un encargado no cuenta, igual se publica una versión nueva de la política con sus nombres y su país.
+- **Mientras tanto:** un cambio que no agrega usos, datos ni destinatarios no cambia la versión (criterio del 6 de noviembre de 2026). Si un encargado no cuenta, igual se publica una versión nueva de la política con sus nombres y su país. **Ampliada con MATU-128:** la 0.26 se publicó sin volver a aceptar, con el criterio de «sin destinatarios fuera del grupo» (MATU-128). <!-- MATU-128: Aprobado por Jorge el 19-11 (ratificado el 20-11) -->
 - **Bloquea:** datos reales.
 - **Se cierra en:** no tiene un `[PENDIENTE]` propio. El texto está en la política, sección 12.
 - **Respuesta:** —
@@ -326,6 +327,20 @@ En los orígenes, «Trello» es un comentario de la tarjeta de consulta legal, c
 - **Mientras tanto:** casilla obligatoria sin marcar, con base «ejecución del servicio». Desde la 0.11 cada texto tiene su número y su huella. No se pide aceptar de nuevo al cambiar la versión, salvo que se agreguen usos, datos o destinatarios (§12).
 - **Bloquea:** datos reales.
 - **Se cierra en:** política §12. Registro, entrada 10, base de licitud.
+- **Respuesta:** —
+
+### CL-73 · Los datos de quienes trabajan en el comercio
+
+- **Pregunta:**
+  - ¿Cuál es la base de licitud de la cuenta de quien atiende un comercio y del registro de sus acciones?
+  - ¿MATU es responsable de esos datos, o lo es el comercio?
+  - ¿Cómo se les informa?
+  - ¿3 años es proporcional?
+  - El encargado no puede ver su propio registro en la aplicación (`auditoria_cuenta_propia` mira solo `actor_tipo = 'usuario'`): ¿basta con pedirlo por correo?
+- **Origen:** MATU-63, revisión previa, 13 de noviembre de 2026 (`revision-previa-matu-63.md`, sección 5), con las decisiones D-63-1 a D-63-16 (D-63-12 y D-63-14). Se relaciona con CL-22 y CL-53.
+- **Mientras tanto:** solo las cuentas de prueba, una por comercio ficticio, con datos sintéticos (`@example.com`).
+- **Bloquea:** datos reales.
+- **Se cierra en:** política §6 («PENDIENTE: CL-73»). Registro, entrada 14, base de licitud, quién accede y conservación.
 - **Respuesta:** —
 
 ## 4. Conservación y borrado
@@ -363,13 +378,17 @@ En los orígenes, «Trello» es un comentario de la tarjeta de consulta legal, c
 
 ### CL-28 · El plazo de los pagos y los pedidos
 
-- **Pregunta:** ¿corresponde guardar 6 años los pagos y las boletas, y 2 años los pedidos y los comprobantes de entrega? **Ampliada con MATU-61:** ¿basta con borrar a los 30 días lo que nunca se pagó (el pedido en armado, el de total vencido y el cancelado sin pago), con su línea de tiempo, en vez de guardarlo 2 años? ¿Se puede guardar 24 horas, para no repetir un pedido, solo el estado y el número del pedido?
+- **Pregunta:** ¿corresponde guardar 6 años los pagos y las boletas, y 2 años los pedidos y los comprobantes de entrega? **Ampliada con MATU-61:** ¿basta con borrar a los 30 días lo que nunca se pagó (el pedido en armado, el de total vencido y el cancelado sin pago), con su línea de tiempo, en vez de guardarlo 2 años? ¿Se puede guardar 24 horas, para no repetir un pedido, solo el estado y el número del pedido? **Ampliada con MATU-63:** ¿siguen al pedido (2 años) los retractos y las partes por comercio, y al pago (6 años) la anulación de un retracto? ¿Basta borrar la huella del código de retiro al usarse, al vencer o al bloquearse? ¿Son 3 años proporcionales para el registro de lo que hace el comercio? **Ampliada con MATU-92:** ¿desde cuándo se cuentan los 2 años de un pedido pagado: desde el pago o desde su cierre (la entrega o la cancelación)? **Ampliada con MATU-81:** ¿deben seguir al pedido (2 años desde su cierre) las notas de lo que pasó con él (`incidencia`), que la familia ve en la copia de sus datos? ¿Son 3 años proporcionales para el registro de cuándo el equipo de MATU abrió un pedido y para el de la cuenta de operación y su segundo factor?
 - **Origen:**
   - MATU-26, revisión previa, Trello del 21 de octubre de 2026, pregunta 12, primera parte
-  - MATU-61, revisión previa, 10 de noviembre de 2026 (`revision-previa-matu-61.md`, punto 12 y sección 5), con la decisión D5 de Jorge del 11 de noviembre de 2026.
-- **Mientras tanto:** el registro declara 2 años para los pedidos pagados y 6 años para pagos y boletas (arquitectura, sección 11.8). Lo no pagado se borra a los 30 días con una tarea del programador de MATU-74, y `idempotencia` guarda solo el estado y el id del pedido y se borra a las 24 horas (D5).
+  - MATU-61, revisión previa, 10 de noviembre de 2026 (`revision-previa-matu-61.md`, punto 12 y sección 5), con la decisión D5 de Jorge del 11 de noviembre de 2026
+  - MATU-63, revisión previa, 13 de noviembre de 2026 (`revision-previa-matu-63.md`, D-63-13).
+  - MATU-92, revisión previa, 16 de noviembre de 2026, con la decisión D-92-2 del orquestador por delegación de Jorge.
+  - MATU-81, revisión previa, 17 de noviembre de 2026 (`revision-previa-matu-81.md`, P4 y sección 7), con las decisiones D-81-1 a D-81-12 del orquestador con el mandato de Jorge del 16-11.
+  - MATU-81, cierre del cifrado de las notas, 17 de noviembre de 2026: ¿se puede volver ilegible, al pedir el borrado de los datos de la persona, la nota de un reclamo de consumo que sigue abierto y podría servir para responderlo? ¿Puede tratarse distinto lo anotado antes del borrado (ilegible) y lo anotado después (2 años con el pedido)? Lo pidió anotar Jorge el 17-11.
+- **Mientras tanto:** el registro declara 2 años para los pedidos pagados y 6 años para pagos y boletas (arquitectura, sección 11.8). Desde MATU-63, las partes, las líneas y los retractos siguen al pedido, y la anulación de un retracto, al pago (D-63-13). Lo no pagado se borra a los 30 días con una tarea del programador de MATU-74, y `idempotencia` guarda solo el estado y el id del pedido y se borra a las 24 horas (D5). Desde MATU-92, mientras siga la consulta, los 2 años de un pedido pagado se cuentan desde su cierre, es decir, desde la entrega o la cancelación (D-92-2). «Tus pedidos» muestra los de los últimos 2 años con esa misma regla. Desde MATU-81, las incidencias siguen al pedido (`ON DELETE CASCADE`, C12), y el registro de las lecturas de operación (`operacion.pedido_ver`) y el de la cuenta de operación duran 3 años, como el resto de la auditoría. El borrado lo construye MATU-89. Desde MATU-81 (decisión de Jorge del 17-11), las notas anotadas hasta el borrado de los datos de la persona quedan ilegibles al destruir su clave de notas. Una nota posterior sobre un pedido pagado que todavía se guarda va con una clave nueva y sigue al pedido. MATU-89 destruye esa clave cuando ya no queda ninguna incidencia cifrada con ella. **Nota de MATU-115 (P3 de Martín en el TESTER de MATU-92, MATU#106, 18-11):** la política 0.20 (MATU-92, D11) se publicó sin volver a aceptar, por decisión de Jorge del 17-11. Cuenta los 2 años de un pedido pagado desde su cierre, mientras siga esta consulta, y no agrega usos, datos, destinatarios ni declaraciones. Las autorizaciones dadas siguen con su versión. Si la respuesta cambia el plazo, se publica una versión nueva de la política.
 - **Bloquea:** dinero real. Lo no pagado, también datos reales.
-- **Se cierra en:** política, sección 4, «De tus pedidos» («PENDIENTE: confirmar en la versión 1.0. CL-28 y CL-44»), y sección 8, «Pedidos que no se pagaron» («PENDIENTE: CL-28 ampliada»). Registro, entrada 2, conservación.
+- **Se cierra en:** política, sección 4, «De tus pedidos» («PENDIENTE: confirmar en la versión 1.0. CL-28 y CL-44»), y sección 8, «Pedidos que no se pagaron» y «Lo que pasó con un pedido» («PENDIENTE: CL-28 ampliada»). Registro, entrada 2, conservación, y entrada 15, conservación, y sección 10, «Borrar los datos de la persona que cuidas» (lo que anotó el equipo).
 - **Respuesta:** —
 
 ### CL-29 · Destruir la clave y las copias de respaldo
@@ -460,7 +479,6 @@ En los orígenes, «Trello» es un comentario de la tarjeta de consulta legal, c
 - **Se cierra en:** política §10.
 - **Respuesta:** —
 
-
 ## 5. El relevo y otras personas que anota la familia
 
 ### CL-33 · La base de licitud de los datos del relevo y de «A quién llamar»
@@ -531,7 +549,7 @@ En los orígenes, «Trello» es un comentario de la tarjeta de consulta legal, c
 
 - **Pregunta:** en staging, que la política declara sin datos reales, la dirección de avisos que se guarda al activar los avisos es la de un navegador real, y queda en Railway, en Estados Unidos. Si una persona que participa en una prueba de usabilidad activa los avisos en su propio teléfono, ¿MATU trata un dato personal real de un tercero? ¿Basta informarlo en la política (§1 y §4), o hace falta un consentimiento específico de la persona que participa, o prohibirlo?
 - **Origen:** MATU-55, revisión de cierre del analista normativo, 12 de noviembre de 2026.
-- **Mientras tanto:** «Activar en este teléfono» se prueba solo en teléfonos del equipo (condición C14). La dirección se borra al desactivar, al salir o con el cierre de staging.
+- **Mientras tanto:** «Activar en este teléfono» solo funciona en las cuentas del equipo: desde MATU-107 lo impide un control técnico (`PUSH_CUENTAS_PERMITIDAS`, que falla cerrado), no solo un procedimiento. La dirección se borra al desactivar, al salir o con el cierre de staging. El control también rige en producción. No se quita sin la respuesta de esta consulta y de CL-37, sin el encargado y la transferencia anotados en el registro (entradas 5, 6 y 9) y, si se agrega un destinatario, sin una política nueva (MATU-112, H6).
 - **Bloquea:** ninguno, si se cumple C14.
 - **Se cierra en:** política §1. Registro, entradas 6 y 9.
 - **Respuesta:** —
@@ -542,7 +560,7 @@ En los orígenes, «Trello» es un comentario de la tarjeta de consulta legal, c
 - **Origen:**
   - MATU-39, Trello del 3 de noviembre de 2026, pregunta 2
   - MATU-50, revisión de cierre, Trello del 3 de noviembre de 2026.
-- **Mientras tanto:** el botón de dictar está oculto solo en «Sus remedios» (decisión de Jorge del 3 de noviembre de 2026). Se reactiva quitando una condición en `web/src/familia/EditorSeccion.tsx`. En el resto de la ficha se informa en la política.
+- **Mientras tanto:** el botón de dictar está oculto solo en «Sus remedios» (decisión de Jorge del 3 de noviembre de 2026). Se reactiva quitando una condición en `web/src/familia/EditorSeccion.tsx`. En el resto de la ficha se informa en la política. **Desde MATU-95 (17-11)** la pregunta alcanza también a «Comer y beber», porque su ayuda pide anotar lo que no puede comer o tomar, que puede ser un dato relativo a la salud. Jorge decidió mantener ahí el dictado: «cualquier dato de la ficha es un dato médico, eso no nos puede bloquear; los remedios es diferente ya que es una indicación médica, y es el médico el responsable».
 - **Bloquea:** datos reales.
 - **Se cierra en:** política, sección 6, «Dictar en vez de escribir» («[PENDIENTE: consulta legal sobre el envío de audio de un dato sensible…]»). Registro, entrada 3, dictado.
 - **Respuesta:** —
@@ -560,11 +578,13 @@ En los orígenes, «Trello» es un comentario de la tarjeta de consulta legal, c
 
 ### CL-67 · Las lecturas de operación de los pedidos de otros grupos
 
-- **Pregunta:** ¿deben quedar registradas, sin contenido, las lecturas que hace el equipo de operación de los pedidos de otros grupos, que la política trata como datos sensibles, antes de tratar datos reales?
-- **Origen:** MATU-94, revisión de cierre del analista normativo, 11 de noviembre de 2026 (punto 8).
-- **Mientras tanto:** las lecturas de operación no se auditan, igual que las de la familia (decisión 52), y sus escrituras sí. El backoffice no está construido y el piloto usa solo datos sintéticos. Se recomienda, como diseño, auditar esas lecturas en la historia del backoffice.
+- **Pregunta:** ¿deben quedar registradas, sin contenido, las lecturas que hace el equipo de operación de los pedidos de otros grupos, que la política trata como datos sensibles, antes de tratar datos reales? **Ampliada con MATU-81:** ¿basta con registrar cuándo el equipo abre el detalle, la línea de tiempo o el cobro de un pedido, sin registrar las listas ni la búsqueda? ¿Es suficiente que la familia vea esas aperturas en la copia de sus datos, o tiene que verlas también en la aplicación? **Ampliada con MATU-128:** la nota la lee también quien pagó, que puede no administrar ni cuidar. ¿Basta la regla D5 ampliada (sin nombres, datos de contacto, datos de salud, la dirección ni quién de la familia reclamó), con la advertencia de la consola y un filtro que rechaza correos, teléfonos chilenos y el RUT, o antes de datos reales hace falta más, como que otra persona del equipo revise la nota? <!-- MATU-128: Aprobado por Jorge el 19-11 (ratificado el 20-11) -->
+- **Origen:**
+  - MATU-94, revisión de cierre del analista normativo, 11 de noviembre de 2026 (punto 8).
+  - MATU-81, revisión previa, 17 de noviembre de 2026 (`revision-previa-matu-81.md`, P3 y sección 7), con la decisión D-81-5.
+- **Mientras tanto:** desde MATU-81, abrir el detalle, la línea de tiempo o el cobro de un pedido se audita como `operacion.pedido_ver`, con el grupo y la persona y sin contenido. La familia lo ve en la copia de sus datos: «El equipo de MATU revisó el pedido {referencia}». Las listas y la búsqueda no se auditan. Las escrituras de operación se auditan como antes. Las lecturas de la familia siguen sin auditarse (decisión 52). El piloto usa solo datos sintéticos. **Ampliada con MATU-128:** los límites de la decisión 484. <!-- MATU-128: Aprobado por Jorge el 19-11 (ratificado el 20-11) -->
 - **Bloquea:** datos reales.
-- **Se cierra en:** registro de tratamientos, entrada 2, «Quién accede» («[PENDIENTE: CL-67]»).
+- **Se cierra en:** registro de tratamientos, entrada 2, «Quién accede» («[PENDIENTE: CL-67 ampliada]»). Política, §6, el párrafo del equipo de MATU («PENDIENTE: CL-67 ampliada»).
 - **Respuesta:** —
 
 ### CL-39 · La base de las huellas de IP y de email
@@ -630,13 +650,14 @@ En los orígenes, «Trello» es un comentario de la tarjeta de consulta legal, c
 
 ### CL-41 · El retracto del suplemento y de las bolsas colectoras
 
-- **Pregunta:** ¿el suplemento nutricional y las bolsas colectoras caben en la exclusión de los bienes de uso personal o de higiene sellados del Decreto 52 de 2024, art. 4 N° 4, de modo que pierden el retracto si se abre el sello?
+- **Pregunta:** ¿el suplemento nutricional y las bolsas colectoras caben en la exclusión de los bienes de uso personal o de higiene sellados del Decreto 52 de 2022 del Ministerio de Economía (publicado el 27-08-2024), art. 4 N° 4, de modo que pierden el retracto si se abre el sello?
 - **Origen:**
   - MATU-59, revisión previa, Trello del 8 de noviembre de 2026, pregunta 1, que la suma a P5 del ADR-027
   - `lenguaje.md`, sección 27, «Pendiente de la consulta legal» (rama `docs/matu-59-catalogo`).
-- **Mientras tanto:** esos dos productos usan el texto del retracto sin la exclusión («Derecho a retracto: tienes 10 días desde que lo recibes.»), que es la opción más protectora. El resto de P5 está resuelto por diseño (ver «Lo que ya se resolvió por diseño»).
+- **Mientras tanto:** esos dos productos usan el texto del retracto sin la exclusión («Derecho a retracto: tienes 10 días hábiles desde que lo recibes.»), que es la opción más protectora. El resto de P5 está resuelto por diseño (ver «Lo que ya se resolvió por diseño»).
 - **Bloquea:** dinero real.
 - **Se cierra en:** `lenguaje.md`, sección 27, en la rama de MATU-59, y el campo `producto.retracto_pierde_al_abrir` de esos productos.
+- **Cita verificada (16-11-2026, texto oficial de LeyChile, idNorma 1206144):** el decreto es el **N° 52 de 2022** (promulgado el 21-04-2022, publicado el 27-08-2024 y vigente seis meses después, el 27-02-2025), no «de 2024». El art. 4 N° 4 y el art. 6 dicen lo que citan los documentos. El art. 4 N° 4 nombra como ejemplos «ropa interior, trajes de baño, maquillaje y artículos de higiene personal como cepillos de dientes, jabones o cremas», y no menciona suplementos ni bolsas colectoras, así que **la pregunta de fondo sigue abierta**. El art. 6 pide, además, ajustes para informar la exclusión a las personas con discapacidad. Se corrigió el año en `docs/legal/`. En la política, el año se corrige en la próxima versión, porque su texto vive versionado en el backend.
 - **Respuesta:** —
 
 ### CL-42 · Las reglas sanitarias de venta y de rotulado
@@ -677,6 +698,32 @@ En los orígenes, «Trello» es un comentario de la tarjeta de consulta legal, c
 - **Se cierra en:** no tiene un `[PENDIENTE]`.
 - **Respuesta:** —
 
+### CL-71 · Cómo se cuenta el retracto
+
+- **Pregunta:**
+  - ¿Los 10 días del retracto son corridos o hábiles?
+  - ¿Se cuentan desde la entrega que registra MATU?
+  - ¿Se puede ejercer por producto?
+  - ¿Sube a 90 días si el comprobante queda solo en la aplicación? (con la CL-54)
+- **Origen:** MATU-63, revisión previa, 13 de noviembre de 2026 (`revision-previa-matu-63.md`, sección 5), con las decisiones D-63-1 a D-63-16 (D-63-9 y D-63-10). Se relaciona con CL-41 y CL-54.
+- **Mientras tanto:** el botón dura 10 días hábiles desde `entregado_en`. Se pide por producto, en una o varias veces dentro del plazo. «Si lo pides por correo, el equipo de MATU lo registra en el sistema a tu nombre y te devolvemos igual que desde la aplicación. Por correo se aceptan retractos hasta 90 días desde la entrega mientras la CL-54 siga abierta» (cierre del analista, H2 y H3). [PENDIENTE: los feriados en el plazo, decisión 421 del contrato]
+- **Bloquea:** dinero real.
+- **Se cierra en:** condiciones del pedido 0.3, §9 («[PENDIENTE: CL-41, CL-54, CL-71 y CL-72 …]»).
+- **Respuesta:** —
+
+### CL-72 · El envío y el sello en el retracto
+
+- **Pregunta:**
+  - ¿«Sin retención de gastos» (Ley 19.496, art. 3 bis) obliga a devolver el envío en un retracto parcial?
+  - ¿Quién prueba que un sello se abrió, y qué pasa si el producto vuelve abierto?
+  - Un producto que se rechazó por volver con el sello abierto, ¿se puede volver a pedir en retracto dentro del plazo? Mientras tanto, se pueden volver a pedir las unidades que no se devolvieron, pero no las rechazadas por sello abierto (H3)
+  - **Ampliada con MATU-81:** el rechazo lleva un motivo de una lista cerrada que la familia ve: `sello_abierto` o `producto_no_recibido`, que significa que MATU no recibió el producto de vuelta. ¿Basta con ese motivo para informar a la familia por qué se rechazó su retracto? ¿Quién prueba que el producto no se recibió, y qué plazo tiene la familia para devolverlo antes de que se rechace por ese motivo?
+- **Origen:** MATU-63, revisión previa, 13 de noviembre de 2026 (`revision-previa-matu-63.md`, sección 5), con las decisiones D-63-1 a D-63-16 (D-63-10, envío b, confirmada por Jorge el 13-11). Se relaciona con P5 del ADR-027 y con CL-41. Ampliada con MATU-81, revisión previa, 17 de noviembre de 2026 (`revision-previa-matu-81.md`, P7 y C24).
+- **Mientras tanto:** el envío se devuelve solo si se devuelve todo (condiciones 0.3). Los pedidos con la 0.2 se respetan como estaban: el envío se devuelve en todo retracto. Un pedido pagado sin versión de condiciones (anterior a la 0023 en una base donde la restricción no se validó) se trata como la 0.2: el envío se devuelve en todo retracto, una sola vez (MATU-112, H1, decidido por Jorge el 15-11). Desde MATU-81, rechazar un retracto exige el motivo (`retracto.motivo_rechazo`, 0030), y la familia lo ve en «Tus pedidos» (MATU-92). Los rechazos anteriores a la 0030 quedan sin motivo.
+- **Bloquea:** dinero real.
+- **Se cierra en:** condiciones del pedido 0.3, §9. Lo resuelto por diseño de P5 (más abajo).
+- **Respuesta:** —
+
 ## 9. Para el contador
 
 ### CL-46 · La boleta, la devolución y la compra al comercio
@@ -710,20 +757,20 @@ En los orígenes, «Trello» es un comentario de la tarjeta de consulta legal, c
 
 ### CL-54 · El contenido de la confirmación escrita
 
-- **Pregunta:** ¿cumple el art. 12 A de la Ley 19.496 un comprobante dentro de la aplicación, sin correo? ¿Basta un correo sin la lista de productos, que remite el detalle a la aplicación? **Ampliada en la segunda revisión:** si quien paga no es quien armó el pedido, ¿a quién se le debe la confirmación? **Ampliada en el cierre de MATU-62:** si quien paga elige en Webpay cuotas con interés de su banco, ¿debe la confirmación decir algo más que «Pagaste {total} una sola vez»? Mientras tanto, el comprobante muestra «en {n} cuotas» y MATU cobra una sola vez.
+- **Pregunta:** ¿cumple el art. 12 A de la Ley 19.496 un comprobante dentro de la aplicación, sin correo? ¿Basta un correo sin la lista de productos, que remite el detalle a la aplicación? **Ampliada en la segunda revisión:** si quien paga no es quien armó el pedido, ¿a quién se le debe la confirmación? **Ampliada en el cierre de MATU-62:** si quien paga elige en Webpay cuotas con interés de su banco, ¿debe la confirmación decir algo más que «Pagaste {total} una sola vez»? Mientras tanto, el comprobante muestra «en {n} cuotas» y MATU cobra una sola vez. **Ampliada con MATU-63:** si el comprobante queda solo en la aplicación, ¿el plazo del retracto sube a 90 días? Mientras tanto, el correo acepta retractos hasta 90 días (D-63-9, con la CL-71).
 - **Origen:** MATU-62, revisión previa, 10 de noviembre de 2026 (`revision-previa-matu-62.md`, sección 6); ampliada en la MATU-62, segunda revisión previa, 11 de noviembre de 2026 (`revision-previa-matu-62-segunda.md`, sección 6), con las decisiones del orquestador del 11-11 por delegación de Jorge.
 - **Mientras tanto:** el comprobante queda en MATU, con los productos, y en el piloto no se envía por correo (P-62-5; verificar el correo va en MATU-91). Si falta la confirmación, el retracto podría subir de 10 a 90 días.
 - **Bloquea:** dinero real.
-- **Se cierra en:** condiciones del pedido 0.2, §4 («[PENDIENTE: CL-54]»).
+- **Se cierra en:** condiciones del pedido 0.2 y 0.3, §4 («[PENDIENTE: CL-54]»), y 0.3, §9.
 - **Respuesta:** —
 
 ### CL-55 · La devolución si la anulación no es posible
 
-- **Pregunta:** ¿qué medio cumple el art. 3 bis (45 días, sin retención) si Transbank no permite anular? ¿Pedir datos bancarios exige una base de licitud nueva?
+- **Pregunta:** ¿qué medio cumple el art. 3 bis (45 días, sin retención) si Transbank no permite anular? ¿Pedir datos bancarios exige una base de licitud nueva? **Ampliada con MATU-63:** ¿y si el retracto llega fuera del plazo de anulación de Transbank, por ejemplo uno pedido por correo cerca de los 90 días?
 - **Origen:** MATU-62, revisión previa, 10 de noviembre de 2026 (`revision-previa-matu-62.md`, sección 6).
-- **Mientras tanto:** se reintenta la anulación, se avisa a operación y se le escribe a la familia, sin pedir datos bancarios (D-62-6 a).
+- **Mientras tanto:** se reintenta la anulación, se avisa a operación y se le escribe a la familia, sin pedir datos bancarios (D-62-6 a). **Nota de MATU-76 (H1, 18-11):** el «te escribimos» de las condiciones, §7, cuando falla una anulación, se cumple con un correo que escribe el equipo de MATU, no con un aviso automático: no hay un evento para la anulación fallida. La consola de operación (MATU-81) muestra lo pendiente en «Devoluciones sin terminar». Los avisos de MATU-76 no dicen que cumplen el §7.
 - **Bloquea:** dinero real.
-- **Se cierra en:** condiciones del pedido 0.2, §7 («[PENDIENTE: CL-55]»).
+- **Se cierra en:** condiciones del pedido 0.2 y 0.3, §7 («[PENDIENTE: CL-55]»), y 0.3, §9.
 - **Respuesta:** —
 
 ### CL-56 · El rol de Transbank respecto de los datos de quien paga
@@ -755,29 +802,49 @@ En los orígenes, «Trello» es un comentario de la tarjeta de consulta legal, c
 
 ### CL-66 · Quién es el consumidor cuando paga una persona y arma otra
 
-- **Pregunta:** ¿quién ejerce el retracto, quién reclama y a quién se le devuelve? **Ampliada en el cierre de MATU-62:** ¿cuál es la base de licitud de los datos del pago de quien paga sin haber armado el pedido: la ejecución de la compra que acepta, u otra? **Ampliada en el cierre de MATU-42:** si quien pagó sale del grupo o lo sacan, deja de ver en la aplicación el pedido, el pago y el comprobante. ¿Basta con entregarlos por correo, o MATU debe mantenerle el acceso a su comprobante?
+- **Pregunta:** ¿quién ejerce el retracto, quién reclama y a quién se le devuelve? **Ampliada en el cierre de MATU-62:** ¿cuál es la base de licitud de los datos del pago de quien paga sin haber armado el pedido: la ejecución de la compra que acepta, u otra? **Ampliada en el cierre de MATU-42:** si quien pagó sale del grupo o lo sacan, deja de ver en la aplicación el pedido, el pago y el comprobante. ¿Basta con entregarlos por correo, o MATU debe mantenerle el acceso a su comprobante? **Ampliada con MATU-63:** ¿quién pide el retracto cuando paga una persona y arma otra? Mientras tanto, lo piden quien administra el grupo o quien pagó, si sigue activo, y la devolución va a la misma tarjeta (D-63-10). **Ampliada con MATU-128:** ¿basta la ejecución de la compra que pagó y responder por el pedido (autorización `despacho`) como base para que quien pagó, en cualquier rol y mientras siga en el grupo, lea lo que anotó el equipo de MATU de ese pedido? Si sale del grupo, ¿basta con entregárselo por correo? <!-- MATU-128: Aprobado por Jorge el 19-11 (ratificado el 20-11) -->
 - **Origen:** MATU-62, segunda revisión previa, 11 de noviembre de 2026 (`revision-previa-matu-62-segunda.md`, sección 6), con las decisiones del orquestador del 11-11 por delegación de Jorge.
-- **Mientras tanto:** la aceptación de las condiciones queda con quien pagó (`condiciones_aceptadas_por`, D-62-16) y la devolución va siempre a la misma tarjeta. Quien salió pide su comprobante por el correo de la sección 10 de la política (MATU-42).
+- **Mientras tanto:** la aceptación de las condiciones queda con quien pagó (`condiciones_aceptadas_por`, D-62-16) y la devolución va siempre a la misma tarjeta. Hasta MATU-116, quien salió pedía su comprobante por el correo de la sección 10 de la política (MATU-42). **Desde MATU-116 (aprobado por Jorge el 18-11):** quien está en «Se informa» y pagó un pedido pide el retracto de ese pedido en la aplicación (J1). Quien salió del grupo lo pide por correo, y operación lo reconoce como quien pagó por la huella de su correo, aunque haya salido, sin ver su correo ni la lista del grupo (J4). Quien salió ve sus pagos en «Tus datos» (CL-68). **Desde MATU-128:** quien pagó lo lee solo por `pedido_lo_que_paso`, sin quién lo anotó. Quien salió lo pide por correo (§10). <!-- MATU-128: Aprobado por Jorge el 19-11 (ratificado el 20-11) -->
 - **Bloquea:** dinero real.
-- **Se cierra en:** condiciones del pedido 0.2, §3 y §9.
+- **Se cierra en:** condiciones del pedido 0.2, §3 y §9, y 0.3, §9.
 - **Respuesta:** —
 
 ### CL-68 · Pedidos y pagos en la copia
 
 - **Pregunta:** ¿se puede entregar al admin y al cuidador el historial de pedidos de la persona, con el nombre de quien pagó? ¿Conserva quien pagó y salió del grupo el acceso a sus pagos, o basta entregárselos por correo?
 - **Origen:** MATU-54, decisiones de Jorge del 12-11-2026 (D-54-14 a D-54-16) y revisión de cierre. Se relaciona con CL-11, CL-12, CL-61 y CL-66.
-- **Mientras tanto:** la copia de la persona trae los pedidos con quién pagó, sin tarjeta ni datos de la venta. «Tus datos» trae los pagos de los grupos activos, con el tipo, los últimos 4, las cuotas y el código de autorización. Quien salió los pide por correo.
+- **Mientras tanto:** la copia de la persona trae los pedidos con quién pagó, sin tarjeta ni datos de la venta. Hasta MATU-116, «Tus datos» traía los pagos de los grupos activos, con el tipo, los últimos 4, las cuotas y el código de autorización, y quien salió los pedía por correo. **Desde MATU-116 (J2, J3 y J5, aprobado por Jorge el 18-11):** «Tus datos» trae los pagos de la cuenta en todos sus grupos, también los que dejó, sin el nombre del grupo («Un grupo del que saliste»). Sus retractos de un grupo que dejó van sin productos, que pide por correo.
 - **Bloquea:** datos reales.
 - **Se cierra en:** registro, entradas 2 y 13, base de licitud.
 - **Respuesta:** —
 
-**Se amplían con MATU-62:** CL-44 (el retiro o el borrado con un pago en curso: si se aprueba, se anula completo el mismo día) y CL-28 (apunta a la CL-64). Las CL-57 a 59 quedan usadas por MATU-42 y 53, que amplía la CL-66. Las CL-61 a 63, la CL-68 y la CL-70 quedan usadas por MATU-54, que amplía la CL-04, CL-30, CL-48 y CL-53. La CL-67 es de MATU-94 (sección 7). La CL-53 y la CL-69 quedan usadas por MATU-55. La CL-60 queda usada por MATU-46, que amplía la CL-29 y la CL-34. La próxima libre es la **CL-71**.
+### CL-74 · El correo sobre el dinero que no se puede apagar
+
+- **Pregunta:** ¿puede MATU enviar siempre el correo que avisa una devolución, un producto que faltó o una cancelación con devolución, aunque quien pagó desactivó los avisos del pedido por correo en «Tu cuenta»? ¿Basta como base el deber de informar al consumidor sobre su pago (las condiciones del pedido, §3 y §5, dicen «te avisamos»), o hace falta otra? ¿Debe el correo decir por qué llega aunque se apagaron los avisos? **Ampliada en el cierre de MATU-76:** las condiciones del pedido, §8, dicen «Si no podemos cumplirlo, te avisamos». ¿Puede quien pagó apagar el correo de «No pudimos entregarlo», o ese aviso tampoco se debe poder apagar?
+- **Origen:** MATU-76, revisión previa, 18 de noviembre de 2026, decisión D-76-3 de Jorge. Se relaciona con la CL-54 y la CL-55.
+- **Mientras tanto:** el correo de `PagoAnulado`, `ProductoFaltante` y `PedidoCanceladoConDevolucion` llega siempre a quien pagó, sin productos, montos, comercio, referencia ni código. Su pie dice «Como es sobre tu dinero, te llega aunque hayas desactivado los avisos por correo.», y «Tu cuenta» lo dice junto a la casilla. El push y el correo de «Entregado» y de «No pudimos entregarlo» se pueden apagar. En el piloto el envío es simulado.
+- **Bloquea:** dinero real.
+- **Se cierra en:** política §6 («PENDIENTE: CL-74 y CL-75») y condiciones del pedido 0.3, §8. Registro, entrada 2, base de licitud.
+- **Respuesta:** —
+
+> Los «CL-75-1» a «CL-75-3» de MATU-75 que aparecen en este documento son identificadores de origen de esa revisión, no consultas. La consulta CL-75 es la de abajo.
+
+### CL-75 · La devolución a quien pagó y ya salió del grupo
+
+- **Pregunta:** si quien pagó un pedido sale del grupo o lo sacan, y después hay una devolución, un producto que faltó o una cancelación, ¿hay que informárselo? ¿Por qué canal: el correo de su cuenta, aunque ya no esté en el grupo, u otro? ¿Basta con que la política diga que la devolución va igual a su tarjeta?
+- **Origen:** MATU-76, revisión previa, 18 de noviembre de 2026, decisión D-76-4 de Jorge. Se relaciona con la CL-66 y la CL-68.
+- **Mientras tanto:** quien salió del grupo no recibe ningún aviso del pedido, tampoco el correo sobre el dinero (`miembro_inactivo`). La devolución va igual a la misma tarjeta, y la política lo dice en §10, «Salir de un grupo». Quien salió puede pedir su comprobante por el correo de la sección 10 de la política (MATU-42).
+- **Bloquea:** dinero real.
+- **Se cierra en:** política §10 («PENDIENTE: CL-75») y §6. Registro, entrada 2, base de licitud.
+- **Respuesta:** —
+
+**Se amplían con MATU-62:** CL-44 (el retiro o el borrado con un pago en curso: si se aprueba, se anula completo el mismo día) y CL-28 (apunta a la CL-64). Las CL-57 a 59 quedan usadas por MATU-42 y 53, que amplía la CL-66. Las CL-61 a 63, la CL-68 y la CL-70 quedan usadas por MATU-54, que amplía la CL-04, CL-30, CL-48 y CL-53. La CL-67 es de MATU-94 (sección 7). La CL-53 y la CL-69 quedan usadas por MATU-55. La CL-60 queda usada por MATU-46, que amplía la CL-29 y la CL-34. Las CL-71 a CL-73 quedan usadas por MATU-63 (sección 8 y sección 3), que amplía la CL-28, la CL-54, la CL-55 y la CL-66. MATU-92 amplía la CL-28. MATU-81 no agrega preguntas y amplía la CL-28, la CL-67 y la CL-72. Las CL-74 y CL-75 quedan usadas por MATU-76, que agrega una nota a la CL-19 y a la CL-55. La próxima libre es la **CL-76**.
 
 ## Condiciones antes de datos reales
 
 Estas no son preguntas legales. Son trabajo del equipo que tiene que estar hecho antes de operar con datos reales o con dinero real.
 
-- **Enviar correo solo a emails verificados.** Hoy cualquiera puede registrar un email ajeno (MATU-41, revisión previa, Trello del 4 de noviembre de 2026, punto 3, y política, sección 13).
+- **Enviar correo solo a emails verificados.** Hoy cualquiera puede registrar un email ajeno (MATU-41, revisión previa, Trello del 4 de noviembre de 2026, punto 3, y política, sección 13). Desde MATU-76 también aplica a los avisos del pedido (H4).
 - **El correo de contacto** de privacidad (política, secciones 2 y 10). **Hecho en MATU-75, 09-11.**
 - **Borrar los datos de la persona cuando lo pide por correo,** sin pasar por su grupo (MATU-72, política, sección 13).
 - **Ver o descargar los datos desde la aplicación,** incluidas las compras anotadas (política, sección 10, y `revision-matu-51.md`). **Hecho en MATU-54, 12-11.**
@@ -792,7 +859,7 @@ Estas no son preguntas legales. Son trabajo del equipo que tiene que estar hecho
 - **Revisar las condiciones de servicio y el acuerdo de tratamiento de datos de Railway,** y el plazo de sus registros HTTP (registro, entrada 9).
 - **El procedimiento escrito ante una filtración** (política, sección 11).
 - **Guardar qué versión de la política aceptó cada usuario** al crear su cuenta (política, sección 12). Es la evidencia mínima mientras se responde CL-22. **Hecho en MATU-75, 09-11.**
-- **La proyección del comercio sin identificadores de la familia,** con una migración nueva antes de construir la vista del comercio (registro, entrada 2).
+- **La proyección del comercio sin identificadores de la familia,** con una migración nueva antes de construir la vista del comercio (registro, entrada 2). **Hecho en MATU-63, 13-11** (0029, D-63-1).
 - **Verificar en integración la anulación parcial de una venta normal** con crédito y con débito, y los plazos de anulación de Transbank, antes del sprint 4 (política, sección 6, y `figura-legal-piloto.md`, sección 5). Es una verificación técnica, no legal.
 - **La evaluación de impacto del art. 15 ter,** sea obligatoria o no (ADR-027, P7).
 - **La persona jurídica y el alta comercial en Transbank** (`figura-legal-piloto.md`, sección 6, puntos 1 y 2), y **la política 1.0 revisada por un abogado** (punto 4).
@@ -806,7 +873,7 @@ Estas preguntas se hicieron en algún momento y ya no van a la consulta.
 - **Si un borrado puede esperar los 90 días de gracia** (MATU-26, Trello del 21 de octubre de 2026, pregunta 12, tercera parte): no espera. El borrado a pedido es inmediato desde MATU-72 (decisión de Jorge del 7 de noviembre de 2026).
 - **Quién consiente por la persona mayor dependiente** (ADR-027, P3): con MATU-07, con la calidad de quien autoriza y la revisión a los 12 meses. Lo que quedó abierto está en CL-01.
 - **Si la referencia opaca es un dato personal para el comercio** (ADR-027, P4, y `revision-previa-adr-027.md`, punto 7, comercios encargados o responsables): MATU trata al comercio como si fuera encargado, y el convenio lleva siempre las cláusulas del art. 15 bis.
-- **El alcance del retracto** (ADR-027, P5, y `revision-previa-adr-027.md`, punto 3): aplica a todo producto sellado y se pierde solo si se abre el sello. MATU devuelve también el envío y paga el retiro. El suplemento y las bolsas siguen en CL-41.
+- **El alcance del retracto** (ADR-027, P5, y `revision-previa-adr-027.md`, punto 3): aplica a todo producto sellado y se pierde solo si se abre el sello. MATU devuelve también el envío y paga el retiro. El suplemento y las bolsas siguen en CL-41. **Cambia con las condiciones 0.3 (MATU-63, D-63-10 b, decisión de Jorge del 13-11):** el envío se devuelve solo si se devuelve todo, y el retiro sigue sin costo. Los pedidos con la 0.2 se respetan como estaban. Lo abierto va en la CL-72.
 - **La falta de entrega y si MATU revende o intermedia** (ADR-027, P6, y `revision-previa-adr-027.md`, punto 1, art. 43 de la Ley 19.496): MATU vende, devuelve el mismo día, responde ante la familia y después repite contra el comercio según el convenio.
 - **La evaluación de impacto** (ADR-027, P7): se hace antes de operar con datos reales, sea obligatoria o no. Está en las condiciones.
 - **El plazo legal de la devolución y el reglamento de comercio electrónico** (`revision-previa-adr-027.md`, puntos 4 y 5): los resolvió el texto de la ley (`investigacion-normativa-adr-027.md`, secciones 1 y 2). No hay un plazo legal específico, y los términos del pedido dicen «anulamos su cobro el mismo día».
@@ -995,3 +1062,49 @@ Cada fila traduce un número antiguo a su número nuevo. «Sin número» es una 
 | MATU-54, decisiones de Jorge | CL-68 (nueva) | CL-68 |
 | MATU-54, revisión de cierre | F1 y F7 | CL-70 |
 | MATU-54, revisión de cierre | Ampliar CL-53 | CL-53 |
+
+### MATU-63 (13 de noviembre de 2026)
+
+| Historia | Número antiguo | Número nuevo |
+|---|---|---|
+| MATU-63, revisión previa | Sección 5, CL-71, 72 y 73 (nuevas) | CL-71, CL-72 y CL-73 |
+| MATU-63, revisión previa | Sección 5, ampliar CL-28 (retractos, código y registro del comercio) | CL-28 |
+| MATU-63, revisión previa | Sección 5, ampliar CL-54 (el plazo del retracto con el comprobante solo en la aplicación) | CL-54 |
+| MATU-63, revisión previa | Sección 5, ampliar CL-55 (un retracto fuera del plazo de anulación de Transbank) | CL-55 |
+| MATU-63, revisión previa | Sección 5, ampliar CL-66 (quién pide el retracto) | CL-66 |
+
+### MATU-92 (17 de noviembre de 2026)
+
+| Historia | Número antiguo | Número nuevo |
+|---|---|---|
+| MATU-92, revisión previa | D-92-2, ampliar CL-28 (desde cuándo se cuentan los 2 años de un pedido pagado) | CL-28 |
+
+### MATU-81 (17 de noviembre de 2026)
+
+| Historia | Número antiguo | Número nuevo |
+|---|---|---|
+| MATU-81, revisión previa | P4 y sección 7, ampliar CL-28 (las incidencias y el registro de operación) | CL-28 |
+| MATU-81, revisión previa | P3, D-81-5 y sección 7, ampliar CL-67 (qué lecturas de operación se registran) | CL-67 |
+| MATU-81, revisión previa | P7, C24 y sección 7, ampliar CL-72 (el motivo del rechazo de un retracto) | CL-72 |
+
+### MATU-76 (18 de noviembre de 2026)
+
+| Historia | Número antiguo | Número nuevo |
+|---|---|---|
+| MATU-76, revisión previa | D-76-3, CL nueva (el correo sobre el dinero que no se apaga) | CL-74 |
+| MATU-76, revisión previa | D-76-4, CL nueva (la devolución a quien salió del grupo) | CL-75 |
+| MATU-76, revisión previa | D-76-1, nota a la CL-19 (el push genérico) | CL-19 |
+| MATU-76, revisión previa | H1, nota a la CL-55 (el «te escribimos» de las condiciones, §7) | CL-55 |
+
+### MATU-116 (18 de noviembre de 2026)
+
+| Historia | Número antiguo | Número nuevo |
+|---|---|---|
+| MATU-116, revisión previa | J2 y J3, nuevo «mientras tanto» de la CL-68 (los pagos de quien salió en «Tus datos») | CL-68 |
+| MATU-116, revisión previa | J1 y J4, nuevo «mientras tanto» de la CL-66 (el retracto de quien pagó en «Se informa» o salió del grupo) | CL-66 |
+
+### MATU-128 (19 de noviembre de 2026)
+
+| Historia | Número antiguo | Número nuevo |
+|---|---|---|
+| MATU-128, revisión previa y cierre | R6 y R5: ampliar CL-24, CL-66 y CL-67 <!-- MATU-128: Aprobado por Jorge el 19-11 (ratificado el 20-11) --> | CL-24, CL-66 y CL-67 |

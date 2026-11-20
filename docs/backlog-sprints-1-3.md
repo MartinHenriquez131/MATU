@@ -34,7 +34,7 @@
 |---|---|---|---|
 | 1 | Una familia se registra, crea su grupo y da de alta a la persona cuidada con su consentimiento, y otra familia no puede ver nada de eso | Guion `httpie` de punta a punta con dos familias (la segunda recibe 404) + `test_aislamiento.py` en verde en el pipeline | 22 |
 | 2 | Una cuidadora completa la ficha de relevo, que queda cifrada, auditada y sin posibilidad de pisar lo que escribió otro | Guion `httpie` + consulta directa a la base que muestra solo texto cifrado + demostración del 412 con dos miembros | 23 |
-| 3 | Una cuidadora comparte la ficha con un relevo, que la abre desde un teléfono real con PIN, y la cuidadora la revoca | Demostración en staging con un teléfono real + prueba e2e `test_recorrido_relevo` en verde | 22 |
+| 3 | Una cuidadora comparte la ficha con un relevo, que la abre desde un teléfono real con PIN, y la cuidadora la revoca | Demostración en staging con un teléfono real + prueba e2e `test_recorrido_relevo` en verde (desde MATU-80 en `backend/tests/e2e/test_recorrido_2_relevo.py`) | 22 |
 
 ---
 
@@ -301,7 +301,7 @@ La meta de tiempo ("menos de 3 minutos") no es un criterio de esta historia: se 
 - `admin` o `cuidador` revoca el acceso
 - La siguiente petición del relevo responde 410, aunque tenga una cookie válida
 
-**Pruebas** (`@pytest.mark.rf("RF-07")`): `test_revocacion_efecto_inmediato`, `test_recorrido_relevo` (e2e: crear ficha, compartir, canjear, leer, revocar, 410)
+**Pruebas** (`@pytest.mark.rf("RF-07")`): `test_revocacion_efecto_inmediato`, `test_recorrido_relevo` (desde MATU-80 en `tests/e2e/test_recorrido_2_relevo.py`; e2e: crear ficha, compartir, canjear, leer, revocar, 410)
 
 ### MATU-23 · Página web del relevo
 

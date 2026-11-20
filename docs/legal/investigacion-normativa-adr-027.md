@@ -5,7 +5,7 @@
 ## Fuentes primarias
 
 - **Ley 19.496:** texto refundido, DFL 3 de 2021, con la Ley 21.398 "Pro Consumidor". https://www.bcn.cl/leychile/navegar?idNorma=1160403
-- **Decreto 52 de 2024**, Ministerio de Economía: reglamento de exclusión del derecho a retracto. https://www.bcn.cl/leychile/navegar?idNorma=1206144
+- **Decreto 52 de 2022**, Ministerio de Economía (publicado el 27-08-2024, vigente desde el 27-02-2025): reglamento de exclusión del derecho a retracto. https://www.bcn.cl/leychile/navegar?idNorma=1206144
 - **Decreto 6 de 2021**, Ministerio de Economía: Reglamento de Comercio Electrónico. https://www.bcn.cl/leychile/navegar?idNorma=1165504
 - **Ley 19.628 en la versión que fija la Ley 21.719**, vigente desde el 1 de diciembre de 2026. https://www.bcn.cl/leychile/navegar?idNorma=141599&idVersion=2026-12-01
 
@@ -23,8 +23,8 @@ De Sernac solo se vieron fragmentos en un buscador. Son fuente secundaria.
 
 **Qué significa para MATU**
 - **El retracto aplica.** Pañales, apósitos, guantes y cremas cerrados tienen retracto, que se pierde solo si se abre el sello.
-- **Junto al precio y en el resumen previo al pago** va el texto: "Derecho a retracto: tienes 10 días desde que lo recibes. No aplica si abres el sello del producto".
-- **En el pedido entregado** aparece "Arrepentirme de la compra" durante 10 días.
+- **Junto al precio y en el resumen previo al pago** va el texto: "Derecho a retracto: tienes 10 días hábiles desde que lo recibes. No aplica si abres el sello del producto".
+- **En el pedido entregado** aparece "Arrepentirme de la compra" durante 10 días hábiles.
 - **Al pagar** se envía la confirmación escrita (art. 12 A).
 - **La devolución por retracto** usa la misma anulación de Webpay.
 - **El Decreto 6 además pide:**

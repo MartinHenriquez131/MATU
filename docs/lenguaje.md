@@ -13,9 +13,16 @@
 **MATU-88 (11-11):** la 5.1 suma la pregunta del relevo, sin «Puedes contar un día bueno o uno difícil.», con el criterio de la 5.3. En los insumos en sobres, el campo y el error del envase dicen «sobres» en vez de «unidades» (H2 del TESTER de MATU-84). La 5.1 es decisión de Jorge del 11-11, y el envase en sobres es del orquestador, por delegación de Jorge del mismo día.
 **MATU-61 (11-11):** entra la sección 31, el pedido, con los textos de la especificación de pantallas v1.1 (sección 15). Con la decisión D10 de Jorge cambian la 21 (la lista nunca compra sola), la 23 («Compré» nunca hace un pedido) y la 27 («Agregar al pedido» en el catálogo). La 17 mantiene «El aviso nunca ofrece comprar.». Aprobados por Jorge el 11-11 (MATU-94, 74-1).
 **MATU-62 (11-11):** entra la sección 32, el pago, con los textos de la especificación de pantallas v1.1 (sección 12). La 31 admite «Este comprobante no es una boleta.» (D-62-7), el aviso de los 2 minutos también para el pagador (D-62-14) y un punto nuevo en «Retirar». Decisiones del orquestador por delegación de Jorge del 11-11. Los textos **[NUEVO]** los aprobó Jorge el 12-11.
-**MATU-55 (12-11):** entra la sección 33, «Dónde entraste» y los avisos de «Tu cuenta», con los textos de la especificación de pantallas v1.1 (`docs/diseno/matu-55-donde-entraste.md`, sección 8). Ajusta la 13.3 («hoy» y «ayer» en «Última vez», y «teléfono», «computador» o «navegador» según cada uno) y la 20 («En tus teléfonos» en vez de «En este teléfono», D5). La ayuda del estado B cambia por decisión del 12-11. Por aprobar por Jorge al fusionar.
-**MATU-42 y MATU-53 (12-11):** entra la sección 34, invitar a un familiar y ver el grupo, con los textos de `textosInvitar.ts` (rama `matu-42-invitar-familiar`, 960e8fe) y de la especificación de pantallas v1.3 (`docs/diseno/matu-53-invitar-grupo.md`, sección 11). Los [ANALISTA] los aprobó Jorge el 12-11 y los **[NUEVO]** el orquestador, por delegación de Jorge del mismo día. Por aprobar por Jorge al fusionar.
-**MATU-54 (12-11):** entra la sección 35, la copia de los datos («Datos de» la persona y «Tus datos»), con los textos de `textosMisDatos.ts` (rama de código de MATU-54) y de la especificación de pantallas v1.3 (`docs/diseno/matu-54-mis-datos.md`, secciones 2 a 5 y 9). Ajusta la 29 («Tu cuenta, cómo pedir»: la copia ya no se pide por correo, está en «Tus datos») y la 33 («Pediste una copia de tus datos» en los últimos ingresos). Por aprobar por Jorge al fusionar.
+**MATU-55 (12-11):** entra la sección 33, «Dónde entraste» y los avisos de «Tu cuenta», con los textos de la especificación de pantallas v1.1 (`docs/diseno/matu-55-donde-entraste.md`, sección 8). Ajusta la 13.3 («hoy» y «ayer» en «Última vez», y «teléfono», «computador» o «navegador» según cada uno) y la 20 («En tus teléfonos» en vez de «En este teléfono», D5). La ayuda del estado B cambia por decisión del 12-11. Aprobado por Jorge el 16-11.
+**MATU-42 y MATU-53 (12-11):** entra la sección 34, invitar a un familiar y ver el grupo, con los textos de `textosInvitar.ts` (rama `matu-42-invitar-familiar`, 960e8fe) y de la especificación de pantallas v1.3 (`docs/diseno/matu-53-invitar-grupo.md`, sección 11). Los [ANALISTA] los aprobó Jorge el 12-11 y los **[NUEVO]** el orquestador, por delegación de Jorge del mismo día. Aprobado por Jorge el 16-11.
+**MATU-54 (12-11):** entra la sección 35, la copia de los datos («Datos de» la persona y «Tus datos»), con los textos de `textosMisDatos.ts` (rama de código de MATU-54) y de la especificación de pantallas v1.3 (`docs/diseno/matu-54-mis-datos.md`, secciones 2 a 5 y 9). Ajusta la 29 («Tu cuenta, cómo pedir»: la copia ya no se pide por correo, está en «Tus datos») y la 33 («Pediste una copia de tus datos» en los últimos ingresos). Aprobado por Jorge el 16-11.
+**MATU-63 (13-11):** entra la sección 36, la consola del comercio, con los textos de la especificación de pantallas v1.1 (`docs/diseno/matu-63-comercio.md`, sección 12) y los de la familia de la revisión previa (`legal/revision-previa-matu-63.md`). Corrige la 31 («Si falta un producto»): en el piloto, después de pagar no se busca en otro comercio, se devuelve el mismo día (D-63-8). Aprobado por Jorge el 16-11.
+**MATU-92 (17-11):** entra la sección 38, «Tus pedidos», con los textos de `textosTusPedidos.ts` (rama de código de MATU-92) y de la especificación de pantallas v1.1 (`docs/diseno/matu-92-tus-pedidos.md`, sección 9). La 27 y la 32 dicen «10 días hábiles» en vez de «10 días» (C24 y D1). La 36 anota que la variante del faltante parcial para quien no pagó está en la 38, sin los últimos 4 dígitos (C25). Aprobado por Jorge el 17-11.
+**MATU-81 (17-11):** la 38 suma los dos motivos por los que no se aceptó una devolución (C24 y decisión 468). Entran la sección 39, lo que la familia lee en la copia de sus datos de lo que hizo el equipo de MATU (D-81-4 y D-81-5, `textosMisDatos.ts`), y la 40, la consola de operación, con los textos de `web/src/operacion/textos.ts` y de la especificación de pantallas v1.0 (`docs/diseno/matu-81-operacion.md`), ambos de la rama de código de MATU-81. Aprobado por Jorge el 17-11.
+**MATU-76 (18-11):** entra la sección 41, los avisos del pedido, con los textos de la especificación de pantallas v1.0 (`docs/diseno/matu-76-avisos-pedido.md` del repositorio MATU_PROYECTO, secciones 2 a 4 y 8) y del correo de la decisión 473 del contrato. Cambia el texto del push en la 13.3, la 20 y la 36: un solo texto genérico para todo lo que MATU avisa (D-76-1). Aprobados por Jorge el 18-11.
+**MATU-114 (18-11):** la 39 suma el hecho que la familia lee cuando el equipo de MATU intentó registrar un retracto con un correo que no es de quien administra el grupo (`operacion.retracto_correo_fallido`, sin el correo), y la 40, en 8.5, el texto de la consola ante el límite de intentos (429). Aprobado por Jorge el 18-11.
+**MATU-116 (18-11):** la 38 suma lo que ve quien pagó y pasó a «Se informa» en los pedidos que pagó (T1 y T2). La 35 usa «Un grupo del que saliste» también en «Tus pagos» (T3) y suma el texto del arrepentimiento de un grupo del que saliste, sin productos (T4). La 34 reemplaza lo que se pide por correo al salir del grupo, porque los pagos siguen en «Tus datos» (T5), y suma el aviso al pasar a «Se informa» (T6). Con la especificación de diseño de MATU-116 (`docs/diseno/matu-116-pagos-propios.md` del repositorio MATU_PROYECTO, sección 4.3), la 35 suma el bloque «Lo que pediste devolver» de «Tus datos» (N2 a N6, con T4), y T3 pasa a minúscula dentro de la frase del monto (N1). La 38 precisa que quien «Se informa» ve «Entrega: {ventana}» en lo que pagó, que es solo la franja horaria. Dicen lo mismo que la política 0.25, §6 y §10. Aprobado por Jorge el 18-11.
+**MATU-115 (18-11):** la 31 cambia «Si falta: lo buscamos en otro comercio.» por «Si falta antes de pagar: lo buscamos en otro comercio.», en la fila del pagador y el resumen y en la de «Se informa». Buscarlo en otro comercio vale solo antes de pagar. Es la decisión 1 de Jorge del 17-11, aprobada. «Si falta: buscarlo en otro comercio» de «Datos de» (35) no cambia, porque nombra la opción elegida. Con la especificación de diseño de MATU-115 (`docs/diseno/matu-115-retractos-y-si-falta.md` del repositorio MATU_PROYECTO, sección 1.11), la 35 suma en «Sus pedidos» la subsección «Lo que se pidió devolver» (R1, R2, R4 y R5) y dos frases de la devolución en dinero: por arrepentimiento (R6) y con un motivo que la app no conoce (R7). Antes, una devolución por arrepentimiento decía «porque se canceló el pedido», que es falso. R3 («Lo pidió {nombre}…») no entra: la copia no suma quién lo pidió (decisión P2, minimización). R1 a R7 los propuso el orquestador con el mandato de Jorge del 18-11, y Jorge los aprobó el 18-11.
 **Fuentes:** resultados de las entrevistas (`docs/resultados-entrevistas.md`), arquitectura sección 10, política de privacidad v0.9, la demo aprobada (`Demo/src/`, rama `demo-web-viernes-30`) y el contrato de MATU-09 (`docs/api/`, rama `matu-09-contrato-api`).
 
 ---
@@ -521,7 +528,7 @@ Si no se elige quién da el permiso, el error dice: «Elige quién da el permiso
 | El dispositivo actual | Este teléfono |
 | Último uso | Última vez: {fecha} a las {hora} |
 | Botón | Cerrar en ese teléfono |
-| Aviso push (MATU-41) | MATU: un insumo se está acabando. Abre la app para ver cuál |
+| Aviso push (MATU-41) | MATU · Tienes una novedad. Abre la app para verla. (cambio de MATU-76, decisión D-76-1 de Jorge del 18-11: el mismo texto para todo lo que MATU avisa. Antes: «MATU: un insumo se está acabando. Abre la app para ver cuál») |
 
 ---
 
@@ -547,7 +554,8 @@ La pregunta guía y el ejemplo no se muestran en la página del relevo.
 | Dónde | Texto |
 |---|---|
 | Bajo cada sección | No hace falta escribir diagnósticos ni enfermedades. Escribe lo que ayuda a cuidar. |
-| Comer y beber, y Sus remedios | Si tiene alergia a algún remedio o alimento, anótalo aquí. |
+| Comer y beber (MATU-95, aprobado por Jorge el 17-11) | ¿Hay algo que no puede comer o tomar? Anótalo aquí. |
+| Sus remedios (MATU-95, aprobado por Jorge el 17-11) | ¿Hay algún remedio que no le pueden dar? Anótalo aquí. |
 | Sus remedios, siempre visible (también al relevo) | Esto lo escribe la familia. No reemplaza la indicación del médico. |
 | Contador | {n} de 500 caracteres · {n} de 800 caracteres |
 | Compartir, casilla (siempre sin marcar) | Incluir Sus remedios |
@@ -685,7 +693,7 @@ El correo y el push nunca dicen qué insumo ni de quién, no ofrecen comprar y s
 | Correo, cuerpo | Un insumo se está acabando. Abre la app para ver cuál. |
 | Correo, botón o enlace (sin identificadores) | Abrir MATU |
 | Correo, pie | Te llega este correo porque eres parte de un grupo de cuidado en MATU. Para dejar de recibir estos avisos por correo, entra a MATU y desactívalos en Tu cuenta. |
-| Push, título y cuerpo | MATU · Un insumo se está acabando. Abre la app para ver cuál. |
+| Push, título y cuerpo | MATU · Tienes una novedad. Abre la app para verla. (cambio de MATU-76, decisión D-76-1 de Jorge del 18-11: el mismo texto para los insumos, los pedidos y lo que MATU avise después. Antes: «MATU · Un insumo se está acabando. Abre la app para ver cuál.». El correo del insumo no cambia) |
 | Preferencias en «Tu cuenta» (pantalla en MATU-55) | Avisos cuando un insumo se está acabando · Por correo · En este teléfono. Desde MATU-55, «En tus teléfonos» (sección 33) |
 
 ---
@@ -736,9 +744,9 @@ En la app se dice «lista de insumos», nunca «lista de reposición» ni «quie
 | Sin autorización o revisión vencida | Los textos de «Permiso» de la sección 18 |
 | Pie del texto compartido y de la impresión | Piloto académico con datos de prueba |
 | Al imprimir cualquier otra pantalla de la app | Esta pantalla no se imprime. |
-| Campo nuevo en el formulario del insumo (opcional) | ¿Cuántas unidades trae cada envase? (En los insumos en sobres: «¿Cuántos sobres trae cada envase?», MATU-88) · Ayuda: Si lo anotas, la lista sugiere envases enteros. Puedes dejarlo en blanco. |
+| Campo nuevo en el formulario del insumo (opcional) | ¿Cuántas unidades trae cada envase? (En los insumos en sobres: «¿Cuántos sobres trae cada envase?», MATU-88. En ml: «¿Cuántos ml trae cada envase?». En g: «¿Cuántos gramos trae cada envase?», MATU-110, aprobados por Jorge el 17-11. En ml y g no se muestra «Contar en envases») · Ayuda: Si lo anotas, la lista sugiere envases enteros. Puedes dejarlo en blanco. |
 | Campo del envase, fuera de rango | Escribe un número de 1 a 10.000, o déjalo en blanco. |
-| Campo del envase, en el conflicto (412) | Cada envase trae {u} {unidades / sobres / ml / g} (con 1: «1 unidad», «1 sobre»). · Sin unidades por envase. |
+| Campo del envase, en el conflicto (412) | Cada envase trae {u} {unidades / sobres / ml / g} (con 1: «1 unidad», «1 sobre»). · Sin unidades por envase. · Sin sobres por envase. · Sin ml por envase. · Sin gramos por envase. (MATU-110, aprobados por Jorge el 17-11) |
 
 Formato exacto del texto compartido (sin enlace, sin los días y sin el nombre de la persona ni del grupo):
 
@@ -956,8 +964,8 @@ Es la tercera pestaña de Insumos, para todos los roles del grupo. «Agregar al 
 | Ningún comercio lo tiene | Por ahora no está disponible |
 | Nota de lo que hay | Lo que hay se confirma antes de pagar. |
 | Envío | El envío se suma al pedido, una sola vez por pedido. |
-| Retracto, si se pierde al abrir el sello (letra no menor que el precio) | Derecho a retracto: tienes 10 días desde que lo recibes. No aplica si abres el sello del producto. |
-| Retracto, el resto (letra no menor que el precio) | Derecho a retracto: tienes 10 días desde que lo recibes. |
+| Retracto, si se pierde al abrir el sello (letra no menor que el precio) | Derecho a retracto: tienes 10 días hábiles desde que lo recibes. No aplica si abres el sello del producto. |
+| Retracto, el resto (letra no menor que el precio) | Derecho a retracto: tienes 10 días hábiles desde que lo recibes. |
 | Catálogo vacío | Todavía no hay productos en el catálogo. |
 | Error al cargar | No pudimos traer el catálogo. Revisa tu conexión e inténtalo de nuevo. |
 | El catálogo está apagado (capa 3 sin activar, la API responde 404) | El catálogo no está disponible por ahora. |
@@ -1048,7 +1056,7 @@ Se usan tal cual: la pregunta «¿Cuántos quedan hoy, más o menos?» (sección
 
 Los textos salen de la especificación de pantallas de MATU-61, v1.1 del 11-11 (`docs/diseno/matu-61-pedido.md`, sección 15), que marca el origen de cada uno: los propuestos por el analista normativo (`legal/revision-previa-matu-61.md`, sección 4), los que fijó Jorge en sus decisiones D8 a D10 y los nuevos del diseñador. Las llaves son datos de la API: `{producto}` es el nombre del producto, `{comercio}` el nombre de fantasía del comercio, `{pila}` el nombre de pila de la persona cuidada, `{precio}` en pesos enteros con punto de miles (`$12.990`) y `{HH:MM}` en 24 horas, hora de Chile.
 
-**Regla de la sección.** En la app se dice «tu pedido», nunca «carro» ni «carrito». Se dice «lo que hay» y «que haya», nunca «stock». La cantidad es en envases del catálogo. **Todos los precios llevan el IVA incluido:** el total se llama «Total», nunca «Total con IVA», y ningún texto presenta el IVA como algo que se suma o que aparece después. «IVA» solo va en «Precio de ejemplo · IVA incluido» (sección 27). «Pedir» lo hace solo quien tiene la autorización de pedidos. La lista nunca compra sola, el aviso nunca ofrece comprar y «Compré» nunca hace un pedido (D10).
+**Regla de la sección.** En la app se dice «tu pedido», nunca «carro» ni «carrito». Se dice «lo que hay» y «que haya», nunca «stock». La cantidad es en envases del catálogo. **Todos los precios llevan el IVA incluido:** el total se llama «Total», nunca «Total con IVA», y ningún texto presenta el IVA como algo que se suma o que aparece después. «IVA» solo va en «Precio de ejemplo · IVA incluido» (sección 27). «Pedir» lo hace solo quien tiene la autorización de pedidos. La lista nunca compra sola, el aviso nunca ofrece comprar y «Compré» nunca hace un pedido (D10). Quien tiene el rol `observador` se nombra «Se informa». «Observador» es el nombre interno y nunca va en la interfaz. Quien «Se informa» no ve ningún monto del pedido (MATU-113).
 
 | Dónde | Texto |
 |---|---|
@@ -1081,17 +1089,25 @@ Los textos salen de la especificación de pantallas de MATU-61, v1.1 del 11-11 (
 | Cantidad fuera de rango | Escribe una cantidad de 1 a 99. |
 | Cantidad, error al guardar | No pudimos guardar la cantidad. Revisa tu conexión y vuelve a intentarlo. |
 | Subtotal | Subtotal: {precio} |
-| Si falta | Si falta este producto · Buscarlo en otro comercio · El mismo producto. Pagas lo mismo. · Sacarlo del pedido y devolverme su precio · Nunca lo cambiamos por otra marca ni por otro producto. (una vez, sobre las líneas) |
+| Si falta | Si falta este producto · Buscarlo en otro comercio · El mismo producto. Si cambia el precio, lo ves antes de pagar. · Sacarlo del pedido y devolverme su precio · Nunca lo cambiamos por otra marca ni por otro producto. (una vez, sobre las líneas) |
 | Si falta, error | No pudimos guardar qué hacer si falta. Revisa tu conexión y vuelve a intentarlo. |
-| Si falta, pagador y resumen | Si falta: lo buscamos en otro comercio. · Si falta: lo sacamos y te devolvemos su precio. |
+| Si falta, pagador y resumen | Si falta antes de pagar: lo buscamos en otro comercio. · Si falta: lo sacamos y te devolvemos su precio. · **Aprobado por Jorge el 17-11 (MATU-115):** la primera reemplaza «Si falta: lo buscamos en otro comercio.», porque buscarlo en otro comercio vale solo antes de pagar (condiciones 0.3, §5). La segunda no cambia |
 | Sacar | Sacar del pedido · Para el lector: Sacar del pedido: {producto} · Sacamos «{producto}» del pedido. · No pudimos sacarlo. Revisa tu conexión y vuelve a intentarlo. |
 | Entrega | Entrega · Dirección · Todavía no hay una dirección de entrega. · Agregar la dirección · Cambiar dirección · Teléfono de contacto · (tu celular) · Cambiar teléfono · Llega entre 24 y 48 horas hábiles. |
 | Teléfono | Para que quien entrega pueda avisarte. Si es el de otra persona, avísale. · Guardar el teléfono · Guardamos el teléfono. · Escribe un celular de Chile, por ejemplo +56 9 5555 0137. |
 | Pie | Productos: {precio} · El envío y el total los ves al confirmar que haya cada producto. · Ver el total · Confirmando… · Estamos confirmando que haya cada producto… |
 | Sin dirección | Agrega la dirección de entrega para ver el total. |
 | Total ya confirmado | Ya confirmaste el total. Para cambiar algo, toca «Cambiar el pedido». |
-| Vacío | Tu pedido está vacío. Agrega productos desde el catálogo o desde tu lista de insumos. · Ir al catálogo · Ir a la lista de insumos · Pagador y observador: Todavía no hay un pedido para {pila}. |
-| Pagador y observador | Quien administra el grupo o quien cuida a {pila} puede cambiar el pedido y ver el total. · Ver el resumen (solo el pagador) · Pasaron 15 minutos y el total venció. Pídele a quien armó el pedido que lo vuelva a confirmar. |
+| Vacío | Tu pedido está vacío. Agrega productos desde el catálogo o desde tu lista de insumos. · Ir al catálogo · Ir a la lista de insumos · Pagador y «Se informa»: Todavía no hay un pedido para {pila}. |
+| Pagador | Quien administra el grupo o quien cuida a {pila} puede cambiar el pedido y ver el total. · Ver el resumen (solo el pagador) · Pasaron 15 minutos y el total venció. Pídele a quien armó el pedido que lo vuelva a confirmar. |
+| **Se informa (MATU-113) · Aprobados por Jorge el 17-11** | |
+| Bajada | Lo que se va a pedir para {pila}. |
+| Estado del pedido en curso | Sin confirmar · Falta pagarlo · Hay que confirmarlo de nuevo |
+| Línea | {producto} · {presentación}, si es distinta del nombre · De {comercio} (comercio ficticio) · {cantidad} con el sufijo de la sección 21 · Nunca lo cambiamos por otra marca ni por otro producto. (una vez, sobre las líneas) |
+| Si falta | Si falta antes de pagar: lo buscamos en otro comercio. · Si falta: lo sacamos del pedido. · **Aprobado por Jorge el 17-11 (MATU-115):** la primera reemplaza «Si falta: lo buscamos en otro comercio.». La segunda no cambia |
+| Pie | Los precios y el total los ven quien administra el grupo, quien cuida a {pila} y quien paga. |
+| Vacío | Bajo la bajada «Lo que se va a pedir para {pila}.»: Todavía no hay un pedido para {pila}. |
+| No lleva | El precio, «cada uno», «Precio de ejemplo · IVA incluido», «Subtotal:», «Productos:», el envío, el total, «Derecho a retracto», el aviso del piloto, «…puede cambiar el pedido y ver el total.» ni «…y te devolvemos su precio.» |
 | **Dirección** | |
 | Título y ayuda | ¿Dónde lo entregamos? · La usamos solo para entregar tus pedidos. Ningún comercio la ve. · La guardamos para los próximos pedidos de {pila}. |
 | Campos | Calle · Número · Depto (opcional) · Comuna · Referencia (opcional) · Por ejemplo: portón verde. No escribas datos de salud. |
@@ -1110,7 +1126,7 @@ Los textos salen de la especificación de pantallas de MATU-61, v1.1 del 11-11 (
 | Plazo | Quedan 2 minutos para pagar este total. (también el pagador, sin «Volver a confirmar», D-62-14) · Volver a confirmar · Confirmamos de nuevo. Este total vale hasta las {HH:MM}. · Revisa lo que cambió antes de pagar. |
 | Vencido | Venció · Este total venció a las {HH:MM}. · Pasaron 15 minutos y el total venció. Vuelve a confirmar para ver lo que hay y su precio. · Volver a confirmar |
 | Entrega | Entrega: {ventana} · Teléfono de contacto: {telefono} |
-| Si falta | Si falta un producto · Si al retirar falta un producto, lo buscamos en otro comercio y pagas lo mismo. Si nadie lo tiene, o elegiste sacarlo, anulamos su cobro el mismo día, a la misma tarjeta. Cuándo lo ves en tu cuenta depende de tu banco. |
+| Si falta | Si falta un producto · Durante el piloto, si falta un producto después de pagar, anulamos su cobro el mismo día, a la misma tarjeta. Cuándo lo ves en tu cuenta depende de tu banco. (MATU-63, D-63-8: sale la promesa de buscarlo en otro comercio al retirar) |
 | Vendedor y reclamos | Quién vende · Vende: MATU, piloto académico, sin persona jurídica. En este piloto no se emite boleta. · Reclamos: escríbenos a {correo}. |
 | Condiciones | Condiciones del pedido (se abre en otra pestaña) · Leí y acepto las condiciones del pedido. · Marca que leíste y aceptas las condiciones para pagar. |
 | Pagar (MATU-62) | Pagar {total} · Pagando… |
@@ -1121,7 +1137,9 @@ Los textos salen de la especificación de pantallas de MATU-61, v1.1 del 11-11 (
 | Ver la dirección (propuesta O12 del diseñador) | Ver la dirección de entrega · Para el lector: Ver la dirección de entrega de {pila} |
 | Retirar | ¿Retirar la autorización de los pedidos de {pila}? · Ya no se pueden hacer pedidos para {pila} desde MATU, desde ahora. · Cancelamos sin costo los pedidos sin pagar y borramos la dirección y el teléfono que se copiaron en ellos. · Si hay un pago en curso y se aprueba, lo anulamos completo el mismo día. (MATU-62) · Los pedidos ya pagados siguen hasta que se entreguen. · La dirección de entrega de {pila} queda guardada para cuando vuelvas a autorizar. Puedes vaciarla cuando quieras. · La lista de insumos se puede seguir imprimiendo y compartiendo. · Su ficha, sus insumos y los enlaces de relevo no cambian. · Autorización retirada. Ya no se pueden hacer pedidos para {pila}. |
 | Volver a autorizar, hecho | Pedidos autorizados. Ya puedes hacer pedidos para {pila}. |
-| Aviso del piloto | El de la sección 11, una vez por pantalla con precios: tu pedido y antes de pagar |
+| Aviso del piloto | El de la sección 11, una vez por pantalla con precios: tu pedido y antes de pagar. No va en la vista de «Se informa», que no tiene precios. |
+
+**Decidido por Jorge el 16-11 (MATU-63, cierre del analista, H12):** la opción «Buscarlo en otro comercio» ya no dice «Pagas lo mismo», porque si el producto pasa a otro comercio y cambia de precio, la familia lo ve antes de pagar (condiciones del pedido, §5). Ahora dice «El mismo producto. Si cambia el precio, lo ves antes de pagar.». La pantalla se cambia en MATU-112.
 
 `{correo}` es el canal de reclamo de las condiciones del pedido, cuidaconmatu@gmail.com (D8). `{ventana}` es la ventana fija del piloto, «Entre 24 y 48 horas hábiles» (D8). «Pagar {total}» es de MATU-62: aquí solo se fija el texto.
 
@@ -1161,7 +1179,7 @@ Los textos salen de la especificación de pantallas de MATU-62, v1.1 del 11-11 (
 | Comprobante | Comprobante · Pedido {referencia} · {DD/MM/AAAA} a las {HH:MM} · {cantidad} × {precio} · Envío (uno por pedido) · Total pagado · Pagado · Tarjeta de débito terminada en {ultimos4} · Tarjeta de crédito terminada en {ultimos4} · Tarjeta de crédito terminada en {ultimos4}, en {n} cuotas · Tarjeta de prepago terminada en {ultimos4} · Código de autorización {codigo} · Lo pagó otra persona de tu grupo. | **[NUEVO]** · [A5.4] · **[AJUSTE]** la tarjeta |
 | Sello del piloto | Pago de prueba. No se cobró dinero real. Este comprobante no es una boleta. | [D-62-7] |
 | Datos del pedido | Datos del pedido · Vende: MATU, piloto académico, sin persona jurídica. · Entrega: {ventana} · Condiciones aceptadas: versión {v}, el {DD/MM/AAAA} · Condiciones del pedido, versión {v} (se abre en otra pestaña) | **[NUEVO]** · [A5.4] |
-| Garantías | Lo que te garantizamos · Derecho a retracto: tienes 10 días desde que lo recibes. · Si un producto no llega, te devolvemos su precio el mismo día, a la misma tarjeta. Cuándo lo ves en tu cuenta depende de tu banco. · Quien administra el grupo puede cancelar sin costo mientras el comercio no empiece a preparar. · ¿Algo no está bien? Escríbenos a {correo}. | **[NUEVO]** el título · [A5.4] |
+| Garantías | Lo que te garantizamos · Derecho a retracto: tienes 10 días hábiles desde que lo recibes. · Si un producto no llega, te devolvemos su precio el mismo día, a la misma tarjeta. Cuándo lo ves en tu cuenta depende de tu banco. · Quien administra el grupo puede cancelar sin costo mientras el comercio no empiece a preparar. · ¿Algo no está bien? Escríbenos a {correo}. | **[NUEVO]** el título · [A5.4] |
 | Correo | Te enviamos este comprobante a {correo}. (solo cuando el correo se envíe, después de MATU-91) · En el piloto, el comprobante no se envía por correo. Imprímelo o guárdalo en PDF si lo necesitas. | [A5.4] · **[AJUSTE]** |
 | Acciones | Imprimir o guardar en PDF · Ir a tu pedido | [L 21] · [L 31] |
 | Pago tardío respetado | Tu pago llegó después de que venció el total, y lo respetamos: pagaste {total}, el precio que aceptaste. | [A5.4] |
@@ -1170,14 +1188,14 @@ Los textos salen de la especificación de pantallas de MATU-62, v1.1 del 11-11 (
 | Anulación en curso | Estamos anulando tu pago · El pedido cambió o se canceló mientras pagabas. Estamos devolviendo {total} a tu tarjeta terminada en {ultimos4}. Si no se completa hoy, te escribimos. MATU nunca te pide los datos de tu banco por mensaje. | **[NUEVO]** |
 | Devolución hecha | Devolvimos {monto} a tu tarjeta terminada en {ultimos4}, por {producto}. Cuándo lo ves en tu cuenta depende de tu banco. · Quien no pagó: Devolvimos {monto} a la tarjeta con que se pagó, por {producto}. Cuándo se ve en la cuenta depende del banco. | [A5.4] · **[AJUSTE]** |
 | Devolución en curso | Estamos devolviendo {monto} a tu tarjeta. Si no se completa hoy, te escribimos. MATU nunca te pide los datos de tu banco por mensaje. · Quien no pagó: Estamos devolviendo {monto} a la tarjeta con que se pagó. Si no se completa hoy, le escribimos a quien pagó. MATU nunca pide los datos de un banco por mensaje. | [A5.4] · **[AJUSTE]** |
-| Renglones | Devolvimos: {producto} · Pagaste en total · por tu pedido completo | **[NUEVO]** |
+| Renglones | Devolvimos: {producto} · Pagaste en total · por tu pedido completo (solo si se canceló el pedido) · Devolvimos: el envío · por el envío (MATU-92, P1-3: la devolución del envío no dice «tu pedido completo») | **[NUEVO]** |
 | **Pedido pagado** | Pedido pagado · Pagado · Pedido {referencia} · {DD/MM/AAAA} a las {HH:MM} · Total pagado: {total} · Ver el comprobante | **[NUEVO]** · [A5.4] |
 
 **Ninguno usa** los términos de la sección 3, «rechazado», «fallido», «inválido», «token», «stock», «reserva», «monto real», «estimado» ni «con IVA». «Boleta» aparece solo en «Este comprobante no es una boleta.», que la niega.
 
 ---
 
-## 33. Dónde entraste y avisos (MATU-55) · Por aprobar por Jorge al fusionar
+## 33. Dónde entraste y avisos (MATU-55) · Aprobados por Jorge el 16-11
 
 Los textos salen de la especificación de pantallas de MATU-55, v1.1 del 12-11 (`docs/diseno/matu-55-donde-entraste.md`, secciones 2, 3 y 8), que marca el origen de cada uno: [L 13.3] y las demás, los que ya están en esa sección, [A] los que propuso el analista normativo en la revisión previa (`legal/revision-previa-matu-55.md`, sección 5), **[NUEVO]** o **[AJUSTE]** los del diseñador y [CIERRE] los que el analista revisó en el cierre del 12-11. `{nombre}` es el nombre del teléfono o computador tal como llega («Chrome en Android»), `{correo}` es el correo de contacto de la política y `{fecha}` es «hoy», «ayer» o `DD/MM/AAAA`.
 
@@ -1206,7 +1224,7 @@ Los textos salen de la especificación de pantallas de MATU-55, v1.1 del 12-11 (
 | Código pedido | Se pidió un código para recuperar tu cuenta · Si no lo pediste tú, no compartas el código con nadie. | [A] · **[NUEVO]** [CIERRE] |
 | Avisos en un teléfono | Activaste los avisos en {nombre} · Desactivaste los avisos en {nombre} | [A] |
 | Preferencia de avisos | Cambiaste tus avisos | [A] |
-| Copia de tus datos | Pediste una copia de tus datos | **[NUEVO]** MATU-54 (especificación, 5.5). La cola dice solo «a las {HH:MM}». Por aprobar por Jorge al fusionar |
+| Copia de tus datos | Pediste una copia de tus datos | **[NUEVO]** MATU-54 (especificación, 5.5). La cola dice solo «a las {HH:MM}». Aprobado por Jorge el 16-11 |
 | **Al pie de la lista** | | |
 | No reconoces un ingreso | ¿No reconoces un ingreso? Cierra MATU en ese teléfono. Para cambiar tu contraseña, sal de MATU y toca «¿Olvidaste tu contraseña?» al entrar. | **[AJUSTE]** del texto del analista (E5) |
 | Lo que no se muestra | Si necesitas los ingresos anteriores a 90 días, escribe a {correo} desde el correo de tu cuenta. · Mostramos los 20 más recientes. Para ver los demás, o los anteriores a 90 días, escribe a {correo} desde el correo de tu cuenta. · Sin correo: Mostramos los 20 más recientes. | **[NUEVO]** |
@@ -1242,6 +1260,7 @@ Los textos salen de la especificación de pantallas de MATU-55, v1.1 del 12-11 (
 | C. El navegador no deja | Tu navegador no deja que MATU te avise. Puedes cambiarlo en los ajustes del navegador. | [A] |
 | D. Sin soporte | Este navegador no puede recibir avisos. Puedes recibirlos por correo. | [A] · **[NUEVO]** la segunda frase |
 | E. iPhone sin instalar | En iPhone, primero agrega MATU a tu pantalla de inicio. · 1. Toca Compartir {ícono} en Safari. · 2. Elige «Agregar a inicio». · 3. Abre MATU desde su ícono y vuelve a Tu cuenta. | **[NUEVO]** |
+| G. Piloto, cuenta fuera del equipo (`permitido: false`, MATU-107) | En el piloto, los avisos en el teléfono solo se prueban en los teléfonos del equipo de MATU. | **[ANALISTA]** C14 · sin botón «Activar» |
 | F. MATU todavía no puede | Por ahora no se pueden activar los avisos en este teléfono. Puedes recibirlos por correo. | **[NUEVO]** |
 | Activar | Activando… · Activaste los avisos en este teléfono. · No activamos los avisos. Puedes volver a intentarlo. · No pudimos activar los avisos. Revisa tu conexión y vuelve a intentarlo. | **[NUEVO]** |
 | Desactivar | Desactivando… · Desactivaste los avisos en este teléfono. · No pudimos desactivar los avisos. Revisa tu conexión y vuelve a intentarlo. | **[NUEVO]** |
@@ -1250,7 +1269,7 @@ Los textos salen de la especificación de pantallas de MATU-55, v1.1 del 12-11 (
 
 **Ninguno usa** los términos de la sección 3, «dispositivo», «sesión», «evento», «registro», «auditoría», «token», «inválido», «rechazado» ni «fallido».
 
-## 34. Invitar a un familiar y ver el grupo (MATU-42 y MATU-53) · Por aprobar por Jorge al fusionar
+## 34. Invitar a un familiar y ver el grupo (MATU-42 y MATU-53) · Aprobados por Jorge el 16-11
 
 Los textos salen de `web/src/familia/textosInvitar.ts` (rama `matu-42-invitar-familiar`, 960e8fe) y de la especificación de pantallas de MATU-53, v1.3 del 12-11 (`docs/diseno/matu-53-invitar-grupo.md`, secciones 0.6, 6.6 y 11). Cada uno marca su origen: [ANALISTA] los de la revisión previa del analista normativo (`legal/revision-previa-matu-42-53.md`, sección 5), aprobados por Jorge el 12-11, **[NUEVO]** los del diseñador, aprobados por el orquestador el 12-11 por delegación de Jorge, **[NUEVO v1.2]** los seis vacíos de la v1.1, **[NUEVO v1.3]** los del cierre del analista (O4 y el correo al salir) y [L n] los que ya están en la sección n. `{grupo}` es el nombre del grupo, `{nombre}` el de una persona del grupo, `{nombre_pila_invita}` el nombre de pila de quien invita, `{nombres_pila}` los nombres con que llaman a las personas cuidadas, unidos con «y» («María», «María y Pedro», «María, Pedro y Elena»), `{rol}` el rol en palabra, `{correo}` el correo de contacto de la política y `{url}` el enlace de la invitación.
 
@@ -1361,6 +1380,7 @@ Los textos salen de `web/src/familia/textosInvitar.ts` (rama `matu-42-invitar-fa
 | Otra persona deja de administrar | `{nombre}` dejará de administrar el grupo. | **[NUEVO v1.3]** |
 | Tú dejas de administrar | Dejarás de administrar el grupo. Para volver a hacerlo, otra persona que administra tendrá que dártelo. | **[NUEVO]** |
 | Tú dejas de administrar y pasas a «Paga» o «Se informa» | También dejarás de ver la ficha. (va después de «…tendrá que dártelo.») | **[NUEVO v1.3]** |
+| Pasas a «Se informa» y pagaste un pedido (T6) | Los pedidos que pagaste los seguirás viendo, con lo que pagaste. | **[NUEVO]** Aprobado por Jorge el 18-11 (MATU-116) |
 | Botones | Guardar el cambio · No cambiar · Guardando el cambio… | [ANALISTA] · **[NUEVO]** |
 | Hecho | Ahora `{nombre}` `{rol en minúscula}`. · Cortamos 1 enlace. · Cortamos `{n}` enlaces. | [ANALISTA] · **[NUEVO]** |
 | Hecho, el rol propio | Ahora cuidas. · Ahora pagas. · Ahora te informas. | **[NUEVO v1.2]** |
@@ -1390,7 +1410,7 @@ Los textos salen de `web/src/familia/textosInvitar.ts` (rama `matu-42-invitar-fa
 | Pregunta | ¿Salir de `{grupo}`? · Dejarás de verlo ahora. · Se cortan los enlaces de relevo que compartiste. · Hoy abren `{n}`. | [ANALISTA] · [L 22] |
 | La ficha | Lo que escribiste en la ficha queda, porque es parte del cuidado de `{nombres_pila}`. (sin persona registrada no aparece) | **[NUEVO]** |
 | Para volver | Para volver, alguien que administra el grupo tiene que invitarte de nuevo. | **[NUEVO]** |
-| Lo que se pide por correo, con la capa 3 | Si después necesitas lo que hiciste en el grupo o los comprobantes de tus pagos, pídelos a `{correo}`. | **[NUEVO v1.3]** |
+| Lo que se pide por correo, con la capa 3 (T5, en la sección y en la pregunta) | Tus pagos los seguirás viendo en «Tus datos». Si después necesitas lo que hiciste en el grupo o el detalle de un pedido, pídelo a `{correo}`. | **[NUEVO]** Aprobado por Jorge el 18-11 (MATU-116), reemplaza el de la v1.3 |
 | Lo que se pide por correo, sin la capa 3 | Si después necesitas lo que hiciste en el grupo, pídelo a `{correo}`. | **[NUEVO v1.3]** |
 | Botones | Salir del grupo · Quedarme · Saliendo del grupo… | [ANALISTA] · **[NUEVO]** |
 | Hecho | Saliste de `{grupo}`. · Cortamos `{n}` enlaces. | **[NUEVO]** |
@@ -1406,7 +1426,7 @@ Los textos salen de `web/src/familia/textosInvitar.ts` (rama `matu-42-invitar-fa
 
 **Ninguno usa** los términos de la sección 3, «token», «usuario», «observador», «revocar», «rechazar», «invitado», «invitada», «inválido» ni «fallido».
 
-## 35. Copia de los datos (MATU-54) · Por aprobar por Jorge al fusionar
+## 35. Copia de los datos (MATU-54) · Aprobados por Jorge el 16-11
 
 Los textos salen de `web/src/familia/textosMisDatos.ts` (rama de código de MATU-54) y de la especificación de pantallas de MATU-54, v1.3 del 12-11 (`docs/diseno/matu-54-mis-datos.md`, secciones 2 a 5 y 9). Cada uno marca su origen: [ANALISTA] los de la revisión previa del analista normativo (`legal/revision-previa-matu-54.md`, sección 7), **[ANALISTA, ajustado]** los que cambió la especificación (sección 9, ajustes 1 a 8), [README] los de las decisiones del contrato (`docs/api/README.md`, Q15), **[NUEVO]** los del diseñador, y [L n] los que ya están en la sección n. `{nombre_pila}` es el nombre con que llaman a la persona cuidada, `{nombre}` el de una persona del grupo, `{correo}` el correo de contacto de la política, `{grupo}` el nombre del grupo, `{referencia}` el número del pedido o del comprobante, `{fecha}` es `DD/MM/AAAA` y `{hora}` es `HH:MM`.
 
@@ -1426,6 +1446,7 @@ Los textos salen de `web/src/familia/textosMisDatos.ts` (rama de código de MATU
 | **«Datos de {nombre_pila}»** | | |
 | Volver | Volver a Grupo familiar | [L 22] |
 | Bajada | Lo que MATU guarda hoy de {nombre_pila}, al {fecha} a las {hora}. | **[NUEVO]** |
+| Límite (MATU-107, 54-H3) | Cada vez que abres esta pantalla cuenta como una copia de los datos. Puedes abrirla hasta 10 veces por hora. | **[ANALISTA]** |
 | Los bloques | Sus datos · Autorizaciones · Su ficha · Enlaces de relevo · Sus insumos · Compras anotadas (últimos 90 días) · Avisos de insumos · Sus pedidos · Quién abrió o editó la ficha | [ANALISTA] |
 | **Descargar** | | |
 | Ayuda | Es un archivo (JSON) que otro programa puede leer, para llevar estos datos a otro lugar. | [ANALISTA] |
@@ -1444,8 +1465,8 @@ Los textos salen de `web/src/familia/textosMisDatos.ts` (rama de código de MATU
 | Cargando | Cargando… · Volver a intentar | [L 26] |
 | Sin red o 500 | No pudimos traer los datos. Revisa tu conexión y vuelve a intentarlo. | [ANALISTA] |
 | 503 | No pudimos traer los datos en este momento. Vuelve a intentarlo en unos minutos. | **[NUEVO]** |
-| 429, con la hora | Ya pediste los datos varias veces. Vuelve a intentarlo a las {hora}. | **[ANALISTA, ajustado]** con `Retry-After` |
-| 429, sin la hora | Ya pediste los datos varias veces. Vuelve a intentarlo en una hora. | [ANALISTA] |
+| 429, con la hora | Abriste o descargaste los datos varias veces en la última hora. Vuelve a intentarlo a las {hora}. | **[ANALISTA, ajustado]** con `Retry-After` |
+| 429, sin la hora | Abriste o descargaste los datos varias veces en la última hora. Vuelve a intentarlo en una hora. | [ANALISTA] |
 | 404 | El 404 general y «Volver a Grupo familiar» | [L 8] · [L 22] |
 | **Los historiales** | | |
 | Con algo anterior a 90 días | Los de los últimos 90 días. Lo anterior va en el archivo. | **[NUEVO]** |
@@ -1482,7 +1503,7 @@ Los textos salen de `web/src/familia/textosMisDatos.ts` (rama de código de MATU
 | Las aperturas | No se ha abierto. · Se abrió una vez, el {fecha}. · Se abrió {n} veces. La última, el {fecha}. | **[NUEVO]** |
 | Vacío | Todavía no hay enlaces de relevo. | **[NUEVO]** |
 | **Sus insumos** | | |
-| Cada insumo | Se acaba el {fecha}. · Avisa el mismo día. · Avisa 1 día antes. · Avisa {n} días antes. · {n} por envase. · Lo agregaron el {fecha}. · Lo cambió por última vez {nombre} el {fecha}. · Ya no se sigue | **[NUEVO]** («Usa…» y «Quedaban…» son de L 21) |
+| Cada insumo | Se acaba el {fecha}. · Avisa el mismo día. · Avisa 1 día antes. · Avisa {n} días antes. · {cantidad} por envase., con la unidad y el punto de miles: «20 unidades por envase.», «10 sobres por envase.», «400 ml por envase.», «100 g por envase.» (MATU-110, aprobado por Jorge el 17-11) · Lo agregaron el {fecha}. · Lo cambió por última vez {nombre} el {fecha}. · Ya no se sigue | **[NUEVO]** («Usa…» y «Quedaban…» son de L 21) |
 | Vacío | Todavía no hay insumos. | **[NUEVO]** |
 | **Compras anotadas** | | |
 | Cada compra | El {fecha} · {n} {unidad} de {insumo} · Anotó {nombre} · Llegó con un pedido de MATU | **[NUEVO]** (la unidad con las palabras de L 21) |
@@ -1498,9 +1519,20 @@ Los textos salen de `web/src/familia/textosMisDatos.ts` (rama de código de MATU
 | Montos | Productos · Envío · Total | **[NUEVO]** · [L 27] · [L 27] |
 | El pago | Sin pagar. · El pago está en curso. · Lo pagó {nombre} el {fecha}. · Cobrado: {monto} · Devuelto: {monto} · El pago no se aprobó. · Se devolvió todo el pago: {monto}. | **[NUEVO]** |
 | Las devoluciones | Se devolvieron {monto} porque no se pudo entregar {producto}. · Se devolvieron {monto} porque no se pudo entregar un producto. · Se devolvieron {monto} porque el pago llegó cuando el total ya había vencido. · Se devolvieron {monto} porque se canceló el pedido. · En curso, «Se devolvieron» cambia por «Se están devolviendo». | **[NUEVO]** |
+| Las devoluciones por arrepentimiento (`retracto`, R6) | Se devolvieron {monto} porque se pidió devolver {producto}. · sin el producto: Se devolvieron {monto} porque se pidió devolver productos de este pedido. · En curso, «Se devolvieron» cambia por «Se están devolviendo». | **[NUEVO]** Propuesto por el orquestador con el mandato de Jorge del 18-11. Aprobado por Jorge el 18-11 (MATU-115) |
+| Las devoluciones con un motivo que la app no conoce (R7) | Se devolvieron {monto}. · En curso, «Se devolvieron» cambia por «Se están devolviendo». Nunca un «porque» que no corresponde | **[NUEVO]** Propuesto por el orquestador con el mandato de Jorge del 18-11. Aprobado por Jorge el 18-11 (MATU-115) |
 | El piloto | Pago de prueba: no se cobró dinero real. | **[NUEVO]** (el rótulo de la pasarela) |
 | La entrega | Entrega: {calle} {número}, {depto}, {comuna}, {región} | **[NUEVO]** |
 | Vacío | No hay pedidos. | **[NUEVO]** |
+| **Sus pedidos: lo que se pidió devolver** (dentro de cada pedido, solo si hay al menos uno) | | |
+| Título de la subsección (R1) | Lo que se pidió devolver | **[AJUSTE]** de «Lo que pediste devolver» (MATU-116, N2): en «Datos de» no lo pidió necesariamente quien lee. Propuesto por el orquestador con el mandato de Jorge del 18-11. Aprobado por Jorge el 18-11 (MATU-115) |
+| Estado | Devolución pedida · Devuelto el {fecha} · No se aceptó la devolución | [L 38] |
+| Estado, devuelto sin fecha (R5) | Devuelto | **[NUEVO]** (la palabra de la 38 sin la fecha) Propuesto por el orquestador con el mandato de Jorge del 18-11. Aprobado por Jorge el 18-11 (MATU-115) |
+| Cuándo se pidió (R2) | Se pidió el {fecha}. | **[AJUSTE]** de «Lo pediste el {fecha}.» (MATU-116, N4). No dice quién: el contrato no lo trae (decisión P2), y quién lo pidió está en «Quién abrió o editó la ficha», hecho 28. Propuesto por el orquestador con el mandato de Jorge del 18-11. Aprobado por Jorge el 18-11 (MATU-115) |
+| Productos | {producto} × {cantidad}, uno por línea | Como las líneas del pedido |
+| El envío, solo si se pidió devolverlo (R4) | También se pidió devolver el envío. | **[NUEVO]** Propuesto por el orquestador con el mandato de Jorge del 18-11. Aprobado por Jorge el 18-11 (MATU-115) |
+| Cuándo se respondió, solo si no se aceptó | Respondimos el {fecha}. | MATU-116, N5 |
+| Por qué no se aceptó | El producto volvió con el sello abierto. · No recibimos el producto de vuelta. | [L 38] |
 | **Las 11 palabras del estado del pedido** | | |
 | `borrador` | Sin confirmar | **[NUEVO]** |
 | `total_confirmado` | Por pagar | **[NUEVO]** |
@@ -1546,16 +1578,25 @@ Los textos salen de `web/src/familia/textosMisDatos.ts` (rama de código de MATU
 | 24 `pago_aprobado` | Con `referencia`: Se aprobó el pago del pedido {referencia} · Sin ella: Se aprobó el pago de un pedido | [README, ajustado] · **[NUEVO]** (F1) |
 | 25 `pago_anulado` | Con `referencia`: Se devolvió dinero del pago del pedido {referencia} · Sin ella: Se devolvió dinero de un pago | [README, ajustado: decía «Se anuló el pago»] · **[NUEVO]** (F1) |
 | 26 `pidio_una_copia` | Pidió una copia de los datos | [ANALISTA] |
+| 27 `devolucion_a_la_tarjeta` | MATU devolvió dinero a la tarjeta por el pedido {referencia} · sin referencia: MATU devolvió dinero a la tarjeta | **[NUEVO]** MATU-63 |
+| 28 `pidio_un_retracto` | Pidió arrepentirse de la compra del pedido {referencia} · sin referencia: Pidió arrepentirse de una compra | **[NUEVO]** MATU-63 (la familia lee «arrepentirse de la compra», no «retracto») |
+| 29 `codigo_de_retiro_generado` | MATU preparó el código de retiro del pedido {referencia} · sin referencia: MATU preparó un código de retiro | **[NUEVO]** MATU-63 (nunca el código) |
+| 30 `pedido_en_camino` | MATU salió a entregar el pedido {referencia} · sin referencia: MATU salió a entregar un pedido | **[NUEVO]** MATU-63 |
+| 31 `pedido_entregado` | MATU entregó el pedido {referencia} · sin referencia: MATU entregó un pedido | **[NUEVO]** MATU-63 |
+| 32 `pedido_no_entregado` | MATU no pudo entregar el pedido {referencia} · sin referencia: MATU no pudo entregar un pedido | **[NUEVO]** MATU-63 |
+| 33 `retracto_resuelto` | MATU respondió el retracto del pedido {referencia} · sin referencia: MATU respondió un retracto | **[NUEVO]** MATU-63 (no dice si se aceptó) |
 | **La entrada en «Tu cuenta»** | | |
 | Título y bajada | Tus datos · Ver y descargar lo que MATU guarda de tu cuenta. | [ANALISTA] |
 | Botón | Ver tus datos | **[NUEVO]** |
 | **«Tus datos»** | | |
 | Volver | Volver a tu cuenta | [L 19] |
 | Bajada | Lo que MATU guarda hoy de tu cuenta, al {fecha} a las {hora}. | **[NUEVO]** |
+| Límite (MATU-107, 54-H3) | Cada vez que abres esta pantalla cuenta como una copia de los datos. Puedes abrirla hasta 10 veces por hora. | **[ANALISTA]** |
 | Las personas que cuidas | Lo que guardamos de las personas que cuidas lo ves en Grupo familiar. · Ir a Grupo familiar | [ANALISTA] |
 | Los bloques | Tu cuenta · Política de privacidad · Tus grupos · Tus avisos · Avisos que te enviamos · Tus pagos | [ANALISTA] |
 | Los bloques | Tus teléfonos y computadores · Últimos ingresos | [L 33] |
 | Los bloques | Condiciones de compra que aceptaste | **[NUEVO]** |
+| Los bloques, después de «Tus pagos» y antes de «Condiciones de compra que aceptaste» (N2) | Lo que pediste devolver (solo si hay al menos uno) | **[NUEVO]** Aprobado por Jorge el 18-11 (MATU-116) |
 | **Tu cuenta** | | |
 | Rótulos | Tu nombre · Los códigos te llegan · Cuenta creada | **[NUEVO]** («Tu correo» y «Tu celular» son de L 19) |
 | El canal de los códigos | Por SMS · Por WhatsApp | **[NUEVO]** (las palabras de L 19) |
@@ -1584,19 +1625,513 @@ Los textos salen de `web/src/familia/textosMisDatos.ts` (rama de código de MATU
 | Vacío | No hay avisos en los últimos 90 días. | **[NUEVO]** |
 | **Tus pagos** | | |
 | Título | Pago {referencia} · Sin referencia: Pago del {fecha} | **[NUEVO]** |
-| El monto | {monto} en {grupo} | **[NUEVO]** |
+| El monto | {monto} en {grupo} · de un grupo del que saliste: {monto} en un grupo del que saliste | **[NUEVO]** · **[AJUSTE]** de T3 (N1), Aprobado por Jorge el 18-11 (MATU-116) |
 | La tarjeta | Tarjeta de crédito terminada en {últimos 4} · Tarjeta de débito terminada en {últimos 4} · Tarjeta de prepago terminada en {últimos 4} · Sin datos de la tarjeta. | **[NUEVO]** |
 | Las cuotas, después de la tarjeta | {n} cuotas, con 2 o más · Sin cuotas | **[NUEVO]** |
 | La devolución | Devuelto: {monto} | **[NUEVO]** |
 | El código | Código de autorización: {código} | **[NUEVO]** (F3, decisión 402) |
 | El piloto | Pago de prueba: no se cobró dinero real. | **[NUEVO]** |
+| **Lo que pediste devolver** | | |
+| Título del bloque y del índice (N2) | Lo que pediste devolver | **[NUEVO]** Aprobado por Jorge el 18-11 (MATU-116) |
+| Título de cada uno | Pedido {referencia} · sin referencia: Devolución del {fecha} (N3) | [L 38] · **[NUEVO]** Aprobado por Jorge el 18-11 (MATU-116) |
+| Estado | Devolución pedida · Devuelto el {fecha} · No se aceptó la devolución | [L 38] |
+| Cuándo lo pidió (N4) | Lo pediste el {fecha}. | **[NUEVO]** Aprobado por Jorge el 18-11 (MATU-116) |
+| Cuándo se respondió, solo si no se aceptó (N5) | Respondimos el {fecha}. | **[NUEVO]** Aprobado por Jorge el 18-11 (MATU-116) |
+| El grupo (N6) | En {grupo}. · sin el grupo: En un grupo del que saliste. | **[NUEVO]** Aprobado por Jorge el 18-11 (MATU-116) · **[AJUSTE]** de T3 en la segunda |
+| Productos, si sigue en el grupo | {producto}, uno por línea | — |
+| Productos, si salió del grupo (T4) | Los productos los puedes pedir a {correo}. | **[NUEVO]** Aprobado por Jorge el 18-11 (MATU-116) |
+| Por qué no se aceptó | El producto volvió con el sello abierto. · No recibimos el producto de vuelta. | [L 38] |
 | **Condiciones de compra que aceptaste** | | |
-| Cada aceptación | Versión {version}, el {fecha}. · En {grupo}, para el pedido {referencia}. · En {grupo}, para un pedido que no se pagó. · Huella: {huella} | **[NUEVO]** |
+| Cada aceptación | Versión {version}, el {fecha}. · En {grupo}, para el pedido {referencia}. · En {grupo}, para un pedido que no se pagó. · de un grupo del que salió: En un grupo del que saliste, para el pedido {referencia}. · En un grupo del que saliste, para un pedido que no se pagó. · Huella: {huella} | **[NUEVO]** · **[AJUSTE]** de T3 (MATU-116), Aprobado por Jorge el 18-11 (MATU-116) |
 
 **Las palabras del estado del pedido** juntan los 17 valores en 11, porque a la familia no le cambia nada la diferencia entre, por ejemplo, `asignado` y `retirado`. El archivo trae el valor exacto. Cuando la historia del despacho fije sus palabras, esta tabla las toma (especificación, P13).
 
 **Las frases con `referencia`** terminan en el número del pedido, que la pantalla muestra en cifras. Sin `referencia`, en un pedido que no se pagó o que ya no existe, va la frase general. Los de insumos y enlaces son siempre generales: el contrato no trae el nombre y no se pide.
 
-**«Un grupo del que saliste»** va en el lugar del nombre del grupo, porque la cuenta ya no lo puede leer, y **«Código de autorización»** sale solo en «Tus datos» de quien pagó, nunca en «Datos de». Dicen lo mismo que la política 0.17, §10, «Ver y descargar los datos desde la aplicación». Si una cambia, cambia la otra.
+**«Un grupo del que saliste»** va en el lugar del nombre del grupo, en «Tus grupos», en «Tus pagos», en «Lo que pediste devolver» y en «Condiciones de compra que aceptaste» (T3, N1 y N6, MATU-116), porque la cuenta ya no lo puede leer, y **«Código de autorización»** sale solo en «Tus datos» de quien pagó, nunca en «Datos de». Dicen lo mismo que la política 0.17 y 0.25, §10, «Ver y descargar los datos desde la aplicación». Si una cambia, cambia la otra.
 
 **Ninguno usa** los términos de la sección 3, «exportar», «auditoría», «registro de accesos», «consentimiento», «sesión», «token», «usuario», «inválido», «rechazado» ni «fallido».
+
+## 36. La consola del comercio (MATU-63) · Aprobados por Jorge el 16-11
+
+Los textos del comercio salen de la especificación de pantallas de MATU-63, v1.1 del 13-11 (`docs/diseno/matu-63-comercio.md`, secciones 2 a 8 y 12). Cada uno marca su origen: [ANALISTA] los de la revisión previa del analista normativo (`legal/revision-previa-matu-63.md`, que la especificación marca [A45]), **[AJUSTE]** los del analista que cambió el diseñador, con su porqué en la sección 12 de la especificación, **[NUEVO]** los del diseñador, [E39] los de Entrar de la app de la familia (`matu-39-app-familia.md` 3.3) y [L n] los que ya están en la sección n. «Especificación» marca los que la especificación trae sin marca de origen. Los de la familia, al final, salen de la sección 4.5 de la revisión previa.
+
+Las llaves son datos de la API: `{nombre}` es el nombre de fantasía del comercio de la cuenta, `{ref}` la referencia opaca de la parte, `{producto}` el nombre del producto («Pañal adulto M x30»), `{presentacion}` su presentación («Paquete de 30 unidades»), `{cantidad}` la cantidad de envases de la línea, `{n}` un número, `{minutos}` los minutos de espera, `{HH:MM}` en 24 horas y hora de Chile, y `{contacto}` el correo de contacto que publica la API (en el piloto, el de privacidad, O2).
+
+**Regla de la sección.** Quien atiende el comercio **escribe** el código de retiro, nunca lo **ve**. La pantalla nunca muestra de quién es el pedido, para quién es ni a dónde va. Se dice «Tienes», «Apartados» y «Disponibles», nunca «stock», «reserva» ni «reservar». Nunca «token», «sesión», «inválido», «rechazado» ni un código de error. El comercio nunca cambia un producto por otra marca ni por otro producto, y nunca cambia el precio.
+
+| Dónde | Texto | Origen |
+|---|---|---|
+| **El marco** | | |
+| La barra | {nombre} · (comercio ficticio), solo si el comercio es ficticio · Pedidos de MATU · Salir | [L 11] · Especificación · [E39] |
+| `<title>` | Entrar como comercio · MATU · Pedidos de hoy · {nombre} · MATU · Pedido {ref} · MATU · Tus productos · {nombre} · MATU | Especificación · **[AJUSTE]** «Pedidos de hoy» |
+| Pestañas | Para el lector: Secciones del comercio · Pedidos de hoy · Tus productos | Especificación |
+| **Entrar como comercio** | | |
+| Título y bajada | Entrar como comercio · Para quien atiende un comercio que trabaja con MATU. | **[NUEVO]** |
+| Campos y botón | Tu correo · Tu contraseña · Mostrar · Ocultar · Entrar · Entrando… · Escribe tu correo y tu contraseña. | [E39] |
+| Olvido | ¿Olvidaste tu contraseña? Avisa a MATU: {contacto}. | **[NUEVO]** |
+| A la familia | ¿Cuidas a alguien? Entra en la app de MATU para familias. (la última parte es el enlace a la entrada de la familia) | **[NUEVO]** |
+| Credenciales | El correo o la contraseña no coinciden. Revísalos y vuelve a intentarlo. | [E39] |
+| Varios intentos | Hubo varios intentos de entrar. Espera {minutos} minutos. | **[AJUSTE]** de [E39], sin «pídele ayuda a alguien de tu familia» |
+| Entrada vencida | Hace tiempo que no entrabas. Vuelve a entrar con tu correo y tu contraseña. | [L 8] |
+| Cuenta de la familia | Esta cuenta es de la app para familias. · Para ver los pedidos de un comercio, entra con la cuenta del comercio. | **[NUEVO]** |
+| Cuenta o comercio inactivo | Esta cuenta de comercio no está activa. · Avisa a MATU: {contacto}. | **[NUEVO]** |
+| **Pedidos de hoy** | | |
+| Título | Pedidos de hoy | **[AJUSTE]** de «{nombre} · Pedidos de hoy» |
+| Privacidad | Aquí ves solo los productos. MATU no te muestra de quién es el pedido ni a dónde va. | [ANALISTA] |
+| Al día | Actualizado a las {HH:MM}. · Actualizar · Actualizando… | Especificación |
+| Grupos | Por preparar ({n}) · Preparando ({n}) · Listos para retirar ({n}) · Retirados ({n}) · Cancelados ({n}) | Especificación |
+| Cada pedido | Pedido {ref} · {n} productos · 1 producto | Especificación |
+| Para cuándo | Preparar antes de las {HH:MM} · Preparar antes del {DD/MM/AAAA}, {HH:MM} · Era para las {HH:MM}. · Esperando retiro · Retirado a las {HH:MM} · No lo prepares. | Especificación |
+| Llegó un pedido | Llegó un pedido nuevo: {ref}. · Llegaron {n} pedidos nuevos. | **[NUEVO]** |
+| Se canceló mientras lo veías | El pedido {ref} se canceló. No lo prepares. | [ANALISTA] |
+| En pantalla ancha, sin elegir | Elige un pedido de la lista para prepararlo. | Especificación |
+| Rótulo del piloto | Comercio de prueba. · Estos pedidos son inventados. | [ANALISTA] |
+| Pie | ¿Algo no calza? Avisa a MATU: {contacto}. | **[NUEVO]** |
+| Cargando | Cargando los pedidos… | Especificación |
+| Vacío | No hay pedidos por preparar. · Cuando llegue uno, aparece aquí. | [ANALISTA] · **[NUEVO]** |
+| Error al traer | No pudimos traer los pedidos. Revisa tu conexión y vuelve a intentarlo. · Volver a intentar | **[NUEVO]** · [L 26] |
+| **Un pedido** | | |
+| Encabezado | Volver a los pedidos · Pedido {ref} · Llegó a las {HH:MM} · {n} productos | Especificación |
+| Estado | Por preparar · Preparando · Listo para retirar · Retirado · Cancelado | Especificación |
+| Productos | Productos · Marca si tienes cada uno. | Especificación |
+| Empezar | Empezar a preparar · Empezando… | [ANALISTA] · **[NUEVO]** |
+| Terminar | Listo para retirar · Guardando… | [ANALISTA] · [L 5.4] |
+| Si no tiene ninguno | Avisar que no tengo ninguno | **[NUEVO]** |
+| Cada producto | {cantidad} × {producto}, y debajo {presentacion} | **[AJUSTE]** de «{cantidad} × {producto} {presentación}» |
+| Marcar | Lo tengo · No lo tengo | [ANALISTA] |
+| Al marcar «No lo tengo» | No lo cambies por otra marca ni por otro producto. MATU se encarga del resto. | [ANALISTA] |
+| Cuántos faltan | ¿Cuántos te faltan? · El pedido lleva {cantidad}. | **[AJUSTE]** de «¿Cuántas te faltan?» · **[NUEVO]** |
+| No se guardó | No pudimos guardar lo que marcaste. Vuelve a intentarlo. | **[NUEVO]** |
+| Antes de terminar | Después de marcarlo listo ya no puedes cambiar lo que marcaste. | **[NUEVO]** |
+| Falta marcar | Marca cada producto: si lo tienes o no. | **[NUEVO]** |
+| Lo marcado | Lo tengo · No lo tengo · Faltan {n} de {cantidad} | [ANALISTA] · **[NUEVO]** |
+| Por preparar | Toca «Empezar a preparar» cuando vayas a buscar los productos. | **[NUEVO]** |
+| Listo | Pedido listo para retirar. · MATU le avisa a quien viene a buscarlo. | **[NUEVO]** |
+| Retirado | Pedido retirado. · Se retiró a las {HH:MM}. | **[NUEVO]** |
+| Cancelado | Este pedido se canceló. No lo prepares. · Si ya sacaste productos, vuelve a dejarlos en su lugar. | [ANALISTA] · **[NUEVO]** |
+| No tenía ninguno | Este pedido se canceló. No lo prepares. · Avisaste que no tienes ninguno de estos productos. MATU se encarga del resto. | [ANALISTA] · **[NUEVO]** |
+| Cambió mientras lo veías | Este pedido cambió mientras lo veías. Te mostramos cómo quedó. | **[NUEVO]**, con el patrón de [L 31] |
+| Ya no es de este comercio | Este pedido ya no está en tu lista. · Volver a los pedidos | **[NUEVO]** |
+| Red o servidor | No pudimos completar esto. Revisa tu conexión y vuelve a intentarlo. | [L 8], sin «Lo que escribiste sigue aquí.» |
+| **El código de retiro** | | |
+| Título e instrucción | Código de retiro · Pide el código de retiro a quien viene a buscar el pedido y escríbelo aquí. | Especificación |
+| Campo | Código de retiro (6 números) | [ANALISTA] |
+| Faltan números | Escribe los 6 números del código. | **[NUEVO]** |
+| Botón | Revisar código · Revisando… | [ANALISTA] · **[NUEVO]** |
+| Correcto | Código correcto. Entrega el pedido {ref}. · Entrega estos productos: | [ANALISTA] · **[NUEVO]** |
+| No es | Ese código no es el de este pedido. · No entregues el pedido todavía. Te quedan {n} intentos. · Te queda 1 intento. | **[AJUSTE]** |
+| Bloqueado | El código se bloqueó por demasiados intentos. · No entregues el pedido. Avisa a MATU: {contacto}. | **[AJUSTE]** |
+| Vencido | Este código venció. · No entregues el pedido todavía. Avisa a MATU para que le den un código nuevo a quien viene a buscarlo: {contacto}. | **[AJUSTE]** |
+| Ya retirado | Este pedido ya se retiró. · No lo entregues de nuevo. · Se retiró a las {HH:MM}. | **[AJUSTE]** · **[NUEVO]** |
+| Cancelado | Este pedido se canceló. No lo prepares. · No lo entregues. Si ya lo preparaste, vuelve a dejar los productos en su lugar. | **[AJUSTE]** |
+| Muchos intentos de la cuenta | Hubo muchos intentos con códigos en poco tiempo. · Espera {minutos} minutos y vuelve a intentarlo. | **[NUEVO]** |
+| Red o servidor | No pudimos revisar el código. · Revisa tu conexión y vuelve a intentarlo. No entregues el pedido hasta ver «Código correcto». | **[NUEVO]**, con [L 8] |
+| Sin código todavía | Todavía no hay un código para este pedido. Avisa a MATU: {contacto}. | **[NUEVO]** |
+| **Tus productos** | | |
+| Título y bajada | Tus productos · Aquí dices cuántos tienes y si los ofreces en MATU. El precio lo cambia MATU. | Especificación |
+| Cifras | Tienes · Apartados · Disponibles | Especificación |
+| Precio | {precio} · Precio de ejemplo | [L 11] |
+| Sin disponibles | Sin disponibles | **[NUEVO]** |
+| Ofrecer | Lo ofreces en MATU · No se ofrece · Lo apartado sigue apartado. | Especificación · **[NUEVO]** |
+| Cambiar | Cambiar cuántos tienes · ¿Cuántos tienes ahora? · Cuenta todo lo que tienes para vender, también lo apartado que todavía no preparas. · Cancelar | Especificación |
+| Guardar | Guardar · Guardando… | [L 5.4] |
+| Hecho | Guardado: tienes {n} de {producto}. | **[NUEVO]** |
+| Menos de lo apartado | Tienes menos de los que ya están apartados para pedidos. Al preparar, marca «No lo tengo» en lo que falte. | **[NUEVO]** |
+| Número mal escrito | Escribe un número, desde 0. · Escribe un número hasta 9.999. | **[NUEVO]** |
+| Otra persona lo cambió | Otra persona cambió este producto mientras lo editabas. Te mostramos cómo quedó. | **[NUEVO]**, con el patrón de [L 6.2] |
+| Red o servidor | El de la sección 8, completo, con «Lo que escribiste sigue aquí.» | [L 8] |
+| Cargando | Cargando tus productos… | **[NUEVO]** |
+| Vacío | Todavía no tienes productos en MATU. · Avisa a MATU para agregarlos: {contacto}. | **[NUEVO]** |
+| Error al traer | No pudimos traer tus productos. Revisa tu conexión y vuelve a intentarlo. · Volver a intentar | **[NUEVO]** · [L 26] |
+| Rótulo del piloto | Comercio de prueba. · Estos productos y precios son de ejemplo. | **[AJUSTE]** de «Estos pedidos son inventados.» |
+| **Para la familia** (se usan en MATU-92 y MATU-76) | | |
+| Aviso por push o correo | Cambio de MATU-76 (D-76-1): el push dice «MATU · Tienes una novedad. Abre la app para verla.», igual que todo aviso (sección 20), y el correo va con el asunto «MATU: hay una novedad en un pedido» y el cuerpo «Hay una novedad en un pedido. Abre la app para verla.» (sección 41). Antes: «MATU: hay una novedad en un pedido. Abre la app para verla.» para los dos. Aprobado por Jorge el 18-11 (el push es D-76-1) | [ANALISTA] · MATU-76 |
+| Estados | En preparación · Listo para salir · En camino · Entregado el {fecha} | [ANALISTA] |
+| Faltante parcial | Faltaron {n} de {producto}. Te devolvimos {monto} a tu tarjeta terminada en {últimos 4}. Cuándo lo ves en tu cuenta depende de tu banco. | [ANALISTA]. Es para quien pagó. La variante para quien no pagó está en la sección 38, sin los últimos 4 dígitos (C25 de MATU-92) |
+| Botón | Arrepentirme de la compra | [ANALISTA] |
+| Ayuda del botón | Puedes hacerlo hasta el {DD/MM/AAAA}. Pasamos a buscar los productos sin costo y te devolvemos su precio a la misma tarjeta cuando los recibimos con su sello cerrado. Si devuelves todo, también el envío. | [ANALISTA] |
+| Elegir productos | Elige qué productos devuelves · Devolver estos productos · No, volver | [ANALISTA] |
+| Pedido de devolución recibido | Recibimos tu pedido de devolución. Te escribimos para coordinar el retiro. | [ANALISTA] |
+| Plazo vencido | El plazo para arrepentirte terminó el {fecha}. Si tienes un problema con el pedido, escríbenos a {correo}. | [ANALISTA] |
+| Cancelar después de pagar | Cancelar el pedido · Te devolvemos {total}, envío incluido, a la misma tarjeta. | [ANALISTA] |
+| Ya se prepara | Ya están preparando tu pedido, así que no se puede cancelar. Cuando llegue, puedes arrepentirte de la compra. | [ANALISTA] |
+
+En los de la familia, `{correo}` es el canal de reclamo de las condiciones del pedido, `{monto}` y `{total}` van en pesos enteros con punto de miles, y `{últimos 4}` son las cuatro últimas cifras de la tarjeta. **La familia nunca ve el código de retiro** (D-63-5): ningún texto de la familia lo menciona.
+
+**Ninguno usa** los términos de la sección 3, «stock», «reserva», «reservar», «token», «sesión», «inválido», «rechazado» ni «fallido».
+
+## 37. «Me quedan» con envases cerrados y unidades sueltas, y el total con el envío (MATU-109) · Aprobados por Jorge el 16-11
+
+Origen: usabilidad ronda 2 (`docs/usabilidad/ronda-2-informe.md`), H1 (P2) y H4 (P3). Especificación: `docs/diseno/matu-109-me-quedan.md` del repositorio MATU_PROYECTO. La sección 36 es la consola del comercio (MATU-63).
+
+**«Me quedan» y el alta del insumo** (cambian las secciones 23 y 30):
+
+| Dónde | Texto | Marca |
+|---|---|---|
+| Panel, ayuda en modo sueltos, en unidades | Cuenta unidades, no envases. Si tienes envases cerrados, toca «Contar en envases». Reemplaza lo que calculábamos. Si no queda nada, escribe 0. | [CAMBIA] 23 |
+| Panel, ayuda en modo sueltos, en sobres | Cuenta sobres, no envases. Si tienes envases cerrados, toca «Contar en envases». Reemplaza lo que calculábamos. Si no queda nada, escribe 0. | [CAMBIA] 23 |
+| Alta, ayuda en modo sueltos | Cuenta unidades, no envases. Si tienes envases cerrados, toca «Contar en envases». (en sobres, «Cuenta sobres, no envases…») | [NUEVO] |
+| Edición, ayuda en modo sueltos | La de hoy (18) y después: Cuenta unidades, no envases. Si tienes envases cerrados, toca «Contar en envases». | [NUEVO] |
+| Panel, ayuda en modo envases | Cuenta los envases cerrados y, a ojo, lo suelto. Reemplaza lo que calculábamos. | [CAMBIA] 30 |
+| Alta y edición, ayuda en modo envases | Cuenta los envases cerrados y, a ojo, lo suelto. | [CAMBIA] 30 |
+| Primer contador | Envases cerrados | [CAMBIA] 30 («Envases enteros») |
+| Ayuda del primer contador | Los que todavía no abres. | [NUEVO] |
+| Ayuda del segundo contador, unidades | Las del envase abierto y las que están fuera de su envase. | [NUEVO] |
+| Ayuda del segundo contador, sobres | Los del envase abierto y los que están fuera de su envase. | [NUEVO] |
+| Botones − y + (lector) | Uno menos: Envases cerrados · Uno más: Envases cerrados | [CAMBIA] |
+
+En ml y g no cambia nada: no hay modo envases, así que la ayuda no nombra «Contar en envases».
+
+**El total del pedido** (cambia la sección 31):
+
+| Dónde | Texto | Marca |
+|---|---|---|
+| Bajo «Total» en la boleta, vigente y vencida | Son los precios finales. El envío es uno solo, por todo el pedido. | [NUEVO] |
+| Bajada de «Antes de pagar» | Confirmamos que hay cada producto. El total, con el envío, es {total}. | [CAMBIA] 31 |
+
+La línea bajo el total no usa la palabra «IVA», para cumplir la regla de la sección 31, que solo la admite en «Precio de ejemplo · IVA incluido». <!-- PENDIENTE de Jorge: si prefiere «Cada precio ya incluye el IVA. El envío es uno solo, por todo el pedido.», hay que ampliar la regla de la sección 31 -->
+
+---
+
+## 38. Tus pedidos (MATU-92) · Aprobados por Jorge el 17-11
+
+Los textos salen de la especificación de pantallas de MATU-92, v1.1 (`docs/diseno/matu-92-tus-pedidos.md`, sección 9), y están tal cual en la app, en `web/src/familia/textosTusPedidos.ts` del repositorio MATU_PROYECTO. Cada uno marca su origen: [L n] los que ya están en la sección n, **[NUEVO]** (revisión previa) los que propuso el analista normativo en la revisión previa de MATU-92 (decisiones D-92-1 a D-92-4), **[NUEVO]** los del diseñador y **[AJUSTE]** los que el diseñador cambió, con su porqué en la sección 10 de la especificación. Las decisiones D1 a D8 son las del orquestador sobre las contradicciones del diseñador, del 16-11, por delegación de Jorge.
+
+Las llaves son datos de la API, con el formato de las secciones 31 y 32: `{pila}` es el nombre de pila de la persona cuidada, `{referencia}` el número corto del pedido, `{producto}` el nombre del producto, `{comercio}` el nombre de fantasía del comercio, `{n}` un número, `{monto}` y `{total}` en pesos enteros con punto de miles, `{fecha}` en DD/MM/AAAA y `{correo}` el canal de reclamo de las condiciones del pedido. La pantalla pone las cifras en `cifras`. Por eso algunas frases van partidas, y la tabla trae cada parte tal como está en la app. Al final está cómo se arman.
+
+**Regla de la sección.** La familia ve solo sus pedidos pagados, de los últimos 2 años. **El código de retiro nunca se muestra a la familia** (D-63-5), y ningún texto lo nombra. Tampoco la referencia de la parte del comercio. Quien «Se informa» ve por pedido la fecha del pago, el estado sin su explicación y los productos, sin montos y sin abrir el detalle, salvo en los pedidos que pagó, que ve como quien paga, sin la entrega (MATU-116) (MATU-113, que reemplaza a la D-92-1 en lo del estado). En esos pedidos, «sin la entrega» quiere decir sin la dirección ni el teléfono de contacto: «Entrega: {ventana}» sí se ve, porque es solo la franja horaria (decisión de Jorge del 18-11). En ellos puede arrepentirse de la compra (J1). Lo decide la API, nunca la pantalla. Los últimos 4 dígitos de la tarjeta los ve solo quien pagó (C17). El plazo de retracto siempre dice «10 días hábiles» (C20). Nunca «rechazado», «fallido», «stock», «reserva», «con IVA» ni «código de retiro» (C26), y nunca se muestra el `title`, el `detail` ni el `mensaje` de la API.
+
+| Dónde | Texto | Origen |
+|---|---|---|
+| **La lista** | | |
+| Pestaña de Insumos y título | Tus pedidos | **[NUEVO]** (revisión previa) |
+| `<title>` del detalle | Pedido {referencia} · MATU | **[NUEVO]** (revisión previa) |
+| Bajada | Los pedidos pagados de {pila}, de los últimos 2 años. | **[NUEVO]** (revisión previa) |
+| Vacío | Todavía no hay pedidos pagados para {pila}. · Ir a tu pedido | **[NUEVO]** (revisión previa) · [L 31] |
+| Fila | Pedido {referencia} · Total pagado: · Devuelto: | **[NUEVO]** (revisión previa) · **[NUEVO]** «Devuelto:» |
+| Fila, productos (O5) | {primero} y 1 producto más · {primero} y {otros} productos más | **[NUEVO]** |
+| Ver más | Ver más pedidos · Cargando más… · No pudimos traer más pedidos. Revisa tu conexión y vuelve a intentarlo. | **[NUEVO]** |
+| Capa 3 apagada | Tus pedidos no están disponibles por ahora. | **[NUEVO]** |
+| No se pudo traer la lista | No pudimos traer tus pedidos. Revisa tu conexión y vuelve a intentarlo. | **[NUEVO]** (revisión previa) |
+| Se informa, una vez bajo la bajada | Quien administra el grupo, quien cuida a {pila} y quien paga ven el detalle. | **[AJUSTE]** de la revisión previa, sin «Pagado ·», que ya dice la etiqueta de cada fila |
+| Se informa, bajo la bajada si hay un pedido que pagó (T1) | De los pedidos que pagaste, ves el detalle y puedes arrepentirte de la compra. | **[NUEVO]** Aprobado por Jorge el 18-11 (MATU-116) |
+| Se informa, la fila y el detalle de un pedido que pagó (T2) | Los textos de «Paga» de esta sección, con «Entrega: {ventana}» y sin la dirección ni el teléfono de contacto. Los pedidos que no pagó, con la fila «Se informa». | **[NUEVO]** Aprobado por Jorge el 18-11 (MATU-116) |
+| Fila, «Se informa» | Pagado el {DD/MM/AAAA} | **[NUEVO]** MATU-113 (D4), aprobado por Jorge el 17-11 |
+| Estado, «Se informa» | La etiqueta de cada estado de esta sección, sin la explicación: Pagado · Enviado al comercio · En preparación · Listo para salir · En camino · Entregado el {fecha} · No pudimos entregarlo · Entrega reprogramada · Cancelado | [L 38], MATU-113 (O1) |
+| Productos borrados (C28) | De este pedido guardamos solo lo que se pagó y lo que se devolvió. | **[NUEVO]** (revisión previa) |
+| Al final de «Pedido» | Ver todos tus pedidos | **[NUEVO]** |
+| En el comprobante de la vuelta de Webpay | Ver cómo va tu pedido | **[NUEVO]** |
+| **El estado del pedido** | | |
+| `pagado` | Pagado · Lo estamos enviando al comercio. Puede tardar unos minutos. | **[NUEVO]** (revisión previa) |
+| `enviado_a_comercio` | Enviado al comercio | **[NUEVO]** (revisión previa) |
+| `preparando` | En preparación | [L 36] |
+| `listo_retiro`, `asignado`, `sin_repartidor` y `retirado` | Listo para salir | [L 36] |
+| `en_ruta` | En camino | [L 36] |
+| `entregado` y `cerrado` | Entregado el | [L 36] |
+| `no_entregado` | No pudimos entregarlo · Te escribimos para coordinar otra entrega o devolverte el total. | **[NUEVO]** (revisión previa) |
+| `reprogramado` | Entrega reprogramada · Te avisamos cuando salga de nuevo. | **[NUEVO]** (revisión previa) |
+| `cancelado_con_devolucion`, devolución hecha | Cancelado · Devolvimos · , envío incluido, a la tarjeta con que se pagó. | **[NUEVO]** (revisión previa) |
+| `cancelado_con_devolucion`, devolución en curso | Estamos devolviendo | **[AJUSTE]** (D2): mientras sigue en curso, «Devolvimos» es falso |
+| **El detalle** | | |
+| Encabezado | Volver a tus pedidos · Pagado el · a las | **[NUEVO]** · **[NUEVO]** · [L 32] |
+| Cómo va | Cómo va · De {comercio} · De un comercio · (comercio ficticio) · Faltaron {n} | **[NUEVO]** · **[NUEVO]** (revisión previa) · **[NUEVO]**, si el comercio dejó de estar activo · [L 31] · **[NUEVO]** |
+| Estado de cada parte (C16) | Enviado al comercio · En preparación · Listo para salir · Salió del comercio · No tenía estos productos · Cancelado | **[NUEVO]** (revisión previa) · [L 36] · [L 36] · **[NUEVO]** · **[NUEVO]** · **[NUEVO]** (revisión previa) |
+| No se pudo traer el pedido | No pudimos traer tu pedido. Revisa tu conexión e inténtalo de nuevo. | [L 31] |
+| No se pudo traer el comprobante | No pudimos traer el comprobante. Revisa tu conexión y vuelve a intentarlo. · Tampoco pudimos mostrar lo que se devolvió. · Volver a intentar | **[NUEVO]** |
+| 404 | No encontramos este pedido. | [L 31] |
+| **Dinero devuelto** | | |
+| Título (D5) | Dinero devuelto | **[NUEVO]** |
+| Fecha | El | **[NUEVO]** |
+| Faltante | Faltaron {n} de {producto}. | [L 36] |
+| Quien pagó (D3) | Te devolvimos · a tu tarjeta terminada en · Cuándo lo ves en tu cuenta depende de tu banco. | [L 36] · [L 32] · [L 32] |
+| Quien no pagó (C17 y C25) | Devolvimos · a la tarjeta con que se pagó · Cuándo se ve en la cuenta depende del banco. | [L 32] |
+| Por qué | por {producto} · por tu pedido completo (solo si se canceló) · por el envío | [L 32] **[AJUSTE]** |
+| Envío devuelto (C13) | Devolvimos el envío: | **[NUEVO]** (revisión previa) |
+| En curso | Estamos devolviendo · a tu tarjeta. | [L 32] |
+| En curso, quien pagó | Si no se completa hoy, te escribimos. MATU nunca te pide los datos de tu banco por mensaje. | [L 32] |
+| En curso, quien no pagó | Si no se completa hoy, le escribimos a quien pagó. MATU nunca pide los datos de un banco por mensaje. | [L 32] |
+| **Productos para devolver** | | |
+| Título | Productos para devolver | **[NUEVO]** |
+| Estados | Devolución pedida · Devuelto el · No se aceptó la devolución · Si tienes dudas, escríbenos a | **[NUEVO]** (revisión previa) |
+| Monto | Te devolvemos · , envío incluido, (cuando el monto ya incluye el envío: «Te devolvemos {monto}, envío incluido, cuando recibamos…») · cuando recibamos los productos con su sello cerrado. | **[NUEVO]** (revisión previa) |
+| Quién la pidió (C18) | La pidió otra persona de tu grupo. | **[NUEVO]** |
+| Por correo, si la pidió quien mira (C21) | Esta devolución la pediste por correo. La registró el equipo de MATU. | **[NUEVO]** (revisión previa) |
+| Por correo, si la pidió otra persona | Esta devolución se pidió por correo. La registró el equipo de MATU. | **[AJUSTE]** (D4): «la pediste» es falso si no la pidió quien mira |
+| **Arrepentirme de la compra** | | |
+| Botón | Arrepentirme de la compra | [L 36] |
+| Ayuda del botón | Puedes hacerlo hasta el · Pasamos a buscar los productos sin costo y te devolvemos su precio a la misma tarjeta cuando los recibimos con su sello cerrado. · Si devuelves todo, también el envío. | [L 36] (la última, solo si las condiciones lo incluyen, C9) |
+| Quien no puede (C7) | Pueden arrepentirse de la compra quien administra el grupo y quien la pagó. | **[NUEVO]** (revisión previa) |
+| Nada por devolver | Ya se pidió devolver todos los productos de este pedido. | **[NUEVO]** |
+| Plazo vencido, hasta los 90 días (C22) | El plazo para arrepentirte desde la aplicación terminó el · Si todavía quieres devolver productos, o tienes un problema con el pedido, escríbenos a | **[NUEVO]** (revisión previa) |
+| Plazo vencido, después de los 90 días | El plazo para arrepentirte terminó el · Si tienes un problema con el pedido, escríbenos a | [L 36] |
+| **La pantalla de arrepentirse** | | |
+| Encabezado | Volver al pedido {referencia} · Elige qué productos devuelves | **[NUEVO]** · [L 36] |
+| Cada producto | Recibiste · Pagaste · cada uno. | **[NUEVO]** |
+| Sello | Si abres el sello, ya no se puede devolver. | **[NUEVO]** (revisión previa) |
+| Cuántos | Ya se pidió devolver {n}. · ¿Cuántos devuelves? · Uno menos: {producto} · Uno más: {producto} · Puedes devolver hasta {n}. · Ya se pidió devolver todos. · Escribe un número de 0 a {n}. | **[NUEVO]** |
+| Resumen | Lo que vas a devolver · Todavía no eliges ningún producto. | **[NUEVO]** |
+| Lo elegido | Vas a devolver: | **[AJUSTE]** de la revisión previa, en lista |
+| Botones | Devolver estos productos · Enviando… · No, volver | [L 36] · **[NUEVO]** (revisión previa) · [L 36] |
+| Nada elegido | Elige al menos un producto y cuántos devuelves. | **[NUEVO]** (revisión previa) |
+| Hecho | Recibimos tu pedido de devolución. Te escribimos para coordinar el retiro. | [L 36] |
+| Red o servidor | No pudimos enviar tu pedido de devolución. Revisa tu conexión y vuelve a intentarlo. Lo que elegiste sigue aquí. | **[NUEVO]** |
+| Ya se pidió (409, C8) | Otra persona de tu grupo ya pidió devolver algunos de estos productos. · Te mostramos lo que todavía puedes devolver. Revisa lo que elegiste antes de enviarlo. | **[NUEVO]** (la primera, en negrita) |
+| **Cancelar el pedido** | | |
+| Bloque | Cancelar el pedido · Puedes cancelarlo sin costo mientras el comercio no empiece a prepararlo. | [L 36] · **[NUEVO]** |
+| Quien no administra (C7) | Solo quien administra el grupo puede cancelar un pedido pagado, mientras el comercio no empiece a prepararlo. | **[NUEVO]** (revisión previa) |
+| Diálogo (C12) | ¿Cancelar este pedido? · Te devolvemos · , envío incluido, a la misma tarjeta. Cuándo lo ves en tu cuenta depende de tu banco. · Pago de prueba. No se cobró dinero real. | **[NUEVO]** (revisión previa) · [L 36], con la última frase de la revisión previa · [L 32] |
+| Botones del diálogo | Cancelar el pedido · Seguir con el pedido · Cancelando… | [L 36] · **[NUEVO]** (revisión previa) |
+| Hecho | Cancelamos el pedido. Estamos devolviendo · a la tarjeta con que se pagó. | **[NUEVO]** (revisión previa) |
+| Ya cancelado (409, C11) | Este pedido ya se canceló. Te mostramos cómo quedó. | **[NUEVO]** (revisión previa) |
+| Ya se prepara | Ya están preparando tu pedido, así que no se puede cancelar. Cuando llegue, puedes arrepentirte de la compra. | [L 36] |
+| Red o servidor | No pudimos cancelar el pedido. Revisa tu conexión y vuelve a intentarlo. Todo sigue como estaba. | [L 31] |
+| Red o servidor, sin poder leer el pedido de nuevo | No pudimos cancelar el pedido. Revisa tu conexión y vuelve a intentarlo. | [L 31], sin «Todo sigue como estaba.», porque la pantalla no sabe si el pedido sigue igual |
+| **Por qué no se aceptó la devolución (MATU-81)** | | |
+| Bajo «No se aceptó la devolución», motivo `sello_abierto` | El producto volvió con el sello abierto. | **[NUEVO]** C24 de MATU-81 y decisión 468 (17-11: «volvió» y no «llegó», para no leerse como que le llegó abierto a la familia) |
+| Bajo «No se aceptó la devolución», motivo `producto_no_recibido` | No recibimos el producto de vuelta. | **[NUEVO]** C24 de MATU-81 y decisión 468 |
+
+**Cómo se arman las frases partidas.** La pantalla junta las partes con la cifra en medio:
+
+- Cancelado: «Devolvimos {total}, envío incluido, a la tarjeta con que se pagó.», y con la devolución en curso, «Estamos devolviendo {total}, envío incluido, a la tarjeta con que se pagó.» (D2).
+- Faltante parcial, quien pagó: «Faltaron {n} de {producto}. Te devolvimos {monto} a tu tarjeta terminada en {últimos 4}. Cuándo lo ves en tu cuenta depende de tu banco.» (D3, la de la sección 36).
+- Faltante parcial, quien no pagó: «Faltaron {n} de {producto}. Devolvimos {monto} a la tarjeta con que se pagó. Cuándo se ve en la cuenta depende del banco.», sin los últimos 4 (C25).
+- Envío: «Devolvimos el envío: {monto}.»
+- Retracto: «Te devolvemos {monto} cuando recibamos los productos con su sello cerrado.» y «Recibiste {n}. Pagaste {precio} cada uno.»
+- Plazo vencido: «El plazo para arrepentirte desde la aplicación terminó el {fecha}. Si todavía quieres devolver productos, o tienes un problema con el pedido, escríbenos a {correo}.» y «El plazo para arrepentirte terminó el {fecha}. Si tienes un problema con el pedido, escríbenos a {correo}.»
+- En «Plazo vencido, después de 90 días», {fecha} es el fin de los 90 días desde la entrega (`plazo_correo_hasta`), no el décimo día hábil. En «hasta 90 días», {fecha} es el décimo día hábil (`plazo_hasta`). Cierre del analista, H1 de C22.
+- Cancelar: «Te devolvemos {total}, envío incluido, a la misma tarjeta. Cuándo lo ves en tu cuenta depende de tu banco.» y «Cancelamos el pedido. Estamos devolviendo {total} a la tarjeta con que se pagó.»
+- Fechas: «Entregado el {fecha}», «Pagado el {fecha} a las {HH:MM}», «El {fecha}», «Devuelto el {fecha}» y «Puedes hacerlo hasta el {fecha}.», y, en la fila de «Se informa», «Pagado el {fecha}», sin la hora.
+
+El botón «Volver a intentar» de los errores es el de la sección 26.
+
+**Ninguno usa** los términos de la sección 3, «código de retiro», «rechazado», «fallido», «stock», «reserva» ni «con IVA», ni «10 días» sin «hábiles».
+
+---
+
+## 39. La copia de los datos: lo que hizo el equipo de MATU (MATU-81) · Aprobados por Jorge el 17-11
+
+La familia lee en la copia de sus datos (sección 35) lo que el equipo de MATU anotó de un pedido y cuándo lo abrió en su consola. Los textos están tal cual en la app, en `web/src/familia/textosMisDatos.ts` de la rama de código de MATU-81. **[ANALISTA]** marca los de la revisión previa de MATU-81 (`legal/revision-previa-matu-81.md`, D-81-4 y D-81-5) y **[NUEVO]** los demás. Quien pagó un pedido ve lo mismo en ese pedido, en «Tus pedidos» (MATU-128). <!-- MATU-128: Aprobado por Jorge el 19-11 -->
+
+**Regla de la sección.** Lo que lee la familia nunca dice «incidente» ni «incidencia»: dice «Lo que pasó con tu pedido» (D-81-4). Nunca dice quién del equipo anotó algo o abrió el pedido. Las fechas van en DD/MM/AAAA, sin la hora.
+
+| Caso | Texto | Origen |
+|---|---|---|
+| Título, en cada pedido con algo anotado | Lo que pasó con tu pedido | **[ANALISTA]** D-81-4 |
+| Tipo `faltante` | Faltó un producto | **[NUEVO]** |
+| Tipo `entrega_fallida` | No se pudo entregar | **[NUEVO]** |
+| Tipo `reclamo_familia` | Un reclamo de la familia | **[NUEVO]** |
+| Tipo `cobro_sin_respuesta` | Un pago que no se confirmó | **[NUEVO]** |
+| Tipo `devolucion_pendiente` | Una devolución pendiente | **[NUEVO]** |
+| Tipo `otro` | Otra cosa | **[NUEVO]** |
+| Estado abierta o en gestión | MATU lo está revisando | **[NUEVO]** |
+| Estado resuelta | Resuelto | **[NUEVO]** |
+| Cuándo se anotó | Lo anotamos el {DD/MM/AAAA}. | **[NUEVO]** |
+| Cuándo se resolvió | Se resolvió el {DD/MM/AAAA}. | **[NUEVO]** |
+| Antes de la resolución | Cómo se resolvió: | **[NUEVO]** |
+| La nota no se puede leer, porque su clave se destruyó al borrar los datos de la persona (`nota_disponible: false`) | La nota ya no está disponible: se borró con los datos de la persona. | Decisión 471, aprobado por Jorge el 17-11 <!-- MATU-128: Aprobado por Jorge el 19-11 --> |
+| «Tus pedidos», lo que pasó, cuando falta la clave maestra (503) | Por ahora no podemos revisar si anotamos algo sobre este pedido. Vuelve a intentarlo en unos minutos. | **[NUEVO]** MATU-128 (N1) <!-- MATU-128: Aprobado por Jorge el 19-11 --> |
+| «Tus pedidos», lo que pasó, sin red o con un error del servidor (500) | No pudimos revisar si anotamos algo sobre este pedido. Revisa tu conexión y vuelve a intentarlo. | **[NUEVO]** MATU-128 (N2) <!-- MATU-128: Aprobado por Jorge el 19-11 --> |
+| «Tus pedidos», lo que pasó, al volver a intentar, si no hay nada anotado | No hay nada anotado sobre este pedido. | **[NUEVO]** MATU-128 (N3) <!-- MATU-128: Aprobado por Jorge el 19-11 --> |
+| «Tus pedidos», lo que pasó, anuncio solo para lectores de pantalla cuando llega después de que se ve el detalle | Más abajo está lo que pasó con tu pedido. | **[NUEVO]** MATU-128 (N4) <!-- MATU-128: Aprobado por Jorge el 19-11 --> |
+| Historial, cuando el equipo abrió el pedido o su pago | El equipo de MATU revisó el pedido {referencia} | **[ANALISTA]** D-81-5 · sin nombre de quién del equipo |
+| Historial, cuando el equipo intentó registrar un retracto con un correo que no es de quien administra el grupo (`operacion.retracto_correo_fallido`) | El equipo de MATU intentó registrar que alguien quiere arrepentirse de la compra del pedido {referencia}, con un correo que no es de quien administra el grupo · sin referencia: El equipo de MATU intentó registrar que alguien quiere arrepentirse de una compra, con un correo que no es de quien administra el grupo | **[NUEVO]** MATU-114 · sin el correo ni quién del equipo, y «arrepentirse de la compra», como la fila 28 de la sección 35. Aprobado por Jorge el 18-11. |
+
+En el historial, si el hecho no trae la referencia, la app dice «El equipo de MATU revisó un pedido», con el molde de la fila 28 de la sección 35.
+
+**Ninguno usa** los términos de la sección 3, «incidente» ni «incidencia».
+
+---
+
+## 40. La consola de operación (MATU-81) · Aprobados por Jorge el 17-11
+
+Los textos salen de la especificación de pantallas de MATU-81, v1.0 (`docs/diseno/matu-81-operacion.md`), y están tal cual en la app, en `web/src/operacion/textos.ts` de la rama de código de MATU-81. Van agrupados como en la especificación. Cada uno marca su origen: **[NUEVO]** los del diseñador, **[FRONTEND]** los que puso el frontend porque la especificación no los traía, [ANALISTA] el de la revisión previa de MATU-81 (C11), **[AJUSTE]** el texto que cambia uno ya aprobado o especificado, con su motivo, [E39] los de Entrar de la app de la familia y [L n] los que ya están en la sección n (la 36 es la consola del comercio).
+
+**La consola es interna.** La usa solo el equipo de MATU, por eso puede decir «incidencia», «orden de compra», «retracto» y «venta». Lo que la familia lee de lo que hace el equipo está en la sección 39, nunca aquí.
+
+Las llaves son datos de la API: `{ref}` la referencia del pedido, `{ref_parte}` la de una parte, `{comercio}` el nombre de fantasía, `{producto}` el nombre del producto, `{orden}` la orden de compra, `{monto}` y `{precio}` en pesos enteros con punto de miles, `{DD/MM/AAAA}` y `{HH:MM}` en hora de Chile y 24 horas, `{n}` un número y `{chip}` el nombre del filtro elegido. «{n} minutos» dice «1 minuto» cuando es uno.
+
+**Regla de la sección.** Nunca muestra el nombre de la persona cuidada ni de la familia, su dirección, su teléfono, su grupo, la tarjeta ni el código de autorización. Nunca dice «token», «sesión», «stock», «inválido», «rechazado» ni «fallido»: lo que la API llama `rechazar`, en pantalla es «No devolver», y lo que llama `rechazada`, «No aprobada» o «Sin terminar».
+
+| Dónde | Texto | Origen |
+|---|---|---|
+| **2.1 El título de cada ruta** | | |
+| `<title>` | Entrar a operación · MATU · Pedidos · Operación · MATU · Pedido · Operación · MATU · Retractos · Operación · MATU · Incidencias · Operación · MATU · Cobros · Operación · MATU · Catálogo · Operación · MATU | **[NUEVO]** (el del pedido no lleva la referencia, C7) |
+| **3. El marco** | | |
+| La barra | Operación de MATU · Equipo de MATU · Tu entrada vale hasta las {HH:MM}. · Salir | **[NUEVO]** · **[NUEVO]** · **[NUEVO]** · [E39] |
+| Las pestañas | Secciones de operación · Pedidos · Retractos · Incidencias · Cobros · Catálogo | **[NUEVO]** |
+| Rótulo del piloto | Datos de prueba. · Estos pedidos, pagos y comercios son inventados. Los pagos son del ambiente de prueba de Transbank. | **[NUEVO]** |
+| Aviso de privacidad | Aquí no ves a quién cuida la familia ni dónde vive. Abrir un pedido queda registrado, y la familia lo ve en la copia de sus datos. | **[NUEVO]** |
+| Al día | Actualizado a las {HH:MM}. · Actualizar · Actualizando… | [L 36] |
+| Errores | Volver a intentar · No pudimos completar esto. Revisa tu conexión y vuelve a intentarlo. · No pudimos completar esto. Revisa tu conexión y vuelve a intentarlo. Lo que escribiste sigue aquí. | [L 26] · [L 8], sin la última frase, al cargar · [L 8] |
+| **4. Entrar al equipo de MATU** | | |
+| Título y bajada | Entrar a operación · Para el equipo de MATU. Después de la contraseña te pedimos el código de tu teléfono. | **[NUEVO]** |
+| Campos | Tu correo · Tu contraseña · Escribe tu correo y tu contraseña. | [E39] |
+| Botón | Seguir · Revisando… | **[NUEVO]** |
+| A la familia | ¿No eres del equipo? Entra en la · app de MATU para familias · . | **[NUEVO]** (el enlace en medio) |
+| Credenciales | El correo o la contraseña no coinciden. Revísalos y vuelve a intentarlo. | [E39] |
+| Varios intentos | Hubo varios intentos de entrar. Espera {n} minutos. | [L 36] |
+| No disponible | MATU no está disponible en este momento. Vuelve a intentarlo en unos minutos. | [E39] [L 9.1] |
+| Cuenta de otro tipo | Esta cuenta no es del equipo de MATU. · Si atiendes un comercio, entra en la entrada del comercio. Si cuidas a alguien, entra en la app para familias. | **[NUEVO]** |
+| El código | Escribe el código de tu teléfono · Ábrelo en la aplicación de códigos de tu teléfono. Cambia cada 30 segundos. · Código de 6 números · Tienes hasta las {HH:MM} para escribirlo. | **[NUEVO]** |
+| Botones del código | Entrar · Entrando… · Volver a la contraseña | [E39] · [E39] · **[NUEVO]** |
+| Menos de 6 | Escribe los 6 números del código. | [L 36] |
+| No coincide | Ese código no coincide. · Revisa que sea el de MATU en tu aplicación y escribe el que se ve ahora. | **[NUEVO]** |
+| Bloqueado | Hubo 5 códigos que no coinciden. · Espera {n} minutos y vuelve a entrar con tu contraseña. Si perdiste tu teléfono, pide que te den de alta de nuevo. | **[NUEVO]** |
+| Venció el código | Pasaron más de 5 minutos. · Vuelve a escribir tu contraseña para pedir otro código. | **[NUEVO]** |
+| Sin revisar el código | No podemos revisar el código ahora. · Vuelve a intentarlo en unos minutos. | **[NUEVO]** |
+| Red | No pudimos completar esto. Revisa tu conexión y vuelve a intentarlo. | [L 8], sin la última frase |
+| Entrada vencida | Tu entrada venció. Vuelve a entrar con tu contraseña y el código de tu teléfono. | **[NUEVO]** |
+| Salió | Saliste de MATU. Para volver, entra con tu correo y tu contraseña. | [E39] |
+| **5. Pedidos** | | |
+| Título y búsqueda | Pedidos · Referencia del pedido · Buscar · Buscando… · Escribe la referencia del pedido. | **[NUEVO]** |
+| Resultado | Mostrando el pedido {ref}. · Ver todos · No hay un pedido con la referencia {ref}. Revisa que esté bien escrita. | **[NUEVO]** |
+| Filtros | Mostrar · Por atender · En camino · Con problema · Cerrados · Cancelados · Todos | **[NUEVO]** |
+| La fila | Pedido · 1 parte · {n} partes · Pagado el {DD/MM/AAAA} a las {HH:MM} · Incidencia abierta · Devolución sin terminar | **[NUEVO]** |
+| Ver más | Ver más pedidos | **[FRONTEND]** del esquema 5.1 |
+| Cargando y error | Cargando los pedidos… · No pudimos traer los pedidos. Revisa tu conexión y vuelve a intentarlo. | [L 36] |
+| Vacío | No hay pedidos en «{chip}». · Cuando se pague uno, aparece aquí. | **[NUEVO]** |
+| Pantalla ancha, sin elegir | Elige un pedido de la lista para ver sus partes, su pago y lo que pasó. | **[FRONTEND]** del esquema 5.2 |
+| **5.5 El estado del pedido** | | |
+| `pagado` · `enviado_a_comercio` · `preparando` · `listo_retiro` | Pagado · En el comercio · En preparación · Listo para retirar | **[NUEVO]** |
+| `retirado` · `asignado` y `sin_repartidor` · `en_ruta` | Por despachar · Sin repartidor · En camino | **[NUEVO]** |
+| `entregado` y `cerrado` · `no_entregado` · `reprogramado` · `cancelado` y `cancelado_con_devolucion` | Entregado · No se entregó · Reprogramado · Cancelado | **[NUEVO]** |
+| **6. Un pedido** | | |
+| Encabezado | Volver a los pedidos · Volver a los cobros · Pedido {ref} · Pagado el {DD/MM/AAAA} a las {HH:MM} | **[NUEVO]** |
+| Partes | Partes · Parte · (comercio ficticio) · Faltan {n} de {n} · Devuelto · Devolución en curso | **[NUEVO]** · **[NUEVO]** · [L 11] · [L 36] · **[NUEVO]** · **[NUEVO]** |
+| Cambió | Este pedido cambió mientras lo veías. Te mostramos cómo quedó. Revisa si todavía hace falta. · Este pedido ya no está disponible. | **[NUEVO]** |
+| Cargando | Cargando el pedido… | **[FRONTEND]** del molde de la 36 |
+| Sin Transbank | No pudimos hablar con Transbank. El pedido no cambió. Vuelve a intentarlo en unos minutos. | **[NUEVO]** |
+| La devolución no salió | Cancelaste el pedido {ref}. La devolución de {monto} no salió todavía: revísala en «Cobros». | **[NUEVO]** |
+| Error | No pudimos completar esto. Revisa tu conexión y vuelve a intentarlo. | [L 8], sin la última frase |
+| **6.3 Las partes** | | |
+| Estado de la parte | Por preparar · Preparando · Listo para retirar · Retirado · Cancelado | [L 36] |
+| Estado de cada línea | Por marcar · Lo tiene · Faltó · Devuelto | **[NUEVO]** |
+| **6.4 El código de retiro de una parte** | | |
+| Estado | Código de retiro: todavía no hay uno. · Código de retiro: hay uno vigente. · Código de retiro: venció. · Código de retiro: se bloqueó por demasiados intentos en el comercio. · Código de retiro: ya se usó. · Código de retiro: cuando el comercio lo tenga listo. | **[NUEVO]** |
+| Botones | Generar el código · Generar un código nuevo · Generando… · Volver al pedido | **[NUEVO]** |
+| Diálogo | ¿Generar el código de retiro de la parte {ref_parte}? · ¿Generar un código nuevo para la parte {ref_parte}? · Lo verás una sola vez. Tenlo a mano para dárselo a quien va a retirar el pedido. · El código anterior deja de servir. Si ya se lo diste a alguien, avísale que use el nuevo. | **[NUEVO]** |
+| El código, una vez | Código de retiro · Parte {ref_parte} · Código: {cada número separado} (para el lector de pantalla) · Vence el {DD/MM/AAAA} a las {HH:MM}. · Dáselo a quien va a retirar el pedido en {comercio}. · Solo lo verás ahora. Si generas otro, este deja de servir. · Ya lo tengo | **[NUEVO]** |
+| Cambió o falló | Esta parte cambió mientras la veías. Te mostramos cómo quedó. · No pudimos generar el código. Vuelve a intentarlo en unos minutos. · No pudimos completar esto. Revisa tu conexión y vuelve a intentarlo. | **[NUEVO]** · **[NUEVO]** · [L 8], sin la última frase |
+| **6.5 Las acciones del pedido** | | |
+| En camino | Marcar en camino · ¿Marcar en camino el pedido {ref}? · La familia ve que su pedido salió a entregarse. · Marcando… · Volver al pedido · Marcaste en camino el pedido {ref}. | **[NUEVO]** |
+| Entregado | Marcar entregado · ¿Marcar entregado el pedido {ref}? · Hazlo solo cuando el pedido ya esté en manos de quien lo recibe. Esto no se deshace. · Marcando… · Volver al pedido · Marcaste entregado el pedido {ref}. | **[NUEVO]** |
+| No entregado | Marcar no entregado · ¿Marcar no entregado el pedido {ref}? · Hazlo si nadie pudo recibirlo. Después puedes cancelarlo con devolución. · Marcando… · Volver al pedido · Marcaste no entregado el pedido {ref}. | **[NUEVO]** |
+| Cancelar con devolución | Cancelar con devolución · ¿Cancelar con devolución el pedido {ref}? · Se cancelan todas sus partes y los comercios ven que no deben prepararlas. Esto no se deshace. · Cancelando… · No cancelar · Cancelaste el pedido {ref}. Estamos devolviendo {monto} a la misma tarjeta. | **[NUEVO]** |
+| Lo que se devuelve, en el diálogo | Se devuelven {monto} a la misma tarjeta. · Se devuelven {monto} a la misma tarjeta, por lo que faltó. (al entregar) · Se devuelven {monto} a la misma tarjeta con que se pagó, envío incluido. (al cancelar) · No se devuelve dinero. · No se devuelve dinero ahora. (al no entregar) | **[NUEVO]** |
+| **6.6 Lo que pasó** | | |
+| Título y actor | Lo que pasó · de {estado} a {estado} · La familia · Equipo de MATU · MATU, de forma automática | **[NUEVO]** |
+| Motivo del cambio | Venció el total · La familia lo canceló · La familia cambió el pedido · Se retiró la autorización de pedidos · La familia borró los datos · Transbank aprobó el pago · Faltaron todos los productos | **[NUEVO]** |
+| Hechos que no son un cambio de estado (decisión 456) | Parte de {comercio}: {estado} · Transbank aprobó el pago de {monto} · Devolución de {monto}: {estado} · La familia pidió un retracto · Retracto: se devolvió el dinero · Retracto: sin devolución · Se anotó una incidencia · Se resolvió una incidencia | **[FRONTEND]** |
+| Vacío | Todavía no hay nada que mostrar. | **[FRONTEND]** |
+| **7. El pago del pedido** | | |
+| Montos | Pago · Total confirmado · Cobrado · Nada todavía · Devuelto · Queda cobrado | **[NUEVO]** |
+| Venta | Venta · Orden de compra · Devoluciones | **[NUEVO]** |
+| Estado de la venta | Iniciada · Esperando a Transbank · Aprobada · No aprobada · Sin respuesta clara | **[NUEVO]** |
+| Motivo de la devolución | Pago tardío · Producto no entregado · Cancelación · Retracto | **[NUEVO]** |
+| Estado de la devolución (decisión 467) | Hecha · En curso · Sin terminar | **[NUEVO]** |
+| No calza | Este pago necesita revisión. · Lo cobrado o lo devuelto no calza con el total confirmado. Anota una incidencia si todavía no hay una. · Anotar una incidencia | **[NUEVO]** |
+| Cargando y error | Cargando el pago… · No pudimos traer el pago de este pedido. Vuelve a intentarlo. | **[NUEVO]** |
+| **8. Retractos** | | |
+| Título y fila | Retractos · Retracto del pedido {ref} · Por la app · Por correo · Pedido el {DD/MM/AAAA} · Responder antes del {DD/MM/AAAA} · El plazo venció el {DD/MM/AAAA}. | **[NUEVO]** |
+| Filtros (decisión 466) | Por resolver · Devueltos · Sin devolución | **[NUEVO]** |
+| Vacío | No hay retractos por resolver. · No hay retractos en «{chip}». | **[NUEVO]** |
+| Hay más | Hay más de 200 retractos aquí. Mostramos los primeros 200. | **[NUEVO]** especificación 1.1, 8.2, con `hay_mas` (decisión 466) |
+| Cargando y error | Cargando los retractos… · No pudimos traer los retractos. Revisa tu conexión y vuelve a intentarlo. | **[FRONTEND]** del molde de la 36 |
+| Pantalla ancha y volver | Elige un retracto de la lista para ver sus productos y resolverlo. · Volver a los retractos | **[FRONTEND]** |
+| El retracto elegido | Devuelto · Sin devolución · Productos que devuelve · Incluye el envío: sí · Incluye el envío: no · Se devolverían · Ver el pedido · Resuelto el {DD/MM/AAAA} a las {HH:MM}. | **[NUEVO]** |
+| **8.4 Resolver** | | |
+| Botones | Devolver {monto} · No devolver · Cancelar | **[NUEVO]** |
+| Por qué no | ¿Por qué no se devuelve? · El sello del producto se abrió. · MATU no recibió el producto de vuelta. · La familia ve este motivo. · Elige por qué no se devuelve. | **[NUEVO]** (la familia lee el motivo con las palabras de la sección 38) |
+| Devolver | ¿Devolver {monto} por este retracto? · Es el retracto del pedido {ref}. Esto no se deshace. · Se devuelven {monto} a la misma tarjeta con que se pagó. · Devolviendo… · Volver al retracto · Devolviste {monto} por el retracto del pedido {ref}. Cuándo se ve en la cuenta depende del banco. | **[NUEVO]** |
+| No devolver | ¿No devolver el dinero de este retracto? · No se devuelve dinero. La familia ve el motivo: {texto que lee la familia, de la 38}, destacado · Guardando… · Respondiste el retracto del pedido {ref} sin devolver dinero. | **[NUEVO]** · **[AJUSTE]** O3 del cierre del analista: el destacado muestra la frase exacta que lee la familia, no el código del motivo |
+| Cambió o falló | Este retracto cambió mientras lo veías. Te mostramos cómo quedó. · No pudimos hablar con Transbank. No se devolvió nada. Vuelve a intentarlo en unos minutos. · No pudimos completar esto. Revisa tu conexión y vuelve a intentarlo. | **[NUEVO]** · **[NUEVO]** · [L 8], sin la última frase |
+| **8.5 Registrar un retracto que llegó por correo** | | |
+| Bloque | Retractos · Registrar un retracto por correo · El plazo vence el {DD/MM/AAAA}. | **[NUEVO]** |
+| Campos | Correo de quien lo pidió · Escríbelo tal como viene en el correo. Tiene que ser de quien administra el grupo de este pedido. · ¿Qué productos devuelve? · ¿Cuántos? | **[NUEVO]** |
+| Botón y hecho | Registrar el retracto · Registrando… · Registraste el retracto del pedido {ref}. Resuélvelo en «Retractos». · Ir a Retractos | **[NUEVO]** |
+| Errores | Escribe el correo de quien lo pidió. · Escribe un correo, por ejemplo nombre@example.com. · Elige al menos un producto. · Este pedido ya no tiene plazo de retracto: venció el {DD/MM/AAAA}. | **[NUEVO]** |
+| No es quien administra | Ese correo no es de quien administra el grupo de este pedido. · Revisa el correo. Si lo mandó otra persona, respóndele que lo pida quien administra. | **[NUEVO]** |
+| Muchos intentos (429 `/errores/demasiados-intentos`, 5 correos que no corresponden en una hora, decisión 474) | Hiciste muchos intentos con correos que no corresponden. Espera {minutos} minutos antes de volver a intentar. Con 1: «Espera 1 minuto antes de volver a intentar.». Si la respuesta no trae `Retry-After`: «Hiciste muchos intentos con correos que no corresponden. Vuelve a intentarlo en unos minutos.», como en la sección 13.3. Los minutos salen de `Retry-After` redondeados hacia arriba, como en la fila de la sección 13.3 de «Muchos intentos desde la conexión» | **[NUEVO]** MATU-114, P3 del cierre del analista (la ventana es fija). Aprobado por Jorge el 18-11. |
+| Producto que no se puede devolver (422) | Elige productos que se entregaron, hasta lo que queda por devolver. | **[FRONTEND]**, también cuando las unidades ya se pidieron |
+| **9. Incidencias** | | |
+| Título y filtros | Incidencias · Abiertas · En gestión · Resueltas | **[NUEVO]** |
+| La fila | Pedido {ref} · Anotada el {DD/MM/AAAA} a las {HH:MM} | **[NUEVO]** |
+| Vacío | No hay incidencias abiertas. · No hay incidencias en «{chip}». | **[NUEVO]** |
+| Cargando y error | Cargando las incidencias… · No pudimos traer las incidencias. Revisa tu conexión y vuelve a intentarlo. | **[FRONTEND]** del molde de la 36 |
+| Pantalla ancha y volver | Elige una incidencia de la lista para leerla y resolverla. · Volver a las incidencias | **[FRONTEND]** |
+| Estado (9.1) | Abierta · En gestión · Resuelta | **[NUEVO]** |
+| La incidencia elegida | Ver el pedido · Nota · La tienes tú. · Cómo se resolvió · Resuelta el {DD/MM/AAAA} a las {HH:MM}. · Resolver · Pasar a en gestión · La incidencia quedó en gestión. | **[NUEVO]** |
+| Ayuda de la nota | No escribas nombres, RUT, teléfonos, correos, datos de salud ni la dirección, ni quién de la familia reclamó. La leen quien pagó el pedido y quien administra o cuida. | [ANALISTA] C11, ampliada por MATU-128 (R4, y el RUT por el cierre del analista) <!-- MATU-128: Aprobado por Jorge el 19-11 --> |
+| Nota con la clave destruida (decisión 471) | La nota ya no está disponible: se borró con los datos de la persona. (En la aplicación la ve solo la consola: después del borrado, la copia de la persona no se puede pedir desde la aplicación. El texto queda también en la copia por si llega a mostrarse.) | Aprobado por Jorge el 17-11 |
+| Contador | {n} de 500 caracteres | [L 5.4] |
+| Anotar | Anotar una incidencia · ¿Qué pasó? · Guardar la incidencia · Guardando… · Cancelar · Anotaste la incidencia en el pedido {ref}. | **[NUEVO]** |
+| Errores al anotar | Elige qué pasó. · Escribe qué pasó, sin nombres ni datos de salud. · La nota admite hasta 500 caracteres. Acórtala un poco para guardarla. · Solo se anotan incidencias de pedidos pagados. | **[NUEVO]** |
+| Resolver | Marcar resuelta · Escribe cómo se resolvió, sin nombres ni datos de salud. · Marcaste resuelta la incidencia. · Ya estaba resuelta. | **[NUEVO]** |
+| Nota con un correo, un teléfono o un RUT (422 `nota-con-contacto`, al anotar) | La nota no puede llevar correos, teléfonos ni RUT. Quítalos para guardarla. | **[NUEVO]** MATU-128 (R5) <!-- MATU-128: Aprobado por Jorge el 19-11 --> |
+| Cómo se resolvió con un correo, un teléfono o un RUT (422 `nota-con-contacto`, al resolver) | Lo que escribas aquí no puede llevar correos, teléfonos ni RUT. Quítalos para guardarlo. | **[NUEVO]** MATU-128 (revisión visual, P3) <!-- MATU-128: Aprobado por Jorge el 19-11 (ratificado el 20-11) --> |
+| Otra persona la cambió | Otra persona del equipo cambió esta incidencia mientras la veías. Te mostramos cómo quedó. Lo que escribiste sigue aquí. · sin lo escrito, porque ya quedó resuelta: Otra persona del equipo cambió esta incidencia mientras la veías. Te mostramos cómo quedó. | **[NUEVO]** |
+| Error | No pudimos completar esto. Revisa tu conexión y vuelve a intentarlo. Lo que escribiste sigue aquí. | [L 8] |
+| **9.4 Los tipos** (palabras de la consola, la familia lee las de la sección 39) | Falta un producto · No se pudo entregar · Reclamo de la familia · Cobro sin respuesta · Devolución pendiente · Otra cosa | **[NUEVO]** |
+| **10. Cobros por revisar** | | |
+| Título y bajada | Cobros · Ventas sin respuesta y devoluciones sin terminar. Aquí no ves la tarjeta ni el código de autorización. | **[NUEVO]** |
+| Grupos | Ventas sin respuesta ({n}) · Devoluciones sin terminar ({n}) · No hay ventas sin respuesta. · No hay devoluciones sin terminar. | **[NUEVO]** |
+| La fila | Pedido {ref} · Orden de compra {orden} · Iniciada a las {HH:MM}, hace {n} minutos · Desde las {HH:MM} | **[NUEVO]** |
+| Cargando y error | Cargando los cobros… · No pudimos traer los cobros. Revisa tu conexión y vuelve a intentarlo. | **[NUEVO]** |
+| **11. Catálogo de prueba** | | |
+| Título y avisos | Catálogo · El precio nuevo vale solo para los pedidos que se confirmen desde ahora. Los confirmados y los pagados mantienen su precio. · Solo puedes cambiar los comercios de prueba. | **[NUEVO]** |
+| El comercio | (comercio ficticio) · Este comercio no es de prueba: aquí no se cambia. | [L 11] · **[NUEVO]** |
+| El producto | IVA incluido · Tiene · Se ofrece · No se ofrece · Cambiar | **[NUEVO]** · **[NUEVO]** · [L 36] · [L 36] · **[NUEVO]** |
+| Editar | Precio, con IVA incluido · Se verá como {precio}. · ¿Cuántos tiene? · Se ofrece en MATU · Guardar · Guardando… · Cancelar | **[NUEVO]** · **[NUEVO]** · **[NUEVO]** · **[NUEVO]** · [L 5.4] · [L 5.4] · **[NUEVO]** |
+| Diálogo | ¿Cambiar el precio de {producto} a {precio}? · Antes era {precio}. · Vale solo para los pedidos que se confirmen desde ahora. · Cambiar el precio · Volver a editar | **[NUEVO]** |
+| Hecho | Guardado: {producto} a {precio}, tiene {n}. | **[NUEVO]** |
+| Errores | Escribe el precio en pesos, mayor que 0, sin decimales. Por ejemplo, 12990. · Escribe un número, desde 0. · Escribe un número hasta 9.999. · Otra persona cambió este producto mientras lo editabas. Te mostramos cómo quedó. · Este producto no se puede cambiar aquí: su comercio no es de prueba. | **[NUEVO]** · [L 36] · [L 36] · [L 36] · **[NUEVO]** |
+| Error al guardar | No pudimos completar esto. Revisa tu conexión y vuelve a intentarlo. Lo que escribiste sigue aquí. | [L 8] |
+| Cargando, vacío y error | Cargando el catálogo… · No hay comercios de prueba con productos. · No pudimos traer el catálogo. Revisa tu conexión y vuelve a intentarlo. | **[NUEVO]** |
+
+**Ninguno usa** «token», «sesión», «stock», «inválido», «rechazado» ni «fallido», ni los términos de la sección 3. La palabra «IVA» va solo en el catálogo de prueba, que es interno.
+
+---
+
+## 41. Avisos del pedido (MATU-76) · Aprobados por Jorge el 18-11
+
+Los textos salen de la especificación de pantallas de MATU-76, v1.0 del 18-11 (`docs/diseno/matu-76-avisos-pedido.md` del repositorio MATU_PROYECTO, secciones 2 a 4 y 8), y los del correo, de la decisión 473 del contrato (`docs/api/README.md` del repositorio MATU_PROYECTO). Cada uno marca su origen: [L n] los que ya están en la sección n, [D-76-1] el que aprobó Jorge con esa decisión, [ANALISTA] los borradores de la revisión previa de MATU-76, **[NUEVO]** los del diseñador y **[AJUSTE]** los que cambian un borrador o un texto aprobado.
+
+**Regla de la sección.** El aviso le llega solo a quien pagó (D-76-2). Ningún aviso dice qué pedido es, ni sus productos, montos, nombres, el comercio, la referencia ni el código de retiro, y ninguno dice «te devolvimos», porque la cancelación se avisa aunque la devolución haya fallado (H3). El correo sobre el dinero (una devolución, un producto que faltó o una cancelación) llega siempre (D-76-3), y ningún texto dice que se puede apagar.
+
+| Dónde | Texto | Origen |
+|---|---|---|
+| **El push** | | |
+| Título y cuerpo | MATU · Tienes una novedad. Abre la app para verla. (el mismo para un insumo, un pedido o lo que MATU avise después) | [D-76-1] |
+| **El correo** (plantilla `pedido_novedad`, el mismo para todos los eventos) | | |
+| Remitente | MATU | [L 20] |
+| Asunto | MATU: hay una novedad en un pedido | [ANALISTA] |
+| Cuerpo | Hay una novedad en un pedido. Abre la app para verla. | [ANALISTA] |
+| Botón o enlace (a la raíz, sin identificadores) | Abrir MATU | [L 20] |
+| Pie del aviso que se puede apagar («Entregado» y «No pudimos entregarlo») | Te llega este correo porque pagaste un pedido en MATU. Para dejar de recibir estos avisos por correo, entra a MATU y desactívalos en Tu cuenta. | [ANALISTA] |
+| Pie del aviso de dinero (una devolución, un producto que faltó o una cancelación) | Te llega este correo porque pagaste un pedido en MATU. Como es sobre tu dinero, te llega aunque hayas desactivado los avisos por correo. | **[AJUSTE]** del borrador del analista («…y es sobre tu dinero.»), para que quien apagó los correos entienda por qué le llega |
+| **«Tu cuenta», tarjeta B** | | |
+| Título | Avisos de tus pedidos | **[NUEVO]** |
+| Ayuda | Te avisamos cuando hay una novedad en un pedido que pagaste. El aviso no dice qué pedido ni qué productos. | **[NUEVO]** |
+| Alcance | Vale para todos tus grupos. | [L 33] |
+| Casillas | Por correo · En tus teléfonos | [L 20] · [L 33] |
+| Nota del dinero, siempre visible bajo «Por correo» | Si es sobre tu dinero, como una devolución, un producto que faltó o una cancelación, el correo te llega igual. | **[NUEVO]** |
+| Guardar y errores | Guardando… · Guardamos tus avisos. · No pudimos guardar. Revisa tu conexión y vuelve a intentarlo. · No pudimos traer tus avisos. Revisa tu conexión e inténtalo de nuevo. · Volver a intentar | [L 17] · [L 33] · [L 26] |
+| **«Tu cuenta», tarjeta C** | | |
+| Título | Este teléfono · Este computador · Este navegador | [L 33] |
+| Ayuda | Aquí te llegan los avisos que marcaste «En tus teléfonos», si los activas. | **[NUEVO]** |
+| Lo demás | Los estados A a G y sus textos, sin cambios | [L 33] |
+| **«Tu cuenta», después de las tarjetas** | | |
+| Piloto, una sola vez | En el piloto los avisos se prueban sin enviarse: no te llegará nada. | [L 33] |
+| **«Tus datos», «Tus avisos»** | | |
+| Grupos | Cuando un insumo se está acabando · De tus pedidos | **[NUEVO]** |
+| Rótulos y valores | Por correo · En tus teléfonos · Sí · No | [L 35] |
+| El dinero, solo con «Por correo» de pedidos en «No» | El correo sobre tu dinero te llega igual. | **[NUEVO]** |
+| Al pie | Puedes cambiarlos en Tu cuenta. | [L 35] |
+| **«Tus datos», «Avisos que te enviamos»** | | |
+| La línea de cada aviso | {fecha} a las {hora} · {tipo} · {canal} · {resultado} | **[AJUSTE]** de [L 35]: suma el tipo antes del canal. Reemplaza la fila «Cada aviso» de la 35 |
+| El tipo | Aviso de insumo · Aviso de pedido | **[NUEVO]**. Con un tipo desconocido se omite esa parte de la línea |
+
+`{tipo}` sale del campo `tipo` de `AvisoEnviadoCopia` (`insumo` o `pedido`, decisión 473). `{canal}` y `{resultado}` siguen la sección 35.
+
+**Ninguno usa** los términos de la sección 3, «faltante», «notificación», «evento», «preferencia», «token», «rechazado» ni «fallido».
