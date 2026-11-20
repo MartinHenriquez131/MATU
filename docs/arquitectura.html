@@ -117,6 +117,7 @@ h2{page-break-after:avoid}figure.chart,table{page-break-inside:avoid}}
 <a class="lvl3" href="#94-capa-3--catálogo-pedidos-y-pagos">9.4 Capa 3 · Catálogo, pedidos y pagos</a>
 <a class="lvl3" href="#95-comercio-y-operación">9.5 Comercio y operación</a>
 <a class="lvl3" href="#96-ejemplo-de-respuesta-con-la-capa-2-en-acción">9.6 Ejemplo de respuesta con la capa 2 en acción</a>
+<a class="lvl3" href="#97-rutas-de-la-cuenta">9.7 Rutas de la cuenta</a>
 <a class="lvl2" href="#10-diseño-de-interacción-y-accesibilidad">10. Diseño de interacción y accesibilidad</a>
 <a class="lvl3" href="#101-perfiles-de-usuario">10.1 Perfiles de usuario</a>
 <a class="lvl3" href="#102-cinco-principios-de-diseño">10.2 Cinco principios de diseño</a>
@@ -507,8 +508,8 @@ h2{page-break-after:avoid}figure.chart,table{page-break-inside:avoid}}
 <td>RNF-05</td>
 <td>5</td>
 <td><strong>Disponibilidad del flujo de pedido</strong></td>
-<td>Catálogo a pedido a pago bajo 800 ms en percentil 95 con 50 usuarios concurrentes. Disponibilidad objetivo 99% mensual</td>
-<td>Prueba de carga básica en el sprint 5 del calendario v1.3</td>
+<td><strong>Piloto del semestre:</strong> con 10 usuarios concurrentes, 0 % de fallos y mediana bajo 800 ms en cada paso, del catálogo al retorno del pago, y el percentil 95 se informa. <strong>Producción:</strong> catálogo a pedido a pago bajo 800 ms en percentil 95 con 50 usuarios concurrentes, medido en un equipo representativo. Disponibilidad objetivo 99% mensual</td>
+<td>Prueba de carga básica con k6 en el sprint 5 del calendario v1.3 (<code>infra/carga/</code>)</td>
 <td>Debe</td>
 <td>manual</td>
 </tr>
@@ -560,6 +561,7 @@ h2{page-break-after:avoid}figure.chart,table{page-break-inside:avoid}}
 </tbody>
 </table>
 <p><strong>Identificadores de los RNF (18-11, MATU-79).</strong> Se agregaron los identificadores <code>RNF-01</code> a <code>RNF-10</code> para que las pruebas los citen con <code>@pytest.mark.rf(&quot;RNF-xx&quot;)</code>, como los RF de la sección 3. <code>RNF-01</code> a <code>RNF-06</code> siguen su orden de prioridad, y <code>RNF-07</code> a <code>RNF-10</code> no la tienen: salen de lo que ya prometen las secciones 10.3, 11.4, 11.6 y 13.3 y la estrategia de pruebas. La puerta de trazabilidad del CI exige prueba solo a los <em>Debe</em> con verificación <em>automática</em>. Los <em>manuales</em> se verifican con personas, con la carga de k6 o con una revisión. <code>RNF-10</code> cubre por ahora la base y Redis: la sección 13.3 también nombra el almacenamiento y la custodia de claves, que en el piloto no son servicios aparte. <strong>La carga de k6 de MATU-80</strong> midió un p95 de 6,62 s en el entorno local de Martín el 17-11, con 50 usuarios, sin fallas y con un solo proceso de la API, contra la meta de 800 ms de <code>RNF-05</code> (<code>TESTER/2026-11-17-MATU-103-95-108-110-80.md</code>, anexo de MATU-80, hallazgo H4). Ese resultado queda abierto en la tarjeta MATU-80, la de los umbrales por paso.</p>
+<p><strong>La meta de RNF-05 para el piloto (20-11, MATU-80).</strong> La decidió el orquestador con el mandato de Jorge, después de la tercera corrida de k6 (<code>TESTER/2026-11-20-MATU-80-k6-tercera.md</code>). Esa corrida fue en un equipo de 2 núcleos con un solo proceso de la API. Con 50 usuarios, todos los pasos subían juntos, de 5 a 18 s de percentil 95, y eso es la máquina, no un paso del código. Con 10 usuarios, en cambio, no hubo fallos y la mediana de cada paso quedó bajo 800 ms, salvo la del retorno (1289 ms), que se corrigió en MATU-80. El piloto atiende a pocas familias, así que su meta se mide con 10 usuarios y la mediana. El percentil 95 con 50 usuarios queda como meta de producción, para medirla en un equipo representativo. Bajar el percentil 95 del retorno en frío obliga a reescribir las políticas RLS de <code>transaccion_pasarela</code>, <code>cargo</code> y <code>participacion</code>, con una migración y la revisión del analista normativo, y no se hace en el semestre.</p>
 <p><strong>El atributo 3 cambió de métrica en la v1.1.</strong> La v1.0 medía &quot;primer pedido completo en menos de 6 minutos&quot;. La validación mostró que el cuello de botella no es el pedido sino el llenado del plan, y que ocho preguntas no se responden en cinco minutos. La métrica pasa a medir la ficha de relevo, que es la versión mínima obligatoria.</p>
 <p>Atributos deliberadamente <strong>no</strong> priorizados: escalabilidad horizontal, latencia sub-100 ms, multi-región y alta disponibilidad activo-activo. Declararlo es parte de la decisión.</p>
 <hr>
@@ -1222,8 +1224,8 @@ alerta_si         = (fecha_quiebre - hoy) &lt;= dias_aviso
 </tr>
 <tr>
 <td><code>auditoria</code></td>
-<td>id, grupo_id, actor_tipo, <strong>actor_ref</strong>, accion, entidad, entidad_id, <strong>motivo</strong>, ip (no se llena), request_id, ocurrido_en</td>
-<td>Append-only, con una prueba comprometida que lo verifique. <strong><code>actor_ref</code> es polimórfico</strong> porque el relevo no es usuario y es justamente el actor más sensible del sistema. <strong>La IP no se guarda</strong> (decisión 27 del contrato de MATU-09, 27-10). La columna <code>ip</code> viene de la migración 0001 y queda siempre vacía. <strong>Quién lee la auditoría</strong> lo fija la migración 0005 (decisión 36): el administrador lee todas las filas de su grupo, cada miembro solo las suyas, y operación no tiene lectura amplia. La 0010 agrega que quien puede ver el plan lee las aperturas de los relevos (RF-08). [PENDIENTE: ninguna migración hasta la 0017 elimina la columna <code>ip</code>.]</td>
+<td>id, grupo_id, persona_cuidada_id, actor_tipo, <strong>actor_ref</strong>, accion, entidad, entidad_id, <strong>motivo</strong>, detalle, request_id, ocurrido_en</td>
+<td>Append-only, con una prueba comprometida que lo verifique. <strong><code>actor_ref</code> es polimórfico</strong> porque el relevo no es usuario y es justamente el actor más sensible del sistema. <strong>La IP no se guarda</strong> (decisión 27 del contrato de MATU-09, 27-10): la 0025 borró la columna <code>ip</code>. <strong>Quién lee la auditoría:</strong> la 0005 (decisión 36) deja que el administrador lea todas las filas de su grupo y cada miembro solo las suyas, la 0010 agrega que quien puede ver el plan lee las aperturas de los relevos (RF-08), y la 0025 (<code>auditoria_cuenta_propia</code>) deja que cada persona lea las acciones de su cuenta. <strong>Operación inserta y no lee</strong> (<code>modelo-datos.md</code>, matriz 5.3, nota ⁷). La 0008 agrega <code>detalle</code> (jsonb) y la 0028, <code>persona_cuidada_id</code>.</td>
 </tr>
 <tr>
 <td><code>evento_outbox</code></td>
@@ -1602,6 +1604,41 @@ GRANT SELECT, INSERT ON evento_consumido TO matu_publisher;
 <td>MATU-114</td>
 <td>18 de noviembre</td>
 <td>Quita <code>usuario_operacion_leer</code>, <code>membresia_operacion</code> e <code>invitacion_operacion</code>, y agrega <code>operacion_cuenta_activa</code>, <code>cuenta_es_operacion</code> y <code>operacion_solicitante_retracto</code>. La app deja de leer <code>codigo_hash</code>, con <code>codigo_vigente</code> generada, <code>clave_notas_familia_leer</code> queda solo para admin y cuidador, y entra la acción de auditoría <code>operacion.retracto_correo_fallido</code></td>
+</tr>
+<tr>
+<td>0032</td>
+<td><code>pagos_propios</code></td>
+<td>MATU-116</td>
+<td>18 de noviembre</td>
+<td>Quien pagó un pedido sigue viendo sus pagos y puede arrepentirse de esa compra, aunque pase a «Se informa» o salga del grupo</td>
+</tr>
+<tr>
+<td>0033</td>
+<td><code>operacion_lee_lo_que_usa</code></td>
+<td>MATU-122</td>
+<td>18 de noviembre</td>
+<td>Operación lee solo lo que usa</td>
+</tr>
+<tr>
+<td>0034</td>
+<td><code>politicas_contacto</code></td>
+<td>MATU-79</td>
+<td>18 de noviembre</td>
+<td>El contacto de cada cuenta y del relevo, solo para quien lo usa (permisos por columna), y <code>notificacion_sistema</code> pasa a leer, crear y editar, sin DELETE</td>
+</tr>
+<tr>
+<td>0035</td>
+<td><code>conservacion_con_su_marcador</code></td>
+<td>MATU-124</td>
+<td>19 de noviembre</td>
+<td>Cada tarea de conservación ve y borra solo con su propio marcador, y la dirección queda solo para la familia (<code>direccion_solo_familia</code>)</td>
+</tr>
+<tr>
+<td>0036</td>
+<td><code>lo_que_paso_quien_pago</code></td>
+<td>MATU-128</td>
+<td>19 de noviembre</td>
+<td>Quien pagó un pedido ve «Lo que pasó con tu pedido» en ese pedido (<code>pedido_lo_que_paso</code>)</td>
 </tr>
 </tbody>
 </table>
@@ -2038,6 +2075,28 @@ GET    /v1/backoffice/indicadores
 }
 </code></pre>
 <p><strong>La lista no lleva el nombre de la persona cuidada, nada de la ficha ni acciones</strong> (ADR-031). La v1.1 traía el nombre de la persona y una acción <code>compartir_enlace</code>, que salieron. La cantidad sugerida cubre 30 días y va en envases enteros cuando la familia anotó las unidades por envase. <strong>La lista funciona sin ningún comercio en convenio</strong>: es la decisión 2 de cabecera hecha contrato de API. El texto que sale del teléfono tampoco lleva los días que quedan, para que sea más difícil deducir el consumo diario.</p>
+<h3 id="97-rutas-de-la-cuenta">9.7 Rutas de la cuenta</h3>
+<p>Rutas de la cuenta de cada persona, sin <code>X-Grupo-Id</code>, de los módulos <code>iam</code> y <code>notifications</code> (las de aviso) (MATU-38, 41, 54, 55, 57, 75 y 81). La fuente es <code>docs/api/openapi.json</code> del repositorio MATU_PROYECTO.</p>
+<pre><code>POST   /v1/usuarios                        → crear la cuenta, con la aceptación de la política
+POST   /v1/sesiones                        → entrar (una cuenta de operación sigue con el segundo factor, ver 9.5)
+POST   /v1/sesiones/renovar                → renovar la sesión (refresh rotativo)
+POST   /v1/sesiones/cerrar                 → salir
+GET    /v1/dispositivos                    → «Dónde entraste»: los teléfonos y computadores con sesión
+DELETE /v1/dispositivos/{dispositivo_id}   → cerrar en ese teléfono
+GET    /v1/dispositivos/actual/push        → si este teléfono tiene los avisos activados, y la clave pública
+PUT    /v1/dispositivos/actual/push        → activar los avisos en este teléfono
+DELETE /v1/dispositivos/actual/push        → desactivarlos
+POST   /v1/recuperacion/codigo             → pedir un código para recuperar la cuenta
+POST   /v1/recuperacion/contrasena         → cambiar la contraseña con el código
+GET    /v1/cuenta                          → «Tu cuenta»
+POST   /v1/cuenta/celular/codigo           → pedir el código del celular
+POST   /v1/cuenta/celular/verificar        → confirmar el celular
+GET    /v1/yo/avisos                       → preferencias de aviso (notifications)
+PUT    /v1/yo/avisos                       → guardar las preferencias (notifications) (se audita sin los valores)
+GET    /v1/yo/ingresos                     → los últimos ingresos (90 días, hasta 20 líneas)
+GET    /v1/yo/datos                        → «Tus datos»: la copia de lo que MATU guarda de la cuenta
+GET    /v1/politica                        → la política vigente y su versión
+</code></pre>
 <hr>
 <h2 id="10-diseño-de-interacción-y-accesibilidad">10. Diseño de interacción y accesibilidad</h2>
 <p><strong>Aquí la accesibilidad es un requisito funcional, no un acabado.</strong> Y en la v1.1, además, fue la sección con más cambios de origen empírico: la validación con cuidadoras tocó directamente el diseño del flujo principal.</p>
