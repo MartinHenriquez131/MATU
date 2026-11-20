@@ -1911,7 +1911,7 @@ El botón «Volver a intentar» de los errores es el de la sección 26.
 
 ## 39. La copia de los datos: lo que hizo el equipo de MATU (MATU-81) · Aprobados por Jorge el 17-11
 
-La familia lee en la copia de sus datos (sección 35) lo que el equipo de MATU anotó de un pedido y cuándo lo abrió en su consola. Los textos están tal cual en la app, en `web/src/familia/textosMisDatos.ts` de la rama de código de MATU-81. **[ANALISTA]** marca los de la revisión previa de MATU-81 (`legal/revision-previa-matu-81.md`, D-81-4 y D-81-5) y **[NUEVO]** los demás.
+La familia lee en la copia de sus datos (sección 35) lo que el equipo de MATU anotó de un pedido y cuándo lo abrió en su consola. Los textos están tal cual en la app, en `web/src/familia/textosMisDatos.ts` de la rama de código de MATU-81. **[ANALISTA]** marca los de la revisión previa de MATU-81 (`legal/revision-previa-matu-81.md`, D-81-4 y D-81-5) y **[NUEVO]** los demás. Quien pagó un pedido ve lo mismo en ese pedido, en «Tus pedidos» (MATU-128). <!-- MATU-128: Aprobado por Jorge el 19-11 -->
 
 **Regla de la sección.** Lo que lee la familia nunca dice «incidente» ni «incidencia»: dice «Lo que pasó con tu pedido» (D-81-4). Nunca dice quién del equipo anotó algo o abrió el pedido. Las fechas van en DD/MM/AAAA, sin la hora.
 
@@ -1929,6 +1929,11 @@ La familia lee en la copia de sus datos (sección 35) lo que el equipo de MATU a
 | Cuándo se anotó | Lo anotamos el {DD/MM/AAAA}. | **[NUEVO]** |
 | Cuándo se resolvió | Se resolvió el {DD/MM/AAAA}. | **[NUEVO]** |
 | Antes de la resolución | Cómo se resolvió: | **[NUEVO]** |
+| La nota no se puede leer, porque su clave se destruyó al borrar los datos de la persona (`nota_disponible: false`) | La nota ya no está disponible: se borró con los datos de la persona. | Decisión 471, aprobado por Jorge el 17-11 <!-- MATU-128: Aprobado por Jorge el 19-11 --> |
+| «Tus pedidos», lo que pasó, cuando falta la clave maestra (503) | Por ahora no podemos revisar si anotamos algo sobre este pedido. Vuelve a intentarlo en unos minutos. | **[NUEVO]** MATU-128 (N1) <!-- MATU-128: Aprobado por Jorge el 19-11 --> |
+| «Tus pedidos», lo que pasó, sin red o con un error del servidor (500) | No pudimos revisar si anotamos algo sobre este pedido. Revisa tu conexión y vuelve a intentarlo. | **[NUEVO]** MATU-128 (N2) <!-- MATU-128: Aprobado por Jorge el 19-11 --> |
+| «Tus pedidos», lo que pasó, al volver a intentar, si no hay nada anotado | No hay nada anotado sobre este pedido. | **[NUEVO]** MATU-128 (N3) <!-- MATU-128: Aprobado por Jorge el 19-11 --> |
+| «Tus pedidos», lo que pasó, anuncio solo para lectores de pantalla cuando llega después de que se ve el detalle | Más abajo está lo que pasó con tu pedido. | **[NUEVO]** MATU-128 (N4) <!-- MATU-128: Aprobado por Jorge el 19-11 --> |
 | Historial, cuando el equipo abrió el pedido o su pago | El equipo de MATU revisó el pedido {referencia} | **[ANALISTA]** D-81-5 · sin nombre de quién del equipo |
 | Historial, cuando el equipo intentó registrar un retracto con un correo que no es de quien administra el grupo (`operacion.retracto_correo_fallido`) | El equipo de MATU intentó registrar que alguien quiere arrepentirse de la compra del pedido {referencia}, con un correo que no es de quien administra el grupo · sin referencia: El equipo de MATU intentó registrar que alguien quiere arrepentirse de una compra, con un correo que no es de quien administra el grupo | **[NUEVO]** MATU-114 · sin el correo ni quién del equipo, y «arrepentirse de la compra», como la fila 28 de la sección 35. Aprobado por Jorge el 18-11. |
 
@@ -2057,12 +2062,14 @@ Las llaves son datos de la API: `{ref}` la referencia del pedido, `{ref_parte}` 
 | Pantalla ancha y volver | Elige una incidencia de la lista para leerla y resolverla. · Volver a las incidencias | **[FRONTEND]** |
 | Estado (9.1) | Abierta · En gestión · Resuelta | **[NUEVO]** |
 | La incidencia elegida | Ver el pedido · Nota · La tienes tú. · Cómo se resolvió · Resuelta el {DD/MM/AAAA} a las {HH:MM}. · Resolver · Pasar a en gestión · La incidencia quedó en gestión. | **[NUEVO]** |
-| Ayuda de la nota | No escribas nombres, datos de salud ni la dirección. La familia puede leer esta nota. | [ANALISTA] C11 |
+| Ayuda de la nota | No escribas nombres, RUT, teléfonos, correos, datos de salud ni la dirección, ni quién de la familia reclamó. La leen quien pagó el pedido y quien administra o cuida. | [ANALISTA] C11, ampliada por MATU-128 (R4, y el RUT por el cierre del analista) <!-- MATU-128: Aprobado por Jorge el 19-11 --> |
 | Nota con la clave destruida (decisión 471) | La nota ya no está disponible: se borró con los datos de la persona. (En la aplicación la ve solo la consola: después del borrado, la copia de la persona no se puede pedir desde la aplicación. El texto queda también en la copia por si llega a mostrarse.) | Aprobado por Jorge el 17-11 |
 | Contador | {n} de 500 caracteres | [L 5.4] |
 | Anotar | Anotar una incidencia · ¿Qué pasó? · Guardar la incidencia · Guardando… · Cancelar · Anotaste la incidencia en el pedido {ref}. | **[NUEVO]** |
 | Errores al anotar | Elige qué pasó. · Escribe qué pasó, sin nombres ni datos de salud. · La nota admite hasta 500 caracteres. Acórtala un poco para guardarla. · Solo se anotan incidencias de pedidos pagados. | **[NUEVO]** |
 | Resolver | Marcar resuelta · Escribe cómo se resolvió, sin nombres ni datos de salud. · Marcaste resuelta la incidencia. · Ya estaba resuelta. | **[NUEVO]** |
+| Nota con un correo, un teléfono o un RUT (422 `nota-con-contacto`, al anotar) | La nota no puede llevar correos, teléfonos ni RUT. Quítalos para guardarla. | **[NUEVO]** MATU-128 (R5) <!-- MATU-128: Aprobado por Jorge el 19-11 --> |
+| Cómo se resolvió con un correo, un teléfono o un RUT (422 `nota-con-contacto`, al resolver) | Lo que escribas aquí no puede llevar correos, teléfonos ni RUT. Quítalos para guardarlo. | **[NUEVO]** MATU-128 (revisión visual, P3) <!-- MATU-128: aprobado por el orquestador con el mandato de Jorge del 19-11 --> |
 | Otra persona la cambió | Otra persona del equipo cambió esta incidencia mientras la veías. Te mostramos cómo quedó. Lo que escribiste sigue aquí. · sin lo escrito, porque ya quedó resuelta: Otra persona del equipo cambió esta incidencia mientras la veías. Te mostramos cómo quedó. | **[NUEVO]** |
 | Error | No pudimos completar esto. Revisa tu conexión y vuelve a intentarlo. Lo que escribiste sigue aquí. | [L 8] |
 | **9.4 Los tipos** (palabras de la consola, la familia lee las de la sección 39) | Falta un producto · No se pudo entregar · Reclamo de la familia · Cobro sin respuesta · Devolución pendiente · Otra cosa | **[NUEVO]** |
