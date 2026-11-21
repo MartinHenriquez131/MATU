@@ -35,7 +35,7 @@ Tres reglas gobiernan todo el documento:
 | **Manual con Transbank** | Venta normal con crédito y con débito, anulación parcial con los dos, retorno duplicado (ADR-027) | Guion escrito, ambiente de integración | Antes del sprint 4 y en el sprint 4 | 1 h | Los casos del guion |
 | **Accesibilidad manual** | TalkBack, texto al 200%, contraste en pantalla real | Checklist de la sección 7 | Cada historia con pantalla | 15 min | Checklist completo |
 | **Usabilidad** | Tres personas reales, tres perfiles | Guion de tareas | Sprints 3 y 4 | 45 min c/u | 3 sesiones por ronda |
-| **Carga básica** | 50 usuarios concurrentes en el flujo de pedido | k6 | Sprint 5 | 15 min | p95 bajo 800 ms |
+| **Carga básica** | 10 usuarios concurrentes en el flujo de pedido (piloto) y 50 (producción) | k6 | Sprint 5 | 15 min | Piloto: 0 % de fallos y mediana bajo 800 ms en cada paso. Producción: p95 bajo 800 ms con 50 usuarios (RNF-05, arquitectura 2.2) |
 
 **Sobre la cobertura.** La meta es por capa y **ninguna en `infrastructure/`**. Una meta global de 70% se cumple probando adaptadores triviales y dejando sin probar el prorrateo. El pipeline mide `domain` y `application` por separado y falla si alguna baja de su umbral.
 
