@@ -1022,8 +1022,8 @@ erDiagram
 |---|---|---|
 | `matu_owner` | Solo Alembic, para migrar | Es dueño de las tablas. Con `FORCE ROW LEVEL SECURITY`, ni siquiera él evade RLS |
 | `matu_app` | La API y el worker | Todo lo de negocio, filtrado por RLS. No es dueño ni tiene `BYPASSRLS`. No puede actualizar ni borrar auditoría, no puede borrar transacciones de pasarela y no puede leer el outbox |
-| `matu_publisher` | El publicador del outbox | **Solo** `evento_outbox` y `evento_consumido` |
-| `matu_scheduler` | El scheduler | **Solo** las columnas `id` y `estado` de `grupo_familiar`, para encolar un job por grupo |
+| `matu_publisher` | El publicador del outbox (cron de avisos) | **Ninguna tabla** desde la 0022 (MATU-74). Solo `EXECUTE` sobre las cuatro funciones `outbox_*` de la 0014, que exigen `app.rol = 'operacion'` |
+| `matu_scheduler` | El scheduler y las tareas de consola | Las columnas `id` y `estado` de `grupo_familiar`, para encolar un job por grupo. Desde la 0022, `EXECUTE` sobre las funciones `SECURITY DEFINER` de las tareas (conservaciones, conciliación de pagos, despacho, código de retiro y alta de operación), con `app.rol = 'operacion'` |
 
 ### 5.2 Contexto de sesión
 
