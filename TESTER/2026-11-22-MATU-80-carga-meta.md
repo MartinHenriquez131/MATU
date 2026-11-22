@@ -50,3 +50,24 @@ No parte: `Error: CARGA_META debe ser piloto o produccion: la carga no parte con
   - confirmar la hipótesis con la base vacía;
   - limpiar los datos de carga en `preparar_carga.py`;
   - o revisar el costo de confirmar y del retorno con más filas.
+
+## Anexo · prueba 1 con la base local vacía (13:24 a 13:28)
+
+Jorge decidió fusionar el #131 (1f3c651), porque el script quedó validado, y pidió confirmar K6. Se borró la base local (`docker compose down -v`), se migró de la 0001 a la 0036 y se prepararon las 50 cuentas de carga. Se corrió `main` con el #131, con 10 usuarios y sin `CARGA_META`.
+
+`checks` 100 %, `http_req_failed` 0,00 %, **649 iteraciones** y k6 sin `ERRO`: **CUMPLE la meta piloto**.
+
+| paso | med | p95 | p99 | med con la base acumulada (2.ª corrida) |
+|---|---|---|---|---|
+| entrar (no se exige) | 150 ms | 1611 ms | 1614 ms | 238 ms |
+| catalogo | 56 ms ✅ | 120 ms | 158 ms | 120 ms |
+| pedido | 260 ms ✅ | 605 ms | 1582 ms | 541 ms |
+| confirmar | 453 ms ✅ | 959 ms | 1281 ms | **939 ms** |
+| pagar | 248 ms ✅ | 701 ms | 1187 ms | 534 ms |
+| retorno | 421 ms ✅ | 1778 ms | 4012 ms | **908 ms** |
+| total (se mide) | 288 ms | 814 ms | 2358 ms | 610 ms |
+
+**K6 queda confirmado.**
+- Con la base vacía, en la misma máquina y con el mismo código, todos los pasos cumplen con margen, y las iteraciones suben de 370 a 649.
+- Con los pedidos y los pagos acumulados de cinco corridas, confirmar y retorno duplicaban su mediana.
+- **El volumen de datos frena el pago.** Jorge está midiendo con 0, 500, 2000 y 5000 pedidos qué consulta crece. Si la corrección lleva migración, pasa por el analista.
