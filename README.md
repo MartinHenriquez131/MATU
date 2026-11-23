@@ -2,12 +2,14 @@
 
 Proyecto de Capstone · Ingeniería en Informática · DUOC UC · segundo semestre 2026
 
-> **Estado: anteproyecto validado, en desarrollo.** Este repositorio reúne las
-> evidencias de cada fase del curso y los documentos que las respaldan: el
-> diseño del sistema —arquitectura v1.1, modelo de datos, decisiones técnicas y
-> prototipo de interfaz—, el protocolo de validación y **sus resultados**: las
-> diez entrevistas con cuidadoras que fijó el protocolo como meta, con veredicto
-> por hipótesis contra criterios escritos antes de entrevistar.
+> **Estado: desarrollo del semestre cerrado y desplegado en el entorno de
+> demostración (noviembre de 2026).** Este repositorio reúne las evidencias de
+> cada fase del curso y los documentos que las respaldan: el diseño del sistema
+> —arquitectura v1.2, modelo de datos, decisiones técnicas y prototipo de
+> interfaz—, el protocolo de validación y **sus resultados** (diez entrevistas
+> con cuidadoras y cuatro de ampliación con familiares que aportan), las dos
+> rondas de pruebas de usabilidad y los informes de revisión de cada entrega en
+> `TESTER/`.
 >
 > **El código vive en un repositorio aparte:
 > [MATU_PROYECTO](https://github.com/MartinHenriquez131/MATU_PROYECTO).**
@@ -98,10 +100,12 @@ equilibrio del piloto se recalculó en **84 familias** para el modelo con
 suscripción, contra 429 para el modelo de solo despacho.
 
 **La meta de diez entrevistas se cumplió íntegra.** Las cuatro entrevistas
-adicionales que quedan pendientes no vienen de un déficit de muestra: vienen de
-la **regla de zona intermedia** que el propio protocolo fija, según la cual un
-resultado entre el umbral de validación y el de refutación obliga a ampliar la
-muestra antes de decidir, no a interpretarlo a favor. Se realizan antes del sprint 4 (6 de noviembre), con reclutamiento solo por canal concentrado.
+adicionales no vinieron de un déficit de muestra: vinieron de la **regla de zona
+intermedia** que el propio protocolo fija, según la cual un resultado entre el
+umbral de validación y el de refutación obliga a ampliar la muestra antes de
+decidir, no a interpretarlo a favor. Se hicieron el 10 y el 11 de noviembre
+(E11 a E14), con reclutamiento solo por canal concentrado, y validaron H5, H6 y
+H7 ([resultados, sección 8](docs/resultados-entrevistas.md)).
 
 **Qué cambió el producto por esta validación.** La versión mínima del plan de
 cuidado pasó de ocho secciones a una ficha de tres campos (ADR-023), se agregó
@@ -154,10 +158,11 @@ Definiciones de diseño relevantes:
   lo que permite borrado criptográfico. Alineado con la Ley 21.719.
 * **Dinero en aritmética entera**, sin punto flotante, con prorrateo por resto
   mayor para el pago dividido.
-* **Pago con autorización diferida y captura por el monto real**
-  (Webpay Plus diferido), con un solo pagador en el MVP. El reparto entre varios
-  familiares queda diseñado, con su regla de prorrateo y su prueba escritas, y
-  fuera del alcance comprometido. Ver ADR-007.
+* **Pago por el monto exacto con un solo cobro** (Webpay Plus en venta
+  normal), con un solo pagador en el MVP. El reparto entre varios familiares
+  queda diseñado, con su regla de prorrateo y su prueba escritas, y fuera del
+  alcance comprometido. Ver ADR-027, que reemplazó la captura diferida del
+  ADR-007.
 
 ## Estructura del repositorio
 
@@ -172,8 +177,9 @@ MATU/
 │   ├── Evidencias Individuales/  diarios de reflexión (2.1) y autoevaluaciones (2.2)
 │   └── Evidencias Proyecto/
 ├── Fase 3/                        evidencias del curso · fase final
-│   ├── Evidencias Grupales/
+│   ├── Evidencias Grupales/      presentación final y su guion, por versión (_v1, _v2…), y la parte técnica
 │   └── Evidencias Individuales/
+├── TESTER/                        informes de revisión de cada entrega: pruebas, recorridos en el teléfono y carga
 └── docs/                          documentos que respaldan las evidencias
     ├── arquitectura.md            documento de arquitectura · se lee en GitHub
     ├── arquitectura.html          versión 1.2 navegable y para imprimir, generada desde el .md
@@ -193,38 +199,42 @@ MATU/
     │   └── ADR-031-lista-insumos-solo-texto.md  la lista de insumos se comparte como texto
     ├── diagramas/
     │   └── modelo-datos/          13 diagramas en .svg y .png, 12 con su fuente .mmd
-    ├── entrevistas/               diez fichas anonimizadas
+    ├── entrevistas/               diez fichas anonimizadas y la ampliación E11 a E14
+    ├── usabilidad/                rondas 1 (prototipo) y 2 (la app) de pruebas con usuarias
+    ├── legal/                     política de privacidad, registro de tratamientos y revisiones normativas
     ├── prototipo/
     │   ├── prototipo-v1.1.html    36 pantallas · 7 recorridos · documentado
     │   ├── prototipo-pruebas.html la misma interfaz, limpia, para pruebas
     │   └── gen_prototipo.py       genera las dos versiones
     ├── pruebas-concepto/
     │   ├── README.md              índice de las pruebas de concepto
-    │   ├── transbank.md           captura diferida · incompleta, se cierra en el sprint 1
+    │   ├── transbank.md           intento de captura diferida, que llevó al ADR-027
     │   └── capturas/              evidencia de los intentos
     └── sprints/
         ├── calendario-sprints.md  sprints de viernes a jueves · versión 1.3
-        └── sprint-1-planificacion.md
+        ├── sprint-1-planificacion.md
+        └── sprint-5-planificacion.md
 ```
 
 El código no está en este repositorio. Vive en
 [MATU_PROYECTO](https://github.com/MartinHenriquez131/MATU_PROYECTO), con la estructura
 comprometida en el anexo 19.1 del documento de arquitectura: `backend/`,
-`web/` e `infra/` (sin `mobile/`, ADR-026). El modelo de datos ejecutable, con sus 31 pruebas
-de aislamiento, está ahí en `backend/db/`.
+`web/` e `infra/` (sin `mobile/`, ADR-026). El modelo de datos ejecutable está ahí en
+`backend/db/` y `backend/alembic/`, y `backend/tests/test_aislamiento.py` tiene 308 pruebas
+de aislamiento (conteo del 22/11/2026).
 
-## Tecnologías previstas
+## Tecnologías
 
 | Área | Tecnología |
 |---|---|
 | Backend | Python 3.12, FastAPI, Pydantic v2 |
 | Base de datos | PostgreSQL 16 con Row Level Security |
 | Acceso a datos | SQLAlchemy 2 con psycopg 3, Alembic |
-| Trabajos asíncronos | Tareas de línea de comando por tenant, sin ARQ, con patrón *transactional outbox*. El programador de tareas llega con MATU-74 |
+| Trabajos asíncronos | Tareas de línea de comando por tenant, sin ARQ, con patrón *transactional outbox*, programadas con cron en Railway (MATU-74) |
 | Aplicación de la familia | Aplicación web mobile first: React 19 con TypeScript, Vite y Tailwind CSS v4 (ADR-026, reemplaza a Flutter en el semestre) |
 | Panel web y consola de operación | React + TypeScript |
 | Pagos | Transbank — Webpay Plus en venta normal: un solo cobro del total confirmado (ADR-027), sin OneClick ni captura diferida |
-| Infraestructura | Docker, Docker Compose |
+| Infraestructura | Docker, Docker Compose; staging y entorno de demostración en Railway |
 | Integración continua | GitHub Actions |
 | Control de versiones | Git, GitHub |
 | Gestión de tareas | Trello |
@@ -278,8 +288,8 @@ tareas se gestionan en Trello.
 * [Ficha de proyecto](docs/ficha-proyecto.docx) — una página, en el formato que
   entregó el profesor.
 * [Modelo de datos](docs/modelo-datos.md) — 49 tablas, aislamiento por fila,
-  cifrado del plan de cuidado y 13 diagramas. Probado con 31 pruebas contra
-  PostgreSQL real.
+  cifrado del plan de cuidado y 13 diagramas. Probado con 308 pruebas de
+  aislamiento contra PostgreSQL real (conteo del 22/11/2026).
 * [Estrategia de pruebas](docs/estrategia-pruebas.md) — niveles de prueba,
   metas por capa, puertas del pipeline y definición de terminado.
 * [Backlog de los sprints 1 a 3](docs/backlog-sprints-1-3.md) — historias con
