@@ -177,7 +177,7 @@ MATU/
 │   ├── Evidencias Individuales/  diarios de reflexión (2.1) y autoevaluaciones (2.2)
 │   └── Evidencias Proyecto/
 ├── Fase 3/                        evidencias del curso · fase final
-│   ├── Evidencias Grupales/      presentación final y su guion, por versión (_v1, _v2…), y la parte técnica
+│   ├── Evidencias Grupales/      presentación final y su guion por versión (_v1, _v2…; la final es la de número más alto), y la parte técnica
 │   └── Evidencias Individuales/
 ├── TESTER/                        informes de revisión de cada entrega: pruebas, recorridos en el teléfono y carga
 └── docs/                          documentos que respaldan las evidencias
